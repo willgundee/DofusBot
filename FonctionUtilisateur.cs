@@ -1,11 +1,10 @@
-﻿using System.Windows;
-namespace test
+﻿namespace test
 {
     class FonctionUtilisateur
     {
-        public static void test(string test)
+        public static int addition(int numero1, int numero2)
         {
-            MessageBox.Show("Test");
+            return numero1 + numero2;
         }
     }
 }
