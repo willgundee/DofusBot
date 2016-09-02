@@ -45,6 +45,7 @@ namespace test
                     }
                 }
             ";
+            //&PERLUETTE&
             //for (int i = 0; i < 5; i++){ if (i > 3) { MessageBox.Show(i.ToString()); } }
             //je remplace le mot user_code pour ce qui ce trouve dans la text box
             string finalCode = code.Replace("user_code", code_test.Text);
