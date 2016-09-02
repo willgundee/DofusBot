@@ -20,6 +20,8 @@ using System.Windows.Shapes;
 namespace test
 {
     /// <summary>
+    /// ffffffdsfsdf
+    ///
     /// Logique d'interaction pour MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
