@@ -11,7 +11,7 @@ namespace test
     //test comment the real test
         public class cBDService
         {
-        // de Lou
+        // de Lou de la perluette
             private MySqlConnection BDInterne;
             private string serveur = "localhost";
             private string baseDonnee = "BDExemple";
