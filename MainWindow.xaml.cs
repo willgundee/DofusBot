@@ -30,7 +30,7 @@ namespace test
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //code dynamique
+            //code dynamique 
             string code = @"
                 using System;
                 using System.Windows.Forms;
@@ -45,6 +45,7 @@ namespace test
                     }
                 }
             ";
+            //for (int i = 0; i < 5; i++){ if (i > 3) { MessageBox.Show(i.ToString()); } }
             //je remplace le mot user_code pour ce qui ce trouve dans la text box
             string finalCode = code.Replace("user_code", code_test.Text);
             //initialisation d'un compilateur de code C#
