@@ -52,6 +52,7 @@ namespace test
             //initialisation des paramètres du compilateur de code C#
             CompilerParameters parameters = new CompilerParameters();
             //ajout des lien de bibliothèque dynamique (dll) * pas fini
+            parameters.ReferencedAssemblies.Add("WindowsBase.dll");
             parameters.ReferencedAssemblies.Add("System.Windows.Forms.dll");
             //compilation du code 
             CompilerResults results = provider.CompileAssemblyFromSource(parameters, finalCode);
