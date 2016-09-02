@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace test
 {
-
+    //test comment
         public class cBDService
         {
             private MySqlConnection BDInterne;
