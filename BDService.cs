@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace test
 {
-    //test comment
+    //test comment the real test
         public class cBDService
         {
         // de Lou
