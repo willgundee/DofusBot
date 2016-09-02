@@ -11,6 +11,7 @@ namespace test
 
         public class cBDService
         {
+        // de Lou
             private MySqlConnection BDInterne;
             private string serveur = "localhost";
             private string baseDonnee = "BDExemple";
