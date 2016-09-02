@@ -1,7 +1,10 @@
-﻿class FonctionUtilisateur
+﻿namespace Functions
 {
-    public static int addition(int numero1, int numero2)
+    public class FonctionUtilisateur
     {
-        return numero1 + numero2;
+        public static int addition(int numero1, int numero2)
+        {
+            return numero1 + numero2;
+        }
     }
-}
+}//MessageBox.Show(FonctionUtilisateur.addition(1,1).ToString());

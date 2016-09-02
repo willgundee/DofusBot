@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Functions = Functions.FonctionUtilisateur;
 
 namespace test
 {
@@ -36,8 +37,8 @@ namespace test
             string code = @"
                 using System;
                 using System.Windows.Forms;
-                using Functions;
-                namespace UserFunctions
+                using Functions = Functions.FonctionUtilisateur;
+                namespace FonctionUtilisateur
                 {                
                     public class BinaryFunction
                     {                
