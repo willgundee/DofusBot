@@ -36,6 +36,7 @@ namespace test
             string code = @"
                 using System;
                 using System.Windows.Forms;
+                using Functions;
                 namespace UserFunctions
                 {                
                     public class BinaryFunction

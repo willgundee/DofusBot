@@ -1,11 +1,7 @@
-﻿using System.Windows;
-namespace test
+﻿class FonctionUtilisateur
 {
-    class FonctionUtilisateur
-    {// help
-        public static void test(string test)
-        {
-            MessageBox.Show("Test");
-        }
+    public static int addition(int numero1, int numero2)
+    {
+        return numero1 + numero2;
     }
 }
