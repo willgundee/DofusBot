@@ -3,19 +3,13 @@
     //csc /target:library /out:GofusSharp.dll FonctionUtilisateur.cs
     public class Personage
     {
-        int pointDeVie;
-        int pointAction;
-        int pointMouvement;
-        int vitalite;
-        int sagesse;
-        int force;
-        int intelligence;
-        int chance;
-        int agilite;
+        int PV;
+        int PA;
 
-        public Personage()
+        public Personage(int pv, int pa)
         {
-
+            PV = pv;
+            PA = pa;
         }
 
         public static int addition(int numero1, int numero2)
@@ -23,4 +17,4 @@
             return numero1 + numero2;
         }
     }
-}//MessageBox.Show(FonctionUtilisateur.addition(1,1).ToString());
+}//Personage pTest = new Personage(5,6);MessageBox.Show(Personage.addition(pTest.PV,pTest.PA).ToString());
