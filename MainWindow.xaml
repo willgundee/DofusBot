@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid Margin="0,0,2,124">
-        <TextBox Name="code_test" Height="350" Width="525"></TextBox>
+        <RichTextBox Name="code_test" Height="350" Width="525" AcceptsReturn="True" AcceptsTab="True" VerticalScrollBarVisibility="Visible"></RichTextBox>
         <Button Margin="177,251,178,-90" Click="Button_Click" Content="run"></Button>
     </Grid>
 </Window>

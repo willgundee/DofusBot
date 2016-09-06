@@ -47,10 +47,10 @@ namespace test
                     }
                 }
             ";
-                  
-            //for (int i = 0; i < 5; i++){ if (i > 3) { MessageBox.Show(i.ToString()); } }
+            
             //je remplace le mot user_code pour ce qui ce trouve dans la text box
-            string finalCode = code.Replace("user_code", code_test.Text);
+            string richText = new TextRange(code_test.Document.ContentStart, code_test.Document.ContentEnd).Text;
+            string finalCode = code.Replace("user_code", richText);
             //initialisation d'un compilateur de code C#
             CSharpCodeProvider provider = new CSharpCodeProvider(new Dictionary<string,string>() { { "CompilerVersion", "v3.5" } });
             //initialisation des paramètres du compilateur de code C#
