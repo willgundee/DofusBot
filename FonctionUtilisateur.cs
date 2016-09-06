@@ -1,5 +1,6 @@
 ﻿namespace GofusSharp
 {
+    //csc /target:library /out:GofusSharp.dll FonctionUtilisateur.cs
     public class Personage
     {
         int pointDeVie;
