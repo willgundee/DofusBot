@@ -16,7 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Functions = Functions.FonctionUtilisateur;
+using GofusSharp;
 
 namespace test
 {
@@ -35,7 +35,7 @@ namespace test
             string code = @"
                 using System;
                 using System.Windows.Forms;
-                using Functions = Functions.FonctionUtilisateur;
+                using GofusSharp;
                 namespace FonctionUtilisateur
                 {                
                     public class BinaryFunction
@@ -57,7 +57,7 @@ namespace test
             CompilerParameters parameters = new CompilerParameters();
             //ajout des lien de bibliothèque dynamique (dll) * pas fini
             parameters.ReferencedAssemblies.Add("WindowsBase.dll");
-            parameters.ReferencedAssemblies.Add("Functions.dll");
+            parameters.ReferencedAssemblies.Add("GofusSharp.dll");
             parameters.ReferencedAssemblies.Add("System.Windows.Forms.dll");
             //compilation du code 
             CompilerResults results = provider.CompileAssemblyFromSource(parameters, finalCode);
@@ -74,7 +74,7 @@ namespace test
                 throw new InvalidOperationException(sb.ToString());
             }
             //mettre la fonction compilé dans une variable
-            Type binaryFunction = results.CompiledAssembly.GetType("UserFunctions.BinaryFunction");
+            Type binaryFunction = results.CompiledAssembly.GetType("FonctionUtilisateur.BinaryFunction");
             //invoqué la fonction compilée avec la variable
             binaryFunction.GetMethod("Function").Invoke(null,null);
         }
