@@ -21,8 +21,6 @@ using GofusSharp;
 namespace test
 {
     /// <summary>
-    /// ffffffdsfsdf
-    ///
     /// Logique d'interaction pour MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
@@ -35,8 +33,6 @@ namespace test
         {
             //code dynamique 
             string code = @"
-                using System;
-                using System.Windows.Forms;
                 using GofusSharp;
                 namespace FonctionUtilisateur
                 {                
@@ -49,18 +45,18 @@ namespace test
                     }
                 }
             ";
-            //&PERLUETTE& 
-            //for (int i = 0; i < 5; i++){ if (i > 3) { MessageBox.Show(i.ToString()); } }
+            
             //je remplace le mot user_code pour ce qui ce trouve dans la text box
-            string finalCode = code.Replace("user_code", code_test.Text);
+            string richText = new TextRange(code_test.Document.ContentStart, code_test.Document.ContentEnd).Text;
+            string finalCode = code.Replace("user_code", richText);
             //initialisation d'un compilateur de code C#
             CSharpCodeProvider provider = new CSharpCodeProvider(new Dictionary<string,string>() { { "CompilerVersion", "v3.5" } });
             //initialisation des paramètres du compilateur de code C#
             CompilerParameters parameters = new CompilerParameters();
             //ajout des lien de bibliothèque dynamique (dll) * pas fini
-            parameters.ReferencedAssemblies.Add("WindowsBase.dll");
+            //parameters.ReferencedAssemblies.Add("WindowsBase.dll");
             parameters.ReferencedAssemblies.Add("GofusSharp.dll");
-            parameters.ReferencedAssemblies.Add("System.Windows.Forms.dll");
+            //parameters.ReferencedAssemblies.Add("System.Windows.Forms.dll");
             //compilation du code 
             CompilerResults results = provider.CompileAssemblyFromSource(parameters, finalCode);
             //recherche d'érreurs de compilation * pas fini
