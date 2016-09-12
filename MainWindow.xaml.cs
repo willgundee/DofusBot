@@ -33,8 +33,6 @@ namespace test
         {
             //code dynamique 
             string code = @"
-                using System;
-                using System.Windows.Forms;
                 using GofusSharp;
                 namespace FonctionUtilisateur
                 {                
@@ -56,9 +54,9 @@ namespace test
             //initialisation des paramètres du compilateur de code C#
             CompilerParameters parameters = new CompilerParameters();
             //ajout des lien de bibliothèque dynamique (dll) * pas fini
-            parameters.ReferencedAssemblies.Add("WindowsBase.dll");
+            //parameters.ReferencedAssemblies.Add("WindowsBase.dll");
             parameters.ReferencedAssemblies.Add("GofusSharp.dll");
-            parameters.ReferencedAssemblies.Add("System.Windows.Forms.dll");
+            //parameters.ReferencedAssemblies.Add("System.Windows.Forms.dll");
             //compilation du code 
             CompilerResults results = provider.CompileAssemblyFromSource(parameters, finalCode);
             //recherche d'érreurs de compilation * pas fini
