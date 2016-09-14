@@ -3,11 +3,18 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:test"
+        xmlns:local="clr-namespace:Moonlight;assembly=CodeTextBox"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid Margin="0,0,2,124">
-        <RichTextBox Name="code_test" Height="350" Width="525" AcceptsReturn="True" AcceptsTab="True" VerticalScrollBarVisibility="Visible"></RichTextBox>
-        <Button Margin="177,251,178,-90" Click="Button_Click" Content="run"></Button>
+    <Grid Name="grd_main">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <RichTextBox Grid.Row="0" Name="code_test" AcceptsReturn="True" AcceptsTab="True" VerticalScrollBarVisibility="Visible"></RichTextBox>
+        <Button Grid.Row="1" Click="Button_Click" Content="run"></Button>
     </Grid>
 </Window>
