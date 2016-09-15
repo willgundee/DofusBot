@@ -1,86 +1,21 @@
-﻿using Microsoft.CSharp;
-using System;
-using System.CodeDom.Compiler;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Forms;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using Microsoft.CSharp;
+using System.CodeDom.Compiler;
 
 namespace test
 {
-    /// <summary>
-    /// Logique d'interaction pour MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainForm : Form
     {
-        public MainWindow()
+        public MainForm()
         {
             InitializeComponent();
-            ctb_main.CreateTreeView(generateTree());
-            ctb_main.UpdateSyntaxHightlight();
-            ctb_main.UpdateTreeView();
-        }
+            codeTextBox1.CreateTreeView(generateTree());
+            codeTextBox1.UpdateSyntaxHightlight();
+            codeTextBox1.UpdateTreeView();
 
-        private void btn_run_Click(object sender, RoutedEventArgs e)
-        {
-            //code dynamique 
-            string code = @"
-                using GofusSharp;
-                namespace FonctionUtilisateur
-                {                
-                    public class BinaryFunction
-                    {                
-                        public static void Function()
-                        {
-                            user_code
-                        }
-                    }
-                }
-            ";
-
-            //je remplace le mot user_code pour ce qui ce trouve dans la text box
-            string richText = ctb_main.Text;
-            string finalCode = code.Replace("user_code", richText);
-            //initialisation d'un compilateur de code C#
-            CSharpCodeProvider provider = new CSharpCodeProvider(new Dictionary<string, string>() { { "CompilerVersion", "v3.5" } });
-            //initialisation des paramètres du compilateur de code C#
-            CompilerParameters parameters = new CompilerParameters();
-            //ajout des lien de bibliothèque dynamique (dll) * pas fini
-            parameters.ReferencedAssemblies.Add("WindowsBase.dll");
-            parameters.ReferencedAssemblies.Add("GofusSharp.dll");
-            parameters.ReferencedAssemblies.Add("System.Windows.Forms.dll");
-            parameters.ReferencedAssemblies.Add("Math.dll");
-            //System.Windows.Forms.MessageBox.Show(  );
-            //compilation du code 
-            CompilerResults results = provider.CompileAssemblyFromSource(parameters, finalCode);
-            //recherche d'érreurs de compilation * pas fini
-            if (results.Errors.HasErrors)
-            {
-                StringBuilder sb = new StringBuilder();
-
-                foreach (CompilerError error in results.Errors)
-                {
-                    sb.AppendLine(String.Format("Erreur (Ligne {0}): {1}", (error.Line - 8).ToString(), error.ErrorText));
-                }
-                System.Windows.Forms.MessageBox.Show(sb.ToString());
-                return;
-                //throw new InvalidOperationException(sb.ToString());
-                
-                
-            }
-            //mettre la fonction compilé dans une variable
-            Type binaryFunction = results.CompiledAssembly.GetType("FonctionUtilisateur.BinaryFunction");
-            //invoqué la fonction compilée avec la variable
-            binaryFunction.GetMethod("Function").Invoke(null, null);
         }
 
         private TreeNode[] generateTree()
@@ -379,12 +314,63 @@ namespace test
             treeNode_6,
             treeNode_7};
 
-
+            
 
             TreeNode[] treeNode_Intellisense = new TreeNode[treeNode_root.Length + treeNodeTab_keyword.Length];
             treeNodeTab_keyword.CopyTo(treeNode_Intellisense, 0);
             treeNode_root.CopyTo(treeNode_Intellisense, treeNodeTab_keyword.Length);
             return treeNode_Intellisense;
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            //code dynamique 
+            string code = @"
+                using GofusSharp;
+                namespace FonctionUtilisateur
+                {                
+                    public class BinaryFunction
+                    {                
+                        public static void Function()
+                        {
+                            user_code
+                        }
+                    }
+                }
+            ";
+
+            //je remplace le mot user_code pour ce qui ce trouve dans la text box
+            string richText = codeTextBox1.Text;
+            string finalCode = code.Replace("user_code", richText);
+            //initialisation d'un compilateur de code C#
+            CSharpCodeProvider provider = new CSharpCodeProvider(new Dictionary<string, string>() { { "CompilerVersion", "v3.5" } });
+            //initialisation des paramètres du compilateur de code C#
+            CompilerParameters parameters = new CompilerParameters();
+            //ajout des lien de bibliothèque dynamique (dll) * pas fini
+            parameters.ReferencedAssemblies.Add("WindowsBase.dll");
+            parameters.ReferencedAssemblies.Add("GofusSharp.dll");
+            parameters.ReferencedAssemblies.Add("System.Windows.Forms.dll");
+            //Forms.MessageBox.Show("Test");
+            //compilation du code 
+            CompilerResults results = provider.CompileAssemblyFromSource(parameters, finalCode);
+            //recherche d'érreurs de compilation * pas fini
+            if (results.Errors.HasErrors)
+            {
+                StringBuilder sb = new StringBuilder();
+
+                foreach (CompilerError error in results.Errors)
+                {
+                    sb.AppendLine(String.Format("Error ({0}): {1}", error.ErrorNumber, error.ErrorText));
+                }
+
+                throw new InvalidOperationException(sb.ToString());
+            }
+            //mettre la fonction compilé dans une variable
+            Type binaryFunction = results.CompiledAssembly.GetType("FonctionUtilisateur.BinaryFunction");
+            //invoqué la fonction compilée avec la variable
+            binaryFunction.GetMethod("Function").Invoke(null, null);
         }
     }
 }

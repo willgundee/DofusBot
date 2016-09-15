@@ -339,6 +339,14 @@ namespace Moonlight
             m_IntellisenseDynamic.Update(this);
             m_IntellisenseDynamic.DoIntellisense_AllLines(this, mp_IntellisenseTree);
         }
+
+        /// <summary>
+        /// Create the treeview from a treenode array
+        /// </summary>
+        public void CreateTreeView(TreeNode[] treeNode_arr_main)
+        {
+            mp_IntellisenseTree.Nodes.AddRange(treeNode_arr_main);
+        }
         #endregion
 
         #region Overridden methods
