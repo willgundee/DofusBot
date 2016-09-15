@@ -83,6 +83,22 @@ namespace test
             binaryFunction.GetMethod("Function").Invoke(null, null);
         }
 
+        public int maxLC = 0; //maxLineCount - should be public
+        private void ctb_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            int linecount = ctb_main.Lines.Count();
+            if (linecount != maxLC)
+            {
+                tb_lineNumber.Document.Blocks.Clear();
+                for (int i = 1; i < linecount + 1; i++)
+                {
+                    tb_lineNumber.AppendText(i.ToString() + Environment.NewLine);
+                }
+                maxLC = linecount;
+            }
+        }
+
+
         private TreeNode[] generateTree()
         {
             //#############################################################################################################
