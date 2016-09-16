@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:wf="clr-namespace:Moonlight;assembly=CodeTextBox"  
         xmlns:local="clr-namespace:test"
-        xmlns:Forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms" xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="test.MainWindow"
+        xmlns:Forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms" 
+        xmlns:System="clr-namespace:System;assembly=mscorlib" 
+        x:Class="test.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="500" Width="700">
     <Grid x:Name="grd_main">
@@ -17,7 +19,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="20*"/>
         </Grid.ColumnDefinitions>
-        <RichTextBox Name="tb_lineNumber" FontFamily="Courier New" IsReadOnly="True" FontSize="11"/>
+        <TextBox Name="tb_lineNumber" FontFamily="Courier New" IsReadOnly="True" FontSize="11"/>
         <WindowsFormsHost Grid.Row="0" Grid.Column="1">
             <wf:CodeTextBox x:Name="ctb_main" CodeColor_Chaine="Crimson" CodeColor_Comment="Green" CodeColor_Function="CornflowerBlue" CodeColor_Keyword="Blue" CodeColor_PlainText="Black" CodeColor_Type="CornflowerBlue" AcceptsTab="True" KeyUp="ctb_KeyUp">
                 <wf:CodeTextBox.CodeWords_Keywords>

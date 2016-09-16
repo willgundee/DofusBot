@@ -74,8 +74,6 @@ namespace test
                 System.Windows.Forms.MessageBox.Show(sb.ToString());
                 return;
                 //throw new InvalidOperationException(sb.ToString());
-                
-                
             }
             //mettre la fonction compilé dans une variable
             Type binaryFunction = results.CompiledAssembly.GetType("FonctionUtilisateur.BinaryFunction");
@@ -89,9 +87,10 @@ namespace test
             int linecount = ctb_main.Lines.Count();
             if (linecount != maxLC)
             {
-                tb_lineNumber.Document.Blocks.Clear();
+                tb_lineNumber.Clear();
                 for (int i = 1; i < linecount + 1; i++)
                 {
+
                     tb_lineNumber.AppendText(i.ToString() + Environment.NewLine);
                 }
                 maxLC = linecount;
