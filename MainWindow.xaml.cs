@@ -87,11 +87,13 @@ namespace test
             int linecount = ctb_main.Lines.Count();
             if (linecount != maxLC)
             {
-                tb_lineNumber.Clear();
+                tb_lineNumber.Document.Blocks.Clear();
                 for (int i = 1; i < linecount + 1; i++)
                 {
-
-                    tb_lineNumber.AppendText(i.ToString() + Environment.NewLine);
+                    if (i == 1)
+                        tb_lineNumber.AppendText(i.ToString());
+                    else
+                        tb_lineNumber.AppendText(Environment.NewLine + i.ToString());
                 }
                 maxLC = linecount;
             }
@@ -400,6 +402,18 @@ namespace test
             treeNodeTab_keyword.CopyTo(treeNode_Intellisense, 0);
             treeNode_root.CopyTo(treeNode_Intellisense, treeNodeTab_keyword.Length);
             return treeNode_Intellisense;
+        }
+
+        private void ctb_main_HScroll(object sender, EventArgs e)
+        {
+            System.Windows.Forms.MessageBox.Show(e.ToString());
+            //tb_lineNumber.ScrollToVerticalOffset(e.VerticalOffset);
+            //tb_lineNumber.ScrollToHorizontalOffset(e.HorizontalOffset);
+        }
+
+        private void scvOriginal_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            scvChanged.ScrollToVerticalOffset(e.VerticalOffset);
         }
     }
 }
