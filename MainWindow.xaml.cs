@@ -3,6 +3,7 @@ using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -17,6 +18,21 @@ using System.Windows.Shapes;
 
 namespace test
 {
+    public enum ScrollBarType : uint
+    {
+        SbHorz = 0,
+        SbVert = 1,
+        SbCtl = 2,
+        SbBoth = 3
+    }
+    public enum Message : uint
+    {
+        WM_VSCROLL = 0x0115
+    }
+    public enum ScrollBarCommands : uint
+    {
+        SB_THUMBPOSITION = 4
+    }
     /// <summary>
     /// Logique d'interaction pour MainWindow.xaml
     /// </summary>
@@ -28,6 +44,10 @@ namespace test
             ctb_main.CreateTreeView(generateTree());
             ctb_main.UpdateSyntaxHightlight();
             ctb_main.UpdateTreeView();
+            tb_lineNumber.Font = new System.Drawing.Font("Courier New", 8);
+            tb_lineNumber.Enabled = false;
+            tb_lineNumber.SelectionAlignment = System.Windows.Forms.HorizontalAlignment.Right;
+            
         }
 
         private void btn_run_Click(object sender, RoutedEventArgs e)
@@ -87,7 +107,7 @@ namespace test
             int linecount = ctb_main.Lines.Count();
             if (linecount != maxLC)
             {
-                tb_lineNumber.Document.Blocks.Clear();
+                tb_lineNumber.Clear();
                 for (int i = 1; i < linecount + 1; i++)
                 {
                     if (i == 1)
@@ -404,16 +424,17 @@ namespace test
             return treeNode_Intellisense;
         }
 
-        private void ctb_main_HScroll(object sender, EventArgs e)
-        {
-            System.Windows.Forms.MessageBox.Show(e.ToString());
-            //tb_lineNumber.ScrollToVerticalOffset(e.VerticalOffset);
-            //tb_lineNumber.ScrollToHorizontalOffset(e.HorizontalOffset);
-        }
+        [DllImport("User32.dll")]
+        public extern static int GetScrollPos(IntPtr hWnd, int nBar);
+        [DllImport("User32.dll")]
+        public extern static int SendMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
 
-        private void scvOriginal_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        private void ctb_main_VScroll(object sender, EventArgs e)
         {
-            scvChanged.ScrollToVerticalOffset(e.VerticalOffset);
+            int nPos = GetScrollPos(ctb_main.Handle, (int)ScrollBarType.SbVert);
+            nPos <<= 16;
+            uint wParam = (uint)ScrollBarCommands.SB_THUMBPOSITION | (uint)nPos;
+            SendMessage(tb_lineNumber.Handle, (int)Message.WM_VSCROLL, new IntPtr(wParam), new IntPtr(0));
         }
     }
 }
