@@ -11,7 +11,7 @@ using CodeTextBox;
 
 namespace Moonlight
 {
-    public partial class CodeTextBox : RichTextBox
+    public partial class CodeTextBox : SynchronizedScrollRichTextBox
     {
         #region Members
 
