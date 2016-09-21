@@ -117,8 +117,11 @@ namespace test
                 }
                 maxLC = linecount;
             }
+            ctb_main_VScroll(new object(),new EventArgs());
+            //tb_lineNumber.SelectedText = 
+            //System.Windows.Forms.MessageBox.Show(ctb_main.GetLineFromCharIndex(ctb_main.SelectionStart).ToString());
         }
-
+        
 
         private TreeNode[] generateTree()
         {
