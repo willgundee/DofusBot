@@ -20,7 +20,7 @@
             <ColumnDefinition Width="15*"/>
         </Grid.ColumnDefinitions>
 
-        <WindowsFormsHost Grid.Row="0" Grid.Column="0">
+        <WindowsFormsHost Grid.Row="0" Grid.Column="0" >
             <wf:SynchronizedScrollRichTextBox x:Name="tb_lineNumber" ScrollBars="None"></wf:SynchronizedScrollRichTextBox>
         </WindowsFormsHost>
         <WindowsFormsHost Grid.Row="0" Grid.Column="1">

@@ -5,16 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Forms;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace test
 {
@@ -44,12 +36,15 @@ namespace test
             ctb_main.CreateTreeView(generateTree());
             ctb_main.UpdateSyntaxHightlight();
             ctb_main.UpdateTreeView();
+
             tb_lineNumber.Font = new System.Drawing.Font("Courier New", 8);
             tb_lineNumber.ReadOnly = true;
             tb_lineNumber.SelectionAlignment = System.Windows.Forms.HorizontalAlignment.Right;
+            tb_lineNumber.Cursor = System.Windows.Forms.Cursors.Arrow;
             
         }
 
+        //**************************************************************************************************
         private void btn_run_Click(object sender, RoutedEventArgs e)
         {
             //code dynamique 
@@ -101,6 +96,7 @@ namespace test
             binaryFunction.GetMethod("Function").Invoke(null, null);
         }
 
+        //**************************************************************************************************
         public int maxLC = 0; //maxLineCount - should be public
         private void ctb_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
         {
@@ -121,8 +117,9 @@ namespace test
             //tb_lineNumber.SelectedText = 
             //System.Windows.Forms.MessageBox.Show(ctb_main.GetLineFromCharIndex(ctb_main.SelectionStart).ToString());
         }
-        
 
+
+        //**************************************************************************************************
         private TreeNode[] generateTree()
         {
             //#############################################################################################################
@@ -373,7 +370,6 @@ namespace test
                 Tnode.Text = "system";
             }
             //#############################################################################################################
-            //#############################################################################################################
             TreeNode treeNode_1 = new TreeNode("keyword");
             TreeNode treeNode_2 = new TreeNode("classGofus");
             TreeNode treeNode_3 = new TreeNode("Math", treeNodeTab_math);
@@ -426,6 +422,7 @@ namespace test
             treeNode_root.CopyTo(treeNode_Intellisense, treeNodeTab_keyword.Length);
             return treeNode_Intellisense;
         }
+        //**************************************************************************************************
 
         [DllImport("User32.dll")]
         public extern static int GetScrollPos(IntPtr hWnd, int nBar);
@@ -439,5 +436,8 @@ namespace test
             uint wParam = (uint)ScrollBarCommands.SB_THUMBPOSITION | (uint)nPos;
             SendMessage(tb_lineNumber.Handle, (int)Message.WM_VSCROLL, new UIntPtr(wParam), new UIntPtr(0));
         }
+
+        //**************************************************************************************************
+
     }
 }
