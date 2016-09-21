@@ -41,7 +41,6 @@ namespace test
             tb_lineNumber.ReadOnly = true;
             tb_lineNumber.SelectionAlignment = System.Windows.Forms.HorizontalAlignment.Right;
             tb_lineNumber.Cursor = System.Windows.Forms.Cursors.Arrow;
-            
         }
 
         //**************************************************************************************************
@@ -114,8 +113,6 @@ namespace test
                 maxLC = linecount;
             }
             ctb_main_VScroll(new object(),new EventArgs());
-            //tb_lineNumber.SelectedText = 
-            //System.Windows.Forms.MessageBox.Show(ctb_main.GetLineFromCharIndex(ctb_main.SelectionStart).ToString());
         }
 
 
@@ -172,7 +169,7 @@ namespace test
                 new TreeNode("GetHashCode()"),
                 new TreeNode("GetType()"),
                 new TreeNode("GetTypeCode()"),
-                new TreeNode("ToString()")
+                new TreeNode("ToString()", treeNodeTab_chaine)
             };
             foreach (TreeNode Tnode in treeNodeTab_simpleVar)
             {
@@ -239,7 +236,6 @@ namespace test
                 new TreeNode("DivRem()", treeNodeTab_simpleVar),
                 new TreeNode("Exp()", treeNodeTab_simpleVar),
                 new TreeNode("Floor()", treeNodeTab_simpleVar),
-                new TreeNode("IEEERemainder()", treeNodeTab_simpleVar),
                 new TreeNode("Log()", treeNodeTab_simpleVar),
                 new TreeNode("Log10()", treeNodeTab_simpleVar),
                 new TreeNode("Max()", treeNodeTab_simpleVar),
@@ -269,8 +265,8 @@ namespace test
 
 
             TreeNode[] treeNodeTab_attribut_math = new TreeNode[] {
-                new TreeNode("E"),
-                new TreeNode("PI")
+                new TreeNode("E", treeNodeTab_simpleVar),
+                new TreeNode("PI", treeNodeTab_simpleVar)
             };
             foreach (TreeNode Tnode in treeNodeTab_attribut_math)
             {
@@ -423,7 +419,6 @@ namespace test
             return treeNode_Intellisense;
         }
         //**************************************************************************************************
-
         [DllImport("User32.dll")]
         public extern static int GetScrollPos(IntPtr hWnd, int nBar);
         [DllImport("User32.dll")]
@@ -436,8 +431,6 @@ namespace test
             uint wParam = (uint)ScrollBarCommands.SB_THUMBPOSITION | (uint)nPos;
             SendMessage(tb_lineNumber.Handle, (int)Message.WM_VSCROLL, new UIntPtr(wParam), new UIntPtr(0));
         }
-
         //**************************************************************************************************
-
     }
 }
