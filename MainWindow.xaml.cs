@@ -74,7 +74,7 @@ namespace test
             CSharpCodeProvider provider = new CSharpCodeProvider(new Dictionary<string, string>() { { "CompilerVersion", "v3.5" } });
             //initialisation des paramètres du compilateur de code C#
             CompilerParameters parameters = new CompilerParameters();
-            //ajout des lien de bibliothèque dynamique (dll) * pas fini
+            //ajout des lien de bibliothèque dynamique (dll)
             parameters.ReferencedAssemblies.Add("WindowsBase.dll");
             parameters.ReferencedAssemblies.Add("GofusSharp.dll");
             parameters.ReferencedAssemblies.Add("System.Windows.Forms.dll");
@@ -82,7 +82,7 @@ namespace test
             //System.Windows.Forms.MessageBox.Show(  );
             //compilation du code 
             CompilerResults results = provider.CompileAssemblyFromSource(parameters, finalCode);
-            //recherche d'érreurs de compilation * pas fini
+            //recherche d'érreurs de compilation
             if (results.Errors.HasErrors)
             {
                 StringBuilder sb = new StringBuilder();
@@ -427,14 +427,14 @@ namespace test
         [DllImport("User32.dll")]
         public extern static int GetScrollPos(IntPtr hWnd, int nBar);
         [DllImport("User32.dll")]
-        public extern static int SendMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
+        public extern static int SendMessage(IntPtr hWnd, uint msg, UIntPtr wParam, UIntPtr lParam);
 
         private void ctb_main_VScroll(object sender, EventArgs e)
         {
             int nPos = GetScrollPos(ctb_main.Handle, (int)ScrollBarType.SbVert);
             nPos <<= 16;
             uint wParam = (uint)ScrollBarCommands.SB_THUMBPOSITION | (uint)nPos;
-            SendMessage(tb_lineNumber.Handle, (int)Message.WM_VSCROLL, new IntPtr(wParam), new IntPtr(0));
+            SendMessage(tb_lineNumber.Handle, (int)Message.WM_VSCROLL, new UIntPtr(wParam), new UIntPtr(0));
         }
     }
 }
