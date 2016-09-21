@@ -192,12 +192,6 @@ namespace Moonlight.IntellisenseDynamic
         /// <param name="lineStart"></param>
         private void ProcessLine(CodeTextBox codeTextbox, string line, int lineStart, TreeView m_IntellisenseTree)
         {
-
-            // Save the position and make the whole line black
-            int nPosition = codeTextbox.SelectionStart;
-            codeTextbox.SelectionStart = lineStart;
-            codeTextbox.SelectionLength = line.Length;
-
             // Process the simpleVar
             ProcessRegex(codeTextbox, line, lineStart, simpleVarRegexp, "simpleVar", "Property", m_IntellisenseTree);
 
@@ -215,17 +209,9 @@ namespace Moonlight.IntellisenseDynamic
             
             // Process the string
             ProcessRegex(codeTextbox, line, lineStart, voidFonctionRegexp, "fonctionVoid", "Method", m_IntellisenseTree);
-
-            codeTextbox.SelectionStart = nPosition;
-            codeTextbox.SelectionLength = 0;
         }
         private void ProcessSelection(CodeTextBox codeTextbox, int selectionStart, int selectionLength, TreeView m_IntellisenseTree)
         {
-            // Save the position
-            int nPosition = selectionStart;
-
-            codeTextbox.SelectionStart = selectionStart;
-            codeTextbox.SelectionLength = selectionLength;
             string text = codeTextbox.SelectedText;
 
             // Process the simpleVar
@@ -245,18 +231,9 @@ namespace Moonlight.IntellisenseDynamic
 
             // Process the string
             ProcessRegex(codeTextbox, text, selectionStart, voidFonctionRegexp, "fonctionVoid", "Method", m_IntellisenseTree);
-
-
-            codeTextbox.SelectionStart = nPosition;
-            codeTextbox.SelectionLength = 0;
         }
         private void ProcessAllLines(CodeTextBox codeTextbox, TreeView m_IntellisenseTree)
         {
-            // Save the position
-            int nPosition = codeTextbox.SelectionStart;
-            codeTextbox.SelectionStart = 0;
-            codeTextbox.SelectionLength = codeTextbox.Text.Length;
-
             // Process the simpleVar
             ProcessRegex(codeTextbox, codeTextbox.Text, 0, simpleVarRegexp, "simpleVar", "Property", m_IntellisenseTree);
 
@@ -274,17 +251,9 @@ namespace Moonlight.IntellisenseDynamic
 
             // Process the string
             ProcessRegex(codeTextbox, codeTextbox.Text, 0, voidFonctionRegexp, "fonctionVoid", "Method", m_IntellisenseTree);
-
-            codeTextbox.SelectionStart = nPosition;
-            codeTextbox.SelectionLength = 0;
         }
         private void RemoveInexistant(CodeTextBox codeTextbox, TreeView m_IntellisenseTree)
         {
-            // Save the position
-            int nPosition = codeTextbox.SelectionStart;
-            codeTextbox.SelectionStart = 0;
-            codeTextbox.SelectionLength = codeTextbox.Text.Length;
-
             // Process the simpleVar
             RefreshRegex(codeTextbox, codeTextbox.Text, 0, simpleVarRegexp, "simpleVar", "Property", m_IntellisenseTree);
 
@@ -302,9 +271,6 @@ namespace Moonlight.IntellisenseDynamic
 
             // Process the string
             RefreshRegex(codeTextbox, codeTextbox.Text, 0, voidFonctionRegexp, "fonctionVoid", "Method", m_IntellisenseTree);
-
-            codeTextbox.SelectionStart = nPosition;
-            codeTextbox.SelectionLength = 0;
         }
 
 

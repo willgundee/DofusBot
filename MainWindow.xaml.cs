@@ -45,7 +45,7 @@ namespace test
             ctb_main.UpdateSyntaxHightlight();
             ctb_main.UpdateTreeView();
             tb_lineNumber.Font = new System.Drawing.Font("Courier New", 8);
-            tb_lineNumber.Enabled = false;
+            tb_lineNumber.ReadOnly = true;
             tb_lineNumber.SelectionAlignment = System.Windows.Forms.HorizontalAlignment.Right;
             
         }
@@ -89,7 +89,7 @@ namespace test
 
                 foreach (CompilerError error in results.Errors)
                 {
-                    sb.AppendLine(String.Format("Erreur (Ligne {0}): {1}", (error.Line - 8).ToString(), error.ErrorText));
+                    sb.AppendLine(string.Format("Erreur (Ligne {0}): {1}", (error.Line - 8).ToString(), error.ErrorText));
                 }
                 System.Windows.Forms.MessageBox.Show(sb.ToString());
                 return;

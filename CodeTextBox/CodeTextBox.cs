@@ -549,7 +549,7 @@ namespace Moonlight
             {
                 m_IntellisenseManager.ShowIntellisenseBox();
                 e.Handled = true;
-                this.Focus();
+                Focus();
                 return;
             }
             #endregion
@@ -637,7 +637,7 @@ namespace Moonlight
                 #endregion
             }
 
-            this.Focus();
+            Focus();
             base.OnKeyDown(e);
         }
         private void ProcessKeyDownWndPrc(uint wParam, uint lParam)
