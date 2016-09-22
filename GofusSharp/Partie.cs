@@ -2,11 +2,11 @@
 {
     public class Partie
     {
-        private int IdPartie { get; }
-        private Terrain TerrainPartie { get; }
-        private Entite[] TabAttaquants { get; }
-        private Entite[] TabDefendants { get; }
-        private int Seed { get; }
+        public int IdPartie { get; private set; }
+        public Terrain TerrainPartie { get; private set; }
+        public Entite[] TabAttaquants { get; private set; }
+        public Entite[] TabDefendants { get; private set; }
+        public int Seed { get; private set; }
         public Partie(int IdPartie, Terrain TerrainPartie, Entite[] TabAttaquants, Entite[] TabDefendants, int Seed)
         {
             this.IdPartie = IdPartie;
@@ -14,6 +14,12 @@
             this.TabAttaquants = TabAttaquants;
             this.TabDefendants = TabDefendants;
             this.Seed = Seed;
+        }
+        public int Generer()
+        {
+            IdPartie = 1;
+
+            return 0;
         }
     }
 }

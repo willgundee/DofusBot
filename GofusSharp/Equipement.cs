@@ -2,11 +2,11 @@
 {
     public class Equipement
     {
-        protected int IdEquipement { get; }
-        protected Condition[] TabConditions { get; }
-        protected Statistique[] TabStatistiques { get; }
-        protected string Nom { get; }
-        protected string Type { get; }
+        public int IdEquipement { get; protected set; }
+        public Condition[] TabConditions { get; protected set; }
+        public Statistique[] TabStatistiques { get; protected set; }
+        public string Nom { get; protected set; }
+        public string Type { get; protected set; }
         public Equipement(int IdEquipement, Condition[] TabConditions, Statistique[] TabStatistiques, string Nom, string Type)
         {
             this.IdEquipement = IdEquipement;

@@ -2,9 +2,9 @@
 {
     public class Arme : Equipement
     {
-        private Effet[] TabEffets { get; }
-        private Zone ZonePortee { get; }
-        private Zone ZoneEffet { get; }
+        public Effet[] TabEffets { get; private set; }
+        public Zone ZonePortee { get; private set; }
+        public Zone ZoneEffet { get; private set; }
         public Arme(int IdEquipement, Condition[] TabConditions, Statistique[] TabStatistiques, string Nom, string Type, Effet[] TabEffets, Zone ZonePortee, Zone ZoneEffet) : base(IdEquipement, TabConditions, TabStatistiques, Nom, Type)
         {
             this.TabEffets = TabEffets;

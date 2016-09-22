@@ -40,7 +40,7 @@ namespace test
             tb_lineNumber.Font = new System.Drawing.Font("Courier New", 8);
             tb_lineNumber.ReadOnly = true;
             tb_lineNumber.SelectionAlignment = System.Windows.Forms.HorizontalAlignment.Right;
-            tb_lineNumber.Cursor = System.Windows.Forms.Cursors.Arrow;
+            tb_lineNumber.Cursor = Cursors.Arrow;
         }
 
         //**************************************************************************************************
@@ -49,10 +49,14 @@ namespace test
             //code dynamique 
             string code = @"
                 using GofusSharp;
-                namespace FonctionUtilisateur
-                {                
-                    public class BinaryFunction
-                    {                
+                namespace Arene
+                {
+                    public class Combat
+                    {
+                        public static int Generer()
+                        {
+                            Partie combat = new Partie();
+                        {
                         public static void Function()
                         {
                             user_code
@@ -90,7 +94,7 @@ namespace test
                 //throw new InvalidOperationException(sb.ToString());
             }
             //mettre la fonction compilé dans une variable
-            Type binaryFunction = results.CompiledAssembly.GetType("FonctionUtilisateur.BinaryFunction");
+            Type binaryFunction = results.CompiledAssembly.GetType("Arene.Combat");
             //invoqué la fonction compilée avec la variable
             binaryFunction.GetMethod("Function").Invoke(null, null);
         }

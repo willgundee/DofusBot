@@ -2,7 +2,7 @@
 {
     public class Personnage : Entite
     {
-        private Equipement[] TabEquipements { get; }
+        public Equipement[] TabEquipements { get; private set; }
         public Personnage(int IdEntite, ListeChainee LstStatistiques, Script ScriptEntite, Classe ClasseEntite, string Nom, float Experience, Equipement[] TabEquipements) : base(IdEntite, LstStatistiques, ScriptEntite, ClasseEntite, Nom, Experience)
         {
             this.TabEquipements = TabEquipements;

@@ -2,9 +2,9 @@
 {
     public class Effet
     {
-        private string Nom { get; }
-        private int ValeurMin { get; }
-        private int ValeurMax { get; }
+        public string Nom { get; private set; }
+        public int ValeurMin { get; private set; }
+        public int ValeurMax { get; private set; }
         public Effet(string Nom, int ValeurMin, int ValeurMax)
         {
             this.Nom = Nom;

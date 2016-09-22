@@ -2,9 +2,9 @@
 {
     public class Zone
     {
-        private string Type { get; }
-        private int PorteeMin { get; }
-        private int PorteeMax { get; }
+        public string Type { get; private set; }
+        public int PorteeMin { get; private set; }
+        public int PorteeMax { get; private set; }
         public Zone(string Type, int PorteeMin, int PorteeMax)
         {
             this.Type = Type;

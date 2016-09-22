@@ -2,12 +2,12 @@
 {
     public class Entite
     {
-        protected int IdEntite { get; }
-        protected ListeChainee LstStatistiques { get; }
-        protected Script ScriptEntite { get; }
-        protected Classe ClasseEntite { get; }
-        protected string Nom { get; }
-        protected float Experience { get; }
+        public int IdEntite { get; protected set; }
+        public ListeChainee LstStatistiques { get; protected set; }
+        public Script ScriptEntite { get; protected set; }
+        public Classe ClasseEntite { get; protected set; }
+        public string Nom { get; protected set; }
+        public float Experience { get; protected set; }
         public Entite(int IdEntite, ListeChainee LstStatistiques, Script ScriptEntite, Classe ClasseEntite, string Nom, float Experience)
         {
             this.IdEntite = IdEntite;

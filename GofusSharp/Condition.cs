@@ -2,8 +2,8 @@
 {
     public class Condition
     {
-        public string Type { get; }
-        public int Valeur { get; }
+        public string Type { get; private set; }
+        public int Valeur { get; private set; }
         public Condition(string Type, int Valeur)
         {
             this.Type = Type;

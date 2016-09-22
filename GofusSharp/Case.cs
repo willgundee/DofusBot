@@ -2,9 +2,9 @@
 {
     public class Case
     {
-        private int X { get; }
-        private int Y { get; }
-        private int Contenu { get; }
+        public int X { get; private set; }
+        public int Y { get; private set; }
+        public int Contenu { get; private set; }
         public Case(int X, int Y, int Contenu)
         {
             this.X = X;
