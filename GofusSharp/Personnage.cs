@@ -3,7 +3,7 @@
     public class Personnage : Entite
     {
         private Equipement[] TabEquipements { get; }
-        public Personnage(int IdEntite, Statistique[] TabStatistiques, Script ScriptEntite, Classe ClasseEntite, string Nom, float Experience, Equipement[] TabEquipements) : base(IdEntite, TabStatistiques, ScriptEntite, ClasseEntite, Nom, Experience)
+        public Personnage(int IdEntite, ListeChainee LstStatistiques, Script ScriptEntite, Classe ClasseEntite, string Nom, float Experience, Equipement[] TabEquipements) : base(IdEntite, LstStatistiques, ScriptEntite, ClasseEntite, Nom, Experience)
         {
             this.TabEquipements = TabEquipements;
         }
