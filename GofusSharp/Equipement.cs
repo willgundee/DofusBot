@@ -8,11 +8,11 @@ namespace GofusSharp
 {
     public class Equipement
     {
-        private int IdEquipement { get; }
-        private Condition[] TabConditions { get; }
-        private Statistique[] TabStatistiques { get; }
-        private string Nom { get; }
-        private string Type { get; }
+        protected int IdEquipement { get; }
+        protected Condition[] TabConditions { get; }
+        protected Statistique[] TabStatistiques { get; }
+        protected string Nom { get; }
+        protected string Type { get; }
         public Equipement(int IdEquipement, Condition[] TabConditions, Statistique[] TabStatistiques, string Nom, string Type)
         {
             this.IdEquipement = IdEquipement;

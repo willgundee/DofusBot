@@ -89,17 +89,21 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GofusSharp\Arme.cs" />
+    <Compile Include="GofusSharp\Case.cs" />
     <Compile Include="GofusSharp\Classe.cs" />
     <Compile Include="GofusSharp\Condition.cs" />
     <Compile Include="GofusSharp\Effet.cs" />
     <Compile Include="GofusSharp\Entite.cs" />
     <Compile Include="GofusSharp\Equipement.cs" />
+    <Compile Include="GofusSharp\Partie.cs" />
     <Compile Include="GofusSharp\Personnage.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GofusSharp\Script.cs" />
     <Compile Include="GofusSharp\Sort.cs" />
     <Compile Include="GofusSharp\Statistique.cs" />
+    <Compile Include="GofusSharp\Terrain.cs" />
     <Compile Include="GofusSharp\Zone.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
