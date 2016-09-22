@@ -89,9 +89,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BDService.cs" />
     <Compile Include="GofusSharp\Classe.cs" />
+    <Compile Include="GofusSharp\Condition.cs" />
     <Compile Include="GofusSharp\Effet.cs" />
+    <Compile Include="GofusSharp\Entite.cs" />
+    <Compile Include="GofusSharp\Equipement.cs" />
     <Compile Include="GofusSharp\Personnage.cs" />
   </ItemGroup>
   <ItemGroup>
