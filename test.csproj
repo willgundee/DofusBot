@@ -90,9 +90,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BDService.cs" />
-    <Compile Include="FonctionUtilisateur.cs" />
+    <Compile Include="GofusSharp\Classe.cs" />
+    <Compile Include="GofusSharp\Effet.cs" />
+    <Compile Include="GofusSharp\Personnage.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GofusSharp\Script.cs" />
+    <Compile Include="GofusSharp\Sort.cs" />
+    <Compile Include="GofusSharp\Statistique.cs" />
+    <Compile Include="GofusSharp\Zone.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
