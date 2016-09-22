@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GofusSharp
+﻿namespace GofusSharp
 {
     public class Partie
     {
@@ -13,9 +7,13 @@ namespace GofusSharp
         private Entite[] TabAttaquants { get; }
         private Entite[] TabDefendants { get; }
         private int Seed { get; }
-        public Partie()
+        public Partie(int IdPartie, Terrain TerrainPartie, Entite[] TabAttaquants, Entite[] TabDefendants, int Seed)
         {
-
+            this.IdPartie = IdPartie;
+            this.TerrainPartie = TerrainPartie;
+            this.TabAttaquants = TabAttaquants;
+            this.TabDefendants = TabDefendants;
+            this.Seed = Seed;
         }
     }
 }
