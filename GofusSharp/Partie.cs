@@ -66,8 +66,6 @@
             TerrainPartie = new Terrain(tabCases);
             TabAttaquants = new Personnage[] { new Personnage(10, listStatistiqueAtt, scriptAtt, classeAtt, "Trebor", 10000, tabEquipAtt) };
             TabDefendants = new Personnage[] { new Personnage(11, listStatistiqueDef, scriptDef, classeDef, "Robert", 9000, tabEquipDef) };
-            Partie combat = new Partie(IdPartie, TerrainPartie, TabAttaquants, TabDefendants, 128937);
-
             return 0;
         }
     }
