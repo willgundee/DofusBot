@@ -1,14 +1,10 @@
 ﻿namespace GofusSharp
 {
-    public class Entite
+    public class Entite : EntiteInconnu
     {
-        public int IdEntite { get; protected set; }
         public ListeChainee LstStatistiques { get; protected set; }
         public Script ScriptEntite { get; protected set; }
-        public Classe ClasseEntite { get; protected set; }
-        public string Nom { get; protected set; }
-        public float Experience { get; protected set; }
-        public Entite(int IdEntite, ListeChainee LstStatistiques, Script ScriptEntite, Classe ClasseEntite, string Nom, float Experience)
+        public Entite(int IdEntite, Classe ClasseEntite, string Nom, float Experience, ListeChainee LstStatistiques, Script ScriptEntite) : base(IdEntite, ClasseEntite, Nom, Experience)
         {
             this.IdEntite = IdEntite;
             this.LstStatistiques = LstStatistiques;
