@@ -2,10 +2,11 @@
 {
     public class Zone
     {
-        public string Type { get; private set; }
+        public enum type {cercle, ligne, carre, croix, T, X, demi_cercle, cone, tous}
+        public type Type { get; private set; }
         public int PorteeMin { get; private set; }
         public int PorteeMax { get; private set; }
-        public Zone(string Type, int PorteeMin, int PorteeMax)
+        public Zone(type Type, int PorteeMin, int PorteeMax)
         {
             this.Type = Type;
             this.PorteeMin = PorteeMin;

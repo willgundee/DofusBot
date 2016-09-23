@@ -5,7 +5,7 @@
         public Noeud First { get; private set; }
         public Noeud Last { get; private set; }
         public int Count { get; private set; }
-        public ListeChainee(Noeud First)
+        public ListeChainee()
         {
             this.First = First;
             if (First == null)
@@ -23,24 +23,39 @@
             Last = NoeudCourant;
         }
 
-        public void AjouterPremier(Noeud NouveauNoeud)
+        public void AjouterDebut(object Valeur)
         {
+            Noeud NouveauNoeud = new Noeud(Valeur);
             Count++;
+            if (First == null)
+            {
+                First = NouveauNoeud;
+                Last = NouveauNoeud;
+                return;
+            }
             NouveauNoeud.Next = First;
             First = NouveauNoeud;
             First.Next.Previous = First;
         }
 
-        public void AjouterDernier(Noeud NouveauNoeud)
+        public void AjouterFin(object Valeur)
         {
+            Noeud NouveauNoeud = new Noeud(Valeur);
             Count++;
+            if (First == null)
+            {
+                First = NouveauNoeud;
+                Last = NouveauNoeud;
+                return;
+            }
             NouveauNoeud.Previous = Last;
             Last = NouveauNoeud;
             Last.Previous.Next = Last;
         }
 
-        public void AjouterAvant(Noeud NouveauNoeud, int Position)
+        public void AjouterAvant(object Valeur, int Position)
         {
+            Noeud NouveauNoeud = new Noeud(Valeur);
             Count++;
             if (First == null)
             {
@@ -59,8 +74,9 @@
                 First = NouveauNoeud;
             NoeudCourant.Previous = NouveauNoeud;
         }
-        public void AjouterApres(Noeud NouveauNoeud, int Position)
+        public void AjouterApres(object Valeur, int Position)
         {
+            Noeud NouveauNoeud = new Noeud(Valeur);
             Count++;
             if (First == null)
             {
