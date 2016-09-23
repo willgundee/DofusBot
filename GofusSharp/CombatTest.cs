@@ -5,7 +5,7 @@
         public Partie PartieTest { get; private set; }
         public CombatTest()
         {
-            Action(PartieTest.TerrainPartie, PartieTest.TabAttaquants[0], new EntiteInconnu(PartieTest.TabDefendants[0]))
+            Action(PartieTest.TerrainPartie, PartieTest.TabAttaquants[0], new EntiteInconnu(PartieTest.TabDefendants[0]));
         }
 
         public void Action(Terrain terrain, Entite joueur, EntiteInconnu ennemie)
