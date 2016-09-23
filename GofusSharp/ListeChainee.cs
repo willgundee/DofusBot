@@ -2,9 +2,9 @@
 {
     public class ListeChainee
     {
-        public Noeud First { get; private set; }
-        public Noeud Last { get; private set; }
-        public int Count { get; private set; }
+        public Noeud First { get; internal set; }
+        public Noeud Last { get; internal set; }
+        public int Count { get; internal set; }
         public ListeChainee()
         {
             this.First = First;

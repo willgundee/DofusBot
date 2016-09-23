@@ -39,6 +39,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -95,6 +96,7 @@
     <Compile Include="GofusSharp\Entite.cs" />
     <Compile Include="GofusSharp\Equipement.cs" />
     <Compile Include="GofusSharp\ListeChainee.cs" />
+    <Compile Include="GofusSharp\Math.cs" />
     <Compile Include="GofusSharp\Noeud.cs" />
     <Compile Include="GofusSharp\Partie.cs" />
     <Compile Include="GofusSharp\Personnage.cs" />

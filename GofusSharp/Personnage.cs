@@ -2,8 +2,8 @@
 {
     public class Personnage : Entite
     {
-        public Equipement[] TabEquipements { get; private set; }
-        public Personnage(int IdEntite, ListeChainee LstStatistiques, Script ScriptEntite, Classe ClasseEntite, string Nom, float Experience, Equipement[] TabEquipements) : base(IdEntite, LstStatistiques, ScriptEntite, ClasseEntite, Nom, Experience)
+        public Equipement[] TabEquipements { get; internal set; }
+        public Personnage(int IdEntite, Classe ClasseEntite, string Nom, float Experience, Case Position, Statistique[] TabStatistiques, Script ScriptEntite, Equipement[] TabEquipements, Terrain TerrainEntite) : base(IdEntite, ClasseEntite, Nom, Experience, Position, TabStatistiques, ScriptEntite, TerrainEntite)
         {
             this.TabEquipements = TabEquipements;
         }

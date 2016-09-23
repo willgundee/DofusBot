@@ -2,13 +2,18 @@
 {
     public class Case
     {
-        public int X { get; private set; }
-        public int Y { get; private set; }
-        public int Contenu { get; private set; }
-        public Case(int X, int Y, int Contenu)
+        public enum type {vide, joueur, obstacle, piege }
+        public int X { get; internal set; }
+        public int Y { get; internal set; }
+        public type Contenu { get; internal set; }
+        public Case(int X, int Y, type Contenu)
         {
             this.X = X;
             this.Y = Y;
+            this.Contenu = Contenu;
+        }
+        public void ChangerContenu(type Contenu)
+        {
             this.Contenu = Contenu;
         }
     }

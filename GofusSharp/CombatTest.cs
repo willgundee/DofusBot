@@ -15,16 +15,7 @@
 
         private void fakePartie()
         {
-            ListeChainee listStatistiqueAtt = new ListeChainee();
-            listStatistiqueAtt.AjouterFin(new Statistique(Statistique.type.PM, 3));
-            listStatistiqueAtt.AjouterFin(new Statistique(Statistique.type.PA, 6));
-            listStatistiqueAtt.AjouterFin(new Statistique(Statistique.type.vie, 100));
-            listStatistiqueAtt.AjouterFin(new Statistique(Statistique.type.initiative, 101));
-            listStatistiqueAtt.AjouterFin(new Statistique(Statistique.type.force, 30));
-            listStatistiqueAtt.AjouterFin(new Statistique(Statistique.type.sagesse, 40));
-            listStatistiqueAtt.AjouterFin(new Statistique(Statistique.type.intelligence, 20));
-            listStatistiqueAtt.AjouterFin(new Statistique(Statistique.type.agilite, 10));
-            listStatistiqueAtt.AjouterFin(new Statistique(Statistique.type.chance, 50));
+            Statistique[] tabStatistiqueAtt = new Statistique[] { new Statistique(Statistique.type.PM, 3), new Statistique(Statistique.type.PA, 6), new Statistique(Statistique.type.vie, 100), new Statistique(Statistique.type.initiative, 101), new Statistique(Statistique.type.force, 30), new Statistique(Statistique.type.sagesse, 40), new Statistique(Statistique.type.intelligence, 20), new Statistique(Statistique.type.agilite, 10), new Statistique(Statistique.type.chance, 50) };
             Script scriptAtt = new Script(1, "//PlaceHolder");
             Effet[] tabEffetAtt1 = new Effet[] { new Effet(Effet.type.teleportation, 0, 0) };
             Zone zoneEffetAtt1 = new Zone(Zone.type.carre, 0, 0);
@@ -37,17 +28,8 @@
             Statistique[] statItemAtt = new Statistique[] { new Statistique(Statistique.type.force, 70) };
             Condition[] condItemAtt = new Condition[] { new Condition(Condition.type.exp_min, 5000) };
             Equipement[] tabEquipAtt = new Equipement[] { new Equipement(1, condItemAtt, statItemAtt, "Coiffe bouftou", Equipement.type.chapeau) };
-            ListeChainee listStatistiqueDef = new ListeChainee();
-            listStatistiqueDef.AjouterFin(new Statistique(Statistique.type.PM, 3));
-            listStatistiqueDef.AjouterFin(new Statistique(Statistique.type.PA, 6));
-            listStatistiqueDef.AjouterFin(new Statistique(Statistique.type.vie, 100));
-            listStatistiqueDef.AjouterFin(new Statistique(Statistique.type.initiative, 101));
-            listStatistiqueDef.AjouterFin(new Statistique(Statistique.type.force, 30));
-            listStatistiqueDef.AjouterFin(new Statistique(Statistique.type.sagesse, 40));
-            listStatistiqueDef.AjouterFin(new Statistique(Statistique.type.intelligence, 20));
-            listStatistiqueDef.AjouterFin(new Statistique(Statistique.type.agilite, 10));
-            listStatistiqueDef.AjouterFin(new Statistique(Statistique.type.chance, 50));
-            Script scriptDef = new Script(1, "//PlaceHolder");
+            Statistique[] tabStatistiqueDef = new Statistique[] { new Statistique(Statistique.type.PM, 3), new Statistique(Statistique.type.PA, 6), new Statistique(Statistique.type.vie, 100), new Statistique(Statistique.type.initiative, 101), new Statistique(Statistique.type.force, 30), new Statistique(Statistique.type.sagesse, 40), new Statistique(Statistique.type.intelligence, 20), new Statistique(Statistique.type.agilite, 10), new Statistique(Statistique.type.chance, 50) };
+            Script scriptDef = new Script(2, "//PlaceHolder");
             Effet[] tabEffetDef1 = new Effet[] { new Effet(Effet.type.teleportation, 0, 0) };
             Zone zoneEffetDef1 = new Zone(Zone.type.carre, 0, 0);
             Zone zonePorteeDef1 = new Zone(Zone.type.cercle, 1, 5);
@@ -59,8 +41,9 @@
             Statistique[] statItemDef = new Statistique[] { new Statistique(Statistique.type.force, 70) };
             Condition[] condItemDef = new Condition[] { new Condition(Condition.type.exp_min, 5000) };
             Equipement[] tabEquipDef = new Equipement[] { new Equipement(1, condItemDef, statItemDef, "Coiffe bouftou", Equipement.type.chapeau) };
-            Case[][] tabCases = new Case[][] { new Case[] { new Case(0, 0, 10), new Case(0, 1, 0), new Case(0, 2, 0) }, new Case[] { new Case(1, 0, 0), new Case(1, 1, 0), new Case(1, 2, 0) }, new Case[] { new Case(2, 0, 0), new Case(2, 1, 0), new Case(2, 2, 11) } };
-            PartieTest = new Partie(1, new Terrain(tabCases), new Personnage[] { new Personnage(10, listStatistiqueAtt, scriptAtt, classeAtt, "Trebor", 10000, tabEquipAtt) }, new Personnage[] { new Personnage(11, listStatistiqueDef, scriptDef, classeDef, "Robert", 9000, tabEquipDef) }, 123123);
+            Case[][] tabCases = new Case[][] { new Case[] { new Case(0, 0, Case.type.joueur), new Case(0, 1, Case.type.vide), new Case(0, 2, Case.type.vide) }, new Case[] { new Case(1, 0, Case.type.vide), new Case(1, 1, 0), new Case(1, 2, Case.type.vide) }, new Case[] { new Case(2, 0, Case.type.vide), new Case(2, 1, Case.type.vide), new Case(2, 2, Case.type.joueur) } };
+            Terrain terrain = new Terrain(tabCases);
+            PartieTest = new Partie(1, terrain, new Personnage[] { new Personnage(10, classeAtt, "Trebor", 10000, terrain.TabCases[0][0], tabStatistiqueAtt, scriptAtt, tabEquipAtt, terrain) }, new Personnage[] { new Personnage(10, classeDef, "Robert", 9000, terrain.TabCases[2][2], tabStatistiqueDef, scriptDef, tabEquipDef, terrain) }, 123123);
         }
 
     }
