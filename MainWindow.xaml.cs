@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Forms;
+using GofusSharp;
 
 namespace test
 {
@@ -32,6 +33,7 @@ namespace test
     {
         public MainWindow()
         {
+            CombatTest combat = new CombatTest();
             InitializeComponent();
             ctb_main.CreateTreeView(generateTree());
             ctb_main.UpdateSyntaxHightlight();

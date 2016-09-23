@@ -12,9 +12,5 @@
             this.Y = Y;
             this.Contenu = Contenu;
         }
-        public void ChangerContenu(type Contenu)
-        {
-            this.Contenu = Contenu;
-        }
     }
 }

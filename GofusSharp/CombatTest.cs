@@ -5,12 +5,25 @@
         public Partie PartieTest { get; private set; }
         public CombatTest()
         {
+            fakePartie();
+            foreach (Case[] tabcase in PartieTest.TerrainPartie.TabCases) {
+                foreach (Case cAse in tabcase) {
+                    System.Windows.Forms.MessageBox.Show("X:"+cAse.X.ToString()+"Y:"+ cAse.Y.ToString() + "valeur:" + cAse.Contenu.ToString());
+                }
+            }
+            PartieTest.DebuterPartie();
+            PartieTest.DebuterTour();
             Action(PartieTest.TerrainPartie, PartieTest.TabAttaquants[0], new EntiteInconnu(PartieTest.TabDefendants[0]));
+            foreach (Case[] tabcase in PartieTest.TerrainPartie.TabCases) {
+                foreach (Case cAse in tabcase) {
+                    System.Windows.Forms.MessageBox.Show("X:" + cAse.X.ToString() + "Y:" + cAse.Y.ToString() + "valeur:" + cAse.Contenu.ToString());
+                }
+            }
         }
 
         public void Action(Terrain terrain, Entite joueur, EntiteInconnu ennemie)
         {
-
+            joueur.AvancerVers(ennemie);
         }
 
         private void fakePartie()
