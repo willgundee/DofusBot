@@ -13,7 +13,7 @@
             }
             PartieTest.DebuterPartie();
             PartieTest.DebuterTour();
-            Action(PartieTest.TerrainPartie, PartieTest.TabAttaquants[0], new EntiteInconnu(PartieTest.TabDefendants[0]));
+            Action(PartieTest.TerrainPartie, PartieTest.ListAttaquants.First.Valeur, PartieTest.ToutesLesEntitees());
             foreach (Case[] tabcase in PartieTest.TerrainPartie.TabCases) {
                 foreach (Case cAse in tabcase) {
                     System.Windows.Forms.MessageBox.Show("X:" + cAse.X.ToString() + "Y:" + cAse.Y.ToString() + "valeur:" + cAse.Contenu.ToString());
@@ -21,9 +21,12 @@
             }
         }
 
-        public void Action(Terrain terrain, Entite joueur, EntiteInconnu ennemie)
+        public void Action(Terrain terrain, Entite joueur, ListeChainee<EntiteInconnu> ListEntites)
         {
-            joueur.AvancerVers(ennemie);
+            Noeud<EntiteInconnu> entite = ListEntites.First;
+            while (entite.Valeur.Equipe == joueur.Equipe)
+                entite = entite.Next;
+            joueur.AvancerVers(entite.Valeur);
         }
 
         private void fakePartie()
@@ -33,9 +36,9 @@
             Effet[] tabEffetAtt1 = new Effet[] { new Effet(Effet.type.teleportation, 0, 0) };
             Zone zoneEffetAtt1 = new Zone(Zone.type.carre, 0, 0);
             Zone zonePorteeAtt1 = new Zone(Zone.type.cercle, 1, 5);
-            Effet[] tabEffetAtt2 = new Effet[] { new Effet(Effet.type.pousse, 4, 4), new Effet(Effet.type.ATT, 10, 15) };
+            Effet[] tabEffetAtt2 = new Effet[] { new Effet(Effet.type.pousse, 4, 4), new Effet(Effet.type.ATT_neutre, 10, 15) };
             Zone zoneEffetAtt2 = new Zone(Zone.type.carre, 0, 0);
-            Zone zonePorteeAtt2 = new Zone(Zone.type.ligne, 1, 1);
+            Zone zonePorteeAtt2 = new Zone(Zone.type.ligne_verticale, 1, 1);
             Sort[] tabSortAtt = new Sort[] { new Sort(1, tabEffetAtt1, "bond", false, true, true, zonePorteeAtt1, zoneEffetAtt1, 3), new Sort(2, tabEffetAtt2, "intimidation", true, false, false, zonePorteeAtt2, zoneEffetAtt2, -2) };
             Classe classeAtt = new Classe(1, tabSortAtt, Classe.type.iop);
             Statistique[] statItemAtt = new Statistique[] { new Statistique(Statistique.type.force, 70) };
@@ -46,9 +49,9 @@
             Effet[] tabEffetDef1 = new Effet[] { new Effet(Effet.type.teleportation, 0, 0) };
             Zone zoneEffetDef1 = new Zone(Zone.type.carre, 0, 0);
             Zone zonePorteeDef1 = new Zone(Zone.type.cercle, 1, 5);
-            Effet[] tabEffetDef2 = new Effet[] { new Effet(Effet.type.pousse, 4, 4), new Effet(Effet.type.ATT, 10, 15) };
+            Effet[] tabEffetDef2 = new Effet[] { new Effet(Effet.type.pousse, 4, 4), new Effet(Effet.type.ATT_neutre, 10, 15) };
             Zone zoneEffetDef2 = new Zone(Zone.type.carre, 0, 0);
-            Zone zonePorteeDef2 = new Zone(Zone.type.ligne, 1, 1);
+            Zone zonePorteeDef2 = new Zone(Zone.type.ligne_verticale, 1, 1);
             Sort[] tabSortDef = new Sort[] { new Sort(1, tabEffetDef1, "bond", false, true, true, zonePorteeDef1, zoneEffetDef1, 3), new Sort(2, tabEffetDef2, "intimidation", true, false, false, zonePorteeDef2, zoneEffetDef2, -2) };
             Classe classeDef = new Classe(1, tabSortDef, Classe.type.iop);
             Statistique[] statItemDef = new Statistique[] { new Statistique(Statistique.type.force, 70) };
@@ -56,7 +59,11 @@
             Equipement[] tabEquipDef = new Equipement[] { new Equipement(1, condItemDef, statItemDef, "Coiffe bouftou", Equipement.type.chapeau) };
             Case[][] tabCases = new Case[][] { new Case[] { new Case(0, 0, Case.type.joueur), new Case(0, 1, Case.type.vide), new Case(0, 2, Case.type.vide) }, new Case[] { new Case(1, 0, Case.type.vide), new Case(1, 1, 0), new Case(1, 2, Case.type.vide) }, new Case[] { new Case(2, 0, Case.type.vide), new Case(2, 1, Case.type.vide), new Case(2, 2, Case.type.joueur) } };
             Terrain terrain = new Terrain(tabCases);
-            PartieTest = new Partie(1, terrain, new Personnage[] { new Personnage(10, classeAtt, "Trebor", 10000, terrain.TabCases[0][0], tabStatistiqueAtt, scriptAtt, tabEquipAtt, terrain) }, new Personnage[] { new Personnage(10, classeDef, "Robert", 9000, terrain.TabCases[2][2], tabStatistiqueDef, scriptDef, tabEquipDef, terrain) }, 123123);
+            ListeChainee<Entite> ListAttaquants = new ListeChainee<Entite>();
+            ListAttaquants.AjouterFin(new Personnage(10, classeAtt, "Trebor", 10000, terrain.TabCases[0][0], EntiteInconnu.type.attaquant, tabStatistiqueAtt, scriptAtt, tabEquipAtt, terrain));
+            ListeChainee<Entite> ListDefendants = new ListeChainee<Entite>();
+            ListDefendants.AjouterFin(new Personnage(10, classeDef, "Robert", 9000, terrain.TabCases[2][2], EntiteInconnu.type.defendant, tabStatistiqueDef, scriptDef, tabEquipDef, terrain));
+            PartieTest = new Partie(1, terrain, ListAttaquants, ListDefendants, 123123);
         }
 
     }

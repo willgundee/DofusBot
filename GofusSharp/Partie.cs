@@ -4,9 +4,8 @@
     {
         public int IdPartie { get; internal set; }
         public Terrain TerrainPartie { get; internal set; }
-        public ListeChainee<Entite> ListAttaquants { get; internal set; }
-        public ListeChainee<Entite> ListDefendants { get; internal set; }
-        public ListeChainee<Entite> ListEntites { get; internal set; }
+        internal ListeChainee<Entite> ListAttaquants { get; set; }
+        internal ListeChainee<Entite> ListDefendants { get; set; }
         internal int Seed { get; set; }
         public Partie(int IdPartie, Terrain TerrainPartie, ListeChainee<Entite> ListAttaquants, ListeChainee<Entite> ListDefendants, int Seed)
         {
@@ -57,6 +56,15 @@
                 entite.Valeur.PM = entite.Valeur.PM_MAX;
                 entite.Valeur.PA = entite.Valeur.PA_MAX;
             }
+        }
+
+        public ListeChainee<EntiteInconnu> ToutesLesEntitees()
+        {
+            ListeChainee<EntiteInconnu> ListEntites = new ListeChainee<EntiteInconnu>();
+            Noeud<Entite> entite = ListAttaquants.First;
+            while (entite.Next != null)
+                ListEntites.AjouterFin(new EntiteInconnu(entite.Valeur));
+            return ListEntites;
         }
     }
 }

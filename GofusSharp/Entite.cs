@@ -2,8 +2,6 @@
 {
     public class Entite : EntiteInconnu
     {
-        public int PV { get; internal set; }
-        public int PV_MAX { get; internal set; }
         public int PA { get; internal set; }
         public int PA_MAX { get; internal set; }
         public int PM { get; internal set; }
@@ -11,7 +9,8 @@
         public Statistique[] TabStatistiques { get; internal set; }
         public Script ScriptEntite { get; internal set; }
         public Terrain TerrainEntite { get; internal set; }
-        public Entite(int IdEntite, Classe ClasseEntite, string Nom, float Experience, Case Position, Statistique[] TabStatistiques, Script ScriptEntite, Terrain TerrainEntite) : base(IdEntite, ClasseEntite, Nom, Experience, Position)
+        public ListeChainee<EntiteInconnu> ListEntites { get; internal set; }
+        public Entite(int IdEntite, Classe ClasseEntite, string Nom, float Experience, Case Position, type Equipe, Statistique[] TabStatistiques, Script ScriptEntite, Terrain TerrainEntite) : base(IdEntite, ClasseEntite, Nom, Experience, Position, Equipe)
         {
             this.IdEntite = IdEntite;
             this.TabStatistiques = TabStatistiques;
