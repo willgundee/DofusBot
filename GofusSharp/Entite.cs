@@ -64,6 +64,7 @@
                 default:
                     break;
             }
+            return 0;
         }
 
         private bool CaseEstDansZone(Zone.type TypeZone, int porteeMin, int porteeMax, Case source, Case cible) {
