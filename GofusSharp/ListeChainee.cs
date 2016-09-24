@@ -1,10 +1,10 @@
 ﻿namespace GofusSharp
 {
-    public class ListeChainee
+    public class ListeChainee<T>
     {
-        public Noeud First { get; internal set; }
-        public Noeud Last { get; internal set; }
-        public int Count { get; internal set; }
+        public Noeud<T> First { get; set; }
+        public Noeud<T> Last { get; set; }
+        public int Count { get; set; }
         public ListeChainee()
         {
             this.First = First;
@@ -14,7 +14,7 @@
                 Last = First;
                 return;
             }
-            Noeud NoeudCourant = First;
+            Noeud<T> NoeudCourant = First;
             while (NoeudCourant.Next != null)
             {
 
@@ -23,9 +23,9 @@
             Last = NoeudCourant;
         }
 
-        public void AjouterDebut(object Valeur)
+        public void AjouterDebut(T Valeur)
         {
-            Noeud NouveauNoeud = new Noeud(Valeur);
+            Noeud<T> NouveauNoeud = new Noeud<T>(Valeur);
             Count++;
             if (First == null)
             {
@@ -38,9 +38,9 @@
             First.Next.Previous = First;
         }
 
-        public void AjouterFin(object Valeur)
+        public void AjouterFin(T Valeur)
         {
-            Noeud NouveauNoeud = new Noeud(Valeur);
+            Noeud<T> NouveauNoeud = new Noeud<T>(Valeur);
             Count++;
             if (First == null)
             {
@@ -53,9 +53,9 @@
             Last.Previous.Next = Last;
         }
 
-        public void AjouterAvant(object Valeur, int Position)
+        public void AjouterAvant(T Valeur, int Position)
         {
-            Noeud NouveauNoeud = new Noeud(Valeur);
+            Noeud<T> NouveauNoeud = new Noeud<T>(Valeur);
             Count++;
             if (First == null)
             {
@@ -63,20 +63,20 @@
                 Last = NouveauNoeud;
                 return;
             }
-            Noeud NoeudCourant = First;
-            for (int i = 0; i < Position && NoeudCourant.Next != null; i++)
+            Noeud<T> NoeudCourant = First;
+            for (int i = 0; i < Position && NoeudCourant != Last; i++)
                 NoeudCourant = NoeudCourant.Next;
             NouveauNoeud.Next = NoeudCourant;
             NouveauNoeud.Previous = NoeudCourant.Previous;
             if (NoeudCourant.Previous != null)
                 NoeudCourant.Previous.Next = NouveauNoeud;
-            else
+            if (NoeudCourant == First)
                 First = NouveauNoeud;
             NoeudCourant.Previous = NouveauNoeud;
         }
-        public void AjouterApres(object Valeur, int Position)
+        public void AjouterApres(T Valeur, int Position)
         {
-            Noeud NouveauNoeud = new Noeud(Valeur);
+            Noeud<T> NouveauNoeud = new Noeud<T>(Valeur);
             Count++;
             if (First == null)
             {
@@ -84,14 +84,14 @@
                 Last = NouveauNoeud;
                 return;
             }
-            Noeud NoeudCourant = First;
-            for (int i = 0; i < Position && NoeudCourant.Next != null; i++)
+            Noeud<T> NoeudCourant = First;
+            for (int i = 0; i < Position && NoeudCourant != Last; i++)
                 NoeudCourant = NoeudCourant.Next;
             NouveauNoeud.Next = NoeudCourant.Next;
             NouveauNoeud.Previous = NoeudCourant;
             if (NoeudCourant.Next != null)
                 NoeudCourant.Next.Previous = NouveauNoeud;
-            else
+            if (NoeudCourant == Last)
                 Last = NouveauNoeud;
             NoeudCourant.Next = NouveauNoeud;
         }
@@ -100,58 +100,58 @@
             if (First == null)
                 return;
             Count--;
-            Noeud NoeudCourant = First;
-            for (int i = 0; i < Position && NoeudCourant.Next != null; i++)
+            Noeud<T> NoeudCourant = First;
+            for (int i = 0; i < Position && NoeudCourant != Last; i++)
                 NoeudCourant = NoeudCourant.Next;
             if (NoeudCourant.Previous != null)
                 NoeudCourant.Previous.Next = NoeudCourant.Next;
-            else
+            if (NoeudCourant == First)
                 First = NoeudCourant.Next;
             if (NoeudCourant.Next != null)
                 NoeudCourant.Next.Previous = NoeudCourant.Previous;
-            else
+            if (NoeudCourant == Last)
                 Last = NoeudCourant.Previous;
             NoeudCourant = null;
         }
 
-        public void Enlever(object Valeur)
+        public void Enlever(T Valeur)
         {
             if (First == null)
                 return;
-            Noeud NoeudCourant = First;
-            while (NoeudCourant.Valeur != Valeur && NoeudCourant.Next != null)
+            Noeud<T> NoeudCourant = First;
+            while (!NoeudCourant.Valeur.Equals(Valeur) && NoeudCourant != Last)
                 NoeudCourant = NoeudCourant.Next;
-            if (NoeudCourant.Valeur != Valeur)
+            if (!NoeudCourant.Valeur.Equals(Valeur))
                 return;
             Count--;
             if (NoeudCourant.Previous != null)
                 NoeudCourant.Previous.Next = NoeudCourant.Next;
-            else
+            if (NoeudCourant == First)
                 First = NoeudCourant.Next;
             if (NoeudCourant.Next != null)
                 NoeudCourant.Next.Previous = NoeudCourant.Previous;
-            else
+            if (NoeudCourant == Last)
                 Last = NoeudCourant.Previous;
             NoeudCourant = null;
         }
 
-        public void EnleverDernier(object Valeur)
+        public void EnleverDernier(T Valeur)
         {
             if (Last == null)
                 return;
-            Noeud NoeudCourant = Last;
-            while (NoeudCourant.Valeur != Valeur && NoeudCourant.Previous != null)
+            Noeud<T> NoeudCourant = Last;
+            while (!NoeudCourant.Valeur.Equals(Valeur) && NoeudCourant != First)
                 NoeudCourant = NoeudCourant.Previous;
-            if (NoeudCourant.Valeur != Valeur)
+            if (!NoeudCourant.Valeur.Equals(Valeur))
                 return;
             Count--;
             if (NoeudCourant.Previous != null)
                 NoeudCourant.Previous.Next = NoeudCourant.Next;
-            else
+            if (NoeudCourant == First)
                 First = NoeudCourant.Next;
             if (NoeudCourant.Next != null)
                 NoeudCourant.Next.Previous = NoeudCourant.Previous;
-            else
+            if (NoeudCourant == Last)
                 Last = NoeudCourant.Previous;
             NoeudCourant = null;
         }
@@ -159,48 +159,52 @@
         public void EnleverPremier()
         {
             Count--;
+            First.Next.Previous = First.Previous;
+            if (First.Previous != null)
+                First.Previous.Next = First.Next;
             First = First.Next;
-            First.Previous = null;
         }
 
         public void EnleverDernier()
         {
             Count--;
+            Last.Previous.Next = Last.Next;
+            if (Last.Next != null)
+                Last.Next.Previous = Last.Previous;
             Last = Last.Previous;
-            Last.Next = null;
         }
 
-        public Noeud Trouver(object Valeur)
+        public Noeud<T> Trouver(T Valeur)
         {
             if (First == null)
                 return null;
-            Noeud NoeudCourant = First;
-            while (NoeudCourant.Valeur != Valeur && NoeudCourant.Next != null)
+            Noeud<T> NoeudCourant = First;
+            while (!NoeudCourant.Valeur.Equals(Valeur) && NoeudCourant != Last)
                 NoeudCourant = NoeudCourant.Next;
-            if (NoeudCourant.Valeur != Valeur)
+            if (!NoeudCourant.Valeur.Equals(Valeur))
                 return null;
             return NoeudCourant;
         }
-        public Noeud TrouverDernier(object Valeur)
+        public Noeud<T> TrouverDernier(T Valeur)
         {
             if (Last == null)
                 return null;
-            Noeud NoeudCourant = Last;
-            while (NoeudCourant.Valeur != Valeur && NoeudCourant.Previous != null)
+            Noeud<T> NoeudCourant = Last;
+            while (!NoeudCourant.Valeur.Equals(Valeur) && NoeudCourant != First)
                 NoeudCourant = NoeudCourant.Previous;
-            if (NoeudCourant.Valeur != Valeur)
+            if (!NoeudCourant.Valeur.Equals(Valeur))
                 return null;
             return NoeudCourant;
         }
 
-        public bool Contient(object Valeur)
+        public bool Contient(T Valeur)
         {
             if (First == null)
                 return false;
-            Noeud NoeudCourant = First;
-            while (NoeudCourant.Valeur != Valeur && NoeudCourant.Next != null)
+            Noeud<T> NoeudCourant = First;
+            while (!NoeudCourant.Valeur.Equals(Valeur) && NoeudCourant != Last)
                 NoeudCourant = NoeudCourant.Next;
-            if (NoeudCourant.Valeur != Valeur)
+            if (!NoeudCourant.Valeur.Equals(Valeur))
                 return false;
             return true;
         }
@@ -209,9 +213,9 @@
         {
             Vider(First);
         }
-        private void Vider(Noeud NoeudADetruire)
+        private void Vider(Noeud<T> NoeudADetruire)
         {
-            if (NoeudADetruire.Next != null)
+            if (NoeudADetruire != Last)
                 Vider(NoeudADetruire.Next);
             NoeudADetruire = null;
         }
@@ -220,7 +224,7 @@
         {
             if (First == null)
                 Count = 0;
-            Noeud NoeudCourant = First;
+            Noeud<T> NoeudCourant = First;
             int compteur = 1;
             while (NoeudCourant.Next != null)
                 compteur++;

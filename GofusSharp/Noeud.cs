@@ -1,11 +1,11 @@
 ﻿namespace GofusSharp
 {
-    public class Noeud
+    public class Noeud<T>
     {
-        public object Valeur { get; set; }
-        public Noeud Next { get; set; }
-        public Noeud Previous { get; set; }
-        public Noeud(object Valeur)
+        public T Valeur { get; set; }
+        public Noeud<T> Next { get; set; }
+        public Noeud<T> Previous { get; set; }
+        public Noeud(T Valeur)
         {
             this.Valeur = Valeur;
             Next = null;
