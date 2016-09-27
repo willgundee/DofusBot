@@ -25,6 +25,7 @@
             this.Experience = Experience;
             this.Position = Position;
             this.Equipe = Equipe;
+            ListEnvoutements = new ListeChainee<Envoutement>();
         }
         public EntiteInconnu(Entite entite)
         {

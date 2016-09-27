@@ -59,7 +59,7 @@
                     Noeud<EntiteInconnu> entiteInconnu = ListEntites.First;
                     while (entiteInconnu != null)
                     {
-                        if (CaseEstDansZone(zoneEffet.Type,zoneEffet.PorteeMin,zoneEffet.PorteeMax,source,entiteInconnu.Valeur.Position))
+                        if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Valeur.Position))
                         {
                             int force = 0;
                             int puissance = 0;
@@ -70,23 +70,57 @@
                             foreach (Statistique stat in TabStatistiques)
                             {
                                 if (stat.Nom == Statistique.type.force)
-                                    force = (stat.Valeur < 0 ? 0 : stat.Valeur);
+                                    force = stat.Valeur;
                                 if (stat.Nom == Statistique.type.puissance)
-                                    puissance = (stat.Valeur < 0 ? 0 : stat.Valeur);
+                                    puissance = stat.Valeur;
                                 if (stat.Nom == Statistique.type.DMG_neutre)
-                                    DMG_neutre = (stat.Valeur < 0 ? 0 : stat.Valeur);
+                                    DMG_neutre = stat.Valeur;
                             }
+                            Noeud<Envoutement> envoutement = ListEnvoutements.First;
+                            while (envoutement != null)
+                            {
+                                if (envoutement.Valeur.Stat == Statistique.type.force)
+                                    force += envoutement.Valeur.Valeur;
+                                if (envoutement.Valeur.Stat == Statistique.type.puissance)
+                                    puissance += envoutement.Valeur.Valeur;
+                                if (envoutement.Valeur.Stat == Statistique.type.DMG_neutre)
+                                    DMG_neutre += envoutement.Valeur.Valeur;
+                                envoutement = envoutement.Next;
+                            }
+                            if (force < 0)
+                                force = 0;
+                            if (puissance < 0)
+                                puissance = 0;
+                            if (DMG_neutre < 0)
+                                DMG_neutre = 0;
                             Noeud<Statistique> stat_def = entiteInconnu.Valeur.ListStatistiques.First;
                             while (stat_def != null)
                             {
                                 if (stat_def.Valeur.Nom == Statistique.type.RES_neutre)
-                                    RES_neutre = (stat_def.Valeur.Valeur < 0 ? 0 : stat_def.Valeur.Valeur);
+                                    RES_neutre = stat_def.Valeur.Valeur;
                                 if (stat_def.Valeur.Nom == Statistique.type.RES_Pourcent_neutre)
-                                    RES_Pourcent_neutre = (stat_def.Valeur.Valeur < 0 ? 0 : stat_def.Valeur.Valeur);
+                                    RES_Pourcent_neutre = stat_def.Valeur.Valeur;
                                 if (stat_def.Valeur.Nom == Statistique.type.reduction_physique)
-                                    reduction_physique = (stat_def.Valeur.Valeur < 0 ? 0 : stat_def.Valeur.Valeur);
+                                    reduction_physique = stat_def.Valeur.Valeur;
                             }
-                            entiteInconnu.Valeur.PV -= (1-(RES_Pourcent_neutre/100))*((new System.Random().Next(effet.ValeurMin, effet.ValeurMax)*(100 + force + puissance)/100 + DMG_neutre)-RES_neutre-reduction_physique);
+                            Noeud<Envoutement> envoutement_def = entiteInconnu.Valeur.ListEnvoutements.First;
+                            while (envoutement_def != null)
+                            {
+                                if (envoutement_def.Valeur.Stat == Statistique.type.RES_neutre)
+                                    RES_neutre += envoutement_def.Valeur.Valeur;
+                                if (envoutement_def.Valeur.Stat == Statistique.type.RES_Pourcent_neutre)
+                                    RES_Pourcent_neutre += envoutement_def.Valeur.Valeur;
+                                if (envoutement_def.Valeur.Stat == Statistique.type.reduction_physique)
+                                    reduction_physique += envoutement_def.Valeur.Valeur;
+                                envoutement_def = envoutement_def.Next;
+                            }
+                            if (RES_neutre < 0)
+                                RES_neutre = 0;
+                            if (RES_Pourcent_neutre < 0)
+                                RES_Pourcent_neutre = 0;
+                            if (reduction_physique < 0)
+                                reduction_physique = 0;
+                            entiteInconnu.Valeur.PV -= (1 - (RES_Pourcent_neutre / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + force + puissance) / 100 + DMG_neutre) - RES_neutre - reduction_physique);
                         }
                         entiteInconnu = entiteInconnu.Next;
                     }
@@ -241,7 +275,7 @@
                     {
                         if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu6.Valeur.Position))
                         {
-                            entiteInconnu6.Valeur.ListEnvoutements.AjouterFin(new Envoutement(effet.Stat,effet.NbTour,IdEntite));
+                            entiteInconnu6.Valeur.ListEnvoutements.AjouterFin(new Envoutement(effet.Stat, new System.Random().Next(effet.ValeurMin, effet.ValeurMax), effet.NbTour, IdEntite));
                         }
                         entiteInconnu = entiteInconnu6.Next;
                     }
@@ -258,7 +292,8 @@
             return 0;
         }
 
-        private bool CaseEstDansZone(Zone.type TypeZone, int porteeMin, int porteeMax, Case source, Case cible) {
+        private bool CaseEstDansZone(Zone.type TypeZone, int porteeMin, int porteeMax, Case source, Case cible)
+        {
             switch (TypeZone)
             {
                 case Zone.type.cercle:
