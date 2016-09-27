@@ -52,7 +52,7 @@
             }
         }
 
-        internal void DebuterTour()
+        internal void DebuterAction()
         {
             Noeud<Entite> entite = ListAttaquants.First;
             while (entite != null)
@@ -76,10 +76,9 @@
                     if (entite.Valeur.IdEntite == entiteInconnu.Valeur.IdEntite)
                     {
                         entite.Valeur.Position = entiteInconnu.Valeur.Position;
-                        entite.Valeur.PA = entiteInconnu.Valeur.PA;
-                        entite.Valeur.PM = entiteInconnu.Valeur.PM;
                         entite.Valeur.PV = entiteInconnu.Valeur.PV;
                         entite.Valeur.PV_MAX = entiteInconnu.Valeur.PV_MAX;
+                        entite.Valeur.ListEnvoutements = entiteInconnu.Valeur.ListEnvoutements;
                         existe = true;
                         break;
                     }

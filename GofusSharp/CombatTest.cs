@@ -9,7 +9,7 @@
             PartieTest.DebuterPartie();
             while (true)
             {
-                PartieTest.DebuterTour();
+                PartieTest.DebuterAction();
                 Action(PartieTest.TerrainPartie, PartieTest.ListAttaquants.First.Valeur, PartieTest.ListEntites);
                 PartieTest.SyncroniserJoueur();
                 if (PartieTest.ListAttaquants.First.Valeur.PV <= 0 || PartieTest.ListDefendants.First.Valeur.PV <= 0)
@@ -23,7 +23,6 @@
 
         public void Action(Terrain terrain, Entite joueur, ListeChainee<EntiteInconnu> ListEntites)
         {
-
             Noeud<EntiteInconnu> entite = ListEntites.First;
             while (entite.Valeur.Equipe == joueur.Equipe)
                 entite = entite.Next;

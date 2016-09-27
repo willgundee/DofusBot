@@ -16,6 +16,7 @@
         public int PM { get; internal set; }
         public int PM_MAX { get; internal set; }
         public ListeChainee<Statistique> ListStatistiques { get; internal set; }
+        public ListeChainee<Envoutement> ListEnvoutements { get; internal set; }
         public EntiteInconnu(int IdEntite, Classe ClasseEntite, string Nom, float Experience, Case Position, type Equipe)
         {
             this.IdEntite = IdEntite;
@@ -39,12 +40,13 @@
             PA_MAX = entite.PA_MAX;
             PV_MAX = entite.PV_MAX;
             PM_MAX = entite.PM_MAX;
+            ListEnvoutements = entite.ListEnvoutements;
             ListStatistiques = new ListeChainee<Statistique>();
             foreach (Statistique stat in entite.TabStatistiques)
             {
                 switch (stat.Nom)
                 {
-                    case Statistique.type.fuite:
+                    case Statistique.type.tacle:
                     case Statistique.type.RES_neutre:
                     case Statistique.type.RES_feu:
                     case Statistique.type.RES_air:

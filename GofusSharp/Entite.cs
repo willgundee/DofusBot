@@ -236,6 +236,15 @@
                     }
                     break;
                 case Effet.type.envoutement:
+                    Noeud<EntiteInconnu> entiteInconnu6 = ListEntites.First;
+                    while (entiteInconnu6 != null)
+                    {
+                        if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu6.Valeur.Position))
+                        {
+                            entiteInconnu6.Valeur.ListEnvoutements.AjouterFin(new Envoutement(effet.Stat,effet.NbTour,IdEntite));
+                        }
+                        entiteInconnu = entiteInconnu6.Next;
+                    }
                     break;
                 case Effet.type.pose_piege:
                     break;

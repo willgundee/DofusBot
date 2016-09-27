@@ -94,6 +94,7 @@
     <Compile Include="GofusSharp\Effet.cs" />
     <Compile Include="GofusSharp\EntiteInconnu.cs" />
     <Compile Include="GofusSharp\Entite.cs" />
+    <Compile Include="GofusSharp\Envoutement.cs" />
     <Compile Include="GofusSharp\Equipement.cs" />
     <Compile Include="GofusSharp\ListeChainee.cs" />
     <Compile Include="GofusSharp\Math.cs" />
