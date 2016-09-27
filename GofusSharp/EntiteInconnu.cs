@@ -11,6 +11,11 @@
         public type Equipe { get; internal set; }
         public int PV { get; internal set; }
         public int PV_MAX { get; internal set; }
+        public int PA { get; internal set; }
+        public int PA_MAX { get; internal set; }
+        public int PM { get; internal set; }
+        public int PM_MAX { get; internal set; }
+        public ListeChainee<Statistique> ListStatistiques { get; internal set; }
         public EntiteInconnu(int IdEntite, Classe ClasseEntite, string Nom, float Experience, Case Position, type Equipe)
         {
             this.IdEntite = IdEntite;
@@ -27,6 +32,39 @@
             Nom = entite.Nom;
             Experience = entite.Experience;
             Position = entite.Position;
+            Equipe = entite.Equipe;
+            PA = entite.PA;
+            PV = entite.PV;
+            PM = entite.PM;
+            PA_MAX = entite.PA_MAX;
+            PV_MAX = entite.PV_MAX;
+            PM_MAX = entite.PM_MAX;
+            ListStatistiques = new ListeChainee<Statistique>();
+            foreach (Statistique stat in entite.TabStatistiques)
+            {
+                switch (stat.Nom)
+                {
+                    case Statistique.type.fuite:
+                    case Statistique.type.RES_neutre:
+                    case Statistique.type.RES_feu:
+                    case Statistique.type.RES_air:
+                    case Statistique.type.RES_terre:
+                    case Statistique.type.RES_eau:
+                    case Statistique.type.RES_poussee:
+                    case Statistique.type.RES_Pourcent_neutre:
+                    case Statistique.type.RES_Pourcent_feu:
+                    case Statistique.type.RES_Pourcent_air:
+                    case Statistique.type.RES_Pourcent_terre:
+                    case Statistique.type.RES_Pourcent_eau:
+                    case Statistique.type.esquive_PA:
+                    case Statistique.type.esquive_PM:
+                    case Statistique.type.renvoie_DMG:
+                    case Statistique.type.reduction_magique:
+                    case Statistique.type.reduction_physique:
+                        ListStatistiques.AjouterFin(stat);
+                        break;
+                }
+            }
         }
 
     }

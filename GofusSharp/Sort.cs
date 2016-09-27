@@ -11,7 +11,8 @@
         public Zone ZonePortee { get; internal set; }
         public Zone ZoneEffet { get; internal set; }
         public int TauxDeRelance { get; internal set; } //3 = cooldown 3 tour // -3 = 3 lancer par tour max //0 infinie lancer
-        public Sort(int IdSort, Effet[] TabEffets, string Nom, bool LigneDeVue, bool PorteeModifiable, bool CelluleLibre, Zone ZonePortee, Zone ZoneEffet, int TauxDeRelance)
+        public int CoutPA { get; internal set; }
+        public Sort(int IdSort, Effet[] TabEffets, string Nom, bool LigneDeVue, bool PorteeModifiable, bool CelluleLibre, Zone ZonePortee, Zone ZoneEffet, int TauxDeRelance, int CoutPA)
         {
             this.IdSort = IdSort;
             this.TabEffets = TabEffets;
@@ -22,6 +23,7 @@
             this.ZonePortee = ZonePortee;
             this.ZoneEffet = ZoneEffet;
             this.TauxDeRelance = TauxDeRelance;
+            this.CoutPA = CoutPA;
         }
     }
 }

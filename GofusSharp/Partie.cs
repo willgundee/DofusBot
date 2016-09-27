@@ -6,6 +6,7 @@
         public Terrain TerrainPartie { get; internal set; }
         internal ListeChainee<Entite> ListAttaquants { get; set; }
         internal ListeChainee<Entite> ListDefendants { get; set; }
+        internal ListeChainee<EntiteInconnu> ListEntites { get; set; }
         internal int Seed { get; set; }
         public Partie(int IdPartie, Terrain TerrainPartie, ListeChainee<Entite> ListAttaquants, ListeChainee<Entite> ListDefendants, int Seed)
         {
@@ -16,12 +17,13 @@
             this.Seed = Seed;
             ListAttaquants.Last.Next = ListDefendants.First;
             ListDefendants.First.Previous = ListAttaquants.Last;
+            ListEntites = new ListeChainee<EntiteInconnu>();
         }
 
         internal void DebuterPartie()
         {
             Noeud<Entite> entite = ListAttaquants.First;
-            while(entite.Next != null)
+            while(entite != null)
             {
                 int vie = new int();
                 int vitalite = new int();
@@ -45,26 +47,50 @@
                 }
                 entite.Valeur.PV_MAX = vie + (vitalite * (entite.Valeur.ClasseEntite.Nom != Classe.type.sacrieur ? 1 : 2));
                 entite.Valeur.PV = entite.Valeur.PV_MAX;
+                ListEntites.AjouterFin(new EntiteInconnu(entite.Valeur));
+                entite = entite.Next;
             }
         }
 
         internal void DebuterTour()
         {
             Noeud<Entite> entite = ListAttaquants.First;
-            while (entite.Next != null)
+            while (entite != null)
             {
                 entite.Valeur.PM = entite.Valeur.PM_MAX;
                 entite.Valeur.PA = entite.Valeur.PA_MAX;
+                entite.Valeur.ListEntites = ListEntites;
+                entite = entite.Next;
             }
         }
-
-        public ListeChainee<EntiteInconnu> ToutesLesEntitees()
+        
+        public void SyncroniserJoueur()
         {
-            ListeChainee<EntiteInconnu> ListEntites = new ListeChainee<EntiteInconnu>();
+            Noeud<EntiteInconnu> entiteInconnu = ListEntites.First;
             Noeud<Entite> entite = ListAttaquants.First;
-            while (entite.Next != null)
-                ListEntites.AjouterFin(new EntiteInconnu(entite.Valeur));
-            return ListEntites;
+            while (entiteInconnu != null)
+            {
+                bool existe = false;
+                while (entite != null)
+                {
+                    if (entite.Valeur.IdEntite == entiteInconnu.Valeur.IdEntite)
+                    {
+                        entite.Valeur.Position = entiteInconnu.Valeur.Position;
+                        entite.Valeur.PA = entiteInconnu.Valeur.PA;
+                        entite.Valeur.PM = entiteInconnu.Valeur.PM;
+                        entite.Valeur.PV = entiteInconnu.Valeur.PV;
+                        entite.Valeur.PV_MAX = entiteInconnu.Valeur.PV_MAX;
+                        existe = true;
+                        break;
+                    }
+                    if (!existe)
+                    {
+                        //invoc goes here
+                    }
+                    entite = entite.Next;
+                }
+                entiteInconnu = entiteInconnu.Next;
+            }
         }
     }
 }

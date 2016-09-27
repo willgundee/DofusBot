@@ -6,27 +6,32 @@
         public CombatTest()
         {
             fakePartie();
-            foreach (Case[] tabcase in PartieTest.TerrainPartie.TabCases) {
-                foreach (Case cAse in tabcase) {
-                    System.Windows.Forms.MessageBox.Show("X:"+cAse.X.ToString()+"Y:"+ cAse.Y.ToString() + "valeur:" + cAse.Contenu.ToString());
-                }
-            }
             PartieTest.DebuterPartie();
-            PartieTest.DebuterTour();
-            Action(PartieTest.TerrainPartie, PartieTest.ListAttaquants.First.Valeur, PartieTest.ToutesLesEntitees());
-            foreach (Case[] tabcase in PartieTest.TerrainPartie.TabCases) {
-                foreach (Case cAse in tabcase) {
-                    System.Windows.Forms.MessageBox.Show("X:" + cAse.X.ToString() + "Y:" + cAse.Y.ToString() + "valeur:" + cAse.Contenu.ToString());
-                }
+            while (true)
+            {
+                PartieTest.DebuterTour();
+                Action(PartieTest.TerrainPartie, PartieTest.ListAttaquants.First.Valeur, PartieTest.ListEntites);
+                PartieTest.SyncroniserJoueur();
+                if (PartieTest.ListAttaquants.First.Valeur.PV <= 0 || PartieTest.ListDefendants.First.Valeur.PV <= 0)
+                    break;
+                Action(PartieTest.TerrainPartie, PartieTest.ListDefendants.First.Valeur, PartieTest.ListEntites);
+                PartieTest.SyncroniserJoueur();
+                if (PartieTest.ListAttaquants.First.Valeur.PV <= 0 || PartieTest.ListDefendants.First.Valeur.PV <= 0)
+                    break;
             }
         }
 
         public void Action(Terrain terrain, Entite joueur, ListeChainee<EntiteInconnu> ListEntites)
         {
+
             Noeud<EntiteInconnu> entite = ListEntites.First;
             while (entite.Valeur.Equipe == joueur.Equipe)
                 entite = entite.Next;
-            joueur.AvancerVers(entite.Valeur);
+            if (terrain.DistanceEntreCases(joueur.Position, entite.Valeur.Position) > 1)
+            {
+                joueur.AvancerVers(entite.Valeur);
+            }
+            joueur.UtiliserSort(joueur.ClasseEntite.TabSorts[1], entite.Valeur);
         }
 
         private void fakePartie()
@@ -38,8 +43,8 @@
             Zone zonePorteeAtt1 = new Zone(Zone.type.cercle, 1, 5);
             Effet[] tabEffetAtt2 = new Effet[] { new Effet(Effet.type.pousse, 4, 4), new Effet(Effet.type.ATT_neutre, 10, 15) };
             Zone zoneEffetAtt2 = new Zone(Zone.type.carre, 0, 0);
-            Zone zonePorteeAtt2 = new Zone(Zone.type.ligne_verticale, 1, 1);
-            Sort[] tabSortAtt = new Sort[] { new Sort(1, tabEffetAtt1, "bond", false, true, true, zonePorteeAtt1, zoneEffetAtt1, 3), new Sort(2, tabEffetAtt2, "intimidation", true, false, false, zonePorteeAtt2, zoneEffetAtt2, -2) };
+            Zone zonePorteeAtt2 = new Zone(Zone.type.croix, 1, 1);
+            Sort[] tabSortAtt = new Sort[] { new Sort(1, tabEffetAtt1, "bond", false, true, true, zonePorteeAtt1, zoneEffetAtt1, 3, 5), new Sort(2, tabEffetAtt2, "intimidation", true, false, false, zonePorteeAtt2, zoneEffetAtt2, -2, 2) };
             Classe classeAtt = new Classe(1, tabSortAtt, Classe.type.iop);
             Statistique[] statItemAtt = new Statistique[] { new Statistique(Statistique.type.force, 70) };
             Condition[] condItemAtt = new Condition[] { new Condition(Condition.type.exp_min, 5000) };
@@ -51,8 +56,8 @@
             Zone zonePorteeDef1 = new Zone(Zone.type.cercle, 1, 5);
             Effet[] tabEffetDef2 = new Effet[] { new Effet(Effet.type.pousse, 4, 4), new Effet(Effet.type.ATT_neutre, 10, 15) };
             Zone zoneEffetDef2 = new Zone(Zone.type.carre, 0, 0);
-            Zone zonePorteeDef2 = new Zone(Zone.type.ligne_verticale, 1, 1);
-            Sort[] tabSortDef = new Sort[] { new Sort(1, tabEffetDef1, "bond", false, true, true, zonePorteeDef1, zoneEffetDef1, 3), new Sort(2, tabEffetDef2, "intimidation", true, false, false, zonePorteeDef2, zoneEffetDef2, -2) };
+            Zone zonePorteeDef2 = new Zone(Zone.type.croix, 1, 1);
+            Sort[] tabSortDef = new Sort[] { new Sort(1, tabEffetDef1, "bond", false, true, true, zonePorteeDef1, zoneEffetDef1, 3, 5), new Sort(2, tabEffetDef2, "intimidation", true, false, false, zonePorteeDef2, zoneEffetDef2, -2, 2) };
             Classe classeDef = new Classe(1, tabSortDef, Classe.type.iop);
             Statistique[] statItemDef = new Statistique[] { new Statistique(Statistique.type.force, 70) };
             Condition[] condItemDef = new Condition[] { new Condition(Condition.type.exp_min, 5000) };
@@ -62,7 +67,7 @@
             ListeChainee<Entite> ListAttaquants = new ListeChainee<Entite>();
             ListAttaquants.AjouterFin(new Personnage(10, classeAtt, "Trebor", 10000, terrain.TabCases[0][0], EntiteInconnu.type.attaquant, tabStatistiqueAtt, scriptAtt, tabEquipAtt, terrain));
             ListeChainee<Entite> ListDefendants = new ListeChainee<Entite>();
-            ListDefendants.AjouterFin(new Personnage(10, classeDef, "Robert", 9000, terrain.TabCases[2][2], EntiteInconnu.type.defendant, tabStatistiqueDef, scriptDef, tabEquipDef, terrain));
+            ListDefendants.AjouterFin(new Personnage(11, classeDef, "Robert", 9000, terrain.TabCases[2][2], EntiteInconnu.type.defendant, tabStatistiqueDef, scriptDef, tabEquipDef, terrain));
             PartieTest = new Partie(1, terrain, ListAttaquants, ListDefendants, 123123);
         }
 
