@@ -11,6 +11,9 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="500" Width="700">
     <TabControl TabStripPlacement="Left">
+        <TabItem Header="Personages">
+        
+        </TabItem>
         <TabItem Header="Éditeur">
             <Grid x:Name="grd_main">
                 <Grid.RowDefinitions>
