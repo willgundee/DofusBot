@@ -79,6 +79,21 @@
                         entite.Valeur.PV = entiteInconnu.Valeur.PV;
                         entite.Valeur.PV_MAX = entiteInconnu.Valeur.PV_MAX;
                         entite.Valeur.ListEnvoutements = entiteInconnu.Valeur.ListEnvoutements;
+                        Noeud<Statistique> statInconnu = entiteInconnu.Valeur.ListStatistiques.First;
+                        Noeud<Statistique> stat = entite.Valeur.ListStatistiques.First;
+                        while (statInconnu != null)
+                        {
+                            while (stat != null)
+                            {
+                                if (statInconnu.Valeur.Nom == stat.Valeur.Nom)
+                                {
+                                    statInconnu.Valeur.Valeur = stat.Valeur.Valeur;
+                                    break;
+                                }
+                                stat = stat.Next;
+                            }
+                            statInconnu = statInconnu.Next;
+                        }
                         existe = true;
                         break;
                     }
