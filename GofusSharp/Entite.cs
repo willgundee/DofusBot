@@ -6,7 +6,7 @@
         public Script ScriptEntite { get; internal set; }
         public Terrain TerrainEntite { get; internal set; }
         public ListeChainee<EntiteInconnu> ListEntites { get; internal set; }
-        public Entite(int IdEntite, Classe ClasseEntite, string Nom, float Experience, Case Position, type Equipe, Statistique[] TabStatistiques, Script ScriptEntite, Terrain TerrainEntite) : base(IdEntite, ClasseEntite, Nom, Experience, Position, Equipe)
+        internal Entite(int IdEntite, Classe ClasseEntite, string Nom, float Experience, Case Position, type Equipe, Statistique[] TabStatistiques, Script ScriptEntite, Terrain TerrainEntite) : base(IdEntite, ClasseEntite, Nom, Experience, Position, Equipe)
         {
             this.IdEntite = IdEntite;
             this.TabStatistiques = TabStatistiques;
@@ -15,6 +15,23 @@
             this.Nom = Nom;
             this.Experience = Experience;
             this.TerrainEntite = TerrainEntite;
+        }
+        internal Entite(int IdEntite, Classe ClasseEntite, string Nom, float Experience, Case Position, type Equipe, ListeChainee<Statistique> ListStatistiques, Script ScriptEntite, Terrain TerrainEntite, int Proprietaire) : base(IdEntite, ClasseEntite, Nom, Experience, Position, Equipe)
+        {
+            this.IdEntite = IdEntite;
+            TabStatistiques = new Statistique[ListStatistiques.Count];
+            Noeud<Statistique> stat = ListStatistiques.First;
+            for (int i = 0; i < ListStatistiques.Count && stat != null ; i++)
+            {
+                TabStatistiques[i] = stat.Valeur;
+                stat = stat.Next;
+            }
+            this.ScriptEntite = ScriptEntite;
+            this.ClasseEntite = ClasseEntite;
+            this.Nom = Nom;
+            this.Experience = Experience;
+            this.TerrainEntite = TerrainEntite;
+            this.Proprietaire = Proprietaire;
         }
 
         public bool UtiliserSort(Sort sort, EntiteInconnu cible)
@@ -422,6 +439,8 @@
                     break;
                 case Effet.type.invocation:
                     //PlaceHolder ListEntites.AjouterFin(new EntiteInconnu(effet.ValeurMax, Classe.type.osamoda, "bouftou", 1000, source, Equipe, IdEntite);
+                    break;
+                case Effet.type.soin:
                     break;
                 default:
                     break;

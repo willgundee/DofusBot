@@ -4,7 +4,7 @@
     {
         public Noeud<T> First { get; set; }
         public Noeud<T> Last { get; set; }
-        public int Count { get; set; }
+        public int Count { get { SetCount(); return Count; } private set { Count = value; } }
         public ListeChainee()
         {
             this.First = First;

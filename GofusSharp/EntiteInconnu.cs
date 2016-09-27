@@ -18,7 +18,7 @@
         public int Proprietaire { get; internal set; }
         public ListeChainee<Statistique> ListStatistiques { get; internal set; }
         public ListeChainee<Envoutement> ListEnvoutements { get; internal set; }
-        public EntiteInconnu(int IdEntite, Classe ClasseEntite, string Nom, float Experience, Case Position, type Equipe)
+        internal EntiteInconnu(int IdEntite, Classe ClasseEntite, string Nom, float Experience, Case Position, type Equipe)
         {
             this.IdEntite = IdEntite;
             this.ClasseEntite = ClasseEntite;
@@ -28,7 +28,7 @@
             this.Equipe = Equipe;
             ListEnvoutements = new ListeChainee<Envoutement>();
         }
-        public EntiteInconnu(int IdEntite, Classe ClasseEntite, string Nom, float Experience, Case Position, type Equipe, int proprietaire)
+        internal EntiteInconnu(int IdEntite, Classe ClasseEntite, string Nom, float Experience, Case Position, type Equipe, int proprietaire)
         {
             this.IdEntite = IdEntite;
             this.ClasseEntite = ClasseEntite;
@@ -38,7 +38,7 @@
             this.Equipe = Equipe;
             ListEnvoutements = new ListeChainee<Envoutement>();
         }
-        public EntiteInconnu(Entite entite)
+        internal EntiteInconnu(Entite entite)
         {
             IdEntite = entite.IdEntite;
             ClasseEntite = entite.ClasseEntite;
@@ -52,6 +52,7 @@
             PA_MAX = entite.PA_MAX;
             PV_MAX = entite.PV_MAX;
             PM_MAX = entite.PM_MAX;
+            Proprietaire = entite.Proprietaire;
             ListEnvoutements = entite.ListEnvoutements;
             ListStatistiques = new ListeChainee<Statistique>();
             foreach (Statistique stat in entite.TabStatistiques)

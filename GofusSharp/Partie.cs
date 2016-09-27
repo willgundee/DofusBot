@@ -99,7 +99,11 @@
                     }
                     if (!existe)
                     {
-                        //invoc goes here
+                        Entite newInvoc = new Entite(entiteInconnu.Valeur.IdEntite, entiteInconnu.Valeur.ClasseEntite, entiteInconnu.Valeur.Nom, entiteInconnu.Valeur.Experience, entiteInconnu.Valeur.Position, entiteInconnu.Valeur.Equipe, entiteInconnu.Valeur.ListStatistiques,new Script(3, "Placeholder"), TerrainPartie);
+                        if (true)
+                        {
+
+                        }
                     }
                     entite = entite.Next;
                 }
