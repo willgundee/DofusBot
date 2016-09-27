@@ -15,9 +15,20 @@
         public int PA_MAX { get; internal set; }
         public int PM { get; internal set; }
         public int PM_MAX { get; internal set; }
+        public int Proprietaire { get; internal set; }
         public ListeChainee<Statistique> ListStatistiques { get; internal set; }
         public ListeChainee<Envoutement> ListEnvoutements { get; internal set; }
         public EntiteInconnu(int IdEntite, Classe ClasseEntite, string Nom, float Experience, Case Position, type Equipe)
+        {
+            this.IdEntite = IdEntite;
+            this.ClasseEntite = ClasseEntite;
+            this.Nom = Nom;
+            this.Experience = Experience;
+            this.Position = Position;
+            this.Equipe = Equipe;
+            ListEnvoutements = new ListeChainee<Envoutement>();
+        }
+        public EntiteInconnu(int IdEntite, Classe ClasseEntite, string Nom, float Experience, Case Position, type Equipe, int proprietaire)
         {
             this.IdEntite = IdEntite;
             this.ClasseEntite = ClasseEntite;

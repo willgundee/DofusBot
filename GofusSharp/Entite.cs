@@ -421,6 +421,7 @@
                 case Effet.type.pose_glyphe:
                     break;
                 case Effet.type.invocation:
+                    //PlaceHolder ListEntites.AjouterFin(new EntiteInconnu(effet.ValeurMax, Classe.type.osamoda, "bouftou", 1000, source, Equipe, IdEntite);
                     break;
                 default:
                     break;
