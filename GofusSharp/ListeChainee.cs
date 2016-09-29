@@ -1,10 +1,16 @@
-﻿namespace GofusSharp
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
+
+namespace GofusSharp
 {
-    public class ListeChainee<T>
+    public class ListeChainee<T> : IEnumerable<T>
     {
         public Noeud<T> First { get; set; }
         public Noeud<T> Last { get; set; }
         public int Count { get { SetCount(); return Count; } private set { Count = value; } }
+
         public ListeChainee()
         {
             this.First = First;
@@ -229,6 +235,61 @@
             while (NoeudCourant.Next != null)
                 compteur++;
             Count = compteur;
+        }
+
+// These make myLinkedList<T> implement IEnumerable<T> allowing
+// a LinkedList to be used in a foreach statement.
+        public IEnumerator<T> GetEnumerator()
+        {
+            return new myLinkedListIterator<T>(First);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        internal class myLinkedListIterator<T> : IEnumerator<T>
+        {
+            object IEnumerator.Current { get { return Current; } }
+            private Noeud<T> current;
+            public virtual T Current
+            {
+                get
+                {
+                    return current.Valeur;
+                }
+            }
+            private Noeud<T> front;
+
+            public myLinkedListIterator(Noeud<T> f)
+            {
+                front = f;
+                current = front;
+            }
+
+            public bool MoveNext()
+            {
+                if (current.Next != null)
+                {
+                    current = current.Next;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            public void Reset()
+            {
+                current = front;
+            }
+
+            public void Dispose()
+            {
+                throw new Exception("Unsupported Operation");
+            }
         }
     }
 }

@@ -30,22 +30,65 @@
 
         public ListeChainee<Case> CheminEntreCases(Case Depart, Case Destination)
         {
-            ListeChainee<Case> chemin = new ListeChainee<Case>();
-            ListeChainee<Case> CulDeSac = new ListeChainee<Case>();
-            chemin.AjouterFin(Depart);
-            while (chemin.Last.Valeur != Destination)
+
+            ListeChainee<Case> open = new ListeChainee<Case>();//list of nodes
+            ListeChainee<Case> closed = new ListeChainee<Case>();
+
+            
+
+            open.AjouterFin(Depart);//Add starting point
+
+            while (open.Count > 0)
             {
-                if (TrouverProchaineCase(chemin, CulDeSac, Destination) == null)
+                Case position = getBestNode();//Get node with lowest F value
+                if (position == Destination)
                 {
-                    CulDeSac.AjouterFin(chemin.Last.Valeur);
-                    chemin.EnleverDernier();
+                    //Debug.Log("Goal reached");
+                    //getPath(node);
+                    break;
                 }
-                else
+                open.Enlever(position);//removeNode(node, open);
+                closed.AjouterFin(position);
+
+                ListeChainee<Case> neighbors = getNeighbors(node);
+                foreach (Case n in neighbors)
                 {
-                    chemin.AjouterFin(TrouverProchaineCase(chemin, CulDeSac, Destination));
+                    float g_score = node.G + 1;
+                    float h_score = ManhattanDistance(n.position, goalNode.position);
+                    float f_score = g_score + h_score;
+
+                    if (isValueInList(n, closed) && f_score >= n.F)
+                        continue;
+
+                    if (!isValueInList(n, open) || f_score < n.F)
+                    {
+                        n.parent = node;
+                        n.G = g_score;
+                        n.H = h_score;
+                        if (!isValueInList(n, open))
+                        {
+                            map_data[n.position.x, n.position.y] = 4;
+                            open.Add(n);
+                        }
+                    }
                 }
             }
-            return chemin;
+            //ListeChainee<Case> chemin = new ListeChainee<Case>();
+            //ListeChainee<Case> CulDeSac = new ListeChainee<Case>();
+            //chemin.AjouterFin(Depart);
+            //while (chemin.Last.Valeur != Destination)
+            //{
+            //    if (TrouverProchaineCase(chemin, CulDeSac, Destination) == null)
+            //    {
+            //        CulDeSac.AjouterFin(chemin.Last.Valeur);
+            //        chemin.EnleverDernier();
+            //    }
+            //    else
+            //    {
+            //        chemin.AjouterFin(TrouverProchaineCase(chemin, CulDeSac, Destination));
+            //    }
+            //}
+            //return chemin;
         }
 
         internal Case TrouverProchaineCase(ListeChainee<Case> Chemin, ListeChainee<Case> CulDeSac, Case Destination)
