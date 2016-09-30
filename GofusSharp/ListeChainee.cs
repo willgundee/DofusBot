@@ -29,6 +29,20 @@ namespace GofusSharp
             Last = NoeudCourant;
         }
 
+        public void AjouterDebut(Noeud<T> noeud)
+        {
+            Count++;
+            if (First == null)
+            {
+                First = noeud;
+                Last = noeud;
+                return;
+            }
+            noeud.Next = First;
+            First = noeud;
+            First.Next.Previous = First;
+        }
+
         public void AjouterDebut(T Valeur)
         {
             Noeud<T> NouveauNoeud = new Noeud<T>(Valeur);
@@ -73,6 +87,27 @@ namespace GofusSharp
             Last.Previous.Next = Last;
         }
 
+        public void AjouterAvant(Noeud<T> noeud, int Position)
+        {
+            Count++;
+            if (First == null)
+            {
+                First = noeud;
+                Last = noeud;
+                return;
+            }
+            Noeud<T> NoeudCourant = First;
+            for (int i = 0; i < Position && NoeudCourant != Last; i++)
+                NoeudCourant = NoeudCourant.Next;
+            noeud.Next = NoeudCourant;
+            noeud.Previous = NoeudCourant.Previous;
+            if (NoeudCourant.Previous != null)
+                NoeudCourant.Previous.Next = noeud;
+            if (NoeudCourant == First)
+                First = noeud;
+            NoeudCourant.Previous = noeud;
+        }
+
         public void AjouterAvant(T Valeur, int Position)
         {
             Noeud<T> NouveauNoeud = new Noeud<T>(Valeur);
@@ -93,6 +128,26 @@ namespace GofusSharp
             if (NoeudCourant == First)
                 First = NouveauNoeud;
             NoeudCourant.Previous = NouveauNoeud;
+        }
+        public void AjouterApres(Noeud<T> noeud, int Position)
+        {
+            Count++;
+            if (First == null)
+            {
+                First = noeud;
+                Last = noeud;
+                return;
+            }
+            Noeud<T> NoeudCourant = First;
+            for (int i = 0; i < Position && NoeudCourant != Last; i++)
+                NoeudCourant = NoeudCourant.Next;
+            noeud.Next = NoeudCourant.Next;
+            noeud.Previous = NoeudCourant;
+            if (NoeudCourant.Next != null)
+                NoeudCourant.Next.Previous = noeud;
+            if (NoeudCourant == Last)
+                Last = noeud;
+            NoeudCourant.Next = noeud;
         }
         public void AjouterApres(T Valeur, int Position)
         {
@@ -176,6 +231,27 @@ namespace GofusSharp
             NoeudCourant = null;
         }
 
+        public void EnleverDernier(Noeud<T> noeud)
+        {
+            if (Last == null)
+                return;
+            Noeud<T> NoeudCourant = Last;
+            while (NoeudCourant != noeud && NoeudCourant != First)
+                NoeudCourant = NoeudCourant.Previous;
+            if (NoeudCourant != noeud)
+                return;
+            Count--;
+            if (NoeudCourant.Previous != null)
+                NoeudCourant.Previous.Next = NoeudCourant.Next;
+            if (NoeudCourant == First)
+                First = NoeudCourant.Next;
+            if (NoeudCourant.Next != null)
+                NoeudCourant.Next.Previous = NoeudCourant.Previous;
+            if (NoeudCourant == Last)
+                Last = NoeudCourant.Previous;
+            NoeudCourant = null;
+        }
+
         public void EnleverDernier(T Valeur)
         {
             if (Last == null)
@@ -215,6 +291,18 @@ namespace GofusSharp
             Last = Last.Previous;
         }
 
+        public Noeud<T> Trouver(Noeud<T> noeud)
+        {
+            if (First == null)
+                return null;
+            Noeud<T> NoeudCourant = First;
+            while (NoeudCourant != noeud && NoeudCourant != Last)
+                NoeudCourant = NoeudCourant.Next;
+            if (NoeudCourant != noeud)
+                return null;
+            return NoeudCourant;
+        }
+
         public Noeud<T> Trouver(T Valeur)
         {
             if (First == null)
@@ -226,6 +314,19 @@ namespace GofusSharp
                 return null;
             return NoeudCourant;
         }
+
+        public Noeud<T> TrouverDernier(Noeud<T> noeud)
+        {
+            if (Last == null)
+                return null;
+            Noeud<T> NoeudCourant = Last;
+            while (NoeudCourant != noeud && NoeudCourant != First)
+                NoeudCourant = NoeudCourant.Previous;
+            if (NoeudCourant != noeud)
+                return null;
+            return NoeudCourant;
+        }
+
         public Noeud<T> TrouverDernier(T Valeur)
         {
             if (Last == null)
@@ -258,17 +359,28 @@ namespace GofusSharp
                 return i;
             return null;
         }
-        public int? TrouverPosition(Noeud<T> Noeud)
+        public int? TrouverPosition(Noeud<T> noeud)
         {
             if (First == null)
                 return null;
             Noeud<T> NoeudCourant = First;
             int i;
-            for (i = 0; NoeudCourant != Noeud && NoeudCourant != Last; i++)
+            for (i = 0; NoeudCourant != noeud && NoeudCourant != Last; i++)
                 NoeudCourant = NoeudCourant.Next;
-            if (NoeudCourant == Noeud)
+            if (NoeudCourant == noeud)
                 return i;
             return null;
+        }
+        public bool Contient(Noeud<T> noeud)
+        {
+            if (First == null)
+                return false;
+            Noeud<T> NoeudCourant = First;
+            while (NoeudCourant != noeud && NoeudCourant != Last)
+                NoeudCourant = NoeudCourant.Next;
+            if (NoeudCourant != noeud)
+                return false;
+            return true;
         }
         public bool Contient(T Valeur)
         {

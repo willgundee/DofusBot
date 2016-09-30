@@ -101,13 +101,13 @@
         public ListeChainee<Case> CaseVoisines(Case caseCible)
         {
             ListeChainee<Case> caseVoisines = new ListeChainee<Case>();
-            if (caseCible.Y - 1 >= 0)
+            if (caseCible.Y - 1 >= 0 && TabCases[caseCible.X][caseCible.Y - 1].Contenu != Case.type.obstacle)
                 caseVoisines.AjouterFin(TabCases[caseCible.X][caseCible.Y - 1]);
-            if (caseCible.X - 1 >= 0)
+            if (caseCible.X - 1 >= 0 && TabCases[caseCible.X - 1][caseCible.Y].Contenu != Case.type.obstacle)
                 caseVoisines.AjouterFin(TabCases[caseCible.X - 1][caseCible.Y]);
-            if (TabCases.Length >= caseCible.X + 1)
+            if (TabCases.Length >= caseCible.X + 1 && TabCases[caseCible.X + 1][caseCible.Y].Contenu != Case.type.obstacle)
                 caseVoisines.AjouterFin(TabCases[caseCible.X + 1][caseCible.Y]);
-            if (TabCases[caseCible.X].Length >= caseCible.Y + 1)
+            if (TabCases[caseCible.X].Length >= caseCible.Y + 1 && TabCases[caseCible.X][caseCible.Y + 1].Contenu != Case.type.obstacle)
                 caseVoisines.AjouterFin(TabCases[caseCible.X][caseCible.Y + 1]);
             return caseVoisines;
         }
