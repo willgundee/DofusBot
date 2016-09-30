@@ -29,14 +29,14 @@
                                 <RowDefinition Height="*"></RowDefinition>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="20*"></ColumnDefinition>
-                                <ColumnDefinition Width="12*"/>
-                                <ColumnDefinition Width="251*"/>
-                                <ColumnDefinition Width="284*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+
+                                <ColumnDefinition Width="*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <Label Grid.Column="3" HorizontalAlignment="Center" FontSize="25" Margin="66,0,65,0.02">Équipements</Label>
+                            <Image x:Name="Imgclasse"   Height="50" Width="50" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Margin="20"   />
 
-                            <Image x:Name="fond" Source="resources/fondEquipement.jpg"  Height="260" Width="283" Grid.RowSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="1,40,0,0" IsHitTestVisible="True" Grid.Column="3" />
+                            <Image x:Name="Imgfond" Source="resources/fondEquipement.jpg"  Height="260" Width="283" Grid.RowSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="1,40,0,0" IsHitTestVisible="True" Grid.Column="3" />
                             <Image x:Name="imageCasque"  Height="40" Width="40" Grid.Column="3" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="87,75,157,0" IsHitTestVisible="True" />
                             <Image x:Name="imageCape" Height="60" Width="60" Grid.Column="3" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,55,0,0"  />
                             <Image x:Name="imageArme" Height="60" Width="60" Grid.Column="3" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,55,30,0"  />
@@ -46,6 +46,14 @@
                             <Image x:Name="imageBotte" Height="60" Width="60" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="70,184,154,184.04" Grid.RowSpan="2" />
                             <Label x:Name="lblScript" Grid.Column="3" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="31,91.98,0,92.04" FontSize="15">Script :</Label>
                             <ComboBox x:Name="cbScript" Grid.Column="3" Grid.Row="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="120" Margin="82,95.98,82,96.04"/>
+                            <DataGrid x:Name="dataGrid" HorizontalAlignment="Left"  Height="200" Width="110"  VerticalAlignment="Center" Margin="10,0,0,10" Grid.RowSpan="2">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Satistique" />
+                                    <DataGridTextColumn Header="Valeur"/>
+                                    
+                                </DataGrid.Columns>
+                            </DataGrid>
+
                         </Grid>
                     </TabItem>
                     <TabItem Header="+">
