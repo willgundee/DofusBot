@@ -1,22 +1,27 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-
-namespace GofusSharp
+﻿namespace GofusSharp
 {
-    public class ListeChainee<T> : IEnumerable<T>
+    public class ListeChainee<T> : System.Collections.Generic.IEnumerable<T>
     {
         public Noeud<T> First { get; set; }
         public Noeud<T> Last { get; set; }
-        public int Count { get { SetCount(); return Count; } private set { Count = value; } }
+        public int Count {
+            get
+            {
+                Count = 0;
+                if (First == null)
+                    return Count;
+                foreach (T valeur in this)
+                    Count++;
+                return Count;
+            }
+            set { }
+        }
 
         public ListeChainee()
         {
             this.First = First;
             if (First == null)
             {
-                Count = 0;
                 Last = First;
                 return;
             }
@@ -25,13 +30,11 @@ namespace GofusSharp
             {
 
             }
-            SetCount();
             Last = NoeudCourant;
         }
 
         public void AjouterDebut(Noeud<T> noeud)
         {
-            Count++;
             if (First == null)
             {
                 First = noeud;
@@ -46,7 +49,6 @@ namespace GofusSharp
         public void AjouterDebut(T Valeur)
         {
             Noeud<T> NouveauNoeud = new Noeud<T>(Valeur);
-            Count++;
             if (First == null)
             {
                 First = NouveauNoeud;
@@ -60,7 +62,6 @@ namespace GofusSharp
 
         public void AjouterFin(Noeud<T> noeud)
         {
-            Count++;
             if (First == null)
             {
                 First = noeud;
@@ -75,7 +76,6 @@ namespace GofusSharp
         public void AjouterFin(T Valeur)
         {
             Noeud<T> NouveauNoeud = new Noeud<T>(Valeur);
-            Count++;
             if (First == null)
             {
                 First = NouveauNoeud;
@@ -89,7 +89,6 @@ namespace GofusSharp
 
         public void AjouterAvant(Noeud<T> noeud, int Position)
         {
-            Count++;
             if (First == null)
             {
                 First = noeud;
@@ -111,7 +110,6 @@ namespace GofusSharp
         public void AjouterAvant(T Valeur, int Position)
         {
             Noeud<T> NouveauNoeud = new Noeud<T>(Valeur);
-            Count++;
             if (First == null)
             {
                 First = NouveauNoeud;
@@ -131,7 +129,6 @@ namespace GofusSharp
         }
         public void AjouterApres(Noeud<T> noeud, int Position)
         {
-            Count++;
             if (First == null)
             {
                 First = noeud;
@@ -152,7 +149,6 @@ namespace GofusSharp
         public void AjouterApres(T Valeur, int Position)
         {
             Noeud<T> NouveauNoeud = new Noeud<T>(Valeur);
-            Count++;
             if (First == null)
             {
                 First = NouveauNoeud;
@@ -174,7 +170,6 @@ namespace GofusSharp
         {
             if (First == null)
                 return;
-            Count--;
             Noeud<T> NoeudCourant = First;
             for (int i = 0; i < Position && NoeudCourant != Last; i++)
                 NoeudCourant = NoeudCourant.Next;
@@ -198,7 +193,6 @@ namespace GofusSharp
                 NoeudCourant = NoeudCourant.Next;
             if (NoeudCourant != noeud)
                 return;
-            Count--;
             if (NoeudCourant.Previous != null)
                 NoeudCourant.Previous.Next = NoeudCourant.Next;
             if (NoeudCourant == First)
@@ -219,7 +213,6 @@ namespace GofusSharp
                 NoeudCourant = NoeudCourant.Next;
             if (!NoeudCourant.Valeur.Equals(Valeur))
                 return;
-            Count--;
             if (NoeudCourant.Previous != null)
                 NoeudCourant.Previous.Next = NoeudCourant.Next;
             if (NoeudCourant == First)
@@ -240,7 +233,6 @@ namespace GofusSharp
                 NoeudCourant = NoeudCourant.Previous;
             if (NoeudCourant != noeud)
                 return;
-            Count--;
             if (NoeudCourant.Previous != null)
                 NoeudCourant.Previous.Next = NoeudCourant.Next;
             if (NoeudCourant == First)
@@ -261,7 +253,6 @@ namespace GofusSharp
                 NoeudCourant = NoeudCourant.Previous;
             if (!NoeudCourant.Valeur.Equals(Valeur))
                 return;
-            Count--;
             if (NoeudCourant.Previous != null)
                 NoeudCourant.Previous.Next = NoeudCourant.Next;
             if (NoeudCourant == First)
@@ -275,7 +266,6 @@ namespace GofusSharp
 
         public void EnleverPremier()
         {
-            Count--;
             First.Next.Previous = First.Previous;
             if (First.Previous != null)
                 First.Previous.Next = First.Next;
@@ -284,7 +274,6 @@ namespace GofusSharp
 
         public void EnleverDernier()
         {
-            Count--;
             Last.Previous.Next = Last.Next;
             if (Last.Next != null)
                 Last.Next.Previous = Last.Previous;
@@ -405,74 +394,22 @@ namespace GofusSharp
             NoeudADetruire = null;
         }
 
-        private void SetCount()
+
+
+        // These make myLinkedList<T> implement IEnumerable<T> allowing
+        // a LinkedList to be used in a foreach statement.
+        public System.Collections.Generic.IEnumerator<T> GetEnumerator()
         {
-            if (First == null)
-                Count = 0;
-            Noeud<T> NoeudCourant = First;
-            int compteur = 1;
-            while (NoeudCourant.Next != null)
-                compteur++;
-            Count = compteur;
+            Noeud<T> node = First;
+            while (node != Last.Next)
+            {
+                yield return node.Valeur;
+                node = node.Next;
+            }
         }
-
-
-
-// These make myLinkedList<T> implement IEnumerable<T> allowing
-// a LinkedList to be used in a foreach statement.
-        public IEnumerator<T> GetEnumerator()
-        {
-            return new myLinkedListIterator<T>(First,Last);
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
-        }
-
-        private class myLinkedListIterator<T> : IEnumerator<T>
-        {
-            object IEnumerator.Current { get { return Current; } }
-            private Noeud<T> current;
-            public virtual T Current
-            {
-                get
-                {
-                    return current.Valeur;
-                }
-            }
-            private Noeud<T> front;
-            private Noeud<T> back;
-
-            public myLinkedListIterator(Noeud<T> f, Noeud<T> b)
-            {
-                front = f;
-                back = b;
-                current = front;
-            }
-
-            public bool MoveNext()
-            {
-                if (current != back)
-                {
-                    current = current.Next;
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
-            public void Reset()
-            {
-                current = front;
-            }
-
-            public void Dispose()
-            {
-                throw new Exception("Unsupported Operation");
-            }
         }
     }
 }

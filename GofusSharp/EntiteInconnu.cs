@@ -55,7 +55,7 @@
             Proprietaire = entite.Proprietaire;
             ListEnvoutements = entite.ListEnvoutements;
             ListStatistiques = new ListeChainee<Statistique>();
-            foreach (Statistique stat in entite.TabStatistiques)
+            foreach (Statistique stat in entite.ListStatistiques)
             {
                 switch (stat.Nom)
                 {

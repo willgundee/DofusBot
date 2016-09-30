@@ -14,6 +14,7 @@
                 PartieTest.SyncroniserJoueur();
                 if (PartieTest.ListAttaquants.First.Valeur.PV <= 0 || PartieTest.ListDefendants.First.Valeur.PV <= 0)
                     break;
+                PartieTest.DebuterAction();
                 Action(PartieTest.TerrainPartie, PartieTest.ListDefendants.First.Valeur, PartieTest.ListEntites);
                 PartieTest.SyncroniserJoueur();
                 if (PartieTest.ListAttaquants.First.Valeur.PV <= 0 || PartieTest.ListDefendants.First.Valeur.PV <= 0)
@@ -35,7 +36,16 @@
 
         private void fakePartie()
         {
-            Statistique[] tabStatistiqueAtt = new Statistique[] { new Statistique(Statistique.type.PM, 3), new Statistique(Statistique.type.PA, 6), new Statistique(Statistique.type.vie, 100), new Statistique(Statistique.type.initiative, 101), new Statistique(Statistique.type.force, 30), new Statistique(Statistique.type.sagesse, 40), new Statistique(Statistique.type.intelligence, 20), new Statistique(Statistique.type.agilite, 10), new Statistique(Statistique.type.chance, 50) };
+            ListeChainee<Statistique> listStatistiqueAtt = new ListeChainee<Statistique>();
+            listStatistiqueAtt.AjouterFin(new Statistique(Statistique.type.PA, 6));
+            listStatistiqueAtt.AjouterFin(new Statistique(Statistique.type.PM, 3));
+            listStatistiqueAtt.AjouterFin(new Statistique(Statistique.type.vie, 100));
+            listStatistiqueAtt.AjouterFin(new Statistique(Statistique.type.initiative, 101));
+            listStatistiqueAtt.AjouterFin(new Statistique(Statistique.type.force, 30));
+            listStatistiqueAtt.AjouterFin(new Statistique(Statistique.type.sagesse, 40));
+            listStatistiqueAtt.AjouterFin(new Statistique(Statistique.type.intelligence, 20));
+            listStatistiqueAtt.AjouterFin(new Statistique(Statistique.type.agilite, 10));
+            listStatistiqueAtt.AjouterFin(new Statistique(Statistique.type.chance, 50));
             Script scriptAtt = new Script(1, "//PlaceHolder");
             Effet[] tabEffetAtt1 = new Effet[] { new Effet(Effet.type.teleportation, 0, 0) };
             Zone zoneEffetAtt1 = new Zone(Zone.type.carre, 0, 0);
@@ -48,7 +58,16 @@
             Statistique[] statItemAtt = new Statistique[] { new Statistique(Statistique.type.force, 70) };
             Condition[] condItemAtt = new Condition[] { new Condition(Condition.type.exp_min, 5000) };
             Equipement[] tabEquipAtt = new Equipement[] { new Equipement(1, condItemAtt, statItemAtt, "Coiffe bouftou", Equipement.type.chapeau) };
-            Statistique[] tabStatistiqueDef = new Statistique[] { new Statistique(Statistique.type.PM, 3), new Statistique(Statistique.type.PA, 6), new Statistique(Statistique.type.vie, 100), new Statistique(Statistique.type.initiative, 101), new Statistique(Statistique.type.force, 30), new Statistique(Statistique.type.sagesse, 40), new Statistique(Statistique.type.intelligence, 20), new Statistique(Statistique.type.agilite, 10), new Statistique(Statistique.type.chance, 50) };
+            ListeChainee<Statistique> listStatistiqueDef = new ListeChainee<Statistique>();
+            listStatistiqueDef.AjouterFin(new Statistique(Statistique.type.PA, 6));
+            listStatistiqueDef.AjouterFin(new Statistique(Statistique.type.PM, 3));
+            listStatistiqueDef.AjouterFin(new Statistique(Statistique.type.vie, 100));
+            listStatistiqueDef.AjouterFin(new Statistique(Statistique.type.initiative, 101));
+            listStatistiqueDef.AjouterFin(new Statistique(Statistique.type.force, 30));
+            listStatistiqueDef.AjouterFin(new Statistique(Statistique.type.sagesse, 40));
+            listStatistiqueDef.AjouterFin(new Statistique(Statistique.type.intelligence, 20));
+            listStatistiqueDef.AjouterFin(new Statistique(Statistique.type.agilite, 10));
+            listStatistiqueDef.AjouterFin(new Statistique(Statistique.type.chance, 50));
             Script scriptDef = new Script(2, "//PlaceHolder");
             Effet[] tabEffetDef1 = new Effet[] { new Effet(Effet.type.teleportation, 0, 0) };
             Zone zoneEffetDef1 = new Zone(Zone.type.carre, 0, 0);
@@ -64,9 +83,9 @@
             Case[][] tabCases = new Case[][] { new Case[] { new Case(0, 0, Case.type.joueur), new Case(0, 1, Case.type.vide), new Case(0, 2, Case.type.vide) }, new Case[] { new Case(1, 0, Case.type.vide), new Case(1, 1, 0), new Case(1, 2, Case.type.vide) }, new Case[] { new Case(2, 0, Case.type.vide), new Case(2, 1, Case.type.vide), new Case(2, 2, Case.type.joueur) } };
             Terrain terrain = new Terrain(tabCases);
             ListeChainee<Entite> ListAttaquants = new ListeChainee<Entite>();
-            ListAttaquants.AjouterFin(new Personnage(10, classeAtt, "Trebor", 10000, terrain.TabCases[0][0], EntiteInconnu.type.attaquant, tabStatistiqueAtt, scriptAtt, tabEquipAtt, terrain));
+            ListAttaquants.AjouterFin(new Personnage(10, classeAtt, "Trebor", 10000, terrain.TabCases[0][0], EntiteInconnu.type.attaquant, listStatistiqueAtt, scriptAtt, tabEquipAtt, terrain));
             ListeChainee<Entite> ListDefendants = new ListeChainee<Entite>();
-            ListDefendants.AjouterFin(new Personnage(11, classeDef, "Robert", 9000, terrain.TabCases[2][2], EntiteInconnu.type.defendant, tabStatistiqueDef, scriptDef, tabEquipDef, terrain));
+            ListDefendants.AjouterFin(new Personnage(11, classeDef, "Robert", 9000, terrain.TabCases[2][2], EntiteInconnu.type.defendant, listStatistiqueDef, scriptDef, tabEquipDef, terrain));
             PartieTest = new Partie(1, terrain, ListAttaquants, ListDefendants, 123123);
         }
 

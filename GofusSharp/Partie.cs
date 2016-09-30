@@ -23,11 +23,11 @@
         internal void DebuterPartie()
         {
             Noeud<Entite> entite = ListAttaquants.First;
-            while(entite != null)
+            while (entite != null)
             {
                 int vie = new int();
                 int vitalite = new int();
-                foreach (Statistique stat in entite.Valeur.TabStatistiques)
+                foreach (Statistique stat in entite.Valeur.ListStatistiques)
                 {
                     switch (stat.Nom)
                     {
@@ -63,7 +63,7 @@
                 entite = entite.Next;
             }
         }
-        
+
         public void SyncroniserJoueur()
         {
             Noeud<EntiteInconnu> entiteInconnu = ListEntites.First;
@@ -79,40 +79,25 @@
                         entite.Valeur.PV = entiteInconnu.Valeur.PV;
                         entite.Valeur.PV_MAX = entiteInconnu.Valeur.PV_MAX;
                         entite.Valeur.ListEnvoutements = entiteInconnu.Valeur.ListEnvoutements;
-                        Noeud<Statistique> statInconnu = entiteInconnu.Valeur.ListStatistiques.First;
-                        Noeud<Statistique> stat = entite.Valeur.ListStatistiques.First;
-                        while (statInconnu != null)
-                        {
-                            while (stat != null)
-                            {
-                                if (statInconnu.Valeur.Nom == stat.Valeur.Nom)
-                                {
-                                    statInconnu.Valeur.Valeur = stat.Valeur.Valeur;
-                                    break;
-                                }
-                                stat = stat.Next;
-                            }
-                            statInconnu = statInconnu.Next;
-                        }
                         existe = true;
                         break;
                     }
-                    if (!existe)
+                    entite = entite.Next;
+                }
+                if (!existe)
+                {
+                    Entite newInvoc = new Entite(entiteInconnu.Valeur.IdEntite, entiteInconnu.Valeur.ClasseEntite, entiteInconnu.Valeur.Nom, entiteInconnu.Valeur.Experience, entiteInconnu.Valeur.Position, entiteInconnu.Valeur.Equipe, entiteInconnu.Valeur.ListStatistiques, new Script(3, "Placeholder"), TerrainPartie, entite.Valeur.Proprietaire);
+                    if (newInvoc.Equipe == EntiteInconnu.type.attaquant)
                     {
-                        Entite newInvoc = new Entite(entiteInconnu.Valeur.IdEntite, entiteInconnu.Valeur.ClasseEntite, entiteInconnu.Valeur.Nom, entiteInconnu.Valeur.Experience, entiteInconnu.Valeur.Position, entiteInconnu.Valeur.Equipe, entiteInconnu.Valeur.ListStatistiques, new Script(3, "Placeholder"), TerrainPartie, entite.Valeur.Proprietaire);
-                        if (newInvoc.Equipe == EntiteInconnu.type.attaquant)
+                        foreach (Entite entiteProp in ListAttaquants)
                         {
-                            foreach (Entite entiteProp in ListAttaquants)
+                            if (entiteProp.IdEntite == newInvoc.Proprietaire)
                             {
-                                if (entiteProp.IdEntite == newInvoc.Proprietaire)
-                                {
-                                    ListAttaquants.AjouterApres(newInvoc, ListAttaquants.TrouverPosition(entiteProp));
-                                    break;
-                                }
+                                ListAttaquants.AjouterApres(newInvoc, ListAttaquants.TrouverPosition(entiteProp));
+                                break;
                             }
                         }
                     }
-                    entite = entite.Next;
                 }
                 entiteInconnu = entiteInconnu.Next;
             }

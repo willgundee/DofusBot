@@ -2,29 +2,18 @@
 {
     public class Entite : EntiteInconnu
     {
-        public Statistique[] TabStatistiques { get; internal set; }
         public Script ScriptEntite { get; internal set; }
         public Terrain TerrainEntite { get; internal set; }
         public ListeChainee<EntiteInconnu> ListEntites { get; internal set; }
-        internal Entite(int IdEntite, Classe ClasseEntite, string Nom, float Experience, Case Position, type Equipe, Statistique[] TabStatistiques, Script ScriptEntite, Terrain TerrainEntite) : base(IdEntite, ClasseEntite, Nom, Experience, Position, Equipe)
-        {
-            this.IdEntite = IdEntite;
-            this.TabStatistiques = TabStatistiques;
-            this.ScriptEntite = ScriptEntite;
-            this.ClasseEntite = ClasseEntite;
-            this.Nom = Nom;
-            this.Experience = Experience;
-            this.TerrainEntite = TerrainEntite;
-        }
         internal Entite(int IdEntite, Classe ClasseEntite, string Nom, float Experience, Case Position, type Equipe, ListeChainee<Statistique> ListStatistiques, Script ScriptEntite, Terrain TerrainEntite, int Proprietaire) : base(IdEntite, ClasseEntite, Nom, Experience, Position, Equipe)
         {
-            this.IdEntite = IdEntite;
-            TabStatistiques = new Statistique[ListStatistiques.Count];
-            Noeud<Statistique> stat = ListStatistiques.First;
-            for (int i = 0; i < ListStatistiques.Count && stat != null ; i++)
+            this.ListStatistiques = ListStatistiques;
+            foreach (Statistique stat in ListStatistiques)
             {
-                TabStatistiques[i] = stat.Valeur;
-                stat = stat.Next;
+                if (stat.Nom == Statistique.type.PA)
+                    PA_MAX = stat.Valeur;
+                if (stat.Nom == Statistique.type.PM)
+                    PM_MAX = stat.Valeur;
             }
             this.ScriptEntite = ScriptEntite;
             this.ClasseEntite = ClasseEntite;
@@ -84,7 +73,7 @@
                             int RES_neutre = 0;
                             int RES_Pourcent_neutre = 0;
                             int reduction_physique = 0;
-                            foreach (Statistique stat in TabStatistiques)
+                            foreach (Statistique stat in ListStatistiques)
                             {
                                 if (stat.Nom == Statistique.type.force)
                                     force = stat.Valeur;
@@ -154,7 +143,7 @@
                             int RES_air = 0;
                             int RES_Pourcent_air = 0;
                             int reduction_magique = 0;
-                            foreach (Statistique stat in TabStatistiques)
+                            foreach (Statistique stat in ListStatistiques)
                             {
                                 if (stat.Nom == Statistique.type.agilite)
                                     agilite = stat.Valeur;
@@ -224,7 +213,7 @@
                             int RES_feu = 0;
                             int RES_Pourcent_feu = 0;
                             int reduction_magique = 0;
-                            foreach (Statistique stat in TabStatistiques)
+                            foreach (Statistique stat in ListStatistiques)
                             {
                                 if (stat.Nom == Statistique.type.intelligence)
                                     intelligence = stat.Valeur;
@@ -294,7 +283,7 @@
                             int RES_terre = 0;
                             int RES_Pourcent_terre = 0;
                             int reduction_physique = 0;
-                            foreach (Statistique stat in TabStatistiques)
+                            foreach (Statistique stat in ListStatistiques)
                             {
                                 if (stat.Nom == Statistique.type.force)
                                     force = stat.Valeur;
@@ -364,7 +353,7 @@
                             int RES_eau = 0;
                             int RES_Pourcent_eau = 0;
                             int reduction_magique = 0;
-                            foreach (Statistique stat in TabStatistiques)
+                            foreach (Statistique stat in ListStatistiques)
                             {
                                 if (stat.Nom == Statistique.type.chance)
                                     chance = stat.Valeur;
@@ -448,7 +437,7 @@
                         {
                             int intelligence = 0;
                             int soin = 0;
-                            foreach (Statistique stat in TabStatistiques)
+                            foreach (Statistique stat in ListStatistiques)
                             {
                                 if (stat.Nom == Statistique.type.intelligence)
                                     intelligence = stat.Valeur;
@@ -515,6 +504,11 @@
                     }
                     break;
                 case Zone.type.T:
+                    if ((cible.X == source.X && Math.Abs(cible.Y - source.Y) >= porteeMin && Math.Abs(cible.Y - source.Y) <= porteeMax) || (cible.Y == source.Y && Math.Abs(cible.X - source.X) >= porteeMin && Math.Abs(cible.X - source.X) <= porteeMax))
+                    {
+                        if (cible != Position)
+                            return true;
+                    }
                     break;
                 case Zone.type.demi_cercle:
                     break;
