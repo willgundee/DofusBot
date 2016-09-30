@@ -347,29 +347,29 @@ namespace GofusSharp
                 NoeudCourant = NoeudCourant.Next;
             return NoeudCourant;
         }
-        public int? TrouverPosition(T Valeur)
+        public int TrouverPosition(T Valeur)
         {
             if (First == null)
-                return null;
+                return -1;
             Noeud<T> NoeudCourant = First;
             int i;
             for (i = 0; !NoeudCourant.Valeur.Equals(Valeur) && NoeudCourant != Last; i++)
                 NoeudCourant = NoeudCourant.Next;
             if (NoeudCourant.Valeur.Equals(Valeur))
                 return i;
-            return null;
+            return -1;
         }
-        public int? TrouverPosition(Noeud<T> noeud)
+        public int TrouverPosition(Noeud<T> noeud)
         {
             if (First == null)
-                return null;
+                return -1;
             Noeud<T> NoeudCourant = First;
             int i;
             for (i = 0; NoeudCourant != noeud && NoeudCourant != Last; i++)
                 NoeudCourant = NoeudCourant.Next;
             if (NoeudCourant == noeud)
                 return i;
-            return null;
+            return -1;
         }
         public bool Contient(Noeud<T> noeud)
         {
@@ -422,7 +422,7 @@ namespace GofusSharp
 // a LinkedList to be used in a foreach statement.
         public IEnumerator<T> GetEnumerator()
         {
-            return new myLinkedListIterator<T>(First);
+            return new myLinkedListIterator<T>(First,Last);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -442,16 +442,18 @@ namespace GofusSharp
                 }
             }
             private Noeud<T> front;
+            private Noeud<T> back;
 
-            public myLinkedListIterator(Noeud<T> f)
+            public myLinkedListIterator(Noeud<T> f, Noeud<T> b)
             {
                 front = f;
+                back = b;
                 current = front;
             }
 
             public bool MoveNext()
             {
-                if (current.Next != null)
+                if (current != back)
                 {
                     current = current.Next;
                     return true;

@@ -441,6 +441,31 @@
                     //PlaceHolder ListEntites.AjouterFin(new EntiteInconnu(effet.ValeurMax, Classe.type.osamoda, "bouftou", 1000, source, Equipe, IdEntite);
                     break;
                 case Effet.type.soin:
+                    Noeud<EntiteInconnu> entiteInconnu7 = ListEntites.First;
+                    while (entiteInconnu7 != null)
+                    {
+                        if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu7.Valeur.Position))
+                        {
+                            int intelligence = 0;
+                            int soin = 0;
+                            foreach (Statistique stat in TabStatistiques)
+                            {
+                                if (stat.Nom == Statistique.type.intelligence)
+                                    intelligence = stat.Valeur;
+                                if (stat.Nom == Statistique.type.soin)
+                                    soin = stat.Valeur;
+                            }
+                            foreach (Envoutement envoutement in ListEnvoutements)
+                            {
+                                if (envoutement.Stat == Statistique.type.intelligence)
+                                    intelligence = envoutement.Valeur;
+                                if (envoutement.Stat == Statistique.type.soin)
+                                    soin = envoutement.Valeur;
+                            }
+                            entiteInconnu7.Valeur.PV += new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + intelligence) / 100 + soin;
+                        }
+                        entiteInconnu7 = entiteInconnu7.Next;
+                    }
                     break;
                 default:
                     break;

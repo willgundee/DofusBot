@@ -99,10 +99,17 @@
                     }
                     if (!existe)
                     {
-                        Entite newInvoc = new Entite(entiteInconnu.Valeur.IdEntite, entiteInconnu.Valeur.ClasseEntite, entiteInconnu.Valeur.Nom, entiteInconnu.Valeur.Experience, entiteInconnu.Valeur.Position, entiteInconnu.Valeur.Equipe, entiteInconnu.Valeur.ListStatistiques,new Script(3, "Placeholder"), TerrainPartie);
-                        if (true)
+                        Entite newInvoc = new Entite(entiteInconnu.Valeur.IdEntite, entiteInconnu.Valeur.ClasseEntite, entiteInconnu.Valeur.Nom, entiteInconnu.Valeur.Experience, entiteInconnu.Valeur.Position, entiteInconnu.Valeur.Equipe, entiteInconnu.Valeur.ListStatistiques, new Script(3, "Placeholder"), TerrainPartie, entite.Valeur.Proprietaire);
+                        if (newInvoc.Equipe == EntiteInconnu.type.attaquant)
                         {
-
+                            foreach (Entite entiteProp in ListAttaquants)
+                            {
+                                if (entiteProp.IdEntite == newInvoc.Proprietaire)
+                                {
+                                    ListAttaquants.AjouterApres(newInvoc, ListAttaquants.TrouverPosition(entiteProp));
+                                    break;
+                                }
+                            }
                         }
                     }
                     entite = entite.Next;
