@@ -22,25 +22,30 @@
                             <TranslateTransform/>
                         </TransformGroup>
                     </TabControl.RenderTransform>
-                    <TabItem Header="Personage1">
+                    <TabItem Header="Personage1" Foreground="Black">
                         <Grid Background="Gray">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="20*"></ColumnDefinition>
+                                <ColumnDefinition Width="12*"/>
+                                <ColumnDefinition Width="251*"/>
+                                <ColumnDefinition Width="284*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="1" HorizontalAlignment="Center" FontSize="25">Équipements</Label>
+                            <Label Grid.Column="3" HorizontalAlignment="Center" FontSize="25" Margin="66,0,65,0.02">Équipements</Label>
 
-                            <Image x:Name="imageCasque" Height="50" Width="50" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,40,50,0" IsHitTestVisible="True" />
-                            <Image x:Name="imageCape" Height="60" Width="60" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="30,40,0,0"  />
-                            <Image x:Name="imageArme" Height="60" Width="60" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,40,30,0"  />
-                            <Image x:Name="imageArmure" Height="60" Width="60" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,57,0" />
-                            <Image x:Name="imageAnneau1" Height="50" Width="50" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="30,0,0,0"  />
-                            <Image x:Name="imageAnneau2" Height="50" Width="50" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,30,0"  />
-                            <Image x:Name="imageBotte" Height="60" Width="50" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,0" Grid.RowSpan="2" />
+                            <Image x:Name="fond" Source="resources/fondEquipement.jpg"  Height="260" Width="283" Grid.RowSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="1,40,0,0" IsHitTestVisible="True" Grid.Column="3" />
+                            <Image x:Name="imageCasque"  Height="40" Width="40" Grid.Column="3" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="87,75,157,0" IsHitTestVisible="True" />
+                            <Image x:Name="imageCape" Height="60" Width="60" Grid.Column="3" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,55,0,0"  />
+                            <Image x:Name="imageArme" Height="60" Width="60" Grid.Column="3" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,55,30,0"  />
+                            <Image x:Name="imageArmure" Height="60" Width="60" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="70,97,154,57.02" />
+                            <Image x:Name="imageAnneau1" Height="40" Width="40" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,110,0,64.02"  />
+                            <Image x:Name="imageAnneau2" Height="40" Width="40" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,110,35,64.02"  />
+                            <Image x:Name="imageBotte" Height="60" Width="60" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="70,184,154,184.04" Grid.RowSpan="2" />
+                            <Label x:Name="lblScript" Grid.Column="3" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="31,91.98,0,92.04" FontSize="15">Script :</Label>
+                            <ComboBox x:Name="cbScript" Grid.Column="3" Grid.Row="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="120" Margin="82,95.98,82,96.04"/>
                         </Grid>
                     </TabItem>
                     <TabItem Header="+">
