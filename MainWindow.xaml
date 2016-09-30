@@ -34,13 +34,14 @@
                             </Grid.ColumnDefinitions>
                             <Label Grid.Column="1" HorizontalAlignment="Center" FontSize="25">Équipements</Label>
 
-                            <Image x:Name="imageCasque" Height="50" Width="50" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,40,50,0" IsHitTestVisible="True" />
-                            <Image x:Name="imageCape" Height="60" Width="60" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="30,40,0,0"  />
-                            <Image x:Name="imageArme" Height="60" Width="60" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,40,30,0"  />
-                            <Image x:Name="imageArmure" Height="60" Width="60" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,57,0" />
-                            <Image x:Name="imageAnneau1" Height="50" Width="50" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="30,0,0,0"  />
-                            <Image x:Name="imageAnneau2" Height="50" Width="50" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,30,0"  />
-                            <Image x:Name="imageBotte" Height="60" Width="50" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,50,0" Grid.RowSpan="2" />
+                            <Image x:Name="fond" Source="resources/fondEquipement.jpg"  Height="260" Width="283" Grid.RowSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0.5,40,0,0" IsHitTestVisible="True" Grid.Column="1" />
+                            <Image x:Name="imageCasque"  Height="40" Width="40" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,75,70,0" IsHitTestVisible="True" />
+                            <Image x:Name="imageCape" Height="60" Width="60" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,55,0,0"  />
+                            <Image x:Name="imageArme" Height="60" Width="60" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,55,30,0"  />
+                            <Image x:Name="imageArmure" Height="60" Width="60" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,40,85,0" />
+                            <Image x:Name="imageAnneau1" Height="40" Width="40" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,45,0,0"  />
+                            <Image x:Name="imageAnneau2" Height="40" Width="40" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,45,35,0"  />
+                            <Image x:Name="imageBotte" Height="60" Width="60" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,85,0" Grid.RowSpan="2" />
                         </Grid>
                     </TabItem>
                     <TabItem Header="+">
