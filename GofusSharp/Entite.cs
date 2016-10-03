@@ -62,10 +62,9 @@
                 case Effet.type.teleportation:
                     return (ChangerPosition(source) ? 1 : 0);
                 case Effet.type.ATT_neutre:
-                    Noeud<EntiteInconnu> entiteInconnu = ListEntites.First;
-                    while (entiteInconnu != null)
+                    foreach (EntiteInconnu entiteInconnu in ListEntites)
                     {
-                        if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Valeur.Position))
+                        if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
                         {
                             int force = 0;
                             int puissance = 0;
@@ -82,16 +81,14 @@
                                 if (stat.Nom == Statistique.type.DMG_neutre)
                                     DMG_neutre = stat.Valeur;
                             }
-                            Noeud<Envoutement> envoutement = ListEnvoutements.First;
-                            while (envoutement != null)
+                            foreach (Envoutement envoutement in ListEnvoutements)
                             {
-                                if (envoutement.Valeur.Stat == Statistique.type.force)
-                                    force += envoutement.Valeur.Valeur;
-                                if (envoutement.Valeur.Stat == Statistique.type.puissance)
-                                    puissance += envoutement.Valeur.Valeur;
-                                if (envoutement.Valeur.Stat == Statistique.type.DMG_neutre)
-                                    DMG_neutre += envoutement.Valeur.Valeur;
-                                envoutement = envoutement.Next;
+                                if (envoutement.Stat == Statistique.type.force)
+                                    force += envoutement.Valeur;
+                                if (envoutement.Stat == Statistique.type.puissance)
+                                    puissance += envoutement.Valeur;
+                                if (envoutement.Stat == Statistique.type.DMG_neutre)
+                                    DMG_neutre += envoutement.Valeur;
                             }
                             if (force < 0)
                                 force = 0;
@@ -99,26 +96,23 @@
                                 puissance = 0;
                             if (DMG_neutre < 0)
                                 DMG_neutre = 0;
-                            Noeud<Statistique> stat_def = entiteInconnu.Valeur.ListStatistiques.First;
-                            while (stat_def != null)
+                            foreach (Statistique stat_def in entiteInconnu.ListStatistiques)
                             {
-                                if (stat_def.Valeur.Nom == Statistique.type.RES_neutre)
-                                    RES_neutre = stat_def.Valeur.Valeur;
-                                if (stat_def.Valeur.Nom == Statistique.type.RES_Pourcent_neutre)
-                                    RES_Pourcent_neutre = stat_def.Valeur.Valeur;
-                                if (stat_def.Valeur.Nom == Statistique.type.reduction_physique)
-                                    reduction_physique = stat_def.Valeur.Valeur;
+                                if (stat_def.Nom == Statistique.type.RES_neutre)
+                                    RES_neutre = stat_def.Valeur;
+                                if (stat_def.Nom == Statistique.type.RES_Pourcent_neutre)
+                                    RES_Pourcent_neutre = stat_def.Valeur;
+                                if (stat_def.Nom == Statistique.type.reduction_physique)
+                                    reduction_physique = stat_def.Valeur;
                             }
-                            Noeud<Envoutement> envoutement_def = entiteInconnu.Valeur.ListEnvoutements.First;
-                            while (envoutement_def != null)
+                            foreach (Envoutement envoutement_def in entiteInconnu.ListEnvoutements)
                             {
-                                if (envoutement_def.Valeur.Stat == Statistique.type.RES_neutre)
-                                    RES_neutre += envoutement_def.Valeur.Valeur;
-                                if (envoutement_def.Valeur.Stat == Statistique.type.RES_Pourcent_neutre)
-                                    RES_Pourcent_neutre += envoutement_def.Valeur.Valeur;
-                                if (envoutement_def.Valeur.Stat == Statistique.type.reduction_physique)
-                                    reduction_physique += envoutement_def.Valeur.Valeur;
-                                envoutement_def = envoutement_def.Next;
+                                if (envoutement_def.Stat == Statistique.type.RES_neutre)
+                                    RES_neutre += envoutement_def.Valeur;
+                                if (envoutement_def.Stat == Statistique.type.RES_Pourcent_neutre)
+                                    RES_Pourcent_neutre += envoutement_def.Valeur;
+                                if (envoutement_def.Stat == Statistique.type.reduction_physique)
+                                    reduction_physique += envoutement_def.Valeur;
                             }
                             if (RES_neutre < 0)
                                 RES_neutre = 0;
@@ -126,16 +120,14 @@
                                 RES_Pourcent_neutre = 0;
                             if (reduction_physique < 0)
                                 reduction_physique = 0;
-                            entiteInconnu.Valeur.PV -= (1 - (RES_Pourcent_neutre / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + force + puissance) / 100 + DMG_neutre) - RES_neutre - reduction_physique);
+                            entiteInconnu.PV -= (1 - (RES_Pourcent_neutre / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + force + puissance) / 100 + DMG_neutre) - RES_neutre - reduction_physique);
                         }
-                        entiteInconnu = entiteInconnu.Next;
                     }
                     break;
                 case Effet.type.ATT_air:
-                    Noeud<EntiteInconnu> entiteInconnu2 = ListEntites.First;
-                    while (entiteInconnu2 != null)
+                    foreach (EntiteInconnu entiteInconnu in ListEntites)
                     {
-                        if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu2.Valeur.Position))
+                        if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
                         {
                             int agilite = 0;
                             int puissance = 0;
@@ -152,16 +144,14 @@
                                 if (stat.Nom == Statistique.type.DMG_air)
                                     DMG_air = stat.Valeur;
                             }
-                            Noeud<Envoutement> envoutement = ListEnvoutements.First;
-                            while (envoutement != null)
+                            foreach (Envoutement envoutement in ListEnvoutements)
                             {
-                                if (envoutement.Valeur.Stat == Statistique.type.agilite)
-                                    agilite += envoutement.Valeur.Valeur;
-                                if (envoutement.Valeur.Stat == Statistique.type.puissance)
-                                    puissance += envoutement.Valeur.Valeur;
-                                if (envoutement.Valeur.Stat == Statistique.type.DMG_air)
-                                    DMG_air += envoutement.Valeur.Valeur;
-                                envoutement = envoutement.Next;
+                                if (envoutement.Stat == Statistique.type.agilite)
+                                    agilite += envoutement.Valeur;
+                                if (envoutement.Stat == Statistique.type.puissance)
+                                    puissance += envoutement.Valeur;
+                                if (envoutement.Stat == Statistique.type.DMG_air)
+                                    DMG_air += envoutement.Valeur;
                             }
                             if (agilite < 0)
                                 agilite = 0;
@@ -169,26 +159,23 @@
                                 puissance = 0;
                             if (DMG_air < 0)
                                 DMG_air = 0;
-                            Noeud<Statistique> stat_def = entiteInconnu2.Valeur.ListStatistiques.First;
-                            while (stat_def != null)
+                            foreach (Statistique stat_def in entiteInconnu.ListStatistiques)
                             {
-                                if (stat_def.Valeur.Nom == Statistique.type.RES_air)
-                                    RES_air = stat_def.Valeur.Valeur;
-                                if (stat_def.Valeur.Nom == Statistique.type.RES_Pourcent_air)
-                                    RES_Pourcent_air = stat_def.Valeur.Valeur;
-                                if (stat_def.Valeur.Nom == Statistique.type.reduction_magique)
-                                    reduction_magique = stat_def.Valeur.Valeur;
+                                if (stat_def.Nom == Statistique.type.RES_air)
+                                    RES_air = stat_def.Valeur;
+                                if (stat_def.Nom == Statistique.type.RES_Pourcent_air)
+                                    RES_Pourcent_air = stat_def.Valeur;
+                                if (stat_def.Nom == Statistique.type.reduction_magique)
+                                    reduction_magique = stat_def.Valeur;
                             }
-                            Noeud<Envoutement> envoutement_def = entiteInconnu2.Valeur.ListEnvoutements.First;
-                            while (envoutement_def != null)
+                            foreach (Envoutement envoutement_def in entiteInconnu.ListEnvoutements)
                             {
-                                if (envoutement_def.Valeur.Stat == Statistique.type.RES_air)
-                                    RES_air += envoutement_def.Valeur.Valeur;
-                                if (envoutement_def.Valeur.Stat == Statistique.type.RES_Pourcent_air)
-                                    RES_Pourcent_air += envoutement_def.Valeur.Valeur;
-                                if (envoutement_def.Valeur.Stat == Statistique.type.reduction_magique)
-                                    reduction_magique += envoutement_def.Valeur.Valeur;
-                                envoutement_def = envoutement_def.Next;
+                                if (envoutement_def.Stat == Statistique.type.RES_air)
+                                    RES_air += envoutement_def.Valeur;
+                                if (envoutement_def.Stat == Statistique.type.RES_Pourcent_air)
+                                    RES_Pourcent_air += envoutement_def.Valeur;
+                                if (envoutement_def.Stat == Statistique.type.reduction_magique)
+                                    reduction_magique += envoutement_def.Valeur;
                             }
                             if (RES_air < 0)
                                 RES_air = 0;
@@ -196,16 +183,14 @@
                                 RES_Pourcent_air = 0;
                             if (reduction_magique < 0)
                                 reduction_magique = 0;
-                            entiteInconnu2.Valeur.PV -= (1 - (RES_Pourcent_air / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + agilite + puissance) / 100 + DMG_air) - RES_air - reduction_magique);
+                            entiteInconnu.PV -= (1 - (RES_Pourcent_air / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + agilite + puissance) / 100 + DMG_air) - RES_air - reduction_magique);
                         }
-                        entiteInconnu2 = entiteInconnu2.Next;
                     }
                     break;
                 case Effet.type.ATT_feu:
-                    Noeud<EntiteInconnu> entiteInconnu3 = ListEntites.First;
-                    while (entiteInconnu3 != null)
+                    foreach (EntiteInconnu entiteInconnu in ListEntites)
                     {
-                        if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu3.Valeur.Position))
+                        if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
                         {
                             int intelligence = 0;
                             int puissance = 0;
@@ -222,16 +207,14 @@
                                 if (stat.Nom == Statistique.type.DMG_feu)
                                     DMG_feu = stat.Valeur;
                             }
-                            Noeud<Envoutement> envoutement = ListEnvoutements.First;
-                            while (envoutement != null)
+                            foreach (Envoutement envoutement in ListEnvoutements)
                             {
-                                if (envoutement.Valeur.Stat == Statistique.type.intelligence)
-                                    intelligence += envoutement.Valeur.Valeur;
-                                if (envoutement.Valeur.Stat == Statistique.type.puissance)
-                                    puissance += envoutement.Valeur.Valeur;
-                                if (envoutement.Valeur.Stat == Statistique.type.DMG_feu)
-                                    DMG_feu += envoutement.Valeur.Valeur;
-                                envoutement = envoutement.Next;
+                                if (envoutement.Stat == Statistique.type.intelligence)
+                                    intelligence += envoutement.Valeur;
+                                if (envoutement.Stat == Statistique.type.puissance)
+                                    puissance += envoutement.Valeur;
+                                if (envoutement.Stat == Statistique.type.DMG_feu)
+                                    DMG_feu += envoutement.Valeur;
                             }
                             if (intelligence < 0)
                                 intelligence = 0;
@@ -239,26 +222,23 @@
                                 puissance = 0;
                             if (DMG_feu < 0)
                                 DMG_feu = 0;
-                            Noeud<Statistique> stat_def = entiteInconnu3.Valeur.ListStatistiques.First;
-                            while (stat_def != null)
+                            foreach (Statistique stat_def in entiteInconnu.ListStatistiques)
                             {
-                                if (stat_def.Valeur.Nom == Statistique.type.RES_feu)
-                                    RES_feu = stat_def.Valeur.Valeur;
-                                if (stat_def.Valeur.Nom == Statistique.type.RES_Pourcent_feu)
-                                    RES_Pourcent_feu = stat_def.Valeur.Valeur;
-                                if (stat_def.Valeur.Nom == Statistique.type.reduction_magique)
-                                    reduction_magique = stat_def.Valeur.Valeur;
+                                if (stat_def.Nom == Statistique.type.RES_feu)
+                                    RES_feu = stat_def.Valeur;
+                                if (stat_def.Nom == Statistique.type.RES_Pourcent_feu)
+                                    RES_Pourcent_feu = stat_def.Valeur;
+                                if (stat_def.Nom == Statistique.type.reduction_magique)
+                                    reduction_magique = stat_def.Valeur;
                             }
-                            Noeud<Envoutement> envoutement_def = entiteInconnu3.Valeur.ListEnvoutements.First;
-                            while (envoutement_def != null)
+                            foreach (Envoutement envoutement_def in entiteInconnu.ListEnvoutements)
                             {
-                                if (envoutement_def.Valeur.Stat == Statistique.type.RES_feu)
-                                    RES_feu += envoutement_def.Valeur.Valeur;
-                                if (envoutement_def.Valeur.Stat == Statistique.type.RES_Pourcent_feu)
-                                    RES_Pourcent_feu += envoutement_def.Valeur.Valeur;
-                                if (envoutement_def.Valeur.Stat == Statistique.type.reduction_magique)
-                                    reduction_magique += envoutement_def.Valeur.Valeur;
-                                envoutement_def = envoutement_def.Next;
+                                if (envoutement_def.Stat == Statistique.type.RES_feu)
+                                    RES_feu += envoutement_def.Valeur;
+                                if (envoutement_def.Stat == Statistique.type.RES_Pourcent_feu)
+                                    RES_Pourcent_feu += envoutement_def.Valeur;
+                                if (envoutement_def.Stat == Statistique.type.reduction_magique)
+                                    reduction_magique += envoutement_def.Valeur;
                             }
                             if (RES_feu < 0)
                                 RES_feu = 0;
@@ -266,16 +246,14 @@
                                 RES_Pourcent_feu = 0;
                             if (reduction_magique < 0)
                                 reduction_magique = 0;
-                            entiteInconnu3.Valeur.PV -= (1 - (RES_Pourcent_feu / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + intelligence + puissance) / 100 + DMG_feu) - RES_feu - reduction_magique);
+                            entiteInconnu.PV -= (1 - (RES_Pourcent_feu / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + intelligence + puissance) / 100 + DMG_feu) - RES_feu - reduction_magique);
                         }
-                        entiteInconnu3 = entiteInconnu3.Next;
                     }
                     break;
                 case Effet.type.ATT_terre:
-                    Noeud<EntiteInconnu> entiteInconnu4 = ListEntites.First;
-                    while (entiteInconnu4 != null)
+                    foreach (EntiteInconnu entiteInconnu in ListEntites)
                     {
-                        if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu4.Valeur.Position))
+                        if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
                         {
                             int force = 0;
                             int puissance = 0;
@@ -292,16 +270,14 @@
                                 if (stat.Nom == Statistique.type.DMG_terre)
                                     DMG_terre = stat.Valeur;
                             }
-                            Noeud<Envoutement> envoutement = ListEnvoutements.First;
-                            while (envoutement != null)
+                            foreach (Envoutement envoutement in ListEnvoutements)
                             {
-                                if (envoutement.Valeur.Stat == Statistique.type.force)
-                                    force += envoutement.Valeur.Valeur;
-                                if (envoutement.Valeur.Stat == Statistique.type.puissance)
-                                    puissance += envoutement.Valeur.Valeur;
-                                if (envoutement.Valeur.Stat == Statistique.type.DMG_terre)
-                                    DMG_terre += envoutement.Valeur.Valeur;
-                                envoutement = envoutement.Next;
+                                if (envoutement.Stat == Statistique.type.force)
+                                    force += envoutement.Valeur;
+                                if (envoutement.Stat == Statistique.type.puissance)
+                                    puissance += envoutement.Valeur;
+                                if (envoutement.Stat == Statistique.type.DMG_terre)
+                                    DMG_terre += envoutement.Valeur;
                             }
                             if (force < 0)
                                 force = 0;
@@ -309,26 +285,23 @@
                                 puissance = 0;
                             if (DMG_terre < 0)
                                 DMG_terre = 0;
-                            Noeud<Statistique> stat_def = entiteInconnu4.Valeur.ListStatistiques.First;
-                            while (stat_def != null)
+                            foreach (Statistique stat_def in entiteInconnu.ListStatistiques)
                             {
-                                if (stat_def.Valeur.Nom == Statistique.type.RES_terre)
-                                    RES_terre = stat_def.Valeur.Valeur;
-                                if (stat_def.Valeur.Nom == Statistique.type.RES_Pourcent_terre)
-                                    RES_Pourcent_terre = stat_def.Valeur.Valeur;
-                                if (stat_def.Valeur.Nom == Statistique.type.reduction_physique)
-                                    reduction_physique = stat_def.Valeur.Valeur;
+                                if (stat_def.Nom == Statistique.type.RES_terre)
+                                    RES_terre = stat_def.Valeur;
+                                if (stat_def.Nom == Statistique.type.RES_Pourcent_terre)
+                                    RES_Pourcent_terre = stat_def.Valeur;
+                                if (stat_def.Nom == Statistique.type.reduction_physique)
+                                    reduction_physique = stat_def.Valeur;
                             }
-                            Noeud<Envoutement> envoutement_def = entiteInconnu4.Valeur.ListEnvoutements.First;
-                            while (envoutement_def != null)
+                            foreach (Envoutement envoutement_def in entiteInconnu.ListEnvoutements)
                             {
-                                if (envoutement_def.Valeur.Stat == Statistique.type.RES_terre)
-                                    RES_terre += envoutement_def.Valeur.Valeur;
-                                if (envoutement_def.Valeur.Stat == Statistique.type.RES_Pourcent_terre)
-                                    RES_Pourcent_terre += envoutement_def.Valeur.Valeur;
-                                if (envoutement_def.Valeur.Stat == Statistique.type.reduction_physique)
-                                    reduction_physique += envoutement_def.Valeur.Valeur;
-                                envoutement_def = envoutement_def.Next;
+                                if (envoutement_def.Stat == Statistique.type.RES_terre)
+                                    RES_terre += envoutement_def.Valeur;
+                                if (envoutement_def.Stat == Statistique.type.RES_Pourcent_terre)
+                                    RES_Pourcent_terre += envoutement_def.Valeur;
+                                if (envoutement_def.Stat == Statistique.type.reduction_physique)
+                                    reduction_physique += envoutement_def.Valeur;
                             }
                             if (RES_terre < 0)
                                 RES_terre = 0;
@@ -336,16 +309,14 @@
                                 RES_Pourcent_terre = 0;
                             if (reduction_physique < 0)
                                 reduction_physique = 0;
-                            entiteInconnu4.Valeur.PV -= (1 - (RES_Pourcent_terre / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + force + puissance) / 100 + DMG_terre) - RES_terre - reduction_physique);
+                            entiteInconnu.PV -= (1 - (RES_Pourcent_terre / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + force + puissance) / 100 + DMG_terre) - RES_terre - reduction_physique);
                         }
-                        entiteInconnu4 = entiteInconnu4.Next;
                     }
                     break;
                 case Effet.type.ATT_eau:
-                    Noeud<EntiteInconnu> entiteInconnu5 = ListEntites.First;
-                    while (entiteInconnu5 != null)
+                    foreach (EntiteInconnu entiteInconnu in ListEntites)
                     {
-                        if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu5.Valeur.Position))
+                        if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
                         {
                             int chance = 0;
                             int puissance = 0;
@@ -362,16 +333,14 @@
                                 if (stat.Nom == Statistique.type.DMG_eau)
                                     DMG_eau = stat.Valeur;
                             }
-                            Noeud<Envoutement> envoutement = ListEnvoutements.First;
-                            while (envoutement != null)
+                            foreach (Envoutement envoutement in ListEnvoutements)
                             {
-                                if (envoutement.Valeur.Stat == Statistique.type.chance)
-                                    chance += envoutement.Valeur.Valeur;
-                                if (envoutement.Valeur.Stat == Statistique.type.puissance)
-                                    puissance += envoutement.Valeur.Valeur;
-                                if (envoutement.Valeur.Stat == Statistique.type.DMG_eau)
-                                    DMG_eau += envoutement.Valeur.Valeur;
-                                envoutement = envoutement.Next;
+                                if (envoutement.Stat == Statistique.type.chance)
+                                    chance += envoutement.Valeur;
+                                if (envoutement.Stat == Statistique.type.puissance)
+                                    puissance += envoutement.Valeur;
+                                if (envoutement.Stat == Statistique.type.DMG_eau)
+                                    DMG_eau += envoutement.Valeur;
                             }
                             if (chance < 0)
                                 chance = 0;
@@ -379,26 +348,23 @@
                                 puissance = 0;
                             if (DMG_eau < 0)
                                 DMG_eau = 0;
-                            Noeud<Statistique> stat_def = entiteInconnu5.Valeur.ListStatistiques.First;
-                            while (stat_def != null)
+                            foreach (Statistique stat_def in entiteInconnu.ListStatistiques)
                             {
-                                if (stat_def.Valeur.Nom == Statistique.type.RES_eau)
-                                    RES_eau = stat_def.Valeur.Valeur;
-                                if (stat_def.Valeur.Nom == Statistique.type.RES_Pourcent_eau)
-                                    RES_Pourcent_eau = stat_def.Valeur.Valeur;
-                                if (stat_def.Valeur.Nom == Statistique.type.reduction_magique)
-                                    reduction_magique = stat_def.Valeur.Valeur;
+                                if (stat_def.Nom == Statistique.type.RES_eau)
+                                    RES_eau = stat_def.Valeur;
+                                if (stat_def.Nom == Statistique.type.RES_Pourcent_eau)
+                                    RES_Pourcent_eau = stat_def.Valeur;
+                                if (stat_def.Nom == Statistique.type.reduction_magique)
+                                    reduction_magique = stat_def.Valeur;
                             }
-                            Noeud<Envoutement> envoutement_def = entiteInconnu5.Valeur.ListEnvoutements.First;
-                            while (envoutement_def != null)
+                            foreach (Envoutement envoutement_def in entiteInconnu.ListEnvoutements)
                             {
-                                if (envoutement_def.Valeur.Stat == Statistique.type.RES_eau)
-                                    RES_eau += envoutement_def.Valeur.Valeur;
-                                if (envoutement_def.Valeur.Stat == Statistique.type.RES_Pourcent_eau)
-                                    RES_Pourcent_eau += envoutement_def.Valeur.Valeur;
-                                if (envoutement_def.Valeur.Stat == Statistique.type.reduction_magique)
-                                    reduction_magique += envoutement_def.Valeur.Valeur;
-                                envoutement_def = envoutement_def.Next;
+                                if (envoutement_def.Stat == Statistique.type.RES_eau)
+                                    RES_eau += envoutement_def.Valeur;
+                                if (envoutement_def.Stat == Statistique.type.RES_Pourcent_eau)
+                                    RES_Pourcent_eau += envoutement_def.Valeur;
+                                if (envoutement_def.Stat == Statistique.type.reduction_magique)
+                                    reduction_magique += envoutement_def.Valeur;
                             }
                             if (RES_eau < 0)
                                 RES_eau = 0;
@@ -406,20 +372,17 @@
                                 RES_Pourcent_eau = 0;
                             if (reduction_magique < 0)
                                 reduction_magique = 0;
-                            entiteInconnu5.Valeur.PV -= (int)(1 - (/*(float)*/RES_Pourcent_eau / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + chance + puissance) / 100 + DMG_eau) - RES_eau - reduction_magique);
+                            entiteInconnu.PV -= (int)(1 - (RES_Pourcent_eau / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + chance + puissance) / 100 + DMG_eau) - RES_eau - reduction_magique);
                         }
-                        entiteInconnu5 = entiteInconnu5.Next;
                     }
                     break;
                 case Effet.type.envoutement:
-                    Noeud<EntiteInconnu> entiteInconnu6 = ListEntites.First;
-                    while (entiteInconnu6 != null)
+                    foreach (EntiteInconnu entiteInconnu in ListEntites)
                     {
-                        if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu6.Valeur.Position))
+                        if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
                         {
-                            entiteInconnu6.Valeur.ListEnvoutements.AjouterFin(new Envoutement(effet.Stat, new System.Random().Next(effet.ValeurMin, effet.ValeurMax), effet.NbTour, IdEntite));
+                            entiteInconnu.ListEnvoutements.AjouterFin(new Envoutement(effet.Stat, new System.Random().Next(effet.ValeurMin, effet.ValeurMax), effet.NbTour, IdEntite));
                         }
-                        entiteInconnu = entiteInconnu6.Next;
                     }
                     break;
                 case Effet.type.pose_piege:
@@ -430,10 +393,9 @@
                     //PlaceHolder ListEntites.AjouterFin(new EntiteInconnu(effet.ValeurMax, Classe.type.osamoda, "bouftou", 1000, source, Equipe, IdEntite);
                     break;
                 case Effet.type.soin:
-                    Noeud<EntiteInconnu> entiteInconnu7 = ListEntites.First;
-                    while (entiteInconnu7 != null)
+                    foreach (EntiteInconnu entiteInconnu in ListEntites)
                     {
-                        if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu7.Valeur.Position))
+                        if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
                         {
                             int intelligence = 0;
                             int soin = 0;
@@ -451,9 +413,8 @@
                                 if (envoutement.Stat == Statistique.type.soin)
                                     soin = envoutement.Valeur;
                             }
-                            entiteInconnu7.Valeur.PV += new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + intelligence) / 100 + soin;
+                            entiteInconnu.PV += new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + intelligence) / 100 + soin;
                         }
-                        entiteInconnu7 = entiteInconnu7.Next;
                     }
                     break;
                 default:

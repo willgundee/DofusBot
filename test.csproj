@@ -92,7 +92,6 @@
     <Compile Include="GofusSharp\Case.cs" />
     <Compile Include="GofusSharp\Classe.cs" />
     <Compile Include="GofusSharp\CombatTest.cs" />
-    <Compile Include="GofusSharp\Condition.cs" />
     <Compile Include="GofusSharp\Effet.cs" />
     <Compile Include="GofusSharp\EntiteInconnu.cs" />
     <Compile Include="GofusSharp\Entite.cs" />

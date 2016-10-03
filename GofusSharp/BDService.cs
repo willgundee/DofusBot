@@ -1,12 +1,9 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
-namespace test
+namespace GofusSharp
 {
     public class BDService
     {   /*
@@ -99,7 +96,7 @@ namespace test
             {
                 listEnregistrement = new List<string>[1];
                 listEnregistrement[0] = new List<string>();
-                listEnregistrement[0].Add("");
+                listEnregistrement[0].Add("rien");
             }
             else
             {

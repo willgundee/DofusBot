@@ -401,6 +401,8 @@
         public System.Collections.Generic.IEnumerator<T> GetEnumerator()
         {
             Noeud<T> node = First;
+            if (First == null)
+                yield break;
             while (node != Last.Next)
             {
                 yield return node.Valeur;
