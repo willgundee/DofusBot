@@ -52,6 +52,8 @@ namespace test
             catch (Exception e)
             {
                 MessageBox.Show("Erreur d'insertion :" + e.Message);
+                fermerConnexion();
+                return -1;
             }
 
             return retVal;
