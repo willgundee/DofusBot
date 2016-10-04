@@ -4,10 +4,10 @@
     {
         public int IdPartie { get; internal set; }
         public Terrain TerrainPartie { get; internal set; }
-        internal ListeChainee<Entite> ListAttaquants { get; set; }
-        internal ListeChainee<Entite> ListDefendants { get; set; }
-        internal ListeChainee<EntiteInconnu> ListEntites { get; set; }
-        internal int Seed { get; set; }
+        public ListeChainee<Entite> ListAttaquants { get; internal set; }
+        public ListeChainee<Entite> ListDefendants { get; internal set; }
+        public ListeChainee<EntiteInconnu> ListEntites { get; internal set; }
+        public int Seed { get; internal set; }
         public Partie(int IdPartie, Terrain TerrainPartie, ListeChainee<Entite> ListAttaquants, ListeChainee<Entite> ListDefendants, int Seed)
         {
             this.IdPartie = IdPartie;
@@ -18,6 +18,7 @@
             ListAttaquants.Last.Next = ListDefendants.First;
             ListDefendants.First.Previous = ListAttaquants.Last;
             ListEntites = new ListeChainee<EntiteInconnu>();
+            DebuterPartie();
         }
 
         internal void DebuterPartie()
@@ -52,7 +53,7 @@
             }
         }
 
-        internal void DebuterAction()
+        public void DebuterAction()
         {
             Noeud<Entite> entite = ListAttaquants.First;
             while (entite != null)

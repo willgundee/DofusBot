@@ -1,6 +1,7 @@
-﻿namespace GofusSharp
+﻿//csc /target:library /out:GofusSharp.dll *.cs
+namespace GofusSharp
 {
-    class CombatTest
+    public class CombatTest
     {
         public Partie PartieTest { get; private set; }
         public CombatTest()

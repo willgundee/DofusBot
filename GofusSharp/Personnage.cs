@@ -28,4 +28,3 @@
         }
     }
 }
-//csc /target:library /out:GofusSharp.dll FonctionUtilisateur.cs
