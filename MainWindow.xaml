@@ -27,7 +27,7 @@
                     <MockObject Stats="Inteligence" Val="10"  />
                     <MockObject Stats="Chance" Val="101"  />
                     <MockObject Stats="Sagesse" Val="150"  />
-                   
+
                 </MockObjects>
 
             </x:XData>
@@ -84,9 +84,9 @@
                                 </DataGrid.Columns>
 
                             </DataGrid>
-                            <Label x:Name="lblDommage" Grid.Row="1" Grid.Column="1" Content="Dommages" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,60"></Label>
-                            <DataGrid x:Name="dgDommage" HorizontalAlignment="Left"  Height="150" Width="140"  VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Mode=Default, XPath=/MockObjects/MockObject}" 
-              AutoGenerateColumns="False">
+                            <Label x:Name="lblDommage" Grid.Row="1" Content="Dommages" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="276,105.98,0,132.04" Grid.ColumnSpan="2"/>
+                            <DataGrid x:Name="dgDommage" HorizontalAlignment="Left"  Height="125" Width="140"  VerticalAlignment="Bottom"  ItemsSource="{Binding Mode=Default, XPath=/MockObjects/MockObject}" 
+              AutoGenerateColumns="False" Margin="0,0,0,5" Grid.Row="1" Grid.Column="1">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Type" Binding="{Binding DOM}" Width="1.5*" />
                                     <DataGridTextColumn Header="Valeur" Binding="{Binding VR}" Width="*"/>
@@ -98,10 +98,10 @@
                                 </DataGrid.RowDetailsTemplate>
 
                             </DataGrid>
-                            <Label x:Name="lblResistance" Grid.Row="1" Grid.Column="1" Content="Résistances" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="70,0,0,60"></Label>
+                            <Label x:Name="lblResistance" Grid.Row="1" Grid.Column="1" Content="Résistances" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="133.5,105.98,80,132.04"></Label>
 
-                            <DataGrid x:Name="dgResistance" HorizontalAlignment="Right"  Height="150" Width="140"  VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Mode=Default,XPath=/MockObjects/MockObject}" 
-              AutoGenerateColumns="False">
+                            <DataGrid x:Name="dgResistance" HorizontalAlignment="Right"  Height="125" Width="140"  VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Mode=Default,XPath=/MockObjects/MockObject}" 
+              AutoGenerateColumns="False" Margin="0,0,2,5">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Type" Binding="{Binding Statistique}" Width="1.5*" />
                                     <DataGridTextColumn Header="Valeur" Binding="{Binding valeurStats}" Width="*"/>
