@@ -35,7 +35,6 @@
                 total += entite.IdEntite;
             valeurSeed = System.DateTime.Now.Millisecond - total;
             Seed = new System.Random(valeurSeed);
-            System.Windows.Forms.MessageBox.Show(Seed.ToString());
             ListAttaquants.Last.Next = ListDefendants.First;
             ListDefendants.First.Previous = ListAttaquants.Last;
             GenererTerrain(10, 5, 0);
@@ -181,7 +180,7 @@
                 }
                 if (!existe)
                 {
-                    Entite newInvoc = new Entite(entiteInconnu , new Script(3, "Placeholder"), TerrainPartie, entite.Valeur.Proprietaire);
+                    Entite newInvoc = new Entite(entiteInconnu , new Script(3, "//Placeholder"), TerrainPartie, entite.Valeur.Proprietaire);
                     if (newInvoc.Equipe == EntiteInconnu.type.attaquant)
                     {
                         foreach (Entite entiteProp in ListAttaquants)

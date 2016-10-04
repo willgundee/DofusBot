@@ -7,7 +7,7 @@
         public int Count {
             get
             {
-                Count = 0;
+                this.Count = 0;
                 if (First == null)
                     return Count;
                 foreach (T valeur in this)
