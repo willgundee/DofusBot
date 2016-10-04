@@ -8,6 +8,8 @@ using System.Text;
 using System.Windows;
 using System.Windows.Forms;
 using GofusSharp;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace test
 {
@@ -31,18 +33,19 @@ namespace test
     /// </summary>
     public partial class MainWindow : Window
     {
+        private BDService bd = new BDService();
         public MainWindow()
         {
-          /*  BDService bd = new BDService();
-            List<string>[] rep = bd.selection("SELECT * FROM classes");
+            /*  BDService bd = new BDService();
+              List<string>[] rep = bd.selection("SELECT * FROM classes");
 
-            foreach (List<string> iop in rep)
-                foreach (string item in iop)
-                    System.Windows.Forms.MessageBox.Show(item);*/
-                 
-            
-            
-            
+              foreach (List<string> iop in rep)
+                  foreach (string item in iop)
+                      System.Windows.Forms.MessageBox.Show(item);*/
+
+
+
+
             //CombatTest combat = new CombatTest();
             InitializeComponent();
             ctb_main.CreateTreeView(generateTree());
@@ -517,6 +520,48 @@ namespace test
         }
 
     
+
+        private void image_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            System.Windows.Controls.Image img = (System.Windows.Controls.Image)sender;
+            imgCurrent.Source = img.Source;
+        }
+
+        private void TabItemMarche_Selected(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.MessageBox.Show("in");
+            string armes = "SELECT * FROM Equipements WHERE idZonePorte IS NULL ";
+            string equips = "SELECT * FROM Equipements WHERE idZonePorte IS  NOT NULL";
+            /*  BDService bd = new BDService();
+                  List<string>[] rep = bd.selection("SELECT * FROM classes");
+
+                  foreach (List<string> iop in rep)
+                      foreach (string item in iop)
+                          System.Windows.Forms.MessageBox.Show(item);*/
+
+            List<string>[] repArmes = bd.selection(armes);
+            List<string>[] repEquip = bd.selection(equips);
+            // < Image x: Name = "image2" Mouse.MouseUp = "image_MouseUp" Source = "http://staticns.ankama.com/dofus/www/game/items/200/9044.png" Grid.Row = "0" Grid.Column = "1" HorizontalAlignment = "Left" Height = "100"  VerticalAlignment = "Top" Width = "100" />
+
+        }
+        private Image CreateImg(int Noimg)
+        {
+            Image img = new Image();
+            System.Windows.Media.ImageSource path = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/items/200/" + Noimg.ToString() + ".png"));
+            img.Width = 100;
+            img.Height = 100;
+            img.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
+            img.VerticalAlignment = System.Windows.VerticalAlignment.Top;
+            img.MouseUp += image_MouseUp;
+            img.Source = path;
+            return img;
+        }
+
+        private void TabItemMarche_Unselected(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.MessageBox.Show("out");
+        }
+
 
 
         //**************************************************************************************************

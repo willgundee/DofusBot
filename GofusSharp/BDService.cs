@@ -24,7 +24,7 @@ namespace GofusSharp
 
                 BDInterne = new MySqlConnection(connexionString);
 
-                MessageBox.Show("Connexion OK");
+               // MessageBox.Show("Connexion OK");
             }
             catch (Exception e)
             {
