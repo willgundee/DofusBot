@@ -66,16 +66,12 @@ namespace GofusSharp
         [ResourceExposure(ResourceScope.None)]
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern double Cosh(double value);
-      
-      public static decimal Floor(decimal d) {
-        return decimal.Floor(d);
-      }
 
         [ResourceExposure(ResourceScope.None)]
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         public static extern double Floor(double d);
-      
-      private static unsafe double InternalRound(double value, int digits, MidpointRounding mode) {
+
+        private static unsafe double InternalRound(double value, int digits, MidpointRounding mode) {
         if (Abs(value) < doubleRoundLimit) {
             Double power10 = roundPower10Double[digits];
             value *= power10;

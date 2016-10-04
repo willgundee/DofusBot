@@ -3,12 +3,23 @@
     public class Terrain
     {
         public Case[][] TabCases { get; internal set; }
+        public int Largeur { get; internal set; }
+        public int Hauteur { get; internal set; }
         public Terrain(Case[][] TabCases)
         {
             this.TabCases = TabCases;
         }
+        public Terrain(int Largeur, int Hauteur)
+        {
+            this.Largeur = Largeur;
+            this.Hauteur = Hauteur;
 
-
+            TabCases = new Case[Largeur][];
+            for (int i = 0; i < Largeur; i++)
+            {
+                TabCases[i] = new Case[Hauteur];
+            }
+        }
         public int DistanceEntreCases(Case case1, Case case2)
         {
             return Math.Abs(case1.X - case2.X) + Math.Abs(case1.Y - case2.Y);

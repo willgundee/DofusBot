@@ -82,10 +82,10 @@ namespace GofusSharp
             Case[][] tabCases = new Case[][] { new Case[] { new Case(0, 0, Case.type.joueur), new Case(0, 1, Case.type.vide), new Case(0, 2, Case.type.vide) }, new Case[] { new Case(1, 0, Case.type.vide), new Case(1, 1, 0), new Case(1, 2, Case.type.vide) }, new Case[] { new Case(2, 0, Case.type.vide), new Case(2, 1, Case.type.vide), new Case(2, 2, Case.type.joueur) } };
             Terrain terrain = new Terrain(tabCases);
             ListeChainee<Entite> ListAttaquants = new ListeChainee<Entite>();
-            ListAttaquants.AjouterFin(new Personnage(10, classeAtt, "Trebor", 10000, terrain.TabCases[0][0], EntiteInconnu.type.attaquant, listStatistiqueAtt, scriptAtt, tabEquipAtt, terrain));
+            ListAttaquants.AjouterFin(new Personnage(10, classeAtt, "Trebor", 10000, EntiteInconnu.type.attaquant, listStatistiqueAtt, scriptAtt, tabEquipAtt, terrain));
             ListeChainee<Entite> ListDefendants = new ListeChainee<Entite>();
-            ListDefendants.AjouterFin(new Personnage(11, classeDef, "Robert", 9000, terrain.TabCases[2][2], EntiteInconnu.type.defendant, listStatistiqueDef, scriptDef, tabEquipDef, terrain));
-            PartieTest = new Partie(1, terrain, ListAttaquants, ListDefendants, 123123);
+            ListDefendants.AjouterFin(new Personnage(11, classeDef, "Robert", 9000, EntiteInconnu.type.defendant, listStatistiqueDef, scriptDef, tabEquipDef, terrain));
+            PartieTest = new Partie(1, ListAttaquants, ListDefendants);
         }
 
     }
