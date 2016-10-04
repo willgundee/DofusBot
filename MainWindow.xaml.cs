@@ -519,18 +519,29 @@ namespace test
             SendMessage(tb_lineNumber.Handle, (int)Message.WM_VSCROLL, new UIntPtr(wParam), new UIntPtr(0));
         }
 
-    
+
 
         private void image_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            System.Windows.Controls.Image img = (System.Windows.Controls.Image)sender;
-            imgCurrent.Source = img.Source;
+            //TODO : add border to selected item
+            /* Border border = new Border();
+             border.BorderBrush = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Black);
+             border.BorderThickness = new Thickness(1);
+             // ((Image)sender) = border;*/
+            imgCurrent.Source = ((Image)sender).Source;
+           /* string query  ="SELECT * FROM Equipements e INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE e.nom ="+ ((Image)sender).Name;
+            List<string>[] infoItem = bd.selection(query);
+            lblItem.Content = infoItem[0][6];
+            lblPrix.Content = infoItem[0][5];
+            txtBDesc.Text = infoItem[0][7];*/
+
+
         }
 
         private void TabItemMarche_Selected(object sender, RoutedEventArgs e)
         {
-            string armes = "SELECT * FROM Equipements WHERE idZonePorte IS NULL ";
-            string equips = "SELECT * FROM Equipements WHERE idZonePorte IS  NOT NULL";
+            string equips = "SELECT * FROM Equipements e INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE idZonePorte IS NULL LIMIT 10 ";
+            string armes = "SELECT * FROM Equipements e INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE idZonePorte IS NOT NULL LIMIT 10";
             /*  BDService bd = new BDService();
                   List<string>[] rep = bd.selection("SELECT * FROM classes");
 
@@ -541,24 +552,61 @@ namespace test
             List<string>[] repArmes = bd.selection(armes);
             List<string>[] repEquip = bd.selection(equips);
             // < Image x: Name = "image2" Mouse.MouseUp = "image_MouseUp" Source = "http://staticns.ankama.com/dofus/www/game/items/200/9044.png" Grid.Row = "0" Grid.Column = "1" HorizontalAlignment = "Left" Height = "100"  VerticalAlignment = "Top" Width = "100" />
+            short col = 0;
+            short row = 0;
+
+            for (int item = 0; item < repArmes.Count(); item++)
+            {
+                Image img = CreateImg(repArmes[item][4],repArmes[item][6]);
+                if (col == 5)
+                {
+                    col = 0;
+                    row++;
+                }
+                Grid.SetRow(img, row);
+                Grid.SetColumn(img, col);
+                col++;
+                grdArmes.Children.Add(img);
+            }
+            col = 0;
+            row = 0;
+            for (int item = 0; item < repEquip.Count(); item++)
+            {
+                Image img = CreateImg(repEquip[item][4],repEquip[item][6].ToString());
+                if (col == 5)
+                {
+                    col = 0;
+                    row++;
+                }
+                Grid.SetRow(img, row);
+                Grid.SetColumn(img, col);
+                col++;
+                grdEquips.Children.Add(img);
+            }
+            //  System.Windows.Forms.MessageBox.Show(repArmes[item][4].ToString());
+            // }
+            //imageA00 = CreateImg(9044, true);
+            //System.Windows.Forms.MessageBox.Show(arme[1].ToString());
+            // System.Windows.Forms.MessageBox.Show(imageA00.Source.ToString());
 
         }
-        private Image CreateImg(int Noimg)
+        private Image CreateImg(string Noimg, string nom)
         {
             Image img = new Image();
-            System.Windows.Media.ImageSource path = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/items/200/" + Noimg.ToString() + ".png"));
+            System.Windows.Media.ImageSource path = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/items/200/" + Noimg + ".png"));
             img.Width = 100;
             img.Height = 100;
             img.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
             img.VerticalAlignment = System.Windows.VerticalAlignment.Top;
             img.MouseUp += image_MouseUp;
             img.Source = path;
+           // img.Name = nom;
             return img;
         }
 
         private void TabItemMarche_Unselected(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.MessageBox.Show("out");
+            //System.Windows.Forms.MessageBox.Show("out");
         }
 
 
