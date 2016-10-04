@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using GofusSharp;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
+using System.Windows.Input;
 
 namespace test
 {
@@ -34,6 +36,12 @@ namespace test
     public partial class MainWindow : Window
     {
         private BDService bd = new BDService();
+
+        public Chat chat;
+        DispatcherTimer aTimer;
+        private ChatWindow fenetreChat;
+
+
         public MainWindow()
         {
             /*  BDService bd = new BDService();
@@ -52,12 +60,91 @@ namespace test
             ctb_main.UpdateSyntaxHightlight();
             ctb_main.UpdateTreeView();
 
+           
+            fenetreChat = new ChatWindow();
+            this.chat = new Chat();
+            btnEnvoyerMessage.IsEnabled = false;
+            ((MainWindow)System.Windows.Application.Current.MainWindow).txtboxHistorique.Text += " ";
+            aTimer = new System.Windows.Threading.DispatcherTimer();
+            aTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+            aTimer.Interval = new TimeSpan(0, 0, 2);
+
+
+
             tb_lineNumber.Font = new System.Drawing.Font("Courier New", 8);
             tb_lineNumber.ReadOnly = true;
             tb_lineNumber.SelectionAlignment = System.Windows.Forms.HorizontalAlignment.Right;
-            tb_lineNumber.Cursor = Cursors.Arrow;
+            tb_lineNumber.Cursor = System.Windows.Forms.Cursors.Arrow;
         }
 
+
+        // POUR LE CHAT -------------------------------------------------------------------------------------------------------------------
+        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            // Updating the Label which displays the current second
+
+            chat.refreshChat();
+            // Forcing the CommandManager to raise the RequerySuggested event
+            CommandManager.InvalidateRequerySuggested();
+        }
+
+
+
+        private void BtnEnvoyer_Click(object sender, RoutedEventArgs e)
+        {
+            long envois = chat.envoyerMessage();
+            if (envois != -1)
+            {
+                chat.refreshChat();
+            }
+            else
+            {
+                System.Windows.MessageBox.Show("Vous ne pouvez pas envoyer plus d'un message par seconde.");
+            }
+        }
+
+        private void txtMessage_TextChange(object sender, TextChangedEventArgs e)
+        {
+
+
+            if (txtMessage.Text.ToString() == "")
+            {
+                btnEnvoyerMessage.IsEnabled = false;
+            }
+            else
+            {
+                btnEnvoyerMessage.IsEnabled = true;
+            }
+        }
+
+        private void btnRejoindreSalle_Click(object sender, RoutedEventArgs e)
+        {
+            aTimer.Start();
+            txtMessage.IsEnabled = true;
+        }
+
+        private void btnQuitterSalle_Click(object sender, RoutedEventArgs e)
+        {
+            aTimer.Stop();
+            txtMessage.Text = "";
+            btnEnvoyerMessage.IsEnabled = false;
+            txtMessage.IsEnabled = false;
+        }
+
+        private void BtnModLess_Click(object sender, RoutedEventArgs e)
+        {
+            aTimer.Stop();
+
+            if (fenetreChat.Visibility != Visibility.Visible)
+            {
+                fenetreChat.Show();
+            }
+        }
+
+
+
+
+        //--------------------------------------------------------------------------------------------------------
         //**************************************************************************************************
         private void btn_run_Click(object sender, RoutedEventArgs e)
         {
