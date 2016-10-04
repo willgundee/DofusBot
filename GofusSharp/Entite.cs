@@ -5,7 +5,7 @@
         public Script ScriptEntite { get; internal set; }
         public Terrain TerrainEntite { get; internal set; }
         public ListeChainee<EntiteInconnu> ListEntites { get; internal set; }
-        internal Entite(int IdEntite, Classe ClasseEntite, string Nom, float Experience, Case Position, type Equipe, ListeChainee<Statistique> ListStatistiques, Script ScriptEntite, Terrain TerrainEntite, int Proprietaire) : base(IdEntite, ClasseEntite, Nom, Experience, Position, Equipe)
+        internal Entite(int IdEntite, Classe ClasseEntite, string Nom, float Experience, type Equipe, ListeChainee<Statistique> ListStatistiques, Script ScriptEntite, Terrain TerrainEntite, int Proprietaire) : base(IdEntite, ClasseEntite, Nom, Experience, Equipe)
         {
             this.ListStatistiques = ListStatistiques;
             foreach (Statistique stat in ListStatistiques)
@@ -19,6 +19,23 @@
             this.ClasseEntite = ClasseEntite;
             this.Nom = Nom;
             this.Experience = Experience;
+            this.TerrainEntite = TerrainEntite;
+            this.Proprietaire = Proprietaire;
+        }
+        internal Entite(EntiteInconnu EntiteInconnu, Script ScriptEntite, Terrain TerrainEntite, int Proprietaire) : base(EntiteInconnu.IdEntite, EntiteInconnu.ClasseEntite, EntiteInconnu.Nom, EntiteInconnu.Experience, EntiteInconnu.Equipe)
+        {
+            ListStatistiques = EntiteInconnu.ListStatistiques;
+            foreach (Statistique stat in EntiteInconnu.ListStatistiques)
+            {
+                if (stat.Nom == Statistique.type.PA)
+                    PA_MAX = stat.Valeur;
+                if (stat.Nom == Statistique.type.PM)
+                    PM_MAX = stat.Valeur;
+            }
+            this.ScriptEntite = ScriptEntite;
+            ClasseEntite = EntiteInconnu.ClasseEntite;
+            Nom = EntiteInconnu.Nom;
+            Experience = EntiteInconnu.Experience;
             this.TerrainEntite = TerrainEntite;
             this.Proprietaire = Proprietaire;
         }

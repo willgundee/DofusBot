@@ -519,10 +519,7 @@ namespace test
             SendMessage(tb_lineNumber.Handle, (int)Message.WM_VSCROLL, new UIntPtr(wParam), new UIntPtr(0));
         }
 
-        private void dataGrid_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-
-        }
+    
 
         private void image_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
