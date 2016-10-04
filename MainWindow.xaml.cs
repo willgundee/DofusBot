@@ -133,7 +133,7 @@ namespace test
 
         private void BtnModLess_Click(object sender, RoutedEventArgs e)
         {
-            aTimer.Stop();
+            
 
             if (fenetreChat.Visibility != Visibility.Visible)
             {
