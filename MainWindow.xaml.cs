@@ -529,7 +529,6 @@ namespace test
 
         private void TabItemMarche_Selected(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.MessageBox.Show("in");
             string armes = "SELECT * FROM Equipements WHERE idZonePorte IS NULL ";
             string equips = "SELECT * FROM Equipements WHERE idZonePorte IS  NOT NULL";
             /*  BDService bd = new BDService();

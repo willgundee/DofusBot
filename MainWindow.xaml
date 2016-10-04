@@ -9,7 +9,7 @@
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         x:Class="test.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="700">
+        Title="Gofus" Height="600" Width="700">
 
     <!--HARD CODE dsStats-->
     <Window.Resources>
@@ -40,14 +40,6 @@
         <TabItem Header="Personages" Height="30">
             <Grid x:Name="grd_Perso" DataContext="{Binding Source={StaticResource MockList}}">
                 <TabControl x:Name="tCPerso" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="560" Margin="3,1,0,-1" VerticalAlignment="Top" Width="577" Grid.RowSpan="2" >
-                    <TabControl.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform/>
-                            <SkewTransform/>
-                            <RotateTransform Angle="0.427"/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </TabControl.RenderTransform>
                     <TabItem Header="Personage1" Foreground="Black">
                         <Grid Background="Gray">
                             <Grid.RowDefinitions>
