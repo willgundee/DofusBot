@@ -33,6 +33,16 @@ namespace test
     {
         public MainWindow()
         {
+          /*  BDService bd = new BDService();
+            List<string>[] rep = bd.selection("SELECT * FROM classes");
+
+            foreach (List<string> iop in rep)
+                foreach (string item in iop)
+                    System.Windows.Forms.MessageBox.Show(item);*/
+                 
+            
+            
+            
             //CombatTest combat = new CombatTest();
             InitializeComponent();
             ctb_main.CreateTreeView(generateTree());

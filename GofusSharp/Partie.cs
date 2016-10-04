@@ -7,18 +7,85 @@
         public ListeChainee<Entite> ListAttaquants { get; internal set; }
         public ListeChainee<Entite> ListDefendants { get; internal set; }
         public ListeChainee<EntiteInconnu> ListEntites { get; internal set; }
-        public int Seed { get; internal set; }
-        public Partie(int IdPartie, Terrain TerrainPartie, ListeChainee<Entite> ListAttaquants, ListeChainee<Entite> ListDefendants, int Seed)
+        public System.Random Seed { get; internal set; }
+        public int valeurSeed { get; internal set; }
+        public Partie(int IdPartie, Terrain TerrainPartie, ListeChainee<Entite> ListAttaquants, ListeChainee<Entite> ListDefendants, int valeurSeed)
         {
             this.IdPartie = IdPartie;
             this.TerrainPartie = TerrainPartie;
             this.ListAttaquants = ListAttaquants;
             this.ListDefendants = ListDefendants;
-            this.Seed = Seed;
+            this.valeurSeed = valeurSeed;
+            Seed = new System.Random(valeurSeed);
             ListAttaquants.Last.Next = ListDefendants.First;
             ListDefendants.First.Previous = ListAttaquants.Last;
+            GenererTerrain(10, 5, 0);
             ListEntites = new ListeChainee<EntiteInconnu>();
             DebuterPartie();
+        }
+        public Partie(int IdPartie, ListeChainee<Entite> ListAttaquants, ListeChainee<Entite> ListDefendants)
+        {
+            this.IdPartie = IdPartie;
+            this.ListAttaquants = ListAttaquants;
+            this.ListDefendants = ListDefendants;
+            int total = 0;
+            foreach (Entite entite in ListAttaquants)
+                total += entite.IdEntite;
+            foreach (Entite entite in ListDefendants)
+                total += entite.IdEntite;
+            valeurSeed = System.DateTime.Now.Millisecond - total;
+            Seed = new System.Random(valeurSeed);
+            System.Windows.Forms.MessageBox.Show(Seed.ToString());
+            ListAttaquants.Last.Next = ListDefendants.First;
+            ListDefendants.First.Previous = ListAttaquants.Last;
+            GenererTerrain(10, 5, 0);
+            PlacerJoueurs();
+            ListEntites = new ListeChainee<EntiteInconnu>();
+            DebuterPartie();
+        }
+
+        private void GenererTerrain(int Largeur, int Hauteur, int NbObstacle)
+        {
+            TerrainPartie = new Terrain(Largeur, Hauteur);
+            for (int i = 0; i < Largeur; i++)
+            {
+                for (int j = 0; j < Hauteur; j++)
+                {
+                    TerrainPartie.TabCases[i][j] = new Case(i, j, Case.type.vide);
+                }
+            }
+        }
+
+        private void PlacerObstacles()
+        {
+            //14% des case sont des obstacles
+        }
+
+        private void PlacerJoueurs()
+        {
+            int posL;
+            int posH;
+            //attaquant a gauche/defendant a droite
+            foreach (Entite entite in ListAttaquants)
+            {
+                do
+                {
+                posL = Seed.Next(1, TerrainPartie.Largeur / 2) - 1;
+                posH = Seed.Next(1, TerrainPartie.Hauteur) - 1;
+                } while (TerrainPartie.TabCases[posL][posH].Contenu != Case.type.vide);
+                TerrainPartie.TabCases[posL][posH].Contenu = Case.type.joueur;
+                entite.Position = TerrainPartie.TabCases[posL][posH];
+            }
+            foreach (Entite entite in ListDefendants)
+            {
+                do
+                {
+                    posL = Seed.Next(TerrainPartie.Largeur / 2, TerrainPartie.Largeur) - 1;
+                    posH = Seed.Next(1, TerrainPartie.Hauteur) - 1;
+                } while (TerrainPartie.TabCases[posL][posH].Contenu != Case.type.vide);
+                TerrainPartie.TabCases[posL][posH].Contenu = Case.type.joueur;
+                entite.Position = TerrainPartie.TabCases[posL][posH];
+            }
         }
 
         internal void DebuterPartie()
@@ -67,19 +134,18 @@
 
         public void SyncroniserJoueur()
         {
-            Noeud<EntiteInconnu> entiteInconnu = ListEntites.First;
             Noeud<Entite> entite = ListAttaquants.First;
-            while (entiteInconnu != null)
+            foreach (EntiteInconnu entiteInconnu in ListEntites)
             {
                 bool existe = false;
                 while (entite != null)
                 {
-                    if (entite.Valeur.IdEntite == entiteInconnu.Valeur.IdEntite)
+                    if (entite.Valeur.IdEntite == entiteInconnu.IdEntite)
                     {
-                        entite.Valeur.Position = entiteInconnu.Valeur.Position;
-                        entite.Valeur.PV = entiteInconnu.Valeur.PV;
-                        entite.Valeur.PV_MAX = entiteInconnu.Valeur.PV_MAX;
-                        entite.Valeur.ListEnvoutements = entiteInconnu.Valeur.ListEnvoutements;
+                        entite.Valeur.Position = entiteInconnu.Position;
+                        entite.Valeur.PV = entiteInconnu.PV;
+                        entite.Valeur.PV_MAX = entiteInconnu.PV_MAX;
+                        entite.Valeur.ListEnvoutements = entiteInconnu.ListEnvoutements;
                         existe = true;
                         break;
                     }
@@ -87,7 +153,7 @@
                 }
                 if (!existe)
                 {
-                    Entite newInvoc = new Entite(entiteInconnu.Valeur.IdEntite, entiteInconnu.Valeur.ClasseEntite, entiteInconnu.Valeur.Nom, entiteInconnu.Valeur.Experience, entiteInconnu.Valeur.Position, entiteInconnu.Valeur.Equipe, entiteInconnu.Valeur.ListStatistiques, new Script(3, "Placeholder"), TerrainPartie, entite.Valeur.Proprietaire);
+                    Entite newInvoc = new Entite(entiteInconnu , new Script(3, "Placeholder"), TerrainPartie, entite.Valeur.Proprietaire);
                     if (newInvoc.Equipe == EntiteInconnu.type.attaquant)
                     {
                         foreach (Entite entiteProp in ListAttaquants)
@@ -99,8 +165,18 @@
                             }
                         }
                     }
+                    else
+                    {
+                        foreach (Entite entiteProp in ListDefendants)
+                        {
+                            if (entiteProp.IdEntite == newInvoc.Proprietaire)
+                            {
+                                ListDefendants.AjouterApres(newInvoc, ListDefendants.TrouverPosition(entiteProp));
+                                break;
+                            }
+                        }
+                    }
                 }
-                entiteInconnu = entiteInconnu.Next;
             }
         }
     }
