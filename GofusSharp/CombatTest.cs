@@ -26,6 +26,7 @@ namespace GofusSharp
         public void Action(Terrain terrain, Entite joueur, ListeChainee<EntiteInconnu> ListEntites)
         {
             Noeud<EntiteInconnu> entite = ListEntites.First;
+            joueur.PA = 18;
             while (entite.Valeur.Equipe == joueur.Equipe)
                 entite = entite.Next;
             if (terrain.DistanceEntreCases(joueur.Position, entite.Valeur.Position) > 1)
@@ -79,8 +80,7 @@ namespace GofusSharp
             Classe classeDef = new Classe(1, tabSortDef, Classe.type.iop);
             Statistique[] statItemDef = new Statistique[] { new Statistique(Statistique.type.force, 70) };
             Equipement[] tabEquipDef = new Equipement[] { new Equipement(1, statItemDef, "Coiffe bouftou", Equipement.type.chapeau) };
-            Case[][] tabCases = new Case[][] { new Case[] { new Case(0, 0, Case.type.joueur), new Case(0, 1, Case.type.vide), new Case(0, 2, Case.type.vide) }, new Case[] { new Case(1, 0, Case.type.vide), new Case(1, 1, 0), new Case(1, 2, Case.type.vide) }, new Case[] { new Case(2, 0, Case.type.vide), new Case(2, 1, Case.type.vide), new Case(2, 2, Case.type.joueur) } };
-            Terrain terrain = new Terrain(tabCases);
+            Terrain terrain = new Terrain(10,5);
             ListeChainee<Entite> ListAttaquants = new ListeChainee<Entite>();
             ListAttaquants.AjouterFin(new Personnage(10, classeAtt, "Trebor", 10000, EntiteInconnu.type.attaquant, listStatistiqueAtt, scriptAtt, tabEquipAtt, terrain));
             ListeChainee<Entite> ListDefendants = new ListeChainee<Entite>();

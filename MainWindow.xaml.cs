@@ -616,11 +616,12 @@ namespace test
              border.BorderThickness = new Thickness(1);
              // ((Image)sender) = border;*/
             imgCurrent.Source = ((Image)sender).Source;
-           /* string query  ="SELECT * FROM Equipements e INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE e.nom ="+ ((Image)sender).Name;
+            string query  ="SELECT * FROM Equipements e INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE e.nom ='"+ ((Image)sender).Name.Replace("_", " ")+"'";
+            query.ToString();
             List<string>[] infoItem = bd.selection(query);
             lblItem.Content = infoItem[0][6];
             lblPrix.Content = infoItem[0][5];
-            txtBDesc.Text = infoItem[0][7];*/
+            txtBDesc.Text = infoItem[0][7];
 
 
         }
@@ -687,7 +688,7 @@ namespace test
             img.VerticalAlignment = System.Windows.VerticalAlignment.Top;
             img.MouseUp += image_MouseUp;
             img.Source = path;
-           // img.Name = nom;
+            img.Name = nom.Replace(" ", "_");
             return img;
         }
 
