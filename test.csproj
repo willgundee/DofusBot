@@ -91,8 +91,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ChatWindow.xaml.cs">
+      <DependentUpon>ChatWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Chat\Chat.cs" />
+    <Compile Include="Chat\MessageText.cs" />
     <Compile Include="GofusSharp\Arme.cs" />
-    <Compile Include="GofusSharp\BDService.cs" />
+    <Compile Include="BDService.cs" />
     <Compile Include="GofusSharp\Case.cs" />
     <Compile Include="GofusSharp\Classe.cs" />
     <Compile Include="GofusSharp\CombatTest.cs" />
@@ -161,6 +166,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="ChatWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
