@@ -40,6 +40,7 @@
             ListDefendants.First.Previous = ListAttaquants.Last;
             GenererTerrain(10, 5, 0);
             PlacerJoueurs();
+            PlacerObstacles();
             ListEntites = new ListeChainee<EntiteInconnu>();
             DebuterPartie();
         }
@@ -59,6 +60,33 @@
         private void PlacerObstacles()
         {
             //14% des case sont des obstacles
+            ListeChainee<Case> caseObstacle = new ListeChainee<Case>();
+            bool coince = false;
+            do
+            {
+                for (int i = 0; i < TerrainPartie.Hauteur * TerrainPartie.Largeur / 7; i++)
+                {
+                    caseObstacle.AjouterFin(new Case(Seed.Next(0,TerrainPartie.Largeur),Seed.Next(0, TerrainPartie.Hauteur),Case.type.obstacle));
+                    while (TerrainPartie.TabCases[caseObstacle.Last.Valeur.X][caseObstacle.Last.Valeur.Y].Contenu != Case.type.vide)
+                    {
+                        caseObstacle.Last.Valeur.X = Seed.Next(0, TerrainPartie.Largeur);
+                        caseObstacle.Last.Valeur.Y = Seed.Next(0, TerrainPartie.Hauteur);
+                    }
+                }
+                foreach (Case obstacle in caseObstacle)
+                    TerrainPartie.TabCases[obstacle.X][obstacle.Y].Contenu = Case.type.obstacle;
+                Noeud<Entite> entite = ListAttaquants.First;
+                while (entite != null)
+                {
+                    if(TerrainPartie.CheminEntreCases(ListAttaquants.First.Valeur.Position, entite.Valeur.Position) == null)
+                    {
+                        coince = true;
+                        foreach (Case obstacle in caseObstacle)
+                            TerrainPartie.TabCases[obstacle.X][obstacle.Y].Contenu = Case.type.vide;
+                        break;
+                    }
+                }
+            } while (!coince);
         }
 
         private void PlacerJoueurs()
