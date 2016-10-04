@@ -84,6 +84,7 @@
                             TerrainPartie.TabCases[obstacle.X][obstacle.Y].Contenu = Case.type.vide;
                         break;
                     }
+                    entite = entite.Next;
                 }
             } while (!coince);
         }

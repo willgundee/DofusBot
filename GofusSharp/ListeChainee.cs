@@ -7,14 +7,19 @@
         public int Count {
             get
             {
-                this.Count = 0;
-                if (First == null)
-                    return Count;
-                foreach (T valeur in this)
-                    Count++;
-                return Count;
+                return getCount();
             }
             set { }
+        }
+
+        private int getCount()
+        {
+            int Count = 0;
+            if (First == null)
+                return Count;
+            foreach (T valeur in this)
+                Count++;
+            return Count;
         }
 
         public ListeChainee()
