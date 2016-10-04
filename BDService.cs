@@ -55,7 +55,7 @@ namespace test
                 fermerConnexion();
                 return -1;
             }
-
+            //aa
             return retVal;
         }
 
