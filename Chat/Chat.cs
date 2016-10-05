@@ -41,13 +41,14 @@ namespace test
             }
 
 
-
+            if(((MainWindow)Application.Current.MainWindow) != null)
             ((MainWindow)Application.Current.MainWindow).txtboxHistorique.Text = "";
 
 
             foreach (string st in contenuChat)
             {
-                ((MainWindow)Application.Current.MainWindow).txtboxHistorique.Text += st;
+                if (((MainWindow)Application.Current.MainWindow) != null)
+                    ((MainWindow)Application.Current.MainWindow).txtboxHistorique.Text += st;
             }
 
 
@@ -97,8 +98,8 @@ namespace test
 
         public long envoyerMessage()
         {
-            string inser = "INSERT INTO Messages(idJoueur,temps,contenu)VALUES(17,NOW(),'" +
-                ((MainWindow)Application.Current.MainWindow).txtMessage.Text.ToString() + "');";
+            string inser = "INSERT INTO Messages(idJoueur,temps,contenu,uuid)VALUES(9,NOW(),'" +
+                ((MainWindow)Application.Current.MainWindow).txtMessage.Text.ToString() + "',UUID());";
             long test = bdChat.insertion(inser);
 
             return test;
@@ -113,8 +114,8 @@ namespace test
             {
                 if (window.GetType() == typeof(ChatWindow))
                 {
-                    string inser = "INSERT INTO Messages(idJoueur,temps,contenu)VALUES(17,NOW(),'" +
-                     (window as ChatWindow).txtMessage.Text.ToString() + "');";
+                    string inser = "INSERT INTO Messages(idJoueur,temps,contenu,uuid)VALUES(9,NOW(),'" +
+                     (window as ChatWindow).txtMessage.Text.ToString() + "',UUID());";
                     testeur = bdChat.insertion(inser);
                 }
             }
@@ -127,16 +128,16 @@ namespace test
         private void selectMessages()
         {
 
-            string reqMessages = "SELECT * FROM Messages ORDER BY Temps DESC LIMIT 75; ";
+            string reqMessages = "SELECT * FROM Messages ORDER BY temps DESC LIMIT 75; ";
             List<string>[] result = bdChat.selection(reqMessages);
 
             foreach (List<string> message in result.Reverse())
             {
                 if (message.Count > 1)
                 {
-                    string reqAuteur = "SELECT nomUtilisateur FROM Joueurs WHERE idJoueur = " + message[1] + ";";
+                    string reqAuteur = "SELECT nomUtilisateur FROM Joueurs WHERE idJoueur = " + message[2] + ";";
                     List<string>[] nom = bdChat.selection(reqAuteur);
-                    messages.Add(new MessageText(message[3], nom[0][0], message[2]));
+                    messages.Add(new MessageText(message[4], nom[0][0], message[3]));
                 }
 
             }

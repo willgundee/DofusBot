@@ -77,15 +77,29 @@ namespace test
             tb_lineNumber.Cursor = System.Windows.Forms.Cursors.Arrow;
         }
 
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+
+            System.Windows.Application.Current.Shutdown();
+        }
+
+
 
         // POUR LE CHAT -------------------------------------------------------------------------------------------------------------------
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             // Updating the Label which displays the current second
-
-            chat.refreshChat();
-            // Forcing the CommandManager to raise the RequerySuggested event
-            CommandManager.InvalidateRequerySuggested();
+            if (((MainWindow)System.Windows.Application.Current.MainWindow) != null)
+            {
+                chat.refreshChat();
+                // Forcing the CommandManager to raise the RequerySuggested event
+                CommandManager.InvalidateRequerySuggested();
+            }
+            else
+            {
+                aTimer.Stop();
+            }
         }
 
 
@@ -96,10 +110,11 @@ namespace test
             if (envois != -1)
             {
                 chat.refreshChat();
+                Scroll.ScrollToEnd();
             }
             else
             {
-                System.Windows.MessageBox.Show("Vous ne pouvez pas envoyer plus d'un message par seconde.");
+                System.Windows.MessageBox.Show("Erreur d'envois du message..");
             }
         }
 
@@ -127,8 +142,11 @@ namespace test
         {
             aTimer.Stop();
             txtMessage.Text = "";
+            txtboxHistorique.Text = "";
             btnEnvoyerMessage.IsEnabled = false;
             txtMessage.IsEnabled = false;
+
+
         }
 
         private void BtnModLess_Click(object sender, RoutedEventArgs e)
