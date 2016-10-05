@@ -49,11 +49,16 @@ namespace test
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
-            
+            if (this != null)
+            {
+                chat.refreshChatModLess();
 
-            chat.refreshChatModLess();
-            
-            CommandManager.InvalidateRequerySuggested();
+                CommandManager.InvalidateRequerySuggested();
+            }
+            else
+            {
+                aTimer.Stop();
+            }
         }
 
  
@@ -65,10 +70,11 @@ namespace test
             if (envois != -1)
             {
                 chat.refreshChatModLess();
+                Scroll.ScrollToEnd();
             }
             else
             {
-                MessageBox.Show("Vous ne pouvez pas envoyer plus d'un message par seconde.");
+                MessageBox.Show("Erreur lors de l'envoie du message.");
             }
         }
 
@@ -96,6 +102,7 @@ namespace test
         {
             aTimer.Stop();
             txtMessage.Text = "";
+            txtboxHistorique.Text = "";
             btnEnvoyerMessage.IsEnabled = false;
             txtMessage.IsEnabled = false;
             this.Hide();
