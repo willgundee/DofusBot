@@ -42,45 +42,45 @@
         private class CaseAStar
         {
             public Case LaCase { get; set; }
-            public int Cout { get; set; }
-            public int Heuristique { get; set; }
-            public CaseAStar(Case LaCase, int Cout, int Heuristique)
+            public CaseAStar viensDe { get; set; }
+            public int Score_g { get; set; }
+            public int Score_f { get; set; }
+            public CaseAStar(Case LaCase, int Score_g, int Score_f)
             {
                 this.LaCase = LaCase;
-                this.Cout = Cout;
-                this.Heuristique = Heuristique;
+                this.Score_g = Score_g;
+                this.Score_f = Score_f;
             }
             public CaseAStar(Case LaCase)
             {
                 this.LaCase = LaCase;
-                this.Cout = 0;
-                this.Heuristique = 0;
+                this.Score_g = Score_g;
+                this.Score_f = Score_f;
             }
         }
 
         public ListeChainee<Case> CheminEntreCases(Case Depart, Case Destination)
         {
-            CaseAStar depart = new CaseAStar(Depart);
             ListeChainee<CaseAStar> fermee = new ListeChainee<CaseAStar>();
             ListeChainee<CaseAStar> ouverte = new ListeChainee<CaseAStar>();
-            ouverte.AjouterFin(depart);
+            ouverte.AjouterFin(new CaseAStar(Depart, 0, DistanceEntreCases(Depart, Destination)));
 
-            while (ouverte.First != null)
+            while (ouverte.Count != 0)
             {
-                CaseAStar meilleur = ouverte.First.Valeur;
+                CaseAStar courant = ouverte.First.Valeur;
                 foreach (CaseAStar score in ouverte)
-                    if (score.Score_f < meilleur.Score_f)
-                        meilleur = score;
-                if (meilleur.LaCase == Destination)
-                    return ReconstruireChemin(meilleur);
-                ouverte.Enlever(meilleur);
-                fermee.AjouterFin(meilleur);
-                foreach (Case voisin in CaseVoisines(meilleur.LaCase))
+                    if (score.Score_f < courant.Score_f)
+                        courant = score;
+                if (courant.LaCase == Destination)
+                    return ReconstruireChemin(courant);
+                ouverte.Enlever(courant);
+                fermee.AjouterFin(courant);
+                foreach (Case voisin in CaseVoisines(courant.LaCase))
                 {
                     foreach (CaseAStar caseAStar in fermee)
                         if (caseAStar.LaCase == voisin)
                             continue;
-                    int tentative_score_g = meilleur.Score_g + DistanceEntreCases(meilleur.LaCase, voisin);
+                    int tentative_score_g = courant.Score_g + DistanceEntreCases(courant.LaCase, voisin);
                     CaseAStar caseVoisineExistante = null;
                     foreach (CaseAStar caseAStar in ouverte)
                         if (caseAStar.LaCase == voisin)
@@ -92,7 +92,7 @@
                     }
                     else if (tentative_score_g >= caseVoisineExistante.Score_g)
                         continue;
-                    caseVoisineExistante.viensDe = meilleur;
+                    caseVoisineExistante.viensDe = courant;
                     caseVoisineExistante.Score_g = tentative_score_g;
                     caseVoisineExistante.Score_f = caseVoisineExistante.Score_g + DistanceEntreCases(caseVoisineExistante.LaCase, Destination);
                 }
@@ -116,21 +116,11 @@
                 caseVoisines.AjouterFin(TabCases[caseCible.X][caseCible.Y - 1]);
             if (caseCible.X - 1 >= 0 && TabCases[caseCible.X - 1][caseCible.Y].Contenu != Case.type.obstacle)
                 caseVoisines.AjouterFin(TabCases[caseCible.X - 1][caseCible.Y]);
-            if (TabCases.Length > caseCible.X + 1 && TabCases[caseCible.X + 1][caseCible.Y].Contenu != Case.type.obstacle)
+            if (TabCases.Length >= caseCible.X + 1 && TabCases[caseCible.X + 1][caseCible.Y].Contenu != Case.type.obstacle)
                 caseVoisines.AjouterFin(TabCases[caseCible.X + 1][caseCible.Y]);
-            if (TabCases[caseCible.X].Length > caseCible.Y + 1 && TabCases[caseCible.X][caseCible.Y + 1].Contenu != Case.type.obstacle)
+            if (TabCases[caseCible.X].Length >= caseCible.Y + 1 && TabCases[caseCible.X][caseCible.Y + 1].Contenu != Case.type.obstacle)
                 caseVoisines.AjouterFin(TabCases[caseCible.X][caseCible.Y + 1]);
             return caseVoisines;
-        }
-
-        private int ComparerDeuxCase(CaseAStar c1, CaseAStar c2)
-        {
-            if (c1.Heuristique < c2.Heuristique)
-                return 1;
-            else if (c1.Heuristique == c2.Heuristique)
-                return 0;
-            else
-                return -1;
         }
 
         //internal Case TrouverProchaineCase(ListeChainee<Case> Chemin, ListeChainee<Case> CulDeSac, Case Destination)

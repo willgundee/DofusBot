@@ -227,11 +227,11 @@
         </TabItem>
         <TabItem Header="Marché" Height="30" Selector.Selected="TabItemMarche_Selected">
             <Grid Margin="2,-5,-5,-18">
-                <Image x:Name="imgCurrent"  HorizontalAlignment="Left" Height="200" Margin="378,10,0,0" VerticalAlignment="Top" Width="200"/>
-                <Button x:Name="btnAcheter" Content="Acheter" HorizontalAlignment="Left" Margin="30,235,0,0" VerticalAlignment="Top" Width="75" Height="22" />
-                <TextBlock x:Name="txtBDesc" HorizontalAlignment="Left" Margin="10,53,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="127" Width="116"/>
+                <Image x:Name="imgCurrent" HorizontalAlignment="Left" Height="200" Margin="378,10,0,0" VerticalAlignment="Top" Width="200"/>
+                <Label  Content="Prix:" HorizontalAlignment="Left" Margin="378,215,0,0" VerticalAlignment="Top" Width="35"/>
+                <Label x:Name="lblPrix" HorizontalAlignment="Left" Margin="418,215,0,0" VerticalAlignment="Top" Width="160" Height="26"/>
                 <TabControl x:Name="tCMarche" VerticalAlignment="Center" TabStripPlacement="Left" Height="238" Margin="0,232,0,13" Grid.RowSpan="2" >
-                    <TabItem x:Name="tArmes" Header="Armes" Height="50">
+                    <TabItem x:Name="tArmes" Header="Armes" Height="50">                     
                         <Grid x:Name="grdArmes" Background="#FFE5E5E5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -245,17 +245,6 @@
                                 <RowDefinition Height="100*"/>
                                 <RowDefinition Height="17*"/>
                             </Grid.RowDefinitions>
-                            <!--Image  x:Name="imageA00" Grid.Row="0" Grid.Column="0" />
-                            <Image x:Name="imageA01" Mouse.MouseUp="image_MouseUp"  Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" />
-                            <Image x:Name="imageA02" Mouse.MouseUp="image_MouseUp"  Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" />
-                            <Image x:Name="imageA03" Mouse.MouseUp="image_MouseUp"  Grid.Row="0" Grid.Column="3" HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" />
-                            <Image x:Name="imageA04" Mouse.MouseUp="image_MouseUp"  Grid.Row="0" Grid.Column="4" HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" />
-                            <Image x:Name="imageA10" Mouse.MouseUp="image_MouseUp"  Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" />
-                            <Image x:Name="imageA11" Mouse.MouseUp="image_MouseUp"  Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" />
-                            <Image x:Name="imageA12" Mouse.MouseUp="image_MouseUp"  Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" />
-                            <Image x:Name="imageA13" Mouse.MouseUp="image_MouseUp"  Grid.Row="1" Grid.Column="3" HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" />
-                            <Image x:Name="imageA14" Mouse.MouseUp="image_MouseUp" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" /-->
-
                         </Grid>
                     </TabItem>
                     <TabItem x:Name="tEquips" Header="Armures" Height="50">
@@ -272,22 +261,13 @@
                                 <RowDefinition Height="100*"/>
                                 <RowDefinition Height="17*"/>
                             </Grid.RowDefinitions>
-            <!--Image x:Name="imageE00" Mouse.MouseUp="image_MouseUp"   Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" />
-                            <Image x:Name="imageE01" Mouse.MouseUp="image_MouseUp"   Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" />
-                            <Image x:Name="imageE02" Mouse.MouseUp="image_MouseUp"   Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" />
-                            <Image x:Name="imageE03" Mouse.MouseUp="image_MouseUp"   Grid.Row="0" Grid.Column="3" HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" />
-                            <Image x:Name="imageE04" Mouse.MouseUp="image_MouseUp"   Grid.Row="0" Grid.Column="4" HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" />
-                            <Image x:Name="imageE10" Mouse.MouseUp="image_MouseUp"   Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" />
-                            <Image x:Name="imageE11" Mouse.MouseUp="image_MouseUp"   Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" />
-                            <Image x:Name="imageE12" Mouse.MouseUp="image_MouseUp"   Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" />
-                            <Image x:Name="imageE13" Mouse.MouseUp="image_MouseUp"   Grid.Row="1" Grid.Column="3" HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" />
-                            <Image x:Name="imageE14" Mouse.MouseUp="image_MouseUp"  Grid.Row="1" Grid.Column="4" HorizontalAlignment="Left" Height="100"  VerticalAlignment="Top" Width="100" /-->
-
                         </Grid>
                     </TabItem>
                 </TabControl>
-    <Label x:Name="lblItem"  HorizontalAlignment="Left" Margin="10,22,0,0" VerticalAlignment="Top" Width="116" Height="26"/>
-    <Label x:Name="lblPrix"  HorizontalAlignment="Left" Margin="10,185,0,0" VerticalAlignment="Top" Width="116" Height="26"/>
+                <Button x:Name="button" HorizontalContentAlignment="Center" Content="Acheter" HorizontalAlignment="Left" Margin="442,256,0,0" VerticalAlignment="Top" Width="75"/>
+                <Label x:Name="lblItem" Content="" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="363"/>
+                <TextBlock x:Name="txtBDesc" HorizontalAlignment="Left" Margin="10,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="363" Height="60"/>
+                <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="167" Margin="10,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="363"/>
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="233*"></RowDefinition>
