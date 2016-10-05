@@ -60,7 +60,7 @@ namespace test
             ctb_main.UpdateSyntaxHightlight();
             ctb_main.UpdateTreeView();
 
-           
+
             fenetreChat = new ChatWindow();
             this.chat = new Chat();
             btnEnvoyerMessage.IsEnabled = false;
@@ -133,7 +133,7 @@ namespace test
 
         private void BtnModLess_Click(object sender, RoutedEventArgs e)
         {
-            
+
 
             if (fenetreChat.Visibility != Visibility.Visible)
             {
@@ -608,44 +608,65 @@ namespace test
 
 
 
-        private void image_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void image_MouseUp(object sender, MouseButtonEventArgs e)
         {
             //TODO : add border to selected item
             /* Border border = new Border();
              border.BorderBrush = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Black);
              border.BorderThickness = new Thickness(1);
-             // ((Image)sender) = border;*/
+             // ((Image)sender).Parent as border;*/
+            #region Abracadabra
+            btnAchat.Visibility = Visibility.Visible;
+            lblPri.Visibility = Visibility.Visible;
+            imgKamas.Visibility = Visibility.Visible;
+            #endregion
+
+            //SELECT * FROM Equipements e  INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement INNER JOIN StatistiquesEquipements s ON s.idEquipement = e.idEquipement INNER JOIN TypesStatistiques ts ON ts.idTypeStatistique = s.idTypeStatistique INNER JOIN EffetsEquipements ee ON ee.idEquipement = e.idEquipement INNER JOIN Effets et ON et.idEffet = ee.idEffet WHERE e.nom ='Marteau du bouftou'
+
             imgCurrent.Source = ((Image)sender).Source;
-            string query  ="SELECT * FROM Equipements e INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE e.nom ='"+ ((Image)sender).Name.Replace("_", " ")+"'";
-            query.ToString();
+            StringBuilder stats = new StringBuilder();
+            string query = "SELECT e.nom,t.nom ,ts.nom ,valeur,e.description,e.prix FROM Equipements e INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement INNER JOIN StatistiquesEquipements s ON s.idEquipement = e.idEquipement INNER JOIN TypesStatistiques ts ON ts.idTypeStatistique = s.idTypeStatistique WHERE e.nom ='" + ((Image)sender).Name.Replace("_", " ") + "'";
+
             List<string>[] infoItem = bd.selection(query);
-            lblItem.Content = infoItem[0][6];
+            //set des info dans les champs statics
+            lblItem.Content = infoItem[0][0];
             lblPrix.Content = infoItem[0][5];
-            txtBDesc.Text = infoItem[0][7];
+            txtBDesc.Text = infoItem[0][4];
+            //elneves tout les stats de l'item
+            grdStats.Children.Clear();
+            // ajoutes les nouvelles
+            grdStats.Children.Add(CreateLbl("Type :", 0, 0));
+            grdStats.Children.Add(CreateLbl(infoItem[0][1], 0, 1));
+            for (int i = 0; i < infoItem.Count(); i++)
+            {
+                grdStats.Children.Add(CreateLbl(infoItem[i][2] + " :", i + 1, 0));
+                grdStats.Children.Add(CreateLbl(infoItem[i][3], i + 1, 1));
+            }
+        }
 
-
+        private System.Windows.Controls.Label CreateLbl(string content, int row, int col)
+        {
+            System.Windows.Controls.Label lbl = new System.Windows.Controls.Label();
+            lbl.Content = content;
+            Grid.SetColumn(lbl, col);
+            Grid.SetRow(lbl, row);
+            return lbl;
         }
 
         private void TabItemMarche_Selected(object sender, RoutedEventArgs e)
         {
+            //TODO: Lorsque plus de données faire un limit/offset et des numero de page
             string equips = "SELECT * FROM Equipements e INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE idZonePorte IS NULL LIMIT 10 ";
             string armes = "SELECT * FROM Equipements e INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE idZonePorte IS NOT NULL LIMIT 10";
-            /*  BDService bd = new BDService();
-                  List<string>[] rep = bd.selection("SELECT * FROM classes");
-
-                  foreach (List<string> iop in rep)
-                      foreach (string item in iop)
-                          System.Windows.Forms.MessageBox.Show(item);*/
 
             List<string>[] repArmes = bd.selection(armes);
             List<string>[] repEquip = bd.selection(equips);
-            // < Image x: Name = "image2" Mouse.MouseUp = "image_MouseUp" Source = "http://staticns.ankama.com/dofus/www/game/items/200/9044.png" Grid.Row = "0" Grid.Column = "1" HorizontalAlignment = "Left" Height = "100"  VerticalAlignment = "Top" Width = "100" />
-            short col = 0;
-            short row = 0;
 
+            short col = 0;
+            short row = 0;//géneration des images des armes
             for (int item = 0; item < repArmes.Count(); item++)
             {
-                Image img = CreateImg(repArmes[item][4],repArmes[item][6]);
+                Image img = CreateImg(repArmes[item][4], repArmes[item][6]);
                 if (col == 5)
                 {
                     col = 0;
@@ -656,11 +677,12 @@ namespace test
                 col++;
                 grdArmes.Children.Add(img);
             }
+
             col = 0;
-            row = 0;
+            row = 0;// génération des images des équipements
             for (int item = 0; item < repEquip.Count(); item++)
             {
-                Image img = CreateImg(repEquip[item][4],repEquip[item][6].ToString());
+                Image img = CreateImg(repEquip[item][4], repEquip[item][6].ToString());
                 if (col == 5)
                 {
                     col = 0;
@@ -671,13 +693,9 @@ namespace test
                 col++;
                 grdEquips.Children.Add(img);
             }
-            //  System.Windows.Forms.MessageBox.Show(repArmes[item][4].ToString());
-            // }
-            //imageA00 = CreateImg(9044, true);
-            //System.Windows.Forms.MessageBox.Show(arme[1].ToString());
-            // System.Windows.Forms.MessageBox.Show(imageA00.Source.ToString());
 
         }
+
         private Image CreateImg(string Noimg, string nom)
         {
             Image img = new Image();
@@ -686,16 +704,24 @@ namespace test
             img.Height = 100;
             img.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
             img.VerticalAlignment = System.Windows.VerticalAlignment.Top;
-            img.MouseUp += image_MouseUp;
+            img.MouseUp += image_MouseUp; // ajoute l'evenement mouse_up
             img.Source = path;
             img.Name = nom.Replace(" ", "_");
             return img;
         }
 
+        private void btnAchat_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.MessageBox.Show("Coming soon !");
+        }
+
         private void TabItemMarche_Unselected(object sender, RoutedEventArgs e)
         {
-            //System.Windows.Forms.MessageBox.Show("out");
+            grdArmes.Children.Clear();
+            grdEquips.Children.Clear();
         }
+
+
 
 
 

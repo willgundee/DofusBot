@@ -225,12 +225,18 @@
                 <Button Name="btn_run" Content="Run" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Width="75" Height="40" Click="btn_run_Click"/>
             </Grid>
         </TabItem>
-        <TabItem Header="Marché" Height="30" Selector.Selected="TabItemMarche_Selected">
+        <TabItem Header="Marché" Height="30" Selector.Unselected="TabItemMarche_Unselected" Selector.Selected="TabItemMarche_Selected">
             <Grid Margin="2,-5,-5,-18">
+                
                 <Image x:Name="imgCurrent" HorizontalAlignment="Left" Height="200" Margin="378,10,0,0" VerticalAlignment="Top" Width="200"/>
-                <Label  Content="Prix:" HorizontalAlignment="Left" Margin="378,215,0,0" VerticalAlignment="Top" Width="35"/>
-                <Label x:Name="lblPrix" HorizontalAlignment="Left" Margin="418,215,0,0" VerticalAlignment="Top" Width="160" Height="26"/>
+                <Label x:Name="lblPri" Visibility="Hidden" Content="Prix:" HorizontalAlignment="Left" Margin="378,215,0,0" VerticalAlignment="Top" Width="35"/>
+                <Label x:Name="lblPrix"  HorizontalAlignment="Left" Margin="418,215,0,0" VerticalAlignment="Top" Width="99" Height="26"/>
+                <Button x:Name="btnAchat" Visibility="Hidden" HorizontalContentAlignment="Center" Content="Acheter" HorizontalAlignment="Left" Margin="442,256,0,0" VerticalAlignment="Top" Width="75" Click="btnAchat_Click"/>
+                <Label x:Name="lblItem" Content="" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="363"/>
+                <TextBlock x:Name="txtBDesc" HorizontalAlignment="Left" Margin="10,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="363" Height="60"/>
+                <Image x:Name="imgKamas" Visibility="Collapsed" Source="resources/kamas.png" HorizontalAlignment="Left" Height="26" Margin="522,215,0,0" VerticalAlignment="Top" Width="38"/>
                 <TabControl x:Name="tCMarche" VerticalAlignment="Center" TabStripPlacement="Left" Height="238" Margin="0,232,0,13" Grid.RowSpan="2" >
+                    
                     <TabItem x:Name="tArmes" Header="Armes" Height="50">                     
                         <Grid x:Name="grdArmes" Background="#FFE5E5E5">
                             <Grid.ColumnDefinitions>
@@ -264,10 +270,23 @@
                         </Grid>
                     </TabItem>
                 </TabControl>
-                <Button x:Name="button" HorizontalContentAlignment="Center" Content="Acheter" HorizontalAlignment="Left" Margin="442,256,0,0" VerticalAlignment="Top" Width="75"/>
-                <Label x:Name="lblItem" Content="" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="363"/>
-                <TextBlock x:Name="txtBDesc" HorizontalAlignment="Left" Margin="10,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="363" Height="60"/>
-                <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="167" Margin="10,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="363"/>
+                <Grid x:Name="grdStats" HorizontalAlignment="Left" Height="167" Margin="10,106,0,0" VerticalAlignment="Top" Width="363">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                </Grid>
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="233*"></RowDefinition>
