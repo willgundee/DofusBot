@@ -77,9 +77,17 @@
                 fermee.AjouterFin(courant);
                 foreach (Case voisin in CaseVoisines(courant.LaCase))
                 {
+                    bool estFermer = false;
                     foreach (CaseAStar caseAStar in fermee)
+                    {
                         if (caseAStar.LaCase == voisin)
-                            continue;
+                        {
+                            estFermer = true;
+                            break;
+                        }
+                    }
+                    if (estFermer)
+                        continue;
                     int tentative_score_g = courant.Score_g + DistanceEntreCases(courant.LaCase, voisin);
                     CaseAStar caseVoisineExistante = null;
                     foreach (CaseAStar caseAStar in ouverte)
