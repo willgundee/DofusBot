@@ -157,10 +157,9 @@ namespace test
         {
 
 
-            if (fenetreChat.Visibility != Visibility.Visible)
-            {
+            fenetreChat = new ChatWindow();
                 fenetreChat.Show();
-            }
+            
         }
 
 

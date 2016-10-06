@@ -106,7 +106,7 @@ namespace test
             txtboxHistorique.Text = "";
             btnEnvoyerMessage.IsEnabled = false;
             txtMessage.IsEnabled = false;
-            this.Hide();
+            this.Close();
         }
     }
 }

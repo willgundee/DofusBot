@@ -18,7 +18,7 @@
         <TextBox x:Name="txt_mdp" Height="23" Margin="55,189,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="287">
 
         </TextBox>
-        <TextBox x:Name="txt_nom" HorizontalAlignment="Left"  Height="23" Margin="55,64,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="287" TextChanged="textBox_Copy1_TextChanged"/>
+        <TextBox x:Name="txt_nom" HorizontalAlignment="Left"  Height="23" Margin="55,64,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="287"/>
         <Label x:Name="lbl_nom" Content="Nom d'utilisateur&#xD;&#xA;" HorizontalAlignment="Left" Margin="58,33,0,0" VerticalAlignment="Top" Height="26" Width="202"/>
         <Label x:Name="lbl_Confirmation" Content="Confimation de mot de passe" HorizontalAlignment="Left" Margin="58,216,0,0" VerticalAlignment="Top" Height="26" Width="166"/>
         <Label x:Name="lbl_Mdp" Content="Mot de passe&#xD;&#xA;" HorizontalAlignment="Left" Margin="58,149,0,0" VerticalAlignment="Top" Height="28" Width="81"/>

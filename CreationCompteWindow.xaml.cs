@@ -34,7 +34,7 @@ namespace test
 
         private void btnAnnuler_Click(object sender, RoutedEventArgs e)
         {
-            this.Hide();
+            this.Close();
 
         }
 
