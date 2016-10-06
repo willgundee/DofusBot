@@ -137,7 +137,18 @@
                                 RES_Pourcent_neutre = 0;
                             if (reduction_physique < 0)
                                 reduction_physique = 0;
-                            entiteInconnu.PV -= (1 - (RES_Pourcent_neutre / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + force + puissance) / 100 + DMG_neutre) - RES_neutre - reduction_physique);
+                            if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_neutre / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + force + puissance) / 100 + DMG_neutre) - RES_neutre - reduction_physique)));
+                            {
+                                foreach (EntiteInconnu invoc in ListEntites)
+                                {
+                                    if (invoc.Proprietaire == entiteInconnu.IdEntite)
+                                    {
+                                        invoc.Etat = typeEtat.mort;
+                                        invoc.Position.Contenu = Case.type.vide;
+                                        invoc.Position = null;
+                                    }
+                                }
+                            }
                         }
                     }
                     break;
@@ -200,7 +211,18 @@
                                 RES_Pourcent_air = 0;
                             if (reduction_magique < 0)
                                 reduction_magique = 0;
-                            entiteInconnu.PV -= (1 - (RES_Pourcent_air / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + agilite + puissance) / 100 + DMG_air) - RES_air - reduction_magique);
+                            if(entiteInconnu.recevoirDommages((1 - (RES_Pourcent_air / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + agilite + puissance) / 100 + DMG_air) - RES_air - reduction_magique)))
+                            {
+                                foreach (EntiteInconnu invoc in ListEntites)
+                                {
+                                    if (invoc.Proprietaire == entiteInconnu.IdEntite)
+                                    {
+                                        invoc.Etat = typeEtat.mort;
+                                        invoc.Position.Contenu = Case.type.vide;
+                                        invoc.Position = null;
+                                    }
+                                }
+                            }
                         }
                     }
                     break;
@@ -263,7 +285,18 @@
                                 RES_Pourcent_feu = 0;
                             if (reduction_magique < 0)
                                 reduction_magique = 0;
-                            entiteInconnu.PV -= (1 - (RES_Pourcent_feu / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + intelligence + puissance) / 100 + DMG_feu) - RES_feu - reduction_magique);
+                            if(entiteInconnu.recevoirDommages((1 - (RES_Pourcent_feu / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + intelligence + puissance) / 100 + DMG_feu) - RES_feu - reduction_magique)))
+                            {
+                                foreach (EntiteInconnu invoc in ListEntites)
+                                {
+                                    if (invoc.Proprietaire == entiteInconnu.IdEntite)
+                                    {
+                                        invoc.Etat = typeEtat.mort;
+                                        invoc.Position.Contenu = Case.type.vide;
+                                        invoc.Position = null;
+                                    }
+                                }
+                            }
                         }
                     }
                     break;
@@ -326,7 +359,18 @@
                                 RES_Pourcent_terre = 0;
                             if (reduction_physique < 0)
                                 reduction_physique = 0;
-                            entiteInconnu.PV -= (1 - (RES_Pourcent_terre / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + force + puissance) / 100 + DMG_terre) - RES_terre - reduction_physique);
+                            if(entiteInconnu.recevoirDommages((1 - (RES_Pourcent_terre / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + force + puissance) / 100 + DMG_terre) - RES_terre - reduction_physique)))
+                            {
+                                foreach (EntiteInconnu invoc in ListEntites)
+                                {
+                                    if (invoc.Proprietaire == entiteInconnu.IdEntite)
+                                    {
+                                        invoc.Etat = typeEtat.mort;
+                                        invoc.Position.Contenu = Case.type.vide;
+                                        invoc.Position = null;
+                                    }
+                                }
+                            }
                         }
                     }
                     break;
@@ -389,7 +433,18 @@
                                 RES_Pourcent_eau = 0;
                             if (reduction_magique < 0)
                                 reduction_magique = 0;
-                            entiteInconnu.PV -= (int)(1 - (RES_Pourcent_eau / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + chance + puissance) / 100 + DMG_eau) - RES_eau - reduction_magique);
+                            if(entiteInconnu.recevoirDommages((int)(1 - (RES_Pourcent_eau / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + chance + puissance) / 100 + DMG_eau) - RES_eau - reduction_magique)))
+                            {
+                                foreach (EntiteInconnu invoc in ListEntites)
+                                {
+                                    if (invoc.Proprietaire == entiteInconnu.IdEntite)
+                                    {
+                                        invoc.Etat = typeEtat.mort;
+                                        invoc.Position.Contenu = Case.type.vide;
+                                        invoc.Position = null;
+                                    }
+                                }
+                            }
                         }
                     }
                     break;
@@ -407,7 +462,7 @@
                 case Effet.type.pose_glyphe:
                     break;
                 case Effet.type.invocation:
-                    //PlaceHolder ListEntites.AjouterFin(new EntiteInconnu(effet.ValeurMax, Classe.type.osamoda, "bouftou", 1000, source, Equipe, IdEntite);
+                    //PlaceHolder ListEntites.AjouterFin(new EntiteInconnu(effet.ValeurMax, new Classe(), "bouftou", 1000, source, Equipe, IdEntite);
                     break;
                 case Effet.type.soin:
                     foreach (EntiteInconnu entiteInconnu in ListEntites)
