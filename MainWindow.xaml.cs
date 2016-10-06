@@ -64,7 +64,8 @@ namespace test
             fenetreChat = new ChatWindow();
             this.chat = new Chat();
             btnEnvoyerMessage.IsEnabled = false;
-            ((MainWindow)System.Windows.Application.Current.MainWindow).txtboxHistorique.Text += " ";
+      
+
             aTimer = new System.Windows.Threading.DispatcherTimer();
             aTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             aTimer.Interval = new TimeSpan(0, 0, 2);
@@ -90,7 +91,7 @@ namespace test
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             // Updating the Label which displays the current second
-            if (((MainWindow)System.Windows.Application.Current.MainWindow) != null)
+            if (this != null)
             {
                 chat.refreshChat();
                 // Forcing the CommandManager to raise the RequerySuggested event
@@ -124,10 +125,13 @@ namespace test
 
             if (txtMessage.Text.ToString() == "")
             {
+
                 btnEnvoyerMessage.IsEnabled = false;
+
             }
             else
             {
+                if (aTimer.IsEnabled )
                 btnEnvoyerMessage.IsEnabled = true;
             }
         }
@@ -153,10 +157,9 @@ namespace test
         {
 
 
-            if (fenetreChat.Visibility != Visibility.Visible)
-            {
+            fenetreChat = new ChatWindow();
                 fenetreChat.Show();
-            }
+            
         }
 
 

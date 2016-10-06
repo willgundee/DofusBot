@@ -88,6 +88,7 @@ namespace test
             }
             else
             {
+                if(aTimer.IsEnabled)
                 btnEnvoyerMessage.IsEnabled = true;
             }
         }
@@ -105,7 +106,7 @@ namespace test
             txtboxHistorique.Text = "";
             btnEnvoyerMessage.IsEnabled = false;
             txtMessage.IsEnabled = false;
-            this.Hide();
+            this.Close();
         }
     }
 }

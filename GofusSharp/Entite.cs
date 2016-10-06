@@ -503,9 +503,23 @@
         public int AvancerVers(EntiteInconnu cible)
         {
             int PM_Debut = PM;
-            while (PM > 0)
+            while (PM > 0 && Position != cible.Position)
             {
-                if (Math.Abs(Position.X - cible.Position.X) >= Math.Abs(Position.Y - cible.Position.Y))
+                if (Position.X - cible.Position.X == 0)
+                {
+                    if (!ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (cible.Position.Y - Position.Y > 0 ? 1 : -1)]))
+                    {
+                        return PM_Debut - PM;
+                    }
+                }
+                else if (Position.Y - cible.Position.Y == 0)
+                {
+                    if (!ChangerPosition(TerrainEntite.TabCases[Position.X + (cible.Position.X - Position.X > 0 ? 1 : -1)][Position.Y]))
+                    {
+                        return PM_Debut - PM;
+                    }
+                }
+                else if (Math.Abs(Position.X - cible.Position.X) >= Math.Abs(Position.Y - cible.Position.Y))
                 {
                     if (!ChangerPosition(TerrainEntite.TabCases[Position.X + (cible.Position.X - Position.X >= 0 ? 1 : -1)][Position.Y]))
                     {
@@ -532,9 +546,23 @@
         public int AvancerVers(EntiteInconnu cible, int PM_Alouer)
         {
             int PM_Debut = PM;
-            while (PM > 0 && PM_Alouer > 0)
+            while (PM > 0 && PM_Alouer > 0 && Position != cible.Position)
             {
-                if (Math.Abs(Position.X - cible.Position.X) >= Math.Abs(Position.Y - cible.Position.Y))
+                if (Position.X - cible.Position.X == 0)
+                {
+                    if (!ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (cible.Position.Y - Position.Y > 0 ? 1 : -1)]))
+                    {
+                        return PM_Debut - PM;
+                    }
+                }
+                else if (Position.Y - cible.Position.Y == 0)
+                {
+                    if (!ChangerPosition(TerrainEntite.TabCases[Position.X + (cible.Position.X - Position.X > 0 ? 1 : -1)][Position.Y]))
+                    {
+                        return PM_Debut - PM;
+                    }
+                }
+                else if (Math.Abs(Position.X - cible.Position.X) >= Math.Abs(Position.Y - cible.Position.Y))
                 {
                     if (!ChangerPosition(TerrainEntite.TabCases[Position.X + (cible.Position.X - Position.X > 0 ? 1 : -1)][Position.Y]))
                     {
@@ -563,9 +591,23 @@
         public int AvancerVers(Case cible)
         {
             int PM_Debut = PM;
-            while (PM > 0)
+            while (PM > 0 && Position != cible)
             {
-                if (Math.Abs(Position.X - cible.X) >= Math.Abs(Position.Y - cible.Y))
+                if (Position.X - cible.X == 0)
+                {
+                    if (!ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (cible.Y - Position.Y > 0 ? 1 : -1)]))
+                    {
+                        return PM_Debut - PM;
+                    }
+                }
+                else if (Position.Y - cible.Y == 0)
+                {
+                    if (!ChangerPosition(TerrainEntite.TabCases[Position.X + (cible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
+                    {
+                        return PM_Debut - PM;
+                    }
+                }
+                else if (Math.Abs(Position.X - cible.X) >= Math.Abs(Position.Y - cible.Y))
                 {
                     if (!ChangerPosition(TerrainEntite.TabCases[Position.X + (cible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
                     {
@@ -586,15 +628,31 @@
                     }
                 }
                 PM--;
+                if (Position == cible)
+                    return PM_Debut - PM;
             }
             return PM_Debut - PM;
         }
         public int AvancerVers(Case cible, int PM_Alouer)
         {
             int PM_Debut = PM;
-            while (PM > 0 && PM_Alouer > 0)
+            while (PM > 0 && PM_Alouer > 0 && Position != cible)
             {
-                if (Math.Abs(Position.X - cible.X) >= Math.Abs(Position.Y - cible.Y))
+                if (Position.X - cible.X == 0)
+                {
+                    if (!ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (cible.Y - Position.Y > 0 ? 1 : -1)]))
+                    {
+                        return PM_Debut - PM;
+                    }
+                }
+                else if (Position.Y - cible.Y == 0)
+                {
+                    if (!ChangerPosition(TerrainEntite.TabCases[Position.X + (cible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
+                    {
+                        return PM_Debut - PM;
+                    }
+                }
+                else if (Math.Abs(Position.X - cible.X) >= Math.Abs(Position.Y - cible.Y))
                 {
                     if (!ChangerPosition(TerrainEntite.TabCases[Position.X + (cible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
                     {
@@ -616,6 +674,8 @@
                 }
                 PM--;
                 PM_Alouer--;
+                if (Position == cible)
+                    return PM_Debut - PM;
             }
             return PM_Debut - PM;
         }
