@@ -35,7 +35,7 @@ namespace test
     /// </summary>
     public partial class MainWindow : Window
     {
-        private BDService bd = new BDService();
+        public BDService bd = new BDService();
 
         public Chat chat;
         DispatcherTimer aTimer;
