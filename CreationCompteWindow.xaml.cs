@@ -21,7 +21,6 @@ namespace test
         public CreationCompteWindow()
         {
             InitializeComponent();
-
         }
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
@@ -39,13 +38,35 @@ namespace test
             this.Close(); 
 
         }
+        public bool Valider()
+        {
+
+
+            //TODO REGEX validation nom , mdp et email.
+
+
+           if(txt_mdp.Password==txtConfirmation.Password)
+            {
+                return false;
+            }
+            return true;
+        }
 
         private void btnValider_Click(object sender, RoutedEventArgs e)
         {
-             System.Windows.Forms.MessageBox.Show("Bientôt disponible !");
-            /* Confirmation confirmation = new Confirmation();
-             creation.Show();
-             this.Close();*/
+
+            if(Valider()==true)
+            {
+                System.Windows.Forms.MessageBox.Show("Bientôt disponible !");
+
+             //   bd.insertion("INSERT  INTO Joueurs(nomUtilisateur,couriel,motDePasse,argent,avatar) VALUES(" + txt_nom.Text + "," + txt_Courriel.Text + "," + txt_mdp.Password + ",0,0 )");
+
+                /* Confirmation confirmation = new Confirmation();
+                 creation.Show();
+                 this.Close();*/
+            }
+
+
         }
     }
 }
