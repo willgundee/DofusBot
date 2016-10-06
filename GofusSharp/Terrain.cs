@@ -124,9 +124,9 @@
                 caseVoisines.AjouterFin(TabCases[caseCible.X][caseCible.Y - 1]);
             if (caseCible.X - 1 >= 0 && TabCases[caseCible.X - 1][caseCible.Y].Contenu != Case.type.obstacle)
                 caseVoisines.AjouterFin(TabCases[caseCible.X - 1][caseCible.Y]);
-            if (TabCases.Length >= caseCible.X + 1 && TabCases[caseCible.X + 1][caseCible.Y].Contenu != Case.type.obstacle)
+            if (TabCases.Length > caseCible.X + 1 && TabCases[caseCible.X + 1][caseCible.Y].Contenu != Case.type.obstacle)
                 caseVoisines.AjouterFin(TabCases[caseCible.X + 1][caseCible.Y]);
-            if (TabCases[caseCible.X].Length >= caseCible.Y + 1 && TabCases[caseCible.X][caseCible.Y + 1].Contenu != Case.type.obstacle)
+            if (TabCases[caseCible.X].Length > caseCible.Y + 1 && TabCases[caseCible.X][caseCible.Y + 1].Contenu != Case.type.obstacle)
                 caseVoisines.AjouterFin(TabCases[caseCible.X][caseCible.Y + 1]);
             return caseVoisines;
         }

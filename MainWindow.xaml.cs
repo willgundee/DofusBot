@@ -91,7 +91,7 @@ namespace test
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             // Updating the Label which displays the current second
-            if (((MainWindow)System.Windows.Application.Current.MainWindow) != null)
+            if (this != null)
             {
                 chat.refreshChat();
                 // Forcing the CommandManager to raise the RequerySuggested event
@@ -157,10 +157,9 @@ namespace test
         {
 
 
-            if (fenetreChat.Visibility != Visibility.Visible)
-            {
+            fenetreChat = new ChatWindow();
                 fenetreChat.Show();
-            }
+            
         }
 
 
