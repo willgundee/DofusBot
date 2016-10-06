@@ -124,10 +124,13 @@ namespace test
 
             if (txtMessage.Text.ToString() == "")
             {
+
                 btnEnvoyerMessage.IsEnabled = false;
+
             }
             else
             {
+                if (aTimer.IsEnabled )
                 btnEnvoyerMessage.IsEnabled = true;
             }
         }

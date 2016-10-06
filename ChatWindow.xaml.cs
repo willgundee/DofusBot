@@ -88,6 +88,7 @@ namespace test
             }
             else
             {
+                if(aTimer.IsEnabled)
                 btnEnvoyerMessage.IsEnabled = true;
             }
         }
