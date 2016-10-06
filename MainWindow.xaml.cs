@@ -640,25 +640,33 @@ namespace test
             #endregion
 
             //SELECT * FROM Equipements e  INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement INNER JOIN StatistiquesEquipements s ON s.idEquipement = e.idEquipement INNER JOIN TypesStatistiques ts ON ts.idTypeStatistique = s.idTypeStatistique INNER JOIN EffetsEquipements ee ON ee.idEquipement = e.idEquipement INNER JOIN Effets et ON et.idEffet = ee.idEffet WHERE e.nom ='Marteau du bouftou'
-
+            
             imgCurrent.Source = ((Image)sender).Source;
-            StringBuilder stats = new StringBuilder();
-            string query = "SELECT e.nom,t.nom ,ts.nom ,valeur,e.description,e.prix FROM Equipements e INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement INNER JOIN StatistiquesEquipements s ON s.idEquipement = e.idEquipement INNER JOIN TypesStatistiques ts ON ts.idTypeStatistique = s.idTypeStatistique WHERE e.nom ='" + ((Image)sender).Name.Replace("_", " ") + "'";
+            string nomItem = ((Image)sender).Name.Replace("_", " ");
+            string info = "SELECT * FROM Equipements e INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE e.nom ='" + nomItem+ "'";
+            string stats = "SELECT ts.nom ,valeur FROM Equipements e INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement INNER JOIN StatistiquesEquipements s ON s.idEquipement = e.idEquipement INNER JOIN TypesStatistiques ts ON ts.idTypeStatistique = s.idTypeStatistique WHERE e.nom ='" + nomItem+"'";
 
-            List<string>[] infoItem = bd.selection(query);
+            /*List<string>[] infoItem = bd.selection(info);
+            List<string>[] statsItem = bd.selection(stats);*/
             //set des info dans les champs statics
-            lblItem.Content = infoItem[0][0];
-            lblPrix.Content = infoItem[0][5];
-            txtBDesc.Text = infoItem[0][4];
+            Equipement item = new Equipement(bd.selection(info)[0], bd.selection(stats));
+            lblItem.Content = item.Nom;
+            lblPrix.Content = item.Prix;
+            txtBDesc.Text =  item.Desc;
+
             //elneves tout les stats de l'item
+
             grdStats.Children.Clear();
+
             // ajoutes les nouvelles
+
             grdStats.Children.Add(CreateLbl("Type :", 0, 0));
-            grdStats.Children.Add(CreateLbl(infoItem[0][1], 0, 1));
-            for (int i = 0; i < infoItem.Count(); i++)
+            grdStats.Children.Add(CreateLbl(item.Type, 0, 1));
+
+            for (int i = 0; i < item.LstStatistiques.Count(); i++)
             {
-                grdStats.Children.Add(CreateLbl(infoItem[i][2] + " :", i + 1, 0));
-                grdStats.Children.Add(CreateLbl(infoItem[i][3], i + 1, 1));
+                grdStats.Children.Add(CreateLbl(item.LstStatistiques[i].Nom + " :", i + 1, 0));
+                grdStats.Children.Add(CreateLbl(item.LstStatistiques[i].Valeur.ToString(), i + 1, 1));
             }
         }
 

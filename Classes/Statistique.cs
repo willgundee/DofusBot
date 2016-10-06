@@ -60,9 +60,9 @@ namespace test
         };
             #endregion
 
-        public Statistique(element e, int i)
+        public Statistique(string t, int i)
         {
-            Nom = e;
+            Nom = (element)Enum.Parse(typeof(element), t, true);//convert string to enum;
             Valeur = i;
         }
     }
