@@ -6,38 +6,87 @@ namespace GofusSharp
         public Partie PartieTest { get; private set; }
         public CombatTest()
         {
-            fakePartie();
-            while (true)
-            {
-                PartieTest.DebuterAction();
-                Action(PartieTest.TerrainPartie, PartieTest.ListAttaquants.First.Valeur as Personnage, PartieTest.ListEntites);
-                PartieTest.SyncroniserJoueur();
-                if (PartieTest.ListAttaquants.First.Valeur.PV <= 0 || PartieTest.ListDefendants.First.Valeur.PV <= 0)
-                    break;
-                PartieTest.DebuterAction();
-                Action(PartieTest.TerrainPartie, PartieTest.ListDefendants.First.Valeur as Personnage, PartieTest.ListEntites);
-                PartieTest.SyncroniserJoueur();
-                if (PartieTest.ListAttaquants.First.Valeur.PV <= 0 || PartieTest.ListDefendants.First.Valeur.PV <= 0)
-                    break;
-            }
-            if (PartieTest.ListAttaquants.First.Valeur.PV <= 0)
-                System.Windows.Forms.MessageBox.Show("Robert est le gagnant avec " + PartieTest.ListDefendants.First.Valeur.PV.ToString() + " PV restant!!!");
-            else if (PartieTest.ListDefendants.First.Valeur.PV <= 0)
-                System.Windows.Forms.MessageBox.Show("Trebor est le gagnant avec " + PartieTest.ListAttaquants.First.Valeur.PV.ToString() + " PV restant!!!");
+
+            //while (true)
+            //{
+            //    PartieTest.DebuterAction();
+            //    Action(PartieTest.TerrainPartie, PartieTest.ListAttaquants.First.Valeur as Personnage, PartieTest.ListEntites);
+            //    PartieTest.SyncroniserJoueur();
+            //    if (PartieTest.ListAttaquants.First.Valeur.PV <= 0 || PartieTest.ListDefendants.First.Valeur.PV <= 0)
+            //        break;
+            //    PartieTest.DebuterAction();
+            //    Action(PartieTest.TerrainPartie, PartieTest.ListDefendants.First.Valeur as Personnage, PartieTest.ListEntites);
+            //    PartieTest.SyncroniserJoueur();
+            //    if (PartieTest.ListAttaquants.First.Valeur.PV <= 0 || PartieTest.ListDefendants.First.Valeur.PV <= 0)
+            //        break;
+            //}
+            //if (PartieTest.ListAttaquants.First.Valeur.PV <= 0)
+            //    System.Windows.Forms.MessageBox.Show("Robert est le gagnant avec " + PartieTest.ListDefendants.First.Valeur.PV.ToString() + " PV restant!!!");
+            //else if (PartieTest.ListDefendants.First.Valeur.PV <= 0)
+            //    System.Windows.Forms.MessageBox.Show("Trebor est le gagnant avec " + PartieTest.ListAttaquants.First.Valeur.PV.ToString() + " PV restant!!!");
         }
 
-        public void Action(Terrain terrain, Entite joueur, ListeChainee<EntiteInconnu> ListEntites)
+        public string combat(int nbTour)
         {
-            Noeud<EntiteInconnu> entite = ListEntites.First;
-            while (entite.Valeur.Equipe == joueur.Equipe)
-                entite = entite.Next;
-            if (terrain.DistanceEntreCases(joueur.Position, entite.Valeur.Position) > 1)
+            fakePartie();
+            for (int i = 0; i < nbTour; i++)
             {
-                joueur.AvancerVers(entite.Valeur);
+                Noeud<Entite> EntAtt = PartieTest.ListAttaquants.First;
+                Noeud<Entite> EntDef = PartieTest.ListDefendants.First;
+                while (EntAtt != PartieTest.ListAttaquants.Last.Next && EntDef != PartieTest.ListDefendants.Last.Next)
+                {
+                    if (EntAtt != PartieTest.ListAttaquants.Last.Next)
+                    {
+                        if (EntAtt.Valeur.Etat == EntiteInconnu.typeEtat.mort)
+                        {
+                            EntAtt = EntAtt.Next;
+                            break;
+                        }
+                        PartieTest.DebuterAction(EntAtt.Valeur);
+                        PartieTest.SyncroniserJoueur();
+                        Action(PartieTest.TerrainPartie, EntAtt.Valeur as Personnage, PartieTest.ListEntites);
+                        PartieTest.SyncroniserJoueur();
+                        EntAtt = EntAtt.Next;
+                    }
+                    if (EntDef != PartieTest.ListDefendants.Last.Next)
+                    {
+                        if (EntDef.Valeur.Etat == EntiteInconnu.typeEtat.mort)
+                        {
+                            EntDef = EntDef.Next;
+                            break;
+                        }
+                        PartieTest.DebuterAction(EntDef.Valeur);
+                        PartieTest.SyncroniserJoueur();
+                        Action(PartieTest.TerrainPartie, EntDef.Valeur as Personnage, PartieTest.ListEntites);
+                        PartieTest.SyncroniserJoueur();
+                        EntDef = EntDef.Next;
+                    }
+                    bool vivante = false;
+                    foreach (Entite entiteAtt in PartieTest.ListAttaquants)
+                    {
+                        if (entiteAtt.Etat == EntiteInconnu.typeEtat.vivant)
+                        {
+                            vivante = true;
+                            break;
+                        }
+                    }
+                    if (!vivante)
+                        return "L'équipe attaquante a gagnée";
+                    vivante = false;
+                    foreach (Entite entiteDef in PartieTest.ListDefendants)
+                    {
+                        if (entiteDef.Etat == EntiteInconnu.typeEtat.vivant)
+                        {
+                            vivante = true;
+                            break;
+                        }
+                    }
+                    if (!vivante)
+                        return "L'équipe defendante a gagnée";
+                }
             }
-            joueur.UtiliserSort(joueur.ClasseEntite.TabSorts[1], entite.Valeur);
+            return "Partie nulle";
         }
-
         public void Action(Terrain terrain, Personnage joueur, ListeChainee<EntiteInconnu> ListEntites)
         {
             Noeud<EntiteInconnu> entite = ListEntites.First;
@@ -45,10 +94,22 @@ namespace GofusSharp
                 entite = entite.Next;
             if (terrain.DistanceEntreCases(joueur.Position, entite.Valeur.Position) > 1)
             {
-                joueur.AvancerVers(terrain.CheminEntreCases(joueur.Position, entite.Valeur.Position).First.Next.Valeur,1);
+                joueur.AvancerVers(terrain.CheminEntreCases(joueur.Position, entite.Valeur.Position).First.Next.Valeur, 1);
             }
             joueur.Attaquer(entite.Valeur);
         }
+
+        public void Action(Terrain terrain, Entite joueur, System.Collections.Generic.IEnumerator<EntiteInconnu> ListEntites)
+        {
+            while (ListEntites.Current.Equipe == joueur.Equipe)
+                ListEntites.MoveNext();
+            if (terrain.DistanceEntreCases(joueur.Position, ListEntites.Current.Position) > 1)
+            {
+                joueur.AvancerVers(ListEntites.Current);
+            }
+            joueur.UtiliserSort(joueur.ClasseEntite.TabSorts[1], ListEntites.Current);
+        }
+
 
         private void fakePartie()
         {
