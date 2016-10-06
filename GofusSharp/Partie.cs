@@ -84,8 +84,9 @@
                             TerrainPartie.TabCases[obstacle.X][obstacle.Y].Contenu = Case.type.vide;
                         break;
                     }
+                    entite = entite.Next;
                 }
-            } while (!coince);
+            } while (coince);
         }
 
         private void PlacerJoueurs()
@@ -120,6 +121,7 @@
             Noeud<Entite> entite = ListAttaquants.First;
             while (entite != null)
             {
+                entite.Valeur.TerrainEntite = TerrainPartie;
                 int vie = new int();
                 int vitalite = new int();
                 foreach (Statistique stat in entite.Valeur.ListStatistiques)
@@ -161,14 +163,15 @@
 
         public void SyncroniserJoueur()
         {
-            Noeud<Entite> entite = ListAttaquants.First;
             foreach (EntiteInconnu entiteInconnu in ListEntites)
             {
+                Noeud<Entite> entite = ListAttaquants.First;
                 bool existe = false;
                 while (entite != null)
                 {
                     if (entite.Valeur.IdEntite == entiteInconnu.IdEntite)
                     {
+                        entite.Valeur.TerrainEntite = TerrainPartie;
                         entite.Valeur.Position = entiteInconnu.Position;
                         entite.Valeur.PV = entiteInconnu.PV;
                         entite.Valeur.PV_MAX = entiteInconnu.PV_MAX;

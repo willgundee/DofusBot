@@ -77,9 +77,17 @@
                 fermee.AjouterFin(courant);
                 foreach (Case voisin in CaseVoisines(courant.LaCase))
                 {
+                    bool estFermer = false;
                     foreach (CaseAStar caseAStar in fermee)
+                    {
                         if (caseAStar.LaCase == voisin)
-                            continue;
+                        {
+                            estFermer = true;
+                            break;
+                        }
+                    }
+                    if (estFermer)
+                        continue;
                     int tentative_score_g = courant.Score_g + DistanceEntreCases(courant.LaCase, voisin);
                     CaseAStar caseVoisineExistante = null;
                     foreach (CaseAStar caseAStar in ouverte)
@@ -122,33 +130,5 @@
                 caseVoisines.AjouterFin(TabCases[caseCible.X][caseCible.Y + 1]);
             return caseVoisines;
         }
-
-        //internal Case TrouverProchaineCase(ListeChainee<Case> Chemin, ListeChainee<Case> CulDeSac, Case Destination)
-        //{
-        //    if (Math.Abs(Chemin.Last.Valeur.X - Destination.X) >= Math.Abs(Chemin.Last.Valeur.Y - Destination.Y))
-        //    {
-        //        if (TabCases[Chemin.Last.Valeur.X + (Destination.X - Chemin.Last.Valeur.X > 0 ? 1 : -1)][Chemin.Last.Valeur.Y].Contenu == Case.type.obstacle || CulDeSac.Contient(TabCases[Chemin.Last.Valeur.X + (Destination.X - Chemin.Last.Valeur.X > 0 ? 1 : -1)][Chemin.Last.Valeur.Y]))
-        //        {
-        //            if (TabCases[Chemin.Last.Valeur.X][Chemin.Last.Valeur.Y + (Destination.Y - Chemin.Last.Valeur.Y > 0 ? 1 : -1)].Contenu == Case.type.obstacle || CulDeSac.Contient(TabCases[Chemin.Last.Valeur.X][Chemin.Last.Valeur.Y + (Destination.Y - Chemin.Last.Valeur.Y > 0 ? 1 : -1)]))
-        //            {
-        //                return null;
-        //            }
-        //            return TabCases[Chemin.Last.Valeur.X][Chemin.Last.Valeur.Y + (Destination.Y - Chemin.Last.Valeur.Y > 0 ? 1 : -1)];
-        //        }
-        //        return TabCases[Chemin.Last.Valeur.X + (Destination.X - Chemin.Last.Valeur.X > 0 ? 1 : -1)][Chemin.Last.Valeur.Y];
-        //    }
-        //    else
-        //    {
-        //        if (TabCases[Chemin.Last.Valeur.X][Chemin.Last.Valeur.Y + (Destination.Y - Chemin.Last.Valeur.Y > 0 ? 1 : -1)].Contenu == Case.type.obstacle || CulDeSac.Contient(TabCases[Chemin.Last.Valeur.X][Chemin.Last.Valeur.Y + (Destination.Y - Chemin.Last.Valeur.Y > 0 ? 1 : -1)]))
-        //        {
-        //            if (TabCases[Chemin.Last.Valeur.X + (Destination.X - Chemin.Last.Valeur.X > 0 ? 1 : -1)][Chemin.Last.Valeur.Y].Contenu == Case.type.obstacle || CulDeSac.Contient(TabCases[Chemin.Last.Valeur.X + (Destination.X - Chemin.Last.Valeur.X > 0 ? 1 : -1)][Chemin.Last.Valeur.Y]))
-        //            {
-        //                return null;
-        //            }
-        //            return TabCases[Chemin.Last.Valeur.X + (Destination.X - Chemin.Last.Valeur.X > 0 ? 1 : -1)][Chemin.Last.Valeur.Y];
-        //        }
-        //        return TabCases[Chemin.Last.Valeur.X][Chemin.Last.Valeur.Y + (Destination.Y - Chemin.Last.Valeur.Y > 0 ? 1 : -1)];
-        //    }
-        //}
     }
 }

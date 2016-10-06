@@ -26,5 +26,25 @@
                 }
             }
         }
+
+        public bool Attaquer(EntiteInconnu cible)
+        {
+            Arme arme = new Arme(0,null,"poing",Equipement.type.arme,new Effet[] { new Effet(Effet.type.ATT_neutre, 3, 5) },new Zone(Zone.type.croix,1,1), new Zone(Zone.type.carre, 0, 0), Arme.typeArme.dague);
+            foreach (Equipement invent in TabEquipements)
+            {
+                if (invent is Arme)
+                {
+                    break;
+                }
+            }
+            if (CaseEstDansZone(sort.ZonePortee.Type, sort.ZonePortee.PorteeMin, sort.ZonePortee.PorteeMax, Position, cible.Position))
+            {
+                foreach (Effet effet in sort.TabEffets)
+                {
+                    InfligerEffet(effet, sort.ZoneEffet, cible.Position);
+                }
+            }
+            return false;
+        }
     }
 }

@@ -507,9 +507,9 @@
             {
                 if (Math.Abs(Position.X - cible.Position.X) >= Math.Abs(Position.Y - cible.Position.Y))
                 {
-                    if (!ChangerPosition(TerrainEntite.TabCases[Position.X + (cible.Position.X - Position.X > 0 ? 1 : -1)][Position.Y]))
+                    if (!ChangerPosition(TerrainEntite.TabCases[Position.X + (cible.Position.X - Position.X >= 0 ? 1 : -1)][Position.Y]))
                     {
-                        if (!ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (cible.Position.Y - Position.Y > 0 ? 1 : -1)]))
+                        if (!ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (cible.Position.Y - Position.Y >= 0 ? 1 : -1)]))
                         {
                             return PM_Debut - PM;
                         }
@@ -517,9 +517,9 @@
                 }
                 else
                 {
-                    if (!ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (cible.Position.Y - Position.Y > 0 ? 1 : -1)]))
+                    if (!ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (cible.Position.Y - Position.Y >= 0 ? 1 : -1)]))
                     {
-                        if (!ChangerPosition(TerrainEntite.TabCases[Position.X + (cible.Position.X - Position.X > 0 ? 1 : -1)][Position.Y]))
+                        if (!ChangerPosition(TerrainEntite.TabCases[Position.X + (cible.Position.X - Position.X >= 0 ? 1 : -1)][Position.Y]))
                         {
                             return PM_Debut - PM;
                         }
