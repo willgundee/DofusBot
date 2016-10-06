@@ -7,26 +7,28 @@ namespace GofusSharp
         public CombatTest()
         {
             fakePartie();
-            PartieTest.DebuterPartie();
             while (true)
             {
                 PartieTest.DebuterAction();
-                Action(PartieTest.TerrainPartie, PartieTest.ListAttaquants.First.Valeur, PartieTest.ListEntites);
+                Action(PartieTest.TerrainPartie, PartieTest.ListAttaquants.First.Valeur as Personnage, PartieTest.ListEntites);
                 PartieTest.SyncroniserJoueur();
                 if (PartieTest.ListAttaquants.First.Valeur.PV <= 0 || PartieTest.ListDefendants.First.Valeur.PV <= 0)
                     break;
                 PartieTest.DebuterAction();
-                Action(PartieTest.TerrainPartie, PartieTest.ListDefendants.First.Valeur, PartieTest.ListEntites);
+                Action(PartieTest.TerrainPartie, PartieTest.ListDefendants.First.Valeur as Personnage, PartieTest.ListEntites);
                 PartieTest.SyncroniserJoueur();
                 if (PartieTest.ListAttaquants.First.Valeur.PV <= 0 || PartieTest.ListDefendants.First.Valeur.PV <= 0)
                     break;
             }
+            if (PartieTest.ListAttaquants.First.Valeur.PV <= 0)
+                System.Windows.Forms.MessageBox.Show("Robert est le gagnant avec " + PartieTest.ListDefendants.First.Valeur.PV.ToString() + " PV restant!!!");
+            else if (PartieTest.ListDefendants.First.Valeur.PV <= 0)
+                System.Windows.Forms.MessageBox.Show("Trebor est le gagnant avec " + PartieTest.ListAttaquants.First.Valeur.PV.ToString() + " PV restant!!!");
         }
 
         public void Action(Terrain terrain, Entite joueur, ListeChainee<EntiteInconnu> ListEntites)
         {
             Noeud<EntiteInconnu> entite = ListEntites.First;
-            joueur.PA = 18;
             while (entite.Valeur.Equipe == joueur.Equipe)
                 entite = entite.Next;
             if (terrain.DistanceEntreCases(joueur.Position, entite.Valeur.Position) > 1)
@@ -34,6 +36,18 @@ namespace GofusSharp
                 joueur.AvancerVers(entite.Valeur);
             }
             joueur.UtiliserSort(joueur.ClasseEntite.TabSorts[1], entite.Valeur);
+        }
+
+        public void Action(Terrain terrain, Personnage joueur, ListeChainee<EntiteInconnu> ListEntites)
+        {
+            Noeud<EntiteInconnu> entite = ListEntites.First;
+            while (entite.Valeur.Equipe == joueur.Equipe)
+                entite = entite.Next;
+            if (terrain.DistanceEntreCases(joueur.Position, entite.Valeur.Position) > 1)
+            {
+                joueur.AvancerVers(terrain.CheminEntreCases(joueur.Position, entite.Valeur.Position).First.Next.Valeur,1);
+            }
+            joueur.Attaquer(entite.Valeur);
         }
 
         private void fakePartie()
@@ -58,7 +72,7 @@ namespace GofusSharp
             Sort[] tabSortAtt = new Sort[] { new Sort(1, tabEffetAtt1, "bond", false, true, true, zonePorteeAtt1, zoneEffetAtt1, 3, 5), new Sort(2, tabEffetAtt2, "intimidation", true, false, false, zonePorteeAtt2, zoneEffetAtt2, -2, 2) };
             Classe classeAtt = new Classe(1, tabSortAtt, Classe.type.iop);
             Statistique[] statItemAtt = new Statistique[] { new Statistique(Statistique.type.force, 70) };
-            Equipement[] tabEquipAtt = new Equipement[] { new Equipement(1, statItemAtt, "Coiffe bouftou", Equipement.type.chapeau), new Arme(2, statItemAtt,"Marteau bouftous",Equipement.type.arme, tabEffetAtt2, zonePorteeAtt2, zoneEffetAtt2, Arme.typeArme.marteau) };
+            Equipement[] tabEquipAtt = new Equipement[] { new Equipement(1, statItemAtt, "Coiffe bouftou", Equipement.type.chapeau) };
             ListeChainee<Statistique> listStatistiqueDef = new ListeChainee<Statistique>();
             listStatistiqueDef.AjouterFin(new Statistique(Statistique.type.PA, 6));
             listStatistiqueDef.AjouterFin(new Statistique(Statistique.type.PM, 3));
@@ -79,8 +93,8 @@ namespace GofusSharp
             Sort[] tabSortDef = new Sort[] { new Sort(1, tabEffetDef1, "bond", false, true, true, zonePorteeDef1, zoneEffetDef1, 3, 5), new Sort(2, tabEffetDef2, "intimidation", true, false, false, zonePorteeDef2, zoneEffetDef2, -2, 2) };
             Classe classeDef = new Classe(1, tabSortDef, Classe.type.iop);
             Statistique[] statItemDef = new Statistique[] { new Statistique(Statistique.type.force, 70) };
-            Equipement[] tabEquipDef = new Equipement[] { new Equipement(1, statItemDef, "Coiffe bouftou", Equipement.type.chapeau) };
-            Terrain terrain = new Terrain(10,5);
+            Equipement[] tabEquipDef = new Equipement[] { new Equipement(1, statItemDef, "Coiffe bouftou", Equipement.type.chapeau), new Arme(2, statItemAtt, "Marteau bouftous", Equipement.type.arme, tabEffetAtt2, zonePorteeAtt2, zoneEffetAtt2, Arme.typeArme.marteau) };
+            Terrain terrain = new Terrain(10, 5);
             ListeChainee<Entite> ListAttaquants = new ListeChainee<Entite>();
             ListAttaquants.AjouterFin(new Personnage(10, classeAtt, "Trebor", 10000, EntiteInconnu.type.attaquant, listStatistiqueAtt, scriptAtt, tabEquipAtt, terrain));
             ListeChainee<Entite> ListDefendants = new ListeChainee<Entite>();
