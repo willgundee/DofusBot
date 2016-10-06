@@ -37,17 +37,31 @@ namespace test
 
         private void btnConnexion_Click(object sender, RoutedEventArgs e)
         {
-           
-                List<string>[] hh = bdService.selection("SELECT * FROM Joueurs WHERE nomUtilisateur ='" + txtNomU.Text + "'");
+
+            List<string>[] hh = bdService.selection("SELECT * FROM Joueurs WHERE nomUtilisateur ='" + txtNomU.Text + "'");
 
 
-            if (hh[0][0]!="rien" && valide(hh) == true)
-                {
-                    MainWindow perso = new MainWindow();
-                    perso.Show();
-                    this.Close();
-                }
-            
+            if (hh[0][0] != "rien" && valide(hh) == true)
+            {
+                MainWindow perso = new MainWindow();
+                perso.Show();
+                this.Close();
+            }
+
+        }
+
+        private void btnVisionner_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.MessageBox.Show("Bientôt disponible !");
+        }
+
+        private void btnInscription_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.MessageBox.Show("Bientôt disponible !");
+            /* CreationCompteMainWindow creation = new CreationCompteMainWindow();
+             perso.Show();
+             this.Close();*/
         }
     }
 }
+
