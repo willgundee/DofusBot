@@ -658,15 +658,15 @@ namespace test
             //TODO: Lorsque plus de données faire un limit/offset et des numero de page
             string equips = "SELECT * FROM Equipements e INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE idZonePorte IS NULL LIMIT 10 ";
             string armes = "SELECT * FROM Equipements e INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE idZonePorte IS NOT NULL LIMIT 10";
-
             List<string>[] repArmes = bd.selection(armes);
             List<string>[] repEquip = bd.selection(equips);
 
             short col = 0;
             short row = 0;//géneration des images des armes
-            for (int item = 0; item < repArmes.Count(); item++)
+            foreach(List<string> item in repArmes)
             {
-                Image img = CreateImg(repArmes[item][4], repArmes[item][6]);
+                Equipement equip = new Equipement(item);
+                Image img = CreateImg(equip.NoImg, equip.Nom);
                 if (col == 5)
                 {
                     col = 0;
@@ -680,9 +680,10 @@ namespace test
 
             col = 0;
             row = 0;// génération des images des équipements
-            for (int item = 0; item < repEquip.Count(); item++)
+            foreach (List<string> item in repEquip)
             {
-                Image img = CreateImg(repEquip[item][4], repEquip[item][6].ToString());
+                Equipement equip = new Equipement(item);
+                Image img = CreateImg(equip.NoImg, equip.Nom);
                 if (col == 5)
                 {
                     col = 0;

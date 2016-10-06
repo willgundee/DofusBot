@@ -99,6 +99,7 @@
     </Compile>
     <Compile Include="Chat\Chat.cs" />
     <Compile Include="Chat\MessageText.cs" />
+    <Compile Include="Equipement.cs" />
     <Compile Include="GofusSharp\Arme.cs" />
     <Compile Include="BDService.cs" />
     <Compile Include="GofusSharp\Case.cs" />
@@ -114,6 +115,7 @@
     <Compile Include="GofusSharp\Noeud.cs" />
     <Compile Include="GofusSharp\Partie.cs" />
     <Compile Include="GofusSharp\Personnage.cs" />
+    <Compile Include="Statistique.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GofusSharp\Script.cs" />
