@@ -57,10 +57,10 @@ namespace test
 
         private void btnInscription_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.MessageBox.Show("Bientôt disponible !");
-            /* CreationCompteMainWindow creation = new CreationCompteMainWindow();
-             perso.Show();
-             this.Close();*/
+            // System.Windows.Forms.MessageBox.Show("Bientôt disponible !");
+            CreationCompteWindow creation = new CreationCompteWindow();
+             creation.Show();
+             this.Close();
         }
     }
 }

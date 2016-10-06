@@ -34,10 +34,18 @@ namespace test
 
         private void btnAnnuler_Click(object sender, RoutedEventArgs e)
         {
-            this.Hide();
+            Authentification A = new Authentification();
+            A.Show();
+            this.Close(); 
 
         }
 
-       
+        private void btnValider_Click(object sender, RoutedEventArgs e)
+        {
+             System.Windows.Forms.MessageBox.Show("Bientôt disponible !");
+            /* Confirmation confirmation = new Confirmation();
+             creation.Show();
+             this.Close();*/
+        }
     }
 }
