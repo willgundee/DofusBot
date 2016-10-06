@@ -99,7 +99,7 @@
     </Compile>
     <Compile Include="Chat\Chat.cs" />
     <Compile Include="Chat\MessageText.cs" />
-    <Compile Include="Equipement.cs" />
+    <Compile Include="equipement.cs" />
     <Compile Include="GofusSharp\Arme.cs" />
     <Compile Include="BDService.cs" />
     <Compile Include="GofusSharp\Case.cs" />
@@ -115,13 +115,13 @@
     <Compile Include="GofusSharp\Noeud.cs" />
     <Compile Include="GofusSharp\Partie.cs" />
     <Compile Include="GofusSharp\Personnage.cs" />
-    <Compile Include="Statistique.cs" />
     <Compile Include="Authentification.xaml.cs">
       <DependentUpon>Authentification.xaml</DependentUpon>
     </Compile>
     <Compile Include="CreationCompteWindow.xaml.cs">
       <DependentUpon>CreationCompteWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Statistique.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GofusSharp\Script.cs" />
@@ -199,12 +199,16 @@
     <Content Include="Resources\fondEquipement.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\Gofus.png" />
     <Resource Include="Resources\kamas.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Classes\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

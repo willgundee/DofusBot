@@ -29,21 +29,42 @@
 
         public bool Attaquer(EntiteInconnu cible)
         {
-           /* Arme arme = new Arme(0,null,"poing",Equipement.type.arme,new Effet[] { new Effet(Effet.type.ATT_neutre, 3, 5) },new Zone(Zone.type.croix,1,1), new Zone(Zone.type.carre, 0, 0), Arme.typeArme.dague);
+            Arme arme = new Arme(0, null, "poing", Equipement.type.arme, new Effet[] { new Effet(Effet.type.ATT_neutre, 3, 5) }, new Zone(Zone.type.croix, 1, 1), new Zone(Zone.type.carre, 0, 0), Arme.typeArme.dague);
             foreach (Equipement invent in TabEquipements)
             {
                 if (invent is Arme)
                 {
+                    arme = invent as Arme;
                     break;
                 }
             }
-            if (CaseEstDansZone(sort.ZonePortee.Type, sort.ZonePortee.PorteeMin, sort.ZonePortee.PorteeMax, Position, cible.Position))
+            if (CaseEstDansZone(arme.ZonePortee.Type, arme.ZonePortee.PorteeMin, arme.ZonePortee.PorteeMax, Position, cible.Position))
             {
-                foreach (Effet effet in sort.TabEffets)
+                foreach (Effet effet in arme.TabEffets)
                 {
-                    InfligerEffet(effet, sort.ZoneEffet, cible.Position);
+                    InfligerEffet(effet, arme.ZoneEffet, cible.Position);
                 }
-            }*/
+            }
+            return false;
+        }
+        public bool Attaquer(Case cible)
+        {
+            Arme arme = new Arme(0, null, "poing", Equipement.type.arme, new Effet[] { new Effet(Effet.type.ATT_neutre, 3, 5) }, new Zone(Zone.type.croix, 1, 1), new Zone(Zone.type.carre, 0, 0), Arme.typeArme.dague);
+            foreach (Equipement invent in TabEquipements)
+            {
+                if (invent is Arme)
+                {
+                    arme = invent as Arme;
+                    break;
+                }
+            }
+            if (CaseEstDansZone(arme.ZonePortee.Type, arme.ZonePortee.PorteeMin, arme.ZonePortee.PorteeMax, Position, cible))
+            {
+                foreach (Effet effet in arme.TabEffets)
+                {
+                    InfligerEffet(effet, arme.ZoneEffet, cible);
+                }
+            }
             return false;
         }
     }

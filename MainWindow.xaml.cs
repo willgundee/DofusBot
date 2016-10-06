@@ -35,7 +35,7 @@ namespace test
     /// </summary>
     public partial class MainWindow : Window
     {
-        private BDService bd = new BDService();
+        public BDService bd = new BDService();
 
         public Chat chat;
         DispatcherTimer aTimer;
@@ -64,7 +64,8 @@ namespace test
             fenetreChat = new ChatWindow();
             this.chat = new Chat();
             btnEnvoyerMessage.IsEnabled = false;
-            ((MainWindow)System.Windows.Application.Current.MainWindow).txtboxHistorique.Text += " ";
+      
+
             aTimer = new System.Windows.Threading.DispatcherTimer();
             aTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             aTimer.Interval = new TimeSpan(0, 0, 2);

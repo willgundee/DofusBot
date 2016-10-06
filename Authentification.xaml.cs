@@ -17,11 +17,51 @@ namespace test
     /// <summary>
     /// Logique d'interaction pour Window1.xaml
     /// </summary>
-    public partial class Window1 : Window
+    public partial class Authentification : Window
     {
-        public Window1()
+        BDService bdService = new BDService();
+        public Authentification()
         {
             InitializeComponent();
         }
+
+        private bool valide(List<string>[] hh)
+        {
+            if (!(hh[0][3] == txtMDP.Password))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private void btnConnexion_Click(object sender, RoutedEventArgs e)
+        {
+
+            List<string>[] hh = bdService.selection("SELECT * FROM Joueurs WHERE nomUtilisateur ='" + txtNomU.Text + "'");
+
+
+            if (hh[0][0] != "rien" && valide(hh) == true)
+            {
+                MainWindow perso = new MainWindow();
+                perso.Show();
+                this.Close();
+            }
+
+        }
+
+        private void btnVisionner_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.MessageBox.Show("Bientôt disponible !");
+        }
+
+        private void btnInscription_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.MessageBox.Show("Bientôt disponible !");
+            /* CreationCompteMainWindow creation = new CreationCompteMainWindow();
+             perso.Show();
+             this.Close();*/
+        }
     }
 }
+

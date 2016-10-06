@@ -58,7 +58,7 @@ namespace GofusSharp
             Sort[] tabSortAtt = new Sort[] { new Sort(1, tabEffetAtt1, "bond", false, true, true, zonePorteeAtt1, zoneEffetAtt1, 3, 5), new Sort(2, tabEffetAtt2, "intimidation", true, false, false, zonePorteeAtt2, zoneEffetAtt2, -2, 2) };
             Classe classeAtt = new Classe(1, tabSortAtt, Classe.type.iop);
             Statistique[] statItemAtt = new Statistique[] { new Statistique(Statistique.type.force, 70) };
-            Equipement[] tabEquipAtt = new Equipement[] { new Equipement(1, statItemAtt, "Coiffe bouftou", Equipement.type.chapeau) };
+            Equipement[] tabEquipAtt = new Equipement[] { new Equipement(1, statItemAtt, "Coiffe bouftou", Equipement.type.chapeau), new Arme(2, statItemAtt,"Marteau bouftous",Equipement.type.arme, tabEffetAtt2, zonePorteeAtt2, zoneEffetAtt2, Arme.typeArme.marteau) };
             ListeChainee<Statistique> listStatistiqueDef = new ListeChainee<Statistique>();
             listStatistiqueDef.AjouterFin(new Statistique(Statistique.type.PA, 6));
             listStatistiqueDef.AjouterFin(new Statistique(Statistique.type.PM, 3));
