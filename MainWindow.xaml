@@ -117,7 +117,7 @@
                 </TabControl>
             </Grid>
         </TabItem>
-        <TabItem Header="Éditeur">
+        <TabItem Header="Éditeur" Height="30">
             <Grid x:Name="grd_main">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="7*"/>
@@ -224,6 +224,7 @@
                     </wf:CodeTextBox>
                 </WindowsFormsHost>
                 <Button Name="btn_run" Content="Run" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Width="75" Height="40" Click="btn_run_Click"/>
+                <Button Name="btn_test" Content="test" Grid.Column="1" HorizontalAlignment="Left" Margin="143,33,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="btn_test_Click"/>
             </Grid>
         </TabItem>
         <TabItem Header="Marché" Height="30" Selector.Unselected="TabItemMarche_Unselected" Selector.Selected="TabItemMarche_Selected">

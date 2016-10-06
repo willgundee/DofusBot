@@ -751,6 +751,11 @@ namespace test
             grdEquips.Children.Clear();
         }
 
+        private void btn_test_Click(object sender, RoutedEventArgs e)
+        {
+            CombatTest lol = new CombatTest();
+        }
+
 
 
 
