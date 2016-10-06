@@ -118,6 +118,9 @@
     <Compile Include="Authentification.xaml.cs">
       <DependentUpon>Authentification.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CreationCompteWindow.xaml.cs">
+      <DependentUpon>CreationCompteWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Statistique.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -187,11 +190,16 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="CreationCompteWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\fondEquipement.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\Gofus.png" />
     <Resource Include="Resources\kamas.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
