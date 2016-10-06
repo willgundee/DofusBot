@@ -116,6 +116,9 @@
     <Compile Include="GofusSharp\Partie.cs" />
     <Compile Include="GofusSharp\Personnage.cs" />
     <Compile Include="Statistique.cs" />
+    <Compile Include="Authentification.xaml.cs">
+      <DependentUpon>Authentification.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GofusSharp\Script.cs" />
@@ -177,6 +180,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Authentification.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
