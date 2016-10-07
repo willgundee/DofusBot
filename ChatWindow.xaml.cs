@@ -35,9 +35,6 @@ namespace test
             aTimer = new System.Windows.Threading.DispatcherTimer();
             aTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             aTimer.Interval = new TimeSpan(0, 0, 2);
-
-
-
         }
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
