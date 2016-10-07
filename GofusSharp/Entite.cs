@@ -433,7 +433,7 @@
                                 RES_Pourcent_eau = 0;
                             if (reduction_magique < 0)
                                 reduction_magique = 0;
-                            if(entiteInconnu.recevoirDommages((int)(1 - (RES_Pourcent_eau / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + chance + puissance) / 100 + DMG_eau) - RES_eau - reduction_magique)))
+                            if(entiteInconnu.recevoirDommages((1 - (RES_Pourcent_eau / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + chance + puissance) / 100 + DMG_eau) - RES_eau - reduction_magique)))
                             {
                                 foreach (EntiteInconnu invoc in ListEntites)
                                 {

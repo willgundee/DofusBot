@@ -65,7 +65,7 @@
             {
                 for (int i = 0; i < TerrainPartie.Hauteur * TerrainPartie.Largeur / 7; i++)
                 {
-                    caseObstacle.AjouterFin(new Case(Seed.Next(0,TerrainPartie.Largeur),Seed.Next(0, TerrainPartie.Hauteur),Case.type.obstacle));
+                    caseObstacle.AjouterFin(new Case(Seed.Next(0, TerrainPartie.Largeur), Seed.Next(0, TerrainPartie.Hauteur), Case.type.obstacle));
                     while (TerrainPartie.TabCases[caseObstacle.Last.Valeur.X][caseObstacle.Last.Valeur.Y].Contenu != Case.type.vide)
                     {
                         caseObstacle.Last.Valeur.X = Seed.Next(0, TerrainPartie.Largeur);
@@ -77,7 +77,7 @@
                 Noeud<Entite> entite = ListAttaquants.First;
                 while (entite != null)
                 {
-                    if(TerrainPartie.CheminEntreCases(ListAttaquants.First.Valeur.Position, entite.Valeur.Position) == null)
+                    if (TerrainPartie.CheminEntreCases(ListAttaquants.First.Valeur.Position, entite.Valeur.Position) == null)
                     {
                         coince = true;
                         foreach (Case obstacle in caseObstacle)
@@ -98,8 +98,8 @@
             {
                 do
                 {
-                posL = Seed.Next(1, TerrainPartie.Largeur / 2) - 1;
-                posH = Seed.Next(1, TerrainPartie.Hauteur) - 1;
+                    posL = Seed.Next(1, TerrainPartie.Largeur / 2) - 1;
+                    posH = Seed.Next(1, TerrainPartie.Hauteur) - 1;
                 } while (TerrainPartie.TabCases[posL][posH].Contenu != Case.type.vide);
                 TerrainPartie.TabCases[posL][posH].Contenu = Case.type.joueur;
                 entite.Position = TerrainPartie.TabCases[posL][posH];
@@ -149,15 +149,35 @@
             }
         }
 
-        public void DebuterAction()
+        public void DebuterAction(Entite entite)
         {
-            Noeud<Entite> entite = ListAttaquants.First;
-            while (entite != null)
+            entite.PM = entite.PM_MAX;
+            entite.PA = entite.PA_MAX;
+            foreach (Envoutement buff in entite.ListEnvoutements)
             {
-                entite.Valeur.PM = entite.Valeur.PM_MAX;
-                entite.Valeur.PA = entite.Valeur.PA_MAX;
-                entite.Valeur.ListEntites = ListEntites;
-                entite = entite.Next;
+                switch (buff.Stat)
+                {
+                    case Statistique.type.PA:
+                        entite.PA += buff.Valeur;
+                        break;
+                    case Statistique.type.PM:
+                        entite.PM += buff.Valeur;
+                        break;
+                }
+            }
+            entite.ListEntites = ListEntites;
+            foreach (EntiteInconnu entiteInconnu in ListEntites)
+            {
+                foreach (Envoutement buff in entiteInconnu.ListEnvoutements)
+                {
+                    if (buff.IdLanceur == entite.IdEntite)
+                    {
+                        if (buff.PasserTour())
+                        {
+                            entiteInconnu.ListEnvoutements.Enlever(buff);
+                        }
+                    }
+                }
             }
         }
 
@@ -183,7 +203,7 @@
                 }
                 if (!existe)
                 {
-                    Entite newInvoc = new Entite(entiteInconnu , new Script(3, "//Placeholder"), TerrainPartie, entite.Valeur.Proprietaire);
+                    Entite newInvoc = new Entite(entiteInconnu, new Script(3, "//Placeholder"), TerrainPartie, entite.Valeur.Proprietaire);
                     if (newInvoc.Equipe == EntiteInconnu.type.attaquant)
                     {
                         foreach (Entite entiteProp in ListAttaquants)

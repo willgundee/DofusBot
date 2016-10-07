@@ -1,4 +1,6 @@
-﻿namespace GofusSharp
+﻿using System;
+
+namespace GofusSharp
 {
     public class Envoutement
     {
@@ -12,6 +14,14 @@
             this.Valeur = Valeur;
             this.TourRestants = TourRestants;
             this.IdLanceur = IdLanceur;
+        }
+
+        internal bool PasserTour()
+        {
+            TourRestants--;
+            if (TourRestants <= 0)
+                return true;
+            return false;
         }
     }
 }

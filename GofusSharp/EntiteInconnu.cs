@@ -1,8 +1,12 @@
-﻿namespace GofusSharp
+﻿using System;
+
+namespace GofusSharp
 {
     public class EntiteInconnu
     {
         public enum type { attaquant, defendant }
+        public enum typeEtat { vivant, mort }
+        public typeEtat Etat { get; internal set; }
         public int IdEntite { get; internal set; }
         public Classe ClasseEntite { get; internal set; }
         public string Nom { get; internal set; }
@@ -81,5 +85,17 @@
             }
         }
 
+        internal bool recevoirDommages(int dommageRecu)
+        {
+            PV -= dommageRecu;
+            if (PV <= 0)
+            {
+                Etat = typeEtat.mort;
+                Position.Contenu = Case.type.vide;
+                Position = null;
+                return true;
+            }
+            return false;
+        }
     }
 }
