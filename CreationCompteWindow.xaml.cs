@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -40,6 +41,7 @@ namespace test
         }
         public bool Valider()
         {
+            Regex courriel = new Regex(@"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
 
 
             //TODO REGEX validation nom , mdp et email.
@@ -49,6 +51,18 @@ namespace test
             {
                 return false;
             }
+            if (txt_nom.Text.ToString().Length > 13 || txt_nom.Text.ToString().Length < 5)
+            {
+
+            }
+
+
+            if (courriel.Match(txt_Courriel.Text.ToString()) != null)
+            {
+
+            }
+
+
             return true;
         }
 
