@@ -44,7 +44,16 @@ namespace GofusSharp
                         }
                         PartieTest.DebuterAction(EntAtt.Valeur);
                         PartieTest.SyncroniserJoueur();
-                        Action(PartieTest.TerrainPartie, EntAtt.Valeur as Personnage, PartieTest.ListEntites);
+
+                        System.Threading.Tasks.Task t = new System.Threading.Tasks.Task(() => { Action(PartieTest.TerrainPartie, EntAtt.Valeur as Personnage, PartieTest.ListEntites); });
+                        t.Start();
+                        int c = 0;
+                        while (!t.IsCompleted && c < 1000000000)
+                        {
+                            c++;
+                        }
+                        System.Windows.Forms.MessageBox.Show(c.ToString());
+
                         PartieTest.SyncroniserJoueur();
                         EntAtt = EntAtt.Next;
                     }
@@ -89,12 +98,20 @@ namespace GofusSharp
         }
         public void Action(Terrain terrain, Personnage joueur, ListeChainee<EntiteInconnu> ListEntites)
         {
+            while (true)
+            {
+
+            }
             Noeud<EntiteInconnu> entite = ListEntites.First;
             while (entite.Valeur.Equipe == joueur.Equipe)
                 entite = entite.Next;
             if (terrain.DistanceEntreCases(joueur.Position, entite.Valeur.Position) > 1)
             {
-                joueur.AvancerVers(terrain.CheminEntreCases(joueur.Position, entite.Valeur.Position).First.Next.Valeur, 1);
+                int result = 1;
+                while (result != 0 && result != -1)
+                {
+                    result = joueur.AvancerVers(terrain.CheminEntreCases(joueur.Position, entite.Valeur.Position).First.Next.Valeur, 1);
+                }
             }
             joueur.Attaquer(entite.Valeur);
         }

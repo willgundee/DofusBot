@@ -137,7 +137,7 @@
                                 RES_Pourcent_neutre = 0;
                             if (reduction_physique < 0)
                                 reduction_physique = 0;
-                            if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_neutre / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + force + puissance) / 100 + DMG_neutre) - RES_neutre - reduction_physique)));
+                            if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_neutre / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + force + puissance) / 100 + DMG_neutre) - RES_neutre - reduction_physique))) ;
                             {
                                 foreach (EntiteInconnu invoc in ListEntites)
                                 {
@@ -211,7 +211,7 @@
                                 RES_Pourcent_air = 0;
                             if (reduction_magique < 0)
                                 reduction_magique = 0;
-                            if(entiteInconnu.recevoirDommages((1 - (RES_Pourcent_air / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + agilite + puissance) / 100 + DMG_air) - RES_air - reduction_magique)))
+                            if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_air / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + agilite + puissance) / 100 + DMG_air) - RES_air - reduction_magique)))
                             {
                                 foreach (EntiteInconnu invoc in ListEntites)
                                 {
@@ -285,7 +285,7 @@
                                 RES_Pourcent_feu = 0;
                             if (reduction_magique < 0)
                                 reduction_magique = 0;
-                            if(entiteInconnu.recevoirDommages((1 - (RES_Pourcent_feu / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + intelligence + puissance) / 100 + DMG_feu) - RES_feu - reduction_magique)))
+                            if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_feu / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + intelligence + puissance) / 100 + DMG_feu) - RES_feu - reduction_magique)))
                             {
                                 foreach (EntiteInconnu invoc in ListEntites)
                                 {
@@ -359,7 +359,7 @@
                                 RES_Pourcent_terre = 0;
                             if (reduction_physique < 0)
                                 reduction_physique = 0;
-                            if(entiteInconnu.recevoirDommages((1 - (RES_Pourcent_terre / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + force + puissance) / 100 + DMG_terre) - RES_terre - reduction_physique)))
+                            if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_terre / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + force + puissance) / 100 + DMG_terre) - RES_terre - reduction_physique)))
                             {
                                 foreach (EntiteInconnu invoc in ListEntites)
                                 {
@@ -433,7 +433,7 @@
                                 RES_Pourcent_eau = 0;
                             if (reduction_magique < 0)
                                 reduction_magique = 0;
-                            if(entiteInconnu.recevoirDommages((1 - (RES_Pourcent_eau / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + chance + puissance) / 100 + DMG_eau) - RES_eau - reduction_magique)))
+                            if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_eau / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + chance + puissance) / 100 + DMG_eau) - RES_eau - reduction_magique)))
                             {
                                 foreach (EntiteInconnu invoc in ListEntites)
                                 {
@@ -497,62 +497,71 @@
 
         protected bool CaseEstDansZone(Zone.type TypeZone, int porteeMin, int porteeMax, Case source, Case cible)
         {
-            switch (TypeZone)
+            try
             {
-                case Zone.type.cercle:
-                    int portee = TerrainEntite.DistanceEntreCases(source, cible);
-                    if (portee >= porteeMin && portee <= porteeMax)
-                    {
-                        return true;
-                    }
-                    break;
-                case Zone.type.ligne_verticale:
-                    if (cible.X == source.X && Math.Abs(cible.Y - source.Y) >= porteeMin && Math.Abs(cible.Y - source.Y) <= porteeMax && (source.X > Position.X && source.X <= cible.X || source.X < Position.X && source.X >= cible.X) || cible.Y == source.Y && Math.Abs(cible.X - source.X) >= porteeMin && Math.Abs(cible.X - source.X) <= porteeMax && (source.Y > Position.Y && source.Y <= cible.Y || source.Y < Position.Y && source.Y >= cible.Y))
-                    {
-                        return true;
-                    }
-                    break;
-                case Zone.type.ligne_horizontale:
-                    if (cible.X == source.X && Math.Abs(cible.Y - source.Y) >= porteeMin && Math.Abs(cible.Y - source.Y) <= porteeMax && source.Y == Position.Y || cible.Y == source.Y && Math.Abs(cible.X - source.X) >= porteeMin && Math.Abs(cible.X - source.X) <= porteeMax && source.X == Position.X)
-                    {
-                        return true;
-                    }
-                    break;
-                case Zone.type.carre:
-                    if (Math.Abs(cible.Y - source.Y) >= porteeMin && Math.Abs(cible.Y - source.Y) <= porteeMax && Math.Abs(cible.X - source.X) >= porteeMin && Math.Abs(cible.X - source.X) <= porteeMax)
-                    {
-                        return true;
-                    }
-                    break;
-                case Zone.type.croix:
-                    if ((cible.X == source.X && Math.Abs(cible.Y - source.Y) >= porteeMin && Math.Abs(cible.Y - source.Y) <= porteeMax) || (cible.Y == source.Y && Math.Abs(cible.X - source.X) >= porteeMin && Math.Abs(cible.X - source.X) <= porteeMax))
-                    {
-                        return true;
-                    }
-                    break;
-                case Zone.type.X:
-                    if (cible.X - cible.Y == source.X - source.Y || cible.X + cible.Y == source.X + source.Y)
-                    {
-                        return true;
-                    }
-                    break;
-                case Zone.type.T:
-                    if ((cible.X == source.X && Math.Abs(cible.Y - source.Y) >= porteeMin && Math.Abs(cible.Y - source.Y) <= porteeMax) || (cible.Y == source.Y && Math.Abs(cible.X - source.X) >= porteeMin && Math.Abs(cible.X - source.X) <= porteeMax))
-                    {
-                        if (cible != Position)
+
+                switch (TypeZone)
+                {
+                    case Zone.type.cercle:
+                        int portee = TerrainEntite.DistanceEntreCases(source, cible);
+                        if (portee >= porteeMin && portee <= porteeMax)
+                        {
                             return true;
-                    }
-                    break;
-                case Zone.type.demi_cercle:
-                    break;
-                case Zone.type.cone:
-                    break;
-                case Zone.type.tous:
-                    return true;
-                default:
-                    break;
+                        }
+                        break;
+                    case Zone.type.ligne_verticale:
+                        if (cible.X == source.X && Math.Abs(cible.Y - source.Y) >= porteeMin && Math.Abs(cible.Y - source.Y) <= porteeMax && (source.X > Position.X && source.X <= cible.X || source.X < Position.X && source.X >= cible.X) || cible.Y == source.Y && Math.Abs(cible.X - source.X) >= porteeMin && Math.Abs(cible.X - source.X) <= porteeMax && (source.Y > Position.Y && source.Y <= cible.Y || source.Y < Position.Y && source.Y >= cible.Y))
+                        {
+                            return true;
+                        }
+                        break;
+                    case Zone.type.ligne_horizontale:
+                        if (cible.X == source.X && Math.Abs(cible.Y - source.Y) >= porteeMin && Math.Abs(cible.Y - source.Y) <= porteeMax && source.Y == Position.Y || cible.Y == source.Y && Math.Abs(cible.X - source.X) >= porteeMin && Math.Abs(cible.X - source.X) <= porteeMax && source.X == Position.X)
+                        {
+                            return true;
+                        }
+                        break;
+                    case Zone.type.carre:
+                        if (Math.Abs(cible.Y - source.Y) >= porteeMin && Math.Abs(cible.Y - source.Y) <= porteeMax && Math.Abs(cible.X - source.X) >= porteeMin && Math.Abs(cible.X - source.X) <= porteeMax)
+                        {
+                            return true;
+                        }
+                        break;
+                    case Zone.type.croix:
+                        if ((cible.X == source.X && Math.Abs(cible.Y - source.Y) >= porteeMin && Math.Abs(cible.Y - source.Y) <= porteeMax) || (cible.Y == source.Y && Math.Abs(cible.X - source.X) >= porteeMin && Math.Abs(cible.X - source.X) <= porteeMax))
+                        {
+                            return true;
+                        }
+                        break;
+                    case Zone.type.X:
+                        if (cible.X - cible.Y == source.X - source.Y || cible.X + cible.Y == source.X + source.Y)
+                        {
+                            return true;
+                        }
+                        break;
+                    case Zone.type.T:
+                        if ((cible.X == source.X && Math.Abs(cible.Y - source.Y) >= porteeMin && Math.Abs(cible.Y - source.Y) <= porteeMax) || (cible.Y == source.Y && Math.Abs(cible.X - source.X) >= porteeMin && Math.Abs(cible.X - source.X) <= porteeMax))
+                        {
+                            if (cible != Position)
+                                return true;
+                        }
+                        break;
+                    case Zone.type.demi_cercle:
+                        break;
+                    case Zone.type.cone:
+                        break;
+                    case Zone.type.tous:
+                        return true;
+                    default:
+                        break;
+                }
+                return false;
             }
-            return false;
+            catch (System.Exception e)
+            {
+                System.Windows.Forms.MessageBox.Show(string.Format("Érreur : {0}", e));
+                return false;
+            }
         }
 
         public int AvancerVers(EntiteInconnu cible)

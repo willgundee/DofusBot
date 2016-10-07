@@ -196,6 +196,7 @@
                         entite.Valeur.PV = entiteInconnu.PV;
                         entite.Valeur.PV_MAX = entiteInconnu.PV_MAX;
                         entite.Valeur.ListEnvoutements = entiteInconnu.ListEnvoutements;
+                        entite.Valeur.Etat = entiteInconnu.Etat;
                         existe = true;
                         break;
                     }

@@ -22,7 +22,15 @@
         }
         public int DistanceEntreCases(Case case1, Case case2)
         {
-            return Math.Abs(case1.X - case2.X) + Math.Abs(case1.Y - case2.Y);
+            try
+            {
+                return Math.Abs(case1.X - case2.X) + Math.Abs(case1.Y - case2.Y);
+            }
+            catch (System.Exception e)
+            {
+                System.Windows.Forms.MessageBox.Show(string.Format("Érreur : {0}", e));
+                return -1;
+            }
         }
 
         public ListeChainee<Case> CaseAvecObstacle()

@@ -754,6 +754,7 @@ namespace test
         private void btn_test_Click(object sender, RoutedEventArgs e)
         {
             CombatTest lol = new CombatTest();
+            System.Windows.Forms.MessageBox.Show(lol.combat(64));
         }
 
 
