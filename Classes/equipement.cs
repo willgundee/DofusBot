@@ -8,7 +8,7 @@ namespace test
 {
     public class Equipement
     {
-
+        //TODO: Ajout des conditions
         public List<Statistique> LstStatistiques { get; set; }
         public List<Effet> LstEffet { get; set; }
         public Zone ZonePortee { get; set; }

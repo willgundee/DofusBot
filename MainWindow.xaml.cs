@@ -643,7 +643,6 @@ namespace test
             #endregion
 
             //SELECT * FROM Equipements e  INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement INNER JOIN StatistiquesEquipements s ON s.idEquipement = e.idEquipement INNER JOIN TypesStatistiques ts ON ts.idTypeStatistique = s.idTypeStatistique INNER JOIN EffetsEquipements ee ON ee.idEquipement = e.idEquipement INNER JOIN Effets et ON et.idEffet = ee.idEffet WHERE e.nom ='Marteau du bouftou'
-
             imgCurrent.Source = ((Image)sender).Source;
             string nomItem = ((Image)sender).Name.Replace("_", " ");
             string info = "SELECT * FROM Equipements e INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE e.nom ='" + nomItem + "'";
