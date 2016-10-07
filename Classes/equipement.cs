@@ -18,6 +18,7 @@ namespace test
         public int Prix { get; set; }
         public string NoImg { get; set; }
         public string Type { get; set; }
+        public  bool EstArme { get; set; }
 
         public Dictionary<int, string> DictType = new Dictionary<int, string>()
         {
@@ -29,6 +30,10 @@ namespace test
         /// <param name="item">ses infos</param>
         public Equipement(List<string> item)
         {
+            if (item[2] == "")
+                EstArme = false;
+            else
+                EstArme = true;
             Type = DictType[Convert.ToInt32(item[1])];
             NoImg = item[4];
             Prix = Convert.ToInt32(item[5]);
@@ -42,6 +47,10 @@ namespace test
         /// <param name="stats">ces stats</param>
         public Equipement(List<string> item, List<string>[] stats)
         {
+            if (item[2] == "")
+                EstArme = false;
+            else
+                EstArme = true;
             Type = DictType[Convert.ToInt32(item[1])];
             NoImg = item[4];
             Prix = Convert.ToInt32(item[5]);
@@ -62,6 +71,10 @@ namespace test
         /// <param name="effets">ses effets</param>
         public Equipement(List<string> item, List<string>[] stats, List<string> zonePorte, List<string> zoneEffet, List<string>[] effets)
         {
+            if (item[2] == "")
+                EstArme = false;
+            else
+                EstArme = true;
             Type = DictType[Convert.ToInt32(item[1])];
             NoImg = item[4];
             Prix = Convert.ToInt32(item[5]);

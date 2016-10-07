@@ -99,8 +99,15 @@
     </Compile>
     <Compile Include="Chat\Chat.cs" />
     <Compile Include="Chat\MessageText.cs" />
+    <Compile Include="Classes\Classe.cs" />
+    <Compile Include="Classes\Condition.cs" />
     <Compile Include="Classes\Effet.cs" />
+    <Compile Include="Classes\Entite.cs" />
     <Compile Include="Classes\Equipement.cs" />
+    <Compile Include="Classes\Joueur.cs" />
+    <Compile Include="Classes\Partie.cs" />
+    <Compile Include="Classes\Script.cs" />
+    <Compile Include="Classes\Sort.cs" />
     <Compile Include="Classes\Statistique.cs" />
     <Compile Include="Classes\Zone.cs" />
     <Compile Include="GofusSharp\Arme.cs" />
