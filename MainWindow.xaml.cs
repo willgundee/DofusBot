@@ -61,7 +61,7 @@ namespace test
             ctb_main.UpdateTreeView();
 
 
-            fenetreChat = new ChatWindow();
+          
             this.chat = new Chat();
             btnEnvoyerMessage.IsEnabled = false;
       
