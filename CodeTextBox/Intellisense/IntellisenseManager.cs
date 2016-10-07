@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Windows.Forms;
+using System.Windows.Controls;
 
 namespace Moonlight.Intellisense
 {
@@ -58,7 +58,7 @@ namespace Moonlight.Intellisense
 
 
             //Get top-left coordinate for our intellisenseBox
-            Point topLeft = m_CodeTextBox.GetPositionFromCharIndex(m_CodeTextBox.SelectionStart);
+            Point topLeft = m_CodeTextBox.GetPositionFromCharIndex(m_CodeTextBox.CodeTextbox);
             topLeft.Offset(-35, 18);
 
             #region Place the intellisense box, to fit the space...

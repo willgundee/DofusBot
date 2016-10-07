@@ -44,14 +44,14 @@ namespace GofusSharp
                         }
                         PartieTest.DebuterAction(EntAtt.Valeur);
                         PartieTest.SyncroniserJoueur();
-
-                        System.Threading.Tasks.Task t = new System.Threading.Tasks.Task(() => { Action(PartieTest.TerrainPartie, EntAtt.Valeur as Personnage, PartieTest.ListEntites); });
-                        t.Start();
+                        System.Threading.CancellationTokenSource CTS = new System.Threading.CancellationTokenSource();
+                        System.Threading.CancellationToken CT = CTS.Token;
+                        System.Threading.Tasks.Task t = System.Threading.Tasks.Task.Run(() => { Action(PartieTest.TerrainPartie, EntAtt.Valeur as Personnage, PartieTest.ListEntites); },CT);
                         int c = 0;
                         while (!t.IsCompleted && c < 1000000000)
-                        {
                             c++;
-                        }
+                        if (!t.IsCompleted)
+                            CTS.Cancel();
                         System.Windows.Forms.MessageBox.Show(c.ToString());
 
                         PartieTest.SyncroniserJoueur();
@@ -98,10 +98,7 @@ namespace GofusSharp
         }
         public void Action(Terrain terrain, Personnage joueur, ListeChainee<EntiteInconnu> ListEntites)
         {
-            while (true)
-            {
-
-            }
+            
             Noeud<EntiteInconnu> entite = ListEntites.First;
             while (entite.Valeur.Equipe == joueur.Equipe)
                 entite = entite.Next;

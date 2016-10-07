@@ -52,14 +52,12 @@ namespace test
                       System.Windows.Forms.MessageBox.Show(item);*/
 
 
-
-
+            
             //CombatTest combat = new CombatTest();
             InitializeComponent();
             ctb_main.CreateTreeView(generateTree());
             ctb_main.UpdateSyntaxHightlight();
             ctb_main.UpdateTreeView();
-
 
           
             this.chat = new Chat();

@@ -11,7 +11,7 @@ using CodeTextBox;
 
 namespace Moonlight
 {
-    public partial class CodeTextBox : SynchronizedScrollRichTextBox
+    public partial class CodeTextBoxFail : System.Windows.Controls.RichTextBox
     {
         #region Members
 
@@ -278,17 +278,18 @@ namespace Moonlight
 
             //Set some defaults...
             this.AcceptsTab = true;
-            this.Font = new Font(FontFamily.GenericMonospace, 8f);
+            this.FontFamily = new System.Windows.Media.FontFamily("Courier New");
+            this.FontSize = 8.5;
 
             // TODO
             //
             //Do not enable drag and dropping text
             //The same problem, as paste - the onDragDrop event fires, BEFORE the text is written into the textbox
             //Need to be handled in WndPrc
-            this.EnableAutoDragDrop = false;
+            //this.EnableAutoDragDrop = false;
             
-            this.DetectUrls = false;
-            this.WordWrap = false;
+            //this.DetectUrls = false;
+            //this.WordWrap = false;
             this.AutoWordSelection = true;
 
             #region Instantiate Syntax highlightning and Intellisense members
@@ -312,7 +313,7 @@ namespace Moonlight
 
             #region Setup intellisense box
             //Setup intellisense box
-            this.Controls.Add(mp_IntellisenseBox);
+            //this.Controls.Add(mp_IntellisenseBox);
             mp_IntellisenseBox.Size = new Size(250, 150);
             mp_IntellisenseBox.Visible = false;
             mp_IntellisenseBox.KeyDown += new KeyEventHandler(mp_IntellisenseBox_KeyDown);
@@ -374,155 +375,155 @@ namespace Moonlight
         /// Let control enable and disable it's drawing...
         /// </summary>
         /// <param name="m"></param>
-        protected override void WndProc(ref System.Windows.Forms.Message m)
-        {
-            switch (m.Msg)
-            {
-                case WM_PAINT:
-                    {
-                        #region PAINT
-                        if (mp_EnablePainting)
-                        {
-                            base.WndProc(ref m);
-                        }
-                        else
-                        {
-                            m.Result = IntPtr.Zero;
-                        }
-                        #endregion
-                    }
-                    break;
+        //protected override void WndProc(ref System.Windows.Forms.Message m)
+        //{
+        //    switch (m.Msg)
+        //    {
+        //        case WM_PAINT:
+        //            {
+        //                #region PAINT
+        //                if (mp_EnablePainting)
+        //                {
+        //                    base.WndProc(ref m);
+        //                }
+        //                else
+        //                {
+        //                    m.Result = IntPtr.Zero;
+        //                }
+        //                #endregion
+        //            }
+        //            break;
 
-                case WM_PASTE:
-                    {
-                        #region PASTE
-                        int selectionStart = this.SelectionStart;
-                        int selectionLength = 0;
+        //        case WM_PASTE:
+        //            {
+        //                #region PASTE
+        //                int selectionStart = this.SelectionStart;
+        //                int selectionLength = 0;
                         
-                        string text = Clipboard.GetText();
+        //                string text = Clipboard.GetText();
                         
 
-                        #region Hack to find out correct selection length
-                        //Hack...
-                        //The text's length readed from the clipboard doesn't match the length pasted to the richTextBox
-                        //So I used a dummy richtextbox, to find out the correct length of the text...
-                        RichTextBox rtxt = new RichTextBox();
-                        rtxt.SelectionStart = 0;
-                        rtxt.SelectedText = text;
-                        selectionLength = rtxt.Text.Length;
-                        #endregion
+        //                #region Hack to find out correct selection length
+        //                //Hack...
+        //                //The text's length readed from the clipboard doesn't match the length pasted to the richTextBox
+        //                //So I used a dummy richtextbox, to find out the correct length of the text...
+        //                RichTextBox rtxt = new RichTextBox();
+        //                rtxt.SelectionStart = 0;
+        //                rtxt.SelectedText = text;
+        //                selectionLength = rtxt.Text.Length;
+        //                #endregion
 
 
-                        //Paste text from the clipboard...
-                        this.SelectedText = text;
+        //                //Paste text from the clipboard...
+        //                this.SelectedText = text;
 
-                        m_SyntaxHighLighter.DoSyntaxHightlight_Selection(this, selectionStart, selectionLength);
-                        m_IntellisenseDynamic.DoIntellisense_Selection(this, selectionStart, selectionLength, mp_IntellisenseTree);
-                        #endregion
-                    }
-                    break;
+        //                m_SyntaxHighLighter.DoSyntaxHightlight_Selection(this, selectionStart, selectionLength);
+        //                m_IntellisenseDynamic.DoIntellisense_Selection(this, selectionStart, selectionLength, mp_IntellisenseTree);
+        //                #endregion
+        //            }
+        //            break;
 
-                case WM_CHAR:
-                    {
-                        #region CHAR
-                        ProcessKeyDownWndPrc((uint)m.WParam, (uint)m.LParam);
-                        base.WndProc(ref m);
-                        #endregion
-                    }
-                    break;
+        //        case WM_CHAR:
+        //            {
+        //                #region CHAR
+        //                ProcessKeyDownWndPrc((uint)m.WParam, (uint)m.LParam);
+        //                base.WndProc(ref m);
+        //                #endregion
+        //            }
+        //            break;
 
-                default:
-                    {
-                        base.WndProc(ref m);
-                    }
-                    break;
-            }
-        }
+        //        default:
+        //            {
+        //                base.WndProc(ref m);
+        //            }
+        //            break;
+        //    }
+        //}
         /// <summary>
         /// I needed this for the WM_PASTE event to fire...
         /// </summary>
         /// <param name="m"></param>
         /// <param name="keyData"></param>
         /// <returns></returns>
-        protected override bool ProcessCmdKey(ref Message m, Keys keyData)
-        {
-            switch (keyData)
-            {
-                #region Paste
-                case Keys.Control | Keys.V:
-                    {
-                        PostMessage(this.Handle, WM_PASTE, IntPtr.Zero, IntPtr.Zero);
-                        return true;
-                    }
-                case Keys.Shift | Keys.Insert:
-                    {
-                        PostMessage(this.Handle, WM_PASTE, IntPtr.Zero, IntPtr.Zero);
-                        return true;
-                    }
-                #endregion
+        //protected override bool ProcessCmdKey(ref Message m, Keys keyData)
+        //{
+        //    switch (keyData)
+        //    {
+        //        #region Paste
+        //        case Keys.Control | Keys.V:
+        //            {
+        //                PostMessage(this.Handle, WM_PASTE, IntPtr.Zero, IntPtr.Zero);
+        //                return true;
+        //            }
+        //        case Keys.Shift | Keys.Insert:
+        //            {
+        //                PostMessage(this.Handle, WM_PASTE, IntPtr.Zero, IntPtr.Zero);
+        //                return true;
+        //            }
+        //        #endregion
 
-                #region Copy
-                case Keys.Control | Keys.C:
-                    {
-                        PostMessage(this.Handle, WM_COPY, IntPtr.Zero, IntPtr.Zero);
-                        return true;
-                    }
-                case Keys.Control | Keys.Insert:
-                    {
-                        PostMessage(this.Handle, WM_COPY, IntPtr.Zero, IntPtr.Zero);
-                        return true;
-                    }
-                #endregion
+        //        #region Copy
+        //        case Keys.Control | Keys.C:
+        //            {
+        //                PostMessage(this.Handle, WM_COPY, IntPtr.Zero, IntPtr.Zero);
+        //                return true;
+        //            }
+        //        case Keys.Control | Keys.Insert:
+        //            {
+        //                PostMessage(this.Handle, WM_COPY, IntPtr.Zero, IntPtr.Zero);
+        //                return true;
+        //            }
+        //        #endregion
 
-                #region Cut
-                case Keys.Control | Keys.X:
-                    {
-                        PostMessage(this.Handle, WM_CUT, IntPtr.Zero, IntPtr.Zero);
-                        return true;
-                    }
-                case Keys.Shift | Keys.Delete:
-                    {
-                        PostMessage(this.Handle, WM_CUT, IntPtr.Zero, IntPtr.Zero);
-                        return true;
-                    }
-                #endregion
+        //        #region Cut
+        //        case Keys.Control | Keys.X:
+        //            {
+        //                PostMessage(this.Handle, WM_CUT, IntPtr.Zero, IntPtr.Zero);
+        //                return true;
+        //            }
+        //        case Keys.Shift | Keys.Delete:
+        //            {
+        //                PostMessage(this.Handle, WM_CUT, IntPtr.Zero, IntPtr.Zero);
+        //                return true;
+        //            }
+        //        #endregion
 
-                #region Delete
-                case Keys.Control | Keys.Delete:
-                    {
-                        PostMessage(this.Handle, WM_CLEAR, IntPtr.Zero, IntPtr.Zero);
-                        return true;
-                    }
-                #endregion
+        //        #region Delete
+        //        case Keys.Control | Keys.Delete:
+        //            {
+        //                PostMessage(this.Handle, WM_CLEAR, IntPtr.Zero, IntPtr.Zero);
+        //                return true;
+        //            }
+        //        #endregion
 
-                #region Undo
-                case Keys.Control | Keys.Z:
-                    {
-                        PostMessage(this.Handle, WM_UNDO, IntPtr.Zero, IntPtr.Zero);
-                        return true;
-                    }
-                #endregion
+        //        #region Undo
+        //        case Keys.Control | Keys.Z:
+        //            {
+        //                PostMessage(this.Handle, WM_UNDO, IntPtr.Zero, IntPtr.Zero);
+        //                return true;
+        //            }
+        //        #endregion
 
-                default:
-                    return base.ProcessCmdKey(ref m, keyData);
-            }
-        }
+        //        default:
+        //            return base.ProcessCmdKey(ref m, keyData);
+        //    }
+        //}
         #endregion
 
-        protected override void OnMouseClick(MouseEventArgs e)
+        protected override void OnMouseRightButtonDown(System.Windows.Input.MouseButtonEventArgs e)
         {
             m_IntellisenseManager.HideIntellisenseBox();
-            base.OnMouseClick(e);
+            base.OnMouseRightButtonDown(e);
         }
 
-        protected override void OnPaint(PaintEventArgs pe)
-        {
-            if (EnablePainting)
-            {
-                base.OnPaint(pe);
-            }
-        }
-        protected override void OnTextChanged(EventArgs e)
+        //protected override void OnPaint(PaintEventArgs pe)
+        //{
+        //    if (EnablePainting)
+        //    {
+        //        base.OnPaint(pe);
+        //    }
+        //}
+        protected override void OnTextInput(System.Windows.Input.TextCompositionEventArgs e)
         {
             //Syntax Highlight the current line... :)
             m_SyntaxHighLighter.DoSyntaxHightlight_CurrentLine(this);
@@ -531,21 +532,21 @@ namespace Moonlight
 
             m_IntellisenseDynamic.RefreshIntellisense(this, mp_IntellisenseTree);
 
-            base.OnTextChanged(e);
+            base.OnTextInput(e);
         }
-        void mp_IntellisenseBox_KeyDown(object sender, KeyEventArgs e)
+        void mp_IntellisenseBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             //Let the textbox handle keypresses inside the intellisense box
-            OnKeyDown(e);
+            this.OnKeyDown(e);
         }
         void mp_IntellisenseBox_DoubleClick(object sender, EventArgs e)
         {
             m_IntellisenseManager.ConfirmIntellisense();
         }
-        protected override void OnKeyDown(KeyEventArgs e)
+        protected override void OnKeyDown(System.Windows.Input.KeyEventArgs e)
         {
             #region Show Intellisense
-            if (e.KeyCode >= Keys.A && e.KeyCode <= Keys.Z)
+            if (e.SystemKey >= System.Windows.Input.Key.A && e.SystemKey <= System.Windows.Input.Key.Z)
             {
                 m_IntellisenseManager.ShowIntellisenseBox();
                 e.Handled = true;
@@ -557,12 +558,12 @@ namespace Moonlight
             if (mp_IntellisenseBox.Visible)
             {
                 #region ESCAPE and SPACE - Hide Intellisense
-                if (e.KeyCode == Keys.Escape)
+                if (e.SystemKey == System.Windows.Input.Key.Escape)
                 {
                     m_IntellisenseManager.HideIntellisenseBox();
                     e.Handled = true;
                 }
-                else if (e.KeyCode == Keys.Space)
+                else if (e.SystemKey == System.Windows.Input.Key.Space)
                 {
                     m_IntellisenseManager.HideIntellisenseBox();
                     e.Handled = true;
@@ -570,32 +571,32 @@ namespace Moonlight
                 #endregion
 
                 #region Navigation - Up, Down, PageUp, PageDown, Home, End
-                else if (e.KeyCode == Keys.Up)
+                else if (e.SystemKey == System.Windows.Input.Key.Up)
                 {
                     m_IntellisenseManager.NavigateUp(1);
                     e.Handled = true;
                 }
-                else if (e.KeyCode == Keys.Down)
+                else if (e.SystemKey == System.Windows.Input.Key.Down)
                 {
                     m_IntellisenseManager.NavigateDown(1);
                     e.Handled = true;
                 }
-                else if (e.KeyCode == Keys.PageUp)
+                else if (e.SystemKey == System.Windows.Input.Key.PageUp)
                 {
                     m_IntellisenseManager.NavigateUp(10);
                     e.Handled = true;
                 }
-                else if (e.KeyCode == Keys.PageDown)
+                else if (e.SystemKey == System.Windows.Input.Key.PageDown)
                 {
                     m_IntellisenseManager.NavigateDown(10);
                     e.Handled = true;
                 }
-                else if (e.KeyCode == Keys.Home)
+                else if (e.SystemKey == System.Windows.Input.Key.Home)
                 {
                     m_IntellisenseManager.NavigateHome();
                     e.Handled = true;
                 }
-                else if (e.KeyCode == Keys.End)
+                else if (e.SystemKey == System.Windows.Input.Key.End)
                 {
                     m_IntellisenseManager.NavigateEnd();
                     e.Handled = true;
@@ -603,33 +604,33 @@ namespace Moonlight
                 #endregion
 
                 #region Typing - Back
-                else if (e.KeyCode == Keys.Back)
+                else if (e.SystemKey == System.Windows.Input.Key.Back)
                 {
                     m_IntellisenseManager.TypeBackspace();
                 }
                 #endregion
 
                 #region Typing - Brackets
-                else if (e.KeyCode == Keys.D9)
+                else if (e.SystemKey == System.Windows.Input.Key.D9)
                 {
                     // Trap the open bracket key, displaying a cheap and
                     // cheerful tooltip if the word just typed is in our tree
                     // (the parameters are stored in the tag property of the node)
                 }
-                else if (e.KeyCode == Keys.D8)
+                else if (e.SystemKey == System.Windows.Input.Key.D8)
                 {
                     // Close bracket key, hide the tooltip textbox
                 }
                 #endregion
 
                 #region Typing - TAB and Enter
-                else if (e.KeyCode == Keys.Tab)
+                else if (e.SystemKey == System.Windows.Input.Key.Tab)
                 {
                     m_IntellisenseManager.ConfirmIntellisense();
                     e.Handled = true;
-                    e.SuppressKeyPress = true;
+                    //e.SuppressKeyPress = true;
                 }
-                else if (e.KeyCode == Keys.Enter)
+                else if (e.SystemKey == System.Windows.Input.Key.Enter)
                 {
                     m_IntellisenseManager.ConfirmIntellisense();
                     e.Handled = true;

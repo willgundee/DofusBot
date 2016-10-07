@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using System.Windows.Forms;
+using System.Windows.Controls;
 
 namespace Moonlight
 {
@@ -18,7 +18,7 @@ namespace Moonlight
             InitializeComponent();
 
             // set draw mode to owner draw
-            this.DrawMode = DrawMode.OwnerDrawFixed;	
+            //this.DrawMode = DrawMode.OwnerDrawFixed;	
         }
         #endregion
 
@@ -41,103 +41,103 @@ namespace Moonlight
             this.Items.Remove(imageListItem);
         }
 
-        protected override void OnPaint(PaintEventArgs pe)
-        {
-            base.OnPaint(pe);
-        }
-        protected override void OnDrawItem(DrawItemEventArgs e)
-        {
-            if (this.DesignMode)
-            {
-                base.OnDrawItem(e);
-                return;
-            }
+        //protected override void OnPaint(PaintEventArgs pe)
+        //{
+        //    base.OnPaint(pe);
+        //}
+        //protected override void OnDrawItem(DrawItemEventArgs e)
+        //{
+        //    if (this.DesignMode)
+        //    {
+        //        base.OnDrawItem(e);
+        //        return;
+        //    }
 
-            // draw background & focus rect
-            e.DrawBackground();
-            e.DrawFocusRectangle();
+        //    // draw background & focus rect
+        //    e.DrawBackground();
+        //    e.DrawFocusRectangle();
 
-            // check if it is an item from the Items collection
-            if (e.Index < 0)
+        //    // check if it is an item from the Items collection
+        //    if (e.Index < 0)
 
-                // not an item, draw the text (indented)
-                e.Graphics.DrawString(
-                    this.Text, 
-                    e.Font, 
-                    new SolidBrush(e.ForeColor), 
-                    e.Bounds.Left + mp_ImageSize.Width, 
-                    e.Bounds.Top);
+        //        // not an item, draw the text (indented)
+        //        e.Graphics.DrawString(
+        //            this.Text, 
+        //            e.Font, 
+        //            new SolidBrush(e.ForeColor), 
+        //            e.Bounds.Left + mp_ImageSize.Width, 
+        //            e.Bounds.Top);
 
-            else
-            {
+        //    else
+        //    {
 
-                // check if item is an ImageComboItem
-                if (this.Items[e.Index].GetType() == typeof(ImageListItem))
-                {
+        //        // check if item is an ImageComboItem
+        //        if (this.Items[e.Index].GetType() == typeof(ImageListItem))
+        //        {
 
-                    // get item to draw
-                    ImageListItem item = (ImageListItem)this.Items[e.Index];
+        //            // get item to draw
+        //            ImageListItem item = (ImageListItem)this.Items[e.Index];
 
-                    // get forecolor & font
-                    Color forecolor = (item.ForeColor != Color.FromKnownColor(KnownColor.Transparent)) ? item.ForeColor : e.ForeColor;
-                    Font font = item.Bold ? new Font(e.Font, FontStyle.Bold) : e.Font;
+        //            // get forecolor & font
+        //            Color forecolor = (item.ForeColor != Color.FromKnownColor(KnownColor.Transparent)) ? item.ForeColor : e.ForeColor;
+        //            Font font = item.Bold ? new Font(e.Font, FontStyle.Bold) : e.Font;
 
 
-                    // draw the item...
-                    if (item.Image != null)
-                    {
-                        #region If has image...
-                        //Resize image if necessary...
-                        if (
-                            item.Image.Width != mp_ImageSize.Width ||
-                            item.Image.Height != mp_ImageSize.Height
-                            )
-                        {
-                            ResizeImage(item.Image, mp_ImageSize.Width, mp_ImageSize.Height);
-                        }
+        //            // draw the item...
+        //            if (item.Image != null)
+        //            {
+        //                #region If has image...
+        //                //Resize image if necessary...
+        //                if (
+        //                    item.Image.Width != mp_ImageSize.Width ||
+        //                    item.Image.Height != mp_ImageSize.Height
+        //                    )
+        //                {
+        //                    ResizeImage(item.Image, mp_ImageSize.Width, mp_ImageSize.Height);
+        //                }
 
-                        //Draw image
-                        e.Graphics.DrawImage(
-                            item.Image,
-                            e.Bounds.Left,
-                            e.Bounds.Top);
+        //                //Draw image
+        //                e.Graphics.DrawImage(
+        //                    item.Image,
+        //                    e.Bounds.Left,
+        //                    e.Bounds.Top);
 
-                        //Draw text
-                        e.Graphics.DrawString(
-                            item.Text,
-                            font,
-                            new SolidBrush(forecolor),
-                            e.Bounds.Left + mp_ImageSize.Width,
-                            e.Bounds.Top);
-                        #endregion
-                    }
-                    else
-                    {
-                        #region If doesn'h has image
-                        // draw text (indented)
-                        e.Graphics.DrawString(
-                            item.Text,
-                            font,
-                            new SolidBrush(forecolor),
-                            e.Bounds.Left + mp_ImageSize.Width,
-                            e.Bounds.Top);
-                        #endregion
-                    }
+        //                //Draw text
+        //                e.Graphics.DrawString(
+        //                    item.Text,
+        //                    font,
+        //                    new SolidBrush(forecolor),
+        //                    e.Bounds.Left + mp_ImageSize.Width,
+        //                    e.Bounds.Top);
+        //                #endregion
+        //            }
+        //            else
+        //            {
+        //                #region If doesn'h has image
+        //                // draw text (indented)
+        //                e.Graphics.DrawString(
+        //                    item.Text,
+        //                    font,
+        //                    new SolidBrush(forecolor),
+        //                    e.Bounds.Left + mp_ImageSize.Width,
+        //                    e.Bounds.Top);
+        //                #endregion
+        //            }
 
-                }
-                else
+        //        }
+        //        else
 
-                    // it is not an ImageComboItem, draw it
-                    e.Graphics.DrawString(this.Items[e.Index].ToString(), e.Font, new SolidBrush(e.ForeColor), e.Bounds.Left + mp_ImageSize.Width, e.Bounds.Top);
+        //            // it is not an ImageComboItem, draw it
+        //            e.Graphics.DrawString(this.Items[e.Index].ToString(), e.Font, new SolidBrush(e.ForeColor), e.Bounds.Left + mp_ImageSize.Width, e.Bounds.Top);
 
-            }
+        //    }
 
-            base.OnDrawItem(e);
-        }
+        //    base.OnDrawItem(e);
+        //}
         #endregion
 
         #region Private methods
-        private static Image ResizeImage(Image imgPhoto, int width, int height)
+        private static System.Drawing.Image ResizeImage(System.Drawing.Image imgPhoto, int width, int height)
         {
             int sourceWidth = imgPhoto.Width;
             int sourceHeight = imgPhoto.Height;
