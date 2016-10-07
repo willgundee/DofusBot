@@ -31,10 +31,14 @@ namespace test
         #endregion
         public effet Nom { get; set; }
         public string NomSimplifier { get; set; }
+        public int DmgMin { get; set; }
+        public int DmgMax { get; set; }
         public Effet(List<string> ls)
         {
-            Nom = (effet)Enum.Parse(typeof(effet), ls[1], true);//convert string to enum
+            Nom = (effet)Enum.Parse(typeof(effet), ls[2], true);//convert string to enum
             NomSimplifier = dictSimple[Nom];
+            DmgMin =Convert.ToInt32(ls[0]);
+            DmgMax =Convert.ToInt32(ls[1]);
 
         }
     }

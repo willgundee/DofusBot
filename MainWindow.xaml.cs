@@ -61,10 +61,10 @@ namespace test
             ctb_main.UpdateTreeView();
 
 
-            fenetreChat = new ChatWindow();
+          
             this.chat = new Chat();
             btnEnvoyerMessage.IsEnabled = false;
-      
+
 
             aTimer = new System.Windows.Threading.DispatcherTimer();
             aTimer.Tick += new EventHandler(dispatcherTimer_Tick);
@@ -131,8 +131,8 @@ namespace test
             }
             else
             {
-                if (aTimer.IsEnabled )
-                btnEnvoyerMessage.IsEnabled = true;
+                if (aTimer.IsEnabled)
+                    btnEnvoyerMessage.IsEnabled = true;
             }
         }
 
@@ -158,8 +158,8 @@ namespace test
 
 
             fenetreChat = new ChatWindow();
-                fenetreChat.Show();
-            
+            fenetreChat.Show();
+
         }
 
 
@@ -643,34 +643,44 @@ namespace test
             #endregion
 
             //SELECT * FROM Equipements e  INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement INNER JOIN StatistiquesEquipements s ON s.idEquipement = e.idEquipement INNER JOIN TypesStatistiques ts ON ts.idTypeStatistique = s.idTypeStatistique INNER JOIN EffetsEquipements ee ON ee.idEquipement = e.idEquipement INNER JOIN Effets et ON et.idEffet = ee.idEffet WHERE e.nom ='Marteau du bouftou'
-            
             imgCurrent.Source = ((Image)sender).Source;
             string nomItem = ((Image)sender).Name.Replace("_", " ");
-            string info = "SELECT * FROM Equipements e INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE e.nom ='" + nomItem+ "'";
-            string stats = "SELECT ts.nom ,valeur FROM Equipements e INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement INNER JOIN StatistiquesEquipements s ON s.idEquipement = e.idEquipement INNER JOIN TypesStatistiques ts ON ts.idTypeStatistique = s.idTypeStatistique WHERE e.nom ='" + nomItem+"'";
-
+            string info = "SELECT * FROM Equipements e INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE e.nom ='" + nomItem + "'";
+            string stats = "SELECT ts.nom ,valeur FROM Equipements e INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement INNER JOIN StatistiquesEquipements s ON s.idEquipement = e.idEquipement INNER JOIN TypesStatistiques ts ON ts.idTypeStatistique = s.idTypeStatistique WHERE e.nom ='" + nomItem + "'";
+            string dmg = "SELECT valeurMin,valeurMax,et.nom FROM Equipements e INNER JOIN EffetsEquipements ee ON ee.idEquipement = e.idEquipement INNER JOIN Effets  et ON et.idEffet = ee.idEffet WHERE e.nom ='" + nomItem + "'";
+            string eft = "SELECT t.nom,z.porteeMin,z.porteeMax FROM Equipements e INNER JOIN Zones z ON z.idZone = e.idZoneEffet INNER JOIN TypesZones t ON t.idTypeZone = z.idTypeZone WHERE e.nom ='" + nomItem + "'";
+            string po = "SELECT t.nom,z.porteeMin,z.porteeMax FROM Equipements e INNER JOIN Zones z ON z.idZone = e.idZonePorte INNER JOIN TypesZones t ON t.idTypeZone = z.idTypeZone WHERE e.nom ='" + nomItem + "'";
             /*List<string>[] infoItem = bd.selection(info);
             List<string>[] statsItem = bd.selection(stats);*/
             //set des info dans les champs statics
             Equipement item = new Equipement(bd.selection(info)[0], bd.selection(stats));
+            if (item.EstArme)
+                item = new Equipement(bd.selection(info)[0], bd.selection(stats), bd.selection(po)[0], bd.selection(eft)[0], bd.selection(dmg));
             lblItem.Content = item.Nom;
             lblPrix.Content = item.Prix;
-            txtBDesc.Text =  item.Desc;
-
+            txtBDesc.Text = item.Desc;
             //elneves tout les stats de l'item
 
             grdStats.Children.Clear();
-
             // ajoutes les nouvelles
 
             grdStats.Children.Add(CreateLbl("Type :", 0, 0));
             grdStats.Children.Add(CreateLbl(item.Type, 0, 1));
 
             for (int i = 0; i < item.LstStatistiques.Count(); i++)
-            {
+            {//ajout des stats
                 grdStats.Children.Add(CreateLbl(item.LstStatistiques[i].Nom + " :", i + 1, 0));
                 grdStats.Children.Add(CreateLbl(item.LstStatistiques[i].Valeur.ToString(), i + 1, 1));
             }
+
+            if (item.EstArme)
+                for (int x = 0; x < item.LstEffet.Count(); x++)
+                {//ajout des dommages
+                    grdStats.Children.Add(CreateLbl(item.LstEffet[x].NomSimplifier + " :", x, 2));
+                    grdStats.Children.Add(CreateLbl(item.LstEffet[x].DmgMin.ToString() + " à " +item.LstEffet[x].DmgMax.ToString(), x, 3));
+
+                }
+
         }
 
         private System.Windows.Controls.Label CreateLbl(string content, int row, int col)
@@ -692,7 +702,7 @@ namespace test
 
             short col = 0;
             short row = 0;//géneration des images des armes
-            foreach(List<string> item in repArmes)
+            foreach (List<string> item in repArmes)
             {
                 Equipement equip = new Equipement(item);
                 Image img = CreateImg(equip.NoImg, equip.Nom);

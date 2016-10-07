@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -41,29 +42,89 @@ namespace test
         }
         public bool Valider()
         {
-            Regex courriel = new Regex(@"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
+
+            bool Valide = true;
+
+            string req = "SELECT * FROM Joueurs WHERE nomUtilisateur = '" + txt_nom.Text.ToString() + "';";
+            List<string>[] result = bd.selection(req);
+
+            if (result[0][0] != "rien" || txt_nom.Text.ToString() == "")
+            {
+                if (result[0][0] != "rien")
+                {
+                    lbl_nom.Content = "Nom d'utilisateur (Nom utilisé)";
+                }
+                else
+                {
+                    lbl_nom.Content = "Nom d'utilisateur";
+                }
+
+                lbl_nom.Foreground = new SolidColorBrush(Colors.Red);
+                Valide=false;
+            }
+            else
+            {
+                lbl_nom.Content = "Nom d'utilisateur";
+                lbl_nom.Foreground = new SolidColorBrush(Colors.Black);
+            }
+
+
+            if (txt_mdp.Password != txtConfirmation.Password || txtConfirmation.Password == "")
+            {
+                lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Red);
+                Valide = false;
+            }
+            else
+            {
+                lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Black);
+            }
+
+            if (txt_mdp.Password == "")
+            {
+                lbl_Mdp.Foreground = new SolidColorBrush(Colors.Red);
+                Valide = false;
+            }
+            else
+            {
+                lbl_Mdp.Foreground = new SolidColorBrush(Colors.Black);
+            }
+
+
+
+            if (txt_Courriel.Text.ToString() == "")
+            {
+                lbl_Courriel.Foreground = new SolidColorBrush(Colors.Red);
+                Valide = false;
+            }
+            else
+            {
+                lbl_Courriel.Foreground = new SolidColorBrush(Colors.Black);
+            }
+
+
+            // Regex courriel = new Regex(@"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
 
 
             //TODO REGEX validation nom , mdp et email.
 
 
-           if(txt_mdp.Password==txtConfirmation.Password)
-            {
-                return false;
-            }
-            if (txt_nom.Text.ToString().Length > 13 || txt_nom.Text.ToString().Length < 5)
-            {
+            // if(txt_mdp.Password==txtConfirmation.Password)
+            // {
+            //  return false;
+            // }
+            //  if (txt_nom.Text.ToString().Length > 13 || txt_nom.Text.ToString().Length < 5)
+            //  {
 
-            }
-
-
-            if (courriel.Match(txt_Courriel.Text.ToString()) != null)
-            {
-
-            }
+            //  }
 
 
-            return true;
+            // if (courriel.Match(txt_Courriel.Text.ToString()) != null)
+            // {
+
+            //  }
+
+
+            return Valide;
         }
 
         private void btnValider_Click(object sender, RoutedEventArgs e)
@@ -71,13 +132,18 @@ namespace test
 
             if(Valider()==true)
             {
-                System.Windows.Forms.MessageBox.Show("Bientôt disponible !");
 
-             //   bd.insertion("INSERT  INTO Joueurs(nomUtilisateur,couriel,motDePasse,argent,avatar) VALUES(" + txt_nom.Text + "," + txt_Courriel.Text + "," + txt_mdp.Password + ",0,0 )");
+                var result = System.Windows.MessageBox.Show("Souhaitez-vous créer votre compte avec ces informations?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    bd.insertion("INSERT INTO Joueurs(nomUtilisateur, courriel, motDePasse, argent, avatar) VALUES('" + txt_nom.Text.ToString() + "', '" + txt_Courriel.Text.ToString() + "', '" + txt_mdp.Password + "', 0, 0);");
+                }
 
-                /* Confirmation confirmation = new Confirmation();
-                 creation.Show();
-                 this.Close();*/
+
+
+                MainWindow perso = new MainWindow();
+                perso.Show();
+                this.Close();
             }
 
 

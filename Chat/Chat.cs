@@ -109,7 +109,7 @@ namespace test
                 {
                     string inser = "INSERT INTO Messages(idJoueur,temps,contenu,uuid)VALUES(9,NOW(),'" +
                 (window as MainWindow).txtMessage.Text.ToString() + "',UUID());";
-                   test = bdChat.insertion(inser);
+                    test = bdChat.insertion(inser);
 
                 }
             }
@@ -125,15 +125,20 @@ namespace test
             {
                 if (window.GetType() == typeof(ChatWindow))
                 {
-                    string inser = "INSERT INTO Messages(idJoueur,temps,contenu,uuid)VALUES(9,NOW(),'" +
-                     (window as ChatWindow).txtMessage.Text.ToString() + "',UUID());";
-                    testeur = bdChat.insertion(inser);
+                    if ((window as ChatWindow).txtMessage.Text.ToString() != "")
+                    {
+                        string inser = "INSERT INTO Messages(idJoueur,temps,contenu,uuid)VALUES(9,NOW(),'" +
+                                            (window as ChatWindow).txtMessage.Text.ToString() + "',UUID());";
+                        testeur = bdChat.insertion(inser);
+                        return testeur;
+                    }
+
                 }
             }
             return testeur;
         }
 
-      
+
 
 
         private void selectMessages()
