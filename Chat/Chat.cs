@@ -29,29 +29,33 @@ namespace test
 
         public void refreshChat()
         {
-
-            messages = new ObservableCollection<MessageText>();
-            contenuChat = new ObservableCollection<string>();
-
-            selectMessages();
-
-            foreach (MessageText ms in messages)
+            foreach (Window window in Application.Current.Windows)
             {
-                contenuChat.Add(ms.formaterMessager());
+                if (window.GetType() == typeof(MainWindow))
+                {
+                    messages = new ObservableCollection<MessageText>();
+                    contenuChat = new ObservableCollection<string>();
+
+                    selectMessages();
+
+                    foreach (MessageText ms in messages)
+                    {
+                        contenuChat.Add(ms.formaterMessager());
+                    }
+
+
+
+                        (window as MainWindow).txtboxHistorique.Text = "";
+
+
+                    foreach (string st in contenuChat)
+                    {
+
+                        (window as MainWindow).txtboxHistorique.Text += st;
+                    }
+
+                }
             }
-
-
-            if(((MainWindow)Application.Current.MainWindow) != null)
-            ((MainWindow)Application.Current.MainWindow).txtboxHistorique.Text = "";
-
-
-            foreach (string st in contenuChat)
-            {
-                if (((MainWindow)Application.Current.MainWindow) != null)
-                    ((MainWindow)Application.Current.MainWindow).txtboxHistorique.Text += st;
-            }
-
-
 
         }
 
@@ -98,10 +102,17 @@ namespace test
 
         public long envoyerMessage()
         {
-            string inser = "INSERT INTO Messages(idJoueur,temps,contenu,uuid)VALUES(9,NOW(),'" +
-                ((MainWindow)Application.Current.MainWindow).txtMessage.Text.ToString() + "',UUID());";
-            long test = bdChat.insertion(inser);
+            long test = 0;
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window.GetType() == typeof(MainWindow))
+                {
+                    string inser = "INSERT INTO Messages(idJoueur,temps,contenu,uuid)VALUES(9,NOW(),'" +
+                (window as MainWindow).txtMessage.Text.ToString() + "',UUID());";
+                   test = bdChat.insertion(inser);
 
+                }
+            }
             return test;
         }
 
