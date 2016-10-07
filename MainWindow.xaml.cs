@@ -669,13 +669,14 @@ namespace test
             grdStats.Children.Add(CreateLbl(item.Type, 0, 1));
 
             for (int i = 0; i < item.LstStatistiques.Count(); i++)
-            {
+            {//ajout des stats
                 grdStats.Children.Add(CreateLbl(item.LstStatistiques[i].Nom + " :", i + 1, 0));
                 grdStats.Children.Add(CreateLbl(item.LstStatistiques[i].Valeur.ToString(), i + 1, 1));
             }
+
             if (item.EstArme)
                 for (int x = 0; x < item.LstEffet.Count(); x++)
-                {
+                {//ajout des dommages
                     grdStats.Children.Add(CreateLbl(item.LstEffet[x].NomSimplifier + " :", x, 2));
                     grdStats.Children.Add(CreateLbl(item.LstEffet[x].DmgMin.ToString() + " à " +item.LstEffet[x].DmgMax.ToString(), x, 3));
 
