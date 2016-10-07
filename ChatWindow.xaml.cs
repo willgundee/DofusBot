@@ -64,7 +64,7 @@ namespace test
  
 
 
-        private void button_Click(object sender, RoutedEventArgs e)
+        private void btn_Envoyer_Click(object sender, RoutedEventArgs e)
         {
             long envois = chat.envoyerMessageModLess();
             if (envois != -1)
