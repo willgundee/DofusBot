@@ -31,7 +31,7 @@ namespace Moonlight
         private IntellisenseManager m_IntellisenseManager;
         private RichTextBox mp_CodeTextBox;
         private ListBox mp_IntellisenseBox;
-        private TreeView mp_IntellisenseTree;
+        private System.Windows.Forms.TreeView mp_IntellisenseTree;
 
         #region Drawing
         /// <summary>
@@ -258,7 +258,7 @@ namespace Moonlight
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Browsable(true), Category("CodeTexbox"), Description("Gets or Sets the intellisense item tree.")]
-        public TreeView IntellisenseTree
+        public System.Windows.Forms.TreeView IntellisenseTree
         {
             get { return mp_IntellisenseTree; }
             set { mp_IntellisenseTree = value; }
@@ -329,16 +329,17 @@ namespace Moonlight
             mp_IntellisenseBox = new ListBox();
 
             //Instantiate intellisense tree
-            mp_IntellisenseTree = new TreeView();
+            mp_IntellisenseTree = new System.Windows.Forms.TreeView();
             #endregion
 
             #region Setup intellisense box
             //Setup intellisense box
-            //this.Controls.Add(mp_IntellisenseBox);
-            mp_IntellisenseBox.Size = new Size(250, 150);
-            mp_IntellisenseBox.Visible = false;
+            AddChild(mp_IntellisenseBox);
+            mp_IntellisenseBox.Width = 250;
+            mp_IntellisenseBox.Width = 150;
+            mp_IntellisenseBox.Visibility = Visibility.Hidden;
             mp_IntellisenseBox.KeyDown += new KeyEventHandler(mp_IntellisenseBox_KeyDown);
-            mp_IntellisenseBox.DoubleClick += new EventHandler(mp_IntellisenseBox_DoubleClick);
+            mp_IntellisenseBox.MouseDoubleClick += new MouseButtonEventHandler(mp_IntellisenseBox_DoubleClick);
             #endregion
         }
         #endregion
@@ -365,7 +366,7 @@ namespace Moonlight
         /// <summary>
         /// Create the treeview from a treenode array
         /// </summary>
-        public void CreateTreeView(TreeNode[] treeNode_arr_main)
+        public void CreateTreeView(System.Windows.Forms.TreeNode[] treeNode_arr_main)
         {
             mp_IntellisenseTree.Nodes.AddRange(treeNode_arr_main);
         }
@@ -437,7 +438,7 @@ namespace Moonlight
             }
             #endregion
 
-            if (mp_IntellisenseBox.Visible)
+            if (mp_IntellisenseBox.IsVisible)
             {
                 #region ESCAPE and SPACE - Hide Intellisense
                 if (e.SystemKey == System.Windows.Input.Key.Escape)
