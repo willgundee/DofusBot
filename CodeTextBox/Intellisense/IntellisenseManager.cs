@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Forms;
 
 namespace Moonlight.Intellisense
 {
@@ -62,14 +64,14 @@ namespace Moonlight.Intellisense
             topLeft.Offset(-35, 18);
 
             #region Place the intellisense box, to fit the space...
-            if (m_CodeTextBox.Size.Height < (topLeft.Y + m_CodeTextBox.IntellisenseBox.Height))
+            if (m_CodeTextBox.Height < (topLeft.Y + m_CodeTextBox.IntellisenseBox.Height))
             {
-                topLeft.Offset(0, -18 - 18 - m_CodeTextBox.IntellisenseBox.Height);
+                topLeft.Offset(0, -18 - 18 - (int)m_CodeTextBox.IntellisenseBox.Height);
             }
 
-            if (m_CodeTextBox.Size.Width < (topLeft.X + m_CodeTextBox.IntellisenseBox.Width))
+            if (m_CodeTextBox.Width < (topLeft.X + m_CodeTextBox.IntellisenseBox.Width))
             {
-                topLeft.Offset(35 + 15 - m_CodeTextBox.IntellisenseBox.Width, 0);
+                topLeft.Offset(35 + 15 - (int)m_CodeTextBox.IntellisenseBox.Width, 0);
             }
 
             if (topLeft.X < 0)
@@ -83,8 +85,8 @@ namespace Moonlight.Intellisense
             }
             #endregion
 
-            m_CodeTextBox.IntellisenseBox.Location = topLeft;
-            m_CodeTextBox.IntellisenseBox.Visible = true;
+            m_CodeTextBox.IntellisenseBox.Margin = new System.Windows.Thickness(topLeft.X, topLeft.Y, topLeft.X + m_CodeTextBox.IntellisenseBox.Width, topLeft.Y + m_CodeTextBox.IntellisenseBox.Height);
+            m_CodeTextBox.IntellisenseBox.Visibility = System.Windows.Visibility.Visible;
             m_CodeTextBox.Focus();
         }
         /// <summary>
@@ -93,7 +95,7 @@ namespace Moonlight.Intellisense
         public void HideIntellisenseBox()
         {
             m_CodeTextBox.IntellisenseBox.Items.Clear();
-            m_CodeTextBox.IntellisenseBox.Visible = false;
+            m_CodeTextBox.IntellisenseBox.Visibility = System.Windows.Visibility.Hidden;
         }
         /// <summary>
         /// Navigates up in the intellisense box.
@@ -102,7 +104,7 @@ namespace Moonlight.Intellisense
         {
             #region Some checkings for the intellisense box
             //Do nothing if the intellisense is not visible...
-            if (!m_CodeTextBox.IntellisenseBox.Visible)
+            if (!m_CodeTextBox.IntellisenseBox.IsVisible)
             {
                 return;
             }
@@ -129,7 +131,7 @@ namespace Moonlight.Intellisense
         {
             #region Some checkings for the intellisense box
             //Do nothing if the intellisense is not visible...
-            if (!m_CodeTextBox.IntellisenseBox.Visible)
+            if (!m_CodeTextBox.IntellisenseBox.IsVisible)
             {
                 return;
             }
@@ -156,7 +158,7 @@ namespace Moonlight.Intellisense
         {
             #region Some checkings for the intellisense box
             //Do nothing if the intellisense is not visible...
-            if (!m_CodeTextBox.IntellisenseBox.Visible)
+            if (!m_CodeTextBox.IntellisenseBox.IsVisible)
             {
                 return;
             }
@@ -176,7 +178,7 @@ namespace Moonlight.Intellisense
         {
             #region Some checkings for the intellisense box
             //Do nothing if the intellisense is not visible...
-            if (!m_CodeTextBox.IntellisenseBox.Visible)
+            if (!m_CodeTextBox.IntellisenseBox.IsVisible)
             {
                 return;
             }
@@ -196,7 +198,7 @@ namespace Moonlight.Intellisense
         {
             #region Some checkings for the intellisense box
             //Do nothing if the intellisense is not visible...
-            if (!m_CodeTextBox.IntellisenseBox.Visible)
+            if (!m_CodeTextBox.IntellisenseBox.IsVisible)
             {
                 return;
             }
@@ -226,7 +228,7 @@ namespace Moonlight.Intellisense
             CheckScopeOperator(c);
 
              //Search the last letter(s) for separator, and update if found...
-            string lastWord = RichTextboxHelper.GetLastWord(m_CodeTextBox);
+            string lastWord = RichTextboxHelper.GetLastWord(m_CodeTextBox.CodeTextbox);
             //last word doesn't contains the processed char yet...
             lastWord += c;
 
@@ -259,7 +261,7 @@ namespace Moonlight.Intellisense
             //Get the actual line
             if (word == "")
             {
-                word = RichTextboxHelper.GetLastWord(m_CodeTextBox);
+                word = RichTextboxHelper.GetLastWord(m_CodeTextBox.CodeTextbox);
             }
 
             if (justRead == "\b")
@@ -378,16 +380,12 @@ namespace Moonlight.Intellisense
             }
 
             //Get the actual position
-            int currentPosition = m_CodeTextBox.SelectionStart;
+            TextPointer currentPosition = m_CodeTextBox.CodeTextbox.CaretPosition;
             //Get the start position of the last word
-            int lastWordPosition = GetLastWordStartPosition(m_CodeTextBox, m_CodeTextBox.CodeWords_ScopeOperators);
-
-            //Set selection
-            m_CodeTextBox.SelectionStart = lastWordPosition;
-            m_CodeTextBox.SelectionLength = currentPosition - lastWordPosition;
+            TextPointer lastWordPosition = GetLastWordStartPosition(m_CodeTextBox.CodeTextbox, m_CodeTextBox.CodeWords_ScopeOperators);
 
             //Change the word
-            m_CodeTextBox.SelectedText = wordSelected;
+            new TextRange(lastWordPosition,currentPosition).Text = wordSelected;
 
             //Hide the intellisense
             HideIntellisenseBox();
@@ -449,7 +447,7 @@ namespace Moonlight.Intellisense
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        private Image AssociateImage(TreeNode node)
+        private System.Drawing.Image AssociateImage(TreeNode node)
         {
             try
             {
@@ -484,31 +482,31 @@ namespace Moonlight.Intellisense
         /// <param name="richTextbox"></param>
         /// <param name="scopeOperators"></param>
         /// <returns></returns>
-        public int GetLastWordStartPosition(RichTextBox richTextbox, List<string> scopeOperators)
+        public TextPointer GetLastWordStartPosition(System.Windows.Controls.RichTextBox richTextbox, List<string> scopeOperators)
         {
-            int pos = richTextbox.SelectionStart - 1;
+            TextPointer pos = richTextbox.CaretPosition;
             List<string> lastScopeOperatorChars = GetLastCharsOfScopeOperators();
 
             //If the last char was a scope separator, we need the current position...
             if (m_LastCharWasAScopeOperator)
             {
-                return richTextbox.SelectionStart;
+                return richTextbox.CaretPosition;
             }
             try
             {
                 //If we deleted the last char, and arrive at a scope operator...
-                string lastWord = RichTextboxHelper.GetLastWord(m_CodeTextBox);
+                string lastWord = RichTextboxHelper.GetLastWord(richTextbox);
                 string lastChar = lastWord.Substring(lastWord.Length - 1, 1);
                 if (lastScopeOperatorChars.Contains(lastChar))
                 {
-                    return richTextbox.SelectionStart; ;
+                    return richTextbox.CaretPosition;
                 }
             }
             catch { }
 
-            while (pos > 1)
+            while (pos != null)
             {
-                string substr = richTextbox.Text.Substring(pos - 1, 1);
+                string substr = new TextRange(pos.GetPositionAtOffset(-1),pos).Text;
 
                 if (Char.IsWhiteSpace(substr, 0))
                 {
@@ -519,10 +517,10 @@ namespace Moonlight.Intellisense
                     return pos;
                 }
 
-                pos--;
+                pos = pos.GetPositionAtOffset(-1);
             }
 
-            return 0;
+            return richTextbox.Document.ContentStart;
         }
         /// <summary>
         /// Returns the last chars of scope operators
