@@ -58,16 +58,6 @@
     <Compile Include="CodeTextBox.xaml.cs">
       <DependentUpon>CodeTextBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CodeTextBoxFail.cs" />
-    <Compile Include="CodeTextBoxFail.designer.cs">
-      <DependentUpon>CodeTextBoxFail.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Component1.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Component1.Designer.cs">
-      <DependentUpon>Component1.cs</DependentUpon>
-    </Compile>
     <Compile Include="ImageListBox.cs">
       <SubType>Component</SubType>
     </Compile>

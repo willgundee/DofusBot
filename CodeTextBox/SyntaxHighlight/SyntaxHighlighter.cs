@@ -157,7 +157,7 @@ namespace Moonlight.SyntaxHighlight
         /// <param name="lineStart"></param>
         /// <param name="regexp"></param>
         /// <param name="color"></param>
-        private void ProcessRegex(CodeTextBox codeTextbox, string line, TextPointer lineStart, Regex regexp, Color color)
+        private void ProcessRegex(CodeTextBox codeTextbox, string line, TextPointer lineStart, Regex regexp, System.Windows.Media.SolidColorBrush color)
         {
             if (regexp == null)
             {
@@ -187,7 +187,7 @@ namespace Moonlight.SyntaxHighlight
             codeTextbox.EnablePainting = false;
 
             // Save the position and make the whole line black
-            new TextRange(lineStart, lineStart.GetPositionAtOffset(line.Length)).ApplyPropertyValue(TextElement.ForegroundProperty, Color.Black);
+            new TextRange(lineStart, lineStart.GetPositionAtOffset(line.Length)).ApplyPropertyValue(TextElement.ForegroundProperty, System.Windows.Media.Brushes.Black);
 
             // Process the keywords
             ProcessRegex(codeTextbox, line, lineStart, keywordsRegexp, codeTextbox.CodeColor_Keyword);
@@ -256,7 +256,7 @@ namespace Moonlight.SyntaxHighlight
 
             // Save the position and make the whole line black
             TextRange text = new TextRange(codeTextbox.CodeTextbox.Document.ContentStart, codeTextbox.CodeTextbox.Document.ContentEnd);
-            text.ApplyPropertyValue(TextElement.ForegroundProperty, Color.Black);
+            text.ApplyPropertyValue(TextElement.ForegroundProperty, System.Windows.Media.Brushes.Black);
 
 
             // Process the keywords

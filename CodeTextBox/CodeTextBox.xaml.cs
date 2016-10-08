@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Drawing;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Moonlight.Intellisense;
 using Moonlight.SyntaxHighlight;
 using Moonlight.IntellisenseDynamic;
@@ -60,12 +55,12 @@ namespace Moonlight
         #endregion
 
         #region Syntax highlightning colors
-        private Color mp_CodeColor_Keyword = Color.Blue;
-        private Color mp_CodeColor_Type = Color.CornflowerBlue;
-        private Color mp_CodeColor_Function = Color.CornflowerBlue;
-        private Color mp_CodeColor_Chaine = Color.Crimson;
-        private Color mp_CodeColor_Comment = Color.Green;
-        private Color mp_CodeColor_PlainText = Color.Black;
+        private System.Windows.Media.SolidColorBrush mp_CodeColor_Keyword = System.Windows.Media.Brushes.Blue;
+        private System.Windows.Media.SolidColorBrush mp_CodeColor_Type = System.Windows.Media.Brushes.CornflowerBlue;
+        private System.Windows.Media.SolidColorBrush mp_CodeColor_Function = System.Windows.Media.Brushes.CornflowerBlue;
+        private System.Windows.Media.SolidColorBrush mp_CodeColor_Chaine = System.Windows.Media.Brushes.Crimson;
+        private System.Windows.Media.SolidColorBrush mp_CodeColor_Comment = System.Windows.Media.Brushes.Green;
+        private System.Windows.Media.SolidColorBrush mp_CodeColor_PlainText = System.Windows.Media.Brushes.Black;
         #endregion
 
         #region Intellisense images
@@ -155,7 +150,7 @@ namespace Moonlight
         /// Gets or Sets the color of plain texts for syntax highlightning.
         /// </summary>
         [Browsable(true), Category("CodeTexbox"), Description("Gets or Sets the color of plain texts for syntax highlightning.")]
-        public Color CodeColor_PlainText
+        public System.Windows.Media.SolidColorBrush CodeColor_PlainText
         {
             get { return mp_CodeColor_PlainText; }
             set { mp_CodeColor_PlainText = value; }
@@ -165,7 +160,7 @@ namespace Moonlight
         /// Gets or Sets the color of keywords for syntax highlightning.
         /// </summary>
         [Browsable(true), Category("CodeTexbox"), Description("Gets or Sets the color of keywords for syntax highlightning.")]
-        public Color CodeColor_Keyword
+        public System.Windows.Media.SolidColorBrush CodeColor_Keyword
         {
             get { return mp_CodeColor_Keyword; }
             set { mp_CodeColor_Keyword = value; }
@@ -175,7 +170,7 @@ namespace Moonlight
         /// Gets or Sets the color of types for syntax highlightning.
         /// </summary>
         [Browsable(true), Category("CodeTexbox"), Description("Gets or Sets the color of types for syntax highlightning.")]
-        public Color CodeColor_Type
+        public System.Windows.Media.SolidColorBrush CodeColor_Type
         {
             get { return mp_CodeColor_Type; }
             set { mp_CodeColor_Type = value; }
@@ -185,7 +180,7 @@ namespace Moonlight
         /// Gets or Sets the color of functions for syntax highlightning.
         /// </summary>
         [Browsable(true), Category("CodeTexbox"), Description("Gets or Sets the color of functions for syntax highlightning.")]
-        public Color CodeColor_Function
+        public System.Windows.Media.SolidColorBrush CodeColor_Function
         {
             get { return mp_CodeColor_Function; }
             set { mp_CodeColor_Function = value; }
@@ -195,7 +190,7 @@ namespace Moonlight
         /// Gets or Sets the color of comments for syntax highlightning.
         /// </summary>
         [Browsable(true), Category("CodeTexbox"), Description("Gets or Sets the color of comments for syntax highlightning.")]
-        public Color CodeColor_Comment
+        public System.Windows.Media.SolidColorBrush CodeColor_Comment
         {
             get { return mp_CodeColor_Comment; }
             set { mp_CodeColor_Comment = value; }
@@ -205,7 +200,7 @@ namespace Moonlight
         /// Gets or Sets the color of strings for syntax highlightning.
         /// </summary>
         [Browsable(true), Category("CodeTexbox"), Description("Gets or Sets the color of strings for syntax highlightning.")]
-        public Color CodeColor_Chaine
+        public System.Windows.Media.SolidColorBrush CodeColor_Chaine
         {
             get { return mp_CodeColor_Chaine; }
             set { mp_CodeColor_Chaine = value; }
@@ -295,12 +290,14 @@ namespace Moonlight
         #region Constructors
         public CodeTextBox()
         {
-            InitializeComponent();
-
+            mp_CodeTextBox = new RichTextBox();
             //Set some defaults...
-            rtb.AcceptsTab = true;
-            rtb.FontFamily = new System.Windows.Media.FontFamily("Courier New");
-            rtb.FontSize = 8.5;
+            AddChild(mp_CodeTextBox);
+            mp_CodeTextBox.HorizontalAlignment = HorizontalAlignment.Stretch;
+            mp_CodeTextBox.VerticalAlignment = VerticalAlignment.Stretch;
+            mp_CodeTextBox.AcceptsTab = true;
+            mp_CodeTextBox.FontFamily = new System.Windows.Media.FontFamily("Courier New");
+            mp_CodeTextBox.FontSize = 13;
 
             // TODO
             //
@@ -311,7 +308,7 @@ namespace Moonlight
 
             //this.DetectUrls = false;
             //this.WordWrap = false;
-            rtb.AutoWordSelection = true;
+            mp_CodeTextBox.AutoWordSelection = true;
 
             #region Instantiate Syntax highlightning and Intellisense members
             //Instantiate word lists
@@ -323,7 +320,7 @@ namespace Moonlight
             mp_CodeWords_Chaines = new List<string>();
 
             //Instantiate intellisense manager
-            m_IntellisenseManager = new IntellisenseManager(rtb);
+            m_IntellisenseManager = new IntellisenseManager(this);
 
             //Instantiate the intellisense box
             mp_IntellisenseBox = new ListBox();
@@ -334,7 +331,7 @@ namespace Moonlight
 
             #region Setup intellisense box
             //Setup intellisense box
-            AddChild(mp_IntellisenseBox);
+            AddLogicalChild(mp_IntellisenseBox);
             mp_IntellisenseBox.Width = 250;
             mp_IntellisenseBox.Width = 150;
             mp_IntellisenseBox.Visibility = Visibility.Hidden;
@@ -382,7 +379,7 @@ namespace Moonlight
             tb.FontSize = 8.5;
             tb.Text = "This line of text is not editable.";
 
-            TextPointer tp = rtb.CaretPosition.GetInsertionPosition(LogicalDirection.Forward);
+            TextPointer tp = mp_CodeTextBox.CaretPosition.GetInsertionPosition(LogicalDirection.Forward);
             InlineUIContainer iuic = new InlineUIContainer(tb, tp);
             iuic.Unloaded += new RoutedEventHandler(InlineUIContainer_Unloaded);
         }
@@ -391,8 +388,8 @@ namespace Moonlight
         {
             if (e.Key == Key.Enter)
             {
-                var newPointer = rtb.Selection.Start.InsertLineBreak();
-                rtb.Selection.Select(newPointer, newPointer);
+                var newPointer = mp_CodeTextBox.Selection.Start.InsertLineBreak();
+                mp_CodeTextBox.Selection.Select(newPointer, newPointer);
 
                 e.Handled = true;
             }

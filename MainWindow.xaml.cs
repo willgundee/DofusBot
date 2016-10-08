@@ -12,6 +12,8 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using System.Windows.Input;
+using System.Windows.Documents;
+using System.Windows.Interop;
 
 namespace test
 {
@@ -67,13 +69,6 @@ namespace test
             aTimer = new System.Windows.Threading.DispatcherTimer();
             aTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             aTimer.Interval = new TimeSpan(0, 0, 2);
-
-
-
-            tb_lineNumber.Font = new System.Drawing.Font("Courier New", 8);
-            tb_lineNumber.ReadOnly = true;
-            tb_lineNumber.SelectionAlignment = System.Windows.Forms.HorizontalAlignment.Right;
-            tb_lineNumber.Cursor = System.Windows.Forms.Cursors.Arrow;
         }
 
         protected override void OnClosed(EventArgs e)
@@ -256,7 +251,7 @@ namespace test
             ";
 
             //je remplace le mot user_code pour ce qui ce trouve dans la text box
-            string richText = ctb_main.Text;
+            string richText = new TextRange(ctb_main.CodeTextbox.Document.ContentStart, ctb_main.CodeTextbox.Document.ContentEnd).Text;
             string finalCode = code.Replace("user_code", richText);
             //initialisation d'un compilateur de code C#
             CSharpCodeProvider provider = new CSharpCodeProvider(new Dictionary<string, string>() { { "CompilerVersion", "v3.5" } });
@@ -292,16 +287,16 @@ namespace test
         public int maxLC = 0; //maxLineCount - should be public
         private void ctb_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            int linecount = ctb_main.Lines.Count();
+            int linecount = new TextRange(ctb_main.CodeTextbox.Document.ContentStart, ctb_main.CodeTextbox.Document.ContentEnd).Text.Split('\n').Count();
             if (linecount != maxLC)
             {
-                tb_lineNumber.Clear();
+                rtb_lineNumber.Document.Blocks.Clear();
                 for (int i = 1; i < linecount + 1; i++)
                 {
                     if (i == 1)
-                        tb_lineNumber.AppendText(i.ToString());
+                        rtb_lineNumber.AppendText(i.ToString());
                     else
-                        tb_lineNumber.AppendText(Environment.NewLine + i.ToString());
+                        rtb_lineNumber.AppendText(Environment.NewLine + i.ToString());
                 }
                 maxLC = linecount;
             }
@@ -619,10 +614,10 @@ namespace test
 
         private void ctb_main_VScroll(object sender, EventArgs e)
         {
-            int nPos = GetScrollPos(ctb_main.Handle, (int)ScrollBarType.SbVert);
+            int nPos = GetScrollPos(new WindowInteropHelper(Window.GetWindow(ctb_main.CodeTextbox)).Handle, (int)ScrollBarType.SbVert);
             nPos <<= 16;
             uint wParam = (uint)ScrollBarCommands.SB_THUMBPOSITION | (uint)nPos;
-            SendMessage(tb_lineNumber.Handle, (int)Message.WM_VSCROLL, new UIntPtr(wParam), new UIntPtr(0));
+            SendMessage(new WindowInteropHelper(Window.GetWindow(rtb_lineNumber)).Handle, (int)Message.WM_VSCROLL, new UIntPtr(wParam), new UIntPtr(0));
         }
 
 

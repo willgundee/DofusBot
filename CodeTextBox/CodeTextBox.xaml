@@ -7,15 +7,5 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <RichTextBox x:Name="rtb" Height="300" Width="300" FontFamily="Courier New" PreviewKeyDown="rtb_PreviewKeyDown">
-            <FlowDocument>
-                <Paragraph>
-                    <InlineUIContainer Unloaded="InlineUIContainer_Unloaded">
-                        <TextBlock Text="This line of text is not editable."></TextBlock>
-                    </InlineUIContainer>
-                    <Run>But this is editable.</Run>
-                </Paragraph>
-            </FlowDocument>
-        </RichTextBox>
     </Grid>
 </UserControl>
