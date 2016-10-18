@@ -170,6 +170,8 @@ namespace Moonlight.SyntaxHighlight
             for (regMatch = regexp.Match(line); regMatch.Success; regMatch = regMatch.NextMatch())
             {
                 // Process the words
+                if (regMatch.Length == 0)
+                    continue;
                 TextPointer nStart = lineStart.GetPositionAtOffset(regMatch.Index);
                 TextPointer nEnd = nStart.GetPositionAtOffset(regMatch.Length);
                 new TextRange(nStart, nEnd).ApplyPropertyValue(TextElement.ForegroundProperty, color);

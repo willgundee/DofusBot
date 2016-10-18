@@ -283,12 +283,12 @@ namespace Moonlight
         public CodeTextBox()
         {
             //Set some defaults...
-            AddLogicalChild(IntellisenseBox);
-            HorizontalAlignment = HorizontalAlignment.Stretch;
-            VerticalAlignment = VerticalAlignment.Stretch;
-            AcceptsTab = true;
-            FontFamily = new System.Windows.Media.FontFamily("Courier New");
-            FontSize = 13;
+            //AddLogicalChild(mp_IntellisenseBox);
+            //HorizontalAlignment = HorizontalAlignment.Stretch;
+            //VerticalAlignment = VerticalAlignment.Stretch;
+            //AcceptsTab = true;
+            //FontFamily = new System.Windows.Media.FontFamily("Courier New");
+            //FontSize = 80;
 
             // TODO
             //
@@ -388,13 +388,13 @@ namespace Moonlight
         #endregion
 
         #region Overridden methods
-        protected override void OnMouseRightButtonDown(System.Windows.Input.MouseButtonEventArgs e)
+        protected override void OnMouseRightButtonDown(MouseButtonEventArgs e)
         {
             m_IntellisenseManager.HideIntellisenseBox();
             base.OnMouseRightButtonDown(e);
         }
 
-        protected override void OnTextInput(System.Windows.Input.TextCompositionEventArgs e)
+        protected override void OnTextInput(TextCompositionEventArgs e)
         {
             //Syntax Highlight the current line... :)
             m_SyntaxHighLighter.DoSyntaxHightlight_CurrentLine(this);
@@ -405,7 +405,7 @@ namespace Moonlight
 
             base.OnTextInput(e);
         }
-        void mp_IntellisenseBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        void mp_IntellisenseBox_KeyDown(object sender, KeyEventArgs e)
         {
             //Let the textbox handle keypresses inside the intellisense box
             this.OnKeyDown(e);
@@ -414,10 +414,10 @@ namespace Moonlight
         {
             m_IntellisenseManager.ConfirmIntellisense();
         }
-        protected override void OnKeyDown(System.Windows.Input.KeyEventArgs e)
+        protected override void OnKeyDown(KeyEventArgs e)
         {
             #region Show Intellisense
-            if (e.SystemKey >= System.Windows.Input.Key.A && e.SystemKey <= System.Windows.Input.Key.Z)
+            if (e.Key >= Key.A && e.Key <= Key.Z)
             {
                 m_IntellisenseManager.ShowIntellisenseBox();
                 e.Handled = true;
@@ -429,12 +429,12 @@ namespace Moonlight
             if (mp_IntellisenseBox.IsVisible)
             {
                 #region ESCAPE and SPACE - Hide Intellisense
-                if (e.SystemKey == System.Windows.Input.Key.Escape)
+                if (e.Key == Key.Escape)
                 {
                     m_IntellisenseManager.HideIntellisenseBox();
                     e.Handled = true;
                 }
-                else if (e.SystemKey == System.Windows.Input.Key.Space)
+                else if (e.Key == Key.Space)
                 {
                     m_IntellisenseManager.HideIntellisenseBox();
                     e.Handled = true;
@@ -442,32 +442,32 @@ namespace Moonlight
                 #endregion
 
                 #region Navigation - Up, Down, PageUp, PageDown, Home, End
-                else if (e.SystemKey == System.Windows.Input.Key.Up)
+                else if (e.Key == Key.Up)
                 {
                     m_IntellisenseManager.NavigateUp(1);
                     e.Handled = true;
                 }
-                else if (e.SystemKey == System.Windows.Input.Key.Down)
+                else if (e.Key == Key.Down)
                 {
                     m_IntellisenseManager.NavigateDown(1);
                     e.Handled = true;
                 }
-                else if (e.SystemKey == System.Windows.Input.Key.PageUp)
+                else if (e.Key == Key.PageUp)
                 {
                     m_IntellisenseManager.NavigateUp(10);
                     e.Handled = true;
                 }
-                else if (e.SystemKey == System.Windows.Input.Key.PageDown)
+                else if (e.Key == Key.PageDown)
                 {
                     m_IntellisenseManager.NavigateDown(10);
                     e.Handled = true;
                 }
-                else if (e.SystemKey == System.Windows.Input.Key.Home)
+                else if (e.Key == Key.Home)
                 {
                     m_IntellisenseManager.NavigateHome();
                     e.Handled = true;
                 }
-                else if (e.SystemKey == System.Windows.Input.Key.End)
+                else if (e.Key == Key.End)
                 {
                     m_IntellisenseManager.NavigateEnd();
                     e.Handled = true;
@@ -475,33 +475,33 @@ namespace Moonlight
                 #endregion
 
                 #region Typing - Back
-                else if (e.SystemKey == System.Windows.Input.Key.Back)
+                else if (e.Key == Key.Back)
                 {
                     m_IntellisenseManager.TypeBackspace();
                 }
                 #endregion
 
                 #region Typing - Brackets
-                else if (e.SystemKey == System.Windows.Input.Key.D9)
+                else if (e.Key == Key.D9)
                 {
                     // Trap the open bracket key, displaying a cheap and
                     // cheerful tooltip if the word just typed is in our tree
                     // (the parameters are stored in the tag property of the node)
                 }
-                else if (e.SystemKey == System.Windows.Input.Key.D8)
+                else if (e.Key == Key.D8)
                 {
                     // Close bracket key, hide the tooltip textbox
                 }
                 #endregion
 
                 #region Typing - TAB and Enter
-                else if (e.SystemKey == System.Windows.Input.Key.Tab)
+                else if (e.Key == Key.Tab)
                 {
                     m_IntellisenseManager.ConfirmIntellisense();
                     e.Handled = true;
                     //e.SuppressKeyPress = true;
                 }
-                else if (e.SystemKey == System.Windows.Input.Key.Enter)
+                else if (e.Key == Key.Enter)
                 {
                     m_IntellisenseManager.ConfirmIntellisense();
                     e.Handled = true;
