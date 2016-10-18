@@ -20,6 +20,10 @@ namespace test
         public string NoImg { get; set; }
         public string Type { get; set; }
         public  bool EstArme { get; set; }
+        public int Quantite { get; set; }
+        public int QuantiteEquipe { get; set; }
+        private BDService bd = new BDService();
+
 
         public Dictionary<int, string> DictType = new Dictionary<int, string>()
         {
@@ -94,7 +98,6 @@ namespace test
         }
         private void addConditions(int idItem)
         {
-            BDService bd = new BDService();
             string cond = "SELECT * FROM Conditions c INNER JOIN ConditionsEquipements ce On ce.idCondition = c.idCondition INNER JOIN TypesStatistiques t ON t.idTypeStatistique = c.idTypeStatistique WHERE idEquipement =" + idItem;
             List<string>[] conditions = bd.selection(cond);
             LstConditions = new List<Condition>();
