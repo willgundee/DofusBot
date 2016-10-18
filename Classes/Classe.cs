@@ -13,11 +13,13 @@ namespace test
         public string Nom { get; set; }
         public string Description { get; set; }
 
-        public Classe(List<string> Race, List<string>[] sorts)
+        public Classe(List<string> classe, List<string>[] sorts)
         {
-            Nom = Race[1];
-            Description = Race[2];
+            Nom = classe[1];
+            Description = classe[2];
 
+           /* foreach (List<string> sort in sorts)
+                ListeSort.Add(new Sort(sorts)));*/
         }
     }
 }

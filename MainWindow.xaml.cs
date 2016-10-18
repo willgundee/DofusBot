@@ -70,7 +70,7 @@ namespace test
             aTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             aTimer.Interval = new TimeSpan(0, 0, 2);
             
-            dgStats.ItemsSource=
+            //dgStats.ItemsSource=
         }
 
         /*   protected override void OnClosed(EventArgs e)
