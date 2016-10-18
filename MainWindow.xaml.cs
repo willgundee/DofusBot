@@ -52,14 +52,16 @@ namespace test
               foreach (List<string> iop in rep)
                   foreach (string item in iop)
                       System.Windows.Forms.MessageBox.Show(item);*/
-          
+
+
+
             //CombatTest combat = new CombatTest();
             InitializeComponent();
             ctb_main.CreateTreeView(generateTree());
             ctb_main.UpdateSyntaxHightlight();
             ctb_main.UpdateTreeView();
 
-          
+
             this.chat = new Chat();
             btnEnvoyerMessage.IsEnabled = false;
 
@@ -71,13 +73,13 @@ namespace test
             dgStats.ItemsSource=
         }
 
-        protected override void OnClosed(EventArgs e)
-        {
-            base.OnClosed(e);
+        /*   protected override void OnClosed(EventArgs e)
+           {
+               base.OnClosed(e);
 
-            System.Windows.Application.Current.Shutdown();
-        }
-
+               System.Windows.Application.Current.Shutdown();
+           }
+           */
 
 
         // POUR LE CHAT -------------------------------------------------------------------------------------------------------------------
@@ -670,7 +672,7 @@ namespace test
                 for (int x = 0; x < item.LstEffet.Count(); x++)
                 {//ajout des dommages
                     grdStats.Children.Add(CreateLbl(item.LstEffet[x].NomSimplifier + " :", x, 2));
-                    grdStats.Children.Add(CreateLbl(item.LstEffet[x].DmgMin.ToString() + " à " +item.LstEffet[x].DmgMax.ToString(), x, 3));
+                    grdStats.Children.Add(CreateLbl(item.LstEffet[x].DmgMin.ToString() + " à " + item.LstEffet[x].DmgMax.ToString(), x, 3));
 
                 }
 
@@ -758,6 +760,43 @@ namespace test
         {
             CombatTest lol = new CombatTest();
             System.Windows.Forms.MessageBox.Show(lol.combat(64));
+        }
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            /* Faire un update si toute est legit*/
+            if (txt_mdp.Password != "" && txt_mdp == txtConfirmation && txtConfirmation.Password != "")
+            {
+                /* Update */
+            }
+            else
+            {
+                if (txt_mdp.Password == "" && txtConfirmation.Password == "")
+                {
+
+                }
+                else if (txt_mdp.Password != "")
+                {
+                    /* Erreur de confirmation*/
+                }
+            }
+
+
+        }
+
+        private void btnAnnuler_Click(object sender, RoutedEventArgs e)
+        {
+            txtConfirmation.Password = "";
+            txt_mdp.Password = "";
+            txt_Courriel.Text = "";
+        }
+
+        private void btnDeconnexion_Click(object sender, RoutedEventArgs e)
+        {
+            Authentification a = new Authentification();
+
+            a.Show();
+            Close();
         }
 
 

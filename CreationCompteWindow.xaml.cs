@@ -17,7 +17,7 @@ using System.Windows.Shapes;
 namespace test
 {
 
-    public partial class CreationCompteWindow: Window
+    public partial class CreationCompteWindow : Window
     {
         private BDService bd = new BDService();
         public CreationCompteWindow()
@@ -37,7 +37,7 @@ namespace test
         {
             Authentification A = new Authentification();
             A.Show();
-            this.Close(); 
+            this.Close();
 
         }
         public bool Valider()
@@ -60,7 +60,7 @@ namespace test
                 }
 
                 lbl_nom.Foreground = new SolidColorBrush(Colors.Red);
-                Valide=false;
+                Valide = false;
             }
             else
             {
@@ -130,20 +130,23 @@ namespace test
         private void btnValider_Click(object sender, RoutedEventArgs e)
         {
 
-            if(Valider()==true)
+            if (Valider() == true)
             {
 
                 var result = System.Windows.MessageBox.Show("Souhaitez-vous créer votre compte avec ces informations?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
                     bd.insertion("INSERT INTO Joueurs(nomUtilisateur, courriel, motDePasse, argent, avatar) VALUES('" + txt_nom.Text.ToString() + "', '" + txt_Courriel.Text.ToString() + "', '" + txt_mdp.Password + "', 0, 0);");
+                    MainWindow perso = new MainWindow();
+                    perso.Show();
+                    this.Close();
+
+                }
+                else
+                {
+
                 }
 
-
-
-                MainWindow perso = new MainWindow();
-                perso.Show();
-                this.Close();
             }
 
 

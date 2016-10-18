@@ -239,128 +239,154 @@
                         </wf:CodeTextBox.CodeWords_Chaines>
                     </wf:CodeTextBox>
                 </WindowsFormsHost-->
-                <Button Name="btn_run" Content="Run" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Width="75" Height="40" Click="btn_run_Click"/>
-                <Button Name="btn_test" Content="test" Grid.Column="1" HorizontalAlignment="Left" Margin="143,33,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="btn_test_Click"/>
-            </Grid>
-        </TabItem>
-        <TabItem Header="Marché" Height="30" Selector.Unselected="TabItemMarche_Unselected" Selector.Selected="TabItemMarche_Selected">
-            <Grid Margin="2,-5,-5,-18">
-                
-                <Image x:Name="imgCurrent" HorizontalAlignment="Left" Height="200" Margin="378,10,0,0" VerticalAlignment="Top" Width="200"/>
-                <Label x:Name="lblPri" Visibility="Hidden" Content="Prix:" HorizontalAlignment="Left" Margin="378,215,0,0" VerticalAlignment="Top" Width="35"/>
-                <Label x:Name="lblPrix"  HorizontalAlignment="Left" Margin="418,215,0,0" VerticalAlignment="Top" Width="99" Height="26"/>
-                <Button x:Name="btnAchat" Visibility="Hidden" HorizontalContentAlignment="Center" Content="Acheter" HorizontalAlignment="Left" Margin="442,256,0,0" VerticalAlignment="Top" Width="75" Click="btnAchat_Click"/>
-                <Label x:Name="lblItem" Content="" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="363"/>
-                <TextBlock x:Name="txtBDesc" HorizontalAlignment="Left" Margin="10,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="363" Height="60"/>
-                <Image x:Name="imgKamas" Visibility="Collapsed" Source="resources/kamas.png" HorizontalAlignment="Left" Height="26" Margin="522,215,0,0" VerticalAlignment="Top" Width="38"/>
-                <TabControl x:Name="tCMarche" VerticalAlignment="Center" TabStripPlacement="Left" Height="238" Margin="0,232,0,13" Grid.RowSpan="2" >
-                    
-                    <TabItem x:Name="tArmes" Header="Armes" Height="50">                     
-                        <Grid x:Name="grdArmes" Background="#FFE5E5E5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="100*"/>
-                                <RowDefinition Height="100*"/>
-                                <RowDefinition Height="17*"/>
-                            </Grid.RowDefinitions>
-                        </Grid>
-                    </TabItem>
-                    <TabItem x:Name="tEquips" Header="Armures" Height="50">
-                        <Grid x:Name="grdEquips" Background="#FFE5E5E5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="100*"/>
-                                <RowDefinition Height="100*"/>
-                                <RowDefinition Height="17*"/>
-                            </Grid.RowDefinitions>
-                        </Grid>
-                    </TabItem>
-                </TabControl>
-                <Grid x:Name="grdStats" HorizontalAlignment="Left" Height="167" Margin="10,106,0,0" VerticalAlignment="Top" Width="363">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="99*"/>
-                        <ColumnDefinition Width="82*"/>
-                        <ColumnDefinition Width="128*"/>
-                        <ColumnDefinition Width="54*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="1*"/>
-                    </Grid.RowDefinitions>
-                </Grid>
+    <Button Name="btn_run" Content="Run" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Width="75" Height="40" Click="btn_run_Click"/>
+    <Button Name="btn_test" Content="test" Grid.Column="1" HorizontalAlignment="Left" Margin="143,33,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="btn_test_Click"/>
+    </Grid>
+    </TabItem>
+    <TabItem Header="Marché" Height="30" Selector.Unselected="TabItemMarche_Unselected" Selector.Selected="TabItemMarche_Selected">
+        <Grid Margin="2,-5,-5,-18">
 
+            <Image x:Name="imgCurrent" HorizontalAlignment="Left" Height="200" Margin="378,10,0,0" VerticalAlignment="Top" Width="200"/>
+            <Label x:Name="lblPri" Visibility="Hidden" Content="Prix:" HorizontalAlignment="Left" Margin="378,215,0,0" VerticalAlignment="Top" Width="35"/>
+            <Label x:Name="lblPrix"  HorizontalAlignment="Left" Margin="418,215,0,0" VerticalAlignment="Top" Width="99" Height="26"/>
+            <Button x:Name="btnAchat" Visibility="Hidden" HorizontalContentAlignment="Center" Content="Acheter" HorizontalAlignment="Left" Margin="442,256,0,0" VerticalAlignment="Top" Width="75" Click="btnAchat_Click"/>
+            <Label x:Name="lblItem" Content="" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="363"/>
+            <TextBlock x:Name="txtBDesc" HorizontalAlignment="Left" Margin="10,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="363" Height="60"/>
+            <Image x:Name="imgKamas" Visibility="Collapsed" Source="resources/kamas.png" HorizontalAlignment="Left" Height="26" Margin="522,215,0,0" VerticalAlignment="Top" Width="38"/>
+            <TabControl x:Name="tCMarche" VerticalAlignment="Center" TabStripPlacement="Left" Height="238" Margin="0,232,0,13" Grid.RowSpan="2" >
+
+                <TabItem x:Name="tArmes" Header="Armes" Height="50">
+                    <Grid x:Name="grdArmes" Background="#FFE5E5E5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="100*"/>
+                            <RowDefinition Height="100*"/>
+                            <RowDefinition Height="17*"/>
+                        </Grid.RowDefinitions>
+                    </Grid>
+                </TabItem>
+                <TabItem x:Name="tEquips" Header="Armures" Height="50">
+                    <Grid x:Name="grdEquips" Background="#FFE5E5E5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="100*"/>
+                            <RowDefinition Height="100*"/>
+                            <RowDefinition Height="17*"/>
+                        </Grid.RowDefinitions>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+            <Grid x:Name="grdStats" HorizontalAlignment="Left" Height="167" Margin="10,106,0,0" VerticalAlignment="Top" Width="363">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="99*"/>
+                    <ColumnDefinition Width="82*"/>
+                    <ColumnDefinition Width="128*"/>
+                    <ColumnDefinition Width="54*"/>
+                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="233*"></RowDefinition>
-                    <RowDefinition Height="250*"></RowDefinition>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
             </Grid>
-        </TabItem>
-        <TabItem Header="Sorts" Height="30">
-            <Label HorizontalAlignment="Center" FontSize="25" Grid.Row="0" >Sorts</Label>
 
-        </TabItem>
-        <TabItem Header="Inventaire" Height="30">
-            <Label HorizontalAlignment="Center" FontSize="25">Inventaire</Label>
-        </TabItem>
-        <TabItem Header="Arène" Height="30">
-            <Label HorizontalAlignment="Center" FontSize="25">Arène</Label>
-        </TabItem>
-        <TabItem Header="Documentation" Height="30">
-            <Label HorizontalAlignment="Center" FontSize="25">Documentation</Label>
-        </TabItem>
-        <TabItem Header="Tchat" Height="30">
-         
-             <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="26*"/>
-            <RowDefinition Height="178*"/>
-            <RowDefinition Height="63*"/>
-        </Grid.RowDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="233*"></RowDefinition>
+                <RowDefinition Height="250*"></RowDefinition>
+            </Grid.RowDefinitions>
+        </Grid>
+    </TabItem>
+    <TabItem Header="Sorts" Height="30">
+        <Label HorizontalAlignment="Center" FontSize="25" Grid.Row="0" >Sorts</Label>
 
-        <ScrollViewer x:Name="Scroll" Margin="10,0,55,10" CanContentScroll="True" Grid.Row="1">
-            <TextBlock x:Name="txtboxHistorique" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Top" Width="510" 
+    </TabItem>
+    <TabItem Header="Inventaire" Height="30">
+        <Label HorizontalAlignment="Center" FontSize="25">Inventaire</Label>
+    </TabItem>
+    <TabItem Header="Arène" Height="30">
+        <Label HorizontalAlignment="Center" FontSize="25">Arène</Label>
+    </TabItem>
+    <TabItem Header="Documentation" Height="30">
+        <Label HorizontalAlignment="Center" FontSize="25">Documentation</Label>
+    </TabItem>
+    <TabItem Header="Tchat" Height="30">
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="26*"/>
+                <RowDefinition Height="178*"/>
+                <RowDefinition Height="63*"/>
+            </Grid.RowDefinitions>
+
+            <ScrollViewer x:Name="Scroll" Margin="10,0,55,10" CanContentScroll="True" Grid.Row="1">
+                <TextBlock x:Name="txtboxHistorique" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Top" Width="510" 
             Foreground="#FF1132C5" 
             Background="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" ScrollViewer.HorizontalScrollBarVisibility="Visible"
          ScrollViewer.VerticalScrollBarVisibility="Auto"
          ScrollViewer.CanContentScroll="True" Height="Auto"/>
-        </ScrollViewer>
+            </ScrollViewer>
 
 
 
-        <TextBox x:Name="txtMessage" HorizontalAlignment="Left" Height="85" Margin="10,10,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="471" TextChanged="txtMessage_TextChange" MaxLength="254"/>
-        <Button x:Name="btnEnvoyerMessage" Content="Envoyer" HorizontalAlignment="Left" Margin="504,10.135,0,0" Grid.Row="2" VerticalAlignment="Top" Width="71" Height="79" Click="BtnEnvoyer_Click"/>
-        <Button x:Name="btnRejoindreSalle" Content="Rejoindre la salle de discussion" HorizontalAlignment="Left" Margin="10,12,0,0" VerticalAlignment="Top" Width="183" Click="btnRejoindreSalle_Click" Height="22"/>
-        <Button x:Name="btnQuitterSalle" Content="Quitter la salle" HorizontalAlignment="Left" Margin="208,0,0,20.532" VerticalAlignment="Bottom" Width="140" Click="btnQuitterSalle_Click" Height="22"/>
-        <Button x:Name="btnModLess" Content="Ouvrir le chat dans une autre fenêtre" HorizontalAlignment="Left" Margin="353,12,-0.147,0" VerticalAlignment="Top" Width="232" Height="22" Click="BtnModLess_Click" />
+            <TextBox x:Name="txtMessage" HorizontalAlignment="Left" Height="85" Margin="10,10,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="471" TextChanged="txtMessage_TextChange" MaxLength="254"/>
+            <Button x:Name="btnEnvoyerMessage" Content="Envoyer" HorizontalAlignment="Left" Margin="504,10.135,0,0" Grid.Row="2" VerticalAlignment="Top" Width="71" Height="79" Click="BtnEnvoyer_Click"/>
+            <Button x:Name="btnRejoindreSalle" Content="Rejoindre la salle de discussion" HorizontalAlignment="Left" Margin="10,12,0,0" VerticalAlignment="Top" Width="183" Click="btnRejoindreSalle_Click" Height="22"/>
+            <Button x:Name="btnQuitterSalle" Content="Quitter la salle" HorizontalAlignment="Left" Margin="208,0,0,20.532" VerticalAlignment="Bottom" Width="140" Click="btnQuitterSalle_Click" Height="22"/>
+            <Button x:Name="btnModLess" Content="Ouvrir le chat dans une autre fenêtre" HorizontalAlignment="Left" Margin="353,12,-0.147,0" VerticalAlignment="Top" Width="232" Height="22" Click="BtnModLess_Click" />
 
 
-    </Grid>
-        </TabItem>
-        <TabItem Header="Archives" Height="30">
-            <Label HorizontalAlignment="Center" FontSize="25">Archives</Label>
-        </TabItem>
-        <TabItem Header="Options" Height="30">
-            <Label HorizontalAlignment="Center" FontSize="25">Options</Label>
-        </TabItem>
+        </Grid>
+    </TabItem>
+    <TabItem Header="Archives" Height="30">
+        <Label HorizontalAlignment="Center" FontSize="25">Archives</Label>
+    </TabItem>
+    <TabItem Header="Options" Height="30">
+        <Grid Margin="-4,-2,5,2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="7*"/>
+                <ColumnDefinition Width="139*"/>
+                <ColumnDefinition Width="0*"/>
+            </Grid.ColumnDefinitions>
+            <Label HorizontalAlignment="Center" FontSize="25" Margin="207.007,0,230.853,506" Width="118" Grid.Column="1">Options</Label>
+            <Label x:Name="lbl_nom" Content="Nom d'utilisateur&#xD;&#xA;" HorizontalAlignment="Left" Margin="220.007,77,0,0" VerticalAlignment="Top" Height="26" Width="108" Grid.Column="1"/>
+            <TextBox x:Name="txt_nom" HorizontalAlignment="Left"  Height="22" Margin="220.007,108,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="193" IsEnabled="False" Grid.Column="1" />
+            <Label x:Name="lbl_Courriel" Content="Nouveau Courriel" HorizontalAlignment="Left" Margin="17,210,0,0" VerticalAlignment="Top" Height="26" Width="109" Grid.Column="1"/>
+            <TextBox x:Name="txt_Courriel" HorizontalAlignment="Left" Height="24"  TextWrapping="Wrap" VerticalAlignment="Center" Width="238" Margin="17,396,0,140" Grid.Column="1"/>
+            <Label x:Name="lbl_Mdp" Content="Nouveau Mot de passe&#xA;" HorizontalAlignment="Left" Margin="17,293,0,239" VerticalAlignment="Center" Height="28" Width="166" Grid.Column="1"/>
+            <PasswordBox x:Name="txt_mdp" Height="24" Margin="17,326,0,210"  VerticalAlignment="Center"  HorizontalAlignment="Left" Width="238" Grid.Column="1"/>
+            <Label x:Name="lbl_Confirmation" Grid.Column="1" Content="Confimation de mot de passe" HorizontalAlignment="Left" Margin="17,0,0,169" VerticalAlignment="Bottom" Height="26" Width="166"/>
+            <PasswordBox x:Name="txtConfirmation" Grid.Column="1" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="200" Margin="17,236,0,0"/>
+            <Image x:Name="image" Grid.Column="1" HorizontalAlignment="Left" Height="122" Margin="0,36,0,0" VerticalAlignment="Top" Width="164">
+                <Image.Effect>
+                    <DropShadowEffect BlurRadius="9" Direction="314" ShadowDepth="9"/>
+                </Image.Effect>
+            </Image>
+            <Button x:Name="btnAnnuler" Content="Annuler" Grid.Column="1" HorizontalAlignment="Left" Margin="148,445,0,0" VerticalAlignment="Top" Width="90" RenderTransformOrigin="0.495,-0.136" Click="btnAnnuler_Click"/>
+            <Button x:Name="btnSuggestion" Content="Suggestions/Problèmes" Grid.Column="1" HorizontalAlignment="Left" Margin="385,445,0,0" VerticalAlignment="Top" Width="161" />
+            <Button x:Name="btnDeconnexion" Content="Déconnexion" Grid.Column="1" HorizontalAlignment="Left" Margin="253,445,0,0" VerticalAlignment="Top" Width="96" Click="btnDeconnexion_Click" />
+            <Button x:Name="btnSave" Content="Sauvegarder" Grid.Column="1" HorizontalAlignment="Left" Margin="17,445,0,0" VerticalAlignment="Top" Width="109" Click="btnSave_Click"/>
+            <Label x:Name="label" Content="Changer d'avatar" Grid.Column="1" HorizontalAlignment="Left" Margin="17,10,0,0" VerticalAlignment="Top"/>
+        </Grid>
+
+    </TabItem>
     </TabControl>
 </Window>
