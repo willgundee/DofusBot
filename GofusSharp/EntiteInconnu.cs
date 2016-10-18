@@ -20,8 +20,8 @@ namespace GofusSharp
         public int PM { get; internal set; }
         public int PM_MAX { get; internal set; }
         public int Proprietaire { get; internal set; }
-        public ListeChainee<Statistique> ListStatistiques { get; internal set; }
-        public ListeChainee<Envoutement> ListEnvoutements { get; internal set; }
+        public Liste<Statistique> ListStatistiques { get; internal set; }
+        public Liste<Envoutement> ListEnvoutements { get; internal set; }
         internal EntiteInconnu(int IdEntite, Classe ClasseEntite, string Nom, float Experience, type Equipe)
         {
             this.IdEntite = IdEntite;
@@ -29,7 +29,7 @@ namespace GofusSharp
             this.Nom = Nom;
             this.Experience = Experience;
             this.Equipe = Equipe;
-            ListEnvoutements = new ListeChainee<Envoutement>();
+            ListEnvoutements = new Liste<Envoutement>();
         }
         internal EntiteInconnu(int IdEntite, Classe ClasseEntite, string Nom, float Experience, Case Position, type Equipe, int proprietaire)
         {
@@ -39,7 +39,7 @@ namespace GofusSharp
             this.Experience = Experience;
             this.Position = Position;
             this.Equipe = Equipe;
-            ListEnvoutements = new ListeChainee<Envoutement>();
+            ListEnvoutements = new Liste<Envoutement>();
         }
         internal EntiteInconnu(Entite entite)
         {
@@ -57,7 +57,7 @@ namespace GofusSharp
             PM_MAX = entite.PM_MAX;
             Proprietaire = entite.Proprietaire;
             ListEnvoutements = entite.ListEnvoutements;
-            ListStatistiques = new ListeChainee<Statistique>();
+            ListStatistiques = new Liste<Statistique>();
             foreach (Statistique stat in entite.ListStatistiques)
             {
                 switch (stat.Nom)
@@ -79,7 +79,7 @@ namespace GofusSharp
                     case Statistique.type.renvoie_DMG:
                     case Statistique.type.reduction_magique:
                     case Statistique.type.reduction_physique:
-                        ListStatistiques.AjouterFin(stat);
+                        ListStatistiques.Add(stat);
                         break;
                 }
             }
