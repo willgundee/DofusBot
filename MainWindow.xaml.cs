@@ -14,6 +14,7 @@ using System.Windows.Threading;
 using System.Windows.Input;
 using System.Windows.Documents;
 using System.Windows.Interop;
+using System.Windows.Media;
 
 namespace test
 {
@@ -61,7 +62,7 @@ namespace test
             ctb_main.UpdateSyntaxHightlight();
             ctb_main.UpdateTreeView();
 
-          
+
             this.chat = new Chat();
             btnEnvoyerMessage.IsEnabled = false;
 
@@ -69,15 +70,17 @@ namespace test
             aTimer = new System.Windows.Threading.DispatcherTimer();
             aTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             aTimer.Interval = new TimeSpan(0, 0, 2);
+            
+            //dgStats.ItemsSource=
         }
 
-        protected override void OnClosed(EventArgs e)
-        {
-            base.OnClosed(e);
+        /*   protected override void OnClosed(EventArgs e)
+           {
+               base.OnClosed(e);
 
-            System.Windows.Application.Current.Shutdown();
-        }
-
+               System.Windows.Application.Current.Shutdown();
+           }
+           */
 
 
         // POUR LE CHAT -------------------------------------------------------------------------------------------------------------------
@@ -670,7 +673,7 @@ namespace test
                 for (int x = 0; x < item.LstEffet.Count(); x++)
                 {//ajout des dommages
                     grdStats.Children.Add(CreateLbl(item.LstEffet[x].NomSimplifier + " :", x, 2));
-                    grdStats.Children.Add(CreateLbl(item.LstEffet[x].DmgMin.ToString() + " à " +item.LstEffet[x].DmgMax.ToString(), x, 3));
+                    grdStats.Children.Add(CreateLbl(item.LstEffet[x].DmgMin.ToString() + " à " + item.LstEffet[x].DmgMax.ToString(), x, 3));
 
                 }
 
@@ -760,7 +763,65 @@ namespace test
             System.Windows.Forms.MessageBox.Show(lol.combat(64));
         }
 
+        /// ***************************************************
+        /// / ONGLET OPTIONS
+        // ***************************************************
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            /* Faire un update si toute est legit*/
+            if (txt_mdp.Password != "" && txt_mdp.Password == txtConfirmation.Password && txtConfirmation.Password != "")
+            {
+                /* Update */
+                lbl_Mdp.Foreground = new SolidColorBrush(Colors.Black);
+                lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Black);
+            }
+            else
+            {
+                if (txt_mdp.Password == "" && txtConfirmation.Password == "")
+                {
+                    /* Aucune modification effectué*/
+                    lbl_Mdp.Foreground = new SolidColorBrush(Colors.Black);
+                    lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Black);
+                }
+                else if (txt_mdp.Password != "")
+                {
+                    /* Erreur de confirmation*/
+                    lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Red);
+                    
+                }
+                else if (txt_mdp.Password == "" & txtConfirmation.Password != "")
+                {
+                    /* Mot de passe vide*/
+                    lbl_Mdp.Foreground = new SolidColorBrush(Colors.Red);
+                }
+            }
 
+
+        }
+
+        private void btnAnnuler_Click(object sender, RoutedEventArgs e)
+        {
+            txtConfirmation.Password = "";
+            txt_mdp.Password = "";
+            txt_Courriel.Text = "";
+            lbl_Mdp.Foreground = new SolidColorBrush(Colors.Black);
+            lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Black);
+        }
+
+        private void btnDeconnexion_Click(object sender, RoutedEventArgs e)
+        {
+            Authentification a = new Authentification();
+
+            a.Show();
+            Close();
+        }
+
+        private void btnSuggestion_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.MessageBox.Show("Bientôt disponnible !");
+        }
+
+        // ***************************************************
 
 
 

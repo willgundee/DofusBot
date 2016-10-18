@@ -4,8 +4,8 @@
     {
         public Script ScriptEntite { get; internal set; }
         public Terrain TerrainEntite { get; internal set; }
-        public ListeChainee<EntiteInconnu> ListEntites { get; internal set; }
-        internal Entite(int IdEntite, Classe ClasseEntite, string Nom, float Experience, type Equipe, ListeChainee<Statistique> ListStatistiques, Script ScriptEntite, Terrain TerrainEntite, int Proprietaire) : base(IdEntite, ClasseEntite, Nom, Experience, Equipe)
+        public Liste<EntiteInconnu> ListEntites { get; internal set; }
+        internal Entite(int IdEntite, Classe ClasseEntite, string Nom, float Experience, type Equipe, Liste<Statistique> ListStatistiques, Script ScriptEntite, Terrain TerrainEntite, int Proprietaire) : base(IdEntite, ClasseEntite, Nom, Experience, Equipe)
         {
             this.ListStatistiques = ListStatistiques;
             foreach (Statistique stat in ListStatistiques)
@@ -453,7 +453,7 @@
                     {
                         if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
                         {
-                            entiteInconnu.ListEnvoutements.AjouterFin(new Envoutement(effet.Stat, new System.Random().Next(effet.ValeurMin, effet.ValeurMax), effet.NbTour, IdEntite));
+                            entiteInconnu.ListEnvoutements.Add(new Envoutement(effet.Stat, new System.Random().Next(effet.ValeurMin, effet.ValeurMax), effet.NbTour, IdEntite));
                         }
                     }
                     break;
@@ -751,10 +751,14 @@
                 Position.Contenu = Case.type.vide;
                 nextPosition.Contenu = Case.type.joueur;
                 Position = nextPosition;
-                Noeud<EntiteInconnu> entite = ListEntites.First;
-                while (entite.Valeur.IdEntite != IdEntite)
-                    entite = entite.Next;
-                entite.Valeur.Position = nextPosition;
+                foreach (EntiteInconnu entite in ListEntites)
+                {
+                    if (entite.IdEntite == IdEntite)
+                    {
+                        entite.Position = nextPosition;
+                        break;
+                    }
+                }
                 return true;
             }
             return false;

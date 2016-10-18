@@ -1,15 +1,16 @@
-﻿namespace GofusSharp
+﻿using System.Linq;
+namespace GofusSharp
 {
     public class Partie
     {
         public int IdPartie { get; internal set; }
         public Terrain TerrainPartie { get; internal set; }
-        public ListeChainee<Entite> ListAttaquants { get; internal set; }
-        public ListeChainee<Entite> ListDefendants { get; internal set; }
-        public ListeChainee<EntiteInconnu> ListEntites { get; internal set; }
+        public Liste<Entite> ListAttaquants { get; internal set; }
+        public Liste<Entite> ListDefendants { get; internal set; }
+        public Liste<EntiteInconnu> ListEntites { get; internal set; }
         public System.Random Seed { get; internal set; }
         public int valeurSeed { get; internal set; }
-        public Partie(int IdPartie, Terrain TerrainPartie, ListeChainee<Entite> ListAttaquants, ListeChainee<Entite> ListDefendants, int valeurSeed)
+        public Partie(int IdPartie, Terrain TerrainPartie, Liste<Entite> ListAttaquants, Liste<Entite> ListDefendants, int valeurSeed)
         {
             this.IdPartie = IdPartie;
             this.TerrainPartie = TerrainPartie;
@@ -17,13 +18,11 @@
             this.ListDefendants = ListDefendants;
             this.valeurSeed = valeurSeed;
             Seed = new System.Random(valeurSeed);
-            ListAttaquants.Last.Next = ListDefendants.First;
-            ListDefendants.First.Previous = ListAttaquants.Last;
             GenererTerrain(10, 5, 0);
-            ListEntites = new ListeChainee<EntiteInconnu>();
+            ListEntites = new Liste<EntiteInconnu>();
             DebuterPartie();
         }
-        public Partie(int IdPartie, ListeChainee<Entite> ListAttaquants, ListeChainee<Entite> ListDefendants)
+        public Partie(int IdPartie, Liste<Entite> ListAttaquants, Liste<Entite> ListDefendants)
         {
             this.IdPartie = IdPartie;
             this.ListAttaquants = ListAttaquants;
@@ -35,12 +34,10 @@
                 total += entite.IdEntite;
             valeurSeed = System.DateTime.Now.Millisecond - total;
             Seed = new System.Random(valeurSeed);
-            ListAttaquants.Last.Next = ListDefendants.First;
-            ListDefendants.First.Previous = ListAttaquants.Last;
             GenererTerrain(10, 5, 0);
             PlacerJoueurs();
             PlacerObstacles();
-            ListEntites = new ListeChainee<EntiteInconnu>();
+            ListEntites = new Liste<EntiteInconnu>();
             DebuterPartie();
         }
 
@@ -74,17 +71,15 @@
                 }
                 foreach (Case obstacle in caseObstacle)
                     TerrainPartie.TabCases[obstacle.X][obstacle.Y].Contenu = Case.type.obstacle;
-                Noeud<Entite> entite = ListAttaquants.First;
-                while (entite != null)
+                foreach (Entite entite in ListAttaquants.Concat(ListDefendants))
                 {
-                    if (TerrainPartie.CheminEntreCases(ListAttaquants.First.Valeur.Position, entite.Valeur.Position) == null)
+                    if (TerrainPartie.CheminEntreCases(ListAttaquants.First().Position, entite.Position) == null)
                     {
                         coince = true;
                         foreach (Case obstacle in caseObstacle)
                             TerrainPartie.TabCases[obstacle.X][obstacle.Y].Contenu = Case.type.vide;
                         break;
                     }
-                    entite = entite.Next;
                 }
             } while (coince);
         }
@@ -118,13 +113,12 @@
 
         internal void DebuterPartie()
         {
-            Noeud<Entite> entite = ListAttaquants.First;
-            while (entite != null)
+            foreach (Entite entite in ListAttaquants.Concat(ListDefendants))
             {
-                entite.Valeur.TerrainEntite = TerrainPartie;
+                entite.TerrainEntite = TerrainPartie;
                 int vie = new int();
                 int vitalite = new int();
-                foreach (Statistique stat in entite.Valeur.ListStatistiques)
+                foreach (Statistique stat in entite.ListStatistiques)
                 {
                     switch (stat.Nom)
                     {
@@ -135,17 +129,16 @@
                             vitalite = stat.Valeur;
                             break;
                         case Statistique.type.PA:
-                            entite.Valeur.PA_MAX = stat.Valeur;
+                            entite.PA_MAX = stat.Valeur;
                             break;
                         case Statistique.type.PM:
-                            entite.Valeur.PM_MAX = stat.Valeur;
+                            entite.PM_MAX = stat.Valeur;
                             break;
                     }
                 }
-                entite.Valeur.PV_MAX = vie + (vitalite * (entite.Valeur.ClasseEntite.Nom != Classe.type.sacrieur ? 1 : 2));
-                entite.Valeur.PV = entite.Valeur.PV_MAX;
-                ListEntites.AjouterFin(new EntiteInconnu(entite.Valeur));
-                entite = entite.Next;
+                entite.PV_MAX = vie + (vitalite * (entite.ClasseEntite.Nom != Classe.type.sacrieur ? 1 : 2));
+                entite.PV = entite.PV_MAX;
+                ListEntites.Add(new EntiteInconnu(entite));
             }
         }
 
@@ -174,7 +167,7 @@
                     {
                         if (buff.PasserTour())
                         {
-                            entiteInconnu.ListEnvoutements.Enlever(buff);
+                            entiteInconnu.ListEnvoutements.Remove(buff);
                         }
                     }
                 }
@@ -185,48 +178,46 @@
         {
             foreach (EntiteInconnu entiteInconnu in ListEntites)
             {
-                Noeud<Entite> entite = ListAttaquants.First;
                 bool existe = false;
-                while (entite != null)
+                foreach (Entite entite in ListAttaquants.Concat(ListDefendants))
                 {
-                    if (entite.Valeur.IdEntite == entiteInconnu.IdEntite)
+                    if (entite.IdEntite == entiteInconnu.IdEntite)
                     {
-                        entite.Valeur.TerrainEntite = TerrainPartie;
-                        entite.Valeur.Position = entiteInconnu.Position;
-                        entite.Valeur.PV = entiteInconnu.PV;
-                        entite.Valeur.PV_MAX = entiteInconnu.PV_MAX;
-                        entite.Valeur.ListEnvoutements = entiteInconnu.ListEnvoutements;
-                        entite.Valeur.Etat = entiteInconnu.Etat;
+                        entite.TerrainEntite = TerrainPartie;
+                        entite.Position = entiteInconnu.Position;
+                        entite.PV = entiteInconnu.PV;
+                        entite.PV_MAX = entiteInconnu.PV_MAX;
+                        entite.ListEnvoutements = entiteInconnu.ListEnvoutements;
+                        entite.Etat = entiteInconnu.Etat;
                         existe = true;
                         break;
                     }
-                    entite = entite.Next;
                 }
                 if (!existe)
                 {
-                    Entite newInvoc = new Entite(entiteInconnu, new Script(3, "//Placeholder"), TerrainPartie, entite.Valeur.Proprietaire);
-                    if (newInvoc.Equipe == EntiteInconnu.type.attaquant)
-                    {
-                        foreach (Entite entiteProp in ListAttaquants)
-                        {
-                            if (entiteProp.IdEntite == newInvoc.Proprietaire)
-                            {
-                                ListAttaquants.AjouterApres(newInvoc, ListAttaquants.TrouverPosition(entiteProp));
-                                break;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        foreach (Entite entiteProp in ListDefendants)
-                        {
-                            if (entiteProp.IdEntite == newInvoc.Proprietaire)
-                            {
-                                ListDefendants.AjouterApres(newInvoc, ListDefendants.TrouverPosition(entiteProp));
-                                break;
-                            }
-                        }
-                    }
+                    //Entite newInvoc = new Entite(entiteInconnu, new Script(3, "//Placeholder"), TerrainPartie, entite.Proprietaire);
+                    //if (newInvoc.Equipe == EntiteInconnu.type.attaquant)
+                    //{
+                    //    foreach (Entite entiteProp in ListAttaquants)
+                    //    {
+                    //        if (entiteProp.IdEntite == newInvoc.Proprietaire)
+                    //        {
+                    //            ListAttaquants.Insert(ListAttaquants.FindIndex(entiteProp), newInvoc);
+                    //            break;
+                    //        }
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    foreach (Entite entiteProp in ListDefendants)
+                    //    {
+                    //        if (entiteProp.IdEntite == newInvoc.Proprietaire)
+                    //        {
+                    //            ListDefendants.Add(newInvoc, ListDefendants.TrouverPosition(entiteProp));
+                    //            break;
+                    //        }
+                    //    }
+                    //}
                 }
             }
         }
