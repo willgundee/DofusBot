@@ -60,7 +60,7 @@ namespace Moonlight.Intellisense
 
 
             //Get top-left coordinate for our intellisenseBox
-            Point topLeft = m_CodeTextBox.GetPositionFromCharIndex(m_CodeTextBox.CodeTextbox);
+            Point topLeft = m_CodeTextBox.GetPositionFromCharIndex(m_CodeTextBox);
             topLeft.Offset(-35, 18);
 
             #region Place the intellisense box, to fit the space...
@@ -228,7 +228,7 @@ namespace Moonlight.Intellisense
             CheckScopeOperator(c);
 
              //Search the last letter(s) for separator, and update if found...
-            string lastWord = RichTextboxHelper.GetLastWord(m_CodeTextBox.CodeTextbox);
+            string lastWord = RichTextboxHelper.GetLastWord(m_CodeTextBox);
             //last word doesn't contains the processed char yet...
             lastWord += c;
 
@@ -261,7 +261,7 @@ namespace Moonlight.Intellisense
             //Get the actual line
             if (word == "")
             {
-                word = RichTextboxHelper.GetLastWord(m_CodeTextBox.CodeTextbox);
+                word = RichTextboxHelper.GetLastWord(m_CodeTextBox);
             }
 
             if (justRead == "\b")
@@ -380,9 +380,9 @@ namespace Moonlight.Intellisense
             }
 
             //Get the actual position
-            TextPointer currentPosition = m_CodeTextBox.CodeTextbox.CaretPosition;
+            TextPointer currentPosition = m_CodeTextBox.CaretPosition;
             //Get the start position of the last word
-            TextPointer lastWordPosition = GetLastWordStartPosition(m_CodeTextBox.CodeTextbox, m_CodeTextBox.CodeWords_ScopeOperators);
+            TextPointer lastWordPosition = GetLastWordStartPosition(m_CodeTextBox, m_CodeTextBox.CodeWords_ScopeOperators);
 
             //Change the word
             new TextRange(lastWordPosition,currentPosition).Text = wordSelected;

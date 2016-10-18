@@ -33,8 +33,8 @@ namespace Moonlight.SyntaxHighlight
             }
             #endregion
 
-            string line = RichTextboxHelper.GetCurrentLine(codeTextbox.CodeTextbox);
-            TextPointer lineStart = RichTextboxHelper.GetTextPointerCurrentLine(codeTextbox.CodeTextbox);
+            string line = RichTextboxHelper.GetCurrentLine(codeTextbox);
+            TextPointer lineStart = RichTextboxHelper.GetTextPointerCurrentLine(codeTextbox);
 
             ProcessLine(codeTextbox, line, lineStart);
         }
@@ -255,30 +255,30 @@ namespace Moonlight.SyntaxHighlight
             codeTextbox.EnablePainting = false;
 
             // Save the position and make the whole line black
-            TextRange text = new TextRange(codeTextbox.CodeTextbox.Document.ContentStart, codeTextbox.CodeTextbox.Document.ContentEnd);
+            TextRange text = new TextRange(codeTextbox.Document.ContentStart, codeTextbox.Document.ContentEnd);
             text.ApplyPropertyValue(TextElement.ForegroundProperty, System.Windows.Media.Brushes.Black);
 
 
             // Process the keywords
-            ProcessRegex(codeTextbox, text.Text, codeTextbox.CodeTextbox.Document.ContentStart, keywordsRegexp, codeTextbox.CodeColor_Keyword);
+            ProcessRegex(codeTextbox, text.Text, codeTextbox.Document.ContentStart, keywordsRegexp, codeTextbox.CodeColor_Keyword);
 
             // Process cached type names
-            ProcessRegex(codeTextbox, text.Text, codeTextbox.CodeTextbox.Document.ContentStart, typeNamesRegexp, codeTextbox.CodeColor_Type);
+            ProcessRegex(codeTextbox, text.Text, codeTextbox.Document.ContentStart, typeNamesRegexp, codeTextbox.CodeColor_Type);
 
             //process functions
-            ProcessRegex(codeTextbox, text.Text, codeTextbox.CodeTextbox.Document.ContentStart, functionsRegexp, codeTextbox.CodeColor_Function);
+            ProcessRegex(codeTextbox, text.Text, codeTextbox.Document.ContentStart, functionsRegexp, codeTextbox.CodeColor_Function);
 
             // Process plain strings
-            ProcessRegex(codeTextbox, text.Text, codeTextbox.CodeTextbox.Document.ContentStart, stringsRegexp, codeTextbox.CodeColor_PlainText);
+            ProcessRegex(codeTextbox, text.Text, codeTextbox.Document.ContentStart, stringsRegexp, codeTextbox.CodeColor_PlainText);
 
             // Process comments
             if (codeTextbox.CodeWords_Comments.Count>0)
             {
-                ProcessRegex(codeTextbox, text.Text, codeTextbox.CodeTextbox.Document.ContentStart, commentsRegexp, codeTextbox.CodeColor_Comment);
+                ProcessRegex(codeTextbox, text.Text, codeTextbox.Document.ContentStart, commentsRegexp, codeTextbox.CodeColor_Comment);
             }
 
             // Process strings
-            ProcessRegex(codeTextbox, text.Text, codeTextbox.CodeTextbox.Document.ContentStart, chainesRegexp, codeTextbox.CodeColor_Chaine);
+            ProcessRegex(codeTextbox, text.Text, codeTextbox.Document.ContentStart, chainesRegexp, codeTextbox.CodeColor_Chaine);
 
 
 

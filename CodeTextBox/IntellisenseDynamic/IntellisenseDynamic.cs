@@ -36,8 +36,8 @@ namespace Moonlight.IntellisenseDynamic
             }
             #endregion
 
-            string line = RichTextboxHelper.GetCurrentLine(codeTextbox.CodeTextbox);
-            int lineStart = RichTextboxHelper.GetCurrentLineStartIndex(codeTextbox.CodeTextbox);
+            string line = RichTextboxHelper.GetCurrentLine(codeTextbox);
+            int lineStart = RichTextboxHelper.GetCurrentLineStartIndex(codeTextbox);
 
             ProcessLine(codeTextbox, line, lineStart, m_IntellisenseTree);
         }
@@ -213,7 +213,7 @@ namespace Moonlight.IntellisenseDynamic
         }
         private void ProcessSelection(CodeTextBox codeTextbox, int selectionStart, int selectionLength, TreeView m_IntellisenseTree)
         {
-            string text = codeTextbox.CodeTextbox.Selection.Text;
+            string text = codeTextbox.Selection.Text;
 
             // Process the simpleVar
             ProcessRegex(codeTextbox, text, selectionStart, simpleVarRegexp, "simpleVar", "Property", m_IntellisenseTree);
@@ -236,42 +236,42 @@ namespace Moonlight.IntellisenseDynamic
         private void ProcessAllLines(CodeTextBox codeTextbox, TreeView m_IntellisenseTree)
         {
             // Process the simpleVar
-            ProcessRegex(codeTextbox, new TextRange(codeTextbox.CodeTextbox.Document.ContentStart, codeTextbox.CodeTextbox.Document.ContentEnd).Text, 0, simpleVarRegexp, "simpleVar", "Property", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, new TextRange(codeTextbox.Document.ContentStart, codeTextbox.Document.ContentEnd).Text, 0, simpleVarRegexp, "simpleVar", "Property", m_IntellisenseTree);
 
-            ProcessRegex(codeTextbox, new TextRange(codeTextbox.CodeTextbox.Document.ContentStart, codeTextbox.CodeTextbox.Document.ContentEnd).Text, 0, simpleVarFonctionRegexp, "simpleVar", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, new TextRange(codeTextbox.Document.ContentStart, codeTextbox.Document.ContentEnd).Text, 0, simpleVarFonctionRegexp, "simpleVar", "Method", m_IntellisenseTree);
 
             // Process the string
-            ProcessRegex(codeTextbox, new TextRange(codeTextbox.CodeTextbox.Document.ContentStart, codeTextbox.CodeTextbox.Document.ContentEnd).Text, 0, chainesRegexp, "chaine", "Property", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, new TextRange(codeTextbox.Document.ContentStart, codeTextbox.Document.ContentEnd).Text, 0, chainesRegexp, "chaine", "Property", m_IntellisenseTree);
 
-            ProcessRegex(codeTextbox, new TextRange(codeTextbox.CodeTextbox.Document.ContentStart, codeTextbox.CodeTextbox.Document.ContentEnd).Text, 0, chainesFonctionRegexp, "chaine", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, new TextRange(codeTextbox.Document.ContentStart, codeTextbox.Document.ContentEnd).Text, 0, chainesFonctionRegexp, "chaine", "Method", m_IntellisenseTree);
 
             // Process the simpleVar
-            ProcessRegex(codeTextbox, new TextRange(codeTextbox.CodeTextbox.Document.ContentStart, codeTextbox.CodeTextbox.Document.ContentEnd).Text, 0, tableauRegexp, "tab", "Property", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, new TextRange(codeTextbox.Document.ContentStart, codeTextbox.Document.ContentEnd).Text, 0, tableauRegexp, "tab", "Property", m_IntellisenseTree);
 
-            ProcessRegex(codeTextbox, new TextRange(codeTextbox.CodeTextbox.Document.ContentStart, codeTextbox.CodeTextbox.Document.ContentEnd).Text, 0, tableauFonctionRegexp, "tab", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, new TextRange(codeTextbox.Document.ContentStart, codeTextbox.Document.ContentEnd).Text, 0, tableauFonctionRegexp, "tab", "Method", m_IntellisenseTree);
 
             // Process the string
-            ProcessRegex(codeTextbox, new TextRange(codeTextbox.CodeTextbox.Document.ContentStart, codeTextbox.CodeTextbox.Document.ContentEnd).Text, 0, voidFonctionRegexp, "fonctionVoid", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, new TextRange(codeTextbox.Document.ContentStart, codeTextbox.Document.ContentEnd).Text, 0, voidFonctionRegexp, "fonctionVoid", "Method", m_IntellisenseTree);
         }
         private void RemoveInexistant(CodeTextBox codeTextbox, TreeView m_IntellisenseTree)
         {
             // Process the simpleVar
-            RefreshRegex(codeTextbox, new TextRange(codeTextbox.CodeTextbox.Document.ContentStart, codeTextbox.CodeTextbox.Document.ContentEnd).Text, 0, simpleVarRegexp, "simpleVar", "Property", m_IntellisenseTree);
+            RefreshRegex(codeTextbox, new TextRange(codeTextbox.Document.ContentStart, codeTextbox.Document.ContentEnd).Text, 0, simpleVarRegexp, "simpleVar", "Property", m_IntellisenseTree);
 
-            RefreshRegex(codeTextbox, new TextRange(codeTextbox.CodeTextbox.Document.ContentStart, codeTextbox.CodeTextbox.Document.ContentEnd).Text, 0, simpleVarFonctionRegexp, "simpleVar", "Method", m_IntellisenseTree);
+            RefreshRegex(codeTextbox, new TextRange(codeTextbox.Document.ContentStart, codeTextbox.Document.ContentEnd).Text, 0, simpleVarFonctionRegexp, "simpleVar", "Method", m_IntellisenseTree);
 
             // Process the string
-            RefreshRegex(codeTextbox, new TextRange(codeTextbox.CodeTextbox.Document.ContentStart, codeTextbox.CodeTextbox.Document.ContentEnd).Text, 0, chainesRegexp, "chaine", "Property", m_IntellisenseTree);
+            RefreshRegex(codeTextbox, new TextRange(codeTextbox.Document.ContentStart, codeTextbox.Document.ContentEnd).Text, 0, chainesRegexp, "chaine", "Property", m_IntellisenseTree);
 
-            RefreshRegex(codeTextbox, new TextRange(codeTextbox.CodeTextbox.Document.ContentStart, codeTextbox.CodeTextbox.Document.ContentEnd).Text, 0, chainesFonctionRegexp, "chaine", "Method", m_IntellisenseTree);
+            RefreshRegex(codeTextbox, new TextRange(codeTextbox.Document.ContentStart, codeTextbox.Document.ContentEnd).Text, 0, chainesFonctionRegexp, "chaine", "Method", m_IntellisenseTree);
 
             // Process the simpleVar
-            RefreshRegex(codeTextbox, new TextRange(codeTextbox.CodeTextbox.Document.ContentStart, codeTextbox.CodeTextbox.Document.ContentEnd).Text, 0, tableauRegexp, "tab", "Property", m_IntellisenseTree);
+            RefreshRegex(codeTextbox, new TextRange(codeTextbox.Document.ContentStart, codeTextbox.Document.ContentEnd).Text, 0, tableauRegexp, "tab", "Property", m_IntellisenseTree);
 
-            RefreshRegex(codeTextbox, new TextRange(codeTextbox.CodeTextbox.Document.ContentStart, codeTextbox.CodeTextbox.Document.ContentEnd).Text, 0, tableauFonctionRegexp, "tab", "Method", m_IntellisenseTree);
+            RefreshRegex(codeTextbox, new TextRange(codeTextbox.Document.ContentStart, codeTextbox.Document.ContentEnd).Text, 0, tableauFonctionRegexp, "tab", "Method", m_IntellisenseTree);
 
             // Process the string
-            RefreshRegex(codeTextbox, new TextRange(codeTextbox.CodeTextbox.Document.ContentStart, codeTextbox.CodeTextbox.Document.ContentEnd).Text, 0, voidFonctionRegexp, "fonctionVoid", "Method", m_IntellisenseTree);
+            RefreshRegex(codeTextbox, new TextRange(codeTextbox.Document.ContentStart, codeTextbox.Document.ContentEnd).Text, 0, voidFonctionRegexp, "fonctionVoid", "Method", m_IntellisenseTree);
         }
 
 
