@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Icon="resources/Gofus.png"
         
-        Title="Window1" Height="400" Width="525">
+        Title="Authentification" Height="400" Width="525">
     <Grid x:Name="grdAuthetification" Background="Gray" >
         <Grid.RowDefinitions>
             <RowDefinition Height="*" ></RowDefinition>
