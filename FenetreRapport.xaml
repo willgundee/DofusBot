@@ -11,18 +11,17 @@
             <ColumnDefinition Width="294"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="54*"/>
-            <RowDefinition Height="64*"/>
-            <RowDefinition Height="173*"/>
-            <RowDefinition Height="25*"/>
-            <RowDefinition Height="41*"/>
+            <RowDefinition Height="38*"/>
+            <RowDefinition Height="60*"/>
+            <RowDefinition Height="207*"/>
+            <RowDefinition Height="52*"/>
         </Grid.RowDefinitions>
-        <Button x:Name="btnEnvoyer" Content="Envoyer" HorizontalAlignment="Left" VerticalAlignment="Top" Width="274" Margin="10,9,0,0" Grid.Row="4" Height="22" Click="button_Click"/>
+        <Button x:Name="btnEnvoyer" Content="Envoyer" HorizontalAlignment="Left" VerticalAlignment="Top" Width="274" Margin="10,10,0,0" Grid.Row="3" Height="22" Click="button_Click"/>
         <TextBox x:Name="txtNom" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="222" Margin="10,29,0,0" Grid.Row="1"/>
-        <TextBox x:Name="txtCommentaire" HorizontalAlignment="Left" Height="118" TextWrapping="Wrap" VerticalAlignment="Top" Width="274" Margin="10,50,0,0" Grid.Row="2"/>
-        <Label x:Name="lblCommentaire" Content="Commentaire :&#xD;&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Grid.Row="2" Width="128" Height="26"/>
+        <TextBox x:Name="txtCommentaire" HorizontalAlignment="Left" Height="147" TextWrapping="Wrap" VerticalAlignment="Top" Width="274" Margin="10,50,0,0" Grid.Row="2"/>
+        <Label x:Name="lblCommentaire" Content="Commentaire :&#xD;&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,19,0,0" Grid.Row="2" Width="128" Height="26"/>
         <Label x:Name="lblNom" Content="Nom" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,3,0,0" Grid.Row="1" Height="26" Width="36"/>
-        <Label x:Name="label" Content="Signaler un problème ou une suggestion&#xD;&#xA;" HorizontalAlignment="Left" Margin="27,2,0,0" VerticalAlignment="Top" Height="42" Width="226"/>
+        <Label x:Name="label" Content="Signaler un problème ou une suggestion&#xD;&#xA;" HorizontalAlignment="Left" Margin="27,2,0,0" VerticalAlignment="Top" Height="42" Width="226" Grid.RowSpan="2"/>
 
     </Grid>
 </Window>
