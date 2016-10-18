@@ -71,7 +71,7 @@ namespace test
             aTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             aTimer.Interval = new TimeSpan(0, 0, 2);
             
-            dgStats.ItemsSource=
+            //dgStats.ItemsSource=
         }
 
         /*   protected override void OnClosed(EventArgs e)
@@ -763,6 +763,9 @@ namespace test
             System.Windows.Forms.MessageBox.Show(lol.combat(64));
         }
 
+        /// ***************************************************
+        /// / ONGLET OPTIONS
+        // ***************************************************
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             /* Faire un update si toute est legit*/
@@ -813,8 +816,13 @@ namespace test
             Close();
         }
 
+        private void btnSuggestion_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.MessageBox.Show("Bientôt disponnible !");
+        }
 
-        
+        // ***************************************************
+
 
 
         //**************************************************************************************************
