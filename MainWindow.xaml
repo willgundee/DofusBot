@@ -139,7 +139,21 @@
                 </Grid.ColumnDefinitions>
                 <RichTextBox Name="rtb_lineNumber" Grid.Row="0" Grid.Column="0" FontFamily="Courier New" IsReadOnly="True" Block.TextAlignment="Right"></RichTextBox>
                 <UserControl Grid.Row="0" Grid.Column="1">
-                    <wf:CodeTextBox x:Name="ctb_main" FontFamily="Courier New" FontSize="8.5">
+                    <wf:CodeTextBox x:Name="ctb_main" FontFamily="Courier New" Block.LineHeight="1" PreviewKeyDown="rtb_PreviewKeyDown" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <FlowDocument>
+                            <Paragraph>
+                                <TextBlock TextWrapping="NoWrap">
+                                    <InlineUIContainer Unloaded="InlineUIContainer_Unloaded_Debut">
+                                        <TextBlock FontFamily="Courier New" FontSize="14">public void Action(Terrain terrain, Personnage joueur, System.Collections.ObjectModel.ReadOnlyCollection EntiteInconnu> ListEntites){</TextBlock>
+                                    </InlineUIContainer>
+                                </TextBlock>
+                                <TextBlock TextWrapping="NoWrap">
+                                    <InlineUIContainer Unloaded="InlineUIContainer_Unloaded_Fin">
+                                        <TextBlock FontFamily="Courier New" FontSize="14">}</TextBlock>
+                                    </InlineUIContainer>
+                                </TextBlock>
+                            </Paragraph>
+                        </FlowDocument>
                         <wf:CodeTextBox.CodeWords_Keywords>
                             <System:String>abstract</System:String>
                             <System:String>as</System:String>

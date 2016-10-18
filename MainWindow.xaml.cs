@@ -821,6 +821,45 @@ namespace test
             System.Windows.Forms.MessageBox.Show("Bientôt disponnible !");
         }
 
+        private void InlineUIContainer_Unloaded_Debut(object sender, RoutedEventArgs e)
+        {
+            (sender as InlineUIContainer).Unloaded -= new RoutedEventHandler(InlineUIContainer_Unloaded_Debut);
+
+            TextBlock tb = new TextBlock();
+            tb.FontFamily = new FontFamily("Courier New");
+            tb.FontSize = 14;
+            tb.Text = "public void Action(Terrain terrain, Personnage joueur, System.Collections.ObjectModel.ReadOnlyCollection<EntiteInconnu> ListEntites){";
+
+            TextPointer tp = ctb_main.CaretPosition.GetInsertionPosition(LogicalDirection.Forward);
+            InlineUIContainer iuic = new InlineUIContainer(tb, tp);
+            iuic.Unloaded += new RoutedEventHandler(InlineUIContainer_Unloaded_Debut);
+        }
+
+        private void InlineUIContainer_Unloaded_Fin(object sender, RoutedEventArgs e)
+        {
+            (sender as InlineUIContainer).Unloaded -= new RoutedEventHandler(InlineUIContainer_Unloaded_Fin);
+
+            TextBlock tb = new TextBlock();
+            tb.FontFamily = new FontFamily("Courier New");
+            tb.FontSize = 14;
+            tb.Text = "}";
+
+            TextPointer tp = ctb_main.CaretPosition.GetInsertionPosition(LogicalDirection.Forward);
+            InlineUIContainer iuic = new InlineUIContainer(tb, tp);
+            iuic.Unloaded += new RoutedEventHandler(InlineUIContainer_Unloaded_Fin);
+        }
+
+        private void rtb_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                var newPointer = ctb_main.Selection.Start.InsertLineBreak();
+                ctb_main.Selection.Select(newPointer, newPointer);
+
+                e.Handled = true;
+            }
+        }
+
         // ***************************************************
 
 

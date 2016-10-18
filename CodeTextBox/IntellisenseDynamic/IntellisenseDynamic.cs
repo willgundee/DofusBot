@@ -208,7 +208,7 @@ namespace Moonlight.IntellisenseDynamic
 
             ProcessRegex(codeTextbox, line, lineStart, tableauFonctionRegexp, "tab", "Method", m_IntellisenseTree);
             
-            // Process the string
+            // Process the void
             ProcessRegex(codeTextbox, line, lineStart, voidFonctionRegexp, "fonctionVoid", "Method", m_IntellisenseTree);
         }
         private void ProcessSelection(CodeTextBox codeTextbox, int selectionStart, int selectionLength, TreeView m_IntellisenseTree)
