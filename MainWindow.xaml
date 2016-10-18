@@ -369,23 +369,23 @@
             </Grid.ColumnDefinitions>
             <Label HorizontalAlignment="Center" FontSize="25" Margin="207.007,0,230.853,506" Width="118" Grid.Column="1">Options</Label>
             <Label x:Name="lbl_nom" Content="Nom d'utilisateur&#xD;&#xA;" HorizontalAlignment="Left" Margin="220.007,77,0,0" VerticalAlignment="Top" Height="26" Width="108" Grid.Column="1"/>
-            <TextBox x:Name="txt_nom" HorizontalAlignment="Left"  Height="22" Margin="220.007,108,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="193" IsEnabled="False" Grid.Column="1" />
+            <TextBox x:Name="txt_nom" HorizontalAlignment="Left"  Height="22" Margin="220.007,108,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="260" IsEnabled="False" Grid.Column="1" />
             <Label x:Name="lbl_Courriel" Content="Nouveau Courriel" HorizontalAlignment="Left" Margin="17,210,0,0" VerticalAlignment="Top" Height="26" Width="109" Grid.Column="1"/>
-            <TextBox x:Name="txt_Courriel" HorizontalAlignment="Left" Height="24"  TextWrapping="Wrap" VerticalAlignment="Center" Width="238" Margin="17,396,0,140" Grid.Column="1"/>
+            <TextBox x:Name="txt_Courriel" HorizontalAlignment="Left" Height="24"  TextWrapping="Wrap" VerticalAlignment="Center" Width="238" Margin="17.007,241,0,295" Grid.Column="1"/>
             <Label x:Name="lbl_Mdp" Content="Nouveau Mot de passe&#xA;" HorizontalAlignment="Left" Margin="17,293,0,239" VerticalAlignment="Center" Height="28" Width="166" Grid.Column="1"/>
             <PasswordBox x:Name="txt_mdp" Height="24" Margin="17,326,0,210"  VerticalAlignment="Center"  HorizontalAlignment="Left" Width="238" Grid.Column="1"/>
             <Label x:Name="lbl_Confirmation" Grid.Column="1" Content="Confimation de mot de passe" HorizontalAlignment="Left" Margin="17,0,0,169" VerticalAlignment="Bottom" Height="26" Width="166"/>
-            <PasswordBox x:Name="txtConfirmation" Grid.Column="1" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="200" Margin="17,236,0,0"/>
-            <Image x:Name="image" Grid.Column="1" HorizontalAlignment="Left" Height="122" Margin="0,36,0,0" VerticalAlignment="Top" Width="164">
+            <PasswordBox x:Name="txtConfirmation" Grid.Column="1" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="200" Margin="17.007,396,0,0"/>
+            <Image x:Name="image" Grid.Column="1" HorizontalAlignment="Left" Height="122" Margin="19.007,41,0,0" VerticalAlignment="Top" Width="164">
                 <Image.Effect>
                     <DropShadowEffect BlurRadius="9" Direction="314" ShadowDepth="9"/>
                 </Image.Effect>
             </Image>
-            <Button x:Name="btnAnnuler" Content="Annuler" Grid.Column="1" HorizontalAlignment="Left" Margin="148,445,0,0" VerticalAlignment="Top" Width="90" RenderTransformOrigin="0.495,-0.136" Click="btnAnnuler_Click"/>
-            <Button x:Name="btnSuggestion" Content="Suggestions/Problèmes" Grid.Column="1" HorizontalAlignment="Left" Margin="385,445,0,0" VerticalAlignment="Top" Width="161" />
-            <Button x:Name="btnDeconnexion" Content="Déconnexion" Grid.Column="1" HorizontalAlignment="Left" Margin="253,445,0,0" VerticalAlignment="Top" Width="96" Click="btnDeconnexion_Click" />
-            <Button x:Name="btnSave" Content="Sauvegarder" Grid.Column="1" HorizontalAlignment="Left" Margin="17,445,0,0" VerticalAlignment="Top" Width="109" Click="btnSave_Click"/>
-            <Label x:Name="label" Content="Changer d'avatar" Grid.Column="1" HorizontalAlignment="Left" Margin="17,10,0,0" VerticalAlignment="Top"/>
+            <Button x:Name="btnAnnuler" Content="Annuler" Grid.Column="1" HorizontalAlignment="Left" Margin="151.007,492,0,0" VerticalAlignment="Top" Width="90" RenderTransformOrigin="0.495,-0.136" Click="btnAnnuler_Click"/>
+            <Button x:Name="btnSuggestion" Content="Suggestions/Problèmes" Grid.Column="1" HorizontalAlignment="Left" Margin="385.007,492,0,0" VerticalAlignment="Top" Width="161" />
+            <Button x:Name="btnDeconnexion" Content="Déconnexion" Grid.Column="1" HorizontalAlignment="Left" Margin="269.007,492,0,0" VerticalAlignment="Top" Width="96" Click="btnDeconnexion_Click" />
+            <Button x:Name="btnSave" Content="Sauvegarder" Grid.Column="1" HorizontalAlignment="Left" Margin="17.007,492,0,0" VerticalAlignment="Top" Width="109" Click="btnSave_Click"/>
+            <Label x:Name="label" Content="Changer d'avatar" Grid.Column="1" HorizontalAlignment="Left" Margin="19.007,14,0,0" VerticalAlignment="Top"/>
         </Grid>
 
     </TabItem>
