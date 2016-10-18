@@ -31,7 +31,7 @@ namespace test
 
             ScriptEntite = new Script(script);
 
-            // ClasseEntite = new Classe(ClasseE);
+          //  ClasseEntite = new Classe(ClasseE);
 
             ListeStat = new ObservableCollection<Statistique>();
             foreach (List<String> stat in stats )           
