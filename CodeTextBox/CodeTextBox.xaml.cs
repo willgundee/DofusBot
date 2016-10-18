@@ -17,14 +17,13 @@ namespace Moonlight
     /// <summary>
     /// Logique d'interaction pour CodeTextBox.xaml
     /// </summary>
-    public partial class CodeTextBox : UserControl
+    public partial class CodeTextBox : RichTextBox
     {
         #region Members
 
         private SyntaxHighlighter m_SyntaxHighLighter = new SyntaxHighlighter();
         private IntellisenseDynamics m_IntellisenseDynamic = new IntellisenseDynamics();
         private IntellisenseManager m_IntellisenseManager;
-        private RichTextBox mp_CodeTextBox;
         private ListBox mp_IntellisenseBox;
         private System.Windows.Forms.TreeView mp_IntellisenseTree;
 
@@ -258,13 +257,6 @@ namespace Moonlight
             get { return mp_IntellisenseTree; }
             set { mp_IntellisenseTree = value; }
         }
-        
-        [Browsable(true), Category("CodeTexbox"), Description("Gets or Sets the intellisense item tree.")]
-        public RichTextBox CodeTextbox
-        {
-            get { return mp_CodeTextBox; }
-            set { mp_CodeTextBox = value; }
-        }
         #endregion
 
         #region Internal Properties
@@ -290,14 +282,13 @@ namespace Moonlight
         #region Constructors
         public CodeTextBox()
         {
-            mp_CodeTextBox = new RichTextBox();
             //Set some defaults...
-            AddChild(mp_CodeTextBox);
-            mp_CodeTextBox.HorizontalAlignment = HorizontalAlignment.Stretch;
-            mp_CodeTextBox.VerticalAlignment = VerticalAlignment.Stretch;
-            mp_CodeTextBox.AcceptsTab = true;
-            mp_CodeTextBox.FontFamily = new System.Windows.Media.FontFamily("Courier New");
-            mp_CodeTextBox.FontSize = 13;
+            AddLogicalChild(IntellisenseBox);
+            HorizontalAlignment = HorizontalAlignment.Stretch;
+            VerticalAlignment = VerticalAlignment.Stretch;
+            AcceptsTab = true;
+            FontFamily = new System.Windows.Media.FontFamily("Courier New");
+            FontSize = 13;
 
             // TODO
             //
@@ -308,7 +299,7 @@ namespace Moonlight
 
             //this.DetectUrls = false;
             //this.WordWrap = false;
-            mp_CodeTextBox.AutoWordSelection = true;
+            AutoWordSelection = true;
 
             #region Instantiate Syntax highlightning and Intellisense members
             //Instantiate word lists
@@ -379,7 +370,7 @@ namespace Moonlight
             tb.FontSize = 8.5;
             tb.Text = "This line of text is not editable.";
 
-            TextPointer tp = mp_CodeTextBox.CaretPosition.GetInsertionPosition(LogicalDirection.Forward);
+            TextPointer tp = CaretPosition.GetInsertionPosition(LogicalDirection.Forward);
             InlineUIContainer iuic = new InlineUIContainer(tb, tp);
             iuic.Unloaded += new RoutedEventHandler(InlineUIContainer_Unloaded);
         }
@@ -388,8 +379,8 @@ namespace Moonlight
         {
             if (e.Key == Key.Enter)
             {
-                var newPointer = mp_CodeTextBox.Selection.Start.InsertLineBreak();
-                mp_CodeTextBox.Selection.Select(newPointer, newPointer);
+                var newPointer = Selection.Start.InsertLineBreak();
+                Selection.Select(newPointer, newPointer);
 
                 e.Handled = true;
             }
