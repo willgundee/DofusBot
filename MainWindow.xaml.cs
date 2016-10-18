@@ -52,9 +52,7 @@ namespace test
               foreach (List<string> iop in rep)
                   foreach (string item in iop)
                       System.Windows.Forms.MessageBox.Show(item);*/
-
-
-            
+          
             //CombatTest combat = new CombatTest();
             InitializeComponent();
             ctb_main.CreateTreeView(generateTree());
@@ -69,6 +67,8 @@ namespace test
             aTimer = new System.Windows.Threading.DispatcherTimer();
             aTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             aTimer.Interval = new TimeSpan(0, 0, 2);
+            
+            dgStats.ItemsSource=
         }
 
         protected override void OnClosed(EventArgs e)
@@ -761,7 +761,7 @@ namespace test
         }
 
 
-
+        
 
 
         //**************************************************************************************************

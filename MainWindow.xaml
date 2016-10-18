@@ -78,11 +78,10 @@
                               <Button x:Name="btnChance"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,57,20,0" VerticalAlignment="Center" Width="30"/>
                               <Button x:Name="btnAgilite"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,107,20,0" VerticalAlignment="Center" Width="30"/>
                             
-                            <DataGrid x:Name="dgStats" IsReadOnly="True" CanUserSortColumns="False" HorizontalAlignment="Left"  Height="275" Width="225"  VerticalAlignment="Bottom" Margin="5,0,0,60" Grid.RowSpan="2" ItemsSource="{Binding Mode=Default, XPath=/MockObjects/MockObject}" 
-                             AutoGenerateColumns="False">
+                            <DataGrid x:Name="dgStats" IsReadOnly="True" CanUserSortColumns="False" HorizontalAlignment="Left"  Height="275" Width="225"  VerticalAlignment="Bottom" Margin="5,0,0,60" Grid.RowSpan="2"  AutoGenerateColumns="False">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Satistique"  Binding="{Binding XPath=@Stats}" FontSize="16" Width="3*" />
-                                    <DataGridTextColumn Header="Valeur" Binding="{Binding XPath=@Val}" FontSize="16" Width="*"/>
+                                    <DataGridTextColumn Header="Satistique"  Binding="{Binding Statistique}" FontSize="16" Width="3*" />
+                                    <DataGridTextColumn Header="Valeur" Binding="{Binding Valeur}" FontSize="16" Width="*"/>
                                 </DataGrid.Columns>
                               
 
@@ -128,7 +127,7 @@
                 </TabControl>
             </Grid>
         </TabItem>
-        <TabItem Header="Éditeur" Height="30">
+        <TabItem Header="Éditeur" Height="30" Margin="-2,0,-1,0" VerticalAlignment="Bottom">
             <Grid x:Name="grd_main">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="7*"/>
