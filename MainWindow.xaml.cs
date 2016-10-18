@@ -14,6 +14,7 @@ using System.Windows.Threading;
 using System.Windows.Input;
 using System.Windows.Documents;
 using System.Windows.Interop;
+using System.Windows.Media;
 
 namespace test
 {
@@ -765,19 +766,30 @@ namespace test
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             /* Faire un update si toute est legit*/
-            if (txt_mdp.Password != "" && txt_mdp == txtConfirmation && txtConfirmation.Password != "")
+            if (txt_mdp.Password != "" && txt_mdp.Password == txtConfirmation.Password && txtConfirmation.Password != "")
             {
                 /* Update */
+                lbl_Mdp.Foreground = new SolidColorBrush(Colors.Black);
+                lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Black);
             }
             else
             {
                 if (txt_mdp.Password == "" && txtConfirmation.Password == "")
                 {
-
+                    /* Aucune modification effectué*/
+                    lbl_Mdp.Foreground = new SolidColorBrush(Colors.Black);
+                    lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Black);
                 }
                 else if (txt_mdp.Password != "")
                 {
                     /* Erreur de confirmation*/
+                    lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Red);
+                    
+                }
+                else if (txt_mdp.Password == "" & txtConfirmation.Password != "")
+                {
+                    /* Mot de passe vide*/
+                    lbl_Mdp.Foreground = new SolidColorBrush(Colors.Red);
                 }
             }
 
@@ -789,6 +801,8 @@ namespace test
             txtConfirmation.Password = "";
             txt_mdp.Password = "";
             txt_Courriel.Text = "";
+            lbl_Mdp.Foreground = new SolidColorBrush(Colors.Black);
+            lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Black);
         }
 
         private void btnDeconnexion_Click(object sender, RoutedEventArgs e)
