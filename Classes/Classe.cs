@@ -14,7 +14,7 @@ namespace test
         public string Description { get; set; }
         private BDService bd =new BDService();
 
-        public Classe(List<string> classe, List<string>[] sorts)
+        public Classe(List<string> classe)
         {
             Nom = classe[1];
             Description = classe[2];
@@ -26,7 +26,7 @@ namespace test
 
         private void addSort(int idClasse)
         {
-            string Sorts = "SELECT * FROM classesSorts c INNER JOIN Sorts s ON s.idSorts Where idClasse="+idClasse ;
+            string Sorts = "SELECT * FROM classesSorts c INNER JOIN Sorts s ON s.idSort = c.idSort Where idClasse=" + idClasse ;
         }
     }
 }
