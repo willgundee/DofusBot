@@ -10,6 +10,7 @@ namespace test
     {
         //TODO: Ajout des conditions
         public List<Statistique> LstStatistiques { get; set; }
+        public List<Condition> LstConditions { get; set; }
         public List<Effet> LstEffet { get; set; }
         public Zone ZonePortee { get; set; }
         public Zone ZoneEffet { get; set; }
@@ -19,6 +20,10 @@ namespace test
         public string NoImg { get; set; }
         public string Type { get; set; }
         public  bool EstArme { get; set; }
+        public int Quantite { get; set; }
+        public int QuantiteEquipe { get; set; }
+        private BDService bd = new BDService();
+
 
         public Dictionary<int, string> DictType = new Dictionary<int, string>()
         {
@@ -41,12 +46,13 @@ namespace test
             Desc = item[7];
         }
         /// <summary>
-        /// Constructeur d'un équipement
+        /// Constructeur d'un équipement non arme
         /// </summary>
         /// <param name="item"> requete des info de l'equipement</param>
         /// <param name="stats">ces stats</param>
         public Equipement(List<string> item, List<string>[] stats)
         {
+
             if (item[2] == "")
                 EstArme = false;
             else
@@ -59,7 +65,7 @@ namespace test
             LstStatistiques = new List<Statistique>();
             foreach (List<string> stat in stats)
                 LstStatistiques.Add(new Statistique(stat[0], Convert.ToInt32(stat[1])));
-
+            addConditions(Convert.ToInt32(item[0]));
         }
         /// <summary>
         /// constructeur d'une arme
@@ -88,11 +94,16 @@ namespace test
             LstEffet = new List<Effet>();
             foreach (List<string> effet in effets)
                 LstEffet.Add( new Effet(effet));
-
-
-
+            addConditions(Convert.ToInt32(item[0]));
         }
-
+        private void addConditions(int idItem)
+        {
+            string cond = "SELECT * FROM Conditions c INNER JOIN ConditionsEquipements ce On ce.idCondition = c.idCondition INNER JOIN TypesStatistiques t ON t.idTypeStatistique = c.idTypeStatistique WHERE idEquipement =" + idItem;
+            List<string>[] conditions = bd.selection(cond);
+            LstConditions = new List<Condition>();
+            foreach (List<string> condition in conditions)
+                LstConditions.Add(new Condition(condition));
+        }
     }
 
 }

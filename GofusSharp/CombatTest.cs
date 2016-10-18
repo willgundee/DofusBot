@@ -1,4 +1,5 @@
 ﻿//csc /target:library /out:GofusSharp.dll *.cs
+using System.Linq;
 namespace GofusSharp
 {
     public class CombatTest
@@ -31,45 +32,23 @@ namespace GofusSharp
             fakePartie();
             for (int i = 0; i < nbTour; i++)
             {
-                Noeud<Entite> EntAtt = PartieTest.ListAttaquants.First;
-                Noeud<Entite> EntDef = PartieTest.ListDefendants.First;
-                while (EntAtt != PartieTest.ListAttaquants.Last.Next && EntDef != PartieTest.ListDefendants.Last.Next)
+                foreach (Entite entite in Liste<Entite>.ConcatAlternate(PartieTest.ListAttaquants, PartieTest.ListDefendants))
                 {
-                    if (EntAtt != PartieTest.ListAttaquants.Last.Next)
-                    {
-                        if (EntAtt.Valeur.Etat == EntiteInconnu.typeEtat.mort)
-                        {
-                            EntAtt = EntAtt.Next;
-                            break;
-                        }
-                        PartieTest.DebuterAction(EntAtt.Valeur);
-                        PartieTest.SyncroniserJoueur();
-                        System.Threading.CancellationTokenSource CTS = new System.Threading.CancellationTokenSource();
-                        System.Threading.CancellationToken CT = CTS.Token;
-                        System.Threading.Tasks.Task t = System.Threading.Tasks.Task.Run(() => { Action(PartieTest.TerrainPartie, EntAtt.Valeur as Personnage, PartieTest.ListEntites); },CT);
-                        int c = 0;
-                        while (!t.IsCompleted && c < 1000000000)
-                            c++;
-                        if (!t.IsCompleted)
-                            CTS.Cancel();
-                        System.Windows.Forms.MessageBox.Show(c.ToString());
+                    if (entite.Etat == EntiteInconnu.typeEtat.mort)
+                        continue;
+                    PartieTest.DebuterAction(entite);
+                    PartieTest.SyncroniserJoueur();
+                    System.Threading.CancellationTokenSource CTS = new System.Threading.CancellationTokenSource();
+                    System.Threading.CancellationToken CT = CTS.Token;
+                    System.Threading.Tasks.Task t = System.Threading.Tasks.Task.Run(() => { Action(PartieTest.TerrainPartie, entite as Personnage, PartieTest.ListEntites.AsReadOnly()); },CT);
+                    int c = 0;
+                    while (!t.IsCompleted && c < 1000000000)
+                        c++;
+                    if (!t.IsCompleted)
+                        CTS.Cancel();
+                    System.Windows.Forms.MessageBox.Show(c.ToString());
+                    PartieTest.SyncroniserJoueur();
 
-                        PartieTest.SyncroniserJoueur();
-                        EntAtt = EntAtt.Next;
-                    }
-                    if (EntDef != PartieTest.ListDefendants.Last.Next)
-                    {
-                        if (EntDef.Valeur.Etat == EntiteInconnu.typeEtat.mort)
-                        {
-                            EntDef = EntDef.Next;
-                            break;
-                        }
-                        PartieTest.DebuterAction(EntDef.Valeur);
-                        PartieTest.SyncroniserJoueur();
-                        Action(PartieTest.TerrainPartie, EntDef.Valeur as Personnage, PartieTest.ListEntites);
-                        PartieTest.SyncroniserJoueur();
-                        EntDef = EntDef.Next;
-                    }
                     bool vivante = false;
                     foreach (Entite entiteAtt in PartieTest.ListAttaquants)
                     {
@@ -96,21 +75,26 @@ namespace GofusSharp
             }
             return "Partie nulle";
         }
-        public void Action(Terrain terrain, Personnage joueur, ListeChainee<EntiteInconnu> ListEntites)
+        public void Action(Terrain terrain, Personnage joueur, System.Collections.ObjectModel.ReadOnlyCollection<EntiteInconnu> ListEntites)
         {
-            
-            Noeud<EntiteInconnu> entite = ListEntites.First;
-            while (entite.Valeur.Equipe == joueur.Equipe)
-                entite = entite.Next;
-            if (terrain.DistanceEntreCases(joueur.Position, entite.Valeur.Position) > 1)
+            EntiteInconnu ennemi = null;
+            foreach (EntiteInconnu entite in ListEntites)
+            {
+                if (entite.Equipe != joueur.Equipe)
+                {
+                    ennemi = entite;
+                    break;
+                }
+            }
+            if (terrain.DistanceEntreCases(joueur.Position, ennemi.Position) > 1)
             {
                 int result = 1;
                 while (result != 0 && result != -1)
                 {
-                    result = joueur.AvancerVers(terrain.CheminEntreCases(joueur.Position, entite.Valeur.Position).First.Next.Valeur, 1);
+                    result = joueur.AvancerVers(terrain.CheminEntreCases(joueur.Position, ennemi.Position).First(), 1);
                 }
             }
-            joueur.Attaquer(entite.Valeur);
+            joueur.Attaquer(ennemi);
         }
 
         public void Action(Terrain terrain, Entite joueur, System.Collections.Generic.IEnumerator<EntiteInconnu> ListEntites)
@@ -127,16 +111,16 @@ namespace GofusSharp
 
         private void fakePartie()
         {
-            ListeChainee<Statistique> listStatistiqueAtt = new ListeChainee<Statistique>();
-            listStatistiqueAtt.AjouterFin(new Statistique(Statistique.type.PA, 6));
-            listStatistiqueAtt.AjouterFin(new Statistique(Statistique.type.PM, 3));
-            listStatistiqueAtt.AjouterFin(new Statistique(Statistique.type.vie, 100));
-            listStatistiqueAtt.AjouterFin(new Statistique(Statistique.type.initiative, 101));
-            listStatistiqueAtt.AjouterFin(new Statistique(Statistique.type.force, 30));
-            listStatistiqueAtt.AjouterFin(new Statistique(Statistique.type.sagesse, 40));
-            listStatistiqueAtt.AjouterFin(new Statistique(Statistique.type.intelligence, 20));
-            listStatistiqueAtt.AjouterFin(new Statistique(Statistique.type.agilite, 10));
-            listStatistiqueAtt.AjouterFin(new Statistique(Statistique.type.chance, 50));
+            Liste<Statistique> listStatistiqueAtt = new Liste<Statistique>();
+            listStatistiqueAtt.Add(new Statistique(Statistique.type.PA, 6));
+            listStatistiqueAtt.Add(new Statistique(Statistique.type.PM, 3));
+            listStatistiqueAtt.Add(new Statistique(Statistique.type.vie, 100));
+            listStatistiqueAtt.Add(new Statistique(Statistique.type.initiative, 101));
+            listStatistiqueAtt.Add(new Statistique(Statistique.type.force, 30));
+            listStatistiqueAtt.Add(new Statistique(Statistique.type.sagesse, 40));
+            listStatistiqueAtt.Add(new Statistique(Statistique.type.intelligence, 20));
+            listStatistiqueAtt.Add(new Statistique(Statistique.type.agilite, 10));
+            listStatistiqueAtt.Add(new Statistique(Statistique.type.chance, 50));
             Script scriptAtt = new Script(1, "//PlaceHolder");
             Effet[] tabEffetAtt1 = new Effet[] { new Effet(Effet.type.teleportation, 0, 0) };
             Zone zoneEffetAtt1 = new Zone(Zone.type.carre, 0, 0);
@@ -148,16 +132,16 @@ namespace GofusSharp
             Classe classeAtt = new Classe(1, tabSortAtt, Classe.type.iop);
             Statistique[] statItemAtt = new Statistique[] { new Statistique(Statistique.type.force, 70) };
             Equipement[] tabEquipAtt = new Equipement[] { new Equipement(1, statItemAtt, "Coiffe bouftou", Equipement.type.chapeau) };
-            ListeChainee<Statistique> listStatistiqueDef = new ListeChainee<Statistique>();
-            listStatistiqueDef.AjouterFin(new Statistique(Statistique.type.PA, 6));
-            listStatistiqueDef.AjouterFin(new Statistique(Statistique.type.PM, 3));
-            listStatistiqueDef.AjouterFin(new Statistique(Statistique.type.vie, 100));
-            listStatistiqueDef.AjouterFin(new Statistique(Statistique.type.initiative, 101));
-            listStatistiqueDef.AjouterFin(new Statistique(Statistique.type.force, 30));
-            listStatistiqueDef.AjouterFin(new Statistique(Statistique.type.sagesse, 40));
-            listStatistiqueDef.AjouterFin(new Statistique(Statistique.type.intelligence, 20));
-            listStatistiqueDef.AjouterFin(new Statistique(Statistique.type.agilite, 10));
-            listStatistiqueDef.AjouterFin(new Statistique(Statistique.type.chance, 50));
+            Liste<Statistique> listStatistiqueDef = new Liste<Statistique>();
+            listStatistiqueDef.Add(new Statistique(Statistique.type.PA, 6));
+            listStatistiqueDef.Add(new Statistique(Statistique.type.PM, 3));
+            listStatistiqueDef.Add(new Statistique(Statistique.type.vie, 100));
+            listStatistiqueDef.Add(new Statistique(Statistique.type.initiative, 101));
+            listStatistiqueDef.Add(new Statistique(Statistique.type.force, 30));
+            listStatistiqueDef.Add(new Statistique(Statistique.type.sagesse, 40));
+            listStatistiqueDef.Add(new Statistique(Statistique.type.intelligence, 20));
+            listStatistiqueDef.Add(new Statistique(Statistique.type.agilite, 10));
+            listStatistiqueDef.Add(new Statistique(Statistique.type.chance, 50));
             Script scriptDef = new Script(2, "//PlaceHolder");
             Effet[] tabEffetDef1 = new Effet[] { new Effet(Effet.type.teleportation, 0, 0) };
             Zone zoneEffetDef1 = new Zone(Zone.type.carre, 0, 0);
@@ -170,10 +154,10 @@ namespace GofusSharp
             Statistique[] statItemDef = new Statistique[] { new Statistique(Statistique.type.force, 70) };
             Equipement[] tabEquipDef = new Equipement[] { new Equipement(1, statItemDef, "Coiffe bouftou", Equipement.type.chapeau), new Arme(2, statItemAtt, "Marteau bouftous", Equipement.type.arme, tabEffetAtt2, zonePorteeAtt2, zoneEffetAtt2, Arme.typeArme.marteau) };
             Terrain terrain = new Terrain(10, 5);
-            ListeChainee<Entite> ListAttaquants = new ListeChainee<Entite>();
-            ListAttaquants.AjouterFin(new Personnage(10, classeAtt, "Trebor", 10000, EntiteInconnu.type.attaquant, listStatistiqueAtt, scriptAtt, tabEquipAtt, terrain));
-            ListeChainee<Entite> ListDefendants = new ListeChainee<Entite>();
-            ListDefendants.AjouterFin(new Personnage(11, classeDef, "Robert", 9000, EntiteInconnu.type.defendant, listStatistiqueDef, scriptDef, tabEquipDef, terrain));
+            Liste<Entite> ListAttaquants = new Liste<Entite>();
+            ListAttaquants.Add(new Personnage(10, classeAtt, "Trebor", 10000, EntiteInconnu.type.attaquant, listStatistiqueAtt, scriptAtt, tabEquipAtt, terrain));
+            Liste<Entite> ListDefendants = new Liste<Entite>();
+            ListDefendants.Add(new Personnage(11, classeDef, "Robert", 9000, EntiteInconnu.type.defendant, listStatistiqueDef, scriptDef, tabEquipDef, terrain));
             PartieTest = new Partie(1, ListAttaquants, ListDefendants);
         }
 

@@ -120,7 +120,7 @@
     <Compile Include="GofusSharp\Entite.cs" />
     <Compile Include="GofusSharp\Envoutement.cs" />
     <Compile Include="GofusSharp\Equipement.cs" />
-    <Compile Include="GofusSharp\ListeChainee.cs" />
+    <Compile Include="GofusSharp\Liste.cs" />
     <Compile Include="GofusSharp\Math.cs" />
     <Compile Include="GofusSharp\Noeud.cs" />
     <Compile Include="GofusSharp\Partie.cs" />
