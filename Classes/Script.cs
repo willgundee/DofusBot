@@ -10,10 +10,12 @@ namespace test
     {
         public string Code { get; set; }
         public string Nom { get; set; }
+        public string Uuid { get; set; }
         public Script(List<string> c)
         {
             Code = c[1];
             Nom = c[2];
+            Uuid = c[3];
         }
     }
 }
