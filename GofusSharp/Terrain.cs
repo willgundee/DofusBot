@@ -1,4 +1,5 @@
-﻿namespace GofusSharp
+﻿using System.Linq;
+namespace GofusSharp
 {
     public class Terrain
     {
@@ -67,22 +68,22 @@
             }
         }
 
-        public ListeChainee<Case> CheminEntreCases(Case Depart, Case Destination)
+        public Liste<Case> CheminEntreCases(Case Depart, Case Destination)
         {
-            ListeChainee<CaseAStar> fermee = new ListeChainee<CaseAStar>();
-            ListeChainee<CaseAStar> ouverte = new ListeChainee<CaseAStar>();
-            ouverte.AjouterFin(new CaseAStar(Depart, 0, DistanceEntreCases(Depart, Destination)));
+            Liste<CaseAStar> fermee = new Liste<CaseAStar>();
+            Liste<CaseAStar> ouverte = new Liste<CaseAStar>();
+            ouverte.Add(new CaseAStar(Depart, 0, DistanceEntreCases(Depart, Destination)));
 
             while (ouverte.Count != 0)
             {
-                CaseAStar courant = ouverte.First.Valeur;
+                CaseAStar courant = ouverte.First();
                 foreach (CaseAStar score in ouverte)
                     if (score.Score_f < courant.Score_f)
                         courant = score;
                 if (courant.LaCase == Destination)
                     return ReconstruireChemin(courant);
-                ouverte.Enlever(courant);
-                fermee.AjouterFin(courant);
+                ouverte.Remove(courant);
+                fermee.Add(courant);
                 foreach (Case voisin in CaseVoisines(courant.LaCase))
                 {
                     bool estFermer = false;
@@ -104,7 +105,7 @@
                     if (caseVoisineExistante == null)
                     {
                         caseVoisineExistante = new CaseAStar(voisin);
-                        ouverte.AjouterFin(caseVoisineExistante);
+                        ouverte.Add(caseVoisineExistante);
                     }
                     else if (tentative_score_g >= caseVoisineExistante.Score_g)
                         continue;
@@ -115,12 +116,12 @@
             }
             return null;
         }
-        private ListeChainee<Case> ReconstruireChemin(CaseAStar Courant)
+        private Liste<Case> ReconstruireChemin(CaseAStar Courant)
         {
-            ListeChainee<Case> chemin = new ListeChainee<Case>();
+            Liste<Case> chemin = new Liste<Case>();
             while (Courant != null)
             {
-                chemin.AjouterDebut(Courant.LaCase);
+                chemin.Insert(0, Courant.LaCase);
                 Courant = Courant.viensDe;
             }
             return chemin;

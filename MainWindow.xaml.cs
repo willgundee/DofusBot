@@ -763,6 +763,9 @@ namespace test
             System.Windows.Forms.MessageBox.Show(lol.combat(64));
         }
 
+        /// ***************************************************
+        /// / ONGLET OPTIONS
+        // ***************************************************
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             /* Faire un update si toute est legit*/
@@ -813,8 +816,13 @@ namespace test
             Close();
         }
 
+        private void btnSuggestion_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.MessageBox.Show("Bientôt disponnible !");
+        }
 
-        
+        // ***************************************************
+
 
 
         //**************************************************************************************************
