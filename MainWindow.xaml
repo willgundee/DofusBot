@@ -10,7 +10,7 @@
         x:Class="test.MainWindow"
         mc:Ignorable="d"
      Icon="resources/Gofus.png"
-        Title="Gofus" Height="600" Width="700">
+        Title="Gofus" Height="600" Width="700" ResizeMode="NoResize">
 
     <!--HARD CODE dsStats-->
     <Window.Resources>
