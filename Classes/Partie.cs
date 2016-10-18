@@ -8,5 +8,8 @@ namespace test
 {
     public class Partie
     {
+        public int seed { get; set; }
+
+
     }
 }
