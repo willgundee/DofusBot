@@ -25,6 +25,8 @@ namespace test
             InitializeComponent();
         }
 
+      
+
         private bool valide(List<string>[] hh)
         {
             if (!(hh[0][3] == txtMDP.Password))
