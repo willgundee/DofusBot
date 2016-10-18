@@ -20,8 +20,9 @@ namespace test
         public bool PorteeModifiable { get; set; }
         public int TauxDeRelance { get; set; }
         public int PointActionRequis { get; set; }
-
       
+
+
 
         public Sort(List<string> Sorts ,List<string>[] effets, List<string> zonePorte, List<string> zoneEffet)
         {
