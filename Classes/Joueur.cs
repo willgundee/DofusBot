@@ -16,7 +16,7 @@ namespace test
         public int Kamas { get; set; }
         public int Avatar { get; set; }
 
-        public Joueur()
+        public Joueur(List<string> infoUser)
         {
 
         }
