@@ -903,7 +903,7 @@ namespace test
                     return i;
             if (exp > dictLvl[200])
                 return 200;
-            return -1;
+            return 0;//si tout fucktop
         }
 
         private System.Windows.Controls.Label CreateLbl(string content, int row, int col)
