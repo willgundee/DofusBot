@@ -889,16 +889,30 @@ namespace test
 
                 cbScript.SelectedItem= perso.ScriptEntite.Nom;
 
+
+                dgStats.ItemsSource = perso.LstStats;
+                dgDommage.ItemsSource = perso.LstStats;
+                dgResistance.ItemsSource = perso.LstStats;
+
             }
 
-
-
         }
 
-        private void btnVitalite_Click(object sender, RoutedEventArgs e)
+       
+
+        private void imageCasque_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            PageEquipement Equip = new PageEquipement();
+            Equip.Show();
+        
 
         }
+
+
+
+
+
+
 
 
 
