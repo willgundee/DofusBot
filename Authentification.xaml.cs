@@ -45,6 +45,7 @@ namespace test
 
             if (hh[0][0] != "rien" && valide(hh) == true)
             {
+                
                 MainWindow perso = new MainWindow();
                 perso.Show();
                 this.Close();
