@@ -45,7 +45,7 @@ namespace test
 
             if (hh[0][0] != "rien" && valide(hh) == true)
             {
-                MainWindow perso = new MainWindow();
+                MainWindow perso = new MainWindow(Convert.ToInt32(hh[0][0]));
                 perso.Show();
                 this.Close();
             }

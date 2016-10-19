@@ -45,8 +45,9 @@ namespace test
             Inventaire = new List<Equipement>();
             string equip = "SELECT * FROM equipements e INNER JOIN joueursequipements je ON e.idEquipement = je.idequipement WHERE idJoueur =" + idJoueur;
             List<string>[] items = bd.selection(equip);
-            foreach (List<string> item in items)
-                Inventaire.Add(new Equipement(item));
+            if (items[0][0] != "rien")
+                foreach (List<string> item in items)
+                    Inventaire.Add(new Equipement(item));
         }
         /// <summary>
         /// Pour ajouter les scripts du joueur
@@ -57,8 +58,9 @@ namespace test
             LstScripts = new List<Script>();
             string script = "SELECT idJoueur,contenu,nom,uuid FROM JoueursScripts j INNER JOIN Scripts s ON s.idScript = j.idScript WHERE idJoueur =" + idJoueur;
             List<string>[] scripts = bd.selection(script);
-            foreach (List<string> src in scripts)
-                LstScripts.Add(new Script(src));
+            if (scripts[0][0] != "rien")//TODO: enlever ensuite
+                foreach (List<string> src in scripts)
+                    LstScripts.Add(new Script(src));
         }
         /// <summary>
         /// Pour ajouter les personnages du joueur
@@ -69,8 +71,9 @@ namespace test
             LstEntites = new List<Entite>();
             string entit = "SELECT * FROM entites e INNER JOIN Joueurs j ON j.idJoueur = e.idJoueur WHERE j.idJoueur =" + idJoueur;
             List<string>[] entites = bd.selection(entit);
-            foreach (List<string> ent in entites)
-                LstEntites.Add(new Entite(ent));
+            if (entites[0][0] != "rien")
+                foreach (List<string> ent in entites)
+                    LstEntites.Add(new Entite(ent));
         }
 
     }

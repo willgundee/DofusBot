@@ -41,11 +41,12 @@ namespace test
         public BDService bd = new BDService();
 
         public Chat chat;
+        public Joueur Player { get; set; }
         DispatcherTimer aTimer;
         private ChatWindow fenetreChat;
 
 
-        public MainWindow()
+        public MainWindow(int id)
         {
             /*  BDService bd = new BDService();
               List<string>[] rep = bd.selection("SELECT * FROM classes");
@@ -62,6 +63,7 @@ namespace test
             ctb_main.UpdateSyntaxHightlight();
             ctb_main.UpdateTreeView();
 
+             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = "+id)[0]);
 
             this.chat = new Chat();
             btnEnvoyerMessage.IsEnabled = false;
@@ -72,9 +74,6 @@ namespace test
             aTimer.Interval = new TimeSpan(0, 0, 2);
             //dgStats.ItemsSource=
 
-            #region Testing des classes
-            Joueur me = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = 6")[0]);
-            #endregion
         }
 
         /*   protected override void OnClosed(EventArgs e)
