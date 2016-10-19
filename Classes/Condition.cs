@@ -11,9 +11,13 @@ namespace test
         public Statistique Stat { get; set; }
         public string Signe { get; set; }
 
+        /// <summary>
+        /// Constructeur d'une conditions
+        /// </summary>
+        /// <param name="info">La requête</param>
         public Condition(List<string> info )
         {
-            Stat = new Statistique(info[8], Convert.ToInt32(info[6]));
+            Stat = new Statistique(info);
             Signe = info[2];
         }
     }

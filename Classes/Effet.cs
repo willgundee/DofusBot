@@ -9,7 +9,7 @@ namespace test
     public class Effet
     {
         public enum effet { pousse, pousse_lanceur, tire, tire_lanceur, teleportation, ATT_neutre, ATT_air, ATT_feu, ATT_terre, ATT_eau, envoutement, pose_piege, pose_glyphe, invocation, soin }
-        public Dictionary<effet, string> dictSimple = new Dictionary<effet, string>()
+        private Dictionary<effet, string> dictSimple = new Dictionary<effet, string>()
         #region ddt
         {
             {effet.ATT_air,"Dommage air"},
@@ -33,12 +33,16 @@ namespace test
         public string NomSimplifier { get; set; }
         public int DmgMin { get; set; }
         public int DmgMax { get; set; }
+        /// <summary>
+        /// Constructeur d'un effet
+        /// </summary>
+        /// <param name="ls">La requête</param>
         public Effet(List<string> ls)
         {
-            Nom = (effet)Enum.Parse(typeof(effet), ls[2], true);//convert string to enum
+            Nom = (effet)Enum.Parse(typeof(effet), ls[0], true);//convert string to enum
             NomSimplifier = dictSimple[Nom];
-            DmgMin =Convert.ToInt32(ls[0]);
-            DmgMax =Convert.ToInt32(ls[1]);
+            DmgMin =Convert.ToInt32(ls[1]);
+            DmgMax =Convert.ToInt32(ls[2]);
 
         }
     }

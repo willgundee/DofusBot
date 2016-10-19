@@ -70,8 +70,11 @@ namespace test
             aTimer = new System.Windows.Threading.DispatcherTimer();
             aTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             aTimer.Interval = new TimeSpan(0, 0, 2);
-            
             //dgStats.ItemsSource=
+
+            #region Testing des classes
+            Joueur me = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = 6")[0]);
+            #endregion
         }
 
         /*   protected override void OnClosed(EventArgs e)
@@ -624,6 +627,7 @@ namespace test
         }
 
 
+        #region Marché
 
         private void image_MouseUp(object sender, MouseButtonEventArgs e)
         {
@@ -641,17 +645,11 @@ namespace test
             //SELECT * FROM Equipements e  INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement INNER JOIN StatistiquesEquipements s ON s.idEquipement = e.idEquipement INNER JOIN TypesStatistiques ts ON ts.idTypeStatistique = s.idTypeStatistique INNER JOIN EffetsEquipements ee ON ee.idEquipement = e.idEquipement INNER JOIN Effets et ON et.idEffet = ee.idEffet WHERE e.nom ='Marteau du bouftou'
             imgCurrent.Source = ((Image)sender).Source;
             string nomItem = ((Image)sender).Name.Replace("_", " ");
-            string info = "SELECT * FROM Equipements e INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE e.nom ='" + nomItem + "'";
-            string stats = "SELECT ts.nom ,valeur FROM Equipements e INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement INNER JOIN StatistiquesEquipements s ON s.idEquipement = e.idEquipement INNER JOIN TypesStatistiques ts ON ts.idTypeStatistique = s.idTypeStatistique WHERE e.nom ='" + nomItem + "'";
-            string dmg = "SELECT valeurMin,valeurMax,et.nom FROM Equipements e INNER JOIN EffetsEquipements ee ON ee.idEquipement = e.idEquipement INNER JOIN Effets  et ON et.idEffet = ee.idEffet WHERE e.nom ='" + nomItem + "'";
-            string eft = "SELECT t.nom,z.porteeMin,z.porteeMax FROM Equipements e INNER JOIN Zones z ON z.idZone = e.idZoneEffet INNER JOIN TypesZones t ON t.idTypeZone = z.idTypeZone WHERE e.nom ='" + nomItem + "'";
-            string po = "SELECT t.nom,z.porteeMin,z.porteeMax FROM Equipements e INNER JOIN Zones z ON z.idZone = e.idZonePorte INNER JOIN TypesZones t ON t.idTypeZone = z.idTypeZone WHERE e.nom ='" + nomItem + "'";
+            string info = "SELECT * FROM Equipements  WHERE nom ='" + nomItem + "'";
             /*List<string>[] infoItem = bd.selection(info);
             List<string>[] statsItem = bd.selection(stats);*/
             //set des info dans les champs statics
-            Equipement item = new Equipement(bd.selection(info)[0], bd.selection(stats));
-            if (item.EstArme)
-                item = new Equipement(bd.selection(info)[0], bd.selection(stats), bd.selection(po)[0], bd.selection(eft)[0], bd.selection(dmg));
+            Equipement item = new Equipement(bd.selection(info)[0]);
             lblItem.Content = item.Nom;
             lblPrix.Content = item.Prix;
             txtBDesc.Text = item.Desc;
@@ -670,10 +668,10 @@ namespace test
             }
 
             if (item.EstArme)
-                for (int x = 0; x < item.LstEffet.Count(); x++)
+                for (int x = 0; x < item.LstEffets.Count(); x++)
                 {//ajout des dommages
-                    grdStats.Children.Add(CreateLbl(item.LstEffet[x].NomSimplifier + " :", x, 2));
-                    grdStats.Children.Add(CreateLbl(item.LstEffet[x].DmgMin.ToString() + " à " + item.LstEffet[x].DmgMax.ToString(), x, 3));
+                    grdStats.Children.Add(CreateLbl(item.LstEffets[x].NomSimplifier + " :", x, 2));
+                    grdStats.Children.Add(CreateLbl(item.LstEffets[x].DmgMin.ToString() + " à " + item.LstEffets[x].DmgMax.ToString(), x, 3));
 
                 }
 
@@ -691,8 +689,8 @@ namespace test
         private void TabItemMarche_Selected(object sender, RoutedEventArgs e)
         {
             //TODO: Lorsque plus de données faire un limit/offset et des numero de page
-            string equips = "SELECT * FROM Equipements e INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE idZonePorte IS NULL LIMIT 10 ";
-            string armes = "SELECT * FROM Equipements e INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE idZonePorte IS NOT NULL LIMIT 10";
+            string equips = "SELECT * FROM Equipements WHERE idZonePorte IS NULL LIMIT 10 ";
+            string armes = "SELECT * FROM Equipements WHERE idZonePorte IS NOT NULL LIMIT 10";
             List<string>[] repArmes = bd.selection(armes);
             List<string>[] repEquip = bd.selection(equips);
 
@@ -762,6 +760,7 @@ namespace test
             CombatTest lol = new CombatTest();
             System.Windows.Forms.MessageBox.Show(lol.combat(64));
         }
+#endregion
 
         /// ***************************************************
         /// / ONGLET OPTIONS
