@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace test
 {
-    
+
     public class Entite
     {
 
@@ -19,7 +19,7 @@ namespace test
         public int CapitalLibre { get; set; }
 
         private BDService bd = new BDService();
-        
+
         /// <summary>
         /// Constructeur d'un entité
         /// </summary>
@@ -57,7 +57,7 @@ namespace test
         {
             LstStats = new ObservableCollection<Statistique>();
             string sta = "SELECT t.nom,se.valeur FROM statistiquesentites se INNER JOIN Entites e ON e.idEntite = se.idEntite INNER JOIN TypesStatistiques t ON se.idTypeStatistique = t.idtypestatistique WHERE e.idEntite =" + idEntite;
-            foreach (List<string> stat  in bd.selection(sta))
+            foreach (List<string> stat in bd.selection(sta))
                 LstStats.Add(new Statistique(stat));
         }
         /// <summary>
@@ -69,8 +69,9 @@ namespace test
             LstEquipements = new List<Equipement>();
             string equip = "SELECT * FROM equipements e INNER JOIN equipementsentites ee ON ee.idEquipement = e.idEquipement WHERE ee.idEntite =" + idEntite;
             List<string>[] items = bd.selection(equip);
-            foreach (List<string> item in items)
-                LstEquipements.Add(new Equipement(item));
+            if (items[0][0] != "rien")
+                foreach (List<string> item in items)
+                    LstEquipements.Add(new Equipement(item));
         }
     }
 }
