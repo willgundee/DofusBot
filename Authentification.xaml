@@ -17,10 +17,10 @@
         </Grid.RowDefinitions>
         <Image x:Name="imgLogo" Source="resources/Gofus.png" VerticalAlignment="Top" Height="175" Grid.RowSpan="2" Margin="0,-35,0,0" />
         <Label x:Name="lblNomU" Content="Nom d'utilisateur" Grid.Row="1" HorizontalAlignment="Center"  Height="30" Margin="0,0,0,20" FontSize="16"/>
-        <TextBox x:Name="txtNomU" Height="20" Width="200" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,20" Text="a"></TextBox>
+        <TextBox x:Name="txtNomU" Height="20" Width="200" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,20" Text="francis"></TextBox>
 
         <Label x:Name="lblMDP" Content="Mot de passe" Height="30"  Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="16" Margin="0,75,0,0" Grid.RowSpan="2" />
-        <PasswordBox x:Name="txtMDP"  Height="20" Width="200" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,50" Password="a" ></PasswordBox>
+        <PasswordBox x:Name="txtMDP"  Height="20" Width="200" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,50" Password="mountaindew" ></PasswordBox>
         <Button x:Name="btnConnexion" Content="Connexion" HorizontalAlignment="Center"  Grid.Row="2" VerticalAlignment="Bottom" Margin="30" Width="75" Click="btnConnexion_Click"/>
         <Label VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Row="2" Margin="0,77,0,0" Grid.RowSpan="2">Pas encore inscrit?</Label>
         <Button x:Name="btnInscription" Content="Cliquer ici" HorizontalAlignment="Center" Margin="10" Grid.Row="3" VerticalAlignment="Top" Width="75" Click="btnInscription_Click"/>
