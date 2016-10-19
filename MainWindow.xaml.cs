@@ -859,6 +859,46 @@ namespace test
         }
 
         // ***************************************************
+        //Onglet Personnage
+        // ***************************************************
+
+        private void TabPersonage_Selected(object sender, RoutedEventArgs e)
+        {
+            //le nom du perso
+
+            int nbScript = Player.LstScripts.Count;
+            for(int i=0; i<nbScript;i++)
+            {
+                cbScript.Items.Add(Player.LstScripts[i].Nom); 
+                               
+            }
+
+
+            foreach(Entite perso in Player.LstEntites  )
+            {
+                //todo création de plusieurs onglets personnage
+            ongletPerso.Header = perso.Nom;
+            lblNomClasse.Content = perso.ClasseEntite.Nom;
+                string SourceImgClasse = "resources/"+perso.ClasseEntite.Nom ;
+         
+                BitmapImage path = new BitmapImage();
+                path.BeginInit();
+                path.UriSource = new Uri(SourceImgClasse+".png", UriKind.Relative);
+                path.EndInit();
+                Imgclasse.Source = path;
+
+                cbScript.SelectedItem= perso.ScriptEntite.Nom;
+
+            }
+
+
+
+        }
+
+        private void btnVitalite_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
 
 
 

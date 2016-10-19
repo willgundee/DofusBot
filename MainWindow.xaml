@@ -12,73 +12,50 @@
      Icon="resources/Gofus.png"
         Title="Gofus" Height="600" Width="700" ResizeMode="NoResize">
 
-    <!--HARD CODE dsStats-->
-    <Window.Resources>
-
-        <XmlDataProvider x:Key="MockList"   XPath="/MockObjects/*" >
-            <x:XData >
-                <MockObjects xmlns="">
-                    <MockObject Stats="Points de vie" Val="514"  />
-                    <MockObject Stats="Points d'action" Val="6"  />
-                    <MockObject Stats="Points de mouvement" Val="3"  />
-                    <MockObject Stats="Initiative" Val="150"  />
-                    <MockObject Stats="Vitalité" Val="100"  />
-                    <MockObject Stats="Sagesse" Val="20"  />
-                    <MockObject Stats="Force" Val="150"  />
-                    <MockObject Stats="Inteligence" Val="10"  />
-                    <MockObject Stats="Chance" Val="101"  />
-                    <MockObject Stats="Sagesse" Val="150"  />
-
-                </MockObjects>
-
-            </x:XData>
-        </XmlDataProvider>
-    </Window.Resources>
-    <!---->
-    
-    
     <TabControl TabStripPlacement="Left">
-        <TabItem Header="Personages" Height="30">
-            <Grid x:Name="grd_Perso" DataContext="{Binding Source={StaticResource MockList}}">
+        <TabItem Header="Personages" Height="30" Selector.Selected="TabPersonage_Selected">
+            <Grid x:Name="grd_Perso" >
                 <TabControl x:Name="tCPerso" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="560" Margin="3,1,0,-1" VerticalAlignment="Top" Width="577" Grid.RowSpan="2" >
-                    <TabItem Header="Personage1" Foreground="Black">
+                    <TabItem x:Name="ongletPerso"  Foreground="Black">
                         <Grid Background="Gray">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                
+                                <ColumnDefinition Width="231*"/>
 
-                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="284*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             
-                            <Label Grid.Column="3"  HorizontalAlignment="Center" FontSize="25" Margin="66,0,65,0.02" Content="Équipement"/>
-                            <Rectangle x:Name="rect"   Height="75" Width="75" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Margin="20,30" Fill="#FFF0E9E9"   />
-                            <Image x:Name="Imgclasse" Source="http://www.dofastuces.fr/medias/images/250-250-10-100-8-.png"  Height="75" Width="75" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Margin="20,30"   />
-                            <Label x:Name="lblClasse" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,0" Content="Classe"/>
-                            <Image x:Name="Imgfond" Source="resources/fondEquipement.jpg"  Height="260" Width="283" Grid.RowSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="1,40,0,0" IsHitTestVisible="True" Grid.Column="3" />
-                            <Image x:Name="imageCasque"  Height="40" Width="40" Grid.Column="3" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="87,75,157,0" IsHitTestVisible="True" />
-                            <Image x:Name="imageCape" Height="60" Width="60" Grid.Column="3" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,55,0,0"  />
-                            <Image x:Name="imageArme" Height="60" Width="60" Grid.Column="3" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,55,30,0"  />
-                            <Image x:Name="imageArmure" Height="60" Width="60" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="70,45,155,57.02" />
-                            <Image x:Name="imageAnneau1" Height="40" Width="40" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,65,0,64.02"  />
-                            <Image x:Name="imageAnneau2" Height="40" Width="40" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,65,35,64.02"  />
-                            <Image x:Name="imageBotte" Height="60" Width="60" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="70,90,155,185" Grid.RowSpan="2" />
-                            <Label x:Name="lblScript" Grid.Column="3" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="30,0,0,160" FontSize="15">Script :</Label>
-                            <ComboBox x:Name="cbScript" Grid.Column="3" Grid.Row="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="180" Margin="70,0,0,160"  />
-                            <Label x:Name="lblStats" VerticalAlignment="Center" Margin="5,40,0,0" Content="Statistique" />
-                            <Label x:Name="lblPCap" Content="Point Capital:" Grid.Column="0" Grid.Row="1" VerticalAlignment="Bottom" Margin=" 30" />
-                            <Label x:Name="lblNbPointsC" Width="30" Content="2" Grid.Column="0" Grid.Row="1" VerticalAlignment="Bottom" Margin="0,0,0,30" />
+                            <Label Grid.Column="2"  HorizontalAlignment="Center" FontSize="25" Margin="71,0,70,0.02" Content="Équipement"/>
+                            <Rectangle x:Name="rect"   Height="75" Width="75" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Margin="20,30,0,0" Fill="#FFF0E9E9" Grid.ColumnSpan="2"   />
+                            <Image x:Name="Imgclasse" Height="75" Width="75" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Margin="20,30,0,0" Grid.ColumnSpan="2"   />
+                            <Label x:Name="lblClasse" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,0" Content="Classe : "/>
+                            <Label x:Name="lblNomClasse" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="50,0,0,0"/>
+                            <Image x:Name="Imgfond" Source="resources/fondEquipement.jpg"  Height="260" Width="283" Grid.RowSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="1,40,0,0" IsHitTestVisible="True" Grid.Column="2" />
+                            <Image x:Name="imageCasque"  Height="40" Width="40" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="87,75,157,0" IsHitTestVisible="True" />
+                            <Image x:Name="imageCape" Height="60" Width="60" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5,55,0,0"  />
+                            <Image x:Name="imageArme" Height="60" Width="60" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,55,30,0"  />
+                            <Image x:Name="imageArmure" Height="60" Width="60" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="70,96,154,108.02" />
+                            <Image x:Name="imageAnneau1" Height="40" Width="40" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,112,0,112.02"  />
+                            <Image x:Name="imageAnneau2" Height="40" Width="40" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,112,35,112.02"  />
+                            <Image x:Name="imageBotte" Height="60" Width="60" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="70,187,154,17.02" />
+                            <Label x:Name="lblScript" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="31,36.98,0,197.04" FontSize="15">Script :</Label>
+                            <ComboBox x:Name="cbScript" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="180" Margin="87,40.98,17,201.04"  />
+                            <Label x:Name="lblStats" VerticalAlignment="Center" Margin="5,139,283,99.02" Content="Statistique" Grid.ColumnSpan="3" />
+                            <Label x:Name="lblPCap" Content="Point Capital:" Grid.Column="0" Grid.Row="1" VerticalAlignment="Bottom" Margin="30,0,29,30.04" Grid.ColumnSpan="2" />
+                            <Label x:Name="lblNbPointsC" Width="30" Content="2" Grid.Row="1" VerticalAlignment="Bottom" Margin="75.147,0,126,30.04" Grid.Column="1" />
                            
-                              <Button x:Name="btnVitalite" Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,50,20,0" VerticalAlignment="Top" Width="30"/>
-                              <Button x:Name="btnSagesse"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,75,20,0" VerticalAlignment="Top" Width="30"/>
-                              <Button x:Name="btnForce"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,100,20,0" VerticalAlignment="Top" Width="30"/>
-                              <Button x:Name="btnIntelligence"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,125,20,0" VerticalAlignment="Top" Width="30"/>
-                              <Button x:Name="btnChance"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,57,20,0" VerticalAlignment="Center" Width="30"/>
-                              <Button x:Name="btnAgilite"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,107,20,0" VerticalAlignment="Center" Width="30"/>
+                              <Button x:Name="btnVitalite" Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,49.98,19,0" VerticalAlignment="Top" Width="30" Grid.Column="0" Click="btnVitalite_Click"/>
+                              <Button x:Name="btnSagesse"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,74.98,19,0" VerticalAlignment="Top" Width="30" Grid.Column="0"/>
+                              <Button x:Name="btnForce"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,99.98,19,0" VerticalAlignment="Top" Width="30" Grid.Column="0"/>
+                              <Button x:Name="btnIntelligence"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,124.98,19,0" VerticalAlignment="Top" Width="30" Grid.Column="0"/>
+                              <Button x:Name="btnChance"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,149.98,19,92.04" VerticalAlignment="Center" Width="30" Grid.Column="0"/>
+                              <Button x:Name="btnAgilite"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,174.98,19,67.04" VerticalAlignment="Center" Width="30" Grid.Column="0"/>
                             
-                            <DataGrid x:Name="dgStats" IsReadOnly="True" CanUserSortColumns="False" HorizontalAlignment="Left"  Height="275" Width="225"  VerticalAlignment="Bottom" Margin="5,0,0,60" Grid.RowSpan="2"  AutoGenerateColumns="False">
+                            <DataGrid x:Name="dgStats" IsReadOnly="True" CanUserSortColumns="False" HorizontalAlignment="Left"  Height="303" Width="195"  VerticalAlignment="Bottom" Margin="5,0,0,60.04" Grid.RowSpan="2"  AutoGenerateColumns="False" Grid.ColumnSpan="2">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Satistique"  Binding="{Binding Statistique}" FontSize="16" Width="3*" />
                                     <DataGridTextColumn Header="Valeur" Binding="{Binding Valeur}" FontSize="16" Width="*"/>
@@ -86,12 +63,11 @@
                               
 
                             </DataGrid>
-                            <Label x:Name="lblDommage" Grid.Row="1"  Content="Dommages" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="276,105.98,0,132.04" Grid.ColumnSpan="2"/>
-                            <DataGrid x:Name="dgDommage" IsReadOnly="True" CanUserSortColumns="False"  HorizontalAlignment="Left"  Height="125" Width="140"  VerticalAlignment="Bottom"  ItemsSource="{Binding Mode=Default, XPath=/MockObjects/MockObject}" 
-              AutoGenerateColumns="False" Margin="0,0,0,5" Grid.Row="1" Grid.Column="1">
+                            <Label x:Name="lblDommage" Grid.Row="1"  Content="Dommages" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="225,105,0,135" Grid.ColumnSpan="2" Grid.Column="1"/>
+                            <DataGrid x:Name="dgDommage" IsReadOnly="True" CanUserSortColumns="False"  HorizontalAlignment="Left"  Height="125" Width="140"  VerticalAlignment="Bottom"   AutoGenerateColumns="False" Margin="1,0,0,5" Grid.Row="1" Grid.Column="2">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Type" Binding="{Binding DOM}" Width="1.5*" />
-                                    <DataGridTextColumn Header="Valeur" Binding="{Binding VR}" Width="*"/>
+                                    <DataGridTextColumn Header="Type" Width="1.5*" />
+                                    <DataGridTextColumn Header="Valeur" Width="*"/>
                                 </DataGrid.Columns>
                                 <DataGrid.RowDetailsTemplate>
                                     <DataTemplate>
@@ -100,13 +76,12 @@
                                 </DataGrid.RowDetailsTemplate>
 
                             </DataGrid>
-                            <Label x:Name="lblResistance" Grid.Row="1" Grid.Column="1" Content="Résistances" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="133.5,105.98,80,132.04"></Label>
+                            <Label x:Name="lblResistance" Grid.Row="1" Grid.Column="2" Content="Résistances" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="134,105,80,130"></Label>
 
-                            <DataGrid x:Name="dgResistance" IsReadOnly="True" CanUserSortColumns="False"  HorizontalAlignment="Right"  Height="125" Width="140"  VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Mode=Default,XPath=/MockObjects/MockObject}" 
-              AutoGenerateColumns="False" Margin="0,0,2,5">
+                            <DataGrid x:Name="dgResistance" IsReadOnly="True" CanUserSortColumns="False"  HorizontalAlignment="Right"  Height="125" Width="140"  VerticalAlignment="Bottom" Grid.Column="2" Grid.Row="1" AutoGenerateColumns="False" Margin="0,0,2,5">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Type" Binding="{Binding Statistique}" Width="1.5*" />
-                                    <DataGridTextColumn Header="Valeur" Binding="{Binding valeurStats}" Width="*"/>
+                                    <DataGridTextColumn Header="Type" Width="1.5*" />
+                                    <DataGridTextColumn Header="Valeur" Width="*"/>
                                 </DataGrid.Columns>
                                 <DataGrid.RowDetailsTemplate>
                                     <DataTemplate>
@@ -495,13 +470,13 @@
             <Label x:Name="lblTitreExemple" Content="Recommendation" FontSize="25" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,50,0"/>
             <Label x:Name="lblInfoCourriel" Content="Courriel : AA@AAA.com" FontSize="15" Grid.Row="1" HorizontalAlignment="Right" Width="220" VerticalAlignment="Top" Margin="0,50,50,0"/>
             <Label x:Name="lblMotDePasse" FontSize="15" Grid.Row="1"  Width="220" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,80,50,0">
-            <TextBlock>
+                <TextBlock>
                 Mot de passe:
                 <LineBreak/>
                  -Doit être composé d'au moins <LineBreak/> 8 caractères
                 <LineBreak/>
                  -Doit être composé d'au moins <LineBreak/> 1 Majuscule
-            </TextBlock>
+                </TextBlock>
             </Label>
             <Label x:Name="lblConfirmation" Content="Confirmation :" FontSize="15" Grid.Row="1" HorizontalAlignment="Right" Width="220" VerticalAlignment="Top" Margin="0,190,50,0"/>
             <Label x:Name="lblInfoConfirmation"   FontSize="15" Grid.Row="1" Height="50"  HorizontalAlignment="Right" Width="220" VerticalAlignment="Top" Margin="0,210,50,0">
