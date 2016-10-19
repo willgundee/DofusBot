@@ -332,56 +332,78 @@
                 <Image x:Name="imgKamas" Visibility="Collapsed" Source="resources/kamas.png" HorizontalAlignment="Left" Height="26" Margin="522,215,0,0" VerticalAlignment="Top" Width="38"/>
                 <TabControl x:Name="tCMarche" VerticalAlignment="Center" TabStripPlacement="Left" Height="238" Margin="0,232,0,13" Grid.RowSpan="2" >
 
-                    <TabItem x:Name="tArmes" Header="Armes" Height="50">
-                        <Grid x:Name="grdArmes" Background="#FFE5E5E5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="100*"/>
-                                <RowDefinition Height="100*"/>
-                                <RowDefinition Height="17*"/>
-                            </Grid.RowDefinitions>
-                        </Grid>
-                    </TabItem>
-                    <TabItem x:Name="tEquips" Header="Armures" Height="50">
-                        <Grid x:Name="grdEquips" Background="#FFE5E5E5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="100*"/>
-                                <RowDefinition Height="100*"/>
-                                <RowDefinition Height="17*"/>
-                            </Grid.RowDefinitions>
-                        </Grid>
-                    </TabItem>
-                </TabControl>
-                <Grid x:Name="grdStats" HorizontalAlignment="Left" Height="167" Margin="10,106,0,0" VerticalAlignment="Top" Width="363">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="99*"/>
-                        <ColumnDefinition Width="82*"/>
-                        <ColumnDefinition Width="128*"/>
-                        <ColumnDefinition Width="54*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="1*"/>
-                    </Grid.RowDefinitions>
-                </Grid>
+                <TabItem x:Name="tArmes" Header="Armes" Height="50">
+                    <Grid x:Name="grdArmes" Background="#FFE5E5E5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="100*"/>
+                            <RowDefinition Height="100*"/>
+                            <RowDefinition Height="17*"/>
+                        </Grid.RowDefinitions>
+                    </Grid>
+                </TabItem>
+                <TabItem x:Name="tEquips" Header="Armures" Height="50">
+                    <Grid x:Name="grdEquips" Background="#FFE5E5E5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="100*"/>
+                            <RowDefinition Height="100*"/>
+                            <RowDefinition Height="17*"/>
+                        </Grid.RowDefinitions>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+            <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="171" Margin="10,101,0,0" VerticalAlignment="Top" Width="363">
+                <TabItem Header="Statistiques">
+                    <Grid Background="#FFE5E5E5" x:Name="grdStats">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60*"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="60*"/>
+                            <ColumnDefinition Width="100*"/>
+                        </Grid.ColumnDefinitions>
+
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Conditions">
+                    <Grid Background="#FFE5E5E5" x:Name="grdCond">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="60*"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="60*"/>
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </TabItem>
+            </TabControl>
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="233*"></RowDefinition>
