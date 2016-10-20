@@ -18,7 +18,7 @@ namespace test
         public int Prix { get; set; }
         public string NoImg { get; set; }
         public string Type { get; set; }
-        public  bool EstArme { get; set; }
+        public bool EstArme { get; set; }
         public int Quantite { get; set; }
         public int QuantiteEquipe { get; set; }
 
@@ -33,25 +33,31 @@ namespace test
         /// constructeur d'un équipement ou arme
         /// </summary>
         /// <param name="item">La requête</param>
-        public Equipement(List<string> item)
+        public Equipement(List<string> item, bool complet)
         {
-            addStats(Convert.ToInt32(item[0]));
 
             if (item[2] == "")// si l'idZone est null soit vide c'est une arme
                 EstArme = false;
             else//donc je lui ajoute ses infos
             {
                 EstArme = true;
-                addEffets(Convert.ToInt32(item[0]));
-                addZoneEf(Convert.ToInt32(item[3]));
-                addZonePo(Convert.ToInt32(item[2]));
+                if (complet)
+                {
+                    addEffets(Convert.ToInt32(item[0]));
+                    addZoneEf(Convert.ToInt32(item[3]));
+                    addZonePo(Convert.ToInt32(item[2]));
+                }
             }
             Type = DictType[Convert.ToInt32(item[1])];
             NoImg = item[4];
             Prix = Convert.ToInt32(item[5]);
             Nom = item[6];
             Desc = item[7];
-            addConditions(Convert.ToInt32(item[0]));
+            if (complet)
+            {
+                addStats(Convert.ToInt32(item[0]));
+                addConditions(Convert.ToInt32(item[0]));
+            }
         }
         /// <summary>
         /// ajout des statistiques des items

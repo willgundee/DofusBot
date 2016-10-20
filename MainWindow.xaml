@@ -320,9 +320,8 @@
                 <Button Name="btn_test" Content="test" Grid.Column="1" HorizontalAlignment="Left" Margin="143,33,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="btn_test_Click"/>
             </Grid>
         </TabItem>
-        <TabItem Header="Marché" Height="30" Selector.Unselected="TabItemMarche_Unselected" Selector.Selected="TabItemMarche_Selected">
+        <TabItem Header="Marché" Height="30"  Loaded="TabItemMarche_Loaded" >
             <Grid Margin="2,-5,-5,-18">
-
                 <Image x:Name="imgCurrent" HorizontalAlignment="Left" Height="200" Margin="378,10,0,0" VerticalAlignment="Top" Width="200"/>
                 <Label x:Name="lblPri" Visibility="Hidden" Content="Prix:" HorizontalAlignment="Left" Margin="378,215,0,0" VerticalAlignment="Top" Width="35"/>
                 <Label x:Name="lblPrix"  HorizontalAlignment="Left" Margin="418,215,0,0" VerticalAlignment="Top" Width="99" Height="26"/>
@@ -364,13 +363,11 @@
                                 <RowDefinition Height="100*"/>
                                 <RowDefinition Height="17*"/>
                             </Grid.RowDefinitions>
-
                         </Grid>
                     </TabItem>
                 </TabControl>
-                <TabControl x:Name="tabControlStats"  HorizontalAlignment="Left" Height="171" Margin="10,101,0,0" VerticalAlignment="Top" Width="363">
+                <TabControl x:Name="tabControlStats" Visibility="Hidden" HorizontalAlignment="Left" Height="171" Margin="10,101,0,0" VerticalAlignment="Top" Width="363">
                     <TabItem Header="Statistiques">
-
                         <Grid Background="#FFE5E5E5" x:Name="grdStats">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
@@ -416,7 +413,6 @@
         </TabItem>
         <TabItem Header="Sorts" Height="30">
             <Label HorizontalAlignment="Center" FontSize="25" Grid.Row="0" >Sorts</Label>
-
         </TabItem>
         <TabItem Header="Inventaire" Height="30">
             <Label HorizontalAlignment="Center" FontSize="25">Inventaire</Label>
