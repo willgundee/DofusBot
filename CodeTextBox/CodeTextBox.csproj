@@ -92,6 +92,7 @@
     <Content Include="images\method.gif" />
     <Content Include="images\namespace.gif" />
     <Content Include="images\property.gif" />
+    <None Include="Resources\alain.jpg" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resource.resx">
