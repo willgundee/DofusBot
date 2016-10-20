@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Moonlight
 {
-    public class SynchronizedScrollRichTextBox : System.Windows.Controls.RichTextBox
+    public class SynchronizedScrollRichTextBox : System.Windows.Forms.RichTextBox
     {
     }
 }

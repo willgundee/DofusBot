@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Forms;
 
 namespace Moonlight.Intellisense
@@ -60,18 +58,18 @@ namespace Moonlight.Intellisense
 
 
             //Get top-left coordinate for our intellisenseBox
-            Point topLeft = m_CodeTextBox.GetPositionFromCharIndex(m_CodeTextBox);
+            Point topLeft = m_CodeTextBox.GetPositionFromCharIndex(m_CodeTextBox.SelectionStart);
             topLeft.Offset(-35, 18);
 
             #region Place the intellisense box, to fit the space...
-            if (m_CodeTextBox.Height < (topLeft.Y + m_CodeTextBox.IntellisenseBox.Height))
+            if (m_CodeTextBox.Size.Height < (topLeft.Y + m_CodeTextBox.IntellisenseBox.Height))
             {
-                topLeft.Offset(0, -18 - 18 - (int)m_CodeTextBox.IntellisenseBox.Height);
+                topLeft.Offset(0, -18 - 18 - m_CodeTextBox.IntellisenseBox.Height);
             }
 
-            if (m_CodeTextBox.Width < (topLeft.X + m_CodeTextBox.IntellisenseBox.Width))
+            if (m_CodeTextBox.Size.Width < (topLeft.X + m_CodeTextBox.IntellisenseBox.Width))
             {
-                topLeft.Offset(35 + 15 - (int)m_CodeTextBox.IntellisenseBox.Width, 0);
+                topLeft.Offset(35 + 15 - m_CodeTextBox.IntellisenseBox.Width, 0);
             }
 
             if (topLeft.X < 0)
@@ -85,8 +83,8 @@ namespace Moonlight.Intellisense
             }
             #endregion
 
-            m_CodeTextBox.IntellisenseBox.Margin = new System.Windows.Thickness(topLeft.X, topLeft.Y, topLeft.X + m_CodeTextBox.IntellisenseBox.Width, topLeft.Y + m_CodeTextBox.IntellisenseBox.Height);
-            m_CodeTextBox.IntellisenseBox.Visibility = System.Windows.Visibility.Visible;
+            m_CodeTextBox.IntellisenseBox.Location = topLeft;
+            m_CodeTextBox.IntellisenseBox.Visible = true;
             m_CodeTextBox.Focus();
         }
         /// <summary>
@@ -95,7 +93,7 @@ namespace Moonlight.Intellisense
         public void HideIntellisenseBox()
         {
             m_CodeTextBox.IntellisenseBox.Items.Clear();
-            m_CodeTextBox.IntellisenseBox.Visibility = System.Windows.Visibility.Hidden;
+            m_CodeTextBox.IntellisenseBox.Visible = false;
         }
         /// <summary>
         /// Navigates up in the intellisense box.
@@ -104,7 +102,7 @@ namespace Moonlight.Intellisense
         {
             #region Some checkings for the intellisense box
             //Do nothing if the intellisense is not visible...
-            if (!m_CodeTextBox.IntellisenseBox.IsVisible)
+            if (!m_CodeTextBox.IntellisenseBox.Visible)
             {
                 return;
             }
@@ -131,7 +129,7 @@ namespace Moonlight.Intellisense
         {
             #region Some checkings for the intellisense box
             //Do nothing if the intellisense is not visible...
-            if (!m_CodeTextBox.IntellisenseBox.IsVisible)
+            if (!m_CodeTextBox.IntellisenseBox.Visible)
             {
                 return;
             }
@@ -158,7 +156,7 @@ namespace Moonlight.Intellisense
         {
             #region Some checkings for the intellisense box
             //Do nothing if the intellisense is not visible...
-            if (!m_CodeTextBox.IntellisenseBox.IsVisible)
+            if (!m_CodeTextBox.IntellisenseBox.Visible)
             {
                 return;
             }
@@ -178,7 +176,7 @@ namespace Moonlight.Intellisense
         {
             #region Some checkings for the intellisense box
             //Do nothing if the intellisense is not visible...
-            if (!m_CodeTextBox.IntellisenseBox.IsVisible)
+            if (!m_CodeTextBox.IntellisenseBox.Visible)
             {
                 return;
             }
@@ -198,7 +196,7 @@ namespace Moonlight.Intellisense
         {
             #region Some checkings for the intellisense box
             //Do nothing if the intellisense is not visible...
-            if (!m_CodeTextBox.IntellisenseBox.IsVisible)
+            if (!m_CodeTextBox.IntellisenseBox.Visible)
             {
                 return;
             }
@@ -380,12 +378,16 @@ namespace Moonlight.Intellisense
             }
 
             //Get the actual position
-            TextPointer currentPosition = m_CodeTextBox.CaretPosition;
+            int currentPosition = m_CodeTextBox.SelectionStart;
             //Get the start position of the last word
-            TextPointer lastWordPosition = GetLastWordStartPosition(m_CodeTextBox, m_CodeTextBox.CodeWords_ScopeOperators);
+            int lastWordPosition = GetLastWordStartPosition(m_CodeTextBox, m_CodeTextBox.CodeWords_ScopeOperators);
+
+            //Set selection
+            m_CodeTextBox.SelectionStart = lastWordPosition;
+            m_CodeTextBox.SelectionLength = currentPosition - lastWordPosition;
 
             //Change the word
-            new TextRange(lastWordPosition,currentPosition).Text = wordSelected;
+            m_CodeTextBox.SelectedText = wordSelected;
 
             //Hide the intellisense
             HideIntellisenseBox();
@@ -447,7 +449,7 @@ namespace Moonlight.Intellisense
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        private System.Drawing.Image AssociateImage(TreeNode node)
+        private Image AssociateImage(TreeNode node)
         {
             try
             {
@@ -482,31 +484,31 @@ namespace Moonlight.Intellisense
         /// <param name="richTextbox"></param>
         /// <param name="scopeOperators"></param>
         /// <returns></returns>
-        public TextPointer GetLastWordStartPosition(System.Windows.Controls.RichTextBox richTextbox, List<string> scopeOperators)
+        public int GetLastWordStartPosition(RichTextBox richTextbox, List<string> scopeOperators)
         {
-            TextPointer pos = richTextbox.CaretPosition;
+            int pos = richTextbox.SelectionStart - 1;
             List<string> lastScopeOperatorChars = GetLastCharsOfScopeOperators();
 
             //If the last char was a scope separator, we need the current position...
             if (m_LastCharWasAScopeOperator)
             {
-                return richTextbox.CaretPosition;
+                return richTextbox.SelectionStart;
             }
             try
             {
                 //If we deleted the last char, and arrive at a scope operator...
-                string lastWord = RichTextboxHelper.GetLastWord(richTextbox);
+                string lastWord = RichTextboxHelper.GetLastWord(m_CodeTextBox);
                 string lastChar = lastWord.Substring(lastWord.Length - 1, 1);
                 if (lastScopeOperatorChars.Contains(lastChar))
                 {
-                    return richTextbox.CaretPosition;
+                    return richTextbox.SelectionStart; ;
                 }
             }
             catch { }
 
-            while (pos != null)
+            while (pos > 1)
             {
-                string substr = new TextRange(pos.GetPositionAtOffset(-1),pos).Text;
+                string substr = richTextbox.Text.Substring(pos - 1, 1);
 
                 if (Char.IsWhiteSpace(substr, 0))
                 {
@@ -517,10 +519,10 @@ namespace Moonlight.Intellisense
                     return pos;
                 }
 
-                pos = pos.GetPositionAtOffset(-1);
+                pos--;
             }
 
-            return richTextbox.Document.ContentStart;
+            return 0;
         }
         /// <summary>
         /// Returns the last chars of scope operators

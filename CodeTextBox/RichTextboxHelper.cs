@@ -1,6 +1,5 @@
-﻿using System.Linq;
-using System.Windows.Controls;
-using System.Windows.Documents;
+﻿using System;
+using System.Windows.Forms;
 
 namespace Moonlight
 {
@@ -9,29 +8,54 @@ namespace Moonlight
         #region Methods
         public static string GetLastWord(RichTextBox richTextbox)
         {
-            string Text = new TextRange(richTextbox.Document.ContentStart, richTextbox.Document.ContentEnd).Text;
-            return Text.Split(' ').Last();
+            int pos = richTextbox.SelectionStart;
+
+            while (pos > 1)
+            {
+                string substr = richTextbox.Text.Substring(pos - 1, 1);
+
+                if (Char.IsWhiteSpace(substr, 0))
+                {
+                    return richTextbox.Text.Substring(pos, richTextbox.SelectionStart - pos);
+                }
+
+                pos--;
+            }
+
+            return richTextbox.Text.Substring(0, richTextbox.SelectionStart);
         }
         public static string GetLastLine(RichTextBox richTextbox)
         {
-            string Text = new TextRange(richTextbox.Document.ContentStart, richTextbox.Document.ContentEnd).Text;
-            return Text.Split('\n').Last();
-        }
+            int charIndex = richTextbox.SelectionStart;
+            int currentLineNumber = richTextbox.GetLineFromCharIndex(charIndex);
+
+            // the carriage return hasn't happened yet... 
+            //      so the 'previous' line is the current one.
+            string previousLineText;
+            if (richTextbox.Lines.Length <= currentLineNumber)
+                previousLineText = richTextbox.Lines[richTextbox.Lines.Length - 1];
+            else
+                previousLineText = richTextbox.Lines[currentLineNumber];
+
+            return previousLineText;
+        }       
         public static string GetCurrentLine(RichTextBox richTextbox)
         {
-            string Text = new TextRange(richTextbox.Document.ContentStart, richTextbox.CaretPosition).Text;
-            int nbLigne = Text.Split('\n').Count();
-            Text = new TextRange(richTextbox.Document.ContentStart, richTextbox.Document.ContentEnd).Text;
-            return Text.Split('\n').ElementAt(nbLigne - 1);
-        }
-        public static TextPointer GetTextPointerCurrentLine(RichTextBox richTextbox)
-        {
-            return richTextbox.CaretPosition.GetLineStartPosition(0);
+            int charIndex = richTextbox.SelectionStart;
+            int currentLineNumber = richTextbox.GetLineFromCharIndex(charIndex);
+
+            if (currentLineNumber < richTextbox.Lines.Length)
+            {
+                return richTextbox.Lines[currentLineNumber];
+            }
+            else
+            {
+                return string.Empty;
+            }
         }
         public static int GetCurrentLineStartIndex(RichTextBox richTextbox)
         {
-            string Text = new TextRange(richTextbox.Document.ContentStart, richTextbox.CaretPosition).Text;
-            return Text.LastIndexOf('\n');
+            return richTextbox.GetFirstCharIndexOfCurrentLine();
         }
         #endregion
     }
