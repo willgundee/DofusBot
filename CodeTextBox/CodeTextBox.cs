@@ -1,32 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
+using System.ComponentModel;
 using System.Drawing;
-using System.Windows.Input;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
 using Moonlight.Intellisense;
 using Moonlight.SyntaxHighlight;
 using Moonlight.IntellisenseDynamic;
 using CodeTextBox;
-using System.ComponentModel;
 
 namespace Moonlight
 {
-    /// <summary>
-    /// Logique d'interaction pour CodeTextBox.xaml
-    /// </summary>
-    public partial class CodeTextBox : RichTextBox
+    public partial class CodeTextBox : SSRichTextBox
     {
         #region Members
 
         private SyntaxHighlighter m_SyntaxHighLighter = new SyntaxHighlighter();
         private IntellisenseDynamics m_IntellisenseDynamic = new IntellisenseDynamics();
         private IntellisenseManager m_IntellisenseManager;
-        private ListBox mp_IntellisenseBox;
-        private System.Windows.Forms.TreeView mp_IntellisenseTree;
-
+        private ImageListBox mp_IntellisenseBox;
+        private TreeView mp_IntellisenseTree;
+        private Keys mp_IntellisenseKey = Keys.Space;
+        
         #region Drawing
         /// <summary>
         /// Enables or disables control's painting - internal
@@ -40,35 +35,25 @@ namespace Moonlight
         private List<string> mp_CodeWords_Functions;
         private List<string> mp_CodeWords_Comments;
         private List<string> mp_CodeWords_Chaines;
-
-        internal System.Drawing.Point GetPositionFromCharIndex(RichTextBox codeTextbox)
-        {
-            TextPointer position = codeTextbox.CaretPosition;
-            if (position == null)
-                return new System.Drawing.Point();
-            Rect positionRect = position.GetCharacterRect(LogicalDirection.Forward);
-            return new System.Drawing.Point((int)positionRect.X, (int)positionRect.Y);
-        }
-
         private List<string> mp_CodeWords_ScopeOperators;
         #endregion
 
         #region Syntax highlightning colors
-        private System.Windows.Media.SolidColorBrush mp_CodeColor_Keyword = System.Windows.Media.Brushes.Blue;
-        private System.Windows.Media.SolidColorBrush mp_CodeColor_Type = System.Windows.Media.Brushes.CornflowerBlue;
-        private System.Windows.Media.SolidColorBrush mp_CodeColor_Function = System.Windows.Media.Brushes.CornflowerBlue;
-        private System.Windows.Media.SolidColorBrush mp_CodeColor_Chaine = System.Windows.Media.Brushes.Crimson;
-        private System.Windows.Media.SolidColorBrush mp_CodeColor_Comment = System.Windows.Media.Brushes.Green;
-        private System.Windows.Media.SolidColorBrush mp_CodeColor_PlainText = System.Windows.Media.Brushes.Black;
+        private Color mp_CodeColor_Keyword           = Color.Blue;
+        private Color mp_CodeColor_Type              = Color.CornflowerBlue;
+        private Color mp_CodeColor_Function          = Color.CornflowerBlue;
+        private Color mp_CodeColor_Chaine            = Color.Crimson;
+        private Color mp_CodeColor_Comment           = Color.Green;
+        private Color mp_CodeColor_PlainText         = Color.Black;
         #endregion
 
         #region Intellisense images
-        private System.Drawing.Image mp_CodeImage_Class = Resource._class;
-        private System.Drawing.Image mp_CodeImage_Event = Resource._event;
-        private System.Drawing.Image mp_CodeImage_Interface = Resource._interface;
-        private System.Drawing.Image mp_CodeImage_Method = Resource._method;
-        private System.Drawing.Image mp_CodeImage_Namespace = Resource._namespace;
-        private System.Drawing.Image mp_CodeImage_Property = Resource._property;
+        private Image mp_CodeImage_Class = Resource._class;
+        private Image mp_CodeImage_Event = Resource._event;
+        private Image mp_CodeImage_Interface = Resource._interface;
+        private Image mp_CodeImage_Method = Resource._method;
+        private Image mp_CodeImage_Namespace = Resource._namespace;
+        private Image mp_CodeImage_Property = Resource._property;
         #endregion
 
         #endregion
@@ -81,13 +66,13 @@ namespace Moonlight
         /// Gets or Sets the keywords used for syntax highlightning and intellisense.
         /// </summary>
         [Browsable(true), Category("CodeTexbox"), Description("Gets or Sets the keywords used for syntax highlightning and intellisense.")]
-        [Editor("System.Windows.Forms.Design.StringCollectionEditor, System.Design", "System.Drawing.Design.UITypeEditor, System.Drawing")]
+        [Editor("System.Windows.Forms.Design.StringCollectionEditor, System.Design","System.Drawing.Design.UITypeEditor, System.Drawing")]
         public List<string> CodeWords_Keywords
         {
             get { return mp_CodeWords_Keywords; }
             set { mp_CodeWords_Keywords = value; }
         }
-
+        
         /// <summary>
         /// Gets or Sets the types used for syntax highlightning and intellisense.
         /// </summary>
@@ -98,7 +83,7 @@ namespace Moonlight
             get { return mp_CodeWords_Types; }
             set { mp_CodeWords_Types = value; }
         }
-
+        
         /// <summary>
         /// Gets or Sets the functions used for syntax highlightning and intellisense.
         /// </summary>
@@ -149,7 +134,7 @@ namespace Moonlight
         /// Gets or Sets the color of plain texts for syntax highlightning.
         /// </summary>
         [Browsable(true), Category("CodeTexbox"), Description("Gets or Sets the color of plain texts for syntax highlightning.")]
-        public System.Windows.Media.SolidColorBrush CodeColor_PlainText
+        public Color CodeColor_PlainText
         {
             get { return mp_CodeColor_PlainText; }
             set { mp_CodeColor_PlainText = value; }
@@ -159,7 +144,7 @@ namespace Moonlight
         /// Gets or Sets the color of keywords for syntax highlightning.
         /// </summary>
         [Browsable(true), Category("CodeTexbox"), Description("Gets or Sets the color of keywords for syntax highlightning.")]
-        public System.Windows.Media.SolidColorBrush CodeColor_Keyword
+        public Color CodeColor_Keyword
         {
             get { return mp_CodeColor_Keyword; }
             set { mp_CodeColor_Keyword = value; }
@@ -169,7 +154,7 @@ namespace Moonlight
         /// Gets or Sets the color of types for syntax highlightning.
         /// </summary>
         [Browsable(true), Category("CodeTexbox"), Description("Gets or Sets the color of types for syntax highlightning.")]
-        public System.Windows.Media.SolidColorBrush CodeColor_Type
+        public Color CodeColor_Type
         {
             get { return mp_CodeColor_Type; }
             set { mp_CodeColor_Type = value; }
@@ -179,7 +164,7 @@ namespace Moonlight
         /// Gets or Sets the color of functions for syntax highlightning.
         /// </summary>
         [Browsable(true), Category("CodeTexbox"), Description("Gets or Sets the color of functions for syntax highlightning.")]
-        public System.Windows.Media.SolidColorBrush CodeColor_Function
+        public Color CodeColor_Function
         {
             get { return mp_CodeColor_Function; }
             set { mp_CodeColor_Function = value; }
@@ -189,7 +174,7 @@ namespace Moonlight
         /// Gets or Sets the color of comments for syntax highlightning.
         /// </summary>
         [Browsable(true), Category("CodeTexbox"), Description("Gets or Sets the color of comments for syntax highlightning.")]
-        public System.Windows.Media.SolidColorBrush CodeColor_Comment
+        public Color CodeColor_Comment
         {
             get { return mp_CodeColor_Comment; }
             set { mp_CodeColor_Comment = value; }
@@ -199,7 +184,7 @@ namespace Moonlight
         /// Gets or Sets the color of strings for syntax highlightning.
         /// </summary>
         [Browsable(true), Category("CodeTexbox"), Description("Gets or Sets the color of strings for syntax highlightning.")]
-        public System.Windows.Media.SolidColorBrush CodeColor_Chaine
+        public Color CodeColor_Chaine
         {
             get { return mp_CodeColor_Chaine; }
             set { mp_CodeColor_Chaine = value; }
@@ -208,42 +193,42 @@ namespace Moonlight
 
         #region Intellisense images
         [Browsable(true), Category("CodeTexbox"), Description("Gets or Sets the intellisense image of keywords.")]
-        public System.Drawing.Image CodeImage_Class
+        public Image CodeImage_Class
         {
             get { return mp_CodeImage_Class; }
             set { mp_CodeImage_Class = value; }
         }
 
         [Browsable(true), Category("CodeTexbox"), Description("Gets or Sets the intellisense image of events.")]
-        public System.Drawing.Image CodeImage_Event
+        public Image CodeImage_Event
         {
             get { return mp_CodeImage_Event; }
             set { mp_CodeImage_Event = value; }
         }
 
         [Browsable(true), Category("CodeTexbox"), Description("Gets or Sets the intellisense image of interfaces.")]
-        public System.Drawing.Image CodeImage_Interface
+        public Image CodeImage_Interface
         {
             get { return mp_CodeImage_Interface; }
             set { mp_CodeImage_Interface = value; }
         }
 
         [Browsable(true), Category("CodeTexbox"), Description("Gets or Sets the intellisense image of methods.")]
-        public System.Drawing.Image CodeImage_Method
+        public Image CodeImage_Method
         {
             get { return mp_CodeImage_Method; }
             set { mp_CodeImage_Method = value; }
         }
 
         [Browsable(true), Category("CodeTexbox"), Description("Gets or Sets the intellisense image of namespaces.")]
-        public System.Drawing.Image CodeImage_Namespace
+        public Image CodeImage_Namespace
         {
             get { return mp_CodeImage_Namespace; }
             set { mp_CodeImage_Namespace = value; }
         }
 
         [Browsable(true), Category("CodeTexbox"), Description("Gets or Sets the intellisense image of properties.")]
-        public System.Drawing.Image CodeImage_Property
+        public Image CodeImage_Property
         {
             get { return mp_CodeImage_Property; }
             set { mp_CodeImage_Property = value; }
@@ -252,10 +237,17 @@ namespace Moonlight
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Browsable(true), Category("CodeTexbox"), Description("Gets or Sets the intellisense item tree.")]
-        public System.Windows.Forms.TreeView IntellisenseTree
+        public TreeView IntellisenseTree
         {
             get { return mp_IntellisenseTree; }
             set { mp_IntellisenseTree = value; }
+        }
+
+        [Browsable(true), Category("CodeTexbox"), Description("Gets or Sets the key to open intellisense.")]
+        public Keys IntellisenseKey
+        {
+            get { return mp_IntellisenseKey; }
+            set { mp_IntellisenseKey = value; }
         }
         #endregion
 
@@ -271,7 +263,7 @@ namespace Moonlight
         /// <summary>
         /// Gets the intellisense's ImageListBox
         /// </summary>
-        internal ListBox IntellisenseBox
+        internal ImageListBox IntellisenseBox
         {
             get { return mp_IntellisenseBox; }
         }
@@ -282,52 +274,49 @@ namespace Moonlight
         #region Constructors
         public CodeTextBox()
         {
+            InitializeComponent();
+
             //Set some defaults...
-            //AddLogicalChild(mp_IntellisenseBox);
-            //HorizontalAlignment = HorizontalAlignment.Stretch;
-            //VerticalAlignment = VerticalAlignment.Stretch;
-            //AcceptsTab = true;
-            //FontFamily = new System.Windows.Media.FontFamily("Courier New");
-            //FontSize = 80;
+            this.AcceptsTab = true;
+            this.Font = new Font(FontFamily.GenericMonospace, 8f);
 
             // TODO
             //
             //Do not enable drag and dropping text
             //The same problem, as paste - the onDragDrop event fires, BEFORE the text is written into the textbox
             //Need to be handled in WndPrc
-            //this.EnableAutoDragDrop = false;
-
-            //this.DetectUrls = false;
-            //this.WordWrap = false;
-            AutoWordSelection = true;
+            this.EnableAutoDragDrop = false;
+            
+            this.DetectUrls = false;
+            this.WordWrap = false;
+            this.AutoWordSelection = true;
 
             #region Instantiate Syntax highlightning and Intellisense members
             //Instantiate word lists
-            mp_CodeWords_Keywords = new List<string>();
-            mp_CodeWords_Types = new List<string>();
-            mp_CodeWords_Functions = new List<string>();
-            mp_CodeWords_Comments = new List<string>();
-            mp_CodeWords_ScopeOperators = new List<string>();
-            mp_CodeWords_Chaines = new List<string>();
+            mp_CodeWords_Keywords        = new List<string>();
+            mp_CodeWords_Types           = new List<string>();
+            mp_CodeWords_Functions       = new List<string>();
+            mp_CodeWords_Comments        = new List<string>();
+            mp_CodeWords_ScopeOperators  = new List<string>();
+            mp_CodeWords_Chaines         = new List<string>();
 
             //Instantiate intellisense manager
-            m_IntellisenseManager = new IntellisenseManager(this);
+            m_IntellisenseManager        = new IntellisenseManager(this);
 
             //Instantiate the intellisense box
-            mp_IntellisenseBox = new ListBox();
+            mp_IntellisenseBox           = new ImageListBox();
 
             //Instantiate intellisense tree
-            mp_IntellisenseTree = new System.Windows.Forms.TreeView();
+            mp_IntellisenseTree          = new TreeView();
             #endregion
 
             #region Setup intellisense box
             //Setup intellisense box
-            AddLogicalChild(mp_IntellisenseBox);
-            mp_IntellisenseBox.Width = 250;
-            mp_IntellisenseBox.Width = 150;
-            mp_IntellisenseBox.Visibility = Visibility.Hidden;
+            this.Controls.Add(mp_IntellisenseBox);
+            mp_IntellisenseBox.Size = new Size(250, 150);
+            mp_IntellisenseBox.Visible = false;
             mp_IntellisenseBox.KeyDown += new KeyEventHandler(mp_IntellisenseBox_KeyDown);
-            mp_IntellisenseBox.MouseDoubleClick += new MouseButtonEventHandler(mp_IntellisenseBox_DoubleClick);
+            mp_IntellisenseBox.DoubleClick += new EventHandler(mp_IntellisenseBox_DoubleClick);
             #endregion
         }
         #endregion
@@ -354,47 +343,186 @@ namespace Moonlight
         /// <summary>
         /// Create the treeview from a treenode array
         /// </summary>
-        public void CreateTreeView(System.Windows.Forms.TreeNode[] treeNode_arr_main)
+        public void CreateTreeView(TreeNode[] treeNode_arr_main)
         {
             mp_IntellisenseTree.Nodes.AddRange(treeNode_arr_main);
         }
         #endregion
 
-        #region Private methods
-        private void InlineUIContainer_Unloaded(object sender, RoutedEventArgs e)
+        #region Overridden methods
+
+        #region Some overridden native function...
+        private const int WM_COPY = 0x301;
+        private const int WM_CUT = 0x300;
+        private const int WM_PASTE = 0x302;
+        private const int WM_CLEAR = 0x303;
+        private const int WM_UNDO = 0x304;
+        private const int EM_UNDO = 0xC7;
+        private const int EM_CANUNDO = 0xC6;
+        private const int WM_PAINT = 0x000F;
+        private const int WM_CHAR = 0x102;
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool PostMessage(
+        IntPtr hWnd,// handle to destination window
+        UInt32 Msg, // message
+        IntPtr wParam, // first message parameter
+        IntPtr lParam // second message parameter
+        );
+
+        /// <summary>
+        /// Let control enable and disable it's drawing...
+        /// </summary>
+        /// <param name="m"></param>
+        protected override void WndProc(ref System.Windows.Forms.Message m)
         {
-            (sender as InlineUIContainer).Unloaded -= new RoutedEventHandler(InlineUIContainer_Unloaded);
-
-            TextBlock tb = new TextBlock();
-            tb.FontFamily = new System.Windows.Media.FontFamily("Courier New");
-            tb.FontSize = 8.5;
-            tb.Text = "This line of text is not editable.";
-
-            TextPointer tp = CaretPosition.GetInsertionPosition(LogicalDirection.Forward);
-            InlineUIContainer iuic = new InlineUIContainer(tb, tp);
-            iuic.Unloaded += new RoutedEventHandler(InlineUIContainer_Unloaded);
-        }
-
-        private void rtb_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
+            switch (m.Msg)
             {
-                var newPointer = Selection.Start.InsertLineBreak();
-                Selection.Select(newPointer, newPointer);
+                case WM_PAINT:
+                    {
+                        #region PAINT
+                        if (mp_EnablePainting)
+                        {
+                            base.WndProc(ref m);
+                        }
+                        else
+                        {
+                            m.Result = IntPtr.Zero;
+                        }
+                        #endregion
+                    }
+                    break;
 
-                e.Handled = true;
+                case WM_PASTE:
+                    {
+                        #region PASTE
+                        int selectionStart = this.SelectionStart;
+                        int selectionLength = 0;
+                        
+                        string text = Clipboard.GetText();
+                        
+
+                        #region Hack to find out correct selection length
+                        //Hack...
+                        //The text's length readed from the clipboard doesn't match the length pasted to the richTextBox
+                        //So I used a dummy richtextbox, to find out the correct length of the text...
+                        RichTextBox rtxt = new RichTextBox();
+                        rtxt.SelectionStart = 0;
+                        rtxt.SelectedText = text;
+                        selectionLength = rtxt.Text.Length;
+                        #endregion
+
+
+                        //Paste text from the clipboard...
+                        this.SelectedText = text;
+
+                        m_SyntaxHighLighter.DoSyntaxHightlight_Selection(this, selectionStart, selectionLength);
+                        m_IntellisenseDynamic.DoIntellisense_Selection(this, selectionStart, selectionLength, mp_IntellisenseTree);
+                        #endregion
+                    }
+                    break;
+
+                case WM_CHAR:
+                    {
+                        #region CHAR
+                        ProcessKeyDownWndPrc((uint)m.WParam, (uint)m.LParam);
+                        base.WndProc(ref m);
+                        #endregion
+                    }
+                    break;
+
+                default:
+                    {
+                        base.WndProc(ref m);
+                    }
+                    break;
+            }
+        }
+        /// <summary>
+        /// I needed this for the WM_PASTE event to fire...
+        /// </summary>
+        /// <param name="m"></param>
+        /// <param name="keyData"></param>
+        /// <returns></returns>
+        protected override bool ProcessCmdKey(ref Message m, Keys keyData)
+        {
+            switch (keyData)
+            {
+                #region Paste
+                case Keys.Control | Keys.V:
+                    {
+                        PostMessage(this.Handle, WM_PASTE, IntPtr.Zero, IntPtr.Zero);
+                        return true;
+                    }
+                case Keys.Shift | Keys.Insert:
+                    {
+                        PostMessage(this.Handle, WM_PASTE, IntPtr.Zero, IntPtr.Zero);
+                        return true;
+                    }
+                #endregion
+
+                #region Copy
+                case Keys.Control | Keys.C:
+                    {
+                        PostMessage(this.Handle, WM_COPY, IntPtr.Zero, IntPtr.Zero);
+                        return true;
+                    }
+                case Keys.Control | Keys.Insert:
+                    {
+                        PostMessage(this.Handle, WM_COPY, IntPtr.Zero, IntPtr.Zero);
+                        return true;
+                    }
+                #endregion
+
+                #region Cut
+                case Keys.Control | Keys.X:
+                    {
+                        PostMessage(this.Handle, WM_CUT, IntPtr.Zero, IntPtr.Zero);
+                        return true;
+                    }
+                case Keys.Shift | Keys.Delete:
+                    {
+                        PostMessage(this.Handle, WM_CUT, IntPtr.Zero, IntPtr.Zero);
+                        return true;
+                    }
+                #endregion
+
+                #region Delete
+                case Keys.Control | Keys.Delete:
+                    {
+                        PostMessage(this.Handle, WM_CLEAR, IntPtr.Zero, IntPtr.Zero);
+                        return true;
+                    }
+                #endregion
+
+                #region Undo
+                case Keys.Control | Keys.Z:
+                    {
+                        PostMessage(this.Handle, WM_UNDO, IntPtr.Zero, IntPtr.Zero);
+                        return true;
+                    }
+                #endregion
+
+                default:
+                    return base.ProcessCmdKey(ref m, keyData);
             }
         }
         #endregion
 
-        #region Overridden methods
-        protected override void OnMouseRightButtonDown(MouseButtonEventArgs e)
+        protected override void OnMouseClick(MouseEventArgs e)
         {
             m_IntellisenseManager.HideIntellisenseBox();
-            base.OnMouseRightButtonDown(e);
+            base.OnMouseClick(e);
         }
 
-        protected override void OnTextInput(TextCompositionEventArgs e)
+        protected override void OnPaint(PaintEventArgs pe)
+        {
+            if (EnablePainting)
+            {
+                base.OnPaint(pe);
+            }
+        }
+        protected override void OnTextChanged(EventArgs e)
         {
             //Syntax Highlight the current line... :)
             m_SyntaxHighLighter.DoSyntaxHightlight_CurrentLine(this);
@@ -403,12 +531,12 @@ namespace Moonlight
 
             m_IntellisenseDynamic.RefreshIntellisense(this, mp_IntellisenseTree);
 
-            base.OnTextInput(e);
+            base.OnTextChanged(e);
         }
         void mp_IntellisenseBox_KeyDown(object sender, KeyEventArgs e)
         {
             //Let the textbox handle keypresses inside the intellisense box
-            this.OnKeyDown(e);
+            OnKeyDown(e);
         }
         void mp_IntellisenseBox_DoubleClick(object sender, EventArgs e)
         {
@@ -417,24 +545,24 @@ namespace Moonlight
         protected override void OnKeyDown(KeyEventArgs e)
         {
             #region Show Intellisense
-            if (e.Key >= Key.A && e.Key <= Key.Z)
+            if (e.KeyCode >= Keys.A && e.KeyCode <= Keys.Z)
             {
                 m_IntellisenseManager.ShowIntellisenseBox();
                 e.Handled = true;
-                Focus();
+                this.Focus();
                 return;
             }
             #endregion
 
-            if (mp_IntellisenseBox.IsVisible)
+            if (mp_IntellisenseBox.Visible)
             {
                 #region ESCAPE and SPACE - Hide Intellisense
-                if (e.Key == Key.Escape)
+                if (e.KeyCode == Keys.Escape)
                 {
                     m_IntellisenseManager.HideIntellisenseBox();
                     e.Handled = true;
                 }
-                else if (e.Key == Key.Space)
+                else if (e.KeyCode == Keys.Space)
                 {
                     m_IntellisenseManager.HideIntellisenseBox();
                     e.Handled = true;
@@ -442,32 +570,32 @@ namespace Moonlight
                 #endregion
 
                 #region Navigation - Up, Down, PageUp, PageDown, Home, End
-                else if (e.Key == Key.Up)
+                else if (e.KeyCode == Keys.Up)
                 {
                     m_IntellisenseManager.NavigateUp(1);
                     e.Handled = true;
                 }
-                else if (e.Key == Key.Down)
+                else if (e.KeyCode == Keys.Down)
                 {
                     m_IntellisenseManager.NavigateDown(1);
                     e.Handled = true;
                 }
-                else if (e.Key == Key.PageUp)
+                else if (e.KeyCode == Keys.PageUp)
                 {
                     m_IntellisenseManager.NavigateUp(10);
                     e.Handled = true;
                 }
-                else if (e.Key == Key.PageDown)
+                else if (e.KeyCode == Keys.PageDown)
                 {
                     m_IntellisenseManager.NavigateDown(10);
                     e.Handled = true;
                 }
-                else if (e.Key == Key.Home)
+                else if (e.KeyCode == Keys.Home)
                 {
                     m_IntellisenseManager.NavigateHome();
                     e.Handled = true;
                 }
-                else if (e.Key == Key.End)
+                else if (e.KeyCode == Keys.End)
                 {
                     m_IntellisenseManager.NavigateEnd();
                     e.Handled = true;
@@ -475,33 +603,33 @@ namespace Moonlight
                 #endregion
 
                 #region Typing - Back
-                else if (e.Key == Key.Back)
+                else if (e.KeyCode == Keys.Back)
                 {
                     m_IntellisenseManager.TypeBackspace();
                 }
                 #endregion
 
                 #region Typing - Brackets
-                else if (e.Key == Key.D9)
+                else if (e.KeyCode == Keys.D9)
                 {
                     // Trap the open bracket key, displaying a cheap and
                     // cheerful tooltip if the word just typed is in our tree
                     // (the parameters are stored in the tag property of the node)
                 }
-                else if (e.Key == Key.D8)
+                else if (e.KeyCode == Keys.D8)
                 {
                     // Close bracket key, hide the tooltip textbox
                 }
                 #endregion
 
                 #region Typing - TAB and Enter
-                else if (e.Key == Key.Tab)
+                else if (e.KeyCode == Keys.Tab)
                 {
                     m_IntellisenseManager.ConfirmIntellisense();
                     e.Handled = true;
-                    //e.SuppressKeyPress = true;
+                    e.SuppressKeyPress = true;
                 }
-                else if (e.Key == Key.Enter)
+                else if (e.KeyCode == Keys.Enter)
                 {
                     m_IntellisenseManager.ConfirmIntellisense();
                     e.Handled = true;
@@ -509,7 +637,7 @@ namespace Moonlight
                 #endregion
             }
 
-            Focus();
+            this.Focus();
             base.OnKeyDown(e);
         }
         private void ProcessKeyDownWndPrc(uint wParam, uint lParam)

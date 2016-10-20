@@ -1,5 +1,4 @@
-﻿using System.Linq;
-namespace GofusSharp
+﻿namespace GofusSharp
 {
     public class Liste<T> : System.Collections.Generic.List<T>
     {

@@ -1,7 +1,5 @@
 ﻿using System.Drawing;
 using System.Text.RegularExpressions;
-using System.Windows.Documents;
-using System.Linq;
 
 namespace Moonlight.SyntaxHighlight
 {
@@ -34,21 +32,21 @@ namespace Moonlight.SyntaxHighlight
             #endregion
 
             string line = RichTextboxHelper.GetCurrentLine(codeTextbox);
-            TextPointer lineStart = RichTextboxHelper.GetTextPointerCurrentLine(codeTextbox);
+            int lineStart = RichTextboxHelper.GetCurrentLineStartIndex(codeTextbox);
 
             ProcessLine(codeTextbox, line, lineStart);
         }
-        //public void DoSyntaxHightlight_Selection(CodeTextBox codeTextbox, int selectionStart, int selectionLength)
-        //{
-        //    #region Compile regexs if necessary
-        //    if (!compiled)
-        //    {
-        //        Update(codeTextbox);
-        //    }
-        //    #endregion
+        public void DoSyntaxHightlight_Selection(CodeTextBox codeTextbox, int selectionStart, int selectionLength)
+        {
+            #region Compile regexs if necessary
+            if (!compiled)
+            {
+                Update(codeTextbox);
+            }
+            #endregion
 
-        //    ProcessSelection(codeTextbox, selectionStart, selectionLength);
-        //}
+            ProcessSelection(codeTextbox, selectionStart, selectionLength);
+        }
         public void DoSyntaxHightlight_AllLines(CodeTextBox codeTextbox)
         {
             #region Compile regexs if necessary
@@ -157,7 +155,7 @@ namespace Moonlight.SyntaxHighlight
         /// <param name="lineStart"></param>
         /// <param name="regexp"></param>
         /// <param name="color"></param>
-        private void ProcessRegex(CodeTextBox codeTextbox, string line, TextPointer lineStart, Regex regexp, System.Windows.Media.SolidColorBrush color)
+        private void ProcessRegex(CodeTextBox codeTextbox, string line, int lineStart, Regex regexp, Color color)
         {
             if (regexp == null)
             {
@@ -170,11 +168,11 @@ namespace Moonlight.SyntaxHighlight
             for (regMatch = regexp.Match(line); regMatch.Success; regMatch = regMatch.NextMatch())
             {
                 // Process the words
-                if (regMatch.Length == 0)
-                    continue;
-                TextPointer nStart = lineStart.GetPositionAtOffset(regMatch.Index);
-                TextPointer nEnd = nStart.GetPositionAtOffset(regMatch.Length);
-                new TextRange(nStart, nEnd).ApplyPropertyValue(TextElement.ForegroundProperty, color);
+                int nStart = lineStart + regMatch.Index;
+                int nLenght = regMatch.Length;
+                codeTextbox.SelectionStart = nStart;
+                codeTextbox.SelectionLength = nLenght;
+                codeTextbox.SelectionColor = color;
             }
         }
         /// <summary>
@@ -184,12 +182,16 @@ namespace Moonlight.SyntaxHighlight
         /// <param name="syntaxSettings"></param>
         /// <param name="line"></param>
         /// <param name="lineStart"></param>
-        private void ProcessLine(CodeTextBox codeTextbox, string line, TextPointer lineStart)
+        private void ProcessLine(CodeTextBox codeTextbox, string line, int lineStart)
         {
             codeTextbox.EnablePainting = false;
 
             // Save the position and make the whole line black
-            new TextRange(lineStart, lineStart.GetPositionAtOffset(line.Length)).ApplyPropertyValue(TextElement.ForegroundProperty, System.Windows.Media.Brushes.Black);
+            int nPosition = codeTextbox.SelectionStart;
+            codeTextbox.SelectionStart = lineStart;
+            codeTextbox.SelectionLength = line.Length;
+            codeTextbox.SelectionColor = Color.Black;
+
 
             // Process the keywords
             ProcessRegex(codeTextbox, line, lineStart, keywordsRegexp, codeTextbox.CodeColor_Keyword);
@@ -212,76 +214,86 @@ namespace Moonlight.SyntaxHighlight
                 ProcessRegex(codeTextbox, line, lineStart, commentsRegexp, codeTextbox.CodeColor_Comment);
             }
             
+
+            codeTextbox.SelectionStart = nPosition;
+            codeTextbox.SelectionLength = 0;
+            codeTextbox.SelectionColor = Color.Black;
+
             codeTextbox.EnablePainting = true;
         }
-        //private void ProcessSelection(CodeTextBox codeTextbox, int selectionStart, int selectionLength)
-        //{
-        //    codeTextbox.EnablePainting = false;
+        private void ProcessSelection(CodeTextBox codeTextbox, int selectionStart, int selectionLength)
+        {
+            codeTextbox.EnablePainting = false;
 
-        //    // Save the position and make the whole line black
-        //    int nPosition = selectionStart;
+            // Save the position and make the whole line black
+            int nPosition = selectionStart;
             
-        //    codeTextbox.SelectionStart = selectionStart;
-        //    codeTextbox.SelectionLength = selectionLength;
-        //    string text = codeTextbox.SelectedText;
+            codeTextbox.SelectionStart = selectionStart;
+            codeTextbox.SelectionLength = selectionLength;
+            string text = codeTextbox.SelectedText;
 
-        //    codeTextbox.SelectionColor = Color.Black;
+            codeTextbox.SelectionColor = Color.Black;
 
 
-        //    // Process the keywords
-        //    ProcessRegex(codeTextbox, text, selectionStart, keywordsRegexp, codeTextbox.CodeColor_Keyword);
+            // Process the keywords
+            ProcessRegex(codeTextbox, text, selectionStart, keywordsRegexp, codeTextbox.CodeColor_Keyword);
 
-        //    // Process cached type names
-        //    ProcessRegex(codeTextbox, text, selectionStart, typeNamesRegexp, codeTextbox.CodeColor_Type);
+            // Process cached type names
+            ProcessRegex(codeTextbox, text, selectionStart, typeNamesRegexp, codeTextbox.CodeColor_Type);
 
-        //    //process functions
-        //    ProcessRegex(codeTextbox, text, selectionStart, functionsRegexp, codeTextbox.CodeColor_Function);
+            //process functions
+            ProcessRegex(codeTextbox, text, selectionStart, functionsRegexp, codeTextbox.CodeColor_Function);
 
-        //    //process strings
-        //    ProcessRegex(codeTextbox, text, selectionStart, stringsRegexp, codeTextbox.CodeColor_PlainText);
+            //process strings
+            ProcessRegex(codeTextbox, text, selectionStart, stringsRegexp, codeTextbox.CodeColor_PlainText);
 
-        //    // Process comments
-        //    if (codeTextbox.CodeWords_Comments.Count > 0)
-        //    {
-        //        ProcessRegex(codeTextbox, text, selectionStart, commentsRegexp, codeTextbox.CodeColor_Comment);
-        //    }
+            // Process comments
+            if (codeTextbox.CodeWords_Comments.Count > 0)
+            {
+                ProcessRegex(codeTextbox, text, selectionStart, commentsRegexp, codeTextbox.CodeColor_Comment);
+            }
 
-        //    codeTextbox.SelectionStart = nPosition;
-        //    codeTextbox.SelectionLength = 0;
-        //    codeTextbox.SelectionColor = Color.Black;
+            codeTextbox.SelectionStart = nPosition;
+            codeTextbox.SelectionLength = 0;
+            codeTextbox.SelectionColor = Color.Black;
 
-        //    codeTextbox.EnablePainting = true;
-        //}
+            codeTextbox.EnablePainting = true;
+        }
         public void ProcessAllLines(CodeTextBox codeTextbox)
         {
             codeTextbox.EnablePainting = false;
 
             // Save the position and make the whole line black
-            TextRange text = new TextRange(codeTextbox.Document.ContentStart, codeTextbox.Document.ContentEnd);
-            text.ApplyPropertyValue(TextElement.ForegroundProperty, System.Windows.Media.Brushes.Black);
-
+            int nPosition = codeTextbox.SelectionStart;
+            codeTextbox.SelectionStart = 0;
+            codeTextbox.SelectionLength = codeTextbox.Text.Length;
+            codeTextbox.SelectionColor = Color.Black;
 
             // Process the keywords
-            ProcessRegex(codeTextbox, text.Text, codeTextbox.Document.ContentStart, keywordsRegexp, codeTextbox.CodeColor_Keyword);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, keywordsRegexp, codeTextbox.CodeColor_Keyword);
 
             // Process cached type names
-            ProcessRegex(codeTextbox, text.Text, codeTextbox.Document.ContentStart, typeNamesRegexp, codeTextbox.CodeColor_Type);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, typeNamesRegexp, codeTextbox.CodeColor_Type);
 
             //process functions
-            ProcessRegex(codeTextbox, text.Text, codeTextbox.Document.ContentStart, functionsRegexp, codeTextbox.CodeColor_Function);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, functionsRegexp, codeTextbox.CodeColor_Function);
 
             // Process plain strings
-            ProcessRegex(codeTextbox, text.Text, codeTextbox.Document.ContentStart, stringsRegexp, codeTextbox.CodeColor_PlainText);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, stringsRegexp, codeTextbox.CodeColor_PlainText);
 
             // Process comments
             if (codeTextbox.CodeWords_Comments.Count>0)
             {
-                ProcessRegex(codeTextbox, text.Text, codeTextbox.Document.ContentStart, commentsRegexp, codeTextbox.CodeColor_Comment);
+                ProcessRegex(codeTextbox, codeTextbox.Text, 0, commentsRegexp, codeTextbox.CodeColor_Comment);
             }
 
             // Process strings
-            ProcessRegex(codeTextbox, text.Text, codeTextbox.Document.ContentStart, chainesRegexp, codeTextbox.CodeColor_Chaine);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, chainesRegexp, codeTextbox.CodeColor_Chaine);
 
+
+            codeTextbox.SelectionStart = nPosition;
+            codeTextbox.SelectionLength = 0;
+            codeTextbox.SelectionColor = Color.Black;
 
 
             //suppressHightlighting = false;

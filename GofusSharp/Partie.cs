@@ -10,7 +10,7 @@ namespace GofusSharp
         public Liste<EntiteInconnu> ListEntites { get; internal set; }
         public System.Random Seed { get; internal set; }
         public int valeurSeed { get; internal set; }
-        public Partie(int IdPartie, Terrain TerrainPartie, Liste<Entite> ListAttaquants, Liste<Entite> ListDefendants, int valeurSeed)
+        internal Partie(int IdPartie, Terrain TerrainPartie, Liste<Entite> ListAttaquants, Liste<Entite> ListDefendants, int valeurSeed)
         {
             this.IdPartie = IdPartie;
             this.TerrainPartie = TerrainPartie;
@@ -22,7 +22,7 @@ namespace GofusSharp
             ListEntites = new Liste<EntiteInconnu>();
             DebuterPartie();
         }
-        public Partie(int IdPartie, Liste<Entite> ListAttaquants, Liste<Entite> ListDefendants)
+        internal Partie(int IdPartie, Liste<Entite> ListAttaquants, Liste<Entite> ListDefendants)
         {
             this.IdPartie = IdPartie;
             this.ListAttaquants = ListAttaquants;
