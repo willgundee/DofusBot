@@ -1155,12 +1155,59 @@ namespace test
 
         }
 
+        private void AjustementLignes(Entite perso)
+        {
+            
+        }
+
         private void imageCasque_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            PageEquipement Equip = new PageEquipement();
-            Equip.Show();
-        
+            String TypeEquipement = "Chapeau";
 
+            PageEquipement Equip = new PageEquipement(TypeEquipement,Player.NomUtilisateur);
+            Equip.ShowDialog();
+        
+        }
+
+        private void imageCape_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            String TypeEquipement = "Cape";
+
+            PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur);
+            Equip.ShowDialog();
+        }
+
+        private void imageArme_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            String TypeEquipement = "Arme";
+
+            PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur);
+            Equip.ShowDialog();
+        }
+
+
+        private void imageAnneau1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            String TypeEquipement = "Chapeau";
+
+            PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur);
+            Equip.ShowDialog();
+        }
+
+        private void imageBotte_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            String TypeEquipement = "botte";
+
+            PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur);
+            Equip.ShowDialog();
+        }
+
+        private void imageCeinture_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            String TypeEquipement = "Ceinture";
+
+            PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur);
+            Equip.ShowDialog();
         }
 
         //**************************************************************************************************
