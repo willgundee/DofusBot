@@ -331,9 +331,8 @@ namespace Moonlight.Intellisense
             }
 
             //Couldn't find one of the sub words...
-            if (node == null || node.Nodes.Count == 0)
+            if (node == null)
             {
-                HideIntellisenseBox();
                 return false;
             }
 
