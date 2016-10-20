@@ -16,10 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Forms = System.Windows.Forms;
-using System.Windows.Forms;
 using GofusSharp;
-using CodeBox;
 
 namespace test
 {
@@ -31,9 +28,6 @@ namespace test
         public MainWindow()
         {
             InitializeComponent();
-            Form1 codeSpace = new Form1();
-            codeSpace.Visible = true;
-
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
