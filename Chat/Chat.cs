@@ -14,7 +14,14 @@ namespace test
     {
         public const int MAX_MESSAGES = 100;
         public ObservableCollection<MessageText> messages { get; private set; }
+
+        private string id;
+
         public EventHandler Tick { get; internal set; }
+
+
+        public string nomUtilisateur { get; set; }
+       
 
         public ObservableCollection<string> contenuChat;
 
@@ -25,6 +32,13 @@ namespace test
             contenuChat = new ObservableCollection<string>();
             messages = new ObservableCollection<MessageText>();
             bdChat = new BDService();
+        }
+
+        public void getId()
+        {
+            string reqid = "SELECT idJoueur from Joueurs WHERE NomUtilisateur = '" + nomUtilisateur + "';";
+            List<string>[] idResult = bdChat.selection(reqid);
+            id = idResult[0][0];
         }
 
         public void refreshChat()
@@ -107,10 +121,13 @@ namespace test
             {
                 if (window.GetType() == typeof(MainWindow))
                 {
-                    string inser = "INSERT INTO Messages(idJoueur,temps,contenu,uuid)VALUES(9,NOW(),'" +
-                (window as MainWindow).txtMessage.Text.ToString() + "',UUID());";
+                  
+             
+                
+                    string inser = "INSERT INTO Messages(idJoueur,temps,contenu,uuid)VALUES(" + id.ToString() + ",NOW(),'" +
+                                        (window as MainWindow).txtMessage.Text.ToString() + "',UUID())";
                     test = bdChat.insertion(inser);
-
+                    return test;
                 }
             }
             return test;
@@ -127,7 +144,12 @@ namespace test
                 {
                     if ((window as ChatWindow).txtMessage.Text.ToString() != "")
                     {
-                        string inser = "INSERT INTO Messages(idJoueur,temps,contenu,uuid)VALUES(9,NOW(),'" +
+                        string reqid = "SELECT idJoueur from Joueurs WHERE NomUtilisateur = '" + nomUtilisateur + "';";
+                        List<string>[] idResult = bdChat.selection(reqid);
+                        string id = idResult[0][0];
+
+
+                        string inser = "INSERT INTO Messages(idJoueur,temps,contenu,uuid)VALUES("+ id + ",NOW(),'" +
                                             (window as ChatWindow).txtMessage.Text.ToString() + "',UUID());";
                         testeur = bdChat.insertion(inser);
                         return testeur;
