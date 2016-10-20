@@ -323,6 +323,10 @@
         <TabItem Header="Marché" Height="30"  Loaded="TabItemMarche_Loaded" >
 
             <Grid Margin="2,-5,-5,-3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="283*"></RowDefinition>
+                    <RowDefinition Height="287*"></RowDefinition>
+                </Grid.RowDefinitions>
                 <Image x:Name="imgCurrent" HorizontalAlignment="Left" Height="200" Margin="378,10,0,0" VerticalAlignment="Top" Width="200"/>
                 <Label x:Name="lblPri" Visibility="visible" Content="Prix:" HorizontalAlignment="Left" Margin="378,215,0,0" VerticalAlignment="Top" Width="35" Height="26"/>
                 <Label x:Name="lblPrix"  HorizontalAlignment="Left" Margin="418,215,0,0" VerticalAlignment="Top" Width="99" Height="26"/>
@@ -332,7 +336,6 @@
                     <TextBlock Name="txtBDesc" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Top" Width="363" Height="50" Margin="0,41,0,0"/>
                 </ScrollViewer>
                 <Image x:Name="imgKamas" Visibility="visible" Source="resources/kamas.png" HorizontalAlignment="Left" Height="26" Margin="522,215,0,0" VerticalAlignment="Top" Width="38"/>
-                <ListBox Name="listBox" HorizontalAlignment="Stretch" Grid.Row="1"  VerticalAlignment="Stretch"/>
 
                 <TabControl x:Name="tabControlStats" Visibility="visible" HorizontalAlignment="Left" Height="171" Margin="10,101,0,0" VerticalAlignment="Top" Width="363">
                     <TabItem Header="Statistiques">
@@ -373,10 +376,17 @@
                         </Grid>
                     </TabItem>
                 </TabControl>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="283*"></RowDefinition>
-                    <RowDefinition Height="287*"></RowDefinition>
-                </Grid.RowDefinitions>
+                <TabControl Name="tCMarche" TabStripPlacement="Bottom"  Grid.Row="1" >
+                    <TabItem Name="tArmes" Header="Armes" Height="50" Selector.Selected="tArmes_Selected" Selector.Unselected="tab_Unselected">
+                        <ListBox Name="lstBoxArmes"  Grid.Row="1">
+                            
+                        </ListBox>
+                    </TabItem>
+                    <TabItem Name="tEquips" Header="Armures" Height="50" Selector.Selected="tEquips_Selected" Selector.Unselected="tab_Unselected">
+                        <ListBox Name="lstBoxEquip"   Grid.Row="1"/>
+                    </TabItem>
+                </TabControl>
+
             </Grid>
         </TabItem>
         <TabItem Header="Sorts" Height="30">

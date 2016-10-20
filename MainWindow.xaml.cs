@@ -830,7 +830,7 @@ namespace test
             uint wParam = (uint)ScrollBarCommands.SB_THUMBPOSITION | (uint)nPos;
             SendMessage(new WindowInteropHelper(Window.GetWindow(rtb_lineNumber)).Handle, (int)Message.WM_VSCROLL, new UIntPtr(wParam), new UIntPtr(0));
         }
-#endregion
+        #endregion
 
 
         #region Marché
@@ -859,13 +859,13 @@ namespace test
             /*List<string>[] infoItem = bd.selection(info);
             List<string>[] statsItem = bd.selection(stats);*/
             //set des info dans les champs statics
-            Equipement item = new Equipement(bd.selection(info)[0],true);
+            Equipement item = new Equipement(bd.selection(info)[0], true);
             lblItem.Content = item.Nom;
 
             NumberFormatInfo nfi = (NumberFormatInfo)
             CultureInfo.InvariantCulture.NumberFormat.Clone();
             nfi.NumberGroupSeparator = " ";
-            lblPrix.Content = Convert.ToInt32(item.Prix).ToString("n",nfi);// n | x
+            lblPrix.Content = Convert.ToInt32(item.Prix).ToString("n", nfi);// n | x
             txtBDesc.Text = item.Desc;
             //elneves tout les stats de l'item
 
@@ -879,7 +879,7 @@ namespace test
             for (int i = 0; i < item.LstStatistiques.Count(); i++)
             {//ajout des stats
                 grdStats.Children.Add(CreateLbl(item.LstStatistiques[i].NomSimple + " :", row, col));
-                grdStats.Children.Add(CreateLbl(item.LstStatistiques[i].Valeur.ToString(), row, col +1));
+                grdStats.Children.Add(CreateLbl(item.LstStatistiques[i].Valeur.ToString(), row, col + 1));
                 row++;
                 if (row == 5)
                 {
@@ -940,16 +940,16 @@ namespace test
         private void TabItemMarche_Loaded(object sender, RoutedEventArgs e)
         {
 
-             /*Thread th = new Thread(new ThreadStart(loadItem));
-             th.SetApartmentState(ApartmentState.STA);
+            /*Thread th = new Thread(new ThreadStart(loadItem));
+            th.SetApartmentState(ApartmentState.STA);
 
-            th = Thread.CurrentThread;
-             th.Join();*/
+           th = Thread.CurrentThread;
+            th.Join();*/
             loadItem();
             //TODO: Lorsque plus de données faire un limit/offset et des numero de page
             //SELECT * FROM ConditionsEquipements c INNER JOIN Equipements e ON c.idEquipement = e.idEquipement WHERE idCondition = 21 ORDER BY c.valeur
             // string equips = "SELECT * FROM Equipements WHERE idZonePorte IS NULL LIMIT 10 ";
-          
+
 
         }
 
@@ -967,16 +967,16 @@ namespace test
             {
                 Equipement equip = new Equipement(item, false);
                 LstArmes.Add(CreateImg(equip.NoImg, equip.Nom));
-               /* Image img = CreateImg(equip.NoImg, equip.Nom);
-                if (col == 5)
-                {
-                    col = 0;
-                    row++;
-                }
-                Grid.SetRow(img, row);
-                Grid.SetColumn(img, col);
-                col++;
-                grdArmes.Children.Add(img);*/
+                /* Image img = CreateImg(equip.NoImg, equip.Nom);
+                 if (col == 5)
+                 {
+                     col = 0;
+                     row++;
+                 }
+                 Grid.SetRow(img, row);
+                 Grid.SetColumn(img, col);
+                 col++;
+                 grdArmes.Children.Add(img);*/
             }
 
 
@@ -985,18 +985,50 @@ namespace test
             foreach (List<string> item in repEquip)
             {
                 Equipement equip = new Equipement(item, false);
-               /* Image img = CreateImg(equip.NoImg, equip.Nom);
-                if (col == 5)
-                {
-                    col = 0;
-                    row++;
-                }
-                Grid.SetRow(img, row);
-                Grid.SetColumn(img, col);
-                col++;
-                grdEquips.Children.Add(img);*/
+                /* Image img = CreateImg(equip.NoImg, equip.Nom);
+                 if (col == 5)
+                 {
+                     col = 0;
+                     row++;
+                 }
+                 Grid.SetRow(img, row);
+                 Grid.SetColumn(img, col);
+                 col++;
+                 grdEquips.Children.Add(img);*/
             }
         }
+        private void tEquips_Selected(object sender, RoutedEventArgs e)
+        {
+            string equips = "SELECT * FROM Equipements  e INNER JOIN ConditionsEquipements c ON c.idEquipement = e.idEquipement WHERE idCondition = 21  AND idZonePorte IS NULL ORDER BY c.valeur DESC ";
+            List<string>[] repEquip = bd.selection(equips);
+            foreach (List<string> item in repEquip)
+            {
+                Equipement equip = new Equipement(item, false);
+                LstEquips.Add(CreateImg(equip.NoImg, equip.Nom));
+            }
+            lstBoxEquip.ItemsSource = LstEquips;
+
+        }
+        private void tArmes_Selected(object sender, RoutedEventArgs e)
+        {
+            string armes = "SELECT * FROM Equipements WHERE idZonePorte IS NOT NULL LIMIT 10";
+            List<string>[] repArmes = bd.selection(armes);
+            foreach (List<string> item in repArmes)
+            {
+                Equipement equip = new Equipement(item, false);
+                LstArmes.Add(CreateImg(equip.NoImg, equip.Nom));
+            }
+            lstBoxArmes.ItemsSource = LstArmes;
+            //lstBoxEquip.MultiColumn = true;
+            //((System.Windows.Controls.ListBox)((TabItem)sender).Content).
+
+        }
+
+        private void tab_Unselected(object sender, RoutedEventArgs e)
+        {
+            LstArmes.Clear();
+        }
+
 
         private Image CreateImg(string Noimg, string nom)
         {
@@ -1130,27 +1162,27 @@ namespace test
             //le nom du perso
 
             int nbScript = Player.LstScripts.Count;
-            for(int i=0; i<nbScript;i++)
+            for (int i = 0; i < nbScript; i++)
             {
-                cbScript.Items.Add(Player.LstScripts[i].Nom); 
-                               
+                cbScript.Items.Add(Player.LstScripts[i].Nom);
+
             }
 
 
-            foreach(Entite perso in Player.LstEntites  )
+            foreach (Entite perso in Player.LstEntites)
             {
                 //todo création de plusieurs onglets personnage
-            ongletPerso.Header = perso.Nom;
-            lblNomClasse.Content = perso.ClasseEntite.Nom;
-                string SourceImgClasse = "resources/"+perso.ClasseEntite.Nom ;
-         
+                ongletPerso.Header = perso.Nom;
+                lblNomClasse.Content = perso.ClasseEntite.Nom;
+                string SourceImgClasse = "resources/" + perso.ClasseEntite.Nom;
+
                 BitmapImage path = new BitmapImage();
                 path.BeginInit();
-                path.UriSource = new Uri(SourceImgClasse+".png", UriKind.Relative);
+                path.UriSource = new Uri(SourceImgClasse + ".png", UriKind.Relative);
                 path.EndInit();
                 Imgclasse.Source = path;
 
-                cbScript.SelectedItem= perso.ScriptEntite.Nom;
+                cbScript.SelectedItem = perso.ScriptEntite.Nom;
 
 
                 dgStats.ItemsSource = perso.LstStats;
@@ -1163,16 +1195,16 @@ namespace test
 
         private void AjustementLignes(Entite perso)
         {
-            
+
         }
 
         private void imageCasque_MouseDown(object sender, MouseButtonEventArgs e)
         {
             String TypeEquipement = "Chapeau";
 
-            PageEquipement Equip = new PageEquipement(TypeEquipement,Player.NomUtilisateur);
+            PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur);
             Equip.ShowDialog();
-        
+
         }
 
         private void imageCape_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -1215,6 +1247,9 @@ namespace test
             PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur);
             Equip.ShowDialog();
         }
+
+
+
 
         //**************************************************************************************************
     }
