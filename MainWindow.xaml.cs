@@ -936,11 +936,12 @@ namespace test
         private void TabItemMarche_Loaded(object sender, RoutedEventArgs e)
         {
 
-            Thread th = new Thread(new ThreadStart(loadItem));
-            th.SetApartmentState(ApartmentState.STA);
+            /* Thread th = new Thread(new ThreadStart(loadItem));
+             th.SetApartmentState(ApartmentState.STA);
 
-            th.Start();
-            th.Join();
+             th.Start();
+             th.Join();*/
+            loadItem();
             //TODO: Lorsque plus de données faire un limit/offset et des numero de page
             //SELECT * FROM ConditionsEquipements c INNER JOIN Equipements e ON c.idEquipement = e.idEquipement WHERE idCondition = 21 ORDER BY c.valeur
             // string equips = "SELECT * FROM Equipements WHERE idZonePorte IS NULL LIMIT 10 ";
