@@ -1154,6 +1154,11 @@ namespace test
 
         }
 
+        private void AjustementLignes(Entite perso)
+        {
+            
+        }
+
         private void imageCasque_MouseDown(object sender, MouseButtonEventArgs e)
         {
             String TypeEquipement = "Chapeau";
