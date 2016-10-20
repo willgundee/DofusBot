@@ -321,53 +321,20 @@
             </Grid>
         </TabItem>
         <TabItem Header="Marché" Height="30"  Loaded="TabItemMarche_Loaded" >
-            
-            <Grid Margin="2,-5,-5,-18">
-                <Image x:Name="imgCurrent" HorizontalAlignment="Left" Height="200" Margin="378,10,0,0" VerticalAlignment="Top" Width="200"/>
-                <Label x:Name="lblPri" Visibility="Hidden" Content="Prix:" HorizontalAlignment="Left" Margin="378,215,0,0" VerticalAlignment="Top" Width="35"/>
-                <Label x:Name="lblPrix"  HorizontalAlignment="Left" Margin="418,215,0,0" VerticalAlignment="Top" Width="99" Height="26"/>
-                <Button x:Name="btnAchat" Visibility="Hidden" HorizontalContentAlignment="Center" Content="Acheter" HorizontalAlignment="Left" Margin="442,256,0,0" VerticalAlignment="Top" Width="75" Click="btnAchat_Click"/>
-                <Label x:Name="lblItem" Content="" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="363"/>
-                <ScrollViewer>
-                <TextBlock Name="txtBDesc" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Top" Width="363" Height="50" Margin="0,41,0,0"/>
-                </ScrollViewer>
-                <Image x:Name="imgKamas" Visibility="Collapsed" Source="resources/kamas.png" HorizontalAlignment="Left" Height="26" Margin="522,215,0,0" VerticalAlignment="Top" Width="38"/>
-                <TabControl x:Name="tCMarche" VerticalAlignment="Center" TabStripPlacement="Left" Height="238" Margin="0,232,0,13" Grid.RowSpan="2" >
 
-                    <TabItem x:Name="tArmes" Header="Armes" Height="50">
-                        <Grid x:Name="grdArmes" Background="#FFE5E5E5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="100*"/>
-                                <RowDefinition Height="100*"/>
-                                <RowDefinition Height="17*"/>
-                            </Grid.RowDefinitions>
-                        </Grid>
-                    </TabItem>
-                    <TabItem x:Name="tEquips" Header="Armures" Height="50">
-                        <Grid x:Name="grdEquips" Background="#FFE5E5E5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="100*"/>
-                                <RowDefinition Height="100*"/>
-                                <RowDefinition Height="17*"/>
-                            </Grid.RowDefinitions>
-                        </Grid>
-                    </TabItem>
-                </TabControl>
-                <TabControl x:Name="tabControlStats" Visibility="Hidden" HorizontalAlignment="Left" Height="171" Margin="10,101,0,0" VerticalAlignment="Top" Width="363">
+            <Grid Margin="2,-5,-5,-3">
+                <Image x:Name="imgCurrent" HorizontalAlignment="Left" Height="200" Margin="378,10,0,0" VerticalAlignment="Top" Width="200"/>
+                <Label x:Name="lblPri" Visibility="visible" Content="Prix:" HorizontalAlignment="Left" Margin="378,215,0,0" VerticalAlignment="Top" Width="35" Height="26"/>
+                <Label x:Name="lblPrix"  HorizontalAlignment="Left" Margin="418,215,0,0" VerticalAlignment="Top" Width="99" Height="26"/>
+                <Button x:Name="btnAchat" Visibility="visible" HorizontalContentAlignment="Center" Content="Acheter" HorizontalAlignment="Left" Margin="442,256,0,0" VerticalAlignment="Top" Width="75" Click="btnAchat_Click" Height="22"/>
+                <Label x:Name="lblItem" Content="" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="363" Height="26"/>
+                <ScrollViewer>
+                    <TextBlock Name="txtBDesc" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Top" Width="363" Height="50" Margin="0,41,0,0"/>
+                </ScrollViewer>
+                <Image x:Name="imgKamas" Visibility="visible" Source="resources/kamas.png" HorizontalAlignment="Left" Height="26" Margin="522,215,0,0" VerticalAlignment="Top" Width="38"/>
+                <ListBox Name="listBox" HorizontalAlignment="Stretch" Grid.Row="1"  VerticalAlignment="Stretch"/>
+
+                <TabControl x:Name="tabControlStats" Visibility="visible" HorizontalAlignment="Left" Height="171" Margin="10,101,0,0" VerticalAlignment="Top" Width="363">
                     <TabItem Header="Statistiques">
                         <Grid Background="#FFE5E5E5" x:Name="grdStats">
                             <Grid.RowDefinitions>
@@ -407,8 +374,8 @@
                     </TabItem>
                 </TabControl>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="233*"></RowDefinition>
-                    <RowDefinition Height="250*"></RowDefinition>
+                    <RowDefinition Height="283*"></RowDefinition>
+                    <RowDefinition Height="287*"></RowDefinition>
                 </Grid.RowDefinitions>
             </Grid>
         </TabItem>

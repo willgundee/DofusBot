@@ -17,6 +17,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Globalization;
 using System.Threading;
+using System.Collections.ObjectModel;
 
 namespace test
 {
@@ -248,6 +249,8 @@ namespace test
              #endregion
         };
         public Chat chat;
+        public ObservableCollection<Image> LstEquips;
+        public ObservableCollection<Image> LstArmes;
         public Joueur Player { get; set; }
         DispatcherTimer aTimer;
         private ChatWindow fenetreChat;
@@ -268,7 +271,8 @@ namespace test
             ctb_main.CreateTreeView(generateTree());
             ctb_main.UpdateSyntaxHightlight();
             ctb_main.UpdateTreeView();
-
+            LstEquips = new ObservableCollection<Image>();
+            LstArmes = new ObservableCollection<Image>();
             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
 
             this.chat = new Chat();
@@ -936,10 +940,10 @@ namespace test
         private void TabItemMarche_Loaded(object sender, RoutedEventArgs e)
         {
 
-            /* Thread th = new Thread(new ThreadStart(loadItem));
+             /*Thread th = new Thread(new ThreadStart(loadItem));
              th.SetApartmentState(ApartmentState.STA);
 
-             th.Start();
+            th = Thread.CurrentThread;
              th.Join();*/
             loadItem();
             //TODO: Lorsque plus de données faire un limit/offset et des numero de page
@@ -962,7 +966,8 @@ namespace test
             foreach (List<string> item in repArmes)
             {
                 Equipement equip = new Equipement(item, false);
-                Image img = CreateImg(equip.NoImg, equip.Nom);
+                LstArmes.Add(CreateImg(equip.NoImg, equip.Nom));
+               /* Image img = CreateImg(equip.NoImg, equip.Nom);
                 if (col == 5)
                 {
                     col = 0;
@@ -971,15 +976,16 @@ namespace test
                 Grid.SetRow(img, row);
                 Grid.SetColumn(img, col);
                 col++;
-                grdArmes.Children.Add(img);
+                grdArmes.Children.Add(img);*/
             }
+
 
             col = 0;
             row = 0;// génération des images des équipements
             foreach (List<string> item in repEquip)
             {
                 Equipement equip = new Equipement(item, false);
-                Image img = CreateImg(equip.NoImg, equip.Nom);
+               /* Image img = CreateImg(equip.NoImg, equip.Nom);
                 if (col == 5)
                 {
                     col = 0;
@@ -988,7 +994,7 @@ namespace test
                 Grid.SetRow(img, row);
                 Grid.SetColumn(img, col);
                 col++;
-                grdEquips.Children.Add(img);
+                grdEquips.Children.Add(img);*/
             }
         }
 
