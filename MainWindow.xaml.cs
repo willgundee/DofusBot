@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Documents;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Globalization;
 
 namespace test
 {
@@ -40,7 +41,7 @@ namespace test
     public partial class MainWindow : Window
     {
         public BDService bd = new BDService();
-        private Dictionary<int, float> dictLvl = new Dictionary<int, float>()
+        private Dictionary<int, double> dictLvl = new Dictionary<int, double>()
         {
             #region les levels
             {1,0},
@@ -844,19 +845,24 @@ namespace test
             btnAchat.Visibility = Visibility.Visible;
             lblPri.Visibility = Visibility.Visible;
             imgKamas.Visibility = Visibility.Visible;
+            tabControlStats.Visibility = Visibility.Visible;
             #endregion
 
             //SELECT * FROM Equipements e  INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement INNER JOIN StatistiquesEquipements s ON s.idEquipement = e.idEquipement INNER JOIN TypesStatistiques ts ON ts.idTypeStatistique = s.idTypeStatistique INNER JOIN EffetsEquipements ee ON ee.idEquipement = e.idEquipement INNER JOIN Effets et ON et.idEffet = ee.idEffet WHERE e.nom ='Marteau du bouftou'
             imgCurrent.Source = ((Image)sender).Source;
             string nomItem = ((Image)sender).Name.Replace("_", " ");
-            float expRequis = 0;
+            double expRequis = 0;
             string info = "SELECT * FROM Equipements  WHERE nom ='" + nomItem + "'";
             /*List<string>[] infoItem = bd.selection(info);
             List<string>[] statsItem = bd.selection(stats);*/
             //set des info dans les champs statics
             Equipement item = new Equipement(bd.selection(info)[0]);
             lblItem.Content = item.Nom;
-            lblPrix.Content = item.Prix;
+
+            NumberFormatInfo nfi = (NumberFormatInfo)
+            CultureInfo.InvariantCulture.NumberFormat.Clone();
+            nfi.NumberGroupSeparator = " ";
+            lblPrix.Content = Convert.ToInt32(item.Prix).ToString("X",nfi);// n | x
             txtBDesc.Text = item.Desc;
             //elneves tout les stats de l'item
 
@@ -904,12 +910,12 @@ namespace test
                 }
 
         }
-        private int toLevel(float exp)
+        private int toLevel(double exp)
         {
             for (int i = 1; i < 200; i++)
                 if (exp >= dictLvl[i] && exp < dictLvl[i + 1])
                     return i;
-            if (exp > dictLvl[200])
+            if (exp >= dictLvl[200])
                 return 200;
             return 0;//si tout fucktop
         }
@@ -922,12 +928,18 @@ namespace test
             Grid.SetRow(lbl, row);
             return lbl;
         }
-
+        private void addPages(int nbPages)
+        {
+                
+        }
         private void TabItemMarche_Selected(object sender, RoutedEventArgs e)
         {
             //TODO: Lorsque plus de données faire un limit/offset et des numero de page
-            string equips = "SELECT * FROM Equipements WHERE idZonePorte IS NULL LIMIT 10 ";
+            //SELECT * FROM ConditionsEquipements c INNER JOIN Equipements e ON c.idEquipement = e.idEquipement WHERE idCondition = 21 ORDER BY c.valeur
+           // string equips = "SELECT * FROM Equipements WHERE idZonePorte IS NULL LIMIT 10 ";
+            string equips = "SELECT * FROM Equipements  e INNER JOIN ConditionsEquipements c ON c.idEquipement = e.idEquipement WHERE idCondition = 21  AND idZonePorte IS NULL ORDER BY c.valeur DESC LIMIT 10";
             string armes = "SELECT * FROM Equipements WHERE idZonePorte IS NOT NULL LIMIT 10";
+            int nbPages = Convert.ToInt16(bd.selection(" SELECT COUNT(*) FROM Equipements WHERE idZonePorte IS NULL")[0][0]);
             List<string>[] repArmes = bd.selection(armes);
             List<string>[] repEquip = bd.selection(equips);
 

@@ -14,7 +14,7 @@ namespace test
             puissance_piege, reduction_physique, reduction_magique };//les types de stats possibles.
         public element Nom { get; set; }
         public string NomSimple { get; set; }
-        public float Valeur { get; set; }
+        public double Valeur { get; set; }
         private Dictionary<element, string> dictElement = new Dictionary<element, string>()//dictionnaire servant a transformer les nom de la bd en nom lisible pour l'homme
             #region dict
         {
@@ -74,7 +74,7 @@ namespace test
         {
             Nom = (element)Enum.Parse(typeof(element), info[0], true);//convert string to enum;
             NomSimple = dictElement[Nom];
-            Valeur = Convert.ToInt64(info[1]);
+            Valeur = Convert.ToDouble(info[1]);
         }
     }
 }
