@@ -110,6 +110,9 @@
     <Compile Include="Classes\Sort.cs" />
     <Compile Include="Classes\Statistique.cs" />
     <Compile Include="Classes\Zone.cs" />
+    <Compile Include="Combat.xaml.cs">
+      <DependentUpon>Combat.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FenetreRapport.xaml.cs">
       <DependentUpon>FenetreRapport.xaml</DependentUpon>
     </Compile>
@@ -195,6 +198,10 @@
     <Page Include="ChatWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Combat.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="FenetreRapport.xaml">
       <SubType>Designer</SubType>

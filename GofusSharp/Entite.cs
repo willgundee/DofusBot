@@ -2,7 +2,7 @@
 {
     public class Entite : EntiteInconnu
     {
-        public Script ScriptEntite { get; internal set; }
+        internal Script ScriptEntite { get; set; }
         public Terrain TerrainEntite { get; internal set; }
         public Liste<EntiteInconnu> ListEntites { get; internal set; }
         internal Entite(int IdEntite, Classe ClasseEntite, string Nom, float Experience, type Equipe, Liste<Statistique> ListStatistiques, Script ScriptEntite, Terrain TerrainEntite, int Proprietaire) : base(IdEntite, ClasseEntite, Nom, Experience, Equipe)

@@ -18,7 +18,7 @@ namespace GofusSharp
             this.ListDefendants = ListDefendants;
             this.valeurSeed = valeurSeed;
             Seed = new System.Random(valeurSeed);
-            GenererTerrain(10, 5, 0);
+            GenererTerrain(10, 10);
             ListEntites = new Liste<EntiteInconnu>();
             DebuterPartie();
         }
@@ -34,14 +34,14 @@ namespace GofusSharp
                 total += entite.IdEntite;
             valeurSeed = System.DateTime.Now.Millisecond - total;
             Seed = new System.Random(valeurSeed);
-            GenererTerrain(10, 5, 0);
+            GenererTerrain(10, 10);
             PlacerJoueurs();
             PlacerObstacles();
             ListEntites = new Liste<EntiteInconnu>();
             DebuterPartie();
         }
 
-        private void GenererTerrain(int Largeur, int Hauteur, int NbObstacle)
+        private void GenererTerrain(int Largeur, int Hauteur)
         {
             TerrainPartie = new Terrain(Largeur, Hauteur);
             for (int i = 0; i < Largeur; i++)

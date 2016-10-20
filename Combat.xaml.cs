@@ -1,39 +1,53 @@
-﻿//csc /target:library /out:GofusSharp.dll *.cs
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+
 namespace GofusSharp
 {
-    public class CombatTest
+    /// <summary>
+    /// Logique d'interaction pour Combat.xaml
+    /// </summary>
+    public partial class Combat : Window
     {
-        public Partie PartieTest { get; private set; }
-        public CombatTest()
+        private Partie PartieTest { get; set; }
+        public Combat()
         {
-
-            //while (true)
-            //{
-            //    PartieTest.DebuterAction();
-            //    Action(PartieTest.TerrainPartie, PartieTest.ListAttaquants.First.Valeur as Personnage, PartieTest.ListEntites);
-            //    PartieTest.SyncroniserJoueur();
-            //    if (PartieTest.ListAttaquants.First.Valeur.PV <= 0 || PartieTest.ListDefendants.First.Valeur.PV <= 0)
-            //        break;
-            //    PartieTest.DebuterAction();
-            //    Action(PartieTest.TerrainPartie, PartieTest.ListDefendants.First.Valeur as Personnage, PartieTest.ListEntites);
-            //    PartieTest.SyncroniserJoueur();
-            //    if (PartieTest.ListAttaquants.First.Valeur.PV <= 0 || PartieTest.ListDefendants.First.Valeur.PV <= 0)
-            //        break;
-            //}
-            //if (PartieTest.ListAttaquants.First.Valeur.PV <= 0)
-            //    System.Windows.Forms.MessageBox.Show("Robert est le gagnant avec " + PartieTest.ListDefendants.First.Valeur.PV.ToString() + " PV restant!!!");
-            //else if (PartieTest.ListDefendants.First.Valeur.PV <= 0)
-            //    System.Windows.Forms.MessageBox.Show("Trebor est le gagnant avec " + PartieTest.ListAttaquants.First.Valeur.PV.ToString() + " PV restant!!!");
-        }
-
-        public string combat(int nbTour)
-        {
+            InitializeComponent();
+            this.Show();
             fakePartie();
-            for (int i = 0; i < nbTour; i++)
+            PartieTest.DebuterPartie();
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    Label lbl = new Label();
+                    Grid.SetRow(lbl, i);
+                    Grid.SetColumn(lbl, j);
+                    Binding b = new Binding("Case");
+                    b.Source = PartieTest.TerrainPartie.TabCases[i][j];
+                    b.Mode = BindingMode.OneWay;
+                    b.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                    lbl.Content = new Binding(PartieTest.TerrainPartie.TabCases[i][j].Contenu.ToString());
+                    //lbl.SetBinding(ContentProperty, b);
+                    grd_Terrain.Children.Add(lbl);
+                    DataContext = this;
+                }
+            }
+            for (int i = 0; i < 64; i++)
             {
                 foreach (Entite entite in Liste<Entite>.ConcatAlternate(PartieTest.ListAttaquants, PartieTest.ListDefendants))
                 {
+                    
                     if (entite.Etat == EntiteInconnu.typeEtat.mort)
                         continue;
                     PartieTest.DebuterAction(entite);
@@ -51,7 +65,10 @@ namespace GofusSharp
                         }
                     }
                     if (!vivante)
-                        return "L'équipe attaquante a gagnée";
+                    {
+                        System.Windows.Forms.MessageBox.Show("L'équipe attaquante a gagnée");
+                        Close();
+                    }
                     vivante = false;
                     foreach (Entite entiteDef in PartieTest.ListDefendants)
                     {
@@ -62,11 +79,16 @@ namespace GofusSharp
                         }
                     }
                     if (!vivante)
-                        return "L'équipe defendante a gagnée";
+                    {
+                        System.Windows.Forms.MessageBox.Show("L'équipe defendante a gagnée");
+                        Close();
+                    }
                 }
             }
-            return "Partie nulle";
+            System.Windows.Forms.MessageBox.Show("Partie nulle");
+            Close();
         }
+
         public void Action(Terrain terrain, Personnage joueur, System.Collections.ObjectModel.ReadOnlyCollection<EntiteInconnu> ListEntites)
         {
             EntiteInconnu ennemi = null;
@@ -145,13 +167,12 @@ namespace GofusSharp
             Classe classeDef = new Classe(1, tabSortDef, Classe.type.iop);
             Statistique[] statItemDef = new Statistique[] { new Statistique(Statistique.type.force, 70) };
             Equipement[] tabEquipDef = new Equipement[] { new Equipement(1, statItemDef, "Coiffe bouftou", Equipement.type.chapeau), new Arme(2, statItemAtt, "Marteau bouftous", Equipement.type.arme, tabEffetAtt2, zonePorteeAtt2, zoneEffetAtt2, Arme.typeArme.marteau) };
-            Terrain terrain = new Terrain(10, 5);
+            Terrain terrain = new Terrain(10, 10);
             Liste<Entite> ListAttaquants = new Liste<Entite>();
             ListAttaquants.Add(new Personnage(10, classeAtt, "Trebor", 10000, EntiteInconnu.type.attaquant, listStatistiqueAtt, scriptAtt, tabEquipAtt, terrain));
             Liste<Entite> ListDefendants = new Liste<Entite>();
             ListDefendants.Add(new Personnage(11, classeDef, "Robert", 9000, EntiteInconnu.type.defendant, listStatistiqueDef, scriptDef, tabEquipDef, terrain));
             PartieTest = new Partie(1, ListAttaquants, ListDefendants);
         }
-
     }
 }
