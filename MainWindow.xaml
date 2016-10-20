@@ -321,6 +321,7 @@
             </Grid>
         </TabItem>
         <TabItem Header="Marché" Height="30"  Loaded="TabItemMarche_Loaded" >
+            
             <Grid Margin="2,-5,-5,-18">
                 <Image x:Name="imgCurrent" HorizontalAlignment="Left" Height="200" Margin="378,10,0,0" VerticalAlignment="Top" Width="200"/>
                 <Label x:Name="lblPri" Visibility="Hidden" Content="Prix:" HorizontalAlignment="Left" Margin="378,215,0,0" VerticalAlignment="Top" Width="35"/>

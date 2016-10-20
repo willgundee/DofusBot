@@ -935,20 +935,20 @@ namespace test
 
         private void TabItemMarche_Loaded(object sender, RoutedEventArgs e)
         {
-            #region Abracadabra
-            btnAchat.Visibility = Visibility.Visible;
-            lblPri.Visibility = Visibility.Visible;
-            imgKamas.Visibility = Visibility.Visible;
-            tabControlStats.Visibility = Visibility.Visible;
-            #endregion
-            Thread th; 
+
+            Thread th = new Thread(new ThreadStart(loadItem));
+            th.SetApartmentState(ApartmentState.STA);
+
+            th.Start();
+            th.Join();
             //TODO: Lorsque plus de données faire un limit/offset et des numero de page
             //SELECT * FROM ConditionsEquipements c INNER JOIN Equipements e ON c.idEquipement = e.idEquipement WHERE idCondition = 21 ORDER BY c.valeur
             // string equips = "SELECT * FROM Equipements WHERE idZonePorte IS NULL LIMIT 10 ";
           
 
         }
-        private void loadItem(int page)
+
+        public void loadItem()
         {
             string equips = "SELECT * FROM Equipements  e INNER JOIN ConditionsEquipements c ON c.idEquipement = e.idEquipement WHERE idCondition = 21  AND idZonePorte IS NULL ORDER BY c.valeur DESC LIMIT 10";
             string armes = "SELECT * FROM Equipements WHERE idZonePorte IS NOT NULL LIMIT 10";
