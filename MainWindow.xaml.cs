@@ -365,9 +365,7 @@ namespace test
 
         }
 
-
-
-
+        #region truc trop long de ced
         //--------------------------------------------------------------------------------------------------------
         //**************************************************************************************************
         private void btn_run_Click(object sender, RoutedEventArgs e)
@@ -822,6 +820,7 @@ namespace test
         [DllImport("User32.dll")]
         public extern static int SendMessage(IntPtr hWnd, uint msg, UIntPtr wParam, UIntPtr lParam);
 
+
         private void ctb_main_VScroll(object sender, EventArgs e)
         {
             int nPos = GetScrollPos(new WindowInteropHelper(Window.GetWindow(ctb_main)).Handle, (int)ScrollBarType.SbVert);
@@ -829,6 +828,7 @@ namespace test
             uint wParam = (uint)ScrollBarCommands.SB_THUMBPOSITION | (uint)nPos;
             SendMessage(new WindowInteropHelper(Window.GetWindow(rtb_lineNumber)).Handle, (int)Message.WM_VSCROLL, new UIntPtr(wParam), new UIntPtr(0));
         }
+#endregion
 
 
         #region Marché
@@ -865,11 +865,19 @@ namespace test
 
             grdStats.Children.Add(CreateLbl("Type :", 0, 0));
             grdStats.Children.Add(CreateLbl(item.Type, 0, 1));
-
+            short col = 0;
+            short row = 1;
             for (int i = 0; i < item.LstStatistiques.Count(); i++)
             {//ajout des stats
-                grdStats.Children.Add(CreateLbl(item.LstStatistiques[i].Nom + " :", i + 1, 0));
-                grdStats.Children.Add(CreateLbl(item.LstStatistiques[i].Valeur.ToString(), i + 1, 1));
+                grdStats.Children.Add(CreateLbl(item.LstStatistiques[i].NomSimple + " :", row, col));
+                grdStats.Children.Add(CreateLbl(item.LstStatistiques[i].Valeur.ToString(), row, col +1));
+                row++;
+                if (row == 5)
+                {
+                    row = 0;
+                    col = 2;
+                }
+
             }
 
             if (item.EstArme)

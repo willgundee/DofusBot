@@ -377,10 +377,10 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="60*"/>
-                            <ColumnDefinition Width="100*"/>
-                            <ColumnDefinition Width="60*"/>
-                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="105*"/>
+                            <ColumnDefinition Width="55*"/>
+                            <ColumnDefinition Width="105*"/>
+                            <ColumnDefinition Width="55*"/>
                         </Grid.ColumnDefinitions>
 
                     </Grid>
