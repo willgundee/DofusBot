@@ -16,6 +16,7 @@ using System.Windows.Documents;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Globalization;
+using System.Threading;
 
 namespace test
 {
@@ -251,7 +252,6 @@ namespace test
         DispatcherTimer aTimer;
         private ChatWindow fenetreChat;
 
-
         public MainWindow(int id)
         {
             /*  BDService bd = new BDService();
@@ -275,7 +275,7 @@ namespace test
             btnEnvoyerMessage.IsEnabled = false;
 
 
-            aTimer = new System.Windows.Threading.DispatcherTimer();
+            aTimer = new DispatcherTimer();
             aTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             aTimer.Interval = new TimeSpan(0, 0, 2);
             //dgStats.ItemsSource=
@@ -289,7 +289,6 @@ namespace test
                System.Windows.Application.Current.Shutdown();
            }
            */
-
 
         // POUR LE CHAT -------------------------------------------------------------------------------------------------------------------
         private void dispatcherTimer_Tick(object sender, EventArgs e)
@@ -306,8 +305,6 @@ namespace test
                 aTimer.Stop();
             }
         }
-
-
 
         private void BtnEnvoyer_Click(object sender, RoutedEventArgs e)
         {
@@ -849,6 +846,8 @@ namespace test
             #endregion
 
             //SELECT * FROM Equipements e  INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement INNER JOIN StatistiquesEquipements s ON s.idEquipement = e.idEquipement INNER JOIN TypesStatistiques ts ON ts.idTypeStatistique = s.idTypeStatistique INNER JOIN EffetsEquipements ee ON ee.idEquipement = e.idEquipement INNER JOIN Effets et ON et.idEffet = ee.idEffet WHERE e.nom ='Marteau du bouftou'
+            if (imgCurrent.Source == ((Image)sender).Source)
+                return;
             imgCurrent.Source = ((Image)sender).Source;
             string nomItem = ((Image)sender).Name.Replace("_", " ");
             double expRequis = 0;
@@ -856,13 +855,13 @@ namespace test
             /*List<string>[] infoItem = bd.selection(info);
             List<string>[] statsItem = bd.selection(stats);*/
             //set des info dans les champs statics
-            Equipement item = new Equipement(bd.selection(info)[0]);
+            Equipement item = new Equipement(bd.selection(info)[0],true);
             lblItem.Content = item.Nom;
 
             NumberFormatInfo nfi = (NumberFormatInfo)
             CultureInfo.InvariantCulture.NumberFormat.Clone();
             nfi.NumberGroupSeparator = " ";
-            lblPrix.Content = Convert.ToInt32(item.Prix).ToString("X",nfi);// n | x
+            lblPrix.Content = Convert.ToInt32(item.Prix).ToString("n",nfi);// n | x
             txtBDesc.Text = item.Desc;
             //elneves tout les stats de l'item
 
@@ -928,15 +927,29 @@ namespace test
             Grid.SetRow(lbl, row);
             return lbl;
         }
+
         private void addPages(int nbPages)
         {
-                
+
         }
-        private void TabItemMarche_Selected(object sender, RoutedEventArgs e)
+
+        private void TabItemMarche_Loaded(object sender, RoutedEventArgs e)
         {
+            #region Abracadabra
+            btnAchat.Visibility = Visibility.Visible;
+            lblPri.Visibility = Visibility.Visible;
+            imgKamas.Visibility = Visibility.Visible;
+            tabControlStats.Visibility = Visibility.Visible;
+            #endregion
+            Thread th; 
             //TODO: Lorsque plus de données faire un limit/offset et des numero de page
             //SELECT * FROM ConditionsEquipements c INNER JOIN Equipements e ON c.idEquipement = e.idEquipement WHERE idCondition = 21 ORDER BY c.valeur
-           // string equips = "SELECT * FROM Equipements WHERE idZonePorte IS NULL LIMIT 10 ";
+            // string equips = "SELECT * FROM Equipements WHERE idZonePorte IS NULL LIMIT 10 ";
+          
+
+        }
+        private void loadItem(int page)
+        {
             string equips = "SELECT * FROM Equipements  e INNER JOIN ConditionsEquipements c ON c.idEquipement = e.idEquipement WHERE idCondition = 21  AND idZonePorte IS NULL ORDER BY c.valeur DESC LIMIT 10";
             string armes = "SELECT * FROM Equipements WHERE idZonePorte IS NOT NULL LIMIT 10";
             int nbPages = Convert.ToInt16(bd.selection(" SELECT COUNT(*) FROM Equipements WHERE idZonePorte IS NULL")[0][0]);
@@ -947,7 +960,7 @@ namespace test
             short row = 0;//géneration des images des armes
             foreach (List<string> item in repArmes)
             {
-                Equipement equip = new Equipement(item);
+                Equipement equip = new Equipement(item, false);
                 Image img = CreateImg(equip.NoImg, equip.Nom);
                 if (col == 5)
                 {
@@ -964,7 +977,7 @@ namespace test
             row = 0;// génération des images des équipements
             foreach (List<string> item in repEquip)
             {
-                Equipement equip = new Equipement(item);
+                Equipement equip = new Equipement(item, false);
                 Image img = CreateImg(equip.NoImg, equip.Nom);
                 if (col == 5)
                 {
@@ -976,7 +989,6 @@ namespace test
                 col++;
                 grdEquips.Children.Add(img);
             }
-
         }
 
         private Image CreateImg(string Noimg, string nom)
@@ -996,12 +1008,6 @@ namespace test
         private void btnAchat_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Forms.MessageBox.Show("Coming soon !");
-        }
-
-        private void TabItemMarche_Unselected(object sender, RoutedEventArgs e)
-        {
-            grdArmes.Children.Clear();
-            grdEquips.Children.Clear();
         }
 
         private void btn_test_Click(object sender, RoutedEventArgs e)
@@ -1148,8 +1154,6 @@ namespace test
 
         }
 
-       
-
         private void imageCasque_MouseDown(object sender, MouseButtonEventArgs e)
         {
             String TypeEquipement = "Chapeau";
@@ -1199,14 +1203,6 @@ namespace test
             PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur);
             Equip.ShowDialog();
         }
-
-
-
-
-
-
-
-
 
         //**************************************************************************************************
     }
