@@ -16,7 +16,6 @@ using System.Windows.Documents;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Globalization;
-using System.Threading;
 
 namespace test
 {
@@ -251,7 +250,7 @@ namespace test
         public Joueur Player { get; set; }
         DispatcherTimer aTimer;
         private ChatWindow fenetreChat;
-        Thread trdEnvoie;
+
 
         public MainWindow(int id)
         {
@@ -315,24 +314,14 @@ namespace test
             long envois = chat.envoyerMessage();
             if (envois != -1)
             {
-                trdEnvoie = new Thread(new ThreadStart(threadEnvoie));
-                trdEnvoie = Thread.CurrentThread;
-                
-                
-                
+                chat.refreshChat();
+                Scroll.ScrollToEnd();
             }
             else
             {
                 System.Windows.MessageBox.Show("Erreur d'envois du message..");
             }
         }
-
-        private void threadEnvoie()
-        {
-            chat.refreshChat();
-            Scroll.ScrollToEnd();
-        }
-
 
         private void txtMessage_TextChange(object sender, TextChangedEventArgs e)
         {
