@@ -249,6 +249,8 @@ namespace test
         };
         public Chat chat;
         public Joueur Player { get; set; }
+        public Thread trdEnvoie { get; private set; }
+
         DispatcherTimer aTimer;
         private ChatWindow fenetreChat;
 
@@ -309,11 +311,20 @@ namespace test
 
         private void BtnEnvoyer_Click(object sender, RoutedEventArgs e)
         {
-            long envois = chat.envoyerMessage();
-            if (envois != -1)
+            long envoie = -1;
+
+            trdEnvoie = new Thread(() => {
+                envoie = chat.envoyerMessageModLess();
+            });
+            trdEnvoie = Thread.CurrentThread;
+
+            if (envoie != -1)
             {
-                chat.refreshChat();
-                Scroll.ScrollToEnd();
+                trdEnvoie = new Thread(() =>
+                {
+                    threadRefresh();
+                });
+                trdEnvoie = Thread.CurrentThread;
             }
             else
             {
@@ -321,6 +332,11 @@ namespace test
             }
         }
 
+        private void threadRefresh()
+        {
+            chat.refreshChat();
+            Scroll.ScrollToEnd();
+        }
         private void txtMessage_TextChange(object sender, TextChangedEventArgs e)
         {
 
@@ -359,7 +375,7 @@ namespace test
         {
 
 
-            fenetreChat = new ChatWindow();
+            fenetreChat = new ChatWindow(chat.id);
             fenetreChat.Show();
 
         }
@@ -1083,11 +1099,37 @@ namespace test
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             /* Faire un update si toute est legit*/
-            if (txt_mdp.Password != "" && txt_mdp.Password == txtConfirmation.Password && txtConfirmation.Password != "")
+            if (txt_mdp.Password != "" && txt_mdp.Password == txtConfirmation.Password && txtConfirmation.Password != "" || txt_Courriel.Text != "")
             {
                 /* Update */
                 lbl_Mdp.Foreground = new SolidColorBrush(Colors.Black);
                 lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Black);
+                StringBuilder UpdSt = new StringBuilder();
+                UpdSt.Append("UPDATE Joueurs SET ");
+                if (txt_Courriel.Text != "")
+                {
+                    UpdSt.Append("courriel = '" + txt_Courriel.Text + "'");
+         
+                }
+                if (txt_mdp.Password != "" && txt_mdp.Password == txtConfirmation.Password && txtConfirmation.Password != "")
+                {
+                    UpdSt.Append(" , motDePasse = '" + txt_mdp.Password + "'");
+
+                }
+                UpdSt.Append(" WHERE nomUtilisateur = '" + Player.NomUtilisateur + "';");
+
+                
+
+                string st = UpdSt.ToString();
+                if (bd.Update(st))
+                {
+                    System.Windows.Forms.MessageBox.Show("Mise à jour avec succès de vos infos!!");
+                }
+
+                txt_mdp.Password = "";
+                txtConfirmation.Password = "";
+                txt_Courriel.Text = "";
+
             }
             else
             {
