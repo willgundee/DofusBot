@@ -1058,7 +1058,7 @@ namespace test
                     lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Red);
 
                 }
-                else if (txt_mdp.Password == "" & txtConfirmation.Password != "")
+                else if (txt_mdp.Password == "" && txtConfirmation.Password != "")
                 {
                     /* Mot de passe vide*/
                     lbl_Mdp.Foreground = new SolidColorBrush(Colors.Red);
