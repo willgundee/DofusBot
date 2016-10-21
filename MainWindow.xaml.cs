@@ -655,15 +655,9 @@ namespace test
 
             MessageBoxResult m = System.Windows.MessageBox.Show("Voulez vous vraiment acheter l'objet : " + lblItem.Content + ". Au cout de " +  lblPrix.Content + " Kamas ?", "Achat", MessageBoxButton.YesNo,MessageBoxImage.Information);
             if (m == MessageBoxResult.Yes)
-                if (Player.Kamas < (int)lblPrix.Content)
-                {
-                    System.Windows.MessageBox.Show("Il semblerais que vous n'avez pas assez de Kamas ! Vous ne voulez pas être endetter de " + lblPrix.Content + " Kamas ?", "Erreur", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                }
-                else
-                {
                     Player.Kamas -= (int)lblPrix.Content;
-                    //TODO: insertion de l'item dans l'inventaire du joueur
-                }
+            lblKamas.Content = Player.Kamas;
+
         }
 
         private void image_MouseUp(object sender, MouseButtonEventArgs e)
@@ -676,13 +670,15 @@ namespace test
             #region Abracadabra
             btnAchat.Visibility = Visibility.Visible;
             lblPri.Visibility = Visibility.Visible;
-            imgKamas.Visibility = Visibility.Visible;
+            lblMoney.Visibility = Visibility.Visible;
+            lblKamas.Visibility = Visibility.Visible;
+           // imgKamas.Visibility = Visibility.Visible;
             tabControlStats.Visibility = Visibility.Visible;
             #endregion
 
             if (imgCurrent.Source == (((ImageItem)sender).imgItem.Source))
                 return;
-
+            lblKamas.Content = Player.Kamas;
             LstCaras.Clear();
             LstStats.Clear();
             LstConds.Clear();
