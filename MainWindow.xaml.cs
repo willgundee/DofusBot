@@ -15,7 +15,6 @@ using System.Windows.Input;
 using System.Windows.Documents;
 using System.Windows.Interop;
 using System.Windows.Media;
-using System.Globalization;
 using System.Threading;
 using System.Collections.ObjectModel;
 
@@ -653,24 +652,18 @@ namespace test
         #region Marché
         private void btnAchat_Click(object sender, RoutedEventArgs e)
         {
-            /*DialogResult dr = System.Windows.MessageBox.Show("Voulez vous vraiment acheter l'objet : " + lblItem + " Au cout de " + lblPrix.Content,
-                      "Achat", MessageBoxButtons.YesNo);
-            switch (dr)
-            {
-                case DialogResult.Yes: break;
-                case DialogResult.No: break;
-            }*/
-            MessageBoxResult m = System.Windows.MessageBox.Show("Voulez vous vraiment acheter l'objet : " + lblItem.Content + " Au cout de " + lblPrix.Content + " Kamas ?", "Achat", MessageBoxButton.YesNo);
+
+            MessageBoxResult m = System.Windows.MessageBox.Show("Voulez vous vraiment acheter l'objet : " + lblItem.Content + ". Au cout de " +  lblPrix.Content + " Kamas ?", "Achat", MessageBoxButton.YesNo,MessageBoxImage.Information);
             if (m == MessageBoxResult.Yes)
-            {
-                //do something
-            }
-            else if (m == MessageBoxResult.No)
-            {
-                //do something else
-            }
-
-
+                if (Player.Kamas < (int)lblPrix.Content)
+                {
+                    System.Windows.MessageBox.Show("Il semblerais que vous n'avez pas assez de Kamas ! Vous ne voulez pas être endetter de " + lblPrix.Content + " Kamas ?", "Erreur", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                }
+                else
+                {
+                    Player.Kamas -= (int)lblPrix.Content;
+                    //TODO: insertion de l'item dans l'inventaire du joueur
+                }
         }
 
         private void image_MouseUp(object sender, MouseButtonEventArgs e)
@@ -700,10 +693,7 @@ namespace test
             Equipement item = new Equipement(bd.selection(info)[0], true);
             lblItem.Content = item.Nom;
 
-            NumberFormatInfo nfi = (NumberFormatInfo)
-            CultureInfo.InvariantCulture.NumberFormat.Clone();
-            nfi.NumberGroupSeparator = " ";
-            lblPrix.Content = Convert.ToInt32(item.Prix).ToString("n", nfi);// n | x
+            lblPrix.Content = item.Prix;
             txtBDesc.Text = item.Desc;
 
             // ajoutes les nouvelles

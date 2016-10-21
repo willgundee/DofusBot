@@ -350,7 +350,7 @@
                 </Grid.RowDefinitions>
                 <Image x:Name="imgCurrent" HorizontalAlignment="Left" Height="200" Margin="378,10,0,0" VerticalAlignment="Top" Width="200"/>
                 <Label x:Name="lblPri" Visibility="Hidden" Content="Prix:" HorizontalAlignment="Left" Margin="378,215,0,0" VerticalAlignment="Top" Width="35" Height="26"/>
-                <Label x:Name="lblPrix"  HorizontalAlignment="Left" Margin="418,215,0,0" VerticalAlignment="Top" Width="99" Height="26"/>
+                <Label x:Name="lblPrix" ContentStringFormat="C" HorizontalAlignment="Left" Margin="418,215,0,0" VerticalAlignment="Top" Width="99" Height="26"/>
                 <Button x:Name="btnAchat" Visibility="Hidden" HorizontalContentAlignment="Center" Content="Acheter" HorizontalAlignment="Left" Margin="442,256,0,0" VerticalAlignment="Top" Width="75" Click="btnAchat_Click" Height="22"/>
                 <Label x:Name="lblItem" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="191" Height="26"/>
                 <Label Name="lblLvl" Width="167"  HorizontalAlignment="Left" Height="26" Margin="206,10,0,248.489" Content="" />
