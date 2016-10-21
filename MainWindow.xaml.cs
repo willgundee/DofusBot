@@ -252,7 +252,8 @@ namespace test
         public Joueur Player { get; set; }
         public Thread trdEnvoie { get; private set; }
 
-        public ObservableCollection<PagePerso> pgperso; 
+        public ObservableCollection<PagePerso> pgperso;
+        public ObservableCollection<pageCPersonnage> pgCperso;
 
         DispatcherTimer aTimer;
         private ChatWindow fenetreChat;
@@ -275,6 +276,8 @@ namespace test
             ctb_main.UpdateTreeView();
 
             pgperso = new ObservableCollection<PagePerso>();
+            pgCperso = new ObservableCollection<pageCPersonnage>();
+
             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
 
 
@@ -1181,20 +1184,33 @@ namespace test
             System.Windows.Forms.MessageBox.Show("Bientôt disponnible !");
         }
         #endregion
-        #region /Perso
+        #region Michael/Perso
         // ***************************************************
         //Onglet Personnage
         // ***************************************************
 
         private void TabPersonage_Selected(object sender, RoutedEventArgs e)
         {
-            //le nom du perso 
+
+            if (Player.LstEntites.Count() == 0)
+            {
+             pgCperso.Add(new pageCPersonnage());
+            tCPerso.ItemsSource = pgCperso;
+            }
+
+            //le nom du perso            
             foreach (Entite perso in Player.LstEntites)
             {
-                pgperso.Add( new PagePerso (perso, Player));
+                
+                    pgperso.Add(new PagePerso(perso, Player));
+                tCPerso.ItemsSource = pgperso;
+                  
+                
+                }
+                     
+
             }
-            tCPerso.ItemsSource=pgperso;
-        }
+        
 
         #endregion
 
