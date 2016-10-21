@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,7 +27,11 @@ namespace test
     {
         public Chat chat;
         DispatcherTimer aTimer;
-        public ChatWindow()
+        Thread trdEnvoie;
+        
+
+
+        public ChatWindow(string user)
         {
             InitializeComponent();
             this.chat = new Chat();
@@ -35,6 +40,9 @@ namespace test
             aTimer = new System.Windows.Threading.DispatcherTimer();
             aTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             aTimer.Interval = new TimeSpan(0, 0, 2);
+            chat.nomUtilisateur = user;
+            chat.getId();
+
         }
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
@@ -58,22 +66,46 @@ namespace test
             }
         }
 
- 
+
 
 
         private void btn_Envoyer_Click(object sender, RoutedEventArgs e)
         {
-            long envois = chat.envoyerMessageModLess();
-            if (envois != -1)
+            long envoie = -1;
+
+            trdEnvoie = new Thread(() => {
+                envoie = chat.envoyerMessageModLess();
+            });
+            trdEnvoie = Thread.CurrentThread;
+
+            if (envoie != -1)
             {
-                chat.refreshChatModLess();
-                Scroll.ScrollToEnd();
+                trdEnvoie = new Thread(() => {
+                    chat.refreshChat();
+                    Scroll.ScrollToEnd();
+                });
+                trdEnvoie = Thread.CurrentThread;
+
+
+
             }
             else
             {
-                MessageBox.Show("Erreur lors de l'envoie du message.");
+                System.Windows.MessageBox.Show("Erreur d'envois du message..");
             }
         }
+
+        private void threadEnvoie()
+        {
+
+        }
+
+        private void threadRefresh()
+        {
+            chat.refreshChat();
+            Scroll.ScrollToEnd();
+        }
+
 
         private void txtMessage_TextChange(object sender, TextChangedEventArgs e)
         {
@@ -85,8 +117,8 @@ namespace test
             }
             else
             {
-                if(aTimer.IsEnabled)
-                btnEnvoyerMessage.IsEnabled = true;
+                if (aTimer.IsEnabled)
+                    btnEnvoyerMessage.IsEnabled = true;
             }
         }
 
