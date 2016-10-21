@@ -71,14 +71,19 @@ namespace test
 
         private void btn_Envoyer_Click(object sender, RoutedEventArgs e)
         {
-            long envoie;
+            long envoie = -1;
 
-            trdEnvoie = new Thread(new ThreadStart(threadEnvoie(envoie));
+            trdEnvoie = new Thread(() => {
+                envoie = chat.envoyerMessageModLess();
+            });
             trdEnvoie = Thread.CurrentThread;
 
             if (envoie != -1)
             {
-                trdEnvoie = new Thread(new ThreadStart(threadRefresh));
+                trdEnvoie = new Thread(() => {
+                        chat.refreshChat();
+                    Scroll.ScrollToEnd();
+                });
                 trdEnvoie = Thread.CurrentThread;
 
 
@@ -90,9 +95,9 @@ namespace test
             }
         }
 
-        private void threadEnvoie(long envoie)
+        private void threadEnvoie()
         {
-                envoie = chat.envoyerMessageModLess();
+                
         }
 
         private void threadRefresh()

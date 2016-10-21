@@ -315,14 +315,21 @@ namespace test
 
         private void BtnEnvoyer_Click(object sender, RoutedEventArgs e)
         {
-            long envois = chat.envoyerMessage();
-            if (envois != -1)
+            long envoie = -1;
+
+            trdEnvoie = new Thread(() => {
+                envoie = chat.envoyerMessageModLess();
+            });
+            trdEnvoie = Thread.CurrentThread;
+
+            if (envoie != -1)
             {
-                trdEnvoie = new Thread(new ThreadStart(threadEnvoie));
+                trdEnvoie = new Thread(() =>
+                {
+                    chat.refreshChat();
+                    Scroll.ScrollToEnd();
+                });
                 trdEnvoie = Thread.CurrentThread;
-                
-                
-                
             }
             else
             {
