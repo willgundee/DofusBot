@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,16 +16,16 @@ using System.Windows.Shapes;
 
 namespace test
 {
- 
+
     /// <summary>
     /// Logique d'interaction pour pageCPersonnage.xaml
     /// </summary>
-    public partial class pageCPersonnage : UserControl
+    public partial class pageCpersonage : UserControl
     {
         public Classe Cl;
 
-     public BDService bd = new BDService();
-        public pageCPersonnage()
+        public BDService bd = new BDService();
+        public pageCpersonage()
         {
             InitializeComponent();
         }
@@ -38,19 +39,23 @@ namespace test
 
             switch (choix)
             {
-                case "ClasseCra": Classe= "Cra" ;
+                case "ClasseCra":
+                    Classe = "Cra";
                     break;
-                case "ClasseIop": Classe="Iop" ;
+                case "ClasseIop":
+                    Classe = "Iop";
                     break;
-                case "ClasseEcaflip": Classe="Ecaflip" ;
+                case "ClasseEcaflip":
+                    Classe = "Ecaflip";
                     break;
                 default:
                     Classe = null;
                     break;
             }
 
-             Cl=new Classe( bd.selection("SELECT * FROM Classes WHERE Nom = '" + Classe+"'")[0]);
+            Cl = new Classe(bd.selection("SELECT * FROM Classes WHERE Nom = '" + Classe + "'")[0]);
             txtbDesc.Text = Cl.Description;
+            //pt afficher les sorts de la classe
         }
     }
 }
