@@ -57,6 +57,14 @@ namespace GofusSharp
                 {
                     InfligerEffet(effet, sort.ZoneEffet, cible.Position);
                 }
+                return true;
+            }
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window.GetType() == typeof(Combat))
+                {
+                    (window as Combat).tb_Log.Text += "\n" + cible.Nom + " est hors de portée du sort " + sort.Nom;
+                }
             }
             return false;
         }
@@ -75,6 +83,14 @@ namespace GofusSharp
                 foreach (Effet effet in sort.TabEffets)
                 {
                     InfligerEffet(effet, sort.ZoneEffet, cible);
+                }
+                return true;
+            }
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window.GetType() == typeof(Combat))
+                {
+                    (window as Combat).tb_Log.Text += "\n" + cible.X + " Y: " + cible.Y + " est hors de portée du sort " + sort.Nom;
                 }
             }
             return false;

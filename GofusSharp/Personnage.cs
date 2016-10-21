@@ -55,6 +55,14 @@ namespace GofusSharp
                     InfligerEffet(effet, arme.ZoneEffet, cible.Position);
                 }
             }
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window.GetType() == typeof(Combat))
+                {
+                    (window as Combat).tb_Log.Text += "\n" + cible.Nom + " est hors de portée de l'arme " + arme.Nom;
+                }
+                return true;
+            }
             return false;
         }
         public bool Attaquer(Case cible)
@@ -81,12 +89,13 @@ namespace GofusSharp
                 {
                     InfligerEffet(effet, arme.ZoneEffet, cible);
                 }
+                return true;
             }
             foreach (Window window in Application.Current.Windows)
             {
                 if (window.GetType() == typeof(Combat))
                 {
-                    (window as Combat).tb_Log.Text += "\n" + cible.X + " Y: " + cible.Y + " est " + arme.Nom;
+                    (window as Combat).tb_Log.Text += "\n" + cible.X + " Y: " + cible.Y + " est hors de portée de l'arme " + arme.Nom;
                 }
             }
             return false;
