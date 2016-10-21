@@ -149,6 +149,9 @@
     <Compile Include="PageEquipement.xaml.cs">
       <DependentUpon>PageEquipement.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PagePerso.xaml.cs">
+      <DependentUpon>PagePerso.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -220,6 +223,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PageEquipement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PagePerso.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

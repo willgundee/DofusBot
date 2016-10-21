@@ -17,6 +17,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Globalization;
 using System.Threading;
+using System.Collections.ObjectModel;
 
 namespace test
 {
@@ -251,6 +252,8 @@ namespace test
         public Joueur Player { get; set; }
         public Thread trdEnvoie { get; private set; }
 
+        ObservableCollection<PagePerso> pgperso; 
+
         DispatcherTimer aTimer;
         private ChatWindow fenetreChat;
 
@@ -270,9 +273,10 @@ namespace test
             ctb_main.CreateTreeView(generateTree());
             ctb_main.UpdateSyntaxHightlight();
             ctb_main.UpdateTreeView();
-            
 
+            pgperso = new ObservableCollection<PagePerso>();
             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
+
 
             this.chat = new Chat();
             btnEnvoyerMessage.IsEnabled = false;
@@ -1176,7 +1180,7 @@ namespace test
         {
             System.Windows.Forms.MessageBox.Show("Bientôt disponnible !");
         }
-        
+
 
         // ***************************************************
         //Onglet Personnage
@@ -1184,94 +1188,17 @@ namespace test
 
         private void TabPersonage_Selected(object sender, RoutedEventArgs e)
         {
-            //le nom du perso
-
-            int nbScript = Player.LstScripts.Count;
-            for(int i=0; i<nbScript;i++)
+            //le nom du perso 
+            foreach (Entite perso in Player.LstEntites)
             {
-                cbScript.Items.Add(Player.LstScripts[i].Nom); 
-                               
+                pgperso.Add( new PagePerso (perso, Player));
             }
+            tCPerso.ItemsSource=pgperso;
+        }
 
-
-            foreach(Entite perso in Player.LstEntites  )
-            {
-                //todo création de plusieurs onglets personnage
-            ongletPerso.Header = perso.Nom;
-            lblNomClasse.Content = perso.ClasseEntite.Nom;
-                string SourceImgClasse = "resources/"+perso.ClasseEntite.Nom ;
          
-                BitmapImage path = new BitmapImage();
-                path.BeginInit();
-                path.UriSource = new Uri(SourceImgClasse+".png", UriKind.Relative);
-                path.EndInit();
-                Imgclasse.Source = path;
-
-                cbScript.SelectedItem= perso.ScriptEntite.Nom;
 
 
-                dgStats.ItemsSource = perso.LstStats;
-                dgDommage.ItemsSource = perso.LstStats;
-                dgResistance.ItemsSource = perso.LstStats;
-
-            }
-
-        }
-
-        private void AjustementLignes(Entite perso)
-        {
-            
-        }
-
-        private void imageCasque_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            String TypeEquipement = "Chapeau";
-
-            PageEquipement Equip = new PageEquipement(TypeEquipement,Player.NomUtilisateur);
-            Equip.ShowDialog();
-        
-        }
-
-        private void imageCape_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            String TypeEquipement = "Cape";
-
-            PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur);
-            Equip.ShowDialog();
-        }
-
-        private void imageArme_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            String TypeEquipement = "Arme";
-
-            PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur);
-            Equip.ShowDialog();
-        }
-
-
-        private void imageAnneau1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            String TypeEquipement = "Chapeau";
-
-            PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur);
-            Equip.ShowDialog();
-        }
-
-        private void imageBotte_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            String TypeEquipement = "botte";
-
-            PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur);
-            Equip.ShowDialog();
-        }
-
-        private void imageCeinture_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            String TypeEquipement = "Ceinture";
-
-            PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur);
-            Equip.ShowDialog();
-        }
 
         //**************************************************************************************************
     }
