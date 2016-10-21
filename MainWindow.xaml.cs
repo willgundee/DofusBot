@@ -72,7 +72,7 @@ namespace test
             ctb_main.CreateTreeView(generateTree());
             ctb_main.UpdateSyntaxHightlight();
             ctb_main.UpdateTreeView();
-
+            pgperso = new ObservableCollection<PagePerso>();
             #region linking Marché
             LstImgItems = new ObservableCollection<ImageItem>();
             LstStats = new ObservableCollection<string>();
@@ -866,9 +866,10 @@ namespace test
                 }
                 col++;
                 LstImgItems.Add(i);
+            }
         }
 
-        private void btn_test_Click(object sender, RoutedEventArgs e)
+        private void btn_test_Clicke(object sender, RoutedEventArgs e)
         {
             Combat combat = new Combat();
         }
