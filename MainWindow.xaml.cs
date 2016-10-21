@@ -652,13 +652,11 @@ namespace test
         #region Marché
         private void btnAchat_Click(object sender, RoutedEventArgs e)
         {
-
             MessageBoxResult m = System.Windows.MessageBox.Show("Voulez vous vraiment acheter l'objet : " + lblItem.Content + ". Au cout de " +  lblPrix.Content + " Kamas ?", "Achat", MessageBoxButton.YesNo,MessageBoxImage.Information);
             if (m == MessageBoxResult.Yes)
                     Player.Kamas -= (int)lblPrix.Content;
-            //TODO: le update
+            //TODO: le update et l'insert
             lblKamas.Content = Player.Kamas;
-
         }
 
         private void image_MouseUp(object sender, MouseButtonEventArgs e)
@@ -691,6 +689,11 @@ namespace test
             lblItem.Content = item.Nom;
 
             lblPrix.Content = item.Prix;
+            if (Player.Kamas < (int)lblPrix.Content)
+                btnAchat.IsEnabled = false;
+            else
+                btnAchat.IsEnabled = true;
+
             txtBDesc.Text = item.Desc;
 
             // ajoutes les nouvelles
