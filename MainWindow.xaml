@@ -11,6 +11,26 @@
         mc:Ignorable="d"
      Icon="resources/Gofus.png"
         Title="Gofus" Height="600" Width="700" ResizeMode="NoResize">
+    <Window.Resources>
+        <Style x:Key="LinkButton" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <TextBlock TextDecorations="Underline">
+                    <ContentPresenter />
+                        </TextBlock>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="Blue" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Foreground" Value="Red" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
 
     <TabControl TabStripPlacement="Left">
         <TabItem Header="Personages" Height="30" Selector.Selected="TabPersonage_Selected">
@@ -320,73 +340,64 @@
                 <Button Name="btn_test" Content="test" Grid.Column="1" HorizontalAlignment="Left" Margin="143,33,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="btn_test_Click"/>
             </Grid>
         </TabItem>
-        <TabItem Header="Marché" Height="30"  Loaded="TabItemMarche_Loaded" >
+        <TabItem Header="Marché" Height="30" >
 
             <Grid Margin="2,-5,-5,-3">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="283*"></RowDefinition>
-                    <RowDefinition Height="287*"></RowDefinition>
+                    <RowDefinition Height="284*"></RowDefinition>
+                    <RowDefinition Height="268*"></RowDefinition>
+                    <RowDefinition Height="21*"/>
                 </Grid.RowDefinitions>
                 <Image x:Name="imgCurrent" HorizontalAlignment="Left" Height="200" Margin="378,10,0,0" VerticalAlignment="Top" Width="200"/>
-                <Label x:Name="lblPri" Visibility="visible" Content="Prix:" HorizontalAlignment="Left" Margin="378,215,0,0" VerticalAlignment="Top" Width="35" Height="26"/>
+                <Label x:Name="lblPri" Visibility="Hidden" Content="Prix:" HorizontalAlignment="Left" Margin="378,215,0,0" VerticalAlignment="Top" Width="35" Height="26"/>
                 <Label x:Name="lblPrix"  HorizontalAlignment="Left" Margin="418,215,0,0" VerticalAlignment="Top" Width="99" Height="26"/>
                 <Button x:Name="btnAchat" Visibility="visible" HorizontalContentAlignment="Center" Content="Acheter" HorizontalAlignment="Left" Margin="442,256,0,0" VerticalAlignment="Top" Width="75" Click="btnAchat_Click" Height="22"/>
-                <Label x:Name="lblItem" Content="" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="363" Height="26"/>
-                <ScrollViewer>
-                    <TextBlock Name="txtBDesc" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Top" Width="363" Height="50" Margin="0,41,0,0"/>
-                </ScrollViewer>
-                <Image x:Name="imgKamas" Visibility="visible" Source="resources/kamas.png" HorizontalAlignment="Left" Height="26" Margin="522,215,0,0" VerticalAlignment="Top" Width="38"/>
+                <Label x:Name="lblItem" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="191" Height="26"/>
+                <Label Name="lblLvl" Width="167"  HorizontalAlignment="Left" Height="26" Margin="206,10,0,248.489" Content="" />
+                <TextBlock Name="txtBDesc" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="363" Height="82" Margin="10,41,0,0" />
+                <Image x:Name="imgKamas" Visibility="Hidden" Source="resources/kamas.png" HorizontalAlignment="Left" Height="26" Margin="522,215,0,0" VerticalAlignment="Top" Width="38"/>
 
-                <TabControl x:Name="tabControlStats" Visibility="visible" HorizontalAlignment="Left" Height="171" Margin="10,101,0,0" VerticalAlignment="Top" Width="363">
+                <TabControl x:Name="tabControlStats" Visibility="Hidden" Height="151" Margin="10,128,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="363">
                     <TabItem Header="Statistiques">
-                        <Grid Background="#FFE5E5E5" x:Name="grdStats">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="105*"/>
-                                <ColumnDefinition Width="55*"/>
-                                <ColumnDefinition Width="105*"/>
-                                <ColumnDefinition Width="55*"/>
-                            </Grid.ColumnDefinitions>
-
-                        </Grid>
+                        <ListBox  Name="lbxStats"/>
                     </TabItem>
                     <TabItem Header="Conditions">
-                        <Grid Background="#FFE5E5E5" x:Name="grdCond">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="100*"/>
-                                <ColumnDefinition Width="60*"/>
-                                <ColumnDefinition Width="100*"/>
-                                <ColumnDefinition Width="60*"/>
-                            </Grid.ColumnDefinitions>
-                        </Grid>
+                        <ListBox  Name="lbxCond"/>
+                    </TabItem>
+                    <TabItem Header="caractéristiques" Visibility="Hidden">
+                        <ListBox  Name="lbxCara"/>
                     </TabItem>
                 </TabControl>
-                <TabControl Name="tCMarche" TabStripPlacement="Bottom"  Grid.Row="1" >
-                    <TabItem Name="tArmes" Header="Armes" Height="50" Selector.Selected="tArmes_Selected" Selector.Unselected="tab_Unselected">
-                        <ListBox Name="lstBoxArmes"  Grid.Row="1">
-                            
-                        </ListBox>
-                    </TabItem>
-                    <TabItem Name="tEquips" Header="Armures" Height="50" Selector.Selected="tEquips_Selected" Selector.Unselected="tab_Unselected">
-                        <ListBox Name="lstBoxEquip"   Grid.Row="1"/>
-                    </TabItem>
-                </TabControl>
+                <ComboBox x:Name="cboTrie" SelectionChanged="cboTrie_SelectionChanged" HorizontalAlignment="Left" Margin="81,6.511,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120"/>
 
+                <ItemsControl Name="itmCtrlEquip" Grid.Row="1" Margin="0,33.511,-0.147,0" >
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                            </Grid>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemContainerStyle>
+                        <Style>
+                            <Setter Property="Grid.Column"  Value="{Binding }" />
+                            <Setter Property="Grid.Row" Value="{Binding }" />
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                </ItemsControl>
+
+                <Label x:Name="lblTrie" Content="Afficher :" HorizontalAlignment="Left" Margin="10,2.511,0,0" Grid.Row="1" VerticalAlignment="Top" Width="71"/>
+                <DockPanel Name="dckLink"  LastChildFill="False"  Grid.Row="2" />
             </Grid>
         </TabItem>
         <TabItem Header="Sorts" Height="30">

@@ -43,214 +43,12 @@ namespace test
     public partial class MainWindow : Window
     {
         public BDService bd = new BDService();
-        private Dictionary<int, double> dictLvl = new Dictionary<int, double>()
-        {
-            #region les levels
-            {1,0},
-            {2,110},
-            {3,650},
-            {4,1500},
-            {5,2800},
-            {6,4800},
-            {7,7300},
-            {8,10500},
-            {9,14500},
-            {10,19200},
-            {11,25200},
-            {12,32600},
-            {13,41000},
-            {14,50500},
-            {15,61000},
-            {16,75000},
-            {17,91000},
-            {18,115000},
-            {19,142000},
-            {20,171000},
-            {21,202000},
-            {22,235000},
-            {23,270000},
-            {24,310000},
-            {25,353000},
-            {26,398500},
-            {27,448000},
-            {28,503000},
-            {29,561000},
-            {30,621600},
-            {31,687000},
-            {32,755000},
-            {33,829000},
-            {34,910000},
-            {35,1000000},
-            {36,1100000},
-            {37,1240000},
-            {38,1400000},
-            {39,1580000},
-            {40,1780000},
-            {41,2000000},
-            {42,2250000},
-            {43,2530000},
-            {44,2850000},
-            {45,3200000},
-            {46,3570000},
-            {47,3960000},
-            {48,4400000},
-            {49,4860000},
-            {50,5350000},
-            {51,5860000},
-            {52,6390000},
-            {53,6950000},
-            {54,7530000},
-            {55,8130000},
-            {56,8765100},
-            {57,9420000},
-            {58,10150000},
-            {59,10894000},
-            {60,11655000},
-            {61,12450000},
-            {62,13280000},
-            {63,14130000},
-            {64,15170000},
-            {65,16251000},
-            {66,17377000},
-            {67,18553000},
-            {68,19778000},
-            {69,21055000},
-            {70,22385000},
-            {71,23529000},
-            {72,25209000},
-            {73,26707000},
-            {74,28264000},
-            {75,29882000},
-            {76,31563000},
-            {77,33307000},
-            {78,35118000},
-            {79,36997000},
-            {80,38945000},
-            {81,40965000},
-            {82,43059000},
-            {83,45229000},
-            {84,47476000},
-            {85,49803000},
-            {86,52211000},
-            {87,54704000},
-            {88,57284000},
-            {89,59952000},
-            {90,62712000},
-            {91,65565000},
-            {92,68514000},
-            {93,71561000},
-            {94,74710000},
-            {95,77963000},
-            {96,81323000},
-            {97,84792000},
-            {98,88374000},
-            {99,92071000},
-            {100,95886000},
-            {101,99823000},
-            {102,103885000},
-            {103,108075000},
-            {104,112396000},
-            {105,116853000},
-            {106,121447000},
-            {107,126184000},
-            {108,131066000},
-            {109,136098000},
-            {110,141283000},
-            {111,146626000},
-            {112,152130000},
-            {113,157800000},
-            {114,163640000},
-            {115,169655000},
-            {116,175848000},
-            {117,182225000},
-            {118,188791000},
-            {119,195550000},
-            {120,202507000},
-            {121,209667000},
-            {122,217037000},
-            {123,224620000},
-            {124,232424000},
-            {125,240452000},
-            {126,248712000},
-            {127,257209000},
-            {128,265949000},
-            {129,274939000},
-            {130,284186000},
-            {131,293694000},
-            {132,303473000},
-            {133,313527000},
-            {134,323866000},
-            {135,334495000},
-            {136,345423000},
-            {137,356657000},
-            {138,368206000},
-            {139,380076000},
-            {140,392278000},
-            {141,404818000},
-            {142,417706000},
-            {143,430952000},
-            {144,444564000},
-            {145,458551000},
-            {146,472924000},
-            {147,487693000},
-            {148,502867000},
-            {149,518458000},
-            {150,534476000},
-            {151,551000000},
-            {152,567839000},
-            {153,585206000},
-            {154,603047000},
-            {155,621374000},
-            {156,640199000},
-            {157,659536000},
-            {158,679398000},
-            {159,699798000},
-            {160,720751000},
-            {161,742272000},
-            {162,764374000},
-            {163,787074000},
-            {164,810387000},
-            {165,834329000},
-            {166,858917000},
-            {167,884167000},
-            {168,910098000},
-            {169,936727000},
-            {170,964073000},
-            {171,992154000},
-            {172,1020991000},
-            {173,1050603000},
-            {174,1081010000},
-            {175,1112235000},
-            {176,1144298000},
-            {177,1177222000},
-            {178,1211030000},
-            {179,1245745000},
-            {180,1281393000},
-            {181,1317997000},
-            {182,1355584000},
-            {183,1404179000},
-            {184,1463811000},
-            {185,1534506000},
-            {186,1616294000},
-            {187,1709205000},
-            {188,1813267000},
-            {189,1928513000},
-            {190,2054975000},
-            {191,2192686000},
-            {192,2341679000},
-            {193,2501990000},
-            {194,2673655000},
-            {195,2856710000},
-            {196,3051194000},
-            {197,3257146000},
-            {198,3474606000},
-            {199,3703616000},
-            {200,5555424000}
-             #endregion
-        };
         public Chat chat;
-        public ObservableCollection<Image> LstEquips;
-        public ObservableCollection<Image> LstArmes;
+        public ObservableCollection<ImageItem> LstImgItems;
+        ObservableCollection<string> LstStats;
+        ObservableCollection<string> LstConds;
+        ObservableCollection<string> LstCaras;
+
         public Joueur Player { get; set; }
         DispatcherTimer aTimer;
         private ChatWindow fenetreChat;
@@ -271,8 +69,21 @@ namespace test
             ctb_main.CreateTreeView(generateTree());
             ctb_main.UpdateSyntaxHightlight();
             ctb_main.UpdateTreeView();
-            LstEquips = new ObservableCollection<Image>();
-            LstArmes = new ObservableCollection<Image>();
+
+            #region linking Marché
+            LstImgItems = new ObservableCollection<ImageItem>();
+            LstStats = new ObservableCollection<string>();
+            LstConds = new ObservableCollection<string>();
+            LstCaras = new ObservableCollection<string>();
+
+            itmCtrlEquip.ItemsSource = LstImgItems;
+            lbxStats.ItemsSource = LstStats;
+            lbxCond.ItemsSource = LstConds;
+            lbxCara.ItemsSource = LstCaras;
+
+            fillSortCbo();
+            #endregion
+
             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
 
             this.chat = new Chat();
@@ -830,6 +641,16 @@ namespace test
             uint wParam = (uint)ScrollBarCommands.SB_THUMBPOSITION | (uint)nPos;
             SendMessage(new WindowInteropHelper(Window.GetWindow(rtb_lineNumber)).Handle, (int)Message.WM_VSCROLL, new UIntPtr(wParam), new UIntPtr(0));
         }
+        private void btnAchat_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.MessageBox.Show("Coming soon !");
+        }
+
+        private void btn_test_Click(object sender, RoutedEventArgs e)
+        {
+            CombatTest lol = new CombatTest();
+            System.Windows.Forms.MessageBox.Show(lol.combat(64));
+        }
         #endregion
 
 
@@ -849,16 +670,16 @@ namespace test
             tabControlStats.Visibility = Visibility.Visible;
             #endregion
 
-            //SELECT * FROM Equipements e  INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement INNER JOIN StatistiquesEquipements s ON s.idEquipement = e.idEquipement INNER JOIN TypesStatistiques ts ON ts.idTypeStatistique = s.idTypeStatistique INNER JOIN EffetsEquipements ee ON ee.idEquipement = e.idEquipement INNER JOIN Effets et ON et.idEffet = ee.idEffet WHERE e.nom ='Marteau du bouftou'
-            if (imgCurrent.Source == ((Image)sender).Source)
+            if (imgCurrent.Source == (((ImageItem)sender).imgItem.Source))
                 return;
-            imgCurrent.Source = ((Image)sender).Source;
-            string nomItem = ((Image)sender).Name.Replace("_", " ");
-            double expRequis = 0;
-            string info = "SELECT * FROM Equipements  WHERE nom ='" + nomItem + "'";
-            /*List<string>[] infoItem = bd.selection(info);
-            List<string>[] statsItem = bd.selection(stats);*/
-            //set des info dans les champs statics
+
+            LstCaras.Clear();
+            LstStats.Clear();
+            LstConds.Clear();
+
+            imgCurrent.Source = ((ImageItem)sender).imgItem.Source;
+            string info = "SELECT * FROM Equipements  WHERE nom ='" + ((ImageItem)sender).txtNom.Text + "'";
+
             Equipement item = new Equipement(bd.selection(info)[0], true);
             lblItem.Content = item.Nom;
 
@@ -867,192 +688,101 @@ namespace test
             nfi.NumberGroupSeparator = " ";
             lblPrix.Content = Convert.ToInt32(item.Prix).ToString("n", nfi);// n | x
             txtBDesc.Text = item.Desc;
-            //elneves tout les stats de l'item
 
-            grdStats.Children.Clear();
             // ajoutes les nouvelles
-
-            grdStats.Children.Add(CreateLbl("Type :", 0, 0));
-            grdStats.Children.Add(CreateLbl(item.Type, 0, 1));
-            short col = 0;
-            short row = 1;
-            for (int i = 0; i < item.LstStatistiques.Count(); i++)
-            {//ajout des stats
-                grdStats.Children.Add(CreateLbl(item.LstStatistiques[i].NomSimple + " :", row, col));
-                grdStats.Children.Add(CreateLbl(item.LstStatistiques[i].Valeur.ToString(), row, col + 1));
-                row++;
-                if (row == 5)
-                {
-                    row = 0;
-                    col = 2;
-                }
-
-            }
-
             if (item.EstArme)
-                for (int x = 0; x < item.LstEffets.Count(); x++)
-                {//ajout des dommages
-                    grdStats.Children.Add(CreateLbl(item.LstEffets[x].NomSimplifier + " :", x, 2));
-                    grdStats.Children.Add(CreateLbl(item.LstEffets[x].DmgMin.ToString() + " à " + item.LstEffets[x].DmgMax.ToString(), x, 3));
+                foreach (Effet effet in item.LstEffets)
+                    LstStats.Add(effet.NomSimplifier + " : " + effet.DmgMin + " à " + effet.DmgMax);
 
-                }
-            grdCond.Children.Clear();
+            foreach (Statistique stat in item.LstStatistiques)
+                LstStats.Add(stat.NomSimple + " : " + stat.Valeur.ToString());
 
-            grdCond.Children.Add(CreateLbl("Niveau requis : ", 0, 0));
-            foreach (Condition cd in item.LstConditions)
-                if (cd.Stat.Nom == Statistique.element.experience)
-                    expRequis = cd.Stat.Valeur;
-
-            grdCond.Children.Add(CreateLbl(toLevel(expRequis).ToString(), 0, 1));
-
-            for (int w = 0; w < item.LstConditions.Count(); w++)
-                if (item.LstConditions[w].Stat.Nom != Statistique.element.experience)
+            foreach (Condition cond in item.LstConditions)
+                if (cond.Stat.Nom == Statistique.element.experience)
                 {
-                    grdCond.Children.Add(CreateLbl(item.LstConditions[w].Stat.NomSimple + " " + item.LstConditions[w].Signe, w + 1, 0));
-                    grdCond.Children.Add(CreateLbl(item.LstConditions[w].Stat.Valeur.ToString(), w + 1, 1));
+                    lblLvl.Content = "Catégorie : " + item.Type + "  Niv." + cond.Stat.toLevel().ToString();
+                    LstConds.Add("Niveau requis : " + cond.Stat.toLevel().ToString());
                 }
-
-        }
-        private int toLevel(double exp)
-        {
-            for (int i = 1; i < 200; i++)
-                if (exp >= dictLvl[i] && exp < dictLvl[i + 1])
-                    return i;
-            if (exp >= dictLvl[200])
-                return 200;
-            return 0;//si tout fucktop
+                else
+                    LstConds.Add(cond.Stat.NomSimple + " " + cond.Signe + "  " + cond.Stat.Valeur.ToString());
         }
 
-        private System.Windows.Controls.Label CreateLbl(string content, int row, int col)
+        private void fillSortCbo()
         {
-            System.Windows.Controls.Label lbl = new System.Windows.Controls.Label();
-            lbl.Content = content;
-            Grid.SetColumn(lbl, col);
-            Grid.SetRow(lbl, row);
-            return lbl;
+            List<string> type = new List<string>();
+            type.Add("Tous");
+            foreach (List<string> typeNom in bd.selection("SELECT nom FROM typesEquipements"))
+                type.Add(typeNom[0]);
+            cboTrie.ItemsSource = type;
+            cboTrie.SelectedIndex = 0;
+            cboTrie.SelectionChanged += cboTrie_SelectionChanged;
         }
 
-        private void addPages(int nbPages)
+        private void cboTrie_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            string type = ((System.Windows.Controls.ComboBox)sender).SelectedValue.ToString();
+            LstImgItems.Clear();
+            string query = "SELECT * FROM Equipements  e INNER JOIN ConditionsEquipements c ON c.idEquipement = e.idEquipement INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE idCondition = 21 " + (type == "Tous" ? "" : "AND t.nom ='" + type + "'") + " ORDER BY c.valeur  LIMIT 10 OFFSET 0";
+            string count = "SELECT COUNT(*) FROM Equipements  e INNER JOIN ConditionsEquipements c ON c.idEquipement = e.idEquipement INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE idCondition = 21 " + (type == "Tous" ? "" : "AND t.nom ='" + type + "'") + " ORDER BY c.valeur  LIMIT 10 OFFSET 0";
 
+            List<string>[] items = bd.selection(query);
+            if (items[0][0] != "rien")
+            {
+                dckLink.Children.Clear();
+                createPageLinks(Convert.ToInt32(bd.selection(count)[0][0]));
+                retrieveItem(items);
+            }
+        }
+        private void btn_link_click(object sender, RoutedEventArgs e)
+        {
+            string query = "SELECT * FROM Equipements  e INNER JOIN ConditionsEquipements c ON c.idEquipement = e.idEquipement INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE idCondition = 21 " + ((string)cboTrie.SelectedValue == "Tous" ? "" : "AND t.nom ='" + (string)cboTrie.SelectedValue + "'") + " ORDER BY c.valeur  LIMIT 10 OFFSET " + ((Convert.ToInt16(((System.Windows.Controls.Button)sender).Content) - 1) * 10).ToString();
+            LstImgItems.Clear();
+            List<string>[] items = bd.selection(query);
+            if (items[0][0] != "rien")
+                retrieveItem(items);
+        }
+        private void createPageLinks(int nbPages)
+        {            //<Button Style="{StaticResource LinkButton}" Content="Clicky" />
+            nbPages = nbPages / 10;
+
+            for (int i = 0; i < nbPages + 1; i++)
+            {
+                System.Windows.Controls.Button btn = new System.Windows.Controls.Button();
+                btn.Style = (Style)FindResource("LinkButton");
+                btn.Click += btn_link_click;
+                btn.Content = (i + 1).ToString();
+                dckLink.Children.Add(btn);
+                if (i != nbPages)
+                {
+                    System.Windows.Controls.Label lbl = new System.Windows.Controls.Label();
+                    lbl.Content = " - ";
+                    lbl.Height = 21;
+                    lbl.VerticalAlignment = VerticalAlignment.Center;
+                    dckLink.Children.Add(lbl);
+                }
+            }
         }
 
-        private void TabItemMarche_Loaded(object sender, RoutedEventArgs e)
+        private void retrieveItem(List<string>[] items)
         {
-
-            /*Thread th = new Thread(new ThreadStart(loadItem));
-            th.SetApartmentState(ApartmentState.STA);
-
-           th = Thread.CurrentThread;
-            th.Join();*/
-            loadItem();
-            //TODO: Lorsque plus de données faire un limit/offset et des numero de page
-            //SELECT * FROM ConditionsEquipements c INNER JOIN Equipements e ON c.idEquipement = e.idEquipement WHERE idCondition = 21 ORDER BY c.valeur
-            // string equips = "SELECT * FROM Equipements WHERE idZonePorte IS NULL LIMIT 10 ";
-
-
-        }
-
-        public void loadItem()
-        {
-            string equips = "SELECT * FROM Equipements  e INNER JOIN ConditionsEquipements c ON c.idEquipement = e.idEquipement WHERE idCondition = 21  AND idZonePorte IS NULL ORDER BY c.valeur DESC LIMIT 10";
-            string armes = "SELECT * FROM Equipements WHERE idZonePorte IS NOT NULL LIMIT 10";
-            int nbPages = Convert.ToInt16(bd.selection(" SELECT COUNT(*) FROM Equipements WHERE idZonePorte IS NULL")[0][0]);
-            List<string>[] repArmes = bd.selection(armes);
-            List<string>[] repEquip = bd.selection(equips);
-
             short col = 0;
-            short row = 0;//géneration des images des armes
-            foreach (List<string> item in repArmes)
+            short row = 0;
+
+            foreach (List<string> item in items)
             {
                 Equipement equip = new Equipement(item, false);
-                LstArmes.Add(CreateImg(equip.NoImg, equip.Nom));
-                /* Image img = CreateImg(equip.NoImg, equip.Nom);
-                 if (col == 5)
-                 {
-                     col = 0;
-                     row++;
-                 }
-                 Grid.SetRow(img, row);
-                 Grid.SetColumn(img, col);
-                 col++;
-                 grdArmes.Children.Add(img);*/
+                ImageItem i = new ImageItem(equip);
+                i.MouseDown += image_MouseUp;
+                Grid.SetColumn(i, col);
+                Grid.SetRow(i, row);
+                if (col == 4)
+                {
+                    col = -1;
+                    row++;
+                }
+                col++;
+                LstImgItems.Add(i);
             }
-
-
-            col = 0;
-            row = 0;// génération des images des équipements
-            foreach (List<string> item in repEquip)
-            {
-                Equipement equip = new Equipement(item, false);
-                /* Image img = CreateImg(equip.NoImg, equip.Nom);
-                 if (col == 5)
-                 {
-                     col = 0;
-                     row++;
-                 }
-                 Grid.SetRow(img, row);
-                 Grid.SetColumn(img, col);
-                 col++;
-                 grdEquips.Children.Add(img);*/
-            }
-        }
-        private void tEquips_Selected(object sender, RoutedEventArgs e)
-        {
-            string equips = "SELECT * FROM Equipements  e INNER JOIN ConditionsEquipements c ON c.idEquipement = e.idEquipement WHERE idCondition = 21  AND idZonePorte IS NULL ORDER BY c.valeur DESC ";
-            List<string>[] repEquip = bd.selection(equips);
-            foreach (List<string> item in repEquip)
-            {
-                Equipement equip = new Equipement(item, false);
-                LstEquips.Add(CreateImg(equip.NoImg, equip.Nom));
-            }
-            lstBoxEquip.ItemsSource = LstEquips;
-
-        }
-        private void tArmes_Selected(object sender, RoutedEventArgs e)
-        {
-            string armes = "SELECT * FROM Equipements WHERE idZonePorte IS NOT NULL LIMIT 10";
-            List<string>[] repArmes = bd.selection(armes);
-            foreach (List<string> item in repArmes)
-            {
-                Equipement equip = new Equipement(item, false);
-                LstArmes.Add(CreateImg(equip.NoImg, equip.Nom));
-            }
-            lstBoxArmes.ItemsSource = LstArmes;
-            //lstBoxEquip.MultiColumn = true;
-            //((System.Windows.Controls.ListBox)((TabItem)sender).Content).
-
-        }
-
-        private void tab_Unselected(object sender, RoutedEventArgs e)
-        {
-            LstArmes.Clear();
-        }
-
-
-        private Image CreateImg(string Noimg, string nom)
-        {
-            Image img = new Image();
-            ImageSource path = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/items/200/" + Noimg + ".png"));
-            img.Width = 100;
-            img.Height = 100;
-            img.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
-            img.VerticalAlignment = System.Windows.VerticalAlignment.Top;
-            img.MouseUp += image_MouseUp; // ajoute l'evenement mouse_up
-            img.Source = path;
-            img.Name = nom.Replace(" ", "_");
-            return img;
-        }
-
-        private void btnAchat_Click(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Forms.MessageBox.Show("Coming soon !");
-        }
-
-        private void btn_test_Click(object sender, RoutedEventArgs e)
-        {
-            CombatTest lol = new CombatTest();
-            System.Windows.Forms.MessageBox.Show(lol.combat(64));
         }
         #endregion
 
@@ -1088,8 +818,6 @@ namespace test
                     lbl_Mdp.Foreground = new SolidColorBrush(Colors.Red);
                 }
             }
-
-
         }
 
         private void btnAnnuler_Click(object sender, RoutedEventArgs e)
@@ -1247,10 +975,6 @@ namespace test
             PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur);
             Equip.ShowDialog();
         }
-
-
-
-
         //**************************************************************************************************
     }
 }

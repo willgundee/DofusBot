@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="test.ImageItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:test"
+             mc:Ignorable="d" 
+             d:DesignHeight="115" d:DesignWidth="115">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="17*"/>
+        </Grid.RowDefinitions>
+
+        <Image Name="imgItem" Source="http://staticns.ankama.com/dofus/www/game/items/200/16442.png"  Grid.Row="1" />
+        <TextBlock Name="txtNom" TextWrapping="WrapWithOverflow" Text="Ceinture rasboulaire du rasboul"/>
+    </Grid>
+</UserControl>
