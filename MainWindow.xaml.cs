@@ -252,7 +252,7 @@ namespace test
         public Joueur Player { get; set; }
         public Thread trdEnvoie { get; private set; }
 
-        ObservableCollection<PagePerso> pgperso; 
+        public ObservableCollection<PagePerso> pgperso; 
 
         DispatcherTimer aTimer;
         private ChatWindow fenetreChat;
@@ -1096,7 +1096,7 @@ namespace test
             Combat combat = new Combat();
         }
         #endregion
-
+        #region Marc/Tchat
         /// ***************************************************
         /// / ONGLET OPTIONS
         // ***************************************************
@@ -1180,8 +1180,8 @@ namespace test
         {
             System.Windows.Forms.MessageBox.Show("Bientôt disponnible !");
         }
-
-
+        #endregion
+        #region /Perso
         // ***************************************************
         //Onglet Personnage
         // ***************************************************
@@ -1196,7 +1196,7 @@ namespace test
             tCPerso.ItemsSource=pgperso;
         }
 
-         
+        #endregion
 
 
 

@@ -83,7 +83,7 @@ namespace GofusSharp
                     {
                         if (window.GetType() == typeof(Combat))
                         {
-                            (window as Combat).tb_Log.Text += "\n"
+                            (window as Combat).tb_Log.Text += "\n";
                         }
                     }
                     return (ChangerPosition(source) ? 1 : 0);
