@@ -656,6 +656,7 @@ namespace test
             MessageBoxResult m = System.Windows.MessageBox.Show("Voulez vous vraiment acheter l'objet : " + lblItem.Content + ". Au cout de " +  lblPrix.Content + " Kamas ?", "Achat", MessageBoxButton.YesNo,MessageBoxImage.Information);
             if (m == MessageBoxResult.Yes)
                     Player.Kamas -= (int)lblPrix.Content;
+            //TODO: le update
             lblKamas.Content = Player.Kamas;
 
         }
