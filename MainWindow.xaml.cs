@@ -16,6 +16,7 @@ using System.Windows.Documents;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Globalization;
+using System.Threading;
 
 namespace test
 {
@@ -250,7 +251,7 @@ namespace test
         public Joueur Player { get; set; }
         DispatcherTimer aTimer;
         private ChatWindow fenetreChat;
-
+        Thread trdEnvoie;
 
         public MainWindow(int id)
         {
@@ -272,6 +273,9 @@ namespace test
             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
 
             this.chat = new Chat();
+            chat.nomUtilisateur = Player.NomUtilisateur;
+            chat.getId();
+
             btnEnvoyerMessage.IsEnabled = false;
 
 
@@ -311,17 +315,34 @@ namespace test
 
         private void BtnEnvoyer_Click(object sender, RoutedEventArgs e)
         {
-            long envois = chat.envoyerMessage();
-            if (envois != -1)
+            long envoie = -1;
+
+            trdEnvoie = new Thread(() => {
+                envoie = chat.envoyerMessageModLess();
+            });
+            trdEnvoie = Thread.CurrentThread;
+
+            if (envoie != -1)
             {
-                chat.refreshChat();
-                Scroll.ScrollToEnd();
+                trdEnvoie = new Thread(() =>
+                {
+                    chat.refreshChat();
+                    Scroll.ScrollToEnd();
+                });
+                trdEnvoie = Thread.CurrentThread;
             }
             else
             {
                 System.Windows.MessageBox.Show("Erreur d'envois du message..");
             }
         }
+
+        private void threadEnvoie()
+        {
+            chat.refreshChat();
+            Scroll.ScrollToEnd();
+        }
+
 
         private void txtMessage_TextChange(object sender, TextChangedEventArgs e)
         {
@@ -361,7 +382,7 @@ namespace test
         {
 
 
-            fenetreChat = new ChatWindow();
+            fenetreChat = new ChatWindow(chat.nomUtilisateur);
             fenetreChat.Show();
 
         }
@@ -1037,7 +1058,7 @@ namespace test
                     lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Red);
 
                 }
-                else if (txt_mdp.Password == "" & txtConfirmation.Password != "")
+                else if (txt_mdp.Password == "" && txtConfirmation.Password != "")
                 {
                     /* Mot de passe vide*/
                     lbl_Mdp.Foreground = new SolidColorBrush(Colors.Red);
