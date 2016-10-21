@@ -25,6 +25,7 @@ namespace test
 
         public PagePerso(Entite ent, Joueur Player)
         {
+
             InitializeComponent();
             this.Player = Player;
 
@@ -50,10 +51,19 @@ namespace test
 
                 cbScript.SelectedItem = perso.ScriptEntite.Nom;
 
+                
+
                 foreach (Statistique st in perso.LstStats)
                 {
                     if (st.Nom == Statistique.element.experience)
                         Exp = st.Valeur;
+                }
+                foreach (Equipement eq in perso.LstEquipements)
+                {
+                    if (eq.QuantiteEquipe > 0) 
+                    {                      
+                      AfficherElementEquipe(eq);                      
+                    }
                 }
 
                 dgStats.ItemsSource = initialiserLstStats(perso);
@@ -64,7 +74,7 @@ namespace test
 
         }
 
-
+        #region grid_listes
         private List<Statistique> initialiserLstStats(Entite perso)
         {
             List<Statistique> lstStat = new List<Statistique>();
@@ -127,8 +137,6 @@ namespace test
             }
             return lstStat;
         }
-
-
         private List<Statistique> initialiserLstDMG(Entite perso)
         {
             List<Statistique> LstDMG = new List<Statistique>();
@@ -207,7 +215,7 @@ namespace test
             }
             return LstRES;
         }
-
+        #endregion
 
         private void image_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -235,15 +243,42 @@ namespace test
                     TypeEquipement = "Anneau";
                     break;
                 case "imageBotte":
-                    TypeEquipement = "botte";
+                    TypeEquipement = "Botte";
                     break;
             }
 
             PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur);
-            if(validePg!=false)
-            Equip.ShowDialog();
+            if (validePg != false)
+                Equip.ShowDialog();
 
         }
 
+        private void AfficherElementEquipe(Equipement eq)
+        {
+
+            ImageSource path = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/items/200/" + eq.NoImg + ".png"));
+            switch (eq.Type)
+            {
+                case "Chapeau":
+                    imageCasque.Source=path;
+                    break;
+                case "Cape":
+                    imageCape.Source = path;
+                    break;
+                case "Arme":
+                    imageArme.Source = path;
+                    break;
+                case "Ceinture":
+                    imageCeinture.Source = path;
+                    break;
+                case "Anneau":
+                    imageAnneau1.Source = path;
+                    break;
+                case "Botte":
+                    imageBotte.Source = path;
+                    break;
+
+            }
+        }
     }
 }
