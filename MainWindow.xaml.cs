@@ -326,8 +326,7 @@ namespace test
             {
                 trdEnvoie = new Thread(() =>
                 {
-                    chat.refreshChat();
-                    Scroll.ScrollToEnd();
+                    threadRefresh();
                 });
                 trdEnvoie = Thread.CurrentThread;
             }
@@ -337,7 +336,7 @@ namespace test
             }
         }
 
-        private void threadEnvoie()
+        private void threadRefresh()
         {
             chat.refreshChat();
             Scroll.ScrollToEnd();
