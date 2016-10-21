@@ -535,7 +535,7 @@ namespace GofusSharp
             return 0;
         }
 
-        protected bool CaseEstDansZone(Zone.type TypeZone, int porteeMin, int porteeMax, Case source, Case cible)
+        public bool CaseEstDansZone(Zone.type TypeZone, int porteeMin, int porteeMax, Case source, Case cible)
         {
             try
             {

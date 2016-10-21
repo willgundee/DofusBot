@@ -54,6 +54,7 @@ namespace GofusSharp
                 {
                     InfligerEffet(effet, arme.ZoneEffet, cible.Position);
                 }
+                return true;
             }
             foreach (Window window in Application.Current.Windows)
             {
@@ -61,7 +62,6 @@ namespace GofusSharp
                 {
                     (window as Combat).tb_Log.Text += "\n" + cible.Nom + " est hors de portée de l'arme " + arme.Nom;
                 }
-                return true;
             }
             return false;
         }

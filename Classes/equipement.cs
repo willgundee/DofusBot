@@ -59,6 +59,11 @@ namespace test
                 addConditions(Convert.ToInt32(item[0]));
             }
         }
+        private void addNbEquipations(int idEquipement)
+        {
+           List<string>[]rep =  bd.selection("SELECT je.quantite,je.quantiteequipe FROM `equipements` e INNER JOIN EquipementsEntites ee ON ee.idEquipement = e.idEquipement INNER JOIN Entites es ON es.idEntite = ee.idEntite INNER JOIN JoueursEquipements je ON je.idEquipement = e.idEquipement WHERE e.idEquipement =" + idEquipement);
+
+        }
         /// <summary>
         /// ajout des statistiques des items
         /// </summary>
