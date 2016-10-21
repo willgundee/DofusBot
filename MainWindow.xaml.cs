@@ -1103,11 +1103,37 @@ namespace test
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             /* Faire un update si toute est legit*/
-            if (txt_mdp.Password != "" && txt_mdp.Password == txtConfirmation.Password && txtConfirmation.Password != "")
+            if (txt_mdp.Password != "" && txt_mdp.Password == txtConfirmation.Password && txtConfirmation.Password != "" || txt_Courriel.Text != "")
             {
                 /* Update */
                 lbl_Mdp.Foreground = new SolidColorBrush(Colors.Black);
                 lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Black);
+                StringBuilder UpdSt = new StringBuilder();
+                UpdSt.Append("UPDATE Joueurs SET ");
+                if (txt_Courriel.Text != "")
+                {
+                    UpdSt.Append("courriel = '" + txt_Courriel.Text + "'");
+         
+                }
+                if (txt_mdp.Password != "" && txt_mdp.Password == txtConfirmation.Password && txtConfirmation.Password != "")
+                {
+                    UpdSt.Append(" , motDePasse = '" + txt_mdp.Password + "'");
+
+                }
+                UpdSt.Append(" WHERE nomUtilisateur = '" + Player.NomUtilisateur + "';");
+
+                
+
+                string st = UpdSt.ToString();
+                if (bd.Update(st))
+                {
+                    System.Windows.Forms.MessageBox.Show("Mise à jour avec succès de vos infos!!");
+                }
+
+                txt_mdp.Password = "";
+                txtConfirmation.Password = "";
+                txt_Courriel.Text = "";
+
             }
             else
             {

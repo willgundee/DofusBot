@@ -24,7 +24,7 @@ namespace test
 
                 BDInterne = new MySqlConnection(connexionString);
 
-               // MessageBox.Show("Connexion OK");
+                // MessageBox.Show("Connexion OK");
             }
             catch (Exception e)
             {
@@ -35,7 +35,7 @@ namespace test
         }
         private string addCommit(string query)
         { // TODO: à arranger
-            string rep =  ((query.IndexOf(';') == -1) ? query.Insert(query.Length - 1, " ; COMMIT;") : query.Insert(query.Length -1," COMMIT;"));
+            string rep = ((query.IndexOf(';') == -1) ? query.Insert(query.Length - 1, " ; COMMIT;") : query.Insert(query.Length - 1, " COMMIT;"));
             return rep;
         }
         public long insertion(string req)
@@ -61,6 +61,39 @@ namespace test
             //aa
             return retVal;
         }
+
+        public bool Update(string req)
+        {
+            try
+            {
+                if (ouvrirConnexion())
+                {
+                    MySqlCommand cmd = new MySqlCommand(req, BDInterne);
+
+                 if (cmd.ExecuteNonQuery() == 1)
+                {
+                        return true;
+                }
+                else
+                {
+                    MessageBox.Show("Erreur de mise à jour ! ");
+                }
+                    fermerConnexion();
+                    return false;
+                }
+               
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                fermerConnexion();
+                return false;
+            }
+
+            return true;
+        }
+
+
 
         public List<string>[] selection(string req)
         {
