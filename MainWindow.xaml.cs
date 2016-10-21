@@ -273,9 +273,6 @@ namespace test
             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
 
             this.chat = new Chat();
-            chat.nomUtilisateur = Player.NomUtilisateur;
-            chat.getId();
-
             btnEnvoyerMessage.IsEnabled = false;
 
 
@@ -375,7 +372,7 @@ namespace test
         {
 
 
-            fenetreChat = new ChatWindow(chat.nomUtilisateur);
+            fenetreChat = new ChatWindow();
             fenetreChat.Show();
 
         }
