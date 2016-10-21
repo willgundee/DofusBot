@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 
 namespace GofusSharp
 {
@@ -87,6 +88,13 @@ namespace GofusSharp
 
         internal bool recevoirDommages(int dommageRecu)
         {
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window.GetType() == typeof(Combat))
+                {
+                    (window as Combat).tb_Log.Text += "\n" + Nom + " à perdu " + dommageRecu.ToString() + " point de vie";
+                }
+            }
             PV -= dommageRecu;
             if (PV <= 0)
             {

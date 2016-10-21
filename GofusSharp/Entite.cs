@@ -44,11 +44,26 @@ namespace GofusSharp
 
         public bool UtiliserSort(Sort sort, EntiteInconnu cible)
         {
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window.GetType() == typeof(Combat))
+                {
+                    (window as Combat).tb_Log.Text += "\n" + Nom + " lance " + sort.Nom + " sur " + cible.Nom;
+                }
+            }
             if (CaseEstDansZone(sort.ZonePortee.Type, sort.ZonePortee.PorteeMin, sort.ZonePortee.PorteeMax, Position, cible.Position))
             {
                 foreach (Effet effet in sort.TabEffets)
                 {
                     InfligerEffet(effet, sort.ZoneEffet, cible.Position);
+                }
+                return true;
+            }
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window.GetType() == typeof(Combat))
+                {
+                    (window as Combat).tb_Log.Text += "\n" + cible.Nom + " est hors de portée du sort " + sort.Nom;
                 }
             }
             return false;
@@ -56,11 +71,26 @@ namespace GofusSharp
 
         public bool UtiliserSort(Sort sort, Case cible)
         {
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window.GetType() == typeof(Combat))
+                {
+                    (window as Combat).tb_Log.Text += "\n" + Nom + " lance " + sort.Nom + " à X: " + cible.X.ToString() + " Y: " + cible.Y.ToString();
+                }
+            }
             if (CaseEstDansZone(sort.ZonePortee.Type, sort.ZonePortee.PorteeMin, sort.ZonePortee.PorteeMax, Position, cible))
             {
                 foreach (Effet effet in sort.TabEffets)
                 {
                     InfligerEffet(effet, sort.ZoneEffet, cible);
+                }
+                return true;
+            }
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window.GetType() == typeof(Combat))
+                {
+                    (window as Combat).tb_Log.Text += "\n" + cible.X + " Y: " + cible.Y + " est hors de portée du sort " + sort.Nom;
                 }
             }
             return false;
@@ -79,14 +109,15 @@ namespace GofusSharp
                 case Effet.type.tire_lanceur:
                     break;
                 case Effet.type.teleportation:
+                    bool result = ChangerPosition(source);
                     foreach (Window window in Application.Current.Windows)
                     {
                         if (window.GetType() == typeof(Combat))
                         {
-                            (window as Combat).tb_Log.Text += "\n";
+                            (window as Combat).tb_Log.Text += "\n" + Nom + " s'est téléporté a X: " + source.X + " Y: " + source.Y;
                         }
                     }
-                    return (ChangerPosition(source) ? 1 : 0);
+                    return (result ? 1 : 0);
                 case Effet.type.ATT_neutre:
                     foreach (EntiteInconnu entiteInconnu in ListEntites)
                     {
