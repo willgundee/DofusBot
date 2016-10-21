@@ -117,6 +117,7 @@ namespace test
             // Updating the Label which displays the current second
             if (this != null)
             {
+
                 chat.refreshChat();
                 // Forcing the CommandManager to raise the RequerySuggested event
                 CommandManager.InvalidateRequerySuggested();
