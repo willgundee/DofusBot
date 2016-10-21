@@ -6,11 +6,11 @@ namespace GofusSharp
         public Case[][] TabCases { get; internal set; }
         public int Largeur { get; internal set; }
         public int Hauteur { get; internal set; }
-        public Terrain(Case[][] TabCases)
+        internal Terrain(Case[][] TabCases)
         {
             this.TabCases = TabCases;
         }
-        public Terrain(int Largeur, int Hauteur)
+        internal Terrain(int Largeur, int Hauteur)
         {
             this.Largeur = Largeur;
             this.Hauteur = Hauteur;
@@ -124,19 +124,20 @@ namespace GofusSharp
                 chemin.Insert(0, Courant.LaCase);
                 Courant = Courant.viensDe;
             }
+            chemin.RemoveAt(0);
             return chemin;
         }
-        public ListeChainee<Case> CaseVoisines(Case caseCible)
+        public Liste<Case> CaseVoisines(Case caseCible)
         {
-            ListeChainee<Case> caseVoisines = new ListeChainee<Case>();
+            Liste<Case> caseVoisines = new Liste<Case>();
             if (caseCible.Y - 1 >= 0 && TabCases[caseCible.X][caseCible.Y - 1].Contenu != Case.type.obstacle)
-                caseVoisines.AjouterFin(TabCases[caseCible.X][caseCible.Y - 1]);
+                caseVoisines.Add(TabCases[caseCible.X][caseCible.Y - 1]);
             if (caseCible.X - 1 >= 0 && TabCases[caseCible.X - 1][caseCible.Y].Contenu != Case.type.obstacle)
-                caseVoisines.AjouterFin(TabCases[caseCible.X - 1][caseCible.Y]);
+                caseVoisines.Add(TabCases[caseCible.X - 1][caseCible.Y]);
             if (TabCases.Length > caseCible.X + 1 && TabCases[caseCible.X + 1][caseCible.Y].Contenu != Case.type.obstacle)
-                caseVoisines.AjouterFin(TabCases[caseCible.X + 1][caseCible.Y]);
+                caseVoisines.Add(TabCases[caseCible.X + 1][caseCible.Y]);
             if (TabCases[caseCible.X].Length > caseCible.Y + 1 && TabCases[caseCible.X][caseCible.Y + 1].Contenu != Case.type.obstacle)
-                caseVoisines.AjouterFin(TabCases[caseCible.X][caseCible.Y + 1]);
+                caseVoisines.Add(TabCases[caseCible.X][caseCible.Y + 1]);
             return caseVoisines;
         }
     }

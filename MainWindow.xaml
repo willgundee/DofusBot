@@ -33,92 +33,11 @@
     </Window.Resources>
 
     <TabControl TabStripPlacement="Left">
+
         <TabItem Header="Personages" Height="30" Selector.Selected="TabPersonage_Selected">
-            <Grid x:Name="grd_Perso" >
+            <Grid x:Name="grd_Perso" IsEnabled="True" >
                 <TabControl x:Name="tCPerso" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="560" Margin="3,1,0,-1" VerticalAlignment="Top" Width="577" Grid.RowSpan="2" >
-                    <TabItem x:Name="ongletPerso"  Foreground="Black">
-                        <Grid Background="Gray">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"></RowDefinition>
-                                <RowDefinition Height="*"></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
 
-                                <ColumnDefinition Width="231*"/>
-
-                                <ColumnDefinition Width="284*"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-
-                            <Label Grid.Column="2"  HorizontalAlignment="Center" FontSize="25" VerticalAlignment="Top" Margin="71,0,70,0.02" Content="Équipement"/>
-                            <Rectangle x:Name="rect"   Height="75" Width="75" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Margin="20,30,0,0" Fill="#FFF0E9E9" Grid.ColumnSpan="2"   />
-                            <Image x:Name="Imgclasse" Height="75" Width="75" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Margin="20,30,0,0" Grid.ColumnSpan="2"   />
-                            <Label x:Name="lblClasse" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,0" Content="Classe : "/>
-                            <Label x:Name="lblNomClasse" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="50,0,0,0"/>
-                            <Image x:Name="Imgfond"  Source="resources/fondEquipement.jpg"  Height="260" Width="283" Grid.RowSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="1,40,0,0"  Grid.Column="2" />
-                            <Image x:Name="imageCasque" Source="resources/vide.png"  Height="40" Width="40" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,76,25,0"   MouseLeftButtonDown="imageCasque_MouseDown"  />
-                            <Image x:Name="imageCape" Source="resources/vide.png" Height="60" Width="60" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" MouseLeftButtonDown="imageCape_MouseLeftButtonDown"  Margin="20,55,0,0"/>
-                            <Image x:Name="imageArme" Source="resources/vide.png" Height="60" Width="60" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Right" MouseLeftButtonDown="imageArme_MouseLeftButtonDown" Margin="0,55,42,0"/>
-                            <Image x:Name="imageCeinture" Source="resources/vide.png" Height="60" Width="58" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" MouseLeftButtonDown="imageCeinture_MouseLeftButtonDown" Margin="0,50,25,0" />
-                            <Image x:Name="imageAnneau1" Source="resources/vide.png" Height="40" Width="40" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" MouseLeftButtonDown="imageAnneau1_MouseLeftButtonDown" Margin="30,112,0,70"  />
-                            <Image x:Name="imageAnneau2" Source="resources/vide.png" Height="40" Width="40" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" MouseLeftButtonDown="imageAnneau1_MouseLeftButtonDown" Margin="0,112,50,70"  />
-                            <Image x:Name="imageBotte" Source="resources/vide.png" Height="58" Width="59" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" MouseLeftButtonDown="imageBotte_MouseLeftButtonDown" Margin="115,0,140,255" Grid.RowSpan="2" />
-                            <Label x:Name="lblScript" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="31,36.98,0,197.04" FontSize="15">Script :</Label>
-                            <ComboBox x:Name="cbScript" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="180" Margin="87,40,17,201"  />
-                            <Label x:Name="lblStats" VerticalAlignment="Center" Margin="5,139,283,99.02" Content="Statistique" Grid.ColumnSpan="3" />
-                            <Label x:Name="lblPCap" Content="Point Capital:" Grid.Column="0" Grid.Row="1" VerticalAlignment="Bottom" Margin="30,0,29,30.04" Grid.ColumnSpan="2" />
-                            <Label x:Name="lblNbPointsC" Width="30" Content="2" Grid.Row="1" VerticalAlignment="Bottom" Margin="75.147,0,126,30.04" Grid.Column="1" />
-
-                            <Button x:Name="btnVitalite" Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,49.98,19,0" VerticalAlignment="Top" Width="30" Grid.Column="0" />
-                            <Button x:Name="btnSagesse"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,74.98,19,0" VerticalAlignment="Top" Width="30" Grid.Column="0"/>
-                            <Button x:Name="btnForce"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,99.98,19,0" VerticalAlignment="Top" Width="30" Grid.Column="0"/>
-                            <Button x:Name="btnIntelligence"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,124.98,19,0" VerticalAlignment="Top" Width="30" Grid.Column="0"/>
-                            <Button x:Name="btnChance"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,149.98,19,92.04" VerticalAlignment="Center" Width="30" Grid.Column="0"/>
-                            <Button x:Name="btnAgilite"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,174.98,19,67.04" VerticalAlignment="Center" Width="30" Grid.Column="0"/>
-
-                            <DataGrid x:Name="dgStats" IsReadOnly="True" CanUserSortColumns="False" HorizontalAlignment="Left"  Height="303" Width="195"  VerticalAlignment="Bottom" Margin="5,0,0,60.04" Grid.RowSpan="2"  AutoGenerateColumns="False" Grid.ColumnSpan="2">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Nom"  Binding="{Binding Nom}" FontSize="16" Width="3*" />
-                                    <DataGridTextColumn Header="Valeur" Binding="{Binding Valeur}" FontSize="16" Width="*"/>
-                                </DataGrid.Columns>
-
-
-                            </DataGrid>
-                            <Label x:Name="lblDommage" Grid.Row="1"  Content="Dommages" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="225,105,0,135" Grid.ColumnSpan="2" Grid.Column="1"/>
-                            <DataGrid x:Name="dgDommage" IsReadOnly="True" CanUserSortColumns="False"  HorizontalAlignment="Left"  Height="125" Width="140"  VerticalAlignment="Bottom"   AutoGenerateColumns="False" Margin="1,0,0,5" Grid.Row="1" Grid.Column="2">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Type" Width="1.5*" />
-                                    <DataGridTextColumn Header="Valeur" Width="*"/>
-                                </DataGrid.Columns>
-                                <DataGrid.RowDetailsTemplate>
-                                    <DataTemplate>
-                                        <TextBox Text="Info"></TextBox>
-                                    </DataTemplate>
-                                </DataGrid.RowDetailsTemplate>
-
-                            </DataGrid>
-                            <Label x:Name="lblResistance" Grid.Row="1" Grid.Column="2" Content="Résistances" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="134,105,80,130"></Label>
-
-                            <DataGrid x:Name="dgResistance" IsReadOnly="True" CanUserSortColumns="False"  HorizontalAlignment="Right"  Height="125" Width="140"  VerticalAlignment="Bottom" Grid.Column="2" Grid.Row="1" AutoGenerateColumns="False" Margin="0,0,2,5">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Type" Width="1.5*" />
-                                    <DataGridTextColumn Header="Valeur" Width="*"/>
-                                </DataGrid.Columns>
-                                <DataGrid.RowDetailsTemplate>
-                                    <DataTemplate>
-                                        <TextBox Text="Info"></TextBox>
-                                    </DataTemplate>
-                                </DataGrid.RowDetailsTemplate>
-
-                            </DataGrid>
-
-
-
-
-                        </Grid>
-                    </TabItem>
-                    <TabItem Header="+">
-                        <Grid Background="#FFE5E5E5"/>
-                    </TabItem>
                 </TabControl>
             </Grid>
         </TabItem>
@@ -132,117 +51,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="15*"/>
                 </Grid.ColumnDefinitions>
-                <RichTextBox Name="rtb_lineNumber" Grid.Row="0" Grid.Column="0" FontFamily="Courier New" IsReadOnly="True" Block.TextAlignment="Right"></RichTextBox>
-                <UserControl Grid.Row="0" Grid.Column="1">
-                    <wf:CodeTextBox x:Name="ctb_main" FontFamily="Courier New" Block.LineHeight="1" PreviewKeyDown="rtb_PreviewKeyDown" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                        <FlowDocument>
-                            <Paragraph>
-                                <TextBlock TextWrapping="NoWrap">
-                                    <InlineUIContainer Unloaded="InlineUIContainer_Unloaded_Debut">
-                                        <TextBlock FontFamily="Courier New" FontSize="14">public void Action(Terrain terrain, Personnage joueur, System.Collections.ObjectModel.ReadOnlyCollection EntiteInconnu> ListEntites){</TextBlock>
-                                    </InlineUIContainer>
-                                </TextBlock>
-                                <TextBlock TextWrapping="NoWrap">
-                                    <InlineUIContainer Unloaded="InlineUIContainer_Unloaded_Fin">
-                                        <TextBlock FontFamily="Courier New" FontSize="14">}</TextBlock>
-                                    </InlineUIContainer>
-                                </TextBlock>
-                            </Paragraph>
-                        </FlowDocument>
-                        <wf:CodeTextBox.CodeWords_Keywords>
-                            <System:String>abstract</System:String>
-                            <System:String>as</System:String>
-                            <System:String>base</System:String>
-                            <System:String>bool</System:String>
-                            <System:String>break</System:String>
-                            <System:String>byte</System:String>
-                            <System:String>case</System:String>
-                            <System:String>catch</System:String>
-                            <System:String>char</System:String>
-                            <System:String>checked</System:String>
-                            <System:String>class</System:String>
-                            <System:String>const</System:String>
-                            <System:String>continue</System:String>
-                            <System:String>decimal</System:String>
-                            <System:String>default</System:String>
-                            <System:String>delegate</System:String>
-                            <System:String>do</System:String>
-                            <System:String>double</System:String>
-                            <System:String>else</System:String>
-                            <System:String>enum</System:String>
-                            <System:String>event</System:String>
-                            <System:String>explicit</System:String>
-                            <System:String>extern</System:String>
-                            <System:String>false</System:String>
-                            <System:String>finally</System:String>
-                            <System:String>fixed</System:String>
-                            <System:String>float</System:String>
-                            <System:String>for</System:String>
-                            <System:String>foreach</System:String>
-                            <System:String>goto</System:String>
-                            <System:String>if</System:String>
-                            <System:String>implicit</System:String>
-                            <System:String>in</System:String>
-                            <System:String>int</System:String>
-                            <System:String>interface</System:String>
-                            <System:String>internal</System:String>
-                            <System:String>is</System:String>
-                            <System:String>lock</System:String>
-                            <System:String>long</System:String>
-                            <System:String>namespace</System:String>
-                            <System:String>new</System:String>
-                            <System:String>null</System:String>
-                            <System:String>object</System:String>
-                            <System:String>operator</System:String>
-                            <System:String>out</System:String>
-                            <System:String>override</System:String>
-                            <System:String>params</System:String>
-                            <System:String>private</System:String>
-                            <System:String>protected</System:String>
-                            <System:String>public</System:String>
-                            <System:String>readonly</System:String>
-                            <System:String>ref</System:String>
-                            <System:String>return</System:String>
-                            <System:String>sbyte</System:String>
-                            <System:String>sealed</System:String>
-                            <System:String>short</System:String>
-                            <System:String>sizeof</System:String>
-                            <System:String>stackalloc</System:String>
-                            <System:String>static</System:String>
-                            <System:String>string</System:String>
-                            <System:String>struct</System:String>
-                            <System:String>switch</System:String>
-                            <System:String>this</System:String>
-                            <System:String>throw</System:String>
-                            <System:String>true</System:String>
-                            <System:String>try</System:String>
-                            <System:String>typeof</System:String>
-                            <System:String>uint</System:String>
-                            <System:String>ulong</System:String>
-                            <System:String>unchecked</System:String>
-                            <System:String>unsafe</System:String>
-                            <System:String>ushort</System:String>
-                            <System:String>using</System:String>
-                            <System:String>virtual</System:String>
-                            <System:String>void</System:String>
-                            <System:String>volatile</System:String>
-                            <System:String>while</System:String>
-                        </wf:CodeTextBox.CodeWords_Keywords>
-                        <wf:CodeTextBox.CodeWords_ScopeOperators>
-                            <System:String>.</System:String>
-                        </wf:CodeTextBox.CodeWords_ScopeOperators>
-                        <wf:CodeTextBox.CodeWords_Comments>
-                            <System:String>//</System:String>
-                        </wf:CodeTextBox.CodeWords_Comments>
-                        <wf:CodeTextBox.CodeWords_Chaines>
-                            <System:String>"</System:String>
-                            <System:String>'</System:String>
-                        </wf:CodeTextBox.CodeWords_Chaines>
-                    </wf:CodeTextBox>
-                </UserControl>
-                <!--WindowsFormsHost Grid.Row="0" Grid.Column="0" >
-                    <wf:SynchronizedScrollRichTextBox x:Name="tb_lineNumber" ScrollBars="None"></wf:SynchronizedScrollRichTextBox>
-                </>
+                <RichTextBox x:Name="rtb_lineNumber" FontFamily="Courier New" Block.LineHeight="1" Block.TextAlignment="Right" />
                 <WindowsFormsHost Grid.Row="0" Grid.Column="1">
                     <wf:CodeTextBox x:Name="ctb_main" CodeColor_Chaine="Crimson" CodeColor_Comment="Green" CodeColor_Function="CornflowerBlue" CodeColor_Keyword="Blue" CodeColor_PlainText="Black" CodeColor_Type="CornflowerBlue" AcceptsTab="True" KeyUp="ctb_KeyUp" VScroll="ctb_main_VScroll">
                         <wf:CodeTextBox.CodeWords_Keywords>
@@ -335,19 +144,19 @@
                             <System:String>'</System:String>
                         </wf:CodeTextBox.CodeWords_Chaines>
                     </wf:CodeTextBox>
-                </WindowsFormsHost-->
+                </WindowsFormsHost>
                 <Button Name="btn_run" Content="Run" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Width="75" Height="40" Click="btn_run_Click"/>
                 <Button Name="btn_test" Content="test" Grid.Column="1" HorizontalAlignment="Left" Margin="143,33,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="btn_test_Click"/>
             </Grid>
         </TabItem>
         <TabItem Header="Marché" Height="30" >
-
+            
             <Grid Margin="2,-5,-5,-3">
-                <Grid.RowDefinitions>
+                            <Grid.RowDefinitions>
                     <RowDefinition Height="284*"></RowDefinition>
                     <RowDefinition Height="268*"></RowDefinition>
                     <RowDefinition Height="21*"/>
-                </Grid.RowDefinitions>
+                            </Grid.RowDefinitions>
                 <Image x:Name="imgCurrent" HorizontalAlignment="Left" Height="200" Margin="378,10,0,0" VerticalAlignment="Top" Width="200"/>
                 <Label x:Name="lblMoney" Visibility="Hidden" Content="Votre Argent:" HorizontalAlignment="Left" Margin="378,215,0,0" VerticalAlignment="Top" Width="84" Height="26"/>
                 <Label x:Name="lblPrix" ContentStringFormat="C" HorizontalAlignment="Left" Margin="462,241,0,0" VerticalAlignment="Top" Width="111" Height="26"/>
@@ -376,18 +185,18 @@
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <Grid>
-                                <Grid.RowDefinitions>
+                            <Grid.RowDefinitions>
                                     <RowDefinition />
                                     <RowDefinition />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
                                     <ColumnDefinition />
                                     <ColumnDefinition />
                                     <ColumnDefinition />
                                     <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                            </Grid>
+                            </Grid.ColumnDefinitions>
+                        </Grid>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemContainerStyle>

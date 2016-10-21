@@ -8,7 +8,7 @@ namespace GofusSharp
         public int Valeur { get; internal set; }
         public int TourRestants { get; internal set; }
         public int IdLanceur { get; internal set; }
-        public Envoutement(Statistique.type Stat, int Valeur, int TourRestants, int IdLanceur)
+        internal Envoutement(Statistique.type Stat, int Valeur, int TourRestants, int IdLanceur)
         {
             this.Stat = Stat;
             this.Valeur = Valeur;

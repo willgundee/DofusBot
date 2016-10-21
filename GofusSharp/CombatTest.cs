@@ -38,15 +38,7 @@ namespace GofusSharp
                         continue;
                     PartieTest.DebuterAction(entite);
                     PartieTest.SyncroniserJoueur();
-                    System.Threading.CancellationTokenSource CTS = new System.Threading.CancellationTokenSource();
-                    System.Threading.CancellationToken CT = CTS.Token;
-                    System.Threading.Tasks.Task t = System.Threading.Tasks.Task.Run(() => { Action(PartieTest.TerrainPartie, entite as Personnage, PartieTest.ListEntites.AsReadOnly()); },CT);
-                    int c = 0;
-                    while (!t.IsCompleted && c < 1000000000)
-                        c++;
-                    if (!t.IsCompleted)
-                        CTS.Cancel();
-                    System.Windows.Forms.MessageBox.Show(c.ToString());
+                    Action(PartieTest.TerrainPartie, entite as Personnage, PartieTest.ListEntites.AsReadOnly());
                     PartieTest.SyncroniserJoueur();
 
                     bool vivante = false;

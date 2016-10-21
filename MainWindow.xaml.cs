@@ -49,6 +49,10 @@ namespace test
         ObservableCollection<string> LstCaras;
 
         public Joueur Player { get; set; }
+        public Thread trdEnvoie { get; private set; }
+
+        public ObservableCollection<PagePerso> pgperso; 
+
         DispatcherTimer aTimer;
         private ChatWindow fenetreChat;
 
@@ -84,6 +88,7 @@ namespace test
             #endregion
 
             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
+
 
             this.chat = new Chat();
             btnEnvoyerMessage.IsEnabled = false;
@@ -122,11 +127,20 @@ namespace test
 
         private void BtnEnvoyer_Click(object sender, RoutedEventArgs e)
         {
-            long envois = chat.envoyerMessage();
-            if (envois != -1)
+            long envoie = -1;
+
+            trdEnvoie = new Thread(() => {
+                envoie = chat.envoyerMessageModLess();
+            });
+            trdEnvoie = Thread.CurrentThread;
+
+            if (envoie != -1)
             {
-                chat.refreshChat();
-                Scroll.ScrollToEnd();
+                trdEnvoie = new Thread(() =>
+                {
+                    threadRefresh();
+                });
+                trdEnvoie = Thread.CurrentThread;
             }
             else
             {
@@ -134,6 +148,11 @@ namespace test
             }
         }
 
+        private void threadRefresh()
+        {
+            chat.refreshChat();
+            Scroll.ScrollToEnd();
+        }
         private void txtMessage_TextChange(object sender, TextChangedEventArgs e)
         {
 
@@ -172,7 +191,7 @@ namespace test
         {
 
 
-            fenetreChat = new ChatWindow();
+            fenetreChat = new ChatWindow(chat.id);
             fenetreChat.Show();
 
         }
@@ -271,7 +290,7 @@ namespace test
             ";
 
             //je remplace le mot user_code pour ce qui ce trouve dans la text box
-            string richText = new TextRange(ctb_main.Document.ContentStart, ctb_main.Document.ContentEnd).Text;
+            string richText = ctb_main.Text;
             string finalCode = code.Replace("user_code", richText);
             //initialisation d'un compilateur de code C#
             CSharpCodeProvider provider = new CSharpCodeProvider(new Dictionary<string, string>() { { "CompilerVersion", "v3.5" } });
@@ -307,7 +326,7 @@ namespace test
         public int maxLC = 0; //maxLineCount - should be public
         private void ctb_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            int linecount = new TextRange(ctb_main.Document.ContentStart, ctb_main.Document.ContentEnd).Text.Split('\n').Count();
+            int linecount = ctb_main.Text.Split('\n').Count();
             if (linecount != maxLC)
             {
                 rtb_lineNumber.Document.Blocks.Clear();
@@ -409,7 +428,6 @@ namespace test
                 Tnode.Tag = "method";
                 Tnode.Text = "system";
             }
-
             TreeNode[] treeNodeTab_attribut_tab = new TreeNode[] {
                 new TreeNode("IsFixedSize"),
                 new TreeNode("IsReadOnly"),
@@ -429,6 +447,60 @@ namespace test
             TreeNode[] treeNodeTab_tab = new TreeNode[treeNodeTab_method_tab.Length + treeNodeTab_attribut_tab.Length];
             treeNodeTab_method_tab.CopyTo(treeNodeTab_tab, 0);
             treeNodeTab_attribut_tab.CopyTo(treeNodeTab_tab, treeNodeTab_method_tab.Length);
+
+            //#############################################################################################################
+            TreeNode[] treeNodeTab_method_Liste = new TreeNode[] {
+                new TreeNode("Add()"),
+                new TreeNode("AddRange()"),
+                new TreeNode("BinarySearch()"),
+                new TreeNode("Clear()"),
+                new TreeNode("Contains()"),
+                new TreeNode("ConvertAll()"),
+                new TreeNode("CopyTo()"),
+                new TreeNode("Exists()"),
+                new TreeNode("Find()"),
+                new TreeNode("FindAll()"),
+                new TreeNode("FindIndex()"),
+                new TreeNode("FindLast()"),
+                new TreeNode("ForEach()"),
+                new TreeNode("GetEnumerator()"),
+                new TreeNode("GetRange()"),
+                new TreeNode("IndexOf()"),
+                new TreeNode("Insert()"),
+                new TreeNode("InsertRange()"),
+                new TreeNode("LastIndexOf()"),
+                new TreeNode("Remove()"),
+                new TreeNode("RemoveAll()"),
+                new TreeNode("RemoveAt()"),
+                new TreeNode("RemoveRange()"),
+                new TreeNode("Reverse()"),
+                new TreeNode("Sort()"),
+                new TreeNode("ToArray()"),
+                new TreeNode("TrimExcess()"),
+                new TreeNode("TrueForAll()")
+            };
+
+            foreach (TreeNode Tnode in treeNodeTab_method_tab)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "method";
+                Tnode.Text = "system";
+            }
+
+            TreeNode[] treeNodeTab_attribut_Liste = new TreeNode[] {
+                new TreeNode("Capacity"),
+                new TreeNode("Count")
+            };
+            foreach (TreeNode Tnode in treeNodeTab_attribut_tab)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "property";
+                Tnode.Text = "system";
+            }
+
+            TreeNode[] treeNodeTab_Liste = new TreeNode[treeNodeTab_method_Liste.Length + treeNodeTab_attribut_Liste.Length];
+            treeNodeTab_method_Liste.CopyTo(treeNodeTab_Liste, 0);
+            treeNodeTab_attribut_Liste.CopyTo(treeNodeTab_Liste, treeNodeTab_method_Liste.Length);
 
             //#############################################################################################################
             TreeNode[] treeNodeTab_method_math = new TreeNode[] {
@@ -581,6 +653,7 @@ namespace test
             TreeNode treeNode_5 = new TreeNode("simpleVar", treeNodeTab_simpleVar);
             TreeNode treeNode_6 = new TreeNode("tab", treeNodeTab_tab);
             TreeNode treeNode_7 = new TreeNode("fonctionVoid");
+            TreeNode treeNode_8 = new TreeNode("Liste", treeNodeTab_Liste);
 
             treeNode_1.Name = "keyword";
             treeNode_1.Tag = "class";
@@ -610,6 +683,10 @@ namespace test
             treeNode_7.Tag = "class";
             treeNode_7.Text = "system";
 
+            treeNode_8.Name = "Liste";
+            treeNode_8.Tag = "class";
+            treeNode_8.Text = "system";
+
             TreeNode[] treeNode_root = new TreeNode[] {
             treeNode_1,
             treeNode_2,
@@ -617,7 +694,8 @@ namespace test
             treeNode_4,
             treeNode_5,
             treeNode_6,
-            treeNode_7};
+            treeNode_7,
+            treeNode_8};
 
 
 
@@ -632,10 +710,9 @@ namespace test
         [DllImport("User32.dll")]
         public extern static int SendMessage(IntPtr hWnd, uint msg, UIntPtr wParam, UIntPtr lParam);
 
-
         private void ctb_main_VScroll(object sender, EventArgs e)
         {
-            int nPos = GetScrollPos(new WindowInteropHelper(Window.GetWindow(ctb_main)).Handle, (int)ScrollBarType.SbVert);
+            int nPos = GetScrollPos(ctb_main.Handle, (int)ScrollBarType.SbVert);
             nPos <<= 16;
             uint wParam = (uint)ScrollBarCommands.SB_THUMBPOSITION | (uint)nPos;
             SendMessage(new WindowInteropHelper(Window.GetWindow(rtb_lineNumber)).Handle, (int)Message.WM_VSCROLL, new UIntPtr(wParam), new UIntPtr(0));
@@ -646,7 +723,7 @@ namespace test
             CombatTest lol = new CombatTest();
             System.Windows.Forms.MessageBox.Show(lol.combat(64));
         }
-        #endregion
+#endregion
 
 
         #region Marché
@@ -712,7 +789,7 @@ namespace test
                 }
                 else
                     LstConds.Add(cond.Stat.NomSimple + " " + cond.Signe + "  " + cond.Stat.Valeur.ToString());
-        }
+            }
 
         private void fillSortCbo()
         {
@@ -723,7 +800,7 @@ namespace test
             cboTrie.ItemsSource = type;
             cboTrie.SelectedIndex = 0;
             cboTrie.SelectionChanged += cboTrie_SelectionChanged;
-        }
+                }
 
         private void cboTrie_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -735,10 +812,10 @@ namespace test
             List<string>[] items = bd.selection(query);
                 dckLink.Children.Clear();
             if (items[0][0] != "rien")
-            {
+                {
                 createPageLinks(Convert.ToInt32(bd.selection(count)[0][0]));
                 retrieveItem(items);
-            }
+                }
         }
         private void btn_link_click(object sender, RoutedEventArgs e)
         {
@@ -760,14 +837,14 @@ namespace test
                 btn.Content = (i + 1).ToString();
                 dckLink.Children.Add(btn);
                 if (i != nbPages)
-                {
-                    System.Windows.Controls.Label lbl = new System.Windows.Controls.Label();
+        {
+            System.Windows.Controls.Label lbl = new System.Windows.Controls.Label();
                     lbl.Content = " - ";
                     lbl.Height = 21;
                     lbl.VerticalAlignment = VerticalAlignment.Center;
                     dckLink.Children.Add(lbl);
-                }
-            }
+        }
+        }
         }
 
         private void retrieveItem(List<string>[] items)
@@ -789,21 +866,51 @@ namespace test
                 }
                 col++;
                 LstImgItems.Add(i);
-            }
+        }
+
+        private void btn_test_Click(object sender, RoutedEventArgs e)
+        {
+            Combat combat = new Combat();
         }
         #endregion
-
+        #region Marc/Tchat
         /// ***************************************************
         /// / ONGLET OPTIONS
         // ***************************************************
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             /* Faire un update si toute est legit*/
-            if (txt_mdp.Password != "" && txt_mdp.Password == txtConfirmation.Password && txtConfirmation.Password != "")
+            if (txt_mdp.Password != "" && txt_mdp.Password == txtConfirmation.Password && txtConfirmation.Password != "" || txt_Courriel.Text != "")
             {
                 /* Update */
                 lbl_Mdp.Foreground = new SolidColorBrush(Colors.Black);
                 lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Black);
+                StringBuilder UpdSt = new StringBuilder();
+                UpdSt.Append("UPDATE Joueurs SET ");
+                if (txt_Courriel.Text != "")
+                {
+                    UpdSt.Append("courriel = '" + txt_Courriel.Text + "'");
+         
+                }
+                if (txt_mdp.Password != "" && txt_mdp.Password == txtConfirmation.Password && txtConfirmation.Password != "")
+                {
+                    UpdSt.Append(" , motDePasse = '" + txt_mdp.Password + "'");
+
+                }
+                UpdSt.Append(" WHERE nomUtilisateur = '" + Player.NomUtilisateur + "';");
+
+                
+
+                string st = UpdSt.ToString();
+                if (bd.Update(st))
+                {
+                    System.Windows.Forms.MessageBox.Show("Mise à jour avec succès de vos infos!!");
+            }
+
+                txt_mdp.Password = "";
+                txtConfirmation.Password = "";
+                txt_Courriel.Text = "";
+
             }
             else
             {
@@ -848,46 +955,8 @@ namespace test
         {
             System.Windows.Forms.MessageBox.Show("Bientôt disponnible !");
         }
-
-        private void InlineUIContainer_Unloaded_Debut(object sender, RoutedEventArgs e)
-        {
-            (sender as InlineUIContainer).Unloaded -= new RoutedEventHandler(InlineUIContainer_Unloaded_Debut);
-
-            TextBlock tb = new TextBlock();
-            tb.FontFamily = new FontFamily("Courier New");
-            tb.FontSize = 14;
-            tb.Text = "public void Action(Terrain terrain, Personnage joueur, System.Collections.ObjectModel.ReadOnlyCollection<EntiteInconnu> ListEntites){";
-
-            TextPointer tp = ctb_main.CaretPosition.GetInsertionPosition(LogicalDirection.Forward);
-            InlineUIContainer iuic = new InlineUIContainer(tb, tp);
-            iuic.Unloaded += new RoutedEventHandler(InlineUIContainer_Unloaded_Debut);
-        }
-
-        private void InlineUIContainer_Unloaded_Fin(object sender, RoutedEventArgs e)
-        {
-            (sender as InlineUIContainer).Unloaded -= new RoutedEventHandler(InlineUIContainer_Unloaded_Fin);
-
-            TextBlock tb = new TextBlock();
-            tb.FontFamily = new FontFamily("Courier New");
-            tb.FontSize = 14;
-            tb.Text = "}";
-
-            TextPointer tp = ctb_main.CaretPosition.GetInsertionPosition(LogicalDirection.Forward);
-            InlineUIContainer iuic = new InlineUIContainer(tb, tp);
-            iuic.Unloaded += new RoutedEventHandler(InlineUIContainer_Unloaded_Fin);
-        }
-
-        private void rtb_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                var newPointer = ctb_main.Selection.Start.InsertLineBreak();
-                ctb_main.Selection.Select(newPointer, newPointer);
-
-                e.Handled = true;
-            }
-        }
-
+        #endregion
+        #region /Perso
         // ***************************************************
         //Onglet Personnage
         // ***************************************************
@@ -895,93 +964,17 @@ namespace test
         private void TabPersonage_Selected(object sender, RoutedEventArgs e)
         {
             //le nom du perso
-
-            int nbScript = Player.LstScripts.Count;
-            for (int i = 0; i < nbScript; i++)
-            {
-                cbScript.Items.Add(Player.LstScripts[i].Nom);
-
-            }
-
-
             foreach (Entite perso in Player.LstEntites)
             {
-                //todo création de plusieurs onglets personnage
-                ongletPerso.Header = perso.Nom;
-                lblNomClasse.Content = perso.ClasseEntite.Nom;
-                string SourceImgClasse = "resources/" + perso.ClasseEntite.Nom;
-
-                BitmapImage path = new BitmapImage();
-                path.BeginInit();
-                path.UriSource = new Uri(SourceImgClasse + ".png", UriKind.Relative);
-                path.EndInit();
-                Imgclasse.Source = path;
-
-                cbScript.SelectedItem = perso.ScriptEntite.Nom;
-
-
-                dgStats.ItemsSource = perso.LstStats;
-                dgDommage.ItemsSource = perso.LstStats;
-                dgResistance.ItemsSource = perso.LstStats;
-
+                pgperso.Add( new PagePerso (perso, Player));
             }
-
+            tCPerso.ItemsSource=pgperso;
         }
 
-        private void AjustementLignes(Entite perso)
-        {
-
-        }
-
-        private void imageCasque_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            String TypeEquipement = "Chapeau";
-
-            PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur);
-            Equip.ShowDialog();
-
-        }
-
-        private void imageCape_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            String TypeEquipement = "Cape";
-
-            PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur);
-            Equip.ShowDialog();
-        }
-
-        private void imageArme_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            String TypeEquipement = "Arme";
-
-            PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur);
-            Equip.ShowDialog();
-        }
+        #endregion
 
 
-        private void imageAnneau1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            String TypeEquipement = "Chapeau";
 
-            PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur);
-            Equip.ShowDialog();
-        }
-
-        private void imageBotte_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            String TypeEquipement = "botte";
-
-            PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur);
-            Equip.ShowDialog();
-        }
-
-        private void imageCeinture_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            String TypeEquipement = "Ceinture";
-
-            PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur);
-            Equip.ShowDialog();
-        }
         //**************************************************************************************************
     }
 }

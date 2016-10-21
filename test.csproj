@@ -111,6 +111,9 @@
     <Compile Include="Classes\Sort.cs" />
     <Compile Include="Classes\Statistique.cs" />
     <Compile Include="Classes\Zone.cs" />
+    <Compile Include="Combat.xaml.cs">
+      <DependentUpon>Combat.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FenetreRapport.xaml.cs">
       <DependentUpon>FenetreRapport.xaml</DependentUpon>
     </Compile>
@@ -126,7 +129,6 @@
     <Compile Include="GofusSharp\Equipement.cs" />
     <Compile Include="GofusSharp\Liste.cs" />
     <Compile Include="GofusSharp\Math.cs" />
-    <Compile Include="GofusSharp\Noeud.cs" />
     <Compile Include="GofusSharp\Partie.cs" />
     <Compile Include="GofusSharp\Personnage.cs" />
     <Compile Include="Authentification.xaml.cs">
@@ -150,6 +152,9 @@
     </Compile>
     <Compile Include="PageEquipement.xaml.cs">
       <DependentUpon>PageEquipement.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PagePerso.xaml.cs">
+      <DependentUpon>PagePerso.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -201,6 +206,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Combat.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="FenetreRapport.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -222,6 +231,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControl\ImageItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PagePerso.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

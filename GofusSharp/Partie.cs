@@ -10,7 +10,7 @@ namespace GofusSharp
         public Liste<EntiteInconnu> ListEntites { get; internal set; }
         public System.Random Seed { get; internal set; }
         public int valeurSeed { get; internal set; }
-        public Partie(int IdPartie, Terrain TerrainPartie, Liste<Entite> ListAttaquants, Liste<Entite> ListDefendants, int valeurSeed)
+        internal Partie(int IdPartie, Terrain TerrainPartie, Liste<Entite> ListAttaquants, Liste<Entite> ListDefendants, int valeurSeed)
         {
             this.IdPartie = IdPartie;
             this.TerrainPartie = TerrainPartie;
@@ -18,11 +18,11 @@ namespace GofusSharp
             this.ListDefendants = ListDefendants;
             this.valeurSeed = valeurSeed;
             Seed = new System.Random(valeurSeed);
-            GenererTerrain(10, 5, 0);
+            GenererTerrain(10, 10);
             ListEntites = new Liste<EntiteInconnu>();
             DebuterPartie();
         }
-        public Partie(int IdPartie, Liste<Entite> ListAttaquants, Liste<Entite> ListDefendants)
+        internal Partie(int IdPartie, Liste<Entite> ListAttaquants, Liste<Entite> ListDefendants)
         {
             this.IdPartie = IdPartie;
             this.ListAttaquants = ListAttaquants;
@@ -34,14 +34,14 @@ namespace GofusSharp
                 total += entite.IdEntite;
             valeurSeed = System.DateTime.Now.Millisecond - total;
             Seed = new System.Random(valeurSeed);
-            GenererTerrain(10, 5, 0);
+            GenererTerrain(10, 10);
             PlacerJoueurs();
             PlacerObstacles();
             ListEntites = new Liste<EntiteInconnu>();
             DebuterPartie();
         }
 
-        private void GenererTerrain(int Largeur, int Hauteur, int NbObstacle)
+        private void GenererTerrain(int Largeur, int Hauteur)
         {
             TerrainPartie = new Terrain(Largeur, Hauteur);
             for (int i = 0; i < Largeur; i++)
@@ -111,7 +111,7 @@ namespace GofusSharp
             }
         }
 
-        internal void DebuterPartie()
+        private void DebuterPartie()
         {
             foreach (Entite entite in ListAttaquants.Concat(ListDefendants))
             {

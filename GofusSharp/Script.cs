@@ -1,10 +1,10 @@
 ﻿namespace GofusSharp
 {
-    public class Script
+    internal class Script
     {
-        public int IdScript { get; internal set; }
-        public string Texte { get; internal set; }
-        public Script(int IdScript, string Texte)
+        internal int IdScript { get; set; }
+        internal string Texte { get; set; }
+        internal Script(int IdScript, string Texte)
         {
             this.IdScript = IdScript;
             this.Texte = Texte;

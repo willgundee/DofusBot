@@ -8,13 +8,13 @@
         public int ValeurMax { get; internal set; }
         public int NbTour { get; internal set; }
         public Statistique.type Stat { get; internal set; }
-        public Effet(type Nom, int ValeurMin, int ValeurMax)
+        internal Effet(type Nom, int ValeurMin, int ValeurMax)
         {
             this.Nom = Nom;
             this.ValeurMin = ValeurMin;
             this.ValeurMax = ValeurMax;
         }
-        public Effet(type Nom, int ValeurMin, int ValeurMax, int NbTour, Statistique.type Stat)
+        internal Effet(type Nom, int ValeurMin, int ValeurMax, int NbTour, Statistique.type Stat)
         {
             this.Nom = Nom;
             this.ValeurMin = ValeurMin;
