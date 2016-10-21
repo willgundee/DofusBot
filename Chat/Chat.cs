@@ -166,7 +166,7 @@ namespace test
         private void selectMessages()
         {
 
-            string reqMessages = "SELECT * FROM Messages ORDER BY temps DESC LIMIT 75; ";
+            string reqMessages = "SELECT * FROM Messages ORDER BY temps DESC LIMIT 75;";
             List<string>[] result = bdChat.selection(reqMessages);
 
             foreach (List<string> message in result.Reverse())
