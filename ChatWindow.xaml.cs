@@ -81,8 +81,7 @@ namespace test
             if (envoie != -1)
             {
                 trdEnvoie = new Thread(() => {
-                    chat.refreshChat();
-                    Scroll.ScrollToEnd();
+                    threadRefresh();
                 });
                 trdEnvoie = Thread.CurrentThread;
 
@@ -95,10 +94,7 @@ namespace test
             }
         }
 
-        private void threadEnvoie()
-        {
-
-        }
+     
 
         private void threadRefresh()
         {
