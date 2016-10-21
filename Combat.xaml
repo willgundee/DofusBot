@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:test"
         mc:Ignorable="d"
-        Title="Combat" Height="400" Width="91257.85">
+        Title="Combat" Height="400" Width="500">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
@@ -50,6 +50,6 @@
             <TextBlock Name="tb_perso0" Grid.Row="0"></TextBlock>
             <TextBlock Name="tb_perso1" Grid.Row="1"></TextBlock>
         </Grid>
-        <Button Name="btn_Next" Content="Prochain tour" Grid.Column="1" Grid.Row="1"></Button>
+        <Button Name="btn_Next" Content="Prochain tour" Grid.Column="1" Grid.Row="1" Click="btn_Next_Click"></Button>
     </Grid>
 </Window>

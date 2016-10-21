@@ -33,60 +33,18 @@ namespace GofusSharp
                     Label lbl = new Label();
                     Grid.SetRow(lbl, i);
                     Grid.SetColumn(lbl, j);
-                    Binding b = new Binding("Case");
-                    b.Source = PartieTest.TerrainPartie.TabCases[i][j];
-                    b.Mode = BindingMode.OneWay;
-                    b.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                    lbl.Content = new Binding(PartieTest.TerrainPartie.TabCases[i][j].Contenu.ToString());
+                    //Binding b = new Binding("Case");
+                    //b.Source = PartieTest.TerrainPartie.TabCases[i][j];
+                    //b.Mode = BindingMode.OneWay;
+                    //b.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                    lbl.Content = PartieTest.TerrainPartie.TabCases[i][j].Contenu.ToString().First();
+                    lbl.Name = "_" + i + "_" + j;
+                    //lbl.Content = new Binding(PartieTest.TerrainPartie.TabCases[i][j].Contenu.ToString());
                     //lbl.SetBinding(ContentProperty, b);
                     grd_Terrain.Children.Add(lbl);
-                    DataContext = this;
+                    //DataContext = this;
                 }
             }
-            for (int i = 0; i < 64; i++)
-            {
-                foreach (Entite entite in Liste<Entite>.ConcatAlternate(PartieTest.ListAttaquants, PartieTest.ListDefendants))
-                {
-                    
-                    if (entite.Etat == EntiteInconnu.typeEtat.mort)
-                        continue;
-                    PartieTest.DebuterAction(entite);
-                    PartieTest.SyncroniserJoueur();
-                    Action(PartieTest.TerrainPartie, entite as Personnage, PartieTest.ListEntites.AsReadOnly());
-                    PartieTest.SyncroniserJoueur();
-
-                    bool vivante = false;
-                    foreach (Entite entiteAtt in PartieTest.ListAttaquants)
-                    {
-                        if (entiteAtt.Etat == EntiteInconnu.typeEtat.vivant)
-                        {
-                            vivante = true;
-                            break;
-                        }
-                    }
-                    if (!vivante)
-                    {
-                        System.Windows.Forms.MessageBox.Show("L'équipe attaquante a gagnée");
-                        Close();
-                    }
-                    vivante = false;
-                    foreach (Entite entiteDef in PartieTest.ListDefendants)
-                    {
-                        if (entiteDef.Etat == EntiteInconnu.typeEtat.vivant)
-                        {
-                            vivante = true;
-                            break;
-                        }
-                    }
-                    if (!vivante)
-                    {
-                        System.Windows.Forms.MessageBox.Show("L'équipe defendante a gagnée");
-                        Close();
-                    }
-                }
-            }
-            System.Windows.Forms.MessageBox.Show("Partie nulle");
-            Close();
         }
 
         public void Action(Terrain terrain, Personnage joueur, System.Collections.ObjectModel.ReadOnlyCollection<EntiteInconnu> ListEntites)
@@ -173,6 +131,52 @@ namespace GofusSharp
             Liste<Entite> ListDefendants = new Liste<Entite>();
             ListDefendants.Add(new Personnage(11, classeDef, "Robert", 9000, EntiteInconnu.type.defendant, listStatistiqueDef, scriptDef, tabEquipDef, terrain));
             PartieTest = new Partie(1, ListAttaquants, ListDefendants);
+        }
+
+        private void btn_Next_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (Entite entite in Liste<Entite>.ConcatAlternate(PartieTest.ListAttaquants, PartieTest.ListDefendants))
+            {
+                if (entite.Etat == EntiteInconnu.typeEtat.mort)
+                    continue;
+                PartieTest.DebuterAction(entite);
+                PartieTest.SyncroniserJoueur();
+                Action(PartieTest.TerrainPartie, entite as Personnage, PartieTest.ListEntites.AsReadOnly());
+                PartieTest.SyncroniserJoueur();
+
+                bool vivante = false;
+                foreach (Entite entiteAtt in PartieTest.ListAttaquants)
+                {
+                    if (entiteAtt.Etat == EntiteInconnu.typeEtat.vivant)
+                    {
+                        vivante = true;
+                        break;
+                    }
+                }
+                if (!vivante)
+                {
+                    System.Windows.Forms.MessageBox.Show("L'équipe attaquante a gagnée");
+                    Close();
+                }
+                vivante = false;
+                foreach (Entite entiteDef in PartieTest.ListDefendants)
+                {
+                    if (entiteDef.Etat == EntiteInconnu.typeEtat.vivant)
+                    {
+                        vivante = true;
+                        break;
+                    }
+                }
+                if (!vivante)
+                {
+                    System.Windows.Forms.MessageBox.Show("L'équipe defendante a gagnée");
+                    Close();
+                }
+            }
+            foreach (TextBlock TB in grd_perso.Children)
+            {
+                TB.Text = PartieTest.TerrainPartie.TabCases[Convert.ToInt16(TB.Name.Split('_')[0])][Convert.ToInt16(TB.Name.Split('_')[1])].Contenu.ToString().First().ToString();
+            }
         }
     }
 }

@@ -11,6 +11,8 @@
             get { return _Contenu; }
             internal set
             {
+                if (Equals(Contenu, value))
+                    return;
                 _Contenu = value;
                 OnPropertyChanged("Case");
             }
