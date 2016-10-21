@@ -1,4 +1,6 @@
-﻿namespace GofusSharp
+﻿using System.Windows;
+
+namespace GofusSharp
 {
     public class Entite : EntiteInconnu
     {
@@ -77,6 +79,13 @@
                 case Effet.type.tire_lanceur:
                     break;
                 case Effet.type.teleportation:
+                    foreach (Window window in Application.Current.Windows)
+                    {
+                        if (window.GetType() == typeof(Combat))
+                        {
+                            (window as Combat).tb_Log.Text += "\n"
+                        }
+                    }
                     return (ChangerPosition(source) ? 1 : 0);
                 case Effet.type.ATT_neutre:
                     foreach (EntiteInconnu entiteInconnu in ListEntites)

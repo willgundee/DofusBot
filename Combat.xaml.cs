@@ -25,26 +25,27 @@ namespace GofusSharp
             InitializeComponent();
             this.Show();
             fakePartie();
-            PartieTest.DebuterPartie();
             for (int i = 0; i < 10; i++)
             {
                 for (int j = 0; j < 10; j++)
                 {
                     Label lbl = new Label();
+                    lbl.HorizontalAlignment = HorizontalAlignment.Center;
+                    lbl.VerticalAlignment = VerticalAlignment.Center;
                     Grid.SetRow(lbl, i);
                     Grid.SetColumn(lbl, j);
                     //Binding b = new Binding("Case");
                     //b.Source = PartieTest.TerrainPartie.TabCases[i][j];
                     //b.Mode = BindingMode.OneWay;
                     //b.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                    lbl.Content = PartieTest.TerrainPartie.TabCases[i][j].Contenu.ToString().First();
-                    lbl.Name = "_" + i + "_" + j;
+                    //lbl.Name = "_" + i + "_" + j;
                     //lbl.Content = new Binding(PartieTest.TerrainPartie.TabCases[i][j].Contenu.ToString());
                     //lbl.SetBinding(ContentProperty, b);
                     grd_Terrain.Children.Add(lbl);
                     //DataContext = this;
                 }
             }
+            UpdateInfo();
         }
 
         public void Action(Terrain terrain, Personnage joueur, System.Collections.ObjectModel.ReadOnlyCollection<EntiteInconnu> ListEntites)
@@ -69,15 +70,26 @@ namespace GofusSharp
             joueur.Attaquer(ennemi);
         }
 
-        public void Action(Terrain terrain, Entite joueur, System.Collections.Generic.IEnumerator<EntiteInconnu> ListEntites)
+        public void Action(Terrain terrain, Entite joueur, System.Collections.ObjectModel.ReadOnlyCollection<EntiteInconnu> ListEntites)
         {
-            while (ListEntites.Current.Equipe == joueur.Equipe)
-                ListEntites.MoveNext();
-            if (terrain.DistanceEntreCases(joueur.Position, ListEntites.Current.Position) > 1)
+            EntiteInconnu ennemi = null;
+            foreach (EntiteInconnu entite in ListEntites)
             {
-                joueur.AvancerVers(ListEntites.Current);
+                if (entite.Equipe != joueur.Equipe)
+                {
+                    ennemi = entite;
+                    break;
+                }
             }
-            joueur.UtiliserSort(joueur.ClasseEntite.TabSorts[1], ListEntites.Current);
+            if (terrain.DistanceEntreCases(joueur.Position, ennemi.Position) > 1)
+            {
+                int result = 1;
+                while (result != 0 && result != -1)
+                {
+                    result = joueur.AvancerVers(terrain.CheminEntreCases(joueur.Position, ennemi.Position).First(), 1);
+                }
+            }
+            joueur.UtiliserSort(joueur.ClasseEntite.TabSorts[1], ennemi);
         }
 
 
@@ -140,10 +152,9 @@ namespace GofusSharp
                 if (entite.Etat == EntiteInconnu.typeEtat.mort)
                     continue;
                 PartieTest.DebuterAction(entite);
-                PartieTest.SyncroniserJoueur();
                 Action(PartieTest.TerrainPartie, entite as Personnage, PartieTest.ListEntites.AsReadOnly());
                 PartieTest.SyncroniserJoueur();
-
+                UpdateInfo();
                 bool vivante = false;
                 foreach (Entite entiteAtt in PartieTest.ListAttaquants)
                 {
@@ -155,7 +166,7 @@ namespace GofusSharp
                 }
                 if (!vivante)
                 {
-                    System.Windows.Forms.MessageBox.Show("L'équipe attaquante a gagnée");
+                    System.Windows.Forms.MessageBox.Show("L'équipe defendante a gagnée");
                     Close();
                 }
                 vivante = false;
@@ -169,14 +180,48 @@ namespace GofusSharp
                 }
                 if (!vivante)
                 {
-                    System.Windows.Forms.MessageBox.Show("L'équipe defendante a gagnée");
+                    System.Windows.Forms.MessageBox.Show("L'équipe attaquante a gagnée");
                     Close();
                 }
             }
-            foreach (TextBlock TB in grd_perso.Children)
+        }
+        private void UpdateInfo()
+        {
+            foreach (Label lbl in grd_Terrain.Children)
             {
-                TB.Text = PartieTest.TerrainPartie.TabCases[Convert.ToInt16(TB.Name.Split('_')[0])][Convert.ToInt16(TB.Name.Split('_')[1])].Contenu.ToString().First().ToString();
+                lbl.Content = PartieTest.TerrainPartie.TabCases[Grid.GetRow(lbl)][Grid.GetColumn(lbl)].Contenu.ToString().First().ToString();
+
+                switch (PartieTest.TerrainPartie.TabCases[Grid.GetRow(lbl)][Grid.GetColumn(lbl)].Contenu)
+                {
+                    case Case.type.vide:
+                        lbl.Background = Brushes.White;
+                        break;
+                    case Case.type.joueur:
+                        lbl.Background = Brushes.Chartreuse;
+                        break;
+                    case Case.type.obstacle:
+                        lbl.Background = Brushes.Red;
+                        break;
+                }
             }
+            StringBuilder info = new StringBuilder();
+            info.Append("Attaquant");
+            info.Append("\nPoint de vie: " + PartieTest.ListAttaquants.First().PV);
+            if (PartieTest.ListAttaquants.First().Etat == EntiteInconnu.typeEtat.vivant)
+                info.Append("\nPosition: X: " + PartieTest.ListAttaquants.First().Position.X + " Y: " + PartieTest.ListAttaquants.First().Position.Y);
+            else
+                info.Append("\nPosition: X: 0 Y: 0");
+            info.Append("\nEtat: " + PartieTest.ListAttaquants.First().Etat);
+            tb_perso0.Text = info.ToString();
+            info.Clear();
+            info.Append("Deffendant");
+            info.Append("\nPoint de vie: " + PartieTest.ListDefendants.First().PV);
+            if (PartieTest.ListDefendants.First().Etat == EntiteInconnu.typeEtat.vivant)
+                info.Append("\nPosition: X: " + PartieTest.ListDefendants.First().Position.X + " Y: " + PartieTest.ListDefendants.First().Position.Y);
+            else
+                info.Append("\nPosition: X: 0 Y: 0");
+            info.Append("\nEtat: " + PartieTest.ListDefendants.First().Etat);
+            tb_perso1.Text = info.ToString();
         }
     }
 }

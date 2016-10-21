@@ -124,6 +124,7 @@ namespace GofusSharp
                 chemin.Insert(0, Courant.LaCase);
                 Courant = Courant.viensDe;
             }
+            chemin.RemoveAt(0);
             return chemin;
         }
         public Liste<Case> CaseVoisines(Case caseCible)

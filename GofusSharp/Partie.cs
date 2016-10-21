@@ -111,7 +111,7 @@ namespace GofusSharp
             }
         }
 
-        internal void DebuterPartie()
+        private void DebuterPartie()
         {
             foreach (Entite entite in ListAttaquants.Concat(ListDefendants))
             {
