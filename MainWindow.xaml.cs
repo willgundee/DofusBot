@@ -52,7 +52,7 @@ namespace test
         public Thread trdEnvoie { get; private set; }
 
         public ObservableCollection<PagePerso> pgperso; 
-        public ObservableCollection<pageCPersonnage> pgCperso;
+        public ObservableCollection<pageCpersonage> pgCperso;
 
         DispatcherTimer aTimer;
         private ChatWindow fenetreChat;
@@ -74,6 +74,7 @@ namespace test
             ctb_main.UpdateSyntaxHightlight();
             ctb_main.UpdateTreeView();
             pgperso = new ObservableCollection<PagePerso>();
+            pgCperso = new ObservableCollection<pageCpersonage>();
             #region linking Marché
             LstImgItems = new ObservableCollection<ImageItem>();
             LstStats = new ObservableCollection<string>();
@@ -968,7 +969,7 @@ namespace test
 
             if (Player.LstEntites.Count() == 0)
             {
-             pgCperso.Add(new pageCPersonnage());
+             pgCperso.Add(new pageCpersonage());
             tCPerso.ItemsSource = pgCperso;
             }
 

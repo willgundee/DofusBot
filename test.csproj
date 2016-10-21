@@ -137,6 +137,9 @@
     <Compile Include="CreationCompteWindow.xaml.cs">
       <DependentUpon>CreationCompteWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="pageCpersonage.xaml.cs">
+      <DependentUpon>pageCpersonage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControl\ImageItem.xaml.cs">
       <DependentUpon>ImageItem.xaml</DependentUpon>
     </Compile>
@@ -149,9 +152,6 @@
     <Compile Include="GofusSharp\Zone.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="pageCPersonnage.xaml.cs">
-      <DependentUpon>pageCPersonnage.xaml</DependentUpon>
     </Compile>
     <Compile Include="PageEquipement.xaml.cs">
       <DependentUpon>PageEquipement.xaml</DependentUpon>
@@ -229,7 +229,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="pageCPersonnage.xaml">
+    <Page Include="pageCpersonage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
