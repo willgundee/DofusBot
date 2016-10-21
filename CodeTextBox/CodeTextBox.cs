@@ -278,7 +278,7 @@ namespace Moonlight
 
             //Set some defaults...
             this.AcceptsTab = true;
-            this.Font = new Font(FontFamily.GenericMonospace, 8f);
+            this.Font = new Font(FontFamily.GenericMonospace, 10);
 
             // TODO
             //

@@ -31,9 +31,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="15*"/>
                 </Grid.ColumnDefinitions>
-                <WindowsFormsHost Grid.Row="0" Grid.Column="0" >
-                    <wf:SSRichTextBox x:Name="rtb_lineNumber" ScrollBars="None"></wf:SSRichTextBox>
-                </WindowsFormsHost>
+                <RichTextBox x:Name="rtb_lineNumber" FontFamily="Courier New" Block.LineHeight="1" Block.TextAlignment="Right" />
                 <WindowsFormsHost Grid.Row="0" Grid.Column="1">
                     <wf:CodeTextBox x:Name="ctb_main" CodeColor_Chaine="Crimson" CodeColor_Comment="Green" CodeColor_Function="CornflowerBlue" CodeColor_Keyword="Blue" CodeColor_PlainText="Black" CodeColor_Type="CornflowerBlue" AcceptsTab="True" KeyUp="ctb_KeyUp" VScroll="ctb_main_VScroll">
                         <wf:CodeTextBox.CodeWords_Keywords>

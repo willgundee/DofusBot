@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace GofusSharp
 {
@@ -98,7 +90,7 @@ namespace GofusSharp
             Liste<Statistique> listStatistiqueAtt = new Liste<Statistique>();
             listStatistiqueAtt.Add(new Statistique(Statistique.type.PA, 6));
             listStatistiqueAtt.Add(new Statistique(Statistique.type.PM, 3));
-            listStatistiqueAtt.Add(new Statistique(Statistique.type.vie, 100));
+            listStatistiqueAtt.Add(new Statistique(Statistique.type.vie, 300));
             listStatistiqueAtt.Add(new Statistique(Statistique.type.initiative, 101));
             listStatistiqueAtt.Add(new Statistique(Statistique.type.force, 30));
             listStatistiqueAtt.Add(new Statistique(Statistique.type.sagesse, 40));
