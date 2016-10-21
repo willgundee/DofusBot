@@ -249,6 +249,8 @@ namespace test
         };
         public Chat chat;
         public Joueur Player { get; set; }
+        public Thread trdEnvoie { get; private set; }
+
         DispatcherTimer aTimer;
         private ChatWindow fenetreChat;
 
@@ -309,11 +311,20 @@ namespace test
 
         private void BtnEnvoyer_Click(object sender, RoutedEventArgs e)
         {
-            long envois = chat.envoyerMessage();
-            if (envois != -1)
+            long envoie = -1;
+
+            trdEnvoie = new Thread(() => {
+                envoie = chat.envoyerMessageModLess();
+            });
+            trdEnvoie = Thread.CurrentThread;
+
+            if (envoie != -1)
             {
-                chat.refreshChat();
-                Scroll.ScrollToEnd();
+                trdEnvoie = new Thread(() =>
+                {
+                    threadRefresh();
+                });
+                trdEnvoie = Thread.CurrentThread;
             }
             else
             {
@@ -321,6 +332,11 @@ namespace test
             }
         }
 
+        private void threadRefresh()
+        {
+            chat.refreshChat();
+            Scroll.ScrollToEnd();
+        }
         private void txtMessage_TextChange(object sender, TextChangedEventArgs e)
         {
 
@@ -359,7 +375,7 @@ namespace test
         {
 
 
-            fenetreChat = new ChatWindow();
+            fenetreChat = new ChatWindow(chat.id);
             fenetreChat.Show();
 
         }

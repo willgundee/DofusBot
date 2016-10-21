@@ -15,7 +15,7 @@ namespace test
         public const int MAX_MESSAGES = 100;
         public ObservableCollection<MessageText> messages { get; private set; }
 
-        private string id;
+        public string id;
 
         public EventHandler Tick { get; internal set; }
 
