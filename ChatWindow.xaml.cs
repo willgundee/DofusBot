@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,7 +26,6 @@ namespace test
     {
         public Chat chat;
         DispatcherTimer aTimer;
-        Thread trdEnvoie;
 
        
 
@@ -71,41 +69,17 @@ namespace test
 
         private void btn_Envoyer_Click(object sender, RoutedEventArgs e)
         {
-            long envoie = -1;
-
-            trdEnvoie = new Thread(() => {
-                envoie = chat.envoyerMessageModLess();
-            });
-            trdEnvoie = Thread.CurrentThread;
-
-            if (envoie != -1)
+            long envois = chat.envoyerMessageModLess();
+            if (envois != -1)
             {
-                trdEnvoie = new Thread(() => {
-                        chat.refreshChat();
-                    Scroll.ScrollToEnd();
-                });
-                trdEnvoie = Thread.CurrentThread;
-
-
-
+                chat.refreshChatModLess();
+                Scroll.ScrollToEnd();
             }
             else
             {
-                System.Windows.MessageBox.Show("Erreur d'envois du message..");
+                MessageBox.Show("Erreur lors de l'envoie du message.");
             }
         }
-
-        private void threadEnvoie()
-        {
-                
-        }
-
-        private void threadRefresh()
-        {
-             chat.refreshChat();
-            Scroll.ScrollToEnd();
-        }
-
 
         private void txtMessage_TextChange(object sender, TextChangedEventArgs e)
         {
