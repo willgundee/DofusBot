@@ -52,6 +52,7 @@ namespace test
         public Thread trdEnvoie { get; private set; }
 
         public ObservableCollection<PagePerso> pgperso; 
+        public ObservableCollection<pageCPersonnage> pgCperso;
 
         DispatcherTimer aTimer;
         private ChatWindow fenetreChat;
@@ -867,7 +868,7 @@ namespace test
                 }
                 col++;
                 LstImgItems.Add(i);
-            }
+        }
         }
 
         private void btn_test_Clicke(object sender, RoutedEventArgs e)
@@ -907,7 +908,7 @@ namespace test
                 if (bd.Update(st))
                 {
                     System.Windows.Forms.MessageBox.Show("Mise à jour avec succès de vos infos!!");
-            }
+                }
 
                 txt_mdp.Password = "";
                 txtConfirmation.Password = "";
@@ -958,20 +959,33 @@ namespace test
             System.Windows.Forms.MessageBox.Show("Bientôt disponnible !");
         }
         #endregion
-        #region /Perso
+        #region Michael/Perso
         // ***************************************************
         //Onglet Personnage
         // ***************************************************
 
         private void TabPersonage_Selected(object sender, RoutedEventArgs e)
         {
-            //le nom du perso
+
+            if (Player.LstEntites.Count() == 0)
+            {
+             pgCperso.Add(new pageCPersonnage());
+            tCPerso.ItemsSource = pgCperso;
+            }
+
+            //le nom du perso 
             foreach (Entite perso in Player.LstEntites)
             {
-                pgperso.Add( new PagePerso (perso, Player));
+                
+                    pgperso.Add(new PagePerso(perso, Player));
+                tCPerso.ItemsSource = pgperso;
+                  
+                
             }
-            tCPerso.ItemsSource=pgperso;
+                     
+
         }
+
 
         #endregion
 

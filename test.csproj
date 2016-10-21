@@ -150,6 +150,9 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="pageCPersonnage.xaml.cs">
+      <DependentUpon>pageCPersonnage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PageEquipement.xaml.cs">
       <DependentUpon>PageEquipement.xaml</DependentUpon>
     </Compile>
@@ -226,6 +229,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="pageCPersonnage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PageEquipement.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -240,6 +247,12 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\Ecaflip.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Cra.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Resources\fondEquipement.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
