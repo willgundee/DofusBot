@@ -641,10 +641,6 @@ namespace test
             uint wParam = (uint)ScrollBarCommands.SB_THUMBPOSITION | (uint)nPos;
             SendMessage(new WindowInteropHelper(Window.GetWindow(rtb_lineNumber)).Handle, (int)Message.WM_VSCROLL, new UIntPtr(wParam), new UIntPtr(0));
         }
-        private void btnAchat_Click(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Forms.MessageBox.Show("Coming soon !");
-        }
 
         private void btn_test_Click(object sender, RoutedEventArgs e)
         {
@@ -655,6 +651,27 @@ namespace test
 
 
         #region Marché
+        private void btnAchat_Click(object sender, RoutedEventArgs e)
+        {
+            /*DialogResult dr = System.Windows.MessageBox.Show("Voulez vous vraiment acheter l'objet : " + lblItem + " Au cout de " + lblPrix.Content,
+                      "Achat", MessageBoxButtons.YesNo);
+            switch (dr)
+            {
+                case DialogResult.Yes: break;
+                case DialogResult.No: break;
+            }*/
+            MessageBoxResult m = System.Windows.MessageBox.Show("Voulez vous vraiment acheter l'objet : " + lblItem.Content + " Au cout de " + lblPrix.Content + " Kamas ?", "Achat", MessageBoxButton.YesNo);
+            if (m == MessageBoxResult.Yes)
+            {
+                //do something
+            }
+            else if (m == MessageBoxResult.No)
+            {
+                //do something else
+            }
+
+
+        }
 
         private void image_MouseUp(object sender, MouseButtonEventArgs e)
         {
@@ -726,9 +743,9 @@ namespace test
             string count = "SELECT COUNT(*) FROM Equipements  e INNER JOIN ConditionsEquipements c ON c.idEquipement = e.idEquipement INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE idCondition = 21 " + (type == "Tous" ? "" : "AND t.nom ='" + type + "'") + " ORDER BY c.valeur  LIMIT 10 OFFSET 0";
 
             List<string>[] items = bd.selection(query);
+                dckLink.Children.Clear();
             if (items[0][0] != "rien")
             {
-                dckLink.Children.Clear();
                 createPageLinks(Convert.ToInt32(bd.selection(count)[0][0]));
                 retrieveItem(items);
             }
