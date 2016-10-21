@@ -22,14 +22,22 @@ namespace test
         public BDService bd = new BDService();
         public PageEquipement(string TypeEquipement, string NomJoueur)
         {
+            bool valide;
             InitializeComponent();
-            afficherEquipementDispo(TypeEquipement, NomJoueur);
+           valide= afficherEquipementDispo(TypeEquipement, NomJoueur);
+            foreach (Window Page in Application.Current.Windows)
+            {
+                if (Page.GetType() == typeof(MainWindow))
+                {
+                    (Page as MainWindow).pgperso.First().validePg=valide;
+                }
+            }
 
-           
         }
 
-        private void  afficherEquipementDispo(string TypeEquipement,string NomJoueur)
+        private bool  afficherEquipementDispo(string TypeEquipement,string NomJoueur)
         {
+            bool valide = false;
             List<string>[] NoImg = null;
             int col = 0;
             int row = 0;
@@ -41,7 +49,11 @@ namespace test
             {
                 NoImg = bd.selection("SELECT e.noImage, je.quantite FROM equipements e INNER JOIN JoueursEquipements je ON je.idEquipement = e.idEquipement INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement INNER JOIN Joueurs j ON j.idJoueur = je.idJoueur WHERE j.nomUtilisateur = '" + NomJoueur + "'AND t.nom = '" + TypeEquipement + "'");
             }
-
+            if(NoImg[0][0]=="rien")
+            {
+                return valide;
+            }
+            
             foreach (List<string> item in NoImg)
             {
                 for (int i= 0; i < Convert.ToInt32(item[1]);i++)
@@ -57,8 +69,10 @@ namespace test
                     col++;
                     grdItem.Children.Add(img);
                 }
-
+                valide = true;
             }
+
+            return valide;
         }
 
         private Image CreateImg(string Noimg)
@@ -69,10 +83,21 @@ namespace test
             img.Height = 100;
             img.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
             img.VerticalAlignment = System.Windows.VerticalAlignment.Top;
+            img.MouseUp += image_MouseUp;
             img.Source = path;
             return img;
         }
 
+        private void image_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            foreach (Window Page in Application.Current.Windows)
+            {
+                if(Page.GetType()==typeof(MainWindow))
+                {
+                    (Page as MainWindow).pgperso.First().imageCasque.Source = null;
+                }
+            }
+        }
     }
 }
 

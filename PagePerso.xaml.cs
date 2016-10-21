@@ -20,10 +20,10 @@ namespace test
     /// </summary>
     public partial class PagePerso : UserControl
     {
-
+        public bool validePg;
         private Joueur Player;
-      
-        public PagePerso(Entite ent, Joueur Player  )
+
+        public PagePerso(Entite ent, Joueur Player)
         {
             InitializeComponent();
             this.Player = Player;
@@ -209,53 +209,41 @@ namespace test
         }
 
 
-        private void imageCasque_MouseDown(object sender, MouseButtonEventArgs e)
+        private void image_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            String TypeEquipement = "Chapeau";
+            string choix = (sender as Image).Name;
+            string TypeEquipement = null;
+
+            switch (choix.ToString())
+            {
+                case "imageCasque":
+                    TypeEquipement = "Chapeau";
+                    break;
+                case "imageCape":
+                    TypeEquipement = "Cape";
+                    break;
+                case "imageArme":
+                    TypeEquipement = "Arme";
+                    break;
+                case "imageCeinture":
+                    TypeEquipement = "Ceinture";
+                    break;
+                case "imageAnneau1":
+                    TypeEquipement = "Anneau";
+                    break;
+                case "imageAnneau2":
+                    TypeEquipement = "Anneau";
+                    break;
+                case "imageBotte":
+                    TypeEquipement = "botte";
+                    break;
+            }
 
             PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur);
+            if(validePg!=false)
             Equip.ShowDialog();
 
         }
 
-        private void imageCape_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            String TypeEquipement = "Cape";
-
-            PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur);
-            Equip.ShowDialog();
-        }
-
-        private void imageArme_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            String TypeEquipement = "Arme";
-
-            PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur);
-            Equip.ShowDialog();
-        }
-
-        private void imageAnneau1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            String TypeEquipement = "Chapeau";
-
-            PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur);
-            Equip.ShowDialog();
-        }
-
-        private void imageBotte_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            String TypeEquipement = "botte";
-
-            PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur);
-            Equip.ShowDialog();
-        }
-
-        private void imageCeinture_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            String TypeEquipement = "Ceinture";
-
-            PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur);
-            Equip.ShowDialog();
-        }
     }
 }
