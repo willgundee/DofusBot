@@ -42,20 +42,25 @@ namespace test
     public partial class MainWindow : Window
     {
         public BDService bd = new BDService();
-        public Chat chat;
+        
         public ObservableCollection<ImageItem> LstImgItems;
         ObservableCollection<string> LstStats;
         ObservableCollection<string> LstConds;
         ObservableCollection<string> LstCaras;
 
         public Joueur Player { get; set; }
-        public Thread trdEnvoie { get; private set; }
+       
 
         public ObservableCollection<PagePerso> pgperso;
         public ObservableCollection<pageCpersonage> pgCperso;
 
+        #region Marc_Chat,FenetreChat,DispatcherTimer,ThreadEnvoie
+        public Chat chat;
         DispatcherTimer aTimer;
-        private ChatWindow fenetreChat;
+        public ChatWindow fenetreChat;
+        public Thread trdEnvoie { get; private set; }
+        #endregion
+      
 
         public MainWindow(int id)
         {
@@ -91,14 +96,16 @@ namespace test
 
             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
 
-
+            #region Marc_TimerTick_Chat
             this.chat = new Chat();
             btnEnvoyerMessage.IsEnabled = false;
 
-
+           
             aTimer = new DispatcherTimer();
             aTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             aTimer.Interval = new TimeSpan(0, 0, 2);
+            #endregion
+
             //dgStats.ItemsSource=
 
         }
@@ -111,14 +118,29 @@ namespace test
            }
            */
 
-        // POUR LE CHAT -------------------------------------------------------------------------------------------------------------------
+        #region Marc_Chat(Timer,WPF,EnvoieMessage,Refresh)
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             // Updating the Label which displays the current second
             if (this != null)
             {
 
-                chat.refreshChat();
+                ObservableCollection<string> messages = new ObservableCollection<string>();
+                Thread trdRefresh = new Thread(() =>
+                {
+
+                    messages = chat.refreshChat();
+                    System.Windows.Application.Current.Dispatcher.Invoke(new System.Action(() =>
+                    {
+                        txtboxHistorique.Text = "";
+                        foreach (string m in messages)
+                        {
+                            txtboxHistorique.Text += m;
+                        }
+                    }));
+                });
+                trdRefresh.Start();
+                Thread.Yield();
                 // Forcing the CommandManager to raise the RequerySuggested event
                 CommandManager.InvalidateRequerySuggested();
             }
@@ -130,33 +152,13 @@ namespace test
 
         private void BtnEnvoyer_Click(object sender, RoutedEventArgs e)
         {
-            long envoie = -1;
-
-            trdEnvoie = new Thread(() =>
-            {
-                envoie = chat.envoyerMessageModLess();
-            });
-            trdEnvoie = Thread.CurrentThread;
-
-            if (envoie != -1)
-            {
-                trdEnvoie = new Thread(() =>
-                {
-                    threadRefresh();
-                });
-                trdEnvoie = Thread.CurrentThread;
-            }
-            else
-            {
-                System.Windows.MessageBox.Show("Erreur d'envois du message..");
-            }
+            string text = txtMessage.Text;
+            trdEnvoie = new Thread(() => { chat.envoyerMessage(text); });
+            trdEnvoie.Start();
+            Thread.Yield();
         }
 
-        private void threadRefresh()
-        {
-            chat.refreshChat();
-            Scroll.ScrollToEnd();
-        }
+     
         private void txtMessage_TextChange(object sender, TextChangedEventArgs e)
         {
 
@@ -191,14 +193,28 @@ namespace test
 
         }
 
+        public void MainWindow_ChatWindowClosing(object sender, System.EventArgs e)
+        {
+            fenetreChat = null;
+        }
+
         private void BtnModLess_Click(object sender, RoutedEventArgs e)
         {
 
-
-            fenetreChat = new ChatWindow(chat.id);
-            fenetreChat.Show();
-
+            if (fenetreChat != null)
+            {
+                fenetreChat.Activate();
+            }
+            else
+            {
+                fenetreChat = new ChatWindow(chat.nomUtilisateur);
+                fenetreChat.Closed += MainWindow_ChatWindowClosing;
+                fenetreChat.Show();
+            }
         }
+        #endregion
+
+
 
         #region truc trop long de ced
         //--------------------------------------------------------------------------------------------------------
@@ -924,7 +940,8 @@ namespace test
             Combat combat = new Combat();
         }
         #endregion
-        #region Marc/Tchat
+
+        #region Marc_OngletOption
         /// ***************************************************
         /// / ONGLET OPTIONS
         // ***************************************************
@@ -1008,6 +1025,7 @@ namespace test
 
         }
         #endregion
+
         #region Michael/Perso
         // ***************************************************
         //Onglet Personnage

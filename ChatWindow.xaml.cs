@@ -1,19 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
-using System.Text;
+using System.Collections.ObjectModel;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace test
@@ -28,7 +18,7 @@ namespace test
         public Chat chat;
         DispatcherTimer aTimer;
         Thread trdEnvoie;
-        
+
 
 
         public ChatWindow(string user)
@@ -39,7 +29,7 @@ namespace test
             txtboxHistorique.Text += " ";
             aTimer = new System.Windows.Threading.DispatcherTimer();
             aTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-            aTimer.Interval = new TimeSpan(0, 0, 2);
+            aTimer.Interval = new TimeSpan(0, 0, 4);
             chat.nomUtilisateur = user;
             chat.getId();
 
@@ -52,11 +42,29 @@ namespace test
             this.DragMove();
         }
 
+
+
+
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             if (this != null)
             {
-                chat.refreshChatModLess();
+                ObservableCollection<string> messages = new ObservableCollection<string>();
+                Thread trdRefresh = new Thread(() =>
+                {
+
+                    messages = chat.refreshChat();
+                    System.Windows.Application.Current.Dispatcher.Invoke(new System.Action(() =>
+                    {
+                        txtboxHistorique.Text = "";
+                        foreach (string m in messages)
+                        {
+                            txtboxHistorique.Text += m;
+                        }
+                    }));
+                });
+                trdRefresh.Start();
+                Thread.Yield();
 
                 CommandManager.InvalidateRequerySuggested();
             }
@@ -71,42 +79,16 @@ namespace test
 
         private void btn_Envoyer_Click(object sender, RoutedEventArgs e)
         {
-            long envoie = -1;
-
-            trdEnvoie = new Thread(() => {
-                envoie = chat.envoyerMessageModLess();
-            });
-            trdEnvoie = Thread.CurrentThread;
-
-            if (envoie != -1)
-            {
-                trdEnvoie = new Thread(() => {
-                    threadRefresh();
-                });
-                trdEnvoie = Thread.CurrentThread;
-
-
-
-            }
-            else
-            {
-                System.Windows.MessageBox.Show("Erreur d'envois du message..");
-            }
+            string text = txtMessage.Text;
+            trdEnvoie = new Thread(() => { chat.envoyerMessage(text); });
+            trdEnvoie.Start();
+            Thread.Yield();
         }
 
-     
-
-        private void threadRefresh()
-        {
-            chat.refreshChat();
-            Scroll.ScrollToEnd();
-        }
 
 
         private void txtMessage_TextChange(object sender, TextChangedEventArgs e)
         {
-
-
             if (txtMessage.Text.ToString() == "")
             {
                 btnEnvoyerMessage.IsEnabled = false;
@@ -131,6 +113,7 @@ namespace test
             txtboxHistorique.Text = "";
             btnEnvoyerMessage.IsEnabled = false;
             txtMessage.IsEnabled = false;
+
             this.Close();
         }
     }

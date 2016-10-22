@@ -18,9 +18,9 @@ namespace test
         
         public ObservableCollection<MessageText> messages { get; private set; }
 
-        private string id;
+        public string id { get; set; }
 
-        public string nomUtilisateur { get; set; }
+         public string nomUtilisateur { get; set; }
 
 
         public ObservableCollection<string> contenuChat;
