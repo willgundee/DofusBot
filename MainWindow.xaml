@@ -35,8 +35,8 @@
     <TabControl TabStripPlacement="Left">
 
         <TabItem Header="Personages" Height="30" Loaded="TabItem_Loaded" Selector.IsSelected="True">
-            <Grid x:Name="grd_Perso" IsEnabled="True">
-                <TabControl x:Name="tCPerso" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="560" Margin="3,1,0,-1" VerticalAlignment="Top" Width="577" Grid.RowSpan="2" >
+            <Grid x:Name="grd_Perso" IsEnabled="True" Selector.IsSelected="True">
+                <TabControl x:Name="tCPerso" Grid.ColumnSpan="2" Selector.IsSelected="True" HorizontalAlignment="Left" Height="560" Margin="3,1,0,-1" VerticalAlignment="Top" Width="577" Grid.RowSpan="2" >
 
                 </TabControl>
             </Grid>
