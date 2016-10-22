@@ -958,6 +958,7 @@ namespace test
         private void btnSuggestion_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Forms.MessageBox.Show("Bientôt disponnible !");
+
         }
         #endregion
         #region Michael/Perso
@@ -965,29 +966,30 @@ namespace test
         //Onglet Personnage
         // ***************************************************
 
+ 
+
         private void TabItem_Loaded(object sender, RoutedEventArgs e)
         {
-
             if (Player.LstEntites.Count() == 0)
             {
-             pgCperso.Add(new pageCpersonage(Player));
-            tCPerso.ItemsSource = pgCperso;
+                pgCperso.Add(new pageCpersonage(Player));
+                tCPerso.ItemsSource = pgCperso;
+                
             }
 
             //le nom du perso 
             foreach (Entite perso in Player.LstEntites)
             {
-                
-                    pgperso.Add(new PagePerso(perso, Player));
-                tCPerso.ItemsSource = pgperso;
-                  
-                
-            }
-                     
 
+                pgperso.Add(new PagePerso(perso, Player));
+                tCPerso.ItemsSource = pgperso;
+                tCPerso.IsEnabled = true;
+               
+
+            }
         }
 
-    
+
 
 
         #endregion

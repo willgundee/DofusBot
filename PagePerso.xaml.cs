@@ -22,7 +22,6 @@ namespace test
     {
         public bool validePg;
         private Joueur Player;
-        
 
         public PagePerso(Entite ent, Joueur Player)
         {

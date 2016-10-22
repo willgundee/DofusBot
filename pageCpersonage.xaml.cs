@@ -39,7 +39,7 @@ namespace test
             string Classe;
             string choix = (sender as Image).Name;
 
-
+            
             switch (choix)
             {
                 case "ClasseCra":
@@ -79,7 +79,7 @@ namespace test
             {
                 bd.insertion("INSERT INTO statistiquesentites(idEntite,idTypeStatistique,valeur) VALUES ((SELECT idEntite FROM Entites WHERE nom='" + txtNom.Text.ToString() + "')," + i + ",0)");
             }
-            return;          
+                      
         }
     }
 }
