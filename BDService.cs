@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Windows;
 
 namespace test
@@ -10,7 +11,13 @@ namespace test
         User: gofusprog
         Pass: GP994433
          */
-        private MySqlConnection BDInterne;
+
+        // Pour éviter les problèmes causé par Reader qui met la connection en mode readonly.
+        private MySqlConnection BDChat;
+        private MySqlConnection BDSelect;
+        private MySqlConnection BDInsert;
+
+
         private string serveur = "420.cstj.qc.ca";
         private string baseDonnee = "420.5a5.a16_gofusprog";
         private string utilisateur = "gofusprog";
@@ -22,9 +29,14 @@ namespace test
             {
                 string connexionString = "server=" + serveur + ";database=" + baseDonnee + ";uid=" + utilisateur + ";password=" + motPasse;
 
-                BDInterne = new MySqlConnection(connexionString);
 
-                // MessageBox.Show("Connexion OK");
+                BDSelect = new MySqlConnection(connexionString);
+
+                BDInsert = new MySqlConnection(connexionString);
+
+                BDChat = new MySqlConnection(connexionString);
+
+               
             }
             catch (Exception e)
             {
@@ -43,19 +55,19 @@ namespace test
             long retVal = 0;
             try
             {
-                if (ouvrirConnexion())
+                if (ouvrirConnexionINSERT())
                 {
-                    MySqlCommand cmd = new MySqlCommand(req, BDInterne);
+                    MySqlCommand cmd = new MySqlCommand(req, BDInsert);
 
                     cmd.ExecuteNonQuery();
-                    fermerConnexion();
+                    fermerConnexionINSERT();
                     retVal = cmd.LastInsertedId;
                 }
             }
             catch (Exception e)
             {
                 MessageBox.Show("Erreur d'insertion :" + e.Message);
-                fermerConnexion();
+                fermerConnexionINSERT();
                 return -1;
             }
             //aa
@@ -66,9 +78,9 @@ namespace test
         {
             try
             {
-                if (ouvrirConnexion())
+                if (ouvrirConnexionINSERT())
                 {
-                    MySqlCommand cmd = new MySqlCommand(req, BDInterne);
+                    MySqlCommand cmd = new MySqlCommand(req, BDInsert);
 
                  if (cmd.ExecuteNonQuery() == 1)
                 {
@@ -78,7 +90,7 @@ namespace test
                 {
                     MessageBox.Show("Erreur de mise à jour ! ");
                 }
-                    fermerConnexion();
+                    fermerConnexionINSERT();
                     return false;
                 }
                
@@ -86,12 +98,43 @@ namespace test
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                fermerConnexion();
+                fermerConnexionINSERT();
                 return false;
             }
 
             return true;
         }
+
+
+
+        public DataSet selectionChat(string req)
+        {
+            DataSet ds = new DataSet();
+
+            try
+            {
+                if (ouvrirConnexionCHAT())
+                {
+                    MySqlDataAdapter adapteur = new MySqlDataAdapter();
+                    adapteur.SelectCommand = new MySqlCommand(req, BDSelect);
+
+                    adapteur.Fill(ds);
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Erreur de récuperation : {0}", e.Message);
+                ds = null;
+            }
+            finally
+            {
+                fermerConnexionCHAT();
+            }
+            return ds;
+        }
+
+
+
 
 
 
@@ -103,9 +146,9 @@ namespace test
 
             try
             {
-                if (ouvrirConnexion())
+                if (ouvrirConnexionSELECT())
                 {
-                    MySqlCommand cmd = new MySqlCommand(req, BDInterne);
+                    MySqlCommand cmd = new MySqlCommand(req, BDSelect);
                     MySqlDataReader dataReader = cmd.ExecuteReader();
 
                     nbChamps = dataReader.FieldCount;
@@ -120,7 +163,7 @@ namespace test
                     }
 
                     dataReader.Close();
-                    fermerConnexion();
+                    fermerConnexionSELECT();
                 }
             }
             catch (Exception e)
@@ -152,11 +195,11 @@ namespace test
             return listEnregistrement;
         }
 
-        private bool ouvrirConnexion()
+        private bool ouvrirConnexionSELECT()
         {
             try
             {
-                BDInterne.Open();
+                BDSelect.Open();
                 return true;
             }
             catch
@@ -165,11 +208,68 @@ namespace test
             }
         }
 
-        private bool fermerConnexion()
+        private bool fermerConnexionSELECT()
         {
             try
             {
-                BDInterne.Close();
+                BDSelect.Close();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private bool ouvrirConnexionCHAT()
+        {
+            try
+            {
+                BDChat.Open();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private bool fermerConnexionCHAT()
+        {
+            try
+            {
+                BDChat.Close();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
+
+
+
+
+        private bool ouvrirConnexionINSERT()
+        {
+            try
+            {
+                BDInsert.Open();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private bool fermerConnexionINSERT()
+        {
+            try
+            {
+                BDInsert.Close();
                 return true;
             }
             catch
