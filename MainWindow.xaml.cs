@@ -96,7 +96,11 @@ namespace test
 
             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
 
+            txt_Courriel.Text = Player.Courriel;
+            txt_nomUtilisateur.Text = Player.NomUtilisateur;
+
             #region Marc_TimerTick_Chat
+
             this.chat = new Chat();
             btnEnvoyerMessage.IsEnabled = false;
 
@@ -941,7 +945,7 @@ namespace test
         }
         #endregion
 
-        #region Marc_OngletOption
+        #region Marc_OngletGestionCompte
         /// ***************************************************
         /// / ONGLET OPTIONS
         // ***************************************************
@@ -955,7 +959,7 @@ namespace test
                 lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Black);
                 StringBuilder UpdSt = new StringBuilder();
                 UpdSt.Append("UPDATE Joueurs SET ");
-                if (txt_Courriel.Text != "")
+                if (txt_NeoCourriel.Text != "" && txt_NeoCourriel.Text != txt_Courriel.Text)
                 {
                     UpdSt.Append("courriel = '" + txt_Courriel.Text + "'");
 
