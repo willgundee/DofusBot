@@ -970,7 +970,7 @@ namespace test
 
             if (Player.LstEntites.Count() == 0)
             {
-             pgCperso.Add(new pageCpersonage());
+             pgCperso.Add(new pageCpersonage(Player));
             tCPerso.ItemsSource = pgCperso;
             }
 
