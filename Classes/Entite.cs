@@ -71,7 +71,7 @@ namespace test
             List<string>[] items = bd.selection(equip);
             if (items[0][0] != "rien")
                 foreach (List<string> item in items)
-                    LstEquipements.Add(new Equipement(item,true));
+                    LstEquipements.Add(new Equipement(item,true,0));
         }
     }
 }

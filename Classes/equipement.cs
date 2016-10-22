@@ -30,10 +30,12 @@ namespace test
             {1, "Chapeau" },{2, "Cape"},{3, "Botte"},{4, "Ceinture"},{5, "Anneau"},{6, "Amulette"},{7, "Hache"},{8, "Pelle"},{9, "Baguette"},{10, "Épée"},{11, "Arc"},{12, "Dague"},{13, "Bâton"},{14, "Marteau"},{ 15, "Faux"}
         };
         /// <summary>
-        /// constructeur d'un équipement ou arme
+        /// Le constructeur d'une arme ou d'un item
         /// </summary>
-        /// <param name="item">La requête</param>
-        public Equipement(List<string> item, bool complet)
+        /// <param name="item">La requete</param>
+        /// <param name="complet"> si tu a juste besoin de l'image et pas des stats/conditions/carateristiques</param>
+        /// <param name="idFacultatifDuJoueur"> 0 si pas besoin.si c'est pour ajouter la quantité de celui-ci, lier au joueur</param>
+        public Equipement(List<string> item, bool complet, int idFacultatifDuJoueur)
         {
 
             if (item[2] == "")// si l'idZone est null soit vide c'est une arme
@@ -58,6 +60,14 @@ namespace test
                 addStats(Convert.ToInt32(item[0]));
                 addConditions(Convert.ToInt32(item[0]));
             }
+            if (idFacultatifDuJoueur != 0)
+                addQuantite(Convert.ToInt32(item[0]),idFacultatifDuJoueur);
+        }
+        private void addQuantite(int idEquipement, int idJoueur)
+        {
+            List<string>[] rep = bd.selection("SELECT quantite,quantiteEquipe FROM JoueursEquipements WHERE idJoueur = " + idJoueur + " AND idEquipement = " + idEquipement);
+            Quantite = Convert.ToInt32(rep[0][0]);
+            QuantiteEquipe = Convert.ToInt32(rep[0][1]);
         }
         /// <summary>
         /// ajout des statistiques des items

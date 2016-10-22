@@ -73,6 +73,7 @@ namespace test
             ctb_main.UpdateSyntaxHightlight();
             ctb_main.UpdateTreeView();
             pgperso = new ObservableCollection<PagePerso>();
+
             #region linking Marché
             LstImgItems = new ObservableCollection<ImageItem>();
             LstStats = new ObservableCollection<string>();
@@ -762,7 +763,7 @@ namespace test
             imgCurrent.Source = ((ImageItem)sender).imgItem.Source;
             string info = "SELECT * FROM Equipements  WHERE nom ='" + ((ImageItem)sender).txtNom.Text + "'";
 
-            Equipement item = new Equipement(bd.selection(info)[0], true);
+            Equipement item = new Equipement(bd.selection(info)[0], true,0);
             lblItem.Content = item.Nom;
 
             lblPrix.Content = item.Prix;
@@ -854,7 +855,7 @@ namespace test
 
             foreach (List<string> item in items)
             {
-                Equipement equip = new Equipement(item, false);
+                Equipement equip = new Equipement(item, false,0);
                 ImageItem i = new ImageItem(equip);
                 i.MouseDown += image_MouseUp;
                 Grid.SetColumn(i, col);
