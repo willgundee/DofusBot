@@ -965,7 +965,7 @@ namespace test
         //Onglet Personnage
         // ***************************************************
 
-        private void TabPersonage_Selected(object sender, RoutedEventArgs e)
+        private void TabItem_Loaded(object sender, RoutedEventArgs e)
         {
 
             if (Player.LstEntites.Count() == 0)
@@ -986,6 +986,8 @@ namespace test
                      
 
         }
+
+    
 
 
         #endregion
