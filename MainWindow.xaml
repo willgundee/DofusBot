@@ -175,7 +175,7 @@
                     <TabItem Header="Conditions">
                         <ListBox  Name="lbxCond"/>
                     </TabItem>
-                    <TabItem Header="caractéristiques" Visibility="Hidden">
+                    <TabItem Name="tbCara" Header="caractéristiques" Visibility="Hidden">
                         <ListBox  Name="lbxCara"/>
                     </TabItem>
                 </TabControl>

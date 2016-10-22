@@ -51,7 +51,7 @@ namespace test
         public Joueur Player { get; set; }
         public Thread trdEnvoie { get; private set; }
 
-        public ObservableCollection<PagePerso> pgperso; 
+        public ObservableCollection<PagePerso> pgperso;
         public ObservableCollection<pageCpersonage> pgCperso;
 
         DispatcherTimer aTimer;
@@ -132,7 +132,8 @@ namespace test
         {
             long envoie = -1;
 
-            trdEnvoie = new Thread(() => {
+            trdEnvoie = new Thread(() =>
+            {
                 envoie = chat.envoyerMessageModLess();
             });
             trdEnvoie = Thread.CurrentThread;
@@ -726,17 +727,42 @@ namespace test
             CombatTest lol = new CombatTest();
             System.Windows.Forms.MessageBox.Show(lol.combat(64));
         }
-#endregion
+        #endregion
 
 
         #region Marché
         private void btnAchat_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult m = System.Windows.MessageBox.Show("Voulez vous vraiment acheter l'objet : " + lblItem.Content + ". Au cout de " +  lblPrix.Content + " Kamas ?", "Achat", MessageBoxButton.YesNo,MessageBoxImage.Information);
+            MessageBoxResult m = System.Windows.MessageBox.Show("Voulez vous vraiment acheter l'objet : " + lblItem.Content + ". Au cout de " + lblPrix.Content + " Kamas ?", "Achat", MessageBoxButton.YesNo, MessageBoxImage.Information);
             if (m == MessageBoxResult.Yes)
-                    Player.Kamas -= (int)lblPrix.Content;
-            //TODO: le update et l'insert
+            {
+                Player.Kamas -= (int)lblPrix.Content;
+
+                //bd.Update("UPDATE  Joueurs SET  argent =  " + Player.Kamas + " WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "'");
+                //TODO: l'update fucktop tout donc je l'ai enlever 
+                List<string> rep = bd.selection("SELECT je.quantite,je.idJoueurEquipement FROM joueursequipements je INNER JOIN joueurs j ON je.idJoueur = j.idJoueur  INNER JOIN Equipements e ON e.idEquipement = je.idEquipement WHERE e.nom ='" + lblItem.Content.ToString() + "' AND j.nomUtilisateur = '" + Player.NomUtilisateur + "'")[0];
+                if (rep[0] == "rien")
+                    bd.insertion("INSERT INTO  JoueursEquipements (idJoueur ,idEquipement ,quantite ,quantiteEquipe) VALUES ( (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur = '" + Player.NomUtilisateur + "'),(SELECT idEquipement FROM Equipements WHERE nom = '" + lblItem.Content.ToString() + "') ,1, 0); ");
+                else
+                    bd.Update("UPDATE JoueursEquipements SET  quantite =  " + (Convert.ToInt16(rep[0]) + 1) + " WHERE  idJoueurEquipement =" + rep[1] + ";");
+
+                if (rep[0] == "rien")
+                    Player.Inventaire.Add(new Equipement(bd.selection("SELECT * FROM Equipements WHERE nom = '" + lblItem.Content.ToString() + "'")[0], true, Convert.ToInt32(bd.selection("SELECT * FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "'")[0][0])));
+                else
+                    foreach (Equipement item in Player.Inventaire)
+                        if (item.Nom == lblItem.Content.ToString())
+                            item.Quantite+=1;
+
+
+
+            }
             lblKamas.Content = Player.Kamas;
+
+            if (Player.Kamas < (int)lblPrix.Content)
+                btnAchat.IsEnabled = false;
+            else
+                btnAchat.IsEnabled = true;
+
         }
 
         private void image_MouseUp(object sender, MouseButtonEventArgs e)
@@ -751,7 +777,7 @@ namespace test
             lblPri.Visibility = Visibility.Visible;
             lblMoney.Visibility = Visibility.Visible;
             lblKamas.Visibility = Visibility.Visible;
-           // imgKamas.Visibility = Visibility.Visible;
+            // imgKamas.Visibility = Visibility.Visible;
             tabControlStats.Visibility = Visibility.Visible;
             #endregion
 
@@ -763,9 +789,9 @@ namespace test
             LstConds.Clear();
 
             imgCurrent.Source = ((ImageItem)sender).imgItem.Source;
-            string info = "SELECT * FROM Equipements  WHERE nom ='" + ((ImageItem)sender).txtNom.Text + "'";
+            string info = "SELECT * FROM Equipements  WHERE nom ='" + ((ImageItem)sender).txtNom.Text.ToString() + "'";
 
-            Equipement item = new Equipement(bd.selection(info)[0], true);
+            Equipement item = new Equipement(bd.selection(info)[0], true, 0);
             lblItem.Content = item.Nom;
 
             lblPrix.Content = item.Prix;
@@ -778,8 +804,14 @@ namespace test
 
             // ajoutes les nouvelles
             if (item.EstArme)
+            {
+                tbCara.Visibility = Visibility.Visible;
                 foreach (Effet effet in item.LstEffets)
                     LstStats.Add(effet.NomSimplifier + " : " + effet.DmgMin + " à " + effet.DmgMax);
+                LstCaras.Add("Pa requis : " + item.Pa);
+            }
+            else
+                tbCara.Visibility = Visibility.Hidden;
 
             foreach (Statistique stat in item.LstStatistiques)
                 LstStats.Add(stat.NomSimple + " : " + stat.Valeur.ToString());
@@ -792,7 +824,7 @@ namespace test
                 }
                 else
                     LstConds.Add(cond.Stat.NomSimple + " " + cond.Signe + "  " + cond.Stat.Valeur.ToString());
-            }
+        }
 
         private void fillSortCbo()
         {
@@ -803,51 +835,66 @@ namespace test
             cboTrie.ItemsSource = type;
             cboTrie.SelectedIndex = 0;
             cboTrie.SelectionChanged += cboTrie_SelectionChanged;
-                }
+        }
 
         private void cboTrie_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string type = ((System.Windows.Controls.ComboBox)sender).SelectedValue.ToString();
             LstImgItems.Clear();
             string query = "SELECT * FROM Equipements  e INNER JOIN ConditionsEquipements c ON c.idEquipement = e.idEquipement INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE idCondition = 21 " + (type == "Tous" ? "" : "AND t.nom ='" + type + "'") + " ORDER BY c.valeur  LIMIT 10 OFFSET 0";
-            string count = "SELECT COUNT(*) FROM Equipements  e INNER JOIN ConditionsEquipements c ON c.idEquipement = e.idEquipement INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE idCondition = 21 " + (type == "Tous" ? "" : "AND t.nom ='" + type + "'") + " ORDER BY c.valeur  LIMIT 10 OFFSET 0";
+            string count = "SELECT COUNT(*) FROM Equipements  e INNER JOIN ConditionsEquipements c ON c.idEquipement = e.idEquipement INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE idCondition = 21 " + (type == "Tous" ? "" : "AND t.nom ='" + type + "'");
 
             List<string>[] items = bd.selection(query);
-                dckLink.Children.Clear();
+            dckLink.Children.Clear();
             if (items[0][0] != "rien")
-                {
-                createPageLinks(Convert.ToInt32(bd.selection(count)[0][0]));
+            {
+                createPageLinks(Convert.ToInt32(bd.selection(count)[0][0]), 1);
                 retrieveItem(items);
-                }
+            }
         }
         private void btn_link_click(object sender, RoutedEventArgs e)
         {
             string query = "SELECT * FROM Equipements  e INNER JOIN ConditionsEquipements c ON c.idEquipement = e.idEquipement INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE idCondition = 21 " + ((string)cboTrie.SelectedValue == "Tous" ? "" : "AND t.nom ='" + (string)cboTrie.SelectedValue + "'") + " ORDER BY c.valeur  LIMIT 10 OFFSET " + ((Convert.ToInt16(((System.Windows.Controls.Button)sender).Content) - 1) * 10).ToString();
+            string count = "SELECT COUNT(*) FROM Equipements  e INNER JOIN ConditionsEquipements c ON c.idEquipement = e.idEquipement INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE idCondition = 21 " + ((string)cboTrie.SelectedValue == "Tous" ? "" : "AND t.nom ='" + (string)cboTrie.SelectedValue + "'");
+
             LstImgItems.Clear();
+            dckLink.Children.Clear();
             List<string>[] items = bd.selection(query);
             if (items[0][0] != "rien")
+            {
+                createPageLinks(Convert.ToInt32(bd.selection(count)[0][0]), Convert.ToInt16(((System.Windows.Controls.Button)sender).Content));
                 retrieveItem(items);
+            }
         }
-        private void createPageLinks(int nbPages)
+        private void createPageLinks(int nbPages, int actuel)
         {            //<Button Style="{StaticResource LinkButton}" Content="Clicky" />
-            nbPages = nbPages / 10;
+            if (nbPages % 10 == 0)
+                nbPages = nbPages / 10;
+            else
+                nbPages = (nbPages / 10) + 1;
 
-            for (int i = 0; i < nbPages + 1; i++)
+
+            for (int i = 0; i < nbPages; i++)
             {
                 System.Windows.Controls.Button btn = new System.Windows.Controls.Button();
                 btn.Style = (Style)FindResource("LinkButton");
                 btn.Click += btn_link_click;
                 btn.Content = (i + 1).ToString();
+                if (i + 1 == actuel)
+                {
+                    btn.Foreground = Brushes.Purple;
+                    btn.IsEnabled = false;
+                }
                 dckLink.Children.Add(btn);
-                if (i != nbPages)
-        {
-            System.Windows.Controls.Label lbl = new System.Windows.Controls.Label();
+                if (i != nbPages - 1)
+                {
+                    System.Windows.Controls.Label lbl = new System.Windows.Controls.Label();
                     lbl.Content = " - ";
                     lbl.Height = 21;
                     lbl.VerticalAlignment = VerticalAlignment.Center;
                     dckLink.Children.Add(lbl);
-        }
-        }
+                }
+            }
         }
 
         private void retrieveItem(List<string>[] items)
@@ -857,7 +904,7 @@ namespace test
 
             foreach (List<string> item in items)
             {
-                Equipement equip = new Equipement(item, false);
+                Equipement equip = new Equipement(item, false, 0);
                 ImageItem i = new ImageItem(equip);
                 i.MouseDown += image_MouseUp;
                 Grid.SetColumn(i, col);
@@ -869,7 +916,7 @@ namespace test
                 }
                 col++;
                 LstImgItems.Add(i);
-        }
+            }
         }
 
         private void btn_test_Clicke(object sender, RoutedEventArgs e)
@@ -894,7 +941,7 @@ namespace test
                 if (txt_Courriel.Text != "")
                 {
                     UpdSt.Append("courriel = '" + txt_Courriel.Text + "'");
-         
+
                 }
                 if (txt_mdp.Password != "" && txt_mdp.Password == txtConfirmation.Password && txtConfirmation.Password != "")
                 {
@@ -903,7 +950,7 @@ namespace test
                 }
                 UpdSt.Append(" WHERE nomUtilisateur = '" + Player.NomUtilisateur + "';");
 
-                
+
 
                 string st = UpdSt.ToString();
                 if (bd.Update(st))
@@ -966,7 +1013,7 @@ namespace test
         //Onglet Personnage
         // ***************************************************
 
- 
+
 
         private void TabItem_Loaded(object sender, RoutedEventArgs e)
         {
@@ -974,7 +1021,7 @@ namespace test
             {
                 pgCperso.Add(new pageCpersonage(Player));
                 tCPerso.ItemsSource = pgCperso;
-                
+
             }
 
             //le nom du perso 
@@ -984,7 +1031,7 @@ namespace test
                 pgperso.Add(new PagePerso(perso, Player));
                 tCPerso.ItemsSource = pgperso;
                 tCPerso.IsEnabled = true;
-               
+
 
             }
         }

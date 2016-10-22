@@ -47,7 +47,7 @@ namespace test
             List<string>[] items = bd.selection(equip);
             if (items[0][0] != "rien")
                 foreach (List<string> item in items)
-                    Inventaire.Add(new Equipement(item,true));
+                    Inventaire.Add(new Equipement(item,true,idJoueur));
         }
         /// <summary>
         /// Pour ajouter les scripts du joueur

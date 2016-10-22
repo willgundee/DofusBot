@@ -21,6 +21,7 @@ namespace test
         public bool EstArme { get; set; }
         public int Quantite { get; set; }
         public int QuantiteEquipe { get; set; }
+        public int Pa { get; set; }
 
         private BDService bd = new BDService();
 
@@ -33,7 +34,9 @@ namespace test
         /// constructeur d'un équipement ou arme
         /// </summary>
         /// <param name="item">La requête</param>
-        public Equipement(List<string> item, bool complet)
+        /// <param name="complet">si tu a besoin des stats/condition etc</param>
+        /// <param name="idFacultatifJoueur">0 si pas besoin, pour link l'inventaire du joueur lui add des quantité</param>
+        public Equipement(List<string> item, bool complet, int idFacultatifJoueur)
         {
 
             if (item[2] == "")// si l'idZone est null soit vide c'est une arme
@@ -46,6 +49,7 @@ namespace test
                     addEffets(Convert.ToInt32(item[0]));
                     addZoneEf(Convert.ToInt32(item[3]));
                     addZonePo(Convert.ToInt32(item[2]));
+                    Pa = Convert.ToInt32(item[8]);
                 }
             }
             Type = DictType[Convert.ToInt32(item[1])];
@@ -58,11 +62,14 @@ namespace test
                 addStats(Convert.ToInt32(item[0]));
                 addConditions(Convert.ToInt32(item[0]));
             }
+            if (idFacultatifJoueur != 0)
+                addQuantite(Convert.ToInt32(item[0]), idFacultatifJoueur);
         }
-        private void addNbEquipations(int idEquipement)
+        private void addQuantite(int idEquipement, int idJoueur)
         {
-           List<string>[]rep =  bd.selection("SELECT je.quantite,je.quantiteequipe FROM `equipements` e INNER JOIN EquipementsEntites ee ON ee.idEquipement = e.idEquipement INNER JOIN Entites es ON es.idEntite = ee.idEntite INNER JOIN JoueursEquipements je ON je.idEquipement = e.idEquipement WHERE e.idEquipement =" + idEquipement);
-
+            List<string>[] rep = bd.selection("SELECT quantite,quantiteEquipe FROM JoueursEquipements WHERE idJoueur = " + idJoueur + " AND idEquipement = " + idEquipement);
+            Quantite = Convert.ToInt32(rep[0][0]);
+            QuantiteEquipe = Convert.ToInt32(rep[0][1]);
         }
         /// <summary>
         /// ajout des statistiques des items
