@@ -22,7 +22,7 @@ namespace test
     /// </summary>
     public partial class pageCpersonage : UserControl
     {
-        public Classe Cl;
+        public Classe Cl =null;
         public Entite et;
         private Joueur Player;
 
@@ -60,9 +60,29 @@ namespace test
             txtbDesc.Text = Cl.Description;
             //pt afficher les sorts de la classe
         }
+        private bool valider()
+        {
+            bool valider = true;
+            if (Cl == null || txtNom.Text.ToString() == "")
+            {
+                txtNom.Text = "Nom d'utilisateur";
 
+                txtNom.Foreground = new SolidColorBrush(Colors.Red);
+                valider = false;
+            }
+            else
+            {
+                txtNom.Text = "Nom d'utilisateur";
+                txtNom.Foreground = new SolidColorBrush(Colors.Black);
+            }
+            return valider;
+        }
         private void btnConfimer_Click(object sender, RoutedEventArgs e)
         {
+
+            if(!valider())
+            { }
+
             bd.insertion("INSERT INTO Entites(idClasse, idScript,idJoueur, Nom, CapitalLibre) VALUES((SELECT idClasse FROM Classes WHERE nom ='" + Cl.Nom + "'),2,(SELECT idJoueur FROM Joueurs WHERE NomUtilisateur='"+Player.NomUtilisateur+"'),'" + txtNom.Text.ToString() + "', 5)");
 
             for (int i = 1; i < 6 ; i++)
