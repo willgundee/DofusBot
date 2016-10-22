@@ -24,7 +24,7 @@ namespace test
             InitializeComponent();
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
+        private void btnEnvoyer_Click(object sender, RoutedEventArgs e)
         {
             
         }
