@@ -22,7 +22,7 @@ namespace test
     /// </summary>
     public partial class pageCpersonage : UserControl
     {
-        public Classe Cl =null;
+        public Classe Cl = null;
         public Entite et;
         private Joueur Player;
 
@@ -35,7 +35,7 @@ namespace test
 
         private void image_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            
+
 
             string Classe;
             string choix = (sender as Image).Name;
@@ -44,8 +44,8 @@ namespace test
             {
                 case "ClasseCra":
                     Classe = "Cra";
-                        ClasseCra.Height=150;
-                        ClasseCra.Width = 150;
+                    ClasseCra.Height = 150;
+                    ClasseCra.Width = 150;
                     ClasseIop.Height = 125;
                     ClasseIop.Width = 125;
                     ClasseEcaflip.Height = 125;
@@ -76,49 +76,58 @@ namespace test
 
             Cl = new Classe(bd.selection("SELECT * FROM Classes WHERE Nom = '" + Classe + "'")[0]);
             txtbDesc.Text = Cl.Description;
+            txtbDesc.Foreground = new SolidColorBrush(Colors.Black);
             //pt afficher les sorts de la classe
         }
         private bool valider()
         {
             bool valider = true;
-            if (Cl == null || txtNom.Text.ToString() == "")
-            {
-                txtNom.Text = "Nom d'utilisateur";
-
-                txtNom.Foreground = new SolidColorBrush(Colors.Red);
+            if (txtNom.Text.ToString() == "")
+            {lblNom.Content = "Nom du personnage";
+                lblNom.Foreground = new SolidColorBrush(Colors.Red);
                 valider = false;
             }
-            else
+            else{
+                lblNom.Content = "Nom du personnage";
+                lblNom.Foreground = new SolidColorBrush(Colors.Black);
+            }
+            if(txtbDesc.Text=="")
             {
-                // tu  as une erreur ici mick xD
-                //txtNom.Text = "Nom d'utilisateur";
-                txtNom.Foreground = new SolidColorBrush(Colors.Black);
+                txtbDesc.Text = "Pas de classe sélectionné";
+                txtbDesc.Foreground = new SolidColorBrush(Colors.Red);
+                valider = false;
+            }
+            else {
+                txtbDesc.Foreground = new SolidColorBrush(Colors.Black);
+                valider = true;
             }
             return valider;
         }
+
         private void btnConfimer_Click(object sender, RoutedEventArgs e)
         {
 
-            if(!valider())
-            { }
-
-            bd.insertion("INSERT INTO Entites(idClasse, idScript,idJoueur, Nom, CapitalLibre) VALUES((SELECT idClasse FROM Classes WHERE nom ='" + Cl.Nom + "'),2,(SELECT idJoueur FROM Joueurs WHERE NomUtilisateur='"+Player.NomUtilisateur+"'),'" + txtNom.Text.ToString() + "', 5)");
-
-            for (int i = 1; i < 6 ; i++)
+            if (valider())
             {
 
-            bd.insertion("INSERT INTO statistiquesentites(idEntite,idTypeStatistique,valeur) VALUES ((SELECT idEntite FROM Entites WHERE nom='"+ txtNom.Text.ToString() + "'),"+i+",0)");
+                bd.insertion("INSERT INTO Entites(idClasse, idScript,idJoueur, Nom, CapitalLibre) VALUES((SELECT idClasse FROM Classes WHERE nom ='" + Cl.Nom + "'),2,(SELECT idJoueur FROM Joueurs WHERE NomUtilisateur='" + Player.NomUtilisateur + "'),'" + txtNom.Text.ToString() + "', 5)");
+
+                for (int i = 1; i < 6; i++)
+                {
+
+                    bd.insertion("INSERT INTO statistiquesentites(idEntite,idTypeStatistique,valeur) VALUES ((SELECT idEntite FROM Entites WHERE nom='" + txtNom.Text.ToString() + "')," + i + ",0)");
+                }
+                bd.insertion("INSERT INTO statistiquesentites(idEntite,idTypeStatistique,valeur) VALUES ((SELECT idEntite FROM Entites WHERE nom='" + txtNom.Text.ToString() + "'), 6 ,100)");
+                bd.insertion("INSERT INTO statistiquesentites(idEntite,idTypeStatistique,valeur) VALUES ((SELECT idEntite FROM Entites WHERE nom='" + txtNom.Text.ToString() + "'), 7 ,120)");
+                bd.insertion("INSERT INTO statistiquesentites(idEntite,idTypeStatistique,valeur) VALUES ((SELECT idEntite FROM Entites WHERE nom='" + txtNom.Text.ToString() + "'), 8 ,0)");
+                bd.insertion("INSERT INTO statistiquesentites(idEntite,idTypeStatistique,valeur) VALUES ((SELECT idEntite FROM Entites WHERE nom='" + txtNom.Text.ToString() + "'), 9 ,6)");
+                bd.insertion("INSERT INTO statistiquesentites(idEntite,idTypeStatistique,valeur) VALUES ((SELECT idEntite FROM Entites WHERE nom='" + txtNom.Text.ToString() + "'), 10 ,3)");
+                for (int i = 11; i <= 30; i++)
+                {
+                    bd.insertion("INSERT INTO statistiquesentites(idEntite,idTypeStatistique,valeur) VALUES ((SELECT idEntite FROM Entites WHERE nom='" + txtNom.Text.ToString() + "')," + i + ",0)");
+                }
             }
-            bd.insertion("INSERT INTO statistiquesentites(idEntite,idTypeStatistique,valeur) VALUES ((SELECT idEntite FROM Entites WHERE nom='" + txtNom.Text.ToString() + "'), 6 ,100)");
-            bd.insertion("INSERT INTO statistiquesentites(idEntite,idTypeStatistique,valeur) VALUES ((SELECT idEntite FROM Entites WHERE nom='" + txtNom.Text.ToString() + "'), 7 ,120)");
-            bd.insertion("INSERT INTO statistiquesentites(idEntite,idTypeStatistique,valeur) VALUES ((SELECT idEntite FROM Entites WHERE nom='" + txtNom.Text.ToString() + "'), 8 ,0)");
-            bd.insertion("INSERT INTO statistiquesentites(idEntite,idTypeStatistique,valeur) VALUES ((SELECT idEntite FROM Entites WHERE nom='" + txtNom.Text.ToString() + "'), 9 ,6)");
-            bd.insertion("INSERT INTO statistiquesentites(idEntite,idTypeStatistique,valeur) VALUES ((SELECT idEntite FROM Entites WHERE nom='" + txtNom.Text.ToString() + "'), 10 ,3)");
-            for (int i = 11; i <= 30; i++)
-            {
-                bd.insertion("INSERT INTO statistiquesentites(idEntite,idTypeStatistique,valeur) VALUES ((SELECT idEntite FROM Entites WHERE nom='" + txtNom.Text.ToString() + "')," + i + ",0)");
-            }
-                      
+
         }
     }
 }

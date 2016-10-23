@@ -34,9 +34,9 @@
 
     <TabControl TabStripPlacement="Left">
 
-        <TabItem Header="Personages" Height="30" Loaded="TabItem_Loaded" Selector.IsSelected="True" Selector.Selected="TabItem_Selected" >
+        <TabItem  Header="Personages" Height="30" Loaded="TabItem_Loaded" Selector.IsSelected="True" Selector.Selected="TabItem_Selected" >
             <Grid x:Name="grd_Perso" IsEnabled="True" Selector.IsSelected="True">
-                <TabControl x:Name="tCPerso" Grid.ColumnSpan="2" Selector.IsSelected="True" HorizontalAlignment="Left" Height="560" Margin="3,1,0,-1" VerticalAlignment="Top" Width="577" Grid.RowSpan="2" >
+                <TabControl x:Name="tCPerso" Grid.ColumnSpan="2"  HorizontalAlignment="Left" Height="560" Margin="3,1,0,-1" VerticalAlignment="Top" Width="577" Grid.RowSpan="2" >
 
                 </TabControl>
             </Grid>
@@ -291,18 +291,22 @@
                         <DropShadowEffect BlurRadius="9" Direction="314" ShadowDepth="9"/>
                     </Image.Effect>
                 </Image>
-                <Label x:Name="lbl_nom" Content="Nom d'utilisateur" HorizontalAlignment="Left" Margin="20,153,0,0" VerticalAlignment="Top" Height="30" Width="240" FontSize="15"/>
-                <TextBox x:Name="txt_nomUtilisateur" HorizontalAlignment="Left"  Height="22" Margin="20,183,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" IsEnabled="False"  Text="" />
-                <Label x:Name="lbl_Courriel" Content="Courriel actuel" HorizontalAlignment="Left" Margin="20,201,0,0" VerticalAlignment="Top" Height="30" Width="240" FontSize="15"/>
-                <TextBox x:Name="txt_Courriel" HorizontalAlignment="Left"  Height="22" Margin="20,231,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" IsEnabled="False"  Text="" />
-                <Label x:Name="lbl_NeoCourriel" Content="Nouveau Courriel" HorizontalAlignment="Left" Margin="20,258,0,184" VerticalAlignment="Center" Height="30" Width="240" FontSize="15" />
-                <TextBox x:Name="txt_NeoCourriel" HorizontalAlignment="Left" Height="24"  TextWrapping="Wrap" VerticalAlignment="Center" Width="240" Margin="20,289,0,159" />
-                <Label x:Name="lbl_Mdp" Content="Nouveau Mot de passe" HorizontalAlignment="Left" Margin="20,323,0,119" VerticalAlignment="Center" Height="30" Width="240" FontSize="15" />
-                <PasswordBox x:Name="txt_mdp" Height="24" Margin="20,351,0,97"  VerticalAlignment="Center"  HorizontalAlignment="Left" Width="240" />
-                <Label x:Name="lbl_Confirmation"  Content="Confimation de mot de passe" HorizontalAlignment="Left" Margin="20,388,0,54" VerticalAlignment="Center" FontSize="15" Height="30" Width="240"/>
+                <Label x:Name="lbl_nom" Content="Nom d'utilisateur" HorizontalAlignment="Left" Margin="20,130,0,0" VerticalAlignment="Top" Height="30" Width="240" FontSize="15"/>
+                <TextBox x:Name="txt_nomUtilisateur" HorizontalAlignment="Left"  Height="22" Margin="20,160,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" IsEnabled="False"  Text="" />
+                <Label x:Name="lbl_AncienMdp"  Content="Ancien mot de passe" HorizontalAlignment="Left" Margin="20,394,0,48" VerticalAlignment="Center" FontSize="15" Height="30" Width="240"/>
+                <PasswordBox x:Name="txt_AncienMdp"  HorizontalAlignment="Left" Height="22" VerticalAlignment="Bottom" Width="240" Margin="20,0,0,27"/>
+                <PasswordBox x:Name="txtConfirmation"  HorizontalAlignment="Left" Height="22" VerticalAlignment="Bottom" Width="240" Margin="20,0,0,79"/>
+                <Label x:Name="lbl_AncienCourriel" Content="Courriel actuel" HorizontalAlignment="Left" Margin="20,182,0,0" VerticalAlignment="Top" Height="30" Width="240" FontSize="15"/>
+                <TextBox x:Name="txt_AncienCourriel" HorizontalAlignment="Left"  Height="22" Margin="20,212,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" IsEnabled="False"  Text="" />
+                <Label x:Name="lbl_Courriel" Content="Nouveau Courriel" HorizontalAlignment="Left" Margin="20,234,0,208" VerticalAlignment="Center" Height="30" Width="240" FontSize="15" />
+                <TextBox x:Name="txt_Courriel" HorizontalAlignment="Left" Height="24"  TextWrapping="Wrap" VerticalAlignment="Center" Width="240" Margin="20,264,0,184" />
+                <Label x:Name="lbl_Mdp" Content="Nouveau Mot de passe" HorizontalAlignment="Left" Margin="20,288,0,154" VerticalAlignment="Center" Height="30" Width="240" FontSize="15" />
+                <PasswordBox x:Name="txt_mdp" Height="24" Margin="20,318,0,130"  VerticalAlignment="Center"  HorizontalAlignment="Left" Width="240" />
+                <Label x:Name="lbl_Confirmation"  Content="Confimation de mot de passe" HorizontalAlignment="Left" Margin="20,342,0,100" VerticalAlignment="Center" FontSize="15" Height="30" Width="240"/>
                 <Label x:Name="lblTitreExemple" Content="Recommendation" FontSize="25" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,190,49.6,0" Height="43" Width="205"/>
                 <Label x:Name="lblInfoCourriel" Content="Courriel : AA@AAA.com" FontSize="15" HorizontalAlignment="Right" Width="220" VerticalAlignment="Top" Margin="0,235,49.6,0" Height="30"/>
                 <Label x:Name="lblMotDePasse" FontSize="15"  Width="220" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,265,49.6,0" Height="110">
+                    
                     <TextBlock>
                 Mot de passe:
                 <LineBreak/>
@@ -320,11 +324,11 @@
                     </TextBlock>
                 </Label>
 
-                <PasswordBox x:Name="txtConfirmation"  HorizontalAlignment="Left" Height="22" VerticalAlignment="Bottom" Width="240" Margin="20,0,0,38"/>
                 <Button x:Name="btnAnnuler" Content="Annuler" HorizontalAlignment="Center" FontSize="15" Margin="174,22,299.6,46" VerticalAlignment="Center" Width="100"  Click="btnAnnuler_Click" Grid.Row="1" Height="24"/>
                 <Button x:Name="btnSave" Content="Sauvegarder" HorizontalAlignment="Center" Margin="299,22,174.6,46" FontSize="15" VerticalAlignment="Center" Width="100" Click="btnSave_Click" Grid.Row="1" Height="24"/>
                 <Button x:Name="btnSuggestion" Content="Suggestions/Problèmes" FontSize="15" HorizontalAlignment="Center" Margin="202,0,201.6,10" VerticalAlignment="Bottom" Width="170" Click="btnSuggestion_Click" Grid.Row="1" Height="24" />
                 <Button x:Name="btnDeconnexion" Content="Déconnexion" HorizontalAlignment="Right" Margin="0,18,24.6,18" VerticalAlignment="Center" Width="100" Height="56" FontSize="16" Click="btnDeconnexion_Click"  Grid.Row="1" />
+               
 
             </Grid>
 

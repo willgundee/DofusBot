@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:test"
              mc:Ignorable="d" 
              d:DesignHeight="560" d:DesignWidth="577">
-  
+
     
         <Grid Background="Gray">
         <Grid.RowDefinitions>
