@@ -28,7 +28,6 @@ namespace test
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
-
             // Begin dragging the window
             this.DragMove();
         }
@@ -38,7 +37,6 @@ namespace test
             Authentification A = new Authentification();
             A.Show();
             this.Close();
-
         }
         public bool Valider()
         {

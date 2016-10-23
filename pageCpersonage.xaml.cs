@@ -35,21 +35,39 @@ namespace test
 
         private void image_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            
 
             string Classe;
             string choix = (sender as Image).Name;
 
-            
             switch (choix)
             {
                 case "ClasseCra":
                     Classe = "Cra";
+                        ClasseCra.Height=150;
+                        ClasseCra.Width = 150;
+                    ClasseIop.Height = 125;
+                    ClasseIop.Width = 125;
+                    ClasseEcaflip.Height = 125;
+                    ClasseEcaflip.Width = 125;
                     break;
                 case "ClasseIop":
                     Classe = "Iop";
+                    ClasseCra.Height = 125;
+                    ClasseCra.Width = 125;
+                    ClasseIop.Height = 150;
+                    ClasseIop.Width = 150;
+                    ClasseEcaflip.Height = 125;
+                    ClasseEcaflip.Width = 125;
                     break;
                 case "ClasseEcaflip":
                     Classe = "Ecaflip";
+                    ClasseCra.Height = 125;
+                    ClasseCra.Width = 125;
+                    ClasseIop.Height = 125;
+                    ClasseIop.Width = 125;
+                    ClasseEcaflip.Height = 150;
+                    ClasseEcaflip.Width = 150;
                     break;
                 default:
                     Classe = null;

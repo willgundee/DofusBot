@@ -39,12 +39,12 @@
         <Label x:Name="lblPCap" Content="Point Capital:" Width="100" Grid.Column="0" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,0,0,30" Grid.ColumnSpan="2" />
         <Label x:Name="lblNbPointsC" Content="11" Width="27" Height="31" Grid.Row="1" HorizontalAlignment="Center" FontSize="14" VerticalAlignment="Bottom" Margin="0,0,85,27" Grid.Column="0" />
         <!--todo mettre hidden quand pas de point capital-->
-        <Button x:Name="btnVitalite" Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,55,19,0" VerticalAlignment="Top" Width="30" Grid.Column="0" />
-        <Button x:Name="btnSagesse"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,80,19,0" VerticalAlignment="Top" Width="30" Grid.Column="0"/>
-        <Button x:Name="btnForce"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,105,19,0" VerticalAlignment="Top" Width="30" Grid.Column="0"/>
-        <Button x:Name="btnIntelligence"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,130,19,0" VerticalAlignment="Top" Width="30" Grid.Column="0"/>
-        <Button x:Name="btnChance"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,150,19,85" VerticalAlignment="Center" Width="30" Grid.Column="0"/>
-        <Button x:Name="btnAgilite"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,170,19,55" VerticalAlignment="Center" Width="30" Grid.Column="0"/>
+        <Button x:Name="btnVitalite" Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,55,19,0" VerticalAlignment="Top" Width="30" Grid.Column="0" Visibility="Hidden"       Click="btnStatsPlus_Click"/>
+        <Button x:Name="btnSagesse"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,80,19,0" VerticalAlignment="Top" Width="30" Grid.Column="0" Visibility="Hidden"        Click="btnStatsPlus_Click"/>
+        <Button x:Name="btnForce"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,105,19,0" VerticalAlignment="Top" Width="30" Grid.Column="0" Visibility="Hidden"         Click="btnStatsPlus_Click"/>
+        <Button x:Name="btnIntelligence"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,130,19,0" VerticalAlignment="Top" Width="30" Grid.Column="0" Visibility="Hidden"  Click="btnStatsPlus_Click"/>
+        <Button x:Name="btnChance"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,150,19,85" VerticalAlignment="Center" Width="30" Grid.Column="0" Visibility="Hidden"    Click="btnStatsPlus_Click"/>
+        <Button x:Name="btnAgilite"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,170,19,55" VerticalAlignment="Center" Width="30" Grid.Column="0" Visibility="Hidden"   Click="btnStatsPlus_Click"/>
 
         <DataGrid x:Name="dgStats" IsReadOnly="True" CanUserSortColumns="False" HorizontalAlignment="Left"  Height="295" Width="195"  VerticalAlignment="Bottom" Margin="5,0,0,60.04" Grid.RowSpan="2"  AutoGenerateColumns="False" Grid.ColumnSpan="2">
             <DataGrid.Columns>
