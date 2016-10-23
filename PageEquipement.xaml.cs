@@ -20,8 +20,10 @@ namespace test
     public partial class PageEquipement : Window
     {
         public BDService bd = new BDService();
+        private string TypeEQ;
         public PageEquipement(string TypeEquipement, string NomJoueur)
         {
+            TypeEQ = TypeEquipement;
             bool valide;
             InitializeComponent();
            valide= afficherEquipementDispo(TypeEquipement, NomJoueur);
@@ -90,11 +92,15 @@ namespace test
 
         private void image_MouseUp(object sender, MouseButtonEventArgs e)
         {
+            
             foreach (Window Page in Application.Current.Windows)
             {
-                if(Page.GetType()==typeof(MainWindow))
+               string ImgNom= (sender as Image).Name;
+                string t = TypeEQ;
+
+                if (Page.GetType()==typeof(MainWindow))
                 {
-                    (Page as MainWindow).pgperso.First().imageCasque.Source = null;
+                    (Page as MainWindow).pgperso.First().imageCasque.Source = (sender as Image).Source;
                 }
             }
         }
