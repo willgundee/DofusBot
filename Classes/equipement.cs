@@ -67,7 +67,7 @@ namespace test
         }
         private void addQuantite(int idEquipement, int idJoueur)
         {
-            List<string>[] rep = bd.selection("SELECT quantite,quantiteEquipe FROM JoueursEquipements WHERE idJoueur = " + idJoueur + " AND idEquipement = " + idEquipement);
+            List<string>[] rep = bd.selection("SELECT quantite,quantiteEquipe FROM JoueursEquipements WHERE idJoueur = " + idJoueur.ToString() + " AND idEquipement = " + idEquipement.ToString());
             Quantite = Convert.ToInt32(rep[0][0]);
             QuantiteEquipe = Convert.ToInt32(rep[0][1]);
         }

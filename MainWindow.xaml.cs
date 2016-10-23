@@ -43,10 +43,11 @@ namespace test
     {
         public BDService bd = new BDService();
         
-        public ObservableCollection<ImageItem> LstImgItems;
+        ObservableCollection<ImageItem> LstImgItems;
         ObservableCollection<string> LstStats;
         ObservableCollection<string> LstConds;
         ObservableCollection<string> LstCaras;
+        ObservableCollection<ImageItem> LstInventaire;
 
         public Joueur Player { get; set; }
        
@@ -92,6 +93,9 @@ namespace test
             lbxCara.ItemsSource = LstCaras;
 
             fillSortCbo();
+            #endregion
+            #region link inventaire
+            LstInventaire = new ObservableCollection<ImageItem>();
             #endregion
 
             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
@@ -217,8 +221,6 @@ namespace test
             }
         }
         #endregion
-
-
 
         #region truc trop long de ced
         //--------------------------------------------------------------------------------------------------------
@@ -749,7 +751,6 @@ namespace test
         }
         #endregion
 
-
         #region Marché
         private void btnAchat_Click(object sender, RoutedEventArgs e)
         {
@@ -758,7 +759,7 @@ namespace test
             {
                 Player.Kamas -= (int)lblPrix.Content;
 
-                //bd.Update("UPDATE  Joueurs SET  argent =  " + Player.Kamas + " WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "'");
+               // bd.Update("UPDATE  Joueurs SET  argent =  " + Player.Kamas + " WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "'");
                 //TODO: l'update fucktop tout donc je l'ai enlever 
                 List<string> rep = bd.selection("SELECT je.quantite,je.idJoueurEquipement FROM joueursequipements je INNER JOIN joueurs j ON je.idJoueur = j.idJoueur  INNER JOIN Equipements e ON e.idEquipement = je.idEquipement WHERE e.nom ='" + lblItem.Content.ToString() + "' AND j.nomUtilisateur = '" + Player.NomUtilisateur + "'")[0];
                 if (rep[0] == "rien")
@@ -772,9 +773,6 @@ namespace test
                     foreach (Equipement item in Player.Inventaire)
                         if (item.Nom == lblItem.Content.ToString())
                             item.Quantite+=1;
-
-
-
             }
             lblKamas.Content = Player.Kamas;
 
@@ -945,6 +943,13 @@ namespace test
         }
         #endregion
 
+        #region Inventaire
+        private void TabItem_Inventaire_selected(object sender, RoutedEventArgs e)
+        {
+            
+        }
+        #endregion
+
         #region Marc_OngletGestionCompte
         /// ***************************************************
         /// / ONGLET OPTIONS
@@ -1059,6 +1064,8 @@ namespace test
         {
       
         }
+
+
         #endregion
 
 
