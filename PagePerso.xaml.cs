@@ -22,6 +22,7 @@ namespace test
     {
         public bool validePg;
         private Joueur Player;
+        public BDService bd = new BDService();
 
         public PagePerso(Entite ent, Joueur Player)
         {
@@ -31,10 +32,8 @@ namespace test
 
             int nbScript = Player.LstScripts.Count;
             for (int i = 0; i < nbScript; i++)
-            {
                 cbScript.Items.Add(Player.LstScripts[i].Nom);
 
-            }
             foreach (Entite perso in Player.LstEntites)
             {
                 //todo création de plusieurs onglets personnage
@@ -68,18 +67,16 @@ namespace test
                 }
                 foreach (Equipement eq in perso.LstEquipements)
                 {
-                    if (eq.QuantiteEquipe > 0) 
-                    {                      
-                      AfficherElementEquipe(eq);                      
-                    }
+                    List<string> emplacement=  bd.selection("SELECT emplacement FROM Equipementsentites WHERE idEquipement = (SELECT idEquipement FROM Equipements WHERE nom='"+eq.Nom+"' )AND idEntite =(SELECT idEntite FROM Entites WHERE nom='" + perso.Nom + "')")[0];
+                    
+                    if (emplacement!=null)                      
+                      AfficherElementEquipe(eq,emplacement[0].ToString());                                          
                 }
 
                 dgStats.ItemsSource = initialiserLstStats(perso);
                 dgDommage.ItemsSource = initialiserLstDMG(perso);
-                dgResistance.ItemsSource = initialiserLstRES(perso);
-
+               dgResistance.ItemsSource = initialiserLstRES(perso);
             }
-
         }
 
         #region grid_listes
@@ -251,7 +248,10 @@ namespace test
                     TypeEquipement = "Anneau";
                     break;
                 case "imageBotte":
-                    TypeEquipement = "Botte";
+                    TypeEquipement = "Botte";              
+                    break;
+                case "imageAmulette":
+                    TypeEquipement = "Amulette";
                     break;
             }
 
@@ -261,35 +261,38 @@ namespace test
 
         }
 
-        private void AfficherElementEquipe(Equipement eq)
+        private void AfficherElementEquipe(Equipement eq, string emp )
         {
 
             ImageSource path = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/items/200/" + eq.NoImg + ".png"));
-            switch (eq.Type)
+            switch (emp)
             {
-                case "Chapeau":
+                case "tête":
                     imageCasque.Source=path;
                     break;
-                case "Cape":
+                case "dos":
                     imageCape.Source = path;
                     break;
-                case "Arme":
+                case "arme":
                     imageArme.Source = path;
                     break;
-                case "Ceinture":
+                case "hanche":
                     imageCeinture.Source = path;
                     break;
-                case "Anneau":
+                case "ano1":
                     imageAnneau1.Source = path;
                     break;
-                case "Botte":
+                case "ano2":
+                    imageAnneau2.Source = path;
+                    break;
+                case "pied":
                     imageBotte.Source = path;
                     break;
-
+                case "cou":
+                    imageAmulette.Source = path;
+                    break;
             }
         }
-
-    
 
         private void btnStatsPlus_Click(object sender, RoutedEventArgs e)
         {
@@ -318,8 +321,7 @@ namespace test
                     break;
                 default:
                     s = null;
-                    return;
-                    
+                    return;                  
             }
 
             

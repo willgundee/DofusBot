@@ -109,23 +109,23 @@ namespace test
 
             if (valider())
             {
-
                 bd.insertion("INSERT INTO Entites(idClasse, idScript,idJoueur, Nom, CapitalLibre) VALUES((SELECT idClasse FROM Classes WHERE nom ='" + Cl.Nom + "'),2,(SELECT idJoueur FROM Joueurs WHERE NomUtilisateur='" + Player.NomUtilisateur + "'),'" + txtNom.Text.ToString() + "', 5)");
-
-                for (int i = 1; i < 6; i++)
-                {
-
+                List<string> idEntite = bd.selection("SELECT idEntite FROM Entites WHERE nom = '" + txtNom.Text.ToString() + "'")[0];
+                for (int i = 1; i < 6; i++)                
                     bd.insertion("INSERT INTO statistiquesentites(idEntite,idTypeStatistique,valeur) VALUES ((SELECT idEntite FROM Entites WHERE nom='" + txtNom.Text.ToString() + "')," + i + ",0)");
-                }
+                
                 bd.insertion("INSERT INTO statistiquesentites(idEntite,idTypeStatistique,valeur) VALUES ((SELECT idEntite FROM Entites WHERE nom='" + txtNom.Text.ToString() + "'), 6 ,100)");
                 bd.insertion("INSERT INTO statistiquesentites(idEntite,idTypeStatistique,valeur) VALUES ((SELECT idEntite FROM Entites WHERE nom='" + txtNom.Text.ToString() + "'), 7 ,120)");
                 bd.insertion("INSERT INTO statistiquesentites(idEntite,idTypeStatistique,valeur) VALUES ((SELECT idEntite FROM Entites WHERE nom='" + txtNom.Text.ToString() + "'), 8 ,0)");
                 bd.insertion("INSERT INTO statistiquesentites(idEntite,idTypeStatistique,valeur) VALUES ((SELECT idEntite FROM Entites WHERE nom='" + txtNom.Text.ToString() + "'), 9 ,6)");
                 bd.insertion("INSERT INTO statistiquesentites(idEntite,idTypeStatistique,valeur) VALUES ((SELECT idEntite FROM Entites WHERE nom='" + txtNom.Text.ToString() + "'), 10 ,3)");
-                for (int i = 11; i <= 30; i++)
-                {
-                    bd.insertion("INSERT INTO statistiquesentites(idEntite,idTypeStatistique,valeur) VALUES ((SELECT idEntite FROM Entites WHERE nom='" + txtNom.Text.ToString() + "')," + i + ",0)");
-                }
+                for (int i = 11; i <= 30; i++)               
+                    bd.insertion("INSERT INTO statistiquesentites(idEntite,idTypeStatistique,valeur) VALUES ("+idEntite[0]+"," + i + ",0)");
+
+
+                string h=bd.selection("SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='"+Player.NomUtilisateur+"'")[0][0];
+                MainWindow perso = new MainWindow(Convert.ToInt32(h));
+               // perso.Show();
             }
 
         }
