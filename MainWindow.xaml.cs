@@ -108,7 +108,7 @@ namespace test
             #endregion
 
 
-            txt_Courriel.Text = Player.Courriel;
+            txt_AncienCourriel.Text = Player.Courriel;
             txt_nomUtilisateur.Text = Player.NomUtilisateur;
 
 
@@ -769,7 +769,7 @@ namespace test
             {
                 Player.Kamas -= (int)lblPrix.Content;
                 string g = "UPDATE  Joueurs SET  argent =  " + Player.Kamas + " WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "';COMMIT;";
-                 bd.Update(g);
+                bd.Update(g);
                 //TODO: l'update fucktop tout donc je l'ai enlever 
                 List<string> rep = bd.selection("SELECT je.quantite,je.idJoueurEquipement FROM joueursequipements je INNER JOIN joueurs j ON je.idJoueur = j.idJoueur  INNER JOIN Equipements e ON e.idEquipement = je.idEquipement WHERE e.nom ='" + lblItem.Content.ToString() + "' AND j.nomUtilisateur = '" + Player.NomUtilisateur + "'")[0];
 
@@ -937,7 +937,7 @@ namespace test
             foreach (List<string> item in items)
             {
                 Equipement equip = new Equipement(item, false, 0);
-                ImageItem i = new ImageItem(equip,false);
+                ImageItem i = new ImageItem(equip, false);
                 i.MouseDown += image_MouseUp;
                 Grid.SetColumn(i, col);
                 Grid.SetRow(i, row);
@@ -963,10 +963,10 @@ namespace test
             LstInventaire.Clear();
             foreach (Equipement item in Player.Inventaire)
             {
-                if(item.QuantiteEquipe != 0)
+                if (item.QuantiteEquipe != 0)
                     LstInventaire.Add(new ImageItem(item, false));
                 else
-                    LstInventaire.Add(new ImageItem(item,true));
+                    LstInventaire.Add(new ImageItem(item, true));
 
             }
 
@@ -979,38 +979,51 @@ namespace test
         // ***************************************************
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+            bool valide = true;
+            StringBuilder UpdSt = new StringBuilder();
+            UpdSt.Append("UPDATE Joueurs SET ");
             /* Faire un update si toute est legit*/
             if (txt_mdp.Password != "" && txt_mdp.Password == txtConfirmation.Password && txtConfirmation.Password != "" || txt_Courriel.Text != "")
             {
                 /* Update */
                 lbl_Mdp.Foreground = new SolidColorBrush(Colors.Black);
                 lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Black);
-                StringBuilder UpdSt = new StringBuilder();
-                UpdSt.Append("UPDATE Joueurs SET ");
-                if (txt_NeoCourriel.Text != "" && txt_NeoCourriel.Text != txt_Courriel.Text)
+            
+                if (txt_Courriel.Text != "")
                 {
-                    UpdSt.Append("courriel = '" + txt_Courriel.Text + "'");
+                    if (txt_Courriel.Text != txt_AncienCourriel.Text)
+                    {
+                        lbl_Courriel.Foreground = new SolidColorBrush(Colors.Black);
+                        UpdSt.Append("courriel = '" + txt_Courriel.Text + "'");
+                    }
+                    else
+                    {
+                        System.Windows.Forms.MessageBox.Show("Votre nouveau courriel doit être différent de l'ancien", "Courriel");
+                        lbl_Courriel.Foreground = new SolidColorBrush(Colors.Red);
+                        valide = false;
+                    }
 
                 }
                 if (txt_mdp.Password != "" && txt_mdp.Password == txtConfirmation.Password && txtConfirmation.Password != "")
                 {
-                    UpdSt.Append(" , motDePasse = '" + txt_mdp.Password + "'");
+                    string reqid = "SELECT motDePasse from Joueurs WHERE NomUtilisateur = '" + Player.NomUtilisateur + "';";
+                    List<string>[] idResult = bd.selection(reqid);
+                    string mdp = idResult[0][0];
+
+                    if (txt_AncienMdp.Password == mdp)
+                    {
+                        UpdSt.Append(" , motDePasse = '" + txt_mdp.Password + "'");
+                    }
+                    else
+                    {
+                        lbl_AncienMdp.Foreground = new SolidColorBrush(Colors.Red);
+                        System.Windows.Forms.MessageBox.Show("Votre Ancien mot de passe n'est pas valide", "Ancien mot de passe");
+                        valide = false;
+                    }
+
 
                 }
-                UpdSt.Append(" WHERE nomUtilisateur = '" + Player.NomUtilisateur + "';");
-
-
-
-                string st = UpdSt.ToString();
-                if (bd.Update(st))
-                {
-                    System.Windows.Forms.MessageBox.Show("Mise à jour avec succès de vos infos!!");
-                }
-
-                txt_mdp.Password = "";
-                txtConfirmation.Password = "";
-                txt_Courriel.Text = "";
-
+                
             }
             else
             {
@@ -1019,19 +1032,47 @@ namespace test
                     /* Aucune modification effectué*/
                     lbl_Mdp.Foreground = new SolidColorBrush(Colors.Black);
                     lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Black);
+                    lbl_Courriel.Foreground = new SolidColorBrush(Colors.Black);
+                    valide = false;
                 }
                 else if (txt_mdp.Password != "")
                 {
                     /* Erreur de confirmation*/
                     lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Red);
-
+                    valide = false;
+                    System.Windows.Forms.MessageBox.Show("Votre Confirmation doit être identique à votre nouveau mot de passe", "Confirmation");
                 }
                 else if (txt_mdp.Password == "" & txtConfirmation.Password != "")
                 {
                     /* Mot de passe vide*/
                     lbl_Mdp.Foreground = new SolidColorBrush(Colors.Red);
+                    valide = false;
+                    System.Windows.Forms.MessageBox.Show("Votre Confirmation doit être identique à votre nouveau mot de passe", "Champs mot de passe vide");
                 }
             }
+
+
+            if (valide)
+            {
+                UpdSt.Append(" WHERE nomUtilisateur = '" + Player.NomUtilisateur + "';");
+                string st = UpdSt.ToString();
+                if (bd.Update(st))
+                {
+                    System.Windows.Forms.MessageBox.Show("Mise à jour avec succès de vos infos!!");
+                }
+                txt_AncienCourriel.Text = txt_Courriel.Text;
+                Player.Courriel = txt_AncienCourriel.Text;
+                txt_mdp.Password = "";
+                txtConfirmation.Password = "";
+                txt_Courriel.Text = "";
+                lbl_Courriel.Foreground = new SolidColorBrush(Colors.Black);
+                lbl_Mdp.Foreground = new SolidColorBrush(Colors.Black);
+                lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Black);
+                lbl_AncienMdp.Foreground = new SolidColorBrush(Colors.Black);
+
+            }
+
+
         }
 
         private void btnAnnuler_Click(object sender, RoutedEventArgs e)
@@ -1039,6 +1080,7 @@ namespace test
             txtConfirmation.Password = "";
             txt_mdp.Password = "";
             txt_Courriel.Text = "";
+
             lbl_Mdp.Foreground = new SolidColorBrush(Colors.Black);
             lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Black);
         }
