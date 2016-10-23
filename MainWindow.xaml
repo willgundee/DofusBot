@@ -169,7 +169,7 @@
                 <!--Image x:Name="imgKamas" Visibility="Visible" Source="resources/kamas.png" HorizontalAlignment="Left" Height="26" Margin="522,215,0,0" VerticalAlignment="Top" Width="38"/-->
 
                 <TabControl x:Name="tabControlStats" Visibility="Hidden" Height="151" Margin="10,128,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="363">
-                    <TabItem Header="Statistiques">
+                    <TabItem Header="Statistiques" >
                         <ListBox  Name="lbxStats"/>
                     </TabItem>
                     <TabItem Header="Conditions">
@@ -216,9 +216,17 @@
         </TabItem>
         <TabItem Header="Inventaire" Selector.Selected="TabItem_Inventaire_selected" Height="30">
             <Grid>
-                <Label HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="25" >Inventaire</Label>
-                <ListBox Name="lbxInventaire" Margin="0,48,0,0"/>
-            </Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="349*"/>
+                    <ColumnDefinition Width="224*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="65*"/>
+                    <RowDefinition Height="48*"/>
+                </Grid.RowDefinitions>
+                <ListBox Name="lbxInventaire" Grid.RowSpan="2" Grid.Column="1" />
+                <ItemsControl Name="itmCtrlDesc" Grid.Row="1" />
+            </Grid >
         </TabItem>
         <TabItem Header="Arène" Height="30">
             <Label HorizontalAlignment="Center" FontSize="25">Arène</Label>

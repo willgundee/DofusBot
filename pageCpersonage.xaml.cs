@@ -90,7 +90,8 @@ namespace test
             }
             else
             {
-                txtNom.Text = "Nom d'utilisateur";
+                // tu  as une erreur ici mick xD
+                //txtNom.Text = "Nom d'utilisateur";
                 txtNom.Foreground = new SolidColorBrush(Colors.Black);
             }
             return valider;
