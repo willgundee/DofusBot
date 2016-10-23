@@ -8,17 +8,17 @@
              d:DesignHeight="240" d:DesignWidth="349">
     <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="121*"/>
-            <ColumnDefinition Width="228*"/>
+            <ColumnDefinition Width="115*"/>
+            <ColumnDefinition Width="234*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="22*"/>
-            <RowDefinition Height="113*"/>
-            <RowDefinition Height="53*"/>
+            <RowDefinition Height="25*"/>
+            <RowDefinition Height="147*"/>
+            <RowDefinition Height="68*"/>
         </Grid.RowDefinitions>
-        <TabControl Name="tabControlStatsDesc" Grid.Row="1" Grid.Column="1" FontSize="8"  >
+        <TabControl Name="tabControlStatsDesc" Grid.Column="1" FontSize="11" Margin="0,6,0,0" Grid.Row="1"  >
             <TabItem Header="Statistiques">
-                <ListBox  Name="lbxStatsDesc" Height="121"/>
+                <ListBox  Name="lbxStatsDesc" Height="121" ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
             </TabItem>
             <TabItem Header="Conditions">
                 <ListBox  Name="lbxCondDesc" Height="121"/>
@@ -27,11 +27,11 @@
                 <ListBox  Name="lbxCaraDesc" Height="121"/>
             </TabItem>
         </TabControl>
-        <Image Name="imgDesc" Source="http://staticns.ankama.com/dofus/www/game/items/200/7085.png" Grid.Row="1" Grid.Column="0" />
-        <ScrollViewer Name="scrDesc" Grid.Row="2" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto" Width="349" >
-            <TextBlock Name="txtDesc2" FontSize="9" Text="Catégorie : Chapeau&#10;Les rares graves sujets qui arrivent aux oreilles du Roi Joueur lui passent par-dessus la tête, et arrivent alors jusqu'à ce chapeau. Ce dernier s'est donc chargé en gravité au fil du temps, ce qui explique comment les anneaux dorés qui l'entourent sont maintenus en place mais aussi pourquoi il ne bouge pas lorsque vous faites volte-face." TextWrapping="Wrap"/>
+        <Image Name="imgDesc" Source="http://staticns.ankama.com/dofus/www/game/items/200/7085.png" Grid.Column="0" Grid.Row="1" />
+        <ScrollViewer Name="scrDesc" Grid.Row="2" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto" Margin="2,2,2,1" >
+            <TextBlock Name="txtDesc2" FontSize="11" Text="Catégorie : Chapeau&#10;Les rares graves sujets qui arrivent aux oreilles du Roi Joueur lui passent par-dessus la tête, et arrivent alors jusqu'à ce chapeau. Ce dernier s'est donc chargé en gravité au fil du temps, ce qui explique comment les anneaux dorés qui l'entourent sont maintenus en place mais aussi pourquoi il ne bouge pas lorsque vous faites volte-face." TextWrapping="Wrap"/>
         </ScrollViewer>
-        <TextBlock Name="lblNomItem"  FontSize="9" Text="Ceinture rasboulaire du rasboul" TextWrapping="WrapWithOverflow" />
-        <Label Name="lblivItem" Grid.Column="1" Content="Niv.123" HorizontalAlignment="Right" FontSize="9"/>
+        <Label Name="lblNomItem" FontSize="11" Content="Ceinture rasboulaire du rasboul" Grid.ColumnSpan="2" Grid.Row="0" />
+        <Label Name="lblivItem" Grid.Column="1" Content="Niv.123" HorizontalAlignment="Right" FontSize="11"/>
     </Grid>
 </UserControl>

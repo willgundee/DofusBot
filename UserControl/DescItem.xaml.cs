@@ -37,15 +37,9 @@ namespace test
             lbxCondDesc.ItemsSource = LstConds;
             lbxCaraDesc.ItemsSource = LstCaras;
 
-            imgDesc.Visibility = Visibility.Visible;
-            lblNomItem.Visibility = Visibility.Visible;
-            lblivItem.Visibility = Visibility.Visible;
-            tabControlStatsDesc.Visibility = Visibility.Visible;
-            scrDesc.Visibility = Visibility.Visible;
-
             txtDesc2.Text = "Catégorie : " + item.Type + Environment.NewLine + item.Desc;
             imgDesc.Source = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/items/200/" + item.NoImg + ".png"));
-            lblNomItem.Text = item.Nom;
+            lblNomItem.Content = item.Nom;
             if (item.EstArme)
             {
                 tbCaraDesc.Visibility = Visibility.Visible;
