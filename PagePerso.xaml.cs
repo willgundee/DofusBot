@@ -328,7 +328,7 @@ namespace test
             {
                 if (st.Nom.ToString() == s)
                 {
-                    dgStats.Items.
+                   
                 }
                   
             }
