@@ -48,6 +48,7 @@ namespace test
         ObservableCollection<string> LstConds;
         ObservableCollection<string> LstCaras;
         ObservableCollection<ImageItem> LstInventaire;
+        ObservableCollection<DescItem> LstDesc;
 
         public Joueur Player { get; set; }
 
@@ -106,7 +107,8 @@ namespace test
 
             LstInventaire = new ObservableCollection<ImageItem>();
             lbxInventaire.ItemsSource = LstInventaire;
-
+            LstDesc = new ObservableCollection<DescItem>();
+            itmCtrlDesc.ItemsSource = LstDesc;
             #endregion
 
 
@@ -764,6 +766,7 @@ namespace test
         #endregion
 
         #region Marché
+
         private void btnAchat_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult m = System.Windows.MessageBox.Show("Voulez vous vraiment acheter l'objet : " + lblItem.Content + ". Au cout de " + lblPrix.Content + " Kamas ?", "Achat", MessageBoxButton.YesNo, MessageBoxImage.Information);
@@ -796,22 +799,17 @@ namespace test
                 btnAchat.IsEnabled = false;
             else
                 btnAchat.IsEnabled = true;
-
         }
 
         private void image_MouseUp(object sender, MouseButtonEventArgs e)
         {
             //TODO : add border to selected item
-            /* Border border = new Border();
-             border.BorderBrush = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Black);
-             border.BorderThickness = new Thickness(1);
-             // ((Image)sender).Parent as border;*/
+
             #region Abracadabra
             btnAchat.Visibility = Visibility.Visible;
             lblPri.Visibility = Visibility.Visible;
             lblMoney.Visibility = Visibility.Visible;
             lblKamas.Visibility = Visibility.Visible;
-            // imgKamas.Visibility = Visibility.Visible;
             tabControlStats.Visibility = Visibility.Visible;
             #endregion
 
@@ -886,6 +884,7 @@ namespace test
                 retrieveItem(items);
             }
         }
+
         private void btn_link_click(object sender, RoutedEventArgs e)
         {
             string query = "SELECT * FROM Equipements  e INNER JOIN ConditionsEquipements c ON c.idEquipement = e.idEquipement INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE idCondition = 21 " + ((string)cboTrie.SelectedValue == "Tous" ? "" : "AND t.nom ='" + (string)cboTrie.SelectedValue + "'") + " ORDER BY c.valeur  LIMIT 10 OFFSET " + ((Convert.ToInt16(((System.Windows.Controls.Button)sender).Content) - 1) * 10).ToString();
@@ -900,6 +899,7 @@ namespace test
                 retrieveItem(items);
             }
         }
+
         private void createPageLinks(int nbPages, int actuel)
         {            //<Button Style="{StaticResource LinkButton}" Content="Clicky" />
             if (nbPages % 10 == 0)
@@ -939,7 +939,7 @@ namespace test
             foreach (List<string> item in items)
             {
                 Equipement equip = new Equipement(item, false, 0);
-                ImageItem i = new ImageItem(equip, false);
+                ImageItem i = new ImageItem(equip, false, 0);
                 i.MouseDown += image_MouseUp;
                 Grid.SetColumn(i, col);
                 Grid.SetRow(i, row);
@@ -953,6 +953,9 @@ namespace test
             }
         }
 
+        #endregion
+
+        #region ced
         private void btn_test_Clicke(object sender, RoutedEventArgs e)
         {
             Combat combat = new Combat();
@@ -960,18 +963,30 @@ namespace test
         #endregion
 
         #region Inventaire
+
         private void TabItem_Inventaire_selected(object sender, RoutedEventArgs e)
         {
             LstInventaire.Clear();
+
             foreach (Equipement item in Player.Inventaire)
-            {
                 if (item.QuantiteEquipe != 0)
-                    LstInventaire.Add(new ImageItem(item, false));
+                {
+                    ImageItem i = new ImageItem(item, false, item.QuantiteEquipe);
+                    i.MouseDown += image_desc;
+                    LstInventaire.Add(i);
+                }
                 else
-                    LstInventaire.Add(new ImageItem(item, true));
-
-            }
-
+                {
+                    ImageItem i = new ImageItem(item, true, item.Quantite);
+                    i.MouseDown += image_desc;
+                    LstInventaire.Add(i);
+                }
+        }
+        private void image_desc(object sender, MouseButtonEventArgs e)
+        {
+            LstDesc.Clear();
+            string nom = ((Image)((ImageItem)sender).imgItem).Name.Replace("_", " ");            
+            LstDesc.Add(new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE nom ='" + nom + "'")[0],true,0)));
         }
         #endregion
 
@@ -1135,8 +1150,5 @@ namespace test
 
         #endregion
 
-
-
-        //**************************************************************************************************
     }
 }

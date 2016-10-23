@@ -8,11 +8,12 @@
              d:DesignHeight="115" d:DesignWidth="115">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="6*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="3*"/>
             <RowDefinition Height="17*"/>
         </Grid.RowDefinitions>
 
-        <Image Name="imgItem" Source="http://staticns.ankama.com/dofus/www/game/items/200/16442.png"  Grid.Row="1" />
-        <TextBlock Name="txtNom" TextWrapping="WrapWithOverflow" Text="Ceinture rasboulaire du rasboul"/>
+        <Image Name="imgItem"   />
+        <TextBlock Name="txtNom" TextWrapping="WrapWithOverflow"  />
     </Grid>
 </UserControl>

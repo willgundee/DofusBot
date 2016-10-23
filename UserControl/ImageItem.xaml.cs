@@ -21,7 +21,7 @@ namespace test
     /// </summary>
     public partial class ImageItem : UserControl
     {
-        public ImageItem(Equipement e, bool monochrome)
+        public ImageItem(Equipement e, bool monochrome, int quantite)
         {
             InitializeComponent();
             //231
@@ -49,6 +49,19 @@ namespace test
                 // Set Source property of Image
                 imgItem.Source = grayBitmap;
             }
+            if (quantite != 0)
+            {
+                txtNom.Text = quantite.ToString();
+
+                Grid.SetRow(imgItem, 1);
+                Grid.SetRowSpan(imgItem, 2);
+            }
+            else
+            {
+                Grid.SetRow(imgItem, 2);
+                Grid.SetRowSpan(txtNom, 2);
+            }
+
 
 
 
