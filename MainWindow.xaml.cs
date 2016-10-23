@@ -102,13 +102,15 @@ namespace test
 
             txt_Courriel.Text = Player.Courriel;
             txt_nomUtilisateur.Text = Player.NomUtilisateur;
+           
 
             #region Marc_TimerTick_Chat
 
             this.chat = new Chat();
+            chat.nomUtilisateur = Player.NomUtilisateur;
+            chat.getId();
+        
             btnEnvoyerMessage.IsEnabled = false;
-
-           
             aTimer = new DispatcherTimer();
             aTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             aTimer.Interval = new TimeSpan(0, 0, 2);

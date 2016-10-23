@@ -62,7 +62,8 @@ namespace test
         public void envoyerMessage(string text)
         {
             long envoie = 0;
-            string inser = "INSERT INTO Messages(idJoueur,temps,contenu,uuid)VALUES(" + id.ToString() + ",NOW(),'" +
+            
+            string inser = "INSERT INTO Messages(idJoueur,temps,contenu,uuid)VALUES(" + id + ",NOW(),'" +
                                 text + "',UUID())";
             envoie = bdSelect.insertion(inser);
             if (envoie == -1)

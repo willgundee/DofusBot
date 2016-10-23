@@ -31,8 +31,8 @@ namespace test
             aTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             aTimer.Interval = new TimeSpan(0, 0, 4);
             chat.nomUtilisateur = user;
-            chat.getId();
 
+            chat.getId();
         }
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
