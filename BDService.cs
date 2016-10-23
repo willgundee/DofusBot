@@ -47,11 +47,7 @@ namespace test
 
 
         }
-        private string addCommit(string query)
-        { // TODO: à arranger
-            string rep = ((query.IndexOf(';') == -1) ? query.Insert(query.Length - 1, " ; COMMIT;") : query.Insert(query.Length - 1, " COMMIT;"));
-            return rep;
-        }
+
         public long insertion(string req)
         {
             long retVal = 0;

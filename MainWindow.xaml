@@ -214,8 +214,11 @@
         <TabItem Header="Sorts" Height="30">
             <Label HorizontalAlignment="Center" FontSize="25" Grid.Row="0" >Sorts</Label>
         </TabItem>
-        <TabItem Header="Inventaire" Height="30">
-            <Label HorizontalAlignment="Center" FontSize="25">Inventaire</Label>
+        <TabItem Header="Inventaire" Selector.Selected="TabItem_Inventaire_selected" Height="30">
+            <Grid>
+                <Label HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="25" >Inventaire</Label>
+                <ListBox Name="lbxInventaire" Margin="0,48,0,0"/>
+            </Grid>
         </TabItem>
         <TabItem Header="Arène" Height="30">
             <Label HorizontalAlignment="Center" FontSize="25">Arène</Label>
@@ -314,7 +317,7 @@
                 <Button x:Name="btnSave" Content="Sauvegarder" HorizontalAlignment="Center" Margin="299,22,174.6,46" FontSize="15" VerticalAlignment="Center" Width="100" Click="btnSave_Click" Grid.Row="1" Height="24"/>
                 <Button x:Name="btnSuggestion" Content="Suggestions/Problèmes" FontSize="15" HorizontalAlignment="Center" Margin="202,0,201.6,10" VerticalAlignment="Bottom" Width="170" Click="btnSuggestion_Click" Grid.Row="1" Height="24" />
                 <Button x:Name="btnDeconnexion" Content="Déconnexion" HorizontalAlignment="Right" Margin="0,18,24.6,18" VerticalAlignment="Center" Width="100" Height="56" FontSize="16" Click="btnDeconnexion_Click"  Grid.Row="1" />
-                
+
             </Grid>
 
         </TabItem>
