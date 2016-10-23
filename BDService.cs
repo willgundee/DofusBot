@@ -16,7 +16,7 @@ namespace test
         private MySqlConnection BDChat;
         private MySqlConnection BDSelect;
         private MySqlConnection BDInsert;
-
+        private MySqlConnection BDUpdate;
 
         private string serveur = "420.cstj.qc.ca";
         private string baseDonnee = "420.5a5.a16_gofusprog";
@@ -35,6 +35,8 @@ namespace test
                 BDInsert = new MySqlConnection(connexionString);
 
                 BDChat = new MySqlConnection(connexionString);
+
+                BDUpdate = new MySqlConnection(connexionString);
 
                
             }
@@ -78,9 +80,9 @@ namespace test
         {
             try
             {
-                if (ouvrirConnexionINSERT())
+                if (ouvrirConnexionUPDATE())
                 {
-                    MySqlCommand cmd = new MySqlCommand(req, BDInsert);
+                    MySqlCommand cmd = new MySqlCommand(req, BDUpdate);
 
                  if (cmd.ExecuteNonQuery() == 1)
                 {
@@ -90,7 +92,7 @@ namespace test
                 {
                     MessageBox.Show("Erreur de mise à jour ! ");
                 }
-                    fermerConnexionINSERT();
+                    fermerConnexionUPDATE();
                     return false;
                 }
                
@@ -98,7 +100,7 @@ namespace test
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                fermerConnexionINSERT();
+                fermerConnexionUPDATE();
                 return false;
             }
 
@@ -246,6 +248,35 @@ namespace test
                 return false;
             }
         }
+
+
+        private bool ouvrirConnexionUPDATE()
+        {
+            try
+            {
+                BDUpdate.Open();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private bool fermerConnexionUPDATE()
+        {
+            try
+            {
+                BDUpdate.Close();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
 
 
 
