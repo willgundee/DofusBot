@@ -1107,7 +1107,7 @@ namespace test
         //Onglet Personnage
         // ***************************************************
 
-        private int pPage = 0;
+
 
         private void TabItem_Loaded(object sender, RoutedEventArgs e)
         {
@@ -1125,13 +1125,11 @@ namespace test
                 pgperso.Add(new PagePerso(perso, Player));
                 tCPerso.ItemsSource = pgperso;
             }
+
+            
         }
 
-        private void TabItem_Selected(object sender, RoutedEventArgs e)
-        {
-
-        }
-
+       
 
 
 

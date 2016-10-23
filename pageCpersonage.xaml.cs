@@ -112,6 +112,8 @@ namespace test
 
                 bd.insertion("INSERT INTO Entites(idClasse, idScript,idJoueur, Nom, CapitalLibre) VALUES((SELECT idClasse FROM Classes WHERE nom ='" + Cl.Nom + "'),2,(SELECT idJoueur FROM Joueurs WHERE NomUtilisateur='" + Player.NomUtilisateur + "'),'" + txtNom.Text.ToString() + "', 5)");
 
+                List<string> idEntite = bd.selection("SELECT idEntite FROM Entites WHERE nom = '" + txtNom.Text.ToString() + "'")[0];
+
                 for (int i = 1; i < 6; i++)
                 {
 
@@ -124,8 +126,10 @@ namespace test
                 bd.insertion("INSERT INTO statistiquesentites(idEntite,idTypeStatistique,valeur) VALUES ((SELECT idEntite FROM Entites WHERE nom='" + txtNom.Text.ToString() + "'), 10 ,3)");
                 for (int i = 11; i <= 30; i++)
                 {
-                    bd.insertion("INSERT INTO statistiquesentites(idEntite,idTypeStatistique,valeur) VALUES ((SELECT idEntite FROM Entites WHERE nom='" + txtNom.Text.ToString() + "')," + i + ",0)");
+                    bd.insertion("INSERT INTO statistiquesentites(idEntite,idTypeStatistique,valeur) VALUES ("+idEntite[0]+"," + i + ",0)");
                 }
+               // MainWindow perso = new MainWindow(Convert.ToInt32(hh[0][0]));
+               // perso.Show();
             }
 
         }
