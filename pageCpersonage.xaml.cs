@@ -83,15 +83,15 @@ namespace test
         {
             bool valider = true;
             if (txtNom.Text.ToString() == "")
-            {lblNom.Content = "Nom d'utilisateur";
+            {lblNom.Content = "Nom du personnage";
                 lblNom.Foreground = new SolidColorBrush(Colors.Red);
                 valider = false;
             }
             else{
-                lblNom.Content = "Nom d'utilisateur";
+                lblNom.Content = "Nom du personnage";
                 lblNom.Foreground = new SolidColorBrush(Colors.Black);
             }
-            if(ClasseCra.Width!=150|| ClasseEcaflip.Width != 150|| ClasseIop.Width != 150)
+            if(txtbDesc.Text=="")
             {
                 txtbDesc.Text = "Pas de classe sélectionné";
                 txtbDesc.Foreground = new SolidColorBrush(Colors.Red);
