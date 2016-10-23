@@ -100,10 +100,7 @@ namespace test
             else {
                 txtbDesc.Foreground = new SolidColorBrush(Colors.Black);
                 valider = true;
-
             }
-
-
             return valider;
         }
 
