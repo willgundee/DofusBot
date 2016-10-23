@@ -217,14 +217,7 @@
         <TabItem Header="Inventaire" Selector.Selected="TabItem_Inventaire_selected" Height="30">
             <Grid>
                 <Label HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="25" >Inventaire</Label>
-                <ItemsControl Name="itmCtrlInventaire" Margin="0,48,0,0"  >
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Columns="6"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-
-                </ItemsControl>
+                <ListBox Name="lbxInventaire" Margin="0,48,0,0"/>
             </Grid>
         </TabItem>
         <TabItem Header="Arène" Height="30">

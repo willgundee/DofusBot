@@ -42,7 +42,7 @@ namespace test
     public partial class MainWindow : Window
     {
         public BDService bd = new BDService();
-        
+
         ObservableCollection<ImageItem> LstImgItems;
         ObservableCollection<string> LstStats;
         ObservableCollection<string> LstConds;
@@ -50,7 +50,7 @@ namespace test
         ObservableCollection<ImageItem> LstInventaire;
 
         public Joueur Player { get; set; }
-       
+
 
         public ObservableCollection<PagePerso> pgperso;
         public ObservableCollection<pageCpersonage> pgCperso;
@@ -61,7 +61,7 @@ namespace test
         public ChatWindow fenetreChat;
         public Thread trdEnvoie { get; private set; }
         #endregion
-      
+
 
         public MainWindow(int id)
         {
@@ -76,11 +76,16 @@ namespace test
 
             //CombatTest combat = new CombatTest();
             InitializeComponent();
+
+            Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
+
             ctb_main.CreateTreeView(generateTree());
             ctb_main.UpdateSyntaxHightlight();
             ctb_main.UpdateTreeView();
+
             pgperso = new ObservableCollection<PagePerso>();
             pgCperso = new ObservableCollection<pageCpersonage>();
+
             #region linking Marché
             LstImgItems = new ObservableCollection<ImageItem>();
             LstStats = new ObservableCollection<string>();
@@ -94,22 +99,28 @@ namespace test
 
             fillSortCbo();
             #endregion
+
             #region link inventaire
+
             LstInventaire = new ObservableCollection<ImageItem>();
+            LstInventaire.Clear();
+            foreach (Equipement item in Player.Inventaire)
+                LstInventaire.Add(new ImageItem(item));
+            lbxInventaire.ItemsSource = LstInventaire;
+
             #endregion
 
-            Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
 
             txt_Courriel.Text = Player.Courriel;
             txt_nomUtilisateur.Text = Player.NomUtilisateur;
-           
+
 
             #region Marc_TimerTick_Chat
 
             this.chat = new Chat();
             chat.nomUtilisateur = Player.NomUtilisateur;
             chat.getId();
-        
+
             btnEnvoyerMessage.IsEnabled = false;
             aTimer = new DispatcherTimer();
             aTimer.Tick += new EventHandler(dispatcherTimer_Tick);
@@ -168,7 +179,7 @@ namespace test
             Thread.Yield();
         }
 
-     
+
         private void txtMessage_TextChange(object sender, TextChangedEventArgs e)
         {
 
@@ -761,7 +772,7 @@ namespace test
             {
                 Player.Kamas -= (int)lblPrix.Content;
 
-               // bd.Update("UPDATE  Joueurs SET  argent =  " + Player.Kamas + " WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "'");
+                // bd.Update("UPDATE  Joueurs SET  argent =  " + Player.Kamas + " WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "'");
                 //TODO: l'update fucktop tout donc je l'ai enlever 
                 List<string> rep = bd.selection("SELECT je.quantite,je.idJoueurEquipement FROM joueursequipements je INNER JOIN joueurs j ON je.idJoueur = j.idJoueur  INNER JOIN Equipements e ON e.idEquipement = je.idEquipement WHERE e.nom ='" + lblItem.Content.ToString() + "' AND j.nomUtilisateur = '" + Player.NomUtilisateur + "'")[0];
                 if (rep[0] == "rien")
@@ -774,7 +785,10 @@ namespace test
                 else
                     foreach (Equipement item in Player.Inventaire)
                         if (item.Nom == lblItem.Content.ToString())
-                            item.Quantite+=1;
+                        {
+                            item.Quantite += 1;
+                            break;
+                        }
             }
             lblKamas.Content = Player.Kamas;
 
@@ -948,7 +962,7 @@ namespace test
         #region Inventaire
         private void TabItem_Inventaire_selected(object sender, RoutedEventArgs e)
         {
-            
+
         }
         #endregion
 
@@ -1042,8 +1056,8 @@ namespace test
         //Onglet Personnage
         // ***************************************************
 
-        private int pPage=0;
-            
+        private int pPage = 0;
+
         private void TabItem_Loaded(object sender, RoutedEventArgs e)
         {
             if (Player.LstEntites.Count() == 0)
@@ -1064,8 +1078,10 @@ namespace test
 
         private void TabItem_Selected(object sender, RoutedEventArgs e)
         {
-      
+
         }
+
+
 
 
         #endregion
