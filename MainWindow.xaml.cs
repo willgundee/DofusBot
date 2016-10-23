@@ -1121,11 +1121,14 @@ namespace test
         // ***************************************************
         //Onglet Personnage
         // ***************************************************
+        int alert=0;
 
-
-
-        private void TabItem_Loaded(object sender, RoutedEventArgs e)
+        private void TabItem_Selected(object sender, RoutedEventArgs e)
         {
+            if (alert!=0)
+            {
+                return;
+            }
             if (Player.LstEntites.Count() == 0)
             {
                 pgCperso.Add(new pageCpersonage(Player));
@@ -1140,15 +1143,37 @@ namespace test
                 pgperso.Add(new PagePerso(perso, Player));
                 tCPerso.ItemsSource = pgperso;
             }
+            alert++;
+        }
+
+        /*
+
+        private void TabItem_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            if (Player.LstEntites.Count() == 0)
+            {
+                pgCperso.Add(new pageCpersonage(Player));
+                tCPerso.ItemsSource = pgCperso;
+
+            }
+
+            //le nom du perso 
+            foreach (Entite perso in Player.LstEntites)
+            {
+                pgperso.Add(new PagePerso(perso, Player));
+                tCPerso.ItemsSource = pgperso;
+            }
 
             
         }
 
-       
+    */
 
 
 
         #endregion
 
+     
     }
 }

@@ -32,10 +32,8 @@ namespace test
 
             int nbScript = Player.LstScripts.Count;
             for (int i = 0; i < nbScript; i++)
-            {
                 cbScript.Items.Add(Player.LstScripts[i].Nom);
 
-            }
             foreach (Entite perso in Player.LstEntites)
             {
                 //todo création de plusieurs onglets personnage
@@ -71,18 +69,14 @@ namespace test
                 {
                     List<string> emplacement=  bd.selection("SELECT emplacement FROM Equipementsentites WHERE idEquipement = (SELECT idEquipement FROM Equipements WHERE nom='"+eq.Nom+"' )AND idEntite =(SELECT idEntite FROM Entites WHERE nom='" + perso.Nom + "')")[0];
                     
-                    if (emplacement!=null) 
-                    {                      
-                      AfficherElementEquipe(eq,emplacement.ToString());                      
-                    }
+                    if (emplacement!=null)                      
+                      AfficherElementEquipe(eq,emplacement[0].ToString());                                          
                 }
 
                 dgStats.ItemsSource = initialiserLstStats(perso);
                 dgDommage.ItemsSource = initialiserLstDMG(perso);
-                dgResistance.ItemsSource = initialiserLstRES(perso);
-
+               dgResistance.ItemsSource = initialiserLstRES(perso);
             }
-
         }
 
         #region grid_listes
@@ -254,7 +248,10 @@ namespace test
                     TypeEquipement = "Anneau";
                     break;
                 case "imageBotte":
-                    TypeEquipement = "Botte";
+                    TypeEquipement = "Botte";              
+                    break;
+                case "imageAmulette":
+                    TypeEquipement = "Amulette";
                     break;
             }
 
@@ -292,13 +289,10 @@ namespace test
                     imageBotte.Source = path;
                     break;
                 case "cou":
-                    imageBotte.Source = path;
+                    imageAmulette.Source = path;
                     break;
-
             }
         }
-
-    
 
         private void btnStatsPlus_Click(object sender, RoutedEventArgs e)
         {
@@ -327,8 +321,7 @@ namespace test
                     break;
                 default:
                     s = null;
-                    return;
-                    
+                    return;                  
             }
 
             
