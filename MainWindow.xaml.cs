@@ -103,9 +103,6 @@ namespace test
             #region link inventaire
 
             LstInventaire = new ObservableCollection<ImageItem>();
-            LstInventaire.Clear();
-            foreach (Equipement item in Player.Inventaire)
-                LstInventaire.Add(new ImageItem(item));
             lbxInventaire.ItemsSource = LstInventaire;
 
             #endregion
@@ -771,15 +768,15 @@ namespace test
             if (m == MessageBoxResult.Yes)
             {
                 Player.Kamas -= (int)lblPrix.Content;
-
-                 bd.Update("UPDATE  Joueurs SET  argent =  " + Player.Kamas + " WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "'");
+                string g = "UPDATE  Joueurs SET  argent =  " + Player.Kamas + " WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "';COMMIT;";
+                 bd.Update(g);
                 //TODO: l'update fucktop tout donc je l'ai enlever 
                 List<string> rep = bd.selection("SELECT je.quantite,je.idJoueurEquipement FROM joueursequipements je INNER JOIN joueurs j ON je.idJoueur = j.idJoueur  INNER JOIN Equipements e ON e.idEquipement = je.idEquipement WHERE e.nom ='" + lblItem.Content.ToString() + "' AND j.nomUtilisateur = '" + Player.NomUtilisateur + "'")[0];
 
                 if (rep[0] == "rien")
                     bd.insertion("INSERT INTO  JoueursEquipements (idJoueur ,idEquipement ,quantite ,quantiteEquipe) VALUES ( (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur = '" + Player.NomUtilisateur + "'),(SELECT idEquipement FROM Equipements WHERE nom = '" + lblItem.Content.ToString() + "') ,1, 0); ");
                 else
-                    bd.Update("UPDATE JoueursEquipements SET  quantite =  " + (Convert.ToInt16(rep[0]) + 1) + " WHERE  idJoueurEquipement =" + rep[1] + ";");
+                    bd.Update("UPDATE JoueursEquipements SET  quantite =  " + (Convert.ToInt16(rep[0]) + 1) + " WHERE  idJoueurEquipement =" + rep[1] + ";COMMIT;");
 
                 if (rep[0] == "rien")
                     Player.Inventaire.Add(new Equipement(bd.selection("SELECT * FROM Equipements WHERE nom = '" + lblItem.Content.ToString() + "'")[0], true, Convert.ToInt32(bd.selection("SELECT * FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "'")[0][0])));
@@ -940,7 +937,7 @@ namespace test
             foreach (List<string> item in items)
             {
                 Equipement equip = new Equipement(item, false, 0);
-                ImageItem i = new ImageItem(equip);
+                ImageItem i = new ImageItem(equip,false);
                 i.MouseDown += image_MouseUp;
                 Grid.SetColumn(i, col);
                 Grid.SetRow(i, row);
@@ -963,6 +960,15 @@ namespace test
         #region Inventaire
         private void TabItem_Inventaire_selected(object sender, RoutedEventArgs e)
         {
+            LstInventaire.Clear();
+            foreach (Equipement item in Player.Inventaire)
+            {
+                if(item.QuantiteEquipe != 0)
+                    LstInventaire.Add(new ImageItem(item, false));
+                else
+                    LstInventaire.Add(new ImageItem(item,true));
+
+            }
 
         }
         #endregion

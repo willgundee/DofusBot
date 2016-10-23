@@ -140,6 +140,9 @@
     <Compile Include="pageCpersonage.xaml.cs">
       <DependentUpon>pageCpersonage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControl\DescItem.xaml.cs">
+      <DependentUpon>DescItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControl\ImageItem.xaml.cs">
       <DependentUpon>ImageItem.xaml</DependentUpon>
     </Compile>
@@ -234,6 +237,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PageEquipement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl\DescItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
