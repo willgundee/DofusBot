@@ -121,7 +121,7 @@ namespace test
             btnEnvoyerMessage.IsEnabled = false;
             aTimer = new DispatcherTimer();
             aTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-            aTimer.Interval = new TimeSpan(0, 0, 2);
+            aTimer.Interval = new TimeSpan(0, 0, 1);
             #endregion
 
             //dgStats.ItemsSource=
