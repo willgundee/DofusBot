@@ -38,8 +38,7 @@ namespace test
 
             string Classe;
             string choix = (sender as Image).Name;
-
-            
+   
             switch (choix)
             {
                 case "ClasseCra":

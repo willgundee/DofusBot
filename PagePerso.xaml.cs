@@ -51,8 +51,16 @@ namespace test
 
                 cbScript.SelectedItem = perso.ScriptEntite.Nom;
 
+                if (perso.CapitalLibre > 0)
+                {
+                    btnAgilite.Visibility=Visibility.Visible;
+                    btnChance.Visibility = Visibility.Visible;
+                    btnForce.Visibility = Visibility.Visible;
+                    btnIntelligence.Visibility = Visibility.Visible;
+                    btnSagesse.Visibility = Visibility.Visible;
+                    btnVitalite.Visibility = Visibility.Visible;
+                }
                 
-
                 foreach (Statistique st in perso.LstStats)
                 {
                     if (st.Nom == Statistique.element.experience)
@@ -279,6 +287,54 @@ namespace test
                     break;
 
             }
+        }
+
+    
+
+        private void btnStatsPlus_Click(object sender, RoutedEventArgs e)
+        {
+            string choix = (sender as Button).Name;
+            string s;
+            int changement;
+            switch (choix.ToString())
+            {
+                case "btnVitalite":
+                    s = "Vitalité" ;
+                    break;
+                case "btnSagesse":
+                    s="Sagesse" ;
+                    break;
+                case "btnForce":
+                    s="Force";
+                    break;
+                case "btnIntelligence":
+                    s="Intelligence";
+                    break;
+                case "btnChance":
+                   s="Chance" ;
+                    break;
+                case "btnAgilite":
+                    s = "Agilite";
+                    break;
+                default:
+                    s = null;
+                    return;
+                    
+            }
+
+            
+
+            foreach (Statistique st in dgStats.Items )
+            {
+                if (st.Nom.ToString() == s)
+                {
+                    dgStats.Items.
+                }
+                  
+            }
+
+            changement = Convert.ToInt32(lblNbPointsC.Content);
+            lblNbPointsC.Content = (changement - 1);
         }
     }
 }
