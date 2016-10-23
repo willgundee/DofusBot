@@ -46,44 +46,65 @@ namespace test
             string req = "SELECT * FROM Joueurs WHERE nomUtilisateur = '" + txt_nom.Text.ToString() + "';";
             List<string>[] result = bd.selection(req);
 
-            if (result[0][0] != "rien" || txt_nom.Text.ToString() == "")
-            {
-                if (result[0][0] != "rien")
-                {
-                    lbl_nom.Content = "Nom d'utilisateur (Nom utilisé)";
-                }
-                else
-                {
-                    lbl_nom.Content = "Nom d'utilisateur";
-                }
 
+            #region nomUtilisateurValidations
+            if (txt_nom.Text.ToString() == "")
+            {
+                lbl_nom.Content = "Nom d'utilisateur (Champs vide)";
                 lbl_nom.Foreground = new SolidColorBrush(Colors.Red);
                 Valide = false;
             }
             else
             {
-                lbl_nom.Content = "Nom d'utilisateur";
-                lbl_nom.Foreground = new SolidColorBrush(Colors.Black);
+
+                if (result[0][0] != "rien")
+                {
+                    lbl_nom.Content = "Nom d'utilisateur (Nom utilisé)";
+                    lbl_nom.Foreground = new SolidColorBrush(Colors.Red);
+                    Valide = false;
+                }
+                else
+                {
+                    if (txt_nom.Text.ToString().Length > 13 || txt_nom.Text.ToString().Length < 5)
+                    {
+                        lbl_nom.Content = "Nom d'utilisateur (Entre 5 et 13 Lettres/chiffres)";
+                        lbl_nom.Foreground = new SolidColorBrush(Colors.Red);
+                        Valide = false;
+                    }
+                    else
+                    {
+                        lbl_nom.Content = "Nom d'utilisateur";
+                        lbl_nom.Foreground = new SolidColorBrush(Colors.Black);
+                    }
+
+                }
+
             }
+            #endregion
 
 
-            if (txt_mdp.Password != txtConfirmation.Password || txtConfirmation.Password == "")
+
+            if (txt_mdp.Password != txtConfirmation.Password)
             {
+                lbl_Confirmation.Content = "Confimation de mot de passe ( Doit être identique au champs de mot de passe ) ";
                 lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Red);
                 Valide = false;
             }
             else
             {
+                lbl_Confirmation.Content = "Confimation de mot de passe";
                 lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Black);
             }
 
-            if (txt_mdp.Password == "")
+            if (txt_mdp.Password.Length < 5 || txt_mdp.Password.Length > 15)
             {
+                lbl_Mdp.Content = "Mot de passe (Doit contenir entre 5 et 15 lettres/chiffres)";
                 lbl_Mdp.Foreground = new SolidColorBrush(Colors.Red);
                 Valide = false;
             }
             else
             {
+                lbl_Mdp.Content = "Mot de passe";
                 lbl_Mdp.Foreground = new SolidColorBrush(Colors.Black);
             }
 
@@ -110,10 +131,7 @@ namespace test
             // {
             //  return false;
             // }
-            //  if (txt_nom.Text.ToString().Length > 13 || txt_nom.Text.ToString().Length < 5)
-            //  {
 
-            //  }
 
 
             // if (courriel.Match(txt_Courriel.Text.ToString()) != null)
@@ -134,9 +152,10 @@ namespace test
                 var result = System.Windows.MessageBox.Show("Souhaitez-vous créer votre compte avec ces informations?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
-                    int id = (int) bd.insertion("INSERT INTO Joueurs(nomUtilisateur, courriel, motDePasse, argent, avatar) VALUES('" + txt_nom.Text.ToString() + "', '" + txt_Courriel.Text.ToString() + "', '" + txt_mdp.Password + "', 0, 0);");
-                    MainWindow perso = new MainWindow(id);
-                    perso.Show();
+                    int id = (int)bd.insertion("INSERT INTO Joueurs(nomUtilisateur, courriel, motDePasse, argent, avatar) VALUES('" + txt_nom.Text.ToString() + "', '" + txt_Courriel.Text.ToString() + "', '" + txt_mdp.Password + "', 0, 0);");
+                    MainWindow Main = new MainWindow(id);
+                    System.Windows.Forms.MessageBox.Show("Vous êtes connecté ! ","Information");
+                    Main.Show();
                     this.Close();
 
                 }

@@ -76,9 +76,11 @@ namespace test
 
             //CombatTest combat = new CombatTest();
             InitializeComponent();
-
-            Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
-
+           
+                Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
+           
+           
+        
             ctb_main.CreateTreeView(generateTree());
             ctb_main.UpdateSyntaxHightlight();
             ctb_main.UpdateTreeView();
@@ -988,7 +990,7 @@ namespace test
                 /* Update */
                 lbl_Mdp.Foreground = new SolidColorBrush(Colors.Black);
                 lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Black);
-            
+
                 if (txt_Courriel.Text != "")
                 {
                     if (txt_Courriel.Text != txt_AncienCourriel.Text)
@@ -1023,7 +1025,7 @@ namespace test
 
 
                 }
-                
+
             }
             else
             {
