@@ -26,18 +26,18 @@ namespace test
             TypeEQ = TypeEquipement;
             bool valide;
             InitializeComponent();
-           valide= afficherEquipementDispo(TypeEquipement, NomJoueur);
+            valide = afficherEquipementDispo(TypeEquipement, NomJoueur);
             foreach (Window Page in Application.Current.Windows)
             {
                 if (Page.GetType() == typeof(MainWindow))
                 {
-                    (Page as MainWindow).pgperso.First().validePg=valide;
+                    (Page as MainWindow).pgperso.First().validePg = valide;
                 }
             }
 
         }
 
-        private bool  afficherEquipementDispo(string TypeEquipement,string NomJoueur)
+        private bool afficherEquipementDispo(string TypeEquipement, string NomJoueur)
         {
             bool valide = false;
             List<string>[] NoImg = null;
@@ -51,14 +51,14 @@ namespace test
             {
                 NoImg = bd.selection("SELECT e.noImage, je.quantite FROM equipements e INNER JOIN JoueursEquipements je ON je.idEquipement = e.idEquipement INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement INNER JOIN Joueurs j ON j.idJoueur = je.idJoueur WHERE j.nomUtilisateur = '" + NomJoueur + "'AND t.nom = '" + TypeEquipement + "'");
             }
-            if(NoImg[0][0]=="rien")
+            if (NoImg[0][0] == "rien")
             {
                 return valide;
             }
-            
+
             foreach (List<string> item in NoImg)
             {
-                for (int i= 0; i < Convert.ToInt32(item[1]);i++)
+                for (int i = 0; i < Convert.ToInt32(item[1]); i++)
                 {
                     Image img = CreateImg(item[0]);
                     if (col == 5)
@@ -92,15 +92,35 @@ namespace test
 
         private void image_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            
             foreach (Window Page in Application.Current.Windows)
             {
-               string ImgNom= (sender as Image).Name;
-                string t = TypeEQ;
-
-                if (Page.GetType()==typeof(MainWindow))
+                if (Page.GetType() == typeof(MainWindow))
                 {
-                    (Page as MainWindow).pgperso.First().imageCasque.Source = (sender as Image).Source;
+                   
+                    switch (TypeEQ)
+                    {
+                        case "Chapeau":
+                            (Page as MainWindow).pgperso.First().imageCasque.Source = (sender as Image).Source;
+                            break;
+                        case "Cape":
+                            (Page as MainWindow).pgperso.First().imageCape.Source = (sender as Image).Source;
+                            break;
+                        case "Arme":
+                            (Page as MainWindow).pgperso.First().imageArme.Source = (sender as Image).Source;
+                            break;
+                        case "Ceinture":
+                            (Page as MainWindow).pgperso.First().imageCeinture.Source = (sender as Image).Source;
+                            break;
+                        case "Anneau":
+                            (Page as MainWindow).pgperso.First().imageAnneau1.Source = (sender as Image).Source;
+                            break;
+                        case "Botte":
+                            (Page as MainWindow).pgperso.First().imageBotte.Source = (sender as Image).Source;
+                            break;
+                        case "Amulette":
+                            (Page as MainWindow).pgperso.First().imageAmulette.Source = (sender as Image).Source;
+                            break;
+                    }
                 }
             }
         }
