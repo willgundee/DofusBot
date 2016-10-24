@@ -21,9 +21,9 @@ namespace test
     {
         public BDService bd = new BDService();
         private string TypeEQ;
-        public PageEquipement(string TypeEquipement, string NomJoueur)
+        public PageEquipement(string TypeEquipement, string NomJoueur, string emplacement)
         {
-            TypeEQ = TypeEquipement;
+            TypeEQ = emplacement;
             bool valide;
             InitializeComponent();
             valide = afficherEquipementDispo(TypeEquipement, NomJoueur);
@@ -37,7 +37,7 @@ namespace test
 
         }
 
-        private bool afficherEquipementDispo(string TypeEquipement, string NomJoueur)
+        private bool afficherEquipementDispo(string TypeEquipement, string NomJoueur )
         {
             bool valide = false;
             List<string>[] NoImg = null;
@@ -98,25 +98,28 @@ namespace test
                 {     
                     switch (TypeEQ)
                     {
-                        case "Chapeau":
+                        case "tête":
                             (Page as MainWindow).pgperso.First().imageCasque.Source = (sender as Image).Source;
                             break;
-                        case "Cape":
+                        case "dos":
                             (Page as MainWindow).pgperso.First().imageCape.Source = (sender as Image).Source;
                             break;
-                        case "Arme":
+                        case "arme":
                             (Page as MainWindow).pgperso.First().imageArme.Source = (sender as Image).Source;
                             break;
-                        case "Ceinture":
+                        case "hanche":
                             (Page as MainWindow).pgperso.First().imageCeinture.Source = (sender as Image).Source;
                             break;
-                        case "Anneau":
+                        case "ano1":
                             (Page as MainWindow).pgperso.First().imageAnneau1.Source = (sender as Image).Source;
                             break;
-                        case "Botte":
+                        case "ano2":
+                            (Page as MainWindow).pgperso.First().imageAnneau2.Source = (sender as Image).Source;
+                            break;
+                        case "pied":
                             (Page as MainWindow).pgperso.First().imageBotte.Source = (sender as Image).Source;
                             break;
-                        case "Amulette":
+                        case "cou":
                             (Page as MainWindow).pgperso.First().imageAmulette.Source = (sender as Image).Source;
                             break;
                     }

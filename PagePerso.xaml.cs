@@ -226,36 +226,45 @@ namespace test
         {
             string choix = (sender as Image).Name;
             string TypeEquipement = null;
+            string emp=null;
 
             switch (choix.ToString())
             {
                 case "imageCasque":
                     TypeEquipement = "Chapeau";
+                    emp = "tête";
                     break;
                 case "imageCape":
                     TypeEquipement = "Cape";
+                    emp = "dos";
                     break;
                 case "imageArme":
                     TypeEquipement = "Arme";
+                    emp = "arme";
                     break;
                 case "imageCeinture":
                     TypeEquipement = "Ceinture";
+                    emp = "hanche";
                     break;
                 case "imageAnneau1":
                     TypeEquipement = "Anneau";
+                    emp = "ano1";
                     break;
                 case "imageAnneau2":
                     TypeEquipement = "Anneau";
+                    emp = "ano2";
                     break;
                 case "imageBotte":
-                    TypeEquipement = "Botte";              
+                    TypeEquipement = "Botte";
+                    emp = "pied";
                     break;
                 case "imageAmulette":
                     TypeEquipement = "Amulette";
+                    emp = "cou";
                     break;
             }
 
-            PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur);
+            PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur,emp);
             if (validePg != false)
                 Equip.ShowDialog();
 
