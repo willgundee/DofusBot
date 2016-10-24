@@ -34,15 +34,15 @@ namespace GofusSharp
             }
         }
 
-        public ListeChainee<Case> CaseAvecObstacle()
+        public Liste<Case> CaseAvecObstacle()
         {
-            ListeChainee<Case> caseAvecObstacle = new ListeChainee<Case>();
+            Liste<Case> caseAvecObstacle = new Liste<Case>();
             foreach (Case[] tabcase in TabCases)
             {
                 foreach (Case caseT in tabcase)
                 {
                     if (caseT.Contenu == Case.type.obstacle)
-                        caseAvecObstacle.AjouterFin(caseT);
+                        caseAvecObstacle.Add(caseT);
                 }
             }
             return caseAvecObstacle;
