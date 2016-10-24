@@ -1139,6 +1139,7 @@ namespace test
             //le nom du perso 
             foreach (Entite perso in Player.LstEntites)
             {
+
                 pgperso.Add(new PagePerso(perso, Player));
                 tCPerso.ItemsSource = pgperso;
             }
