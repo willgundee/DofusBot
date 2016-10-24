@@ -295,6 +295,22 @@ namespace test
 
         private void btnStatsPlus_Click(object sender, RoutedEventArgs e)
         {
+            if(Convert.ToInt32(lblNbPointsC.Content)<0)
+            {
+
+
+            }
+            if (Convert.ToInt32(lblNbPointsC.Content) == 1)
+            {
+                btnAgilite.Visibility = Visibility.Hidden;
+                btnChance.Visibility = Visibility.Hidden;
+                btnForce.Visibility = Visibility.Hidden;
+                btnIntelligence.Visibility = Visibility.Hidden;
+                btnSagesse.Visibility = Visibility.Hidden;
+                btnVitalite.Visibility = Visibility.Hidden;
+
+            }
+
             string choix = (sender as Button).Name;
             string s;
             int changement;
@@ -328,8 +344,7 @@ namespace test
                 if (st.Nom.ToString() == s)
                 {
                    
-                }
-                  
+                }                
             }
 
             changement = Convert.ToInt32(lblNbPointsC.Content);

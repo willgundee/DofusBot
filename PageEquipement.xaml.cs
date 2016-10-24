@@ -95,8 +95,7 @@ namespace test
             foreach (Window Page in Application.Current.Windows)
             {
                 if (Page.GetType() == typeof(MainWindow))
-                {
-                   
+                {     
                     switch (TypeEQ)
                     {
                         case "Chapeau":
