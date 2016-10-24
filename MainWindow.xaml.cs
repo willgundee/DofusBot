@@ -49,7 +49,7 @@ namespace test
         ObservableCollection<string> LstCaras;
         ObservableCollection<ImageItem> LstInventaire;
         ObservableCollection<DescItem> LstDesc;
-        Dictionary<int, string> DictioAvatars;
+        List<string> lstAvatars;
 
         public Joueur Player { get; set; }
 
@@ -83,11 +83,16 @@ namespace test
             InitializeComponent();
 
 
-            DictioAvatars = new Dictionary<int, string>();
+            lstAvatars = new List<string>();
             GenererAvatars();
-            
+       
 
             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
+
+            string URI = lstAvatars[Player.Avatar];
+                    iAvatar.Source =       new BitmapImage(new Uri(URI));
+      
+
 
             idJoueur = id;
 
@@ -143,8 +148,8 @@ namespace test
         {
             for (int J = 0; J < 20; J++)
             {
-                string path = @"\Resources\Avatar" + J.ToString() + ".png";
-                DictioAvatars.Add(J, path);
+                string path = "pack://application:,,,/test;component/Resources/Avatars/" + J.ToString() + ".png";
+               lstAvatars.Add(path);
             }
 
            
@@ -380,6 +385,12 @@ namespace test
         {
             rapport = null;
         }
+
+        private void Change_Avatar(object sender, RoutedEventArgs e)
+        {
+
+        }
+
 
 
         private void btnSuggestion_Click(object sender, RoutedEventArgs e)
