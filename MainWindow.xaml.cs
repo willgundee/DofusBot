@@ -52,9 +52,6 @@ namespace test
 
         public Joueur Player { get; set; }
 
-        public FenetreRapport rapport;
-
-        public int idJoueur { get; set; }
 
         public ObservableCollection<PagePerso> pgperso;
         public ObservableCollection<pageCpersonage> pgCperso;
@@ -80,11 +77,11 @@ namespace test
 
             //CombatTest combat = new CombatTest();
             InitializeComponent();
-
-            Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
-
-            idJoueur = id;
-
+           
+                Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
+           
+           
+        
             ctb_main.CreateTreeView(generateTree());
             ctb_main.UpdateSyntaxHightlight();
             ctb_main.UpdateTreeView();
@@ -103,7 +100,7 @@ namespace test
             lbxCond.ItemsSource = LstConds;
             lbxCara.ItemsSource = LstCaras;
 
-            fillCbo();
+            fillSortCbo();
             #endregion
 
             #region link inventaire
@@ -861,26 +858,15 @@ namespace test
                     LstConds.Add(cond.Stat.NomSimple + " " + cond.Signe + "  " + cond.Stat.Valeur.ToString());
         }
 
-        private void fillCbo()
+        private void fillSortCbo()
         {
             List<string> type = new List<string>();
-            List<string> entitesNom = new List<string>();
             type.Add("Tous");
             foreach (List<string> typeNom in bd.selection("SELECT nom FROM typesEquipements"))
                 type.Add(typeNom[0]);
             cboTrie.ItemsSource = type;
             cboTrie.SelectedIndex = 0;
             cboTrie.SelectionChanged += cboTrie_SelectionChanged;
-
-            cboTrieInventaire.ItemsSource = type;
-            cboTrieInventaire.SelectedIndex = 0;
-            cboTrieInventaire.SelectionChanged += cboTrieInventaire_SelectionChanged;
-
-            foreach (Entite perso in Player.LstEntites)
-                entitesNom.Add(perso.Nom);// TODO ne marchera pas si crée un perso marche
-                    cboChoixEntite.ItemsSource = entitesNom;
-            cboChoixEntite.SelectedIndex = 0;
-            cboChoixEntite.SelectionChanged += cboChoixEntite_SelectionChanged;
         }
 
         private void cboTrie_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -979,13 +965,13 @@ namespace test
         #region Inventaire
 
         private void TabItem_Inventaire_selected(object sender, RoutedEventArgs e)
-        {//emplacement possible : tete, cou, pied, ano1, ano2, arme, hanche, dos.
+        {
             LstInventaire.Clear();
 
             foreach (Equipement item in Player.Inventaire)
                 if (item.QuantiteEquipe != 0)
                 {
-                    ImageItem i = new ImageItem(item, false, item.Quantite);
+                    ImageItem i = new ImageItem(item, false, item.QuantiteEquipe);
                     i.MouseDown += image_desc;
                     LstInventaire.Add(i);
                 }
@@ -996,22 +982,11 @@ namespace test
                     LstInventaire.Add(i);
                 }
         }
-
         private void image_desc(object sender, MouseButtonEventArgs e)
         {
             LstDesc.Clear();
-            string nom = (((ImageItem)sender).imgItem).Name.Replace("_", " ");
-            LstDesc.Add(new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE nom ='" + nom + "'")[0], true, 0)));
-        }
-
-        private void cboTrieInventaire_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void cboChoixEntite_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            lblNomEntite.Content = ((System.Windows.Controls.ComboBox)sender).SelectedValue.ToString();
+            string nom = ((Image)((ImageItem)sender).imgItem).Name.Replace("_", " ");            
+            LstDesc.Add(new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE nom ='" + nom + "'")[0],true,0)));
         }
         #endregion
 
@@ -1135,24 +1110,9 @@ namespace test
             Close();
         }
 
-        public void MainWindow_RapportClosing(object sender, System.EventArgs e)
-        {
-            rapport = null;
-        }
-
-
         private void btnSuggestion_Click(object sender, RoutedEventArgs e)
         {
-            if (rapport != null)
-            {
-                rapport.Activate();
-            }
-            else
-            {
-                rapport = new FenetreRapport(idJoueur);
-                rapport.Closed += MainWindow_RapportClosing;
-                rapport.Show();
-            }
+            System.Windows.Forms.MessageBox.Show("Bientôt disponnible !");
 
         }
         #endregion
@@ -1179,6 +1139,7 @@ namespace test
             //le nom du perso 
             foreach (Entite perso in Player.LstEntites)
             {
+
                 pgperso.Add(new PagePerso(perso, Player));
                 tCPerso.ItemsSource = pgperso;
             }
