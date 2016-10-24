@@ -5,8 +5,8 @@ namespace GofusSharp
     public class Entite : EntiteInconnu
     {
         internal Script ScriptEntite { get; set; }
-        public Terrain TerrainEntite { get; internal set; }
-        public Liste<EntiteInconnu> ListEntites { get; internal set; }
+        internal Terrain TerrainEntite { get; set; }
+        internal Liste<EntiteInconnu> ListEntites { get; set; }
         internal Entite(int IdEntite, Classe ClasseEntite, string Nom, float Experience, type Equipe, Liste<Statistique> ListStatistiques, Script ScriptEntite, Terrain TerrainEntite, int Proprietaire) : base(IdEntite, ClasseEntite, Nom, Experience, Equipe)
         {
             this.ListStatistiques = ListStatistiques;
@@ -535,7 +535,7 @@ namespace GofusSharp
             return 0;
         }
 
-        public bool CaseEstDansZone(Zone.type TypeZone, int porteeMin, int porteeMax, Case source, Case cible)
+        internal bool CaseEstDansZone(Zone.type TypeZone, int porteeMin, int porteeMax, Case source, Case cible)
         {
             try
             {

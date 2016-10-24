@@ -866,6 +866,169 @@ namespace test
                 Tnode.Text = "system";
             }
             //#############################################################################################################
+            TreeNode[] treeNodeTab_stat = new TreeNode[] {
+                new TreeNode("Nom", treeNodeTab_chaine),
+                new TreeNode("Valeur", treeNodeTab_simpleVar)
+            };
+            foreach (TreeNode Tnode in treeNodeTab_stat)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "property";
+                Tnode.Text = "system";
+            }
+            //#############################################################################################################
+            TreeNode[] treeNodeTab_equip = new TreeNode[] {
+                new TreeNode("IdEquipement", treeNodeTab_simpleVar),
+                new TreeNode("Nom", treeNodeTab_chaine),
+                new TreeNode("TabStatistiques", treeNodeTab_tab),
+                new TreeNode("Type")
+            };
+            foreach (TreeNode Tnode in treeNodeTab_equip)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "property";
+                Tnode.Text = "system";
+            }
+            //#############################################################################################################
+            TreeNode[] treeNodeTab_case = new TreeNode[] {
+                new TreeNode("X", treeNodeTab_simpleVar),
+                new TreeNode("Y", treeNodeTab_simpleVar),
+                new TreeNode("Contenu")
+            };
+            foreach (TreeNode Tnode in treeNodeTab_case)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "property";
+                Tnode.Text = "system";
+            }
+            //#############################################################################################################
+            TreeNode[] treeNodeTab_zone = new TreeNode[] {
+                new TreeNode("PorteeMin", treeNodeTab_simpleVar),
+                new TreeNode("PorteeMax", treeNodeTab_simpleVar),
+                new TreeNode("Type")
+            };
+            foreach (TreeNode Tnode in treeNodeTab_zone)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "property";
+                Tnode.Text = "system";
+            }
+            //#############################################################################################################
+            TreeNode[] treeNodeTab_sort = new TreeNode[] {
+                new TreeNode("IdSort", treeNodeTab_simpleVar),
+                new TreeNode("TabEffets", treeNodeTab_tab),
+                new TreeNode("Nom", treeNodeTab_chaine),
+                new TreeNode("LigneDeVue", treeNodeTab_simpleVar),
+                new TreeNode("PorteeModifiable", treeNodeTab_simpleVar),
+                new TreeNode("CelluleLibre", treeNodeTab_simpleVar),
+                new TreeNode("ZonePortee", treeNodeTab_zone),
+                new TreeNode("ZoneEffet", treeNodeTab_zone),
+                new TreeNode("TabEffets", treeNodeTab_tab),
+                new TreeNode("TauxDeRelance", treeNodeTab_simpleVar),
+                new TreeNode("CoutPA", treeNodeTab_simpleVar),
+                new TreeNode("Nom")
+            };
+            foreach (TreeNode Tnode in treeNodeTab_sort)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "property";
+                Tnode.Text = "system";
+            }
+            //#############################################################################################################
+            TreeNode[] treeNodeTab_classe = new TreeNode[] {
+                new TreeNode("IdClasse", treeNodeTab_simpleVar),
+                new TreeNode("TabSorts", treeNodeTab_tab),
+                new TreeNode("Nom")
+            };
+            foreach (TreeNode Tnode in treeNodeTab_classe)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "property";
+                Tnode.Text = "system";
+            }
+            //#############################################################################################################
+            TreeNode[] treeNodeTab_method_perso = new TreeNode[] {
+                new TreeNode("UtiliserSort()", treeNodeTab_simpleVar),
+                new TreeNode("AvancerVers()", treeNodeTab_simpleVar),
+                new TreeNode("Attaquer()", treeNodeTab_simpleVar)
+            };
+
+            foreach (TreeNode Tnode in treeNodeTab_method_perso)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "method";
+                Tnode.Text = "system";
+            }
+
+            TreeNode[] treeNodeTab_attribut_perso = new TreeNode[] {
+                new TreeNode("Etat"),
+                new TreeNode("Equipe"),
+                new TreeNode("IdEntite", treeNodeTab_simpleVar),
+                new TreeNode("ClasseEntite", treeNodeTab_classe),
+                new TreeNode("Nom", treeNodeTab_chaine),
+                new TreeNode("Experience", treeNodeTab_simpleVar),
+                new TreeNode("PV", treeNodeTab_simpleVar),
+                new TreeNode("PV_MAX", treeNodeTab_simpleVar),
+                new TreeNode("PA", treeNodeTab_simpleVar),
+                new TreeNode("PA_MAX", treeNodeTab_simpleVar),
+                new TreeNode("PM", treeNodeTab_simpleVar),
+                new TreeNode("PM_MAX", treeNodeTab_simpleVar),
+                new TreeNode("Proprietaire", treeNodeTab_simpleVar),
+                new TreeNode("ListStatistiques", treeNodeTab_Liste),
+                new TreeNode("ListEnvoutements", treeNodeTab_Liste)
+            };
+            foreach (TreeNode Tnode in treeNodeTab_attribut_perso)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "property";
+                Tnode.Text = "system";
+            }
+
+            TreeNode[] treeNodeTab_perso = new TreeNode[treeNodeTab_method_perso.Length + treeNodeTab_attribut_perso.Length];
+            treeNodeTab_method_perso.CopyTo(treeNodeTab_perso, 0);
+            treeNodeTab_attribut_perso.CopyTo(treeNodeTab_perso, treeNodeTab_method_perso.Length);
+            //#############################################################################################################
+            TreeNode[] treeNodeTab_method_perso_i = new TreeNode[] {
+                new TreeNode("UtiliserSort()", treeNodeTab_simpleVar),
+                new TreeNode("AvancerVers()", treeNodeTab_simpleVar),
+                new TreeNode("Attaquer()", treeNodeTab_simpleVar)
+            };
+
+            foreach (TreeNode Tnode in treeNodeTab_method_perso_i)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "method";
+                Tnode.Text = "system";
+            }
+
+            TreeNode[] treeNodeTab_attribut_perso_i = new TreeNode[] {
+                new TreeNode("Etat"),
+                new TreeNode("Equipe"),
+                new TreeNode("IdEntite", treeNodeTab_simpleVar),
+                new TreeNode("ClasseEntite", treeNodeTab_classe),
+                new TreeNode("Nom", treeNodeTab_chaine),
+                new TreeNode("Experience", treeNodeTab_simpleVar),
+                new TreeNode("PV", treeNodeTab_simpleVar),
+                new TreeNode("PV_MAX", treeNodeTab_simpleVar),
+                new TreeNode("PA", treeNodeTab_simpleVar),
+                new TreeNode("PA_MAX", treeNodeTab_simpleVar),
+                new TreeNode("PM", treeNodeTab_simpleVar),
+                new TreeNode("PM_MAX", treeNodeTab_simpleVar),
+                new TreeNode("Proprietaire", treeNodeTab_simpleVar),
+                new TreeNode("ListStatistiques", treeNodeTab_Liste),
+                new TreeNode("ListEnvoutements", treeNodeTab_Liste)
+            };
+            foreach (TreeNode Tnode in treeNodeTab_attribut_perso_i)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "property";
+                Tnode.Text = "system";
+            }
+
+            TreeNode[] treeNodeTab_perso_i = new TreeNode[treeNodeTab_method_perso_i.Length + treeNodeTab_attribut_perso_i.Length];
+            treeNodeTab_method_perso_i.CopyTo(treeNodeTab_perso_i, 0);
+            treeNodeTab_attribut_perso_i.CopyTo(treeNodeTab_perso_i, treeNodeTab_method_perso_i.Length);
+            //#############################################################################################################
             TreeNode treeNode_1 = new TreeNode("keyword");
             TreeNode treeNode_2 = new TreeNode("classGofus");
             TreeNode treeNode_3 = new TreeNode("Math", treeNodeTab_math);
