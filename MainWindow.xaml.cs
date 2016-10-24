@@ -1163,8 +1163,11 @@ namespace test
                 pgperso.Add(new PagePerso(perso, Player));
                 tCPerso.ItemsSource = pgperso;
             }
-   
-        }*/
+
+            
+        }
+
+    */
 
 
 
