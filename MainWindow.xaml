@@ -12,6 +12,24 @@
      Icon="resources/Gofus.png"
         Title="Gofus" Height="600" Width="700" ResizeMode="NoResize">
     <Window.Resources>
+        <Style x:Key="RowOverflow" TargetType="ListBox">
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="3" />
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="RowFix" TargetType="ListBox">
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="3" Rows="6"/>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style x:Key="LinkButton" TargetType="Button">
             <Setter Property="Template">
                 <Setter.Value>
@@ -181,7 +199,7 @@
                 </TabControl>
                 <ComboBox x:Name="cboTrie" SelectionChanged="cboTrie_SelectionChanged" HorizontalAlignment="Left" Margin="81,6.511,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120"/>
 
-                <ItemsControl Name="itmCtrlEquip" Grid.Row="1" Margin="0,33.511,-0.147,0" >
+                <ItemsControl Name="itmCtrlEquip" Grid.Row="1" Margin="0,34,3,0" >
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <UniformGrid Columns="5" Rows="2"/>
@@ -196,7 +214,7 @@
         <TabItem Header="Sorts" Height="30">
             <Label HorizontalAlignment="Center" FontSize="25" Grid.Row="0" >Sorts</Label>
         </TabItem>
-        <TabItem Header="Inventaire" Selector.Selected="TabItem_Inventaire_selected" Height="30">
+        <TabItem Header="Inventaire" Height="30">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="349*"/>
@@ -206,7 +224,7 @@
                     <RowDefinition Height="65*"/>
                     <RowDefinition Height="48*"/>
                 </Grid.RowDefinitions>
-                    <Image Source="resources/fondEquipement.jpg"/>
+                <Image Source="resources/fondEquipement.jpg"/>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="21*"/>
@@ -246,12 +264,8 @@
                     <Label Name="lblNomEntite" Content="Lou-blood" FontSize="10" Grid.Column="2" Grid.ColumnSpan="3" Foreground="White"/>
                 </Grid>
 
-                <ListBox Name="lbxInventaire" Grid.RowSpan="2" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,69,0,0">
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Columns="3" Rows="6"/>
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
+                <ListBox Name="lbxInventaire" Grid.RowSpan="2" Style="{StaticResource RowOverflow}" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,69,0,0">
+
                 </ListBox>
                 <ItemsControl Name="itmCtrlDesc" Grid.Row="1" />
                 <ComboBox Name="cboChoixEntite" Grid.Column="1" SelectionChanged="cboChoixEntite_SelectionChanged" HorizontalAlignment="Left" Margin="94,10,0,0" VerticalAlignment="Top" Width="120"/>

@@ -962,28 +962,12 @@ namespace test
 
         #region Inventaire
 
-        private void TabItem_Inventaire_selected(object sender, RoutedEventArgs e)
-        {
-           /* LstInventaire.Clear();
-            foreach (Equipement item in Player.Inventaire)
-                if (item.QuantiteEquipe != 0)
-                {
-                    ImageItem i = new ImageItem(item, false, item.QuantiteEquipe);
-                    i.MouseDown += image_desc;
-                    LstInventaire.Add(i);
-                }
-                else
-                {
-                    ImageItem i = new ImageItem(item, true, item.Quantite);
-                    i.MouseDown += image_desc;
-                    LstInventaire.Add(i);
-                }*/
-        }
         private void image_desc(object sender, MouseButtonEventArgs e)
         {
+
             LstDesc.Clear();
             string nom = (((ImageItem)sender).imgItem).Name.Replace("_", " ");
-            LstDesc.Add(new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE nom ='" + nom + "'")[0], true, 0)));
+             LstDesc.Add(new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE nom ='" + nom + "'")[0], true, 0)));
         }
 
         private void cboTrieInventaire_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -991,13 +975,13 @@ namespace test
             string type = ((System.Windows.Controls.ComboBox)sender).SelectedValue.ToString();
 
             LstInventaire.Clear();
-            
+
             foreach (Equipement item in Player.Inventaire)
                 if (type == "Tous" && item.Quantite - item.QuantiteEquipe != 0)
                 {
-                        ImageItem i = new ImageItem(item, false, item.Quantite - item.QuantiteEquipe);
-                        i.MouseDown += image_desc;
-                        LstInventaire.Add(i);
+                    ImageItem i = new ImageItem(item, false, item.Quantite - item.QuantiteEquipe);
+                    i.MouseDown += image_desc;
+                    LstInventaire.Add(i);
                 }
                 else
                 {
@@ -1005,10 +989,15 @@ namespace test
                     {
                         ImageItem i = new ImageItem(item, false, item.Quantite - item.QuantiteEquipe);
                         i.MouseDown += image_desc;
-                         
+
                         LstInventaire.Add(i);
                     }
                 }
+            if (LstInventaire.Count <= 3 * 6)
+                lbxInventaire.Style = (Style)FindResource("RowFix");
+            else
+                lbxInventaire.Style = (Style)FindResource("RowOverflow");
+
 
         }
 
