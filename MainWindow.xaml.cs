@@ -89,8 +89,10 @@ namespace test
             pgperso = new ObservableCollection<PagePerso>();
             pgCperso = new ObservableCollection<pageCpersonage>();
 
-            #region linking Marché
+            #region linking Marché et inventaire
             LstImgItems = new ObservableCollection<ImageItem>();
+            LstInventaire = new ObservableCollection<ImageItem>();
+            LstDesc = new ObservableCollection<DescItem>();
             LstStats = new ObservableCollection<string>();
             LstConds = new ObservableCollection<string>();
             LstCaras = new ObservableCollection<string>();
@@ -99,16 +101,10 @@ namespace test
             lbxStats.ItemsSource = LstStats;
             lbxCond.ItemsSource = LstConds;
             lbxCara.ItemsSource = LstCaras;
+            lbxInventaire.ItemsSource = LstInventaire;
+            itmCtrlDesc.ItemsSource = LstDesc;
 
             fillCbo();
-            #endregion
-
-            #region link inventaire
-
-            LstInventaire = new ObservableCollection<ImageItem>();
-            lbxInventaire.ItemsSource = LstInventaire;
-            LstDesc = new ObservableCollection<DescItem>();
-            itmCtrlDesc.ItemsSource = LstDesc;
             #endregion
 
 
@@ -867,17 +863,16 @@ namespace test
                 type.Add(typeNom[0]);
             cboTrie.ItemsSource = type;
             cboTrie.SelectedIndex = 0;
-            cboTrie.SelectionChanged += cboTrie_SelectionChanged;
+            //cboTrie.SelectionChanged += cboTrie_SelectionChanged;
 
             cboTrieInventaire.ItemsSource = type;
             cboTrieInventaire.SelectedIndex = 0;
-            cboTrieInventaire.SelectionChanged += cboTrieInventaire_SelectionChanged;
 
             foreach (Entite perso in Player.LstEntites)
                 entitesNom.Add(perso.Nom);// TODO ne marchera pas si crée un perso marche
-                    cboChoixEntite.ItemsSource = entitesNom;
+            cboChoixEntite.ItemsSource = entitesNom;
             cboChoixEntite.SelectedIndex = 0;
-            cboChoixEntite.SelectionChanged += cboChoixEntite_SelectionChanged;
+            //cboChoixEntite.SelectionChanged += cboChoixEntite_SelectionChanged;
         }
 
         private void cboTrie_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -944,22 +939,11 @@ namespace test
 
         private void retrieveItem(List<string>[] items)
         {
-            short col = 0;
-            short row = 0;
-
             foreach (List<string> item in items)
             {
                 Equipement equip = new Equipement(item, false, 0);
                 ImageItem i = new ImageItem(equip, false, 0);
                 i.MouseDown += image_MouseUp;
-                Grid.SetColumn(i, col);
-                Grid.SetRow(i, row);
-                if (col == 4)
-                {
-                    col = -1;
-                    row++;
-                }
-                col++;
                 LstImgItems.Add(i);
             }
         }
@@ -976,9 +960,8 @@ namespace test
         #region Inventaire
 
         private void TabItem_Inventaire_selected(object sender, RoutedEventArgs e)
-        {//emplacement possible : tete, cou, pied, ano1, ano2, arme, hanche, dos.
-            LstInventaire.Clear();
-
+        {
+           /* LstInventaire.Clear();
             foreach (Equipement item in Player.Inventaire)
                 if (item.QuantiteEquipe != 0)
                 {
@@ -991,23 +974,47 @@ namespace test
                     ImageItem i = new ImageItem(item, true, item.Quantite);
                     i.MouseDown += image_desc;
                     LstInventaire.Add(i);
-                }
+                }*/
         }
 
         private void image_desc(object sender, MouseButtonEventArgs e)
         {
             LstDesc.Clear();
             string nom = (((ImageItem)sender).imgItem).Name.Replace("_", " ");
-            LstDesc.Add(new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE nom ='" + nom + "'")[0], true, 0)));
+            DescItem d = new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE nom ='" + nom + "'")[0], true, 0));
+            if (nom == (string)d.lblNomItem.Content)
+                return;
+            LstDesc.Add(d);
         }
 
         private void cboTrieInventaire_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            string type = ((System.Windows.Controls.ComboBox)sender).SelectedValue.ToString();
+
+            LstInventaire.Clear();
+            
+            foreach (Equipement item in Player.Inventaire)
+                if (type == "Tous" && item.Quantite - item.QuantiteEquipe != 0)
+                {
+                        ImageItem i = new ImageItem(item, false, item.Quantite - item.QuantiteEquipe);
+                        i.MouseDown += image_desc;
+                        LstInventaire.Add(i);
+                }
+                else
+                {
+                    if (item.Type == type && item.Quantite - item.QuantiteEquipe != 0)
+                    {
+                        ImageItem i = new ImageItem(item, false, item.Quantite - item.QuantiteEquipe);
+                        i.MouseDown += image_desc;
+                         
+                        LstInventaire.Add(i);
+                    }
+                }
 
         }
 
         private void cboChoixEntite_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+        {//emplacement possible : tete, cou, pied, ano1, ano2, arme, hanche, dos.
             lblNomEntite.Content = ((System.Windows.Controls.ComboBox)sender).SelectedValue.ToString();
         }
         #endregion
@@ -1143,11 +1150,11 @@ namespace test
         // ***************************************************
         //Onglet Personnage
         // ***************************************************
-        int alert=0;
+        int alert = 0;
 
         private void TabItem_Selected(object sender, RoutedEventArgs e)
         {
-            if (alert!=0)
+            if (alert != 0)
             {
                 return;
             }
@@ -1196,6 +1203,6 @@ namespace test
 
         #endregion
 
-     
+
     }
 }

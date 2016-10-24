@@ -184,27 +184,9 @@
                 <ItemsControl Name="itmCtrlEquip" Grid.Row="1" Margin="0,33.511,-0.147,0" >
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                            </Grid>
+                            <UniformGrid Columns="5" Rows="2"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemContainerStyle>
-                        <Style>
-                            <Setter Property="Grid.Column"  Value="{Binding }" />
-                            <Setter Property="Grid.Row" Value="{Binding }" />
-                        </Style>
-                    </ItemsControl.ItemContainerStyle>
                 </ItemsControl>
 
                 <Label x:Name="lblTrie" Content="Afficher :" HorizontalAlignment="Left" Margin="10,2.511,0,0" Grid.Row="1" VerticalAlignment="Top" Width="71"/>
@@ -224,6 +206,7 @@
                     <RowDefinition Height="65*"/>
                     <RowDefinition Height="48*"/>
                 </Grid.RowDefinitions>
+                    <Image Source="resources/fondEquipement.jpg"/>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="21*"/>
@@ -252,22 +235,27 @@
                         <ColumnDefinition Width="7*"/>
                         <ColumnDefinition Width="36*"/>
                     </Grid.ColumnDefinitions>
-                    <Image Source="resources/fondEquipement.jpg" Grid.ColumnSpan="13"  Grid.RowSpan="10"/>
-                    <Image Name="imgCapeInv" Source="http://staticns.ankama.com/dofus/www/game/items/200/17039.png" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan ="2"/>          
-                    <Image Name="imgChapeauInv" Source="http://staticns.ankama.com/dofus/www/game/items/200/16491.png" Grid.Column="6" Grid.Row="2"/>
-                    <Image Name="imgAmuletteInv" Source="http://staticns.ankama.com/dofus/www/game/items/200/1230.png" Grid.Column="9" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2"/>            
+                    <Image Name="imgCapeInv" Source="http://staticns.ankama.com/dofus/www/game/items/200/17039.png" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan ="2"/>
+                    <Image Name="imgAmuletteInv" Source="http://staticns.ankama.com/dofus/www/game/items/200/1230.png" Grid.Column="6" Grid.Row="2"/>
+                    <Image Name="imgChapeauInv" Source="http://staticns.ankama.com/dofus/www/game/items/200/16491.png" Grid.Column="9" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2"/>
                     <Image Name="imgAnneau1Inv" Source="http://staticns.ankama.com/dofus/www/game/items/200/9318.png" Grid.Column="2" Grid.Row="5"/>
                     <Image Name="imgAnneau2Inv" Source="http://staticns.ankama.com/dofus/www/game/items/200/9293.png" Grid.Column="10" Grid.Row="5"/>
-                    <Image Name="imgCeintureInv" Source="http://staticns.ankama.com/dofus/www/game/items/200/10115.png" Grid.Column="5" Grid.Row="4" Grid.ColumnSpan="3" Grid.RowSpan ="3"/>          
+                    <Image Name="imgCeintureInv" Source="http://staticns.ankama.com/dofus/www/game/items/200/10115.png" Grid.Column="5" Grid.Row="4" Grid.ColumnSpan="3" Grid.RowSpan ="3"/>
                     <Image Name="imgBotteInv" Source="http://staticns.ankama.com/dofus/www/game/items/200/11244.png" Grid.Column="5" Grid.Row="8" Grid.ColumnSpan="3"/>
                     <Image Name="imgArmeInv" Source="http://staticns.ankama.com/dofus/www/game/items/200/6732.png" Grid.Column="9" Grid.Row="8" Grid.ColumnSpan="3" />
                     <Label Name="lblNomEntite" Content="Lou-blood" FontSize="10" Grid.Column="2" Grid.ColumnSpan="3" Foreground="White"/>
                 </Grid>
 
-                <ListBox Name="lbxInventaire" Grid.RowSpan="2" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,69,0,0"/>
+                <ListBox Name="lbxInventaire" Grid.RowSpan="2" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,69,0,0">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="3" Rows="6"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
                 <ItemsControl Name="itmCtrlDesc" Grid.Row="1" />
-                <ComboBox x:Name="cboChoixEntite" Grid.Column="1" SelectionChanged="cboChoixEntite_SelectionChanged" HorizontalAlignment="Left" Margin="94,10,0,0" VerticalAlignment="Top" Width="120"/>
-                <ComboBox x:Name="cboTrieInventaire" Grid.Column="1" SelectionChanged="cboTrieInventaire_SelectionChanged" HorizontalAlignment="Left" Margin="94,37,0,0" VerticalAlignment="Top" Width="120"/>
+                <ComboBox Name="cboChoixEntite" Grid.Column="1" SelectionChanged="cboChoixEntite_SelectionChanged" HorizontalAlignment="Left" Margin="94,10,0,0" VerticalAlignment="Top" Width="120"/>
+                <ComboBox Name="cboTrieInventaire" Grid.Column="1" SelectionChanged="cboTrieInventaire_SelectionChanged" HorizontalAlignment="Left" Margin="94,37,0,0" VerticalAlignment="Top" Width="120"/>
                 <Label Content="Personnage :" Grid.Column="1" HorizontalAlignment="Left" Margin="10,6,0,0" VerticalAlignment="Top" Width="79"/>
                 <Label Content="Trier par :" Grid.Column="1" HorizontalAlignment="Left" Margin="10,33,0,0" VerticalAlignment="Top" Width="79"/>
             </Grid >

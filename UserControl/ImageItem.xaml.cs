@@ -54,18 +54,13 @@ namespace test
                 txtNom.Text = quantite.ToString();
 
                 Grid.SetRow(imgItem, 1);
-                Grid.SetRowSpan(imgItem, 2);
+                Grid.SetRowSpan(imgItem, 3);
             }
             else
             {
                 Grid.SetRow(imgItem, 2);
                 Grid.SetRowSpan(txtNom, 2);
             }
-
-
-
-
-
         }
 
     }
