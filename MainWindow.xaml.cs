@@ -860,6 +860,7 @@ namespace test
         private void fillSortCbo()
         {
             List<string> type = new List<string>();
+            List<string> entitesNom = new List<string>();
             type.Add("Tous");
             foreach (List<string> typeNom in bd.selection("SELECT nom FROM typesEquipements"))
                 type.Add(typeNom[0]);
@@ -982,10 +983,7 @@ namespace test
         {
             LstDesc.Clear();
             string nom = (((ImageItem)sender).imgItem).Name.Replace("_", " ");
-            DescItem d = new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE nom ='" + nom + "'")[0], true, 0));
-            if (nom == (string)d.lblNomItem.Content)
-                return;
-            LstDesc.Add(d);
+            LstDesc.Add(new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE nom ='" + nom + "'")[0], true, 0)));
         }
 
         private void cboTrieInventaire_SelectionChanged(object sender, SelectionChangedEventArgs e)
