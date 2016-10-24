@@ -59,6 +59,10 @@ namespace test
                 {
                     System.Windows.MessageBox.Show("Une erreur s'est produite lors de l'envoie du rapport.", "Erreur");
                 }
+                else
+                {
+                    System.Windows.MessageBox.Show("Merci de votre collaboration pour le projet Gofus.", "Remerciments");
+                }
 
             }
             else
