@@ -49,6 +49,7 @@ namespace test
         ObservableCollection<string> LstCaras;
         ObservableCollection<ImageItem> LstInventaire;
         ObservableCollection<DescItem> LstDesc;
+        Dictionary<int, string> DictioAvatars;
 
         public Joueur Player { get; set; }
 
@@ -80,6 +81,11 @@ namespace test
 
             //CombatTest combat = new CombatTest();
             InitializeComponent();
+
+
+            DictioAvatars = new Dictionary<int, string>();
+            GenererAvatars();
+            
 
             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
 
@@ -132,6 +138,19 @@ namespace test
             //dgStats.ItemsSource=
 
         }
+
+        void GenererAvatars()
+        {
+            for (int J = 0; J < 20; J++)
+            {
+                string path = @"\Resources\Avatar" + J.ToString() + ".png";
+                DictioAvatars.Add(J, path);
+            }
+
+           
+        }
+
+
 
         /*   protected override void OnClosed(EventArgs e)
            {
