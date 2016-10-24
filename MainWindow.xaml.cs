@@ -52,6 +52,9 @@ namespace test
 
         public Joueur Player { get; set; }
 
+        public FenetreRapport rapport;
+
+        public int idJoueur { get; set; }
 
         public ObservableCollection<PagePerso> pgperso;
         public ObservableCollection<pageCpersonage> pgCperso;
@@ -77,11 +80,11 @@ namespace test
 
             //CombatTest combat = new CombatTest();
             InitializeComponent();
-           
-                Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
-           
-           
-        
+
+            Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
+
+            idJoueur = id;
+
             ctb_main.CreateTreeView(generateTree());
             ctb_main.UpdateSyntaxHightlight();
             ctb_main.UpdateTreeView();
@@ -1110,9 +1113,24 @@ namespace test
             Close();
         }
 
+        public void MainWindow_RapportClosing(object sender, System.EventArgs e)
+        {
+            rapport = null;
+        }
+
+
         private void btnSuggestion_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.MessageBox.Show("Bientôt disponnible !");
+            if (rapport != null)
+            {
+                rapport.Activate();
+            }
+            else
+            {
+                rapport = new FenetreRapport(idJoueur);
+                rapport.Closed += MainWindow_RapportClosing;
+                rapport.Show();
+            }
 
         }
         #endregion
