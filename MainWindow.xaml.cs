@@ -149,12 +149,11 @@ namespace test
         {
             
 
-            string[] files = Directory.GetFiles("pack://application:,,,/test;component/Resources/Avatars/", "*.png", SearchOption.AllDirectories);
-            int nbFichier = files.Count();
 
-            for (int J = 0; J < nbFichier; J++)
+
+            for (int J = 0; J < 99; J++)
             {
-                string path = "pack://application:,,,/test;component/Resources/Avatars/" + J.ToString() + ".png";
+                string path = "http://staticns.ankama.com/dofus/www/game/items/200/1810" + J.ToString() + ".png";
                lstAvatars.Add(path);
             }
 
