@@ -17,6 +17,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Threading;
 using System.Collections.ObjectModel;
+using System.IO;
 
 namespace test
 {
@@ -146,7 +147,12 @@ namespace test
 
         void GenererAvatars()
         {
-            for (int J = 0; J < 20; J++)
+            
+
+            string[] files = Directory.GetFiles("pack://application:,,,/test;component/Resources/Avatars/", "*.png", SearchOption.AllDirectories);
+            int nbFichier = files.Count();
+
+            for (int J = 0; J < nbFichier; J++)
             {
                 string path = "pack://application:,,,/test;component/Resources/Avatars/" + J.ToString() + ".png";
                lstAvatars.Add(path);
@@ -388,6 +394,8 @@ namespace test
 
         private void Change_Avatar(object sender, RoutedEventArgs e)
         {
+            // TODO : Montrer la liste d'avatars disponnibles , Permet choix d'avatar , UserControl?
+            
 
         }
 
