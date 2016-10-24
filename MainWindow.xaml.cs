@@ -122,8 +122,10 @@ namespace test
             chat.getId();
 
             btnEnvoyerMessage.IsEnabled = false;
+
+
             aTimer = new DispatcherTimer();
-            aTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+            aTimer.Tick += new EventHandler(Timer_Tick);
             aTimer.Interval = new TimeSpan(0, 0, 1);
             #endregion
 
@@ -140,7 +142,7 @@ namespace test
            */
 
         #region Marc_Chat(Timer,WPF,EnvoieMessage,Refresh)
-        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        private void Timer_Tick(object sender, EventArgs e)
         {
             // Updating the Label which displays the current second
             if (this != null)
@@ -234,6 +236,149 @@ namespace test
             }
         }
         #endregion
+
+        #region Marc_OngletGestionCompte
+        /// ***************************************************
+        /// / ONGLET OPTIONS
+        // ***************************************************
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            bool valide = true;
+            StringBuilder UpdSt = new StringBuilder();
+            UpdSt.Append("UPDATE Joueurs SET ");
+            /* Faire un update si toute est legit*/
+            if (txt_mdp.Password != "" && txt_mdp.Password == txtConfirmation.Password && txtConfirmation.Password != "" || txt_Courriel.Text != "")
+            {
+                /* Update */
+                lbl_Mdp.Foreground = new SolidColorBrush(Colors.Black);
+                lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Black);
+
+                if (txt_Courriel.Text != "")
+                {
+                    if (txt_Courriel.Text != txt_AncienCourriel.Text)
+                    {
+                        lbl_Courriel.Foreground = new SolidColorBrush(Colors.Black);
+                        UpdSt.Append("courriel = '" + txt_Courriel.Text + "'");
+                    }
+                    else
+                    {
+                        System.Windows.Forms.MessageBox.Show("Votre nouveau courriel doit être différent de l'ancien", "Courriel");
+                        lbl_Courriel.Foreground = new SolidColorBrush(Colors.Red);
+                        valide = false;
+                    }
+
+                }
+                if (txt_mdp.Password != "" && txt_mdp.Password == txtConfirmation.Password && txtConfirmation.Password != "")
+                {
+                    string reqid = "SELECT motDePasse from Joueurs WHERE NomUtilisateur = '" + Player.NomUtilisateur + "';";
+                    List<string>[] idResult = bd.selection(reqid);
+                    string mdp = idResult[0][0];
+
+                    if (txt_AncienMdp.Password == mdp)
+                    {
+                        UpdSt.Append(" , motDePasse = '" + txt_mdp.Password + "'");
+                    }
+                    else
+                    {
+                        lbl_AncienMdp.Foreground = new SolidColorBrush(Colors.Red);
+                        System.Windows.Forms.MessageBox.Show("Votre Ancien mot de passe n'est pas valide", "Ancien mot de passe");
+                        valide = false;
+                    }
+
+
+                }
+
+            }
+            else
+            {
+                if (txt_mdp.Password == "" && txtConfirmation.Password == "")
+                {
+                    /* Aucune modification effectué*/
+                    lbl_Mdp.Foreground = new SolidColorBrush(Colors.Black);
+                    lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Black);
+                    lbl_Courriel.Foreground = new SolidColorBrush(Colors.Black);
+                    valide = false;
+                }
+                else if (txt_mdp.Password != "")
+                {
+                    /* Erreur de confirmation*/
+                    lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Red);
+                    valide = false;
+                    System.Windows.Forms.MessageBox.Show("Votre Confirmation doit être identique à votre nouveau mot de passe", "Confirmation");
+                }
+                else if (txt_mdp.Password == "" & txtConfirmation.Password != "")
+                {
+                    /* Mot de passe vide*/
+                    lbl_Mdp.Foreground = new SolidColorBrush(Colors.Red);
+                    valide = false;
+                    System.Windows.Forms.MessageBox.Show("Votre Confirmation doit être identique à votre nouveau mot de passe", "Champs mot de passe vide");
+                }
+            }
+
+
+            if (valide)
+            {
+                UpdSt.Append(" WHERE nomUtilisateur = '" + Player.NomUtilisateur + "';");
+                string st = UpdSt.ToString();
+                if (bd.Update(st))
+                {
+                    System.Windows.Forms.MessageBox.Show("Mise à jour avec succès de vos infos!!");
+                }
+                txt_AncienCourriel.Text = txt_Courriel.Text;
+                Player.Courriel = txt_AncienCourriel.Text;
+                txt_mdp.Password = "";
+                txtConfirmation.Password = "";
+                txt_Courriel.Text = "";
+                lbl_Courriel.Foreground = new SolidColorBrush(Colors.Black);
+                lbl_Mdp.Foreground = new SolidColorBrush(Colors.Black);
+                lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Black);
+                lbl_AncienMdp.Foreground = new SolidColorBrush(Colors.Black);
+
+            }
+
+
+        }
+
+        private void btnAnnuler_Click(object sender, RoutedEventArgs e)
+        {
+            txtConfirmation.Password = "";
+            txt_mdp.Password = "";
+            txt_Courriel.Text = "";
+
+            lbl_Mdp.Foreground = new SolidColorBrush(Colors.Black);
+            lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Black);
+        }
+
+        private void btnDeconnexion_Click(object sender, RoutedEventArgs e)
+        {
+            Authentification a = new Authentification();
+
+            a.Show();
+            Close();
+        }
+
+        public void MainWindow_RapportClosing(object sender, System.EventArgs e)
+        {
+            rapport = null;
+        }
+
+
+        private void btnSuggestion_Click(object sender, RoutedEventArgs e)
+        {
+            if (rapport != null)
+            {
+                rapport.Activate();
+            }
+            else
+            {
+                rapport = new FenetreRapport(idJoueur);
+                rapport.Closed += MainWindow_RapportClosing;
+                rapport.Show();
+            }
+
+        }
+        #endregion
+
 
         #region truc trop long de ced
         //--------------------------------------------------------------------------------------------------------
@@ -1007,147 +1152,6 @@ namespace test
         }
         #endregion
 
-        #region Marc_OngletGestionCompte
-        /// ***************************************************
-        /// / ONGLET OPTIONS
-        // ***************************************************
-        private void btnSave_Click(object sender, RoutedEventArgs e)
-        {
-            bool valide = true;
-            StringBuilder UpdSt = new StringBuilder();
-            UpdSt.Append("UPDATE Joueurs SET ");
-            /* Faire un update si toute est legit*/
-            if (txt_mdp.Password != "" && txt_mdp.Password == txtConfirmation.Password && txtConfirmation.Password != "" || txt_Courriel.Text != "")
-            {
-                /* Update */
-                lbl_Mdp.Foreground = new SolidColorBrush(Colors.Black);
-                lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Black);
-
-                if (txt_Courriel.Text != "")
-                {
-                    if (txt_Courriel.Text != txt_AncienCourriel.Text)
-                    {
-                        lbl_Courriel.Foreground = new SolidColorBrush(Colors.Black);
-                        UpdSt.Append("courriel = '" + txt_Courriel.Text + "'");
-                    }
-                    else
-                    {
-                        System.Windows.Forms.MessageBox.Show("Votre nouveau courriel doit être différent de l'ancien", "Courriel");
-                        lbl_Courriel.Foreground = new SolidColorBrush(Colors.Red);
-                        valide = false;
-                    }
-
-                }
-                if (txt_mdp.Password != "" && txt_mdp.Password == txtConfirmation.Password && txtConfirmation.Password != "")
-                {
-                    string reqid = "SELECT motDePasse from Joueurs WHERE NomUtilisateur = '" + Player.NomUtilisateur + "';";
-                    List<string>[] idResult = bd.selection(reqid);
-                    string mdp = idResult[0][0];
-
-                    if (txt_AncienMdp.Password == mdp)
-                    {
-                        UpdSt.Append(" , motDePasse = '" + txt_mdp.Password + "'");
-                    }
-                    else
-                    {
-                        lbl_AncienMdp.Foreground = new SolidColorBrush(Colors.Red);
-                        System.Windows.Forms.MessageBox.Show("Votre Ancien mot de passe n'est pas valide", "Ancien mot de passe");
-                        valide = false;
-                    }
-
-
-                }
-
-            }
-            else
-            {
-                if (txt_mdp.Password == "" && txtConfirmation.Password == "")
-                {
-                    /* Aucune modification effectué*/
-                    lbl_Mdp.Foreground = new SolidColorBrush(Colors.Black);
-                    lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Black);
-                    lbl_Courriel.Foreground = new SolidColorBrush(Colors.Black);
-                    valide = false;
-                }
-                else if (txt_mdp.Password != "")
-                {
-                    /* Erreur de confirmation*/
-                    lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Red);
-                    valide = false;
-                    System.Windows.Forms.MessageBox.Show("Votre Confirmation doit être identique à votre nouveau mot de passe", "Confirmation");
-                }
-                else if (txt_mdp.Password == "" & txtConfirmation.Password != "")
-                {
-                    /* Mot de passe vide*/
-                    lbl_Mdp.Foreground = new SolidColorBrush(Colors.Red);
-                    valide = false;
-                    System.Windows.Forms.MessageBox.Show("Votre Confirmation doit être identique à votre nouveau mot de passe", "Champs mot de passe vide");
-                }
-            }
-
-
-            if (valide)
-            {
-                UpdSt.Append(" WHERE nomUtilisateur = '" + Player.NomUtilisateur + "';");
-                string st = UpdSt.ToString();
-                if (bd.Update(st))
-                {
-                    System.Windows.Forms.MessageBox.Show("Mise à jour avec succès de vos infos!!");
-                }
-                txt_AncienCourriel.Text = txt_Courriel.Text;
-                Player.Courriel = txt_AncienCourriel.Text;
-                txt_mdp.Password = "";
-                txtConfirmation.Password = "";
-                txt_Courriel.Text = "";
-                lbl_Courriel.Foreground = new SolidColorBrush(Colors.Black);
-                lbl_Mdp.Foreground = new SolidColorBrush(Colors.Black);
-                lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Black);
-                lbl_AncienMdp.Foreground = new SolidColorBrush(Colors.Black);
-
-            }
-
-
-        }
-
-        private void btnAnnuler_Click(object sender, RoutedEventArgs e)
-        {
-            txtConfirmation.Password = "";
-            txt_mdp.Password = "";
-            txt_Courriel.Text = "";
-
-            lbl_Mdp.Foreground = new SolidColorBrush(Colors.Black);
-            lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Black);
-        }
-
-        private void btnDeconnexion_Click(object sender, RoutedEventArgs e)
-        {
-            Authentification a = new Authentification();
-
-            a.Show();
-            Close();
-        }
-
-        public void MainWindow_RapportClosing(object sender, System.EventArgs e)
-        {
-            rapport = null;
-        }
-
-
-        private void btnSuggestion_Click(object sender, RoutedEventArgs e)
-        {
-            if (rapport != null)
-            {
-                rapport.Activate();
-            }
-            else
-            {
-                rapport = new FenetreRapport(idJoueur);
-                rapport.Closed += MainWindow_RapportClosing;
-                rapport.Show();
-            }
-
-        }
-        #endregion
 
         #region Michael/Perso
         // ***************************************************
