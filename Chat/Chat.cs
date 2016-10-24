@@ -65,7 +65,7 @@ namespace test
             
             string inser = "INSERT INTO Messages(idJoueur,temps,contenu,uuid)VALUES(" + id + ",NOW(),'" +
                                 text + "',UUID())";
-            envoie = bdSelect.insertion(inser);
+            envoie = bdInsert.insertion(inser);
             if (envoie == -1)
             {
                 System.Windows.MessageBox.Show("Une erreur s'est produite lors de l'envoie du message.");

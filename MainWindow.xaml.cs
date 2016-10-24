@@ -52,6 +52,9 @@ namespace test
 
         public Joueur Player { get; set; }
 
+        public FenetreRapport rapport;
+
+        public int idJoueur { get; set; }
 
         public ObservableCollection<PagePerso> pgperso;
         public ObservableCollection<pageCpersonage> pgCperso;
@@ -80,7 +83,7 @@ namespace test
 
             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
 
-
+            idJoueur = id;
 
             ctb_main.CreateTreeView(generateTree());
             ctb_main.UpdateSyntaxHightlight();
@@ -104,7 +107,7 @@ namespace test
             lbxInventaire.ItemsSource = LstInventaire;
             itmCtrlDesc.ItemsSource = LstDesc;
 
-            fillCbo();
+            fillSortCbo();
             #endregion
 
 
@@ -854,10 +857,9 @@ namespace test
                     LstConds.Add(cond.Stat.NomSimple + " " + cond.Signe + "  " + cond.Stat.Valeur.ToString());
         }
 
-        private void fillCbo()
+        private void fillSortCbo()
         {
             List<string> type = new List<string>();
-            List<string> entitesNom = new List<string>();
             type.Add("Tous");
             foreach (List<string> typeNom in bd.selection("SELECT nom FROM typesEquipements"))
                 type.Add(typeNom[0]);
@@ -965,7 +967,7 @@ namespace test
             foreach (Equipement item in Player.Inventaire)
                 if (item.QuantiteEquipe != 0)
                 {
-                    ImageItem i = new ImageItem(item, false, item.Quantite);
+                    ImageItem i = new ImageItem(item, false, item.QuantiteEquipe);
                     i.MouseDown += image_desc;
                     LstInventaire.Add(i);
                 }
@@ -976,7 +978,6 @@ namespace test
                     LstInventaire.Add(i);
                 }*/
         }
-
         private void image_desc(object sender, MouseButtonEventArgs e)
         {
             LstDesc.Clear();
@@ -1139,9 +1140,24 @@ namespace test
             Close();
         }
 
+        public void MainWindow_RapportClosing(object sender, System.EventArgs e)
+        {
+            rapport = null;
+        }
+
+
         private void btnSuggestion_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.MessageBox.Show("Bientôt disponnible !");
+            if (rapport != null)
+            {
+                rapport.Activate();
+            }
+            else
+            {
+                rapport = new FenetreRapport(idJoueur);
+                rapport.Closed += MainWindow_RapportClosing;
+                rapport.Show();
+            }
 
         }
         #endregion

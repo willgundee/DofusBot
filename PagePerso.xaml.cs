@@ -263,9 +263,8 @@ namespace test
 
         private void AfficherElementEquipe(Equipement eq, string emp )
         {
-
-            ImageSource path = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/items/200/" + eq.NoImg + ".png"));
-            switch (emp)
+            ImageSource path = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/items/200/" + eq.NoImg + ".png"));          
+                switch (emp)
             {
                 case "tête":
                     imageCasque.Source=path;
@@ -323,8 +322,6 @@ namespace test
                     s = null;
                     return;                  
             }
-
-            
 
             foreach (Statistique st in dgStats.Items )
             {
