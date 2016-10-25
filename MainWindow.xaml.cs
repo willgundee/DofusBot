@@ -87,7 +87,8 @@ namespace test
             lstAvatars = new List<string>();
             GenererAvatars();
 
-
+           
+            btnQuitterSalle.IsEnabled = false;
             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
 
 
@@ -239,6 +240,9 @@ namespace test
             lblEtat.Content = "État : Connecter à la salle.";
             lblEtat.Foreground = new SolidColorBrush(Colors.ForestGreen);
             txtMessage.IsEnabled = true;
+            btnRejoindreSalle.IsEnabled = false;
+            btnQuitterSalle.IsEnabled = true;
+
         }
 
         private void btnQuitterSalle_Click(object sender, RoutedEventArgs e)
@@ -252,6 +256,8 @@ namespace test
             btnEnvoyerMessage.IsEnabled = false;
             txtMessage.IsEnabled = false;
 
+            btnRejoindreSalle.IsEnabled = true;
+            btnQuitterSalle.IsEnabled = false;
 
         }
 

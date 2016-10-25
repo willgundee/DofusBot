@@ -32,7 +32,7 @@ namespace test
             aTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             aTimer.Interval = new TimeSpan(0, 0, 1);
             chat.nomUtilisateur = user;
-
+            btnQuitterSalle.IsEnabled = false;
             chat.getId();
         }
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
@@ -107,6 +107,10 @@ namespace test
             txtMessage.IsEnabled = true;
             lblEtat.Content = "État : Connecter à la salle.";
             lblEtat.Foreground = new SolidColorBrush(Colors.ForestGreen);
+            btnRejoindreSalle.IsEnabled = false;
+            btnQuitterSalle.IsEnabled = true;
+
+
         }
 
         private void btnQuitterSalle_Click(object sender, RoutedEventArgs e)
@@ -118,6 +122,8 @@ namespace test
             txtMessage.IsEnabled = false;
             lblEtat.Content = "État : Déconnecter.";
             lblEtat.Foreground = new SolidColorBrush(Colors.Orange);
+            btnRejoindreSalle.IsEnabled = true;
+            btnQuitterSalle.IsEnabled = false;
             this.Close();
         }
     }
