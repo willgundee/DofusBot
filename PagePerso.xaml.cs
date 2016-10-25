@@ -269,10 +269,11 @@ namespace test
                     break;
             }
 
-            PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur, emp, source, Player);
+            PageEquipement Equip = new PageEquipement(TypeEquipement, emp, source, Player);
             if (validePg != false)
                 Equip.ShowDialog();
 
+            
         }
 
         private void AfficherElementEquipe(Equipement eq, string emp)
