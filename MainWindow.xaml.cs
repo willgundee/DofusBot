@@ -86,13 +86,13 @@ namespace test
 
             lstAvatars = new List<string>();
             GenererAvatars();
-       
+
 
             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
 
             string URI = lstAvatars[Player.Avatar];
-                    iAvatar.Source =       new BitmapImage(new Uri(URI));
-      
+            iAvatar.Source = new BitmapImage(new Uri(URI));
+
 
 
             idJoueur = id;
@@ -147,17 +147,17 @@ namespace test
 
         void GenererAvatars()
         {
-            
+
 
 
 
             for (int J = 0; J < 99; J++)
             {
                 string path = "http://staticns.ankama.com/dofus/www/game/items/200/1810" + J.ToString() + ".png";
-               lstAvatars.Add(path);
+                lstAvatars.Add(path);
             }
 
-           
+
         }
 
 
@@ -394,7 +394,7 @@ namespace test
         private void Change_Avatar(object sender, RoutedEventArgs e)
         {
             // TODO : Montrer la liste d'avatars disponnibles , Permet choix d'avatar , UserControl?
-            
+
 
         }
 
@@ -1435,6 +1435,7 @@ namespace test
             CombatTest lol = new CombatTest();
             System.Windows.Forms.MessageBox.Show(lol.combat(64));
         }
+
         #endregion
 
         #region Marché
@@ -1640,8 +1641,14 @@ namespace test
 
             LstDesc.Clear();
             string nom = (((ImageItem)sender).imgItem).Name.Replace("_", " ");
-             LstDesc.Add(new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE nom ='" + nom + "'")[0], true, 0)));
+            LstDesc.Add(new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE nom ='" + nom + "'")[0], true, 0)));
         }
+        private void TabItem_Selected_Inventaire(object sender, RoutedEventArgs e)
+        {
+            cboTrieInventaire.SelectedIndex = 1;
+            cboTrieInventaire.SelectedIndex = 0;
+        }
+
 
         private void cboTrieInventaire_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -1676,7 +1683,41 @@ namespace test
 
         private void cboChoixEntite_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {//emplacement possible : tete, cou, pied, ano1, ano2, arme, hanche, dos.
-            lblNomEntite.Content = ((System.Windows.Controls.ComboBox)sender).SelectedValue.ToString();
+            string nomPerso = ((System.Windows.Controls.ComboBox)sender).SelectedValue.ToString();
+            lblNomEntite.Content = nomPerso;
+            List<string>[] info = bd.selection("SELECT e.noImage,ee.emplacement FROM equipementsentites ee INNER JOIN Equipements e ON e.idEquipement = ee.idEquipement INNER JOIN Entites et ON ee.idEntite = et.idEntite WHERE et.nom = '" + nomPerso + "'");
+            if (info[0][0] != "rien")
+                foreach (List<string> line in info)
+                {
+                    BitmapImage link = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/items/200/" + line[0] + ".png"));
+                    switch (line[1])
+                    {
+                        case "tête":
+                            imgChapeauInv.Source = link;
+                            break;
+                        case "cou":
+                            imgAmuletteInv.Source = link;
+                            break;
+                        case "pied":
+                            imgBotteInv.Source = link;
+                            break;
+                        case "ano1":
+                            imgAnneau1Inv.Source = link;
+                            break;
+                        case "ano2":
+                            imgAnneau2Inv.Source = link;
+                            break;
+                        case "arme":
+                            imgArmeInv.Source = link;
+                            break;
+                        case "hanche":
+                            imgCeintureInv.Source = link;
+                            break;
+                        case "dos":
+                            imgCapeInv.Source = link;
+                            break;
+                    }
+                }
         }
         #endregion
 

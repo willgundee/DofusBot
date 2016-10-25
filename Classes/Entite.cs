@@ -12,7 +12,7 @@ namespace test
     {
 
         public ObservableCollection<Statistique> LstStats { get; set; }
-        public List<Equipement> LstEquipements { get; set; }
+        public ObservableCollection<Equipement> LstEquipements { get; set; }
         public Script ScriptEntite { get; set; }
         public Classe ClasseEntite { get; set; }
         public string Nom { get; set; }
@@ -66,7 +66,7 @@ namespace test
         /// <param name="idEntite">l'entité</param>
         private void addEquipements(int idEntite)
         {
-            LstEquipements = new List<Equipement>();
+            LstEquipements = new ObservableCollection<Equipement>();
             string equip = "SELECT * FROM equipements e INNER JOIN equipementsentites ee ON ee.idEquipement = e.idEquipement WHERE ee.idEntite =" + idEntite;
             List<string>[] items = bd.selection(equip);
             if (items[0][0] != "rien")

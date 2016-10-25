@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,9 +9,9 @@ namespace test
 {
     public class Joueur
     {
-        public List<Equipement> Inventaire { get; set; }
-        public List<Script> LstScripts { get; set; }
-        public List<Entite> LstEntites { get; set; }
+        public ObservableCollection<Equipement> Inventaire { get; set; }
+        public ObservableCollection<Script> LstScripts { get; set; }
+        public ObservableCollection<Entite> LstEntites { get; set; }
         public string NomUtilisateur { get; set; }
         public string Courriel { get; set; }
         public int Kamas { get; set; }
@@ -42,7 +43,7 @@ namespace test
         /// <param name="idJoueur">l'id du joueur</param>
         private void addInventaire(int idJoueur)
         {
-            Inventaire = new List<Equipement>();
+            Inventaire = new ObservableCollection<Equipement>();
             string equip = "SELECT * FROM equipements e INNER JOIN joueursequipements je ON e.idEquipement = je.idequipement WHERE idJoueur =" + idJoueur;
             List<string>[] items = bd.selection(equip);
             if (items[0][0] != "rien")
@@ -55,7 +56,7 @@ namespace test
         /// <param name="idJoueur">Le joueur</param>
         private void addScripts(int idJoueur)
         {
-            LstScripts = new List<Script>();
+            LstScripts = new ObservableCollection<Script>();
             string script = "SELECT idJoueur,contenu,nom,uuid FROM JoueursScripts j INNER JOIN Scripts s ON s.idScript = j.idScript WHERE idJoueur =" + idJoueur;
             List<string>[] scripts = bd.selection(script);
             if (scripts[0][0] != "rien")//TODO: enlever ensuite
@@ -68,7 +69,7 @@ namespace test
         /// <param name="idJoueur">Le joueur</param>
         private void addPerso(int idJoueur)
         {
-            LstEntites = new List<Entite>();
+            LstEntites = new ObservableCollection<Entite>();
             string entit = "SELECT * FROM entites e INNER JOIN Joueurs j ON j.idJoueur = e.idJoueur WHERE j.idJoueur =" + idJoueur;
             List<string>[] entites = bd.selection(entit);
             if (entites[0][0] != "rien")
