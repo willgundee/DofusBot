@@ -1455,16 +1455,28 @@ namespace test
             if (m == MessageBoxResult.Yes)
             {// si oui 
                 Player.Kamas -= (int)lblPrix.Content; // je change l'argent du joueur
-                bd.Update("UPDATE  Joueurs SET  argent =  " + Player.Kamas + " WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "';COMMIT;");// et dans la bd 
-                List<string> rep = bd.selection("SELECT je.quantite,je.idJoueurEquipement FROM joueursequipements je INNER JOIN joueurs j ON je.idJoueur = j.idJoueur  INNER JOIN Equipements e ON e.idEquipement = je.idEquipement WHERE e.nom ='" + lblItem.Content.ToString() + "' AND j.nomUtilisateur = '" + Player.NomUtilisateur + "'")[0];
+                string up1 = "UPDATE  Joueurs SET  argent =  " + Player.Kamas.ToString() + " WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "';COMMIT;";
+                bd.Update(up1);// et dans la bd 
+                string sel1 = "SELECT je.quantite,je.idJoueurEquipement FROM joueursequipements je INNER JOIN joueurs j ON je.idJoueur = j.idJoueur  INNER JOIN Equipements e ON e.idEquipement = je.idEquipement WHERE e.nom ='" + lblItem.Content.ToString() + "' AND j.nomUtilisateur = '" + Player.NomUtilisateur + "'";
+                List<string> rep = bd.selection(sel1)[0];
                 // je regarde s'il a deja cette item dans son inventaire 
                 if (rep[0] == "rien")// si non je l'ajoute en bd
-                    bd.insertion("INSERT INTO  JoueursEquipements (idJoueur ,idEquipement ,quantite ,quantiteEquipe) VALUES ( (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur = '" + Player.NomUtilisateur + "'),(SELECT idEquipement FROM Equipements WHERE nom = '" + lblItem.Content.ToString() + "') ,1, 0); ");
+                {
+                    string ins1 = "INSERT INTO  JoueursEquipements (idJoueur ,idEquipement ,quantite ,quantiteEquipe) VALUES ( (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur = '" + Player.NomUtilisateur + "'),(SELECT idEquipement FROM Equipements WHERE nom = '" + lblItem.Content.ToString() + "') ,1, 0);COMMIT;";
+                    bd.insertion(ins1);
+                }
                 else// ou je change la quantité posseder
-                    bd.Update("UPDATE JoueursEquipements SET  quantite =  " + (Convert.ToInt16(rep[0]) + 1) + " WHERE  idJoueurEquipement =" + rep[1] + ";COMMIT;");
+                {
+                    string up2 = "UPDATE JoueursEquipements SET  quantite =  " + (Convert.ToInt16(rep[0]) + 1).ToString() + " WHERE  idJoueurEquipement =" + rep[1] + ";COMMIT;";
+                    bd.Update(up2);//TODO: trouver le probleme l'update n'update pas
+                }
 
                 if (rep[0] == "rien")// et sur lui
-                    Player.Inventaire.Add(new Equipement(bd.selection("SELECT * FROM Equipements WHERE nom = '" + lblItem.Content.ToString() + "'")[0], true, Convert.ToInt32(bd.selection("SELECT * FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "'")[0][0])));
+                {
+                    string sel2 = "SELECT * FROM Equipements WHERE nom = '" + lblItem.Content.ToString() + "'";
+                    string sel3 = "SELECT * FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "'";
+                    Player.Inventaire.Add(new Equipement(bd.selection(sel2)[0], true, Convert.ToInt32(bd.selection(sel3)[0][0])));
+                }
                 else// change la quantité sur le joueur
                     foreach (Equipement item in Player.Inventaire)
                         if (item.Nom == lblItem.Content.ToString())
@@ -1780,6 +1792,7 @@ namespace test
         {
             LstDesc.Clear();
             LstDesc.Add(new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE noImage =" + Convert.ToInt32(Path.GetFileNameWithoutExtension((sender as Image).Source.ToString().Split('/').Last())))[0], true, 0)));
+            lbxInventaire.SelectedIndex = -1;
         }
 
         /// <summary>
