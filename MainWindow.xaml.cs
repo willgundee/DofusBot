@@ -72,22 +72,13 @@ namespace test
 
         public MainWindow(int id)
         {
-            /*  BDService bd = new BDService();
-              List<string>[] rep = bd.selection("SELECT * FROM classes");
-
-              foreach (List<string> iop in rep)
-                  foreach (string item in iop)
-                      System.Windows.Forms.MessageBox.Show(item);*/
-
-
-
             //CombatTest combat = new CombatTest();
             InitializeComponent();
 
             lstAvatars = new List<string>();
             GenererAvatars();
 
-           
+
             btnQuitterSalle.IsEnabled = false;
             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
 
@@ -199,7 +190,7 @@ namespace test
                 });
                 trdRefresh.Start();
                 Thread.Yield();
-               
+
                 CommandManager.InvalidateRequerySuggested();
             }
             else
@@ -1632,6 +1623,8 @@ namespace test
 
         #endregion
 
+        //TODO: link l'inventaire a mon inbventaire pas une list intermediaire et faire que les objet equiper ne soit pas dans l'inventaire
+
         #region ced
         private void btn_test_Click(object sender, RoutedEventArgs e)
         {
@@ -1724,8 +1717,10 @@ namespace test
         /// <param name="e"></param>
         private void TabItem_Selected_Inventaire(object sender, RoutedEventArgs e)
         {
-            cboTrieInventaire.SelectedIndex = 1;// permet de refresh la list de l'inventaire
+            cboTrieInventaire.SelectedIndex = -1;// permet de refresh la list de l'inventaire
             cboTrieInventaire.SelectedIndex = 0;
+            cboChoixEntite.SelectedIndex = -1;
+            cboChoixEntite.SelectedIndex = 0;
         }
 
         /// <summary>
@@ -1735,31 +1730,34 @@ namespace test
         /// <param name="e"></param>
         private void cboTrieInventaire_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            string type = ((System.Windows.Controls.ComboBox)sender).SelectedValue.ToString();
+            if (((System.Windows.Controls.ComboBox)sender).SelectedIndex != -1)
+            {
+                string type = ((System.Windows.Controls.ComboBox)sender).SelectedValue.ToString();
 
-            LstInventaire.Clear();
+                LstInventaire.Clear();
 
-            foreach (Equipement item in Player.Inventaire)
-                if (type == "Tous" && item.Quantite - item.QuantiteEquipe != 0)
-                {
-                    ImageItem i = new ImageItem(item, false, item.Quantite - item.QuantiteEquipe);
-                    i.MouseDown += image_desc;
-                    LstInventaire.Add(i);
-                }
-                else
-                {
-                    if (item.Type == type && item.Quantite - item.QuantiteEquipe != 0)
+                foreach (Equipement item in Player.Inventaire)
+                    if (type == "Tous" && item.Quantite - item.QuantiteEquipe != 0)
                     {
                         ImageItem i = new ImageItem(item, false, item.Quantite - item.QuantiteEquipe);
                         i.MouseDown += image_desc;
-
                         LstInventaire.Add(i);
                     }
-                }
-            if (LstInventaire.Count <= 3 * 6)
-                lbxInventaire.Style = (Style)FindResource("RowFix");
-            else
-                lbxInventaire.Style = (Style)FindResource("RowOverflow");
+                    else
+                    {
+                        if (item.Type == type && item.Quantite - item.QuantiteEquipe != 0)
+                        {
+                            ImageItem i = new ImageItem(item, false, item.Quantite - item.QuantiteEquipe);
+                            i.MouseDown += image_desc;
+
+                            LstInventaire.Add(i);
+                        }
+                    }
+                if (LstInventaire.Count <= 3 * 6)
+                    lbxInventaire.Style = (Style)FindResource("RowFix");
+                else
+                    lbxInventaire.Style = (Style)FindResource("RowOverflow");
+            }
         }
 
         /// <summary>
@@ -1770,6 +1768,7 @@ namespace test
         private void imgInv_MouseDown(object sender, MouseButtonEventArgs e)
         {
             LstDesc.Clear();
+            //if((sender as Image).Source)
             LstDesc.Add(new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE noImage =" + Convert.ToInt32(Path.GetFileNameWithoutExtension((sender as Image).Source.ToString().Split('/').Last())))[0], true, 0)));
             lbxInventaire.SelectedIndex = -1;
         }
@@ -1781,41 +1780,44 @@ namespace test
         /// <param name="e"></param>
         private void cboChoixEntite_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {//emplacement possible : tete, cou, pied, ano1, ano2, arme, hanche, dos.
-            string nomPerso = ((System.Windows.Controls.ComboBox)sender).SelectedValue.ToString();
-            lblNomEntite.Content = nomPerso;
-            List<string>[] info = bd.selection("SELECT e.noImage,ee.emplacement FROM equipementsentites ee INNER JOIN Equipements e ON e.idEquipement = ee.idEquipement INNER JOIN Entites et ON ee.idEntite = et.idEntite WHERE et.nom = '" + nomPerso + "'");
-            if (info[0][0] != "rien")
-                foreach (List<string> line in info)
-                {
-                    BitmapImage link = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/items/200/" + line[0] + ".png"));
-                    switch (line[1])//l'emplacement de l'équipement
+            if (((System.Windows.Controls.ComboBox)sender).SelectedIndex != -1)
+            {
+                string nomPerso = ((System.Windows.Controls.ComboBox)sender).SelectedValue.ToString();
+                lblNomEntite.Content = nomPerso;
+                List<string>[] info = bd.selection("SELECT e.noImage,ee.emplacement FROM equipementsentites ee INNER JOIN Equipements e ON e.idEquipement = ee.idEquipement INNER JOIN Entites et ON ee.idEntite = et.idEntite WHERE et.nom = '" + nomPerso + "'");
+                if (info[0][0] != "rien")
+                    foreach (List<string> line in info)
                     {
-                        case "tête":
-                            imgChapeauInv.Source = link;
-                            break;
-                        case "cou":
-                            imgAmuletteInv.Source = link;
-                            break;
-                        case "pied":
-                            imgBotteInv.Source = link;
-                            break;
-                        case "ano1":
-                            imgAnneau1Inv.Source = link;
-                            break;
-                        case "ano2":
-                            imgAnneau2Inv.Source = link;
-                            break;
-                        case "arme":
-                            imgArmeInv.Source = link;
-                            break;
-                        case "hanche":
-                            imgCeintureInv.Source = link;
-                            break;
-                        case "dos":
-                            imgCapeInv.Source = link;
-                            break;
+                        BitmapImage link = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/items/200/" + line[0] + ".png"));
+                        switch (line[1])//l'emplacement de l'équipement
+                        {
+                            case "tête":
+                                imgChapeauInv.Source = link;
+                                break;
+                            case "cou":
+                                imgAmuletteInv.Source = link;
+                                break;
+                            case "pied":
+                                imgBotteInv.Source = link;
+                                break;
+                            case "ano1":
+                                imgAnneau1Inv.Source = link;
+                                break;
+                            case "ano2":
+                                imgAnneau2Inv.Source = link;
+                                break;
+                            case "arme":
+                                imgArmeInv.Source = link;
+                                break;
+                            case "hanche":
+                                imgCeintureInv.Source = link;
+                                break;
+                            case "dos":
+                                imgCapeInv.Source = link;
+                                break;
+                        }
                     }
-                }
+            }
         }
 
         private void lbxInventaire_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -1823,9 +1825,9 @@ namespace test
             System.Windows.Controls.ListBox parent = (System.Windows.Controls.ListBox)sender;
             dragSource = parent;
             ImageItem data = (ImageItem)GetDataFromListBox(dragSource, e.GetPosition(parent));
-            System.Windows.DataObject dragData = new System.Windows.DataObject("image", data);
             if (data != null)
             {
+                System.Windows.DataObject dragData = new System.Windows.DataObject("image", data);
                 DragDrop.DoDragDrop(parent, dragData, System.Windows.DragDropEffects.Move);
             }
         }
@@ -1857,9 +1859,9 @@ namespace test
 
         private void imgInv_Drop(object sender, System.Windows.DragEventArgs e)
         {
-            Image parent = (Image)sender;
+            Image cible = (Image)sender;
             ImageItem data = e.Data.GetData("image") as ImageItem;
-            parent.Source = data.imgItem.Source;
+            cible.Source = data.imgItem.Source;
         }
 
 
