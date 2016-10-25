@@ -1498,12 +1498,7 @@ namespace test
                     Player.Inventaire.Add(new Equipement(bd.selection(sel2)[0], true, Convert.ToInt32(bd.selection(sel3)[0][0])));
                 }
                 else// change la quantité sur le joueur
-                    foreach (Equipement item in Player.Inventaire)
-                        if (item.Nom == lblItem.Content.ToString())
-                        {
-                            item.Quantite += 1;
-                            break;
-                        }
+                    Player.Inventaire.First(x => x.Nom == lblItem.Content.ToString()).Quantite++;
             }
             lblKamas.Content = Player.Kamas;// actualise son argent
 

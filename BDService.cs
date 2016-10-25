@@ -73,6 +73,33 @@ namespace test
 
         public bool Update(string req)
         {
+
+            /*
+            
+    try  
+    {  
+        //This is my connection string i have assigned the database file address path  
+        string MyConnection2 = "datasource=localhost;port=3307;username=root;password=root";  
+        //This is my update query in which i am taking input from the user through windows forms and update the record.  
+        string Query = "update student.studentinfo set idStudentInfo='" + this.IdTextBox.Text + "',Name='" + this.NameTextBox.Text + "',Father_Name='" + this.FnameTextBox.Text + "',Age='" + this.AgeTextBox.Text + "',Semester='" + this.SemesterTextBox.Text + "' where idStudentInfo='" + this.IdTextBox.Text + "';";  
+        //This is  MySqlConnection here i have created the object and pass my connection string.  
+        MySqlConnection MyConn2 = new MySqlConnection(MyConnection2);  
+        MySqlCommand MyCommand2 = new MySqlCommand(Query, MyConn2);  
+        MySqlDataReader MyReader2;  
+        MyConn2.Open();  
+        MyReader2 = MyCommand2.ExecuteReader();  
+        MessageBox.Show("Data Updated");  
+        while (MyReader2.Read())  
+        {  
+        }  
+        MyConn2.Close();//Connection closed here  
+    }  
+    catch (Exception ex)  
+    {   
+        MessageBox.Show(ex.Message);  
+    } 
+            
+            */
             try
             {
                 if (ouvrirConnexionINSERT())
