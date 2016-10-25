@@ -90,6 +90,7 @@ namespace test
 
             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
 
+
             string URI = lstAvatars[Player.Avatar];
                     iAvatar.Source =       new BitmapImage(new Uri(URI));
       
@@ -153,7 +154,12 @@ namespace test
 
             for (int J = 0; J < 99; J++)
             {
-                string path = "http://staticns.ankama.com/dofus/www/game/items/200/1810" + J.ToString() + ".png";
+                string ajout;
+                if (J > 10)
+                    ajout = "";
+                else
+                    ajout = "0";
+                string path = "http://staticns.ankama.com/dofus/www/game/items/200/180" + ajout + J.ToString() + ".png";
                lstAvatars.Add(path);
             }
 
