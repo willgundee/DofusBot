@@ -6,18 +6,12 @@
         xmlns:local="clr-namespace:test"
         mc:Ignorable="d"
         Title="PageEquipement" Height="300" Width="400">
-    <Grid x:Name="grdItem" Background="Gray" >
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="*"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+    <ListBox x:Name="lbxItem" Background="Gray" >
+        <ListBox.ItemsPanel>
+            <ItemsPanelTemplate>
+                <UniformGrid Columns="3"/>
+            </ItemsPanelTemplate>
+        </ListBox.ItemsPanel>
 
-    </Grid>
+    </ListBox>
 </Window>
