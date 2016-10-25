@@ -33,6 +33,8 @@ namespace test
             foreach (string img in lstAvatars)
             {
                 Image imge = new Image();
+                imge.Width =80;
+                imge.Height = 70;
                 imge.Source = new BitmapImage(new Uri(img));
                 lstImage.Add(imge);
 
