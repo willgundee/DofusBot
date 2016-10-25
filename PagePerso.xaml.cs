@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ namespace test
         private Joueur Player;
         public BDService bd = new BDService();
         public Entite persoActuel;
+        public ObservableCollection<Statistique> lstStat = new ObservableCollection<Statistique>();
 
         public PagePerso(Entite ent, Joueur Player)
         {
@@ -75,20 +77,20 @@ namespace test
                         AfficherElementEquipe(eq, emplacement[0].ToString());
                 }
 
-                dgStats.ItemsSource = initialiserLstStats(perso);
+                    initialiserLstStats(perso.LstStats);
+                dgStats.ItemsSource = lstStat;
                 dgDommage.ItemsSource = initialiserLstDMG(perso);
                 dgResistance.ItemsSource = initialiserLstRES(perso);
             }
         }
 
         #region grid_listes
-        private List<Statistique> initialiserLstStats(Entite perso)
+        private void initialiserLstStats(ObservableCollection<Statistique> lstStats)
         {
-            List<Statistique> lstStat = new List<Statistique>();
-
+            lstStat.Clear();
             for (int i = 0; i < 11; i++)
             {
-                foreach (Statistique stat in perso.LstStats)
+                foreach (Statistique stat in lstStats)
                 {
                     switch (i)
                     {
@@ -142,7 +144,7 @@ namespace test
                     }
                 }
             }
-            return lstStat;
+            
         }
         private List<Statistique> initialiserLstDMG(Entite perso)
         {
@@ -321,7 +323,7 @@ namespace test
             string choix = (sender as Button).Name;
             Statistique.element s;
             int changement;
-            int valeur = 0;
+            Statistique.element modif ;
 
 
 
@@ -331,10 +333,7 @@ namespace test
             {
                 case "btnVitalite":
                     s = Statistique.element.vitalite;
-                     
-                    /*object w = persoActuel.LstStats.Select(stat => stat.Nom == Statistique.element.vitalite);
-
-                    persoActuel.LstStats[7].Valeur = valeur;*/
+                   // modif = Statistique.element.vie;                          
                     break;
                 case "btnSagesse":
                     s = Statistique.element.sagesse;
@@ -357,7 +356,15 @@ namespace test
             }
 
 
+            foreach (Statistique sts in persoActuel.LstStats)               
+                if (sts.Nom == s)
+                {
+                    sts.Valeur += 1;
+                    break;
+                }
 
+            
+            initialiserLstStats(persoActuel.LstStats);
 
             changement = Convert.ToInt32(lblNbPointsC.Content);
             lblNbPointsC.Content = (changement - 1);
