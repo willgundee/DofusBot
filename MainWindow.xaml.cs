@@ -151,7 +151,7 @@ namespace test
 
 
 
-            for (int J = 0; J < 99; J++)
+            for (int J = 0; J < 94; J++)
             {
                 string ajout;
                 if (J > 10)
@@ -1886,8 +1886,16 @@ namespace test
 
         private void Change_Avatar(object sender, MouseButtonEventArgs e)
         {
-            choixAvatar choisir = new choixAvatar(lstAvatars, 1);
+            choixAvatar choisir = new choixAvatar(lstAvatars, Player.Avatar);
             choisir.ShowDialog();
+
+            string URI = lstAvatars[choisir.idAvatar];
+            iAvatar.Source = new BitmapImage(new Uri(URI));
+            Player.Avatar = choisir.idAvatar;
+
+
+            bool upd = bd.Update("UPDATE  Joueurs SET  Avatar =  " + Player.Avatar + " WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "';COMMIT");
+
         }
     }
 }
