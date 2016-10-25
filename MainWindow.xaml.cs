@@ -159,7 +159,7 @@ namespace test
                 else
                     ajout = "0";
                 string path = "http://staticns.ankama.com/dofus/www/game/items/200/180" + ajout + J.ToString() + ".png";
-               lstAvatars.Add(path);
+                lstAvatars.Add(path);
             }
 
 
@@ -566,7 +566,7 @@ namespace test
             ctb_main_VScroll(new object(), new EventArgs());
         }
 
-        
+
         #region generate tree
         private TreeNode[] generateTree()
         {
@@ -1457,7 +1457,7 @@ namespace test
                 Player.Kamas -= (int)lblPrix.Content; // je change l'argent du joueur
                 bd.Update("UPDATE  Joueurs SET  argent =  " + Player.Kamas + " WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "';COMMIT;");// et dans la bd 
                 List<string> rep = bd.selection("SELECT je.quantite,je.idJoueurEquipement FROM joueursequipements je INNER JOIN joueurs j ON je.idJoueur = j.idJoueur  INNER JOIN Equipements e ON e.idEquipement = je.idEquipement WHERE e.nom ='" + lblItem.Content.ToString() + "' AND j.nomUtilisateur = '" + Player.NomUtilisateur + "'")[0];
-                    // je regarde s'il a deja cette item dans son inventaire 
+                // je regarde s'il a deja cette item dans son inventaire 
                 if (rep[0] == "rien")// si non je l'ajoute en bd
                     bd.insertion("INSERT INTO  JoueursEquipements (idJoueur ,idEquipement ,quantite ,quantiteEquipe) VALUES ( (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur = '" + Player.NomUtilisateur + "'),(SELECT idEquipement FROM Equipements WHERE nom = '" + lblItem.Content.ToString() + "') ,1, 0); ");
                 else// ou je change la quantité posseder
@@ -1630,7 +1630,7 @@ namespace test
                     btn.IsEnabled = false;
                 }
                 dckLink.Children.Add(btn);
-                if (i != nbPages - 1)
+                if (i != nbPages - 1)// page actuelle tu la désactive et la met d'une autre couleurs
                 {
                     System.Windows.Controls.Label lbl = new System.Windows.Controls.Label();
                     lbl.Content = " - ";
@@ -1641,6 +1641,10 @@ namespace test
             }
         }
 
+        /// <summary>
+        /// ajoute les items dans le marché
+        /// </summary>
+        /// <param name="items"></param>
         private void retrieveItem(List<string>[] items)
         {
             foreach (List<string> item in items)
@@ -1710,19 +1714,34 @@ namespace test
         #endregion
 
         #region Inventaire
-
+        /// <summary>
+        /// action d'un click sur un item dans l'inventaire
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void image_desc(object sender, MouseButtonEventArgs e)
         {
             LstDesc.Clear();
             string nom = (((ImageItem)sender).imgItem).Name.Replace("_", " ");
             LstDesc.Add(new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE nom ='" + nom + "'")[0], true, 0)));
         }
+
+        /// <summary>
+        /// action quand on click sur l'onglet inventaire
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TabItem_Selected_Inventaire(object sender, RoutedEventArgs e)
         {
-            cboTrieInventaire.SelectedIndex = 1;
+            cboTrieInventaire.SelectedIndex = 1;// permet de refresh la list de l'inventaire
             cboTrieInventaire.SelectedIndex = 0;
         }
 
+        /// <summary>
+        /// quand on change le type de trie de l'inventaire
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cboTrieInventaire_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string type = ((System.Windows.Controls.ComboBox)sender).SelectedValue.ToString();
@@ -1752,12 +1771,22 @@ namespace test
                 lbxInventaire.Style = (Style)FindResource("RowOverflow");
         }
 
+        /// <summary>
+        /// pour avoir la description d'un item qui est équiper sur soi
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void imgInv_MouseDown(object sender, MouseButtonEventArgs e)
         {
             LstDesc.Clear();
             LstDesc.Add(new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE noImage =" + Convert.ToInt32(Path.GetFileNameWithoutExtension((sender as Image).Source.ToString().Split('/').Last())))[0], true, 0)));
         }
 
+        /// <summary>
+        /// Affiche les équipement du personnages
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cboChoixEntite_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {//emplacement possible : tete, cou, pied, ano1, ano2, arme, hanche, dos.
             string nomPerso = ((System.Windows.Controls.ComboBox)sender).SelectedValue.ToString();
@@ -1767,7 +1796,7 @@ namespace test
                 foreach (List<string> line in info)
                 {
                     BitmapImage link = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/items/200/" + line[0] + ".png"));
-                    switch (line[1])
+                    switch (line[1])//l'emplacement de l'équipement
                     {
                         case "tête":
                             imgChapeauInv.Source = link;
