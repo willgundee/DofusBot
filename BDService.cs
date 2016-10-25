@@ -16,7 +16,6 @@ namespace test
         private MySqlConnection BDChat;
         private MySqlConnection BDSelect;
         private MySqlConnection BDInsert;
-        private MySqlConnection BDUpdate;
 
         private string serveur = "420.cstj.qc.ca";
         private string baseDonnee = "420.5a5.a16_gofusprog";
@@ -36,7 +35,7 @@ namespace test
 
                 BDChat = new MySqlConnection(connexionString);
 
-                BDUpdate = new MySqlConnection(connexionString);
+
 
                
             }
@@ -103,19 +102,20 @@ namespace test
             */
             try
             {
-                if (ouvrirConnexionUPDATE())
+                if (ouvrirConnexionINSERT())
                 {
-                    MySqlCommand cmd = new MySqlCommand(req, BDUpdate);
-
+                    MySqlCommand cmd = new MySqlCommand(req, BDInsert);
+                   
                  if (cmd.ExecuteNonQuery() == 1)
                 {
+                        fermerConnexionINSERT();
                         return true;
-                }
+                    }
                 else
                 {
                     MessageBox.Show("Erreur de mise à jour ! ");
                 }
-                    fermerConnexionUPDATE();
+                    fermerConnexionINSERT();
                     return false;
                 }
                
@@ -123,11 +123,11 @@ namespace test
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                fermerConnexionUPDATE();
+                fermerConnexionINSERT();
                 return false;
             }
+            return false;
 
-            return true;
         }
 
 
@@ -273,35 +273,9 @@ namespace test
         }
 
 
-        private bool ouvrirConnexionUPDATE()
-        {
-            try
-            {
-                BDUpdate.Open();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
+    
 
-        private bool fermerConnexionUPDATE()
-        {
-            try
-            {
-                BDUpdate.Close();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-
-
-
+   
 
 
 

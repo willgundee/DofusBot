@@ -11,7 +11,8 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+
+using System.IO;
 
 namespace test
 {
@@ -23,9 +24,15 @@ namespace test
         ObservableCollection<Image> listImg;
         public BDService bd = new BDService();
         private string TypeEQ;
-        public PageEquipement(string TypeEquipement, string NomJoueur, string emplacement)
+        private string nomJoueur;
+        private string imgDEquipe;
+        private Joueur Player;
+        public PageEquipement(string TypeEquipement, string NomJoueur, string emplacement, Image NomImgDEquip, Joueur Player)
         {
+            this.Player = Player;
+            nomJoueur = NomJoueur;
             TypeEQ = emplacement;
+            imgDEquipe = NomImgDEquip.Source.ToString();
             bool valide;
             listImg = new ObservableCollection<Image>();
             InitializeComponent();
@@ -42,7 +49,7 @@ namespace test
 
         }
 
-        private bool afficherEquipementDispo(string TypeEquipement, string NomJoueur )
+        private bool afficherEquipementDispo(string TypeEquipement, string NomJoueur)
         {
 
             bool valide = false;
@@ -63,12 +70,12 @@ namespace test
             foreach (List<string> item in NoImg)
             {
                 for (int i = 0; i < Convert.ToInt32(item[1]) - Convert.ToInt32(item[2]); i++)
-                {              
-                    listImg.Add( CreateImg(item[0]));
+                {
+                    listImg.Add(CreateImg(item[0]));
                 }
                 valide = true;
             }
-            if(listImg.Count==0)
+            if (listImg.Count == 0)
             {
                 return false;
             }
@@ -94,42 +101,79 @@ namespace test
             foreach (Window Page in Application.Current.Windows)
             {
                 if (Page.GetType() == typeof(MainWindow))
-                {     
+                {
                     switch (TypeEQ)
                     {
                         case "tête":
                             (Page as MainWindow).pgperso.First().imageCasque.Source = (sender as Image).Source;
-                            Close();
                             break;
                         case "dos":
                             (Page as MainWindow).pgperso.First().imageCape.Source = (sender as Image).Source;
-                            Close();
                             break;
                         case "arme":
                             (Page as MainWindow).pgperso.First().imageArme.Source = (sender as Image).Source;
-                            Close();
+
                             break;
                         case "hanche":
                             (Page as MainWindow).pgperso.First().imageCeinture.Source = (sender as Image).Source;
-                            Close();
+
                             break;
                         case "ano1":
                             (Page as MainWindow).pgperso.First().imageAnneau1.Source = (sender as Image).Source;
-                            Close();
+
                             break;
                         case "ano2":
                             (Page as MainWindow).pgperso.First().imageAnneau2.Source = (sender as Image).Source;
-                            Close();
+
                             break;
                         case "pied":
                             (Page as MainWindow).pgperso.First().imageBotte.Source = (sender as Image).Source;
-                            Close();
+
                             break;
                         case "cou":
                             (Page as MainWindow).pgperso.First().imageAmulette.Source = (sender as Image).Source;
-                            Close();
+
                             break;
                     }
+                    //équipe après
+                    int idE = Convert.ToInt32(Path.GetFileNameWithoutExtension((sender as Image).Source.ToString().Split('/').Last()));
+                    //équipe avant
+                    string ide = Path.GetFileNameWithoutExtension(imgDEquipe.ToString().Split('/').Last());
+
+
+                    int qqt = Convert.ToInt32(bd.selection("SELECT quantiteEquipe FROM JoueursEquipements  WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + nomJoueur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE noImage =" + idE + ")")[0][0]);
+                    qqt += 1;
+
+                    if (ide == "vide")
+                    {
+                        bd.insertion("INSERT INTO equipementsEntites (idEquipement,idEntite,Emplacement)VALUES((SELECT idEquipement FROM Equipements WHERE noImage =" + idE + "),(SELECT idEntite FROM Entites e  INNER JOIN Joueurs j ON j.idJoueur = e.idJoueur WHERE j.nomUtilisateur='" + nomJoueur + "'),'" + TypeEQ + "')");
+                       // foreach (Entite et in Player.LstEntites)
+                            
+                    }
+                    else
+                    {
+                        int qqt2 = Convert.ToInt32(bd.selection("SELECT quantiteEquipe FROM JoueursEquipements  WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + nomJoueur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE noImage =" + ide + ")")[0][0]);
+                        qqt2 = -1;
+                        bd.Update("UPDATE equipementsentites SET idEquipement = (SELECT idEquipement FROM Equipements WHERE noImage = " + idE + ") WHERE emplacement='" + TypeEQ + "'");
+                        bd.Update("UPDATE JoueursEquipements SET = " + qqt2 + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + nomJoueur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE noImage ='" + ide + "')");
+
+                     /*   foreach (Entite et in Player.LstEntites)
+                            foreach (Equipement equi in et.LstEquipements)
+                            {
+                                if (equi.NoImg == idE.ToString())
+                                    equi.QuantiteEquipe += 1;
+
+                                if (equi.NoImg == ide.ToString())
+                                    equi.QuantiteEquipe -= 1;
+                            }*/
+
+                    }
+                    bd.Update("UPDATE JoueursEquipements SET quantiteEquipe = " + qqt + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + nomJoueur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE noImage ='" + idE + "')");
+                    //diminu qttéquipé
+
+
+
+                    Close();
                 }
             }
         }

@@ -50,8 +50,8 @@ namespace test
             #region nomUtilisateurValidations
             if (txt_nom.Text.ToString() == "")
             {
-                lbl_nom.Content = "Nom d'utilisateur (Champs vide)";
-                lbl_nom.Foreground = new SolidColorBrush(Colors.Red);
+                lbl_nom.Content = "Nom d'utilisateur (Champs Obligatoire)";
+                lbl_nom.Foreground = new SolidColorBrush(Colors.Orange);
                 Valide = false;
             }
             else
@@ -59,8 +59,8 @@ namespace test
 
                 if (result[0][0] != "rien")
                 {
-                    lbl_nom.Content = "Nom d'utilisateur (Nom utilisé)";
-                    lbl_nom.Foreground = new SolidColorBrush(Colors.Red);
+                    lbl_nom.Content = "Nom d'utilisateur (Nom déjà utilisé)";
+                    lbl_nom.Foreground = new SolidColorBrush(Colors.Orange);
                     Valide = false;
                 }
                 else
@@ -68,7 +68,7 @@ namespace test
                     if (txt_nom.Text.ToString().Length > 13 || txt_nom.Text.ToString().Length < 5)
                     {
                         lbl_nom.Content = "Nom d'utilisateur (Entre 5 et 13 Lettres/chiffres)";
-                        lbl_nom.Foreground = new SolidColorBrush(Colors.Red);
+                        lbl_nom.Foreground = new SolidColorBrush(Colors.Orange);
                         Valide = false;
                     }
                     else
@@ -86,8 +86,8 @@ namespace test
 
             if (txt_mdp.Password != txtConfirmation.Password)
             {
-                lbl_Confirmation.Content = "Confimation de mot de passe ( Doit être identique au champs de mot de passe ) ";
-                lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Red);
+                lbl_Confirmation.Content = "Confimation de mot de passe ( Doit être identique au mot de passe ) ";
+                lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Orange);
                 Valide = false;
             }
             else
@@ -98,8 +98,8 @@ namespace test
 
             if (txt_mdp.Password.Length < 5 || txt_mdp.Password.Length > 15)
             {
-                lbl_Mdp.Content = "Mot de passe (Doit contenir entre 5 et 15 lettres/chiffres)";
-                lbl_Mdp.Foreground = new SolidColorBrush(Colors.Red);
+                lbl_Mdp.Content = "Mot de passe (Entre 5 et 15 Lettres/chiffres)";
+                lbl_Mdp.Foreground = new SolidColorBrush(Colors.Orange);
                 Valide = false;
             }
             else
@@ -112,7 +112,8 @@ namespace test
 
             if (txt_Courriel.Text.ToString() == "")
             {
-                lbl_Courriel.Foreground = new SolidColorBrush(Colors.Red);
+                lbl_Courriel.Foreground = new SolidColorBrush(Colors.Orange);
+                lbl_Courriel.Content = "Champs Obligatoire";
                 Valide = false;
             }
             else
@@ -152,8 +153,13 @@ namespace test
                 var result = System.Windows.MessageBox.Show("Souhaitez-vous créer votre compte avec ces informations?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
-                    int id = (int)bd.insertion("INSERT INTO Joueurs(nomUtilisateur, courriel, motDePasse, argent, avatar) VALUES('" + txt_nom.Text.ToString() + "', '" + txt_Courriel.Text.ToString() + "', '" + txt_mdp.Password + "', 0, 0);");
+                    int id = (int)bd.insertion("INSERT INTO Joueurs(nomUtilisateur, courriel, motDePasse, argent, avatar) VALUES('" + txt_nom.Text.ToString() + "', '" + txt_Courriel.Text.ToString() + "', '" + txt_mdp.Password + "', 3000, 0);");
+                    int ascript = (int)bd.insertion("INSERT INTO Scripts(contenu,nom, uuid) VALUES('','Script1',UUID())");
+                    int joueurscript = (int)bd.insertion("INSERT INTO JoueursScripts(idJoueur,idScript) VALUES("+ id.ToString() + ","+ ascript.ToString() +")");
+
                     MainWindow Main = new MainWindow(id);
+
+
                     System.Windows.Forms.MessageBox.Show("Vous êtes connecté ! ","Information");
                     Main.Show();
                     this.Close();

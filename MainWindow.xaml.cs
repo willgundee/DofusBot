@@ -51,6 +51,7 @@ namespace test
         ObservableCollection<ImageItem> LstInventaire;
         ObservableCollection<DescItem> LstDesc;
         List<string> lstAvatars;
+        System.Windows.Controls.ListBox dragSource = null;
 
         public Joueur Player { get; set; }
 
@@ -83,19 +84,19 @@ namespace test
             //CombatTest combat = new CombatTest();
             InitializeComponent();
 
-
             lstAvatars = new List<string>();
             GenererAvatars();
 
-
+           
+            btnQuitterSalle.IsEnabled = false;
             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
 
 
             string URI = lstAvatars[Player.Avatar];
             iAvatar.Source = new BitmapImage(new Uri(URI));
 
-
-
+            lblEtat.Content = "État : Non connecté à la salle";
+            lblEtat.Foreground = new SolidColorBrush(Colors.Orange);
             idJoueur = id;
 
             ctb_main.CreateTreeView(generateTree());
@@ -198,7 +199,7 @@ namespace test
                 });
                 trdRefresh.Start();
                 Thread.Yield();
-                // Forcing the CommandManager to raise the RequerySuggested event
+               
                 CommandManager.InvalidateRequerySuggested();
             }
             else
@@ -236,7 +237,12 @@ namespace test
         private void btnRejoindreSalle_Click(object sender, RoutedEventArgs e)
         {
             aTimer.Start();
+            lblEtat.Content = "État : Connecter à la salle.";
+            lblEtat.Foreground = new SolidColorBrush(Colors.ForestGreen);
             txtMessage.IsEnabled = true;
+            btnRejoindreSalle.IsEnabled = false;
+            btnQuitterSalle.IsEnabled = true;
+
         }
 
         private void btnQuitterSalle_Click(object sender, RoutedEventArgs e)
@@ -244,9 +250,14 @@ namespace test
             aTimer.Stop();
             txtMessage.Text = "";
             txtboxHistorique.Text = "";
+            lblEtat.Content = "État : Déconnecter.";
+            lblEtat.Foreground = new SolidColorBrush(Colors.Orange);
+
             btnEnvoyerMessage.IsEnabled = false;
             txtMessage.IsEnabled = false;
 
+            btnRejoindreSalle.IsEnabled = true;
+            btnQuitterSalle.IsEnabled = false;
 
         }
 
@@ -396,7 +407,7 @@ namespace test
             rapport = null;
         }
 
-      
+
 
         private void btnSuggestion_Click(object sender, RoutedEventArgs e)
         {
@@ -408,7 +419,7 @@ namespace test
             {
                 rapport = new FenetreRapport(idJoueur);
                 rapport.Closed += MainWindow_RapportClosing;
-                rapport.Show();
+                rapport.ShowDialog();
             }
 
         }
@@ -1424,7 +1435,7 @@ namespace test
                 else// ou je change la quantité posseder
                 {
                     string up2 = "UPDATE JoueursEquipements SET  quantite =  " + (Convert.ToInt16(rep[0]) + 1).ToString() + " WHERE  idJoueurEquipement =" + rep[1] + ";COMMIT;";
-                    bd.Update(up2);//TODO: trouver le probleme l'update n'update pas
+                    bd.Update(up2);
                 }
 
                 if (rep[0] == "rien")// et sur lui
@@ -1806,6 +1817,52 @@ namespace test
                     }
                 }
         }
+
+        private void lbxInventaire_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            System.Windows.Controls.ListBox parent = (System.Windows.Controls.ListBox)sender;
+            dragSource = parent;
+            ImageItem data = (ImageItem)GetDataFromListBox(dragSource, e.GetPosition(parent));
+            System.Windows.DataObject dragData = new System.Windows.DataObject("image", data);
+            if (data != null)
+            {
+                DragDrop.DoDragDrop(parent, dragData, System.Windows.DragDropEffects.Move);
+            }
+        }
+        private static object GetDataFromListBox(System.Windows.Controls.ListBox source, Point point)
+        {
+            UIElement element = source.InputHitTest(point) as UIElement;
+            if (element != null)
+            {
+                object data = DependencyProperty.UnsetValue;
+                while (data == DependencyProperty.UnsetValue)
+                {
+                    data = source.ItemContainerGenerator.ItemFromContainer(element);
+                    if (data == DependencyProperty.UnsetValue)
+                    {
+                        element = VisualTreeHelper.GetParent(element) as UIElement;
+                    }
+                    if (element == source)
+                    {
+                        return null;
+                    }
+                }
+                if (data != DependencyProperty.UnsetValue)
+                {
+                    return data;
+                }
+            }
+            return null;
+        }
+
+        private void imgInv_Drop(object sender, System.Windows.DragEventArgs e)
+        {
+            Image parent = (Image)sender;
+            ImageItem data = e.Data.GetData("image") as ImageItem;
+            parent.Source = data.imgItem.Source;
+        }
+
+
         #endregion
 
         #region Michael/Perso
@@ -1837,6 +1894,7 @@ namespace test
             alert++;
         }
 
+
         /*
 
         private void TabItem_Loaded(object sender, RoutedEventArgs e)
@@ -1865,6 +1923,5 @@ namespace test
 
         #endregion
 
-       
     }
 }

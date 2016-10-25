@@ -228,6 +228,7 @@ namespace test
 
         private void image_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            Image source= (sender as Image);
             string choix = (sender as Image).Name;
             string TypeEquipement = null;
             string emp = null;
@@ -268,7 +269,7 @@ namespace test
                     break;
             }
 
-            PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur, emp);
+            PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur, emp, source, Player);
             if (validePg != false)
                 Equip.ShowDialog();
 
@@ -360,6 +361,7 @@ namespace test
                 if (sts.Nom == s)
                 {
                     sts.Valeur += 1;
+
                     break;
                 }
 
