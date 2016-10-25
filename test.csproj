@@ -114,26 +114,10 @@
     <Compile Include="Classes\Sort.cs" />
     <Compile Include="Classes\Statistique.cs" />
     <Compile Include="Classes\Zone.cs" />
-    <Compile Include="Combat.xaml.cs">
-      <DependentUpon>Combat.xaml</DependentUpon>
-    </Compile>
     <Compile Include="FenetreRapport.xaml.cs">
       <DependentUpon>FenetreRapport.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GofusSharp\Arme.cs" />
     <Compile Include="BDService.cs" />
-    <Compile Include="GofusSharp\Case.cs" />
-    <Compile Include="GofusSharp\Classe.cs" />
-    <Compile Include="GofusSharp\CombatTest.cs" />
-    <Compile Include="GofusSharp\Effet.cs" />
-    <Compile Include="GofusSharp\EntiteInconnu.cs" />
-    <Compile Include="GofusSharp\Entite.cs" />
-    <Compile Include="GofusSharp\Envoutement.cs" />
-    <Compile Include="GofusSharp\Equipement.cs" />
-    <Compile Include="GofusSharp\Liste.cs" />
-    <Compile Include="GofusSharp\Math.cs" />
-    <Compile Include="GofusSharp\Partie.cs" />
-    <Compile Include="GofusSharp\Personnage.cs" />
     <Compile Include="Authentification.xaml.cs">
       <DependentUpon>Authentification.xaml</DependentUpon>
     </Compile>
@@ -152,11 +136,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GofusSharp\Script.cs" />
-    <Compile Include="GofusSharp\Sort.cs" />
-    <Compile Include="GofusSharp\Statistique.cs" />
-    <Compile Include="GofusSharp\Terrain.cs" />
-    <Compile Include="GofusSharp\Zone.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -217,10 +196,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="choixAvatar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Combat.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

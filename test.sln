@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "test.csproj", "{DD7
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeTextBox", "CodeTextBox\CodeTextBox.csproj", "{2C9E628D-0909-428B-967F-84CFF0967B64}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GofusSharp", "..\GofusSharp\GofusSharp.csproj", "{0BBFACF5-8FA7-4E0E-A854-76BA5837011F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GofusSharp", "GofusSharp\GofusSharp.csproj", "{0BBFACF5-8FA7-4E0E-A854-76BA5837011F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

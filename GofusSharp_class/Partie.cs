@@ -56,17 +56,17 @@ namespace GofusSharp
         private void PlacerObstacles()
         {
             //14% des case sont des obstacles
-            ListeChainee<Case> caseObstacle = new ListeChainee<Case>();
+            Liste<Case> caseObstacle = new Liste<Case>();
             bool coince = false;
             do
             {
                 for (int i = 0; i < TerrainPartie.Hauteur * TerrainPartie.Largeur / 7; i++)
                 {
-                    caseObstacle.AjouterFin(new Case(Seed.Next(0, TerrainPartie.Largeur), Seed.Next(0, TerrainPartie.Hauteur), Case.type.obstacle));
-                    while (TerrainPartie.TabCases[caseObstacle.Last.Valeur.X][caseObstacle.Last.Valeur.Y].Contenu != Case.type.vide)
+                    caseObstacle.Add(new Case(Seed.Next(0, TerrainPartie.Largeur), Seed.Next(0, TerrainPartie.Hauteur), Case.type.obstacle));
+                    while (TerrainPartie.TabCases[caseObstacle.Last().X][caseObstacle.Last().Y].Contenu != Case.type.vide)
                     {
-                        caseObstacle.Last.Valeur.X = Seed.Next(0, TerrainPartie.Largeur);
-                        caseObstacle.Last.Valeur.Y = Seed.Next(0, TerrainPartie.Hauteur);
+                        caseObstacle.Last().X = Seed.Next(0, TerrainPartie.Largeur);
+                        caseObstacle.Last().Y = Seed.Next(0, TerrainPartie.Hauteur);
                     }
                 }
                 foreach (Case obstacle in caseObstacle)

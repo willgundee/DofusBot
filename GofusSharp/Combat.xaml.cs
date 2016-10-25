@@ -1,4 +1,9 @@
-﻿using System.Linq;
+﻿using Microsoft.CSharp;
+using System;
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,11 +17,11 @@ namespace GofusSharp
     public partial class Combat : Window
     {
         private Partie PartieTest { get; set; }
-        public Combat()
+        public Combat(string script1, string script2)
         {
             InitializeComponent();
             this.Show();
-            fakePartie();
+            fakePartie(script1, script2);
             for (int i = 0; i < 10; i++)
             {
                 for (int j = 0; j < 10; j++)
@@ -26,43 +31,84 @@ namespace GofusSharp
                     lbl.VerticalAlignment = VerticalAlignment.Center;
                     Grid.SetRow(lbl, i);
                     Grid.SetColumn(lbl, j);
-                    //Binding b = new Binding("Case");
-                    //b.Source = PartieTest.TerrainPartie.TabCases[i][j];
-                    //b.Mode = BindingMode.OneWay;
-                    //b.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                    //lbl.Name = "_" + i + "_" + j;
-                    //lbl.Content = new Binding(PartieTest.TerrainPartie.TabCases[i][j].Contenu.ToString());
-                    //lbl.SetBinding(ContentProperty, b);
                     grd_Terrain.Children.Add(lbl);
-                    //DataContext = this;
                 }
             }
             UpdateInfo();
         }
 
-        public void Action(Terrain terrain, Personnage joueur, System.Collections.ObjectModel.ReadOnlyCollection<EntiteInconnu> ListEntites)
+        public void Action(Terrain terrain, Personnage joueur, ListeLectureSeule<EntiteInconnu> ListEntites)
         {
-            EntiteInconnu ennemi = null;
-            foreach (EntiteInconnu entite in ListEntites)
-            {
-                if (entite.Equipe != joueur.Equipe)
+            //code dynamique 
+            string code = @"
+                using GofusSharp;
+                namespace Arene
                 {
-                    ennemi = entite;
-                    break;
+                    public class Combat
+                    {
+                        public Combat(){}
+                        public void Action(Terrain terrain, Entite Perso, ListeLectureSeule<EntiteInconnu> ListEntites)
+                        {
+                            user_code
+                        }
+                    }
                 }
-            }
-            if (terrain.DistanceEntreCases(joueur.Position, ennemi.Position) > 1)
+            ";
+
+            //je remplace le mot user_code pour ce qui ce trouve dans la text box
+            string finalCode = code.Replace("user_code", joueur.ScriptEntite.Texte);
+            //initialisation d'un compilateur de code C#
+            CSharpCodeProvider provider = new CSharpCodeProvider(new Dictionary<string, string>() { { "CompilerVersion", "v3.5" } });
+            //initialisation des paramètres du compilateur de code C#
+            CompilerParameters parameters = new CompilerParameters();
+            //ajout des lien de bibliothèque dynamique (dll)
+            //parameters.ReferencedAssemblies.Add("WindowsBase.dll");
+            parameters.ReferencedAssemblies.Add("GofusSharp.dll");
+            //System.Windows.Forms.MessageBox.Show(  );
+            //compilation du code 
+            CompilerResults results = provider.CompileAssemblyFromSource(parameters, finalCode);
+            //recherche d'érreurs de compilation
+            if (results.Errors.HasErrors)
             {
-                int result = 1;
-                while (result != 0 && result != -1)
+                StringBuilder sb = new StringBuilder();
+
+                foreach (CompilerError error in results.Errors)
                 {
-                    result = joueur.AvancerVers(terrain.CheminEntreCases(joueur.Position, ennemi.Position).First(), 1);
+                    sb.AppendLine(string.Format("Erreur (Ligne {0}): {1}", (error.Line - 8).ToString(), error.ErrorText));
                 }
+                System.Windows.Forms.MessageBox.Show(sb.ToString());
+                return;
+                //throw new InvalidOperationException(sb.ToString());
             }
-            joueur.Attaquer(ennemi);
+            //mettre la fonction compilé dans une variable
+
+            Type type = results.CompiledAssembly.GetType();
+            ConstructorInfo constructor = type.GetConstructor(Type.EmptyTypes);
+            object classObject = constructor.Invoke(new object[] { });
+            //invoqué la fonction compilée avec la variable
+            MethodInfo method = type.GetMethod("Action");
+            method.Invoke(classObject, new object[] { terrain, joueur, ListEntites });
+            //EntiteInconnu ennemi = null;
+            //foreach (EntiteInconnu entite in ListEntites)
+            //{
+            //    if (entite.Equipe != joueur.Equipe)
+            //    {
+            //        ennemi = entite;
+            //        break;
+            //    }
+            //}
+            //if (terrain.DistanceEntreCases(joueur.Position, ennemi.Position) > 1)
+            //{
+            //    int result = 1;
+            //    while (result != 0 && result != -1)
+            //    {
+            //        result = joueur.AvancerVers(terrain.CheminEntreCases(joueur.Position, ennemi.Position).First(), 1);
+            //    }
+            //}
+            //joueur.UtiliserSort(ennemi);
         }
 
-        public void Action(Terrain terrain, Entite joueur, System.Collections.ObjectModel.ReadOnlyCollection<EntiteInconnu> ListEntites)
+        public void Action(Terrain terrain, Entite joueur, ListeLectureSeule<EntiteInconnu> ListEntites)
         {
             EntiteInconnu ennemi = null;
             foreach (EntiteInconnu entite in ListEntites)
@@ -85,19 +131,19 @@ namespace GofusSharp
         }
 
 
-        private void fakePartie()
+        private void fakePartie(string script1, string script2)
         {
             Liste<Statistique> listStatistiqueAtt = new Liste<Statistique>();
             listStatistiqueAtt.Add(new Statistique(Statistique.type.PA, 6));
             listStatistiqueAtt.Add(new Statistique(Statistique.type.PM, 3));
-            listStatistiqueAtt.Add(new Statistique(Statistique.type.vie, 300));
+            listStatistiqueAtt.Add(new Statistique(Statistique.type.vie, 100));
             listStatistiqueAtt.Add(new Statistique(Statistique.type.initiative, 101));
             listStatistiqueAtt.Add(new Statistique(Statistique.type.force, 30));
             listStatistiqueAtt.Add(new Statistique(Statistique.type.sagesse, 40));
             listStatistiqueAtt.Add(new Statistique(Statistique.type.intelligence, 20));
             listStatistiqueAtt.Add(new Statistique(Statistique.type.agilite, 10));
             listStatistiqueAtt.Add(new Statistique(Statistique.type.chance, 50));
-            Script scriptAtt = new Script(1, "//PlaceHolder");
+            Script scriptAtt = new Script(1, script1);
             Effet[] tabEffetAtt1 = new Effet[] { new Effet(Effet.type.teleportation, 0, 0) };
             Zone zoneEffetAtt1 = new Zone(Zone.type.carre, 0, 0);
             Zone zonePorteeAtt1 = new Zone(Zone.type.cercle, 1, 5);
@@ -118,7 +164,7 @@ namespace GofusSharp
             listStatistiqueDef.Add(new Statistique(Statistique.type.intelligence, 20));
             listStatistiqueDef.Add(new Statistique(Statistique.type.agilite, 10));
             listStatistiqueDef.Add(new Statistique(Statistique.type.chance, 50));
-            Script scriptDef = new Script(2, "//PlaceHolder");
+            Script scriptDef = new Script(2, script2);
             Effet[] tabEffetDef1 = new Effet[] { new Effet(Effet.type.teleportation, 0, 0) };
             Zone zoneEffetDef1 = new Zone(Zone.type.carre, 0, 0);
             Zone zonePorteeDef1 = new Zone(Zone.type.cercle, 1, 5);
@@ -144,7 +190,7 @@ namespace GofusSharp
                 if (entite.Etat == EntiteInconnu.typeEtat.mort)
                     continue;
                 PartieTest.DebuterAction(entite);
-                Action(PartieTest.TerrainPartie, entite as Personnage, PartieTest.ListEntites.AsReadOnly());
+                Action(PartieTest.TerrainPartie, entite as Personnage, (PartieTest.ListEntites.AsReadOnly() as ListeLectureSeule<EntiteInconnu>));
                 PartieTest.SyncroniserJoueur();
                 UpdateInfo();
                 bool vivante = false;

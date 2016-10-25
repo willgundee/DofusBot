@@ -170,7 +170,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Button Name="btn_run" Content="Run" Grid.Column="0" Width="75" Height="40" Click="btn_run_Click"/>
-                    <Button Name="btn_test" Content="test" Grid.Column="1" Width="75" Height="40" Click="btn_test_Clicke"/>
+                    <Button Name="btn_test" Content="test" Grid.Column="1" Width="75" Height="40" Click="btn_test_Click"/>
                     <Button Name="btn_debug" Content="debug" Grid.Column="3" Width="75" Height="40" Click="btn_debug_Click"/>
                 </Grid>
             </Grid>
