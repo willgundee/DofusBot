@@ -1735,6 +1735,12 @@ namespace test
 
         }
 
+        private void imgCapeInv_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            //[8]
+           string yy =  (sender as Image).Source.ToString().Split('/').Last();
+        }
+
         private void cboChoixEntite_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {//emplacement possible : tete, cou, pied, ano1, ano2, arme, hanche, dos.
             string nomPerso = ((System.Windows.Controls.ComboBox)sender).SelectedValue.ToString();
@@ -1831,5 +1837,6 @@ namespace test
 
 
         #endregion
+
     }
 }
