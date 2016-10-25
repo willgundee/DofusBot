@@ -23,18 +23,18 @@ namespace test
 
     public partial class choixAvatar : Window
     {
-        private ObservableCollection<BitmapImage> lstImage;
+        private ObservableCollection<Image> lstImage;
 
         public choixAvatar(List<string> lstAvatars, int idAvatar)
         {
             InitializeComponent();
-            lstImage = new ObservableCollection<BitmapImage>();
+            lstImage = new ObservableCollection<Image>();
             listBoxAvatars.ItemsSource = lstImage;
             foreach (string img in lstAvatars)
             {
-                BitmapImage image = new BitmapImage(new Uri(img));
-
-                lstImage.Add(image);
+                Image imge = new Image();
+                imge.Source = new BitmapImage(new Uri(img));
+                lstImage.Add(imge);
 
             }
 
