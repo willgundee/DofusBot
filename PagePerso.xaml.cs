@@ -23,12 +23,14 @@ namespace test
         public bool validePg;
         private Joueur Player;
         public BDService bd = new BDService();
+        public Entite persoActuel;
 
         public PagePerso(Entite ent, Joueur Player)
         {
 
             InitializeComponent();
             this.Player = Player;
+            persoActuel = ent;
 
             int nbScript = Player.LstScripts.Count;
             for (int i = 0; i < nbScript; i++)
@@ -52,14 +54,14 @@ namespace test
 
                 if (perso.CapitalLibre > 0)
                 {
-                    btnAgilite.Visibility=Visibility.Visible;
+                    btnAgilite.Visibility = Visibility.Visible;
                     btnChance.Visibility = Visibility.Visible;
                     btnForce.Visibility = Visibility.Visible;
                     btnIntelligence.Visibility = Visibility.Visible;
                     btnSagesse.Visibility = Visibility.Visible;
                     btnVitalite.Visibility = Visibility.Visible;
                 }
-                
+
                 foreach (Statistique st in perso.LstStats)
                 {
                     if (st.Nom == Statistique.element.experience)
@@ -67,15 +69,15 @@ namespace test
                 }
                 foreach (Equipement eq in perso.LstEquipements)
                 {
-                    List<string> emplacement=  bd.selection("SELECT emplacement FROM Equipementsentites WHERE idEquipement = (SELECT idEquipement FROM Equipements WHERE nom='"+eq.Nom+"' )AND idEntite =(SELECT idEntite FROM Entites WHERE nom='" + perso.Nom + "')")[0];
-                    
-                    if (emplacement!=null)                      
-                      AfficherElementEquipe(eq,emplacement[0].ToString());                                          
+                    List<string> emplacement = bd.selection("SELECT emplacement FROM Equipementsentites WHERE idEquipement = (SELECT idEquipement FROM Equipements WHERE nom='" + eq.Nom + "' )AND idEntite =(SELECT idEntite FROM Entites WHERE nom='" + perso.Nom + "')")[0];
+
+                    if (emplacement != null)
+                        AfficherElementEquipe(eq, emplacement[0].ToString());
                 }
 
                 dgStats.ItemsSource = initialiserLstStats(perso);
                 dgDommage.ItemsSource = initialiserLstDMG(perso);
-               dgResistance.ItemsSource = initialiserLstRES(perso);
+                dgResistance.ItemsSource = initialiserLstRES(perso);
             }
         }
 
@@ -226,7 +228,7 @@ namespace test
         {
             string choix = (sender as Image).Name;
             string TypeEquipement = null;
-            string emp=null;
+            string emp = null;
 
             switch (choix.ToString())
             {
@@ -264,19 +266,19 @@ namespace test
                     break;
             }
 
-            PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur,emp);
+            PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur, emp);
             if (validePg != false)
                 Equip.ShowDialog();
 
         }
 
-        private void AfficherElementEquipe(Equipement eq, string emp )
+        private void AfficherElementEquipe(Equipement eq, string emp)
         {
-            ImageSource path = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/items/200/" + eq.NoImg + ".png"));          
-                switch (emp)
+            ImageSource path = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/items/200/" + eq.NoImg + ".png"));
+            switch (emp)
             {
                 case "tête":
-                    imageCasque.Source=path;
+                    imageCasque.Source = path;
                     break;
                 case "dos":
                     imageCape.Source = path;
@@ -304,11 +306,7 @@ namespace test
 
         private void btnStatsPlus_Click(object sender, RoutedEventArgs e)
         {
-            if(Convert.ToInt32(lblNbPointsC.Content)<0)
-            {
 
-
-            }
             if (Convert.ToInt32(lblNbPointsC.Content) == 1)
             {
                 btnAgilite.Visibility = Visibility.Hidden;
@@ -321,40 +319,45 @@ namespace test
             }
 
             string choix = (sender as Button).Name;
-            string s;
+            Statistique.element s;
             int changement;
+            int valeur = 0;
+
+
+
+
+
             switch (choix.ToString())
             {
                 case "btnVitalite":
-                    s = "Vitalité" ;
+                    s = Statistique.element.vitalite;
+                     
+                    /*object w = persoActuel.LstStats.Select(stat => stat.Nom == Statistique.element.vitalite);
+
+                    persoActuel.LstStats[7].Valeur = valeur;*/
                     break;
                 case "btnSagesse":
-                    s="Sagesse" ;
+                    s = Statistique.element.sagesse;
                     break;
                 case "btnForce":
-                    s="Force";
+                    s = Statistique.element.force;
                     break;
                 case "btnIntelligence":
-                    s="Intelligence";
+                    s = Statistique.element.intelligence;
                     break;
                 case "btnChance":
-                   s="Chance" ;
+                    s = Statistique.element.chance;
                     break;
                 case "btnAgilite":
-                    s = "Agilite";
+                    s = Statistique.element.agilite;
                     break;
                 default:
-                    s = null;
-                    return;                  
+
+                    return;
             }
 
-            foreach (Statistique st in dgStats.Items )
-            {
-                if (st.Nom.ToString() == s)
-                {
-                   
-                }                
-            }
+
+
 
             changement = Convert.ToInt32(lblNbPointsC.Content);
             lblNbPointsC.Content = (changement - 1);

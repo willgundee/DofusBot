@@ -151,7 +151,7 @@ namespace test
 
 
 
-            for (int J = 0; J < 94; J++)
+            for (int J = 1; J < 94; J++)
             {
                 string ajout;
                 if (J > 10)
@@ -396,14 +396,7 @@ namespace test
             rapport = null;
         }
 
-        private void Change_Avatar(object sender, RoutedEventArgs e)
-        {
-            // TODO : Montrer la liste d'avatars disponnibles , Permet choix d'avatar , UserControl?
-
-
-        }
-
-
+      
 
         private void btnSuggestion_Click(object sender, RoutedEventArgs e)
         {
@@ -419,6 +412,33 @@ namespace test
             }
 
         }
+
+        private void Change_Avatar(object sender, MouseButtonEventArgs e)
+        {
+            ChangerAvatar();
+        }
+
+
+        private void ChangerAvatar()
+        {
+
+            choixAvatar choisir = new choixAvatar(lstAvatars, Player.Avatar);
+            choisir.ShowDialog();
+
+            string URI = lstAvatars[choisir.idAvatar];
+            iAvatar.Source = new BitmapImage(new Uri(URI));
+            Player.Avatar = choisir.idAvatar;
+
+
+            bool upd = bd.Update("UPDATE  Joueurs SET  Avatar =  " + Player.Avatar + " WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "';COMMIT");
+        }
+
+        private void btnChange_Avatar(object sender, RoutedEventArgs e)
+        {
+            ChangerAvatar();
+        }
+
+
         #endregion
 
         #region truc trop long de ced
@@ -1897,18 +1917,6 @@ namespace test
 
         #endregion
 
-        private void Change_Avatar(object sender, MouseButtonEventArgs e)
-        {
-            choixAvatar choisir = new choixAvatar(lstAvatars, Player.Avatar);
-            choisir.ShowDialog();
-
-            string URI = lstAvatars[choisir.idAvatar];
-            iAvatar.Source = new BitmapImage(new Uri(URI));
-            Player.Avatar = choisir.idAvatar;
-
-
-            bool upd = bd.Update("UPDATE  Joueurs SET  Avatar =  " + Player.Avatar + " WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "';COMMIT");
-
-        }
+       
     }
 }

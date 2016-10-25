@@ -4,11 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:test"
-        mc:Ignorable="d"
-        Title="choixAvatar" Height="300" Width="300" ResizeMode="NoResize" Topmost="True">
+        mc:Ignorable="d" Height="300" Width="297.551" ResizeMode="NoResize" Topmost="True" Title="Choisissez votre avatar">
     <Grid>
         <Button x:Name="btnChoisir" Content="Choisir" HorizontalAlignment="Left" Margin="100,241,0,0" VerticalAlignment="Top" Width="75" Click="btnChoisir_Click"/>
-        <ListBox x:Name="listBoxAvatars" HorizontalAlignment="Left" Height="236" VerticalAlignment="Top" Width="294" Margin="0,0,-0.4,0">
+        <ListBox x:Name="listBoxAvatars" HorizontalAlignment="Left" Height="236" VerticalAlignment="Top" Width="292" Margin="0,0,-0.449,0">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Columns="10" />
