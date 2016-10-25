@@ -261,18 +261,18 @@
                         <ColumnDefinition Width="7*"/>
                         <ColumnDefinition Width="36*"/>
                     </Grid.ColumnDefinitions>
-                    <Image Name="imgCapeInv" MouseDown="imgInv_MouseDown" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan ="2"/>
+                    <Image Name="imgCapeInv" AllowDrop="True" Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan ="2"/>
                     <Image Name="imgAmuletteInv" MouseDown="imgInv_MouseDown" Grid.Column="6" Grid.Row="2"/>
                     <Image Name="imgChapeauInv" MouseDown="imgInv_MouseDown" Grid.Column="9" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2"/>
                     <Image Name="imgAnneau1Inv" MouseDown="imgInv_MouseDown" Grid.Column="2" Grid.Row="5"/>
                     <Image Name="imgAnneau2Inv" MouseDown="imgInv_MouseDown" Grid.Column="10" Grid.Row="5"/>
                     <Image Name="imgCeintureInv" MouseDown="imgInv_MouseDown" Grid.Column="5" Grid.Row="4" Grid.ColumnSpan="3" Grid.RowSpan ="3"/>
-                    <Image Name="imgBotteInv" MouseDown="imgInv_MouseDown" Grid.Column="5" Grid.Row="8" Grid.ColumnSpan="3"/>
+                    <Image Name="imgBotteInv"  MouseDown="imgInv_MouseDown" Grid.Column="5" Grid.Row="8" Grid.ColumnSpan="3"/>
                     <Image Name="imgArmeInv" MouseDown="imgInv_MouseDown" Grid.Column="9" Grid.Row="8" Grid.ColumnSpan="3" />
                     <Label Name="lblNomEntite" Content="Lou-blood" FontSize="10" Grid.Column="4" Grid.ColumnSpan="5" Foreground="White"/>
                 </Grid>
 
-                <ListBox Name="lbxInventaire" Grid.RowSpan="2" Style="{StaticResource RowOverflow}" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,69,0,0"/>
+                <ListBox Name="lbxInventaire" Grid.RowSpan="2" Style="{StaticResource RowOverflow}" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,69,0,0" PreviewMouseLeftButtonDown="lbxInventaire_PreviewMouseLeftButtonDown"/>
                 <ItemsControl Name="itmCtrlDesc" Grid.Row="1" />
                 <ComboBox Name="cboChoixEntite" Grid.Column="1" SelectionChanged="cboChoixEntite_SelectionChanged" HorizontalAlignment="Left" Margin="94,10,0,0" VerticalAlignment="Top" Width="120"/>
                 <ComboBox Name="cboTrieInventaire" Grid.Column="1" SelectionChanged="cboTrieInventaire_SelectionChanged" HorizontalAlignment="Left" Margin="94,37,0,0" VerticalAlignment="Top" Width="120"/>

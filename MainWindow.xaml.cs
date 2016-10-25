@@ -51,6 +51,7 @@ namespace test
         ObservableCollection<ImageItem> LstInventaire;
         ObservableCollection<DescItem> LstDesc;
         List<string> lstAvatars;
+        System.Windows.Controls.ListBox dragSource = null;
 
         public Joueur Player { get; set; }
 
@@ -83,10 +84,8 @@ namespace test
             //CombatTest combat = new CombatTest();
             InitializeComponent();
 
-
             lstAvatars = new List<string>();
             GenererAvatars();
-
 
             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
 
@@ -396,7 +395,7 @@ namespace test
             rapport = null;
         }
 
-      
+
 
         private void btnSuggestion_Click(object sender, RoutedEventArgs e)
         {
@@ -1488,7 +1487,7 @@ namespace test
                 else// ou je change la quantité posseder
                 {
                     string up2 = "UPDATE JoueursEquipements SET  quantite =  " + (Convert.ToInt16(rep[0]) + 1).ToString() + " WHERE  idJoueurEquipement =" + rep[1] + ";COMMIT;";
-                    bd.Update(up2);//TODO: trouver le probleme l'update n'update pas
+                    bd.Update(up2);
                 }
 
                 if (rep[0] == "rien")// et sur lui
@@ -1853,6 +1852,52 @@ namespace test
                     }
                 }
         }
+
+        private void lbxInventaire_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            System.Windows.Controls.ListBox parent = (System.Windows.Controls.ListBox)sender;
+            dragSource = parent;
+            ImageItem data = (ImageItem)GetDataFromListBox(dragSource, e.GetPosition(parent));
+            System.Windows.DataObject dragData = new System.Windows.DataObject("image", data);
+            if (data != null)
+            {
+                DragDrop.DoDragDrop(parent, dragData, System.Windows.DragDropEffects.Move);
+            }
+        }
+        private static object GetDataFromListBox(System.Windows.Controls.ListBox source, Point point)
+        {
+            UIElement element = source.InputHitTest(point) as UIElement;
+            if (element != null)
+            {
+                object data = DependencyProperty.UnsetValue;
+                while (data == DependencyProperty.UnsetValue)
+                {
+                    data = source.ItemContainerGenerator.ItemFromContainer(element);
+                    if (data == DependencyProperty.UnsetValue)
+                    {
+                        element = VisualTreeHelper.GetParent(element) as UIElement;
+                    }
+                    if (element == source)
+                    {
+                        return null;
+                    }
+                }
+                if (data != DependencyProperty.UnsetValue)
+                {
+                    return data;
+                }
+            }
+            return null;
+        }
+
+        private void imgInv_Drop(object sender, System.Windows.DragEventArgs e)
+        {
+            Image parent = (Image)sender;
+            ImageItem data = e.Data.GetData("image") as ImageItem;
+            parent.Source = data.imgItem.Source;
+        }
+
+
         #endregion
 
         #region Michael/Perso
@@ -1884,6 +1929,7 @@ namespace test
             alert++;
         }
 
+
         /*
 
         private void TabItem_Loaded(object sender, RoutedEventArgs e)
@@ -1912,6 +1958,5 @@ namespace test
 
         #endregion
 
-       
     }
 }
