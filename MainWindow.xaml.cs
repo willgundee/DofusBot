@@ -1692,7 +1692,6 @@ namespace test
 
         private void image_desc(object sender, MouseButtonEventArgs e)
         {
-
             LstDesc.Clear();
             string nom = (((ImageItem)sender).imgItem).Name.Replace("_", " ");
             LstDesc.Add(new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE nom ='" + nom + "'")[0], true, 0)));
@@ -1735,10 +1734,10 @@ namespace test
 
         }
 
-        private void imgCapeInv_MouseDown(object sender, MouseButtonEventArgs e)
+        private void imgInv_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            //[8]
-           string yy =  (sender as Image).Source.ToString().Split('/').Last();
+            LstDesc.Clear();
+            LstDesc.Add(new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE noImage =" + Convert.ToInt32(Path.GetFileNameWithoutExtension((sender as Image).Source.ToString().Split('/').Last())))[0], true, 0)));
         }
 
         private void cboChoixEntite_SelectionChanged(object sender, SelectionChangedEventArgs e)
