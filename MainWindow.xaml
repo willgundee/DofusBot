@@ -163,8 +163,16 @@
                         </wf:CodeTextBox.CodeWords_Chaines>
                     </wf:CodeTextBox>
                 </WindowsFormsHost>
-                <Button Name="btn_run" Content="Run" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Width="75" Height="40" Click="btn_run_Click"/>
-                <Button Name="btn_test" Content="test" Grid.Column="1" HorizontalAlignment="Left" Margin="143,33,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="btn_test_Clicke"/>
+                <Grid Name="grd_controlButton" Grid.Row="1" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button Name="btn_run" Content="Run" Grid.Column="0" Width="75" Height="40" Click="btn_run_Click"/>
+                    <Button Name="btn_test" Content="test" Grid.Column="1" Width="75" Height="40" Click="btn_test_Clicke"/>
+                    <Button Name="btn_debug" Content="debug" Grid.Column="3" Width="75" Height="40" Click="btn_debug_Click"/>
+                </Grid>
             </Grid>
         </TabItem>
         <TabItem Header="Marché" Height="30" >

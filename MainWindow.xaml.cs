@@ -90,6 +90,7 @@ namespace test
 
             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
 
+
             string URI = lstAvatars[Player.Avatar];
             iAvatar.Source = new BitmapImage(new Uri(URI));
 
@@ -153,8 +154,13 @@ namespace test
 
             for (int J = 0; J < 99; J++)
             {
-                string path = "http://staticns.ankama.com/dofus/www/game/items/200/1810" + J.ToString() + ".png";
-                lstAvatars.Add(path);
+                string ajout;
+                if (J > 10)
+                    ajout = "";
+                else
+                    ajout = "0";
+                string path = "http://staticns.ankama.com/dofus/www/game/items/200/180" + ajout + J.ToString() + ".png";
+               lstAvatars.Add(path);
             }
 
 
@@ -417,7 +423,6 @@ namespace test
         #endregion
 
         #region truc trop long de ced
-        //--------------------------------------------------------------------------------------------------------
         //**************************************************************************************************
         private void btn_run_Click(object sender, RoutedEventArgs e)
         {
@@ -562,8 +567,8 @@ namespace test
             ctb_main_VScroll(new object(), new EventArgs());
         }
 
-
-        //**************************************************************************************************
+        
+        #region generate tree
         private TreeNode[] generateTree()
         {
             //#############################################################################################################
@@ -1416,7 +1421,8 @@ namespace test
             treeNodeTab_gofus.CopyTo(treeNode_Intellisense, treeNodeTab_keyword.Length + treeNode_root.Length);
             return treeNode_Intellisense;
         }
-        //**************************************************************************************************
+        #endregion
+
         [DllImport("User32.dll")]
         public extern static int GetScrollPos(IntPtr hWnd, int nBar);
         [DllImport("User32.dll")]
@@ -1632,6 +1638,54 @@ namespace test
         {
             Combat combat = new Combat();
         }
+
+        private void btn_debug_Click(object sender, RoutedEventArgs e)
+        {
+
+            //code dynamique 
+            string code = @"
+                using GofusSharp;
+                namespace Arene
+                {
+                    public class Combat
+                    {
+                        public static void Action(Terrain terrain, Entite Perso, Liste<EntiteInconnu> ListEntites)
+                        {
+                            user_code
+                        }
+                    }
+                }
+            ";
+
+            //je remplace le mot user_code pour ce qui ce trouve dans la text box
+            string richText = ctb_main.Text;
+            string finalCode = code.Replace("user_code", richText);
+            //initialisation d'un compilateur de code C#
+            CSharpCodeProvider provider = new CSharpCodeProvider(new Dictionary<string, string>() { { "CompilerVersion", "v3.5" } });
+            //initialisation des paramètres du compilateur de code C#
+            CompilerParameters parameters = new CompilerParameters();
+            //ajout des lien de bibliothèque dynamique (dll)
+            //parameters.ReferencedAssemblies.Add("WindowsBase.dll");
+            parameters.ReferencedAssemblies.Add("GofusSharp.dll");
+            parameters.ReferencedAssemblies.Add("MySql.Data.dll");
+            //System.Windows.Forms.MessageBox.Show(  );
+            //compilation du code 
+            CompilerResults results = provider.CompileAssemblyFromSource(parameters, finalCode);
+            //recherche d'érreurs de compilation
+            if (results.Errors.HasErrors)
+            {
+                StringBuilder sb = new StringBuilder();
+
+                foreach (CompilerError error in results.Errors)
+                {
+                    sb.AppendLine(string.Format("Erreur (Ligne {0}): {1}", (error.Line - 8).ToString(), error.ErrorText));
+                }
+                System.Windows.Forms.MessageBox.Show(sb.ToString());
+                return;
+                //throw new InvalidOperationException(sb.ToString());
+            }
+            System.Windows.Forms.MessageBox.Show("Aucune érreur de compilation");
+        }
         #endregion
 
         #region Inventaire
@@ -1777,6 +1831,5 @@ namespace test
 
 
         #endregion
-
     }
 }
