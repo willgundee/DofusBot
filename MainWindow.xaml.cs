@@ -1855,5 +1855,10 @@ namespace test
 
         #endregion
 
+        private void Change_Avatar(object sender, MouseButtonEventArgs e)
+        {
+            choixAvatar choisir = new choixAvatar(lstAvatars, 1);
+            choisir.ShowDialog();
+        }
     }
 }
