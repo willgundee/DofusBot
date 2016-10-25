@@ -124,7 +124,15 @@ namespace test
             lblEtat.Foreground = new SolidColorBrush(Colors.Orange);
             btnRejoindreSalle.IsEnabled = true;
             btnQuitterSalle.IsEnabled = false;
+       
+        }
+
+      
+        private void btnFermer_Click(object sender, RoutedEventArgs e)
+        {
+            aTimer.Stop();
             this.Close();
+
         }
     }
 }
