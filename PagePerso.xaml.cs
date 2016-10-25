@@ -269,7 +269,7 @@ namespace test
                     break;
             }
 
-            PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur, emp, source);
+            PageEquipement Equip = new PageEquipement(TypeEquipement, Player.NomUtilisateur, emp, source, Player);
             if (validePg != false)
                 Equip.ShowDialog();
 
