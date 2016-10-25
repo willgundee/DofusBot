@@ -1623,8 +1623,6 @@ namespace test
 
         #endregion
 
-        //TODO: link l'inventaire a mon inbventaire pas une list intermediaire et faire que les objet equiper ne soit pas dans l'inventaire
-
         #region ced
         private void btn_test_Click(object sender, RoutedEventArgs e)
         {
@@ -1717,10 +1715,9 @@ namespace test
         /// <param name="e"></param>
         private void TabItem_Selected_Inventaire(object sender, RoutedEventArgs e)
         {
-            cboTrieInventaire.SelectedIndex = -1;// permet de refresh la list de l'inventaire
-            cboTrieInventaire.SelectedIndex = 0;
-            cboChoixEntite.SelectedIndex = -1;
-            cboChoixEntite.SelectedIndex = 0;
+            refreshInv();
+            /*cboChoixEntite.SelectedIndex = -1;
+            cboChoixEntite.SelectedIndex = 0;*/
         }
 
         /// <summary>
@@ -1768,8 +1765,8 @@ namespace test
         private void imgInv_MouseDown(object sender, MouseButtonEventArgs e)
         {
             LstDesc.Clear();
-            //if((sender as Image).Source)
-            LstDesc.Add(new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE noImage =" + Convert.ToInt32(Path.GetFileNameWithoutExtension((sender as Image).Source.ToString().Split('/').Last())))[0], true, 0)));
+            if (Path.GetFileNameWithoutExtension((sender as Image).Source.ToString().Split('/').Last()) != "vide")
+                LstDesc.Add(new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE noImage =" + Convert.ToInt32(Path.GetFileNameWithoutExtension((sender as Image).Source.ToString().Split('/').Last())))[0], true, 0)));
             lbxInventaire.SelectedIndex = -1;
         }
 
@@ -1861,10 +1858,81 @@ namespace test
         {
             Image cible = (Image)sender;
             ImageItem data = e.Data.GetData("image") as ImageItem;
-            cible.Source = data.imgItem.Source;
+            bool possible = false;
+            Equipement itemDejaEquipe = null;
+
+            Equipement itemVoulantEtreEquiper = new Equipement(bd.selection("SELECT * FROM Equipements WHERE noImage =" + Convert.ToInt32(Path.GetFileNameWithoutExtension(data.imgItem.Source.ToString().Split('/').Last())))[0], true, 0);
+
+            if (Path.GetFileNameWithoutExtension(cible.Source.ToString().Split('/').Last()) != "vide")
+                itemDejaEquipe = new Equipement(bd.selection("SELECT * FROM Equipements WHERE noImage =" + Convert.ToInt32(Path.GetFileNameWithoutExtension(cible.Source.ToString().Split('/').Last())))[0], true, 0);
+            //TODO: l'add dans la list d'equipement du perso quand tu la drop dedans et l'enlever l'inverse
+            //TODO: bouger l'image au lieu de rien
+            //TODO: le modif dans bd
+            switch (cible.Name)
+            {
+                case "imgCapeInv":
+                    if (itemVoulantEtreEquiper.Type == "Cape")
+                        possible = true;
+                    break;
+
+                case "imgAmuletteInv":
+                    if (itemVoulantEtreEquiper.Type == "Amulette")
+                        possible = true;
+                    break;
+
+                case "imgChapeauInv":
+                    if (itemVoulantEtreEquiper.Type == "Chapeau")
+                        possible = true;
+                    break;
+
+                case "imgAnneau1Inv":
+                case "imgAnneau2Inv":
+                    if (itemVoulantEtreEquiper.Type == "Anneau")
+                        possible = true;
+                    break;
+
+                case "imgCeintureInv":
+                    if (itemVoulantEtreEquiper.Type == "Ceinture")
+                        possible = true;
+                    break;
+
+                case "imgBotteInv":
+                    if (itemVoulantEtreEquiper.Type == "Botte")
+                        possible = true;
+                    break;
+
+                case "imgArmeInv":
+                    if (itemVoulantEtreEquiper.Type == "Hache"
+                     || itemVoulantEtreEquiper.Type == "Pelle"
+                     || itemVoulantEtreEquiper.Type == "Baguette"
+                     || itemVoulantEtreEquiper.Type == "Épée"
+                     || itemVoulantEtreEquiper.Type == "Arc"
+                     || itemVoulantEtreEquiper.Type == "Dague"
+                     || itemVoulantEtreEquiper.Type == "Bâton"
+                     || itemVoulantEtreEquiper.Type == "Marteau"
+                     || itemVoulantEtreEquiper.Type == "Faux")
+                        possible = true;
+                    break;
+            }
+            if (possible)
+            {
+                cible.Source = data.imgItem.Source;
+                Player.Inventaire.First(x => x.Nom == itemVoulantEtreEquiper.Nom).Quantite--;
+                if (itemDejaEquipe != null)
+                    Player.Inventaire.First(x => x.Nom == itemDejaEquipe.Nom).Quantite++;
+                else
+                    Player.Inventaire.Add(itemVoulantEtreEquiper);
+
+                refreshInv();
+            }
         }
 
-
+        private void refreshInv()
+        {
+            int i = cboTrieInventaire.SelectedIndex;
+            cboTrieInventaire.SelectedIndex = -1;
+            cboTrieInventaire.SelectedIndex = i;
+        }
         #endregion
 
         #region Michael/Perso
