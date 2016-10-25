@@ -333,15 +333,7 @@
                 <Label HorizontalAlignment="Center" FontSize="25"  Width="144" Margin="199,0,224,402" >Options</Label>
                 <Label x:Name="label" Content="Changer d'avatar" HorizontalAlignment="Left" Margin="20,10,0,0" VerticalAlignment="Top" FontSize="15" Height="30" Width="123" />
                 <Image x:Name="iAvatar" HorizontalAlignment="Left" Height="73" Margin="20,40,0,0" VerticalAlignment="Top" Width="123" Source="Resources/vide.png" MouseDown="Change_Avatar">
-                    <Image.OpacityMask>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="Black" Offset="0"/>
-                            <GradientStop Color="#FFBB1818" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Image.OpacityMask>
-                    <Image.Effect>
-                        <DropShadowEffect BlurRadius="9" Direction="314" ShadowDepth="9"/>
-                    </Image.Effect>
+                   
                 </Image>
                 <Label x:Name="lbl_nom" Content="Nom d'utilisateur" HorizontalAlignment="Left" Margin="20,130,0,0" VerticalAlignment="Top" Height="30" Width="240" FontSize="15"/>
                 <TextBox x:Name="txt_nomUtilisateur" HorizontalAlignment="Left"  Height="22" Margin="20,160,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" IsEnabled="False"  Text="" />
