@@ -25,7 +25,9 @@ namespace test
     {
         private ObservableCollection<Image> lstImage;
 
-        public choixAvatar(List<string> lstAvatars, int idAvatar)
+        public int idAvatar { get; set; }
+
+        public choixAvatar(List<string> lstAvatars, int Avatar)
         {
             InitializeComponent();
             lstImage = new ObservableCollection<Image>();
@@ -40,6 +42,19 @@ namespace test
 
             }
 
+
+            listBoxAvatars.SelectedIndex = Avatar;
+            idAvatar = Avatar;
+
+
+        }
+
+        private void btnChoisir_Click(object sender, RoutedEventArgs e)
+        {
+           
+            idAvatar = listBoxAvatars.SelectedIndex;
+
+            this.Close();
 
         }
     }
