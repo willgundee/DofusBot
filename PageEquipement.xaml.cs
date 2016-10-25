@@ -11,7 +11,8 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+
+using System.IO;
 
 namespace test
 {
@@ -23,9 +24,14 @@ namespace test
         ObservableCollection<Image> listImg;
         public BDService bd = new BDService();
         private string TypeEQ;
-        public PageEquipement(string TypeEquipement, string NomJoueur, string emplacement)
+        private string nomJoueur;
+        private int idEntite;
+        private Image imgDEquipe;
+        public PageEquipement(string TypeEquipement, string NomJoueur, string emplacement, Image NomImgDEquip)
         {
+            nomJoueur = NomJoueur;
             TypeEQ = emplacement;
+            imgDEquipe = NomImgDEquip;
             bool valide;
             listImg = new ObservableCollection<Image>();
             InitializeComponent();
@@ -39,7 +45,7 @@ namespace test
             }
             lbxItem.ItemsSource = listImg;
 
-
+            
         }
 
         private bool afficherEquipementDispo(string TypeEquipement, string NomJoueur )
@@ -98,38 +104,43 @@ namespace test
                     switch (TypeEQ)
                     {
                         case "tête":
-                            (Page as MainWindow).pgperso.First().imageCasque.Source = (sender as Image).Source;
-                            Close();
+                            (Page as MainWindow).pgperso.First().imageCasque.Source = (sender as Image).Source;                                                
                             break;
                         case "dos":
-                            (Page as MainWindow).pgperso.First().imageCape.Source = (sender as Image).Source;
-                            Close();
+                            (Page as MainWindow).pgperso.First().imageCape.Source = (sender as Image).Source;                    
                             break;
                         case "arme":
                             (Page as MainWindow).pgperso.First().imageArme.Source = (sender as Image).Source;
-                            Close();
+                         
                             break;
                         case "hanche":
                             (Page as MainWindow).pgperso.First().imageCeinture.Source = (sender as Image).Source;
-                            Close();
+                        
                             break;
                         case "ano1":
                             (Page as MainWindow).pgperso.First().imageAnneau1.Source = (sender as Image).Source;
-                            Close();
+                     
                             break;
                         case "ano2":
                             (Page as MainWindow).pgperso.First().imageAnneau2.Source = (sender as Image).Source;
-                            Close();
+                            
                             break;
                         case "pied":
                             (Page as MainWindow).pgperso.First().imageBotte.Source = (sender as Image).Source;
-                            Close();
+                          
                             break;
                         case "cou":
                             (Page as MainWindow).pgperso.First().imageAmulette.Source = (sender as Image).Source;
-                            Close();
+                            
                             break;
                     }
+                    int idE = Convert.ToInt32(Path.GetFileNameWithoutExtension((sender as Image).Source.ToString().Split('/').Last()));
+                    int ide = Convert.ToInt32(Path.GetFileNameWithoutExtension(imgDEquipe.Source.ToString().Split('/').Last()));
+                   bd.Update("UPDATE equipementsentites SET idEquipement = (SELECT idEquipement FROM Equipements WHERE noImage = " +  idE+ ") WHERE emplacement='" + TypeEQ + "'");
+                    string i= "UPDATE JoueursEquipemets SET quantiteEquipe= quantiteEquipe" + -1 + "WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + nomJoueur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE ImgNo =" + ide  + ")";
+
+                    bd.Update("UPDATE JoueursEquipemets SET quantiteEquipe= quantiteEquipe" + - 1 + "WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" +nomJoueur+ "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='"+imgDEquipe+"')" );
+                    Close();
                 }
             }
         }

@@ -87,14 +87,16 @@ namespace test
             lstAvatars = new List<string>();
             GenererAvatars();
 
+           
+            btnQuitterSalle.IsEnabled = false;
             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
 
 
             string URI = lstAvatars[Player.Avatar];
             iAvatar.Source = new BitmapImage(new Uri(URI));
 
-
-
+            lblEtat.Content = "État : Non connecté à la salle";
+            lblEtat.Foreground = new SolidColorBrush(Colors.Orange);
             idJoueur = id;
 
             ctb_main.CreateTreeView(generateTree());
@@ -197,7 +199,7 @@ namespace test
                 });
                 trdRefresh.Start();
                 Thread.Yield();
-                // Forcing the CommandManager to raise the RequerySuggested event
+               
                 CommandManager.InvalidateRequerySuggested();
             }
             else
@@ -235,7 +237,12 @@ namespace test
         private void btnRejoindreSalle_Click(object sender, RoutedEventArgs e)
         {
             aTimer.Start();
+            lblEtat.Content = "État : Connecter à la salle.";
+            lblEtat.Foreground = new SolidColorBrush(Colors.ForestGreen);
             txtMessage.IsEnabled = true;
+            btnRejoindreSalle.IsEnabled = false;
+            btnQuitterSalle.IsEnabled = true;
+
         }
 
         private void btnQuitterSalle_Click(object sender, RoutedEventArgs e)
@@ -243,9 +250,14 @@ namespace test
             aTimer.Stop();
             txtMessage.Text = "";
             txtboxHistorique.Text = "";
+            lblEtat.Content = "État : Déconnecter.";
+            lblEtat.Foreground = new SolidColorBrush(Colors.Orange);
+
             btnEnvoyerMessage.IsEnabled = false;
             txtMessage.IsEnabled = false;
 
+            btnRejoindreSalle.IsEnabled = true;
+            btnQuitterSalle.IsEnabled = false;
 
         }
 
@@ -407,7 +419,7 @@ namespace test
             {
                 rapport = new FenetreRapport(idJoueur);
                 rapport.Closed += MainWindow_RapportClosing;
-                rapport.Show();
+                rapport.ShowDialog();
             }
 
         }
