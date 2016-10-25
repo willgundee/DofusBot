@@ -140,6 +140,7 @@
     <Compile Include="CreationCompteWindow.xaml.cs">
       <DependentUpon>CreationCompteWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="observableCollection.cs" />
     <Compile Include="pageCpersonage.xaml.cs">
       <DependentUpon>pageCpersonage.xaml</DependentUpon>
     </Compile>
