@@ -132,7 +132,7 @@ namespace test
                 foreach (MainWindow m in Application.Current.Windows)
                 {
                     m.pgperso.Add(new PagePerso(Player.LstEntites[0], Player));
-                    m.tCPerso.ItemsSource = m.pgperso;
+                    m.tCPerso.ItemsSource = m.pgperso;                   
                 }
                
 

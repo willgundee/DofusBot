@@ -170,8 +170,6 @@ namespace test
                     bd.Update("UPDATE JoueursEquipements SET quantiteEquipe = " + qqt + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + nomJoueur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE noImage ='" + idE + "')");
                     //diminu qttéquipé
 
-
-
                     Close();
                 }
             }

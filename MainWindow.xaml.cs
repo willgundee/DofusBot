@@ -75,6 +75,7 @@ namespace test
             //CombatTest combat = new CombatTest();
             InitializeComponent();
 
+
             lstAvatars = new List<string>();
             GenererAvatars();
 
@@ -118,6 +119,7 @@ namespace test
             txt_AncienCourriel.Text = Player.Courriel;
             txt_nomUtilisateur.Text = Player.NomUtilisateur;
 
+            TabItem_Loaded(null, null);
 
             #region Marc_TimerTick_Chat
 
@@ -1941,7 +1943,7 @@ namespace test
         // ***************************************************
         int alert = 0;
 
-        private void TabItem_Selected(object sender, RoutedEventArgs e)
+      /*  private void TabItem_Selected(object sender, RoutedEventArgs e)
         {
             if (alert != 0)
             {
@@ -1964,8 +1966,7 @@ namespace test
             alert++;
         }
 
-
-        /*
+        */
 
         private void TabItem_Loaded(object sender, RoutedEventArgs e)
         {
@@ -1973,7 +1974,7 @@ namespace test
             if (Player.LstEntites.Count() == 0)
             {
                 pgCperso.Add(new pageCpersonage(Player));
-                tCPerso.ItemsSource = pgCperso;
+                tCPerso.ItemsSource = pgCperso;              
 
             }
 
@@ -1987,7 +1988,7 @@ namespace test
             
         }
 
-    */
+    
 
 
 
