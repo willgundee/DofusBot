@@ -27,16 +27,16 @@ namespace test
         private string nomJoueur;
         private string imgDEquipe;
         private Joueur Player;
-        public PageEquipement(string TypeEquipement, string NomJoueur, string emplacement, Image NomImgDEquip, Joueur Player)
+        public PageEquipement(string TypeEquipement,  string emplacement, Image NomImgDEquip, Joueur player)
         {
-            this.Player = Player;
-            nomJoueur = NomJoueur;
+            this.Player = player;
+            nomJoueur = player.NomUtilisateur;
             TypeEQ = emplacement;
             imgDEquipe = NomImgDEquip.Source.ToString();
             bool valide;
             listImg = new ObservableCollection<Image>();
             InitializeComponent();
-            valide = afficherEquipementDispo(TypeEquipement, NomJoueur);
+            valide = afficherEquipementDispo(TypeEquipement, nomJoueur);
             foreach (Window Page in Application.Current.Windows)
             {
                 if (Page.GetType() == typeof(MainWindow))
@@ -112,33 +112,28 @@ namespace test
                             break;
                         case "arme":
                             (Page as MainWindow).pgperso.First().imageArme.Source = (sender as Image).Source;
-
                             break;
                         case "hanche":
                             (Page as MainWindow).pgperso.First().imageCeinture.Source = (sender as Image).Source;
-
                             break;
                         case "ano1":
                             (Page as MainWindow).pgperso.First().imageAnneau1.Source = (sender as Image).Source;
-
                             break;
                         case "ano2":
                             (Page as MainWindow).pgperso.First().imageAnneau2.Source = (sender as Image).Source;
-
                             break;
                         case "pied":
                             (Page as MainWindow).pgperso.First().imageBotte.Source = (sender as Image).Source;
-
                             break;
                         case "cou":
                             (Page as MainWindow).pgperso.First().imageAmulette.Source = (sender as Image).Source;
-
                             break;
                     }
                     //équipe après
                     int idE = Convert.ToInt32(Path.GetFileNameWithoutExtension((sender as Image).Source.ToString().Split('/').Last()));
                     //équipe avant
                     string ide = Path.GetFileNameWithoutExtension(imgDEquipe.ToString().Split('/').Last());
+                    string NomENT = "SELECT nom FROM Entites e  INNER JOIN Joueurs j ON j.idJoueur = e.idJoueur WHERE j.nomUtilisateur='" + nomJoueur + "'";
 
 
                     int qqt = Convert.ToInt32(bd.selection("SELECT quantiteEquipe FROM JoueursEquipements  WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + nomJoueur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE noImage =" + idE + ")")[0][0]);
@@ -147,25 +142,29 @@ namespace test
                     if (ide == "vide")
                     {
                         bd.insertion("INSERT INTO equipementsEntites (idEquipement,idEntite,Emplacement)VALUES((SELECT idEquipement FROM Equipements WHERE noImage =" + idE + "),(SELECT idEntite FROM Entites e  INNER JOIN Joueurs j ON j.idJoueur = e.idJoueur WHERE j.nomUtilisateur='" + nomJoueur + "'),'" + TypeEQ + "')");
-                       // foreach (Entite et in Player.LstEntites)
-                            
+                        foreach (Entite et in Player.LstEntites)
+                            if (et.Nom == bd.selection(NomENT)[0][0])
+                                et.LstEquipements.Add(new Equipement(bd.selection("SELECT * FROM Equipements WHERE noImage =" + idE )[0], true, Convert.ToInt32(bd.selection("SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + nomJoueur + "'")[0][0])));
+                        
+
                     }
                     else
                     {
                         int qqt2 = Convert.ToInt32(bd.selection("SELECT quantiteEquipe FROM JoueursEquipements  WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + nomJoueur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE noImage =" + ide + ")")[0][0]);
                         qqt2 = -1;
                         bd.Update("UPDATE equipementsentites SET idEquipement = (SELECT idEquipement FROM Equipements WHERE noImage = " + idE + ") WHERE emplacement='" + TypeEQ + "'");
-                        bd.Update("UPDATE JoueursEquipements SET = " + qqt2 + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + nomJoueur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE noImage ='" + ide + "')");
+                        bd.Update("UPDATE JoueursEquipements SET quantiteEquipe= " + qqt2 + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + nomJoueur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE noImage ='" + ide + "')");
 
-                     /*   foreach (Entite et in Player.LstEntites)
-                            foreach (Equipement equi in et.LstEquipements)
-                            {
-                                if (equi.NoImg == idE.ToString())
-                                    equi.QuantiteEquipe += 1;
+                        foreach (Entite et in Player.LstEntites)
+                            if (et.Nom == NomENT)
+                                foreach (Equipement equi in et.LstEquipements)
+                                {
+                                    if (equi.NoImg == idE.ToString())
+                                        equi.QuantiteEquipe += 1;
 
-                                if (equi.NoImg == ide.ToString())
-                                    equi.QuantiteEquipe -= 1;
-                            }*/
+                                    if (equi.NoImg == ide.ToString())
+                                        equi.QuantiteEquipe -= 1;
+                                }
 
                     }
                     bd.Update("UPDATE JoueursEquipements SET quantiteEquipe = " + qqt + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + nomJoueur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE noImage ='" + idE + "')");
