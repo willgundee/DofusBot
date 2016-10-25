@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Windows;
+using System.Configuration;
 
 namespace test
 {
@@ -22,12 +23,17 @@ namespace test
         private string utilisateur = "gofusprog";
         private string motPasse = "GP994433";
 
+        private MySqlConnection connexion;
         public BDService()
         {
             try
             {
-                string connexionString = "server=" + serveur + ";database=" + baseDonnee + ";uid=" + utilisateur + ";password=" + motPasse;
+                // string connexionString = "server=" + serveur + ";database=" + baseDonnee + ";uid=" + utilisateur + ";password=" + motPasse;
 
+                string connexionString;
+                connexionString = ConfigurationManager.ConnectionStrings["MySqlConnexion"].ConnectionString;
+
+                connexion = new MySqlConnection(connexionString);
 
                 BDSelect = new MySqlConnection(connexionString);
 
@@ -37,7 +43,7 @@ namespace test
 
 
 
-               
+
             }
             catch (Exception e)
             {
@@ -105,20 +111,20 @@ namespace test
                 if (ouvrirConnexionINSERT())
                 {
                     MySqlCommand cmd = new MySqlCommand(req, BDInsert);
-                   
-                 if (cmd.ExecuteNonQuery() == 1)
-                {
+
+                    if (cmd.ExecuteNonQuery() == 1)
+                    {
                         fermerConnexionINSERT();
                         return true;
                     }
-                else
-                {
-                    MessageBox.Show("Erreur de mise à jour ! ");
-                }
+                    else
+                    {
+                        MessageBox.Show("Erreur de mise à jour ! ");
+                    }
                     fermerConnexionINSERT();
                     return false;
                 }
-               
+
             }
             catch (Exception ex)
             {
@@ -273,9 +279,9 @@ namespace test
         }
 
 
-    
 
-   
+
+
 
 
 
