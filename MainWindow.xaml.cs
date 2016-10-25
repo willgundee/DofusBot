@@ -423,7 +423,6 @@ namespace test
         #endregion
 
         #region truc trop long de ced
-        //--------------------------------------------------------------------------------------------------------
         //**************************************************************************************************
         private void btn_run_Click(object sender, RoutedEventArgs e)
         {
@@ -568,8 +567,8 @@ namespace test
             ctb_main_VScroll(new object(), new EventArgs());
         }
 
-
-        //**************************************************************************************************
+        
+        #region generate tree
         private TreeNode[] generateTree()
         {
             //#############################################################################################################
@@ -872,8 +871,289 @@ namespace test
                 Tnode.Text = "system";
             }
             //#############################################################################################################
+            TreeNode[] treeNodeTab_T_zone_enum = new TreeNode[] {
+                new TreeNode("cercle"),
+                new TreeNode("ligne_verticale"),
+                new TreeNode("ligne_horizontale"),
+                new TreeNode("carre"),
+                new TreeNode("croix"),
+                new TreeNode("T"),
+                new TreeNode("X"),
+                new TreeNode("demi_cercle"),
+                new TreeNode("cone"),
+                new TreeNode("tous")
+            };
+            foreach (TreeNode Tnode in treeNodeTab_T_zone_enum)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "namespace";
+                Tnode.Text = "system";
+            }
+            TreeNode[] treeNodeTab_T_zone = new TreeNode[] {
+                new TreeNode("type",treeNodeTab_T_zone_enum)
+            };
+            foreach (TreeNode Tnode in treeNodeTab_T_zone)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "namespace";
+                Tnode.Text = "system";
+            }
+            //#############################################################################################################
+            TreeNode[] treeNodeTab_T_stat_enum = new TreeNode[] {
+                new TreeNode("vie"),
+                new TreeNode("force"),
+                new TreeNode("intelligence"),
+                new TreeNode("chance"),
+                new TreeNode("agilite"),
+                new TreeNode("vitalite"),
+                new TreeNode("sagesse"),
+                new TreeNode("PA"),
+                new TreeNode("PM"),
+                new TreeNode("portee"),
+                new TreeNode("invocation"),
+                new TreeNode("prospection"),
+                new TreeNode("initiative"),
+                new TreeNode("fuite"),
+                new TreeNode("DMG_neutre"),
+                new TreeNode("DMG_feu"),
+                new TreeNode("DMG_air"),
+                new TreeNode("DMG_terre"),
+                new TreeNode("DMG_eau"),
+                new TreeNode("DMG_poussee"),
+                new TreeNode("DMG_piege"),
+                new TreeNode("RES_neutre"),
+                new TreeNode("RES_feu"),
+                new TreeNode("RES_air"),
+                new TreeNode("RES_terre"),
+                new TreeNode("RES_eau"),
+                new TreeNode("RES_poussee"),
+                new TreeNode("RES_Pourcent_neutre"),
+                new TreeNode("RES_Pourcent_feu"),
+                new TreeNode("RES_Pourcent_air"),
+                new TreeNode("RES_Pourcent_terre"),
+                new TreeNode("RES_Pourcent_eau"),
+                new TreeNode("retrait_PA"),
+                new TreeNode("retrait_PM"),
+                new TreeNode("esquive_PA"),
+                new TreeNode("esquive_PM"),
+                new TreeNode("soin"),
+                new TreeNode("renvoie_DMG"),
+                new TreeNode("tacle"),
+                new TreeNode("puissance"),
+                new TreeNode("puissance_piege"),
+                new TreeNode("reduction_physique"),
+                new TreeNode("reduction_magique ")
+            };
+            foreach (TreeNode Tnode in treeNodeTab_T_stat_enum)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "namespace";
+                Tnode.Text = "system";
+            }
+            TreeNode[] treeNodeTab_T_stat = new TreeNode[] {
+                new TreeNode("type",treeNodeTab_T_zone_enum)
+            };
+            foreach (TreeNode Tnode in treeNodeTab_T_stat)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "namespace";
+                Tnode.Text = "system";
+            }
+            //#############################################################################################################
+            TreeNode[] treeNodeTab_T_equip_enum = new TreeNode[] {
+                new TreeNode("chapeau"),
+                new TreeNode("anneau"),
+                new TreeNode("botte"),
+                new TreeNode("ceinture"),
+                new TreeNode("cape"),
+                new TreeNode("amulette"),
+                new TreeNode("arme")
+            };
+            foreach (TreeNode Tnode in treeNodeTab_T_equip_enum)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "namespace";
+                Tnode.Text = "system";
+            }
+            TreeNode[] treeNodeTab_T_equip = new TreeNode[] {
+                new TreeNode("type",treeNodeTab_T_equip_enum)
+            };
+            foreach (TreeNode Tnode in treeNodeTab_T_equip)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "namespace";
+                Tnode.Text = "system";
+            }
+            //#############################################################################################################
+            TreeNode[] treeNodeTab_T_Enti_enum_1 = new TreeNode[] {
+                new TreeNode("attaquant"),
+                new TreeNode("defendant")
+            };
+            foreach (TreeNode Tnode in treeNodeTab_T_Enti_enum_1)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "namespace";
+                Tnode.Text = "system";
+            }
+            TreeNode[] treeNodeTab_T_Enti_enum_2 = new TreeNode[] {
+                new TreeNode("vivant"),
+                new TreeNode("mort")
+            };
+            foreach (TreeNode Tnode in treeNodeTab_T_Enti_enum_2)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "namespace";
+                Tnode.Text = "system";
+            }
+            TreeNode[] treeNodeTab_T_enti = new TreeNode[] {
+                new TreeNode("type",treeNodeTab_T_Enti_enum_1),
+                new TreeNode("typeEtat",treeNodeTab_T_Enti_enum_2)
+            };
+            foreach (TreeNode Tnode in treeNodeTab_T_enti)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "namespace";
+                Tnode.Text = "system";
+            }
+            //#############################################################################################################
+            TreeNode[] treeNodeTab_T_effet_enum = new TreeNode[] {
+                new TreeNode("pousse"),
+                new TreeNode("pousse_lanceur"),
+                new TreeNode("tire_lanceur"),
+                new TreeNode("teleportation"),
+                new TreeNode("ATT_neutre"),
+                new TreeNode("ATT_air"),
+                new TreeNode("ATT_feu"),
+                new TreeNode("ATT_terre"),
+                new TreeNode("ATT_eau"),
+                new TreeNode("envoutement"),
+                new TreeNode("pose_piege"),
+                new TreeNode("pose_glyphe"),
+                new TreeNode("invocation"),
+                new TreeNode("soin")
+            };
+            foreach (TreeNode Tnode in treeNodeTab_T_effet_enum)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "namespace";
+                Tnode.Text = "system";
+            }
+            TreeNode[] treeNodeTab_T_effet = new TreeNode[] {
+                new TreeNode("type",treeNodeTab_T_effet_enum)
+            };
+            foreach (TreeNode Tnode in treeNodeTab_T_effet)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "namespace";
+                Tnode.Text = "system";
+            }
+            //#############################################################################################################
+            TreeNode[] treeNodeTab_T_classe_enum = new TreeNode[] {
+                new TreeNode("ecaflip"),
+                new TreeNode("eniripsa"),
+                new TreeNode("iop"),
+                new TreeNode("cra"),
+                new TreeNode("feca"),
+                new TreeNode("sacrieur"),
+                new TreeNode("sadida"),
+                new TreeNode("osamoda"),
+                new TreeNode("enutrof"),
+                new TreeNode("sram"),
+                new TreeNode("xelor"),
+                new TreeNode("pandawa")
+            };
+            foreach (TreeNode Tnode in treeNodeTab_T_classe_enum)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "namespace";
+                Tnode.Text = "system";
+            }
+            TreeNode[] treeNodeTab_T_classe = new TreeNode[] {
+                new TreeNode("type",treeNodeTab_T_classe_enum)
+            };
+            foreach (TreeNode Tnode in treeNodeTab_T_classe)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "namespace";
+                Tnode.Text = "system";
+            }
+            //#############################################################################################################
+            TreeNode[] treeNodeTab_T_case_enum = new TreeNode[] {
+                new TreeNode("vide"),
+                new TreeNode("joueur"),
+                new TreeNode("obstacle"),
+                new TreeNode("piege")
+            };
+            foreach (TreeNode Tnode in treeNodeTab_T_case_enum)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "namespace";
+                Tnode.Text = "system";
+            }
+            TreeNode[] treeNodeTab_T_case = new TreeNode[] {
+                new TreeNode("type",treeNodeTab_T_case_enum)
+            };
+            foreach (TreeNode Tnode in treeNodeTab_T_case)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "namespace";
+                Tnode.Text = "system";
+            }
+            //#############################################################################################################
+            TreeNode[] treeNodeTab_T_arme_enum = new TreeNode[] {
+                new TreeNode("arc"),
+                new TreeNode("baguette"),
+                new TreeNode("baton"),
+                new TreeNode("dague"),
+                new TreeNode("faux"),
+                new TreeNode("hache"),
+                new TreeNode("marteau"),
+                new TreeNode("outil"),
+                new TreeNode("pelle"),
+                new TreeNode("pioche"),
+                new TreeNode("epee")
+            };
+            foreach (TreeNode Tnode in treeNodeTab_T_arme_enum)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "namespace";
+                Tnode.Text = "system";
+            }
+            TreeNode[] treeNodeTab_T_arme = new TreeNode[] {
+                new TreeNode("type",treeNodeTab_T_arme_enum)
+            };
+            foreach (TreeNode Tnode in treeNodeTab_T_arme)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "namespace";
+                Tnode.Text = "system";
+            }
+            //#############################################################################################################
+            TreeNode[] treeNodeTab_gofus = new TreeNode[] {
+                new TreeNode("Arme", treeNodeTab_T_arme),
+                new TreeNode("Case", treeNodeTab_T_case),
+                new TreeNode("Classe", treeNodeTab_T_classe),
+                new TreeNode("Effet", treeNodeTab_T_effet),
+                new TreeNode("Entite", treeNodeTab_T_enti),
+                new TreeNode("EntiteInconnu"),
+                new TreeNode("Envoutement"),
+                new TreeNode("Equipement", treeNodeTab_T_equip),
+                new TreeNode("Liste"),
+                new TreeNode("Personnage"),
+                new TreeNode("Sort"),
+                new TreeNode("Statistique", treeNodeTab_T_stat),
+                new TreeNode("Terrain"),
+                new TreeNode("Zone", treeNodeTab_T_zone)
+            };
+            foreach (TreeNode Tnode in treeNodeTab_gofus)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "namespace";
+                Tnode.Text = "system";
+            }
+            //#############################################################################################################
             TreeNode[] treeNodeTab_stat = new TreeNode[] {
-                new TreeNode("Nom", treeNodeTab_chaine),
+                new TreeNode("Nom"),
                 new TreeNode("Valeur", treeNodeTab_simpleVar)
             };
             foreach (TreeNode Tnode in treeNodeTab_stat)
@@ -931,8 +1211,7 @@ namespace test
                 new TreeNode("ZoneEffet", treeNodeTab_zone),
                 new TreeNode("TabEffets", treeNodeTab_tab),
                 new TreeNode("TauxDeRelance", treeNodeTab_simpleVar),
-                new TreeNode("CoutPA", treeNodeTab_simpleVar),
-                new TreeNode("Nom")
+                new TreeNode("CoutPA", treeNodeTab_simpleVar)
             };
             foreach (TreeNode Tnode in treeNodeTab_sort)
             {
@@ -967,8 +1246,8 @@ namespace test
             }
 
             TreeNode[] treeNodeTab_attribut_perso = new TreeNode[] {
-                new TreeNode("Etat"),
                 new TreeNode("Equipe"),
+                new TreeNode("Etat"),
                 new TreeNode("IdEntite", treeNodeTab_simpleVar),
                 new TreeNode("ClasseEntite", treeNodeTab_classe),
                 new TreeNode("Nom", treeNodeTab_chaine),
@@ -1008,8 +1287,8 @@ namespace test
             }
 
             TreeNode[] treeNodeTab_attribut_perso_i = new TreeNode[] {
-                new TreeNode("Etat"),
                 new TreeNode("Equipe"),
+                new TreeNode("Etat"),
                 new TreeNode("IdEntite", treeNodeTab_simpleVar),
                 new TreeNode("ClasseEntite", treeNodeTab_classe),
                 new TreeNode("Nom", treeNodeTab_chaine),
@@ -1035,6 +1314,36 @@ namespace test
             treeNodeTab_method_perso_i.CopyTo(treeNodeTab_perso_i, 0);
             treeNodeTab_attribut_perso_i.CopyTo(treeNodeTab_perso_i, treeNodeTab_method_perso_i.Length);
             //#############################################################################################################
+            TreeNode[] treeNodeTab_method_terrain = new TreeNode[] {
+                new TreeNode("DistanceEntreCases()", treeNodeTab_simpleVar),
+                new TreeNode("CaseAvecObstacle()", treeNodeTab_Liste),
+                new TreeNode("CheminEntreCases()", treeNodeTab_Liste),
+                new TreeNode("CaseVoisines()", treeNodeTab_Liste)
+            };
+
+            foreach (TreeNode Tnode in treeNodeTab_method_terrain)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "method";
+                Tnode.Text = "system";
+            }
+
+            TreeNode[] treeNodeTab_attribut_terrain = new TreeNode[] {
+                new TreeNode("TabCases", treeNodeTab_tab),
+                new TreeNode("Largeur", treeNodeTab_simpleVar),
+                new TreeNode("Hauteur", treeNodeTab_simpleVar)
+            };
+            foreach (TreeNode Tnode in treeNodeTab_attribut_terrain)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "property";
+                Tnode.Text = "system";
+            }
+
+            TreeNode[] treeNodeTab_terrain = new TreeNode[treeNodeTab_method_terrain.Length + treeNodeTab_attribut_terrain.Length];
+            treeNodeTab_method_terrain.CopyTo(treeNodeTab_terrain, 0);
+            treeNodeTab_attribut_terrain.CopyTo(treeNodeTab_terrain, treeNodeTab_method_terrain.Length);
+            //#############################################################################################################
             TreeNode treeNode_1 = new TreeNode("keyword");
             TreeNode treeNode_2 = new TreeNode("classGofus");
             TreeNode treeNode_3 = new TreeNode("Math", treeNodeTab_math);
@@ -1043,6 +1352,9 @@ namespace test
             TreeNode treeNode_6 = new TreeNode("tab", treeNodeTab_tab);
             TreeNode treeNode_7 = new TreeNode("fonctionVoid");
             TreeNode treeNode_8 = new TreeNode("Liste", treeNodeTab_Liste);
+            TreeNode treeNode_9 = new TreeNode("Perso", treeNodeTab_perso);
+            TreeNode treeNode_10 = new TreeNode("ListeEntite", treeNodeTab_Liste);
+            TreeNode treeNode_11 = new TreeNode("terrain", treeNodeTab_terrain);
 
             treeNode_1.Name = "keyword";
             treeNode_1.Tag = "class";
@@ -1076,6 +1388,18 @@ namespace test
             treeNode_8.Tag = "class";
             treeNode_8.Text = "system";
 
+            treeNode_9.Name = "Perso";
+            treeNode_9.Tag = "property";
+            treeNode_9.Text = "system";
+
+            treeNode_10.Name = "ListeEntite";
+            treeNode_10.Tag = "property";
+            treeNode_10.Text = "system";
+
+            treeNode_11.Name = "terrain";
+            treeNode_11.Tag = "property";
+            treeNode_11.Text = "system";
+
             TreeNode[] treeNode_root = new TreeNode[] {
             treeNode_1,
             treeNode_2,
@@ -1084,16 +1408,21 @@ namespace test
             treeNode_5,
             treeNode_6,
             treeNode_7,
-            treeNode_8};
+            treeNode_8,
+            treeNode_9,
+            treeNode_10,
+            treeNode_11};
 
 
 
-            TreeNode[] treeNode_Intellisense = new TreeNode[treeNode_root.Length + treeNodeTab_keyword.Length];
+            TreeNode[] treeNode_Intellisense = new TreeNode[treeNode_root.Length + treeNodeTab_keyword.Length + treeNodeTab_gofus.Length];
             treeNodeTab_keyword.CopyTo(treeNode_Intellisense, 0);
             treeNode_root.CopyTo(treeNode_Intellisense, treeNodeTab_keyword.Length);
+            treeNodeTab_gofus.CopyTo(treeNode_Intellisense, treeNodeTab_keyword.Length + treeNode_root.Length);
             return treeNode_Intellisense;
         }
-        //**************************************************************************************************
+        #endregion
+
         [DllImport("User32.dll")]
         public extern static int GetScrollPos(IntPtr hWnd, int nBar);
         [DllImport("User32.dll")]
@@ -1308,6 +1637,54 @@ namespace test
         {
             Combat combat = new Combat();
         }
+
+        private void btn_debug_Click(object sender, RoutedEventArgs e)
+        {
+
+            //code dynamique 
+            string code = @"
+                using GofusSharp;
+                namespace Arene
+                {
+                    public class Combat
+                    {
+                        public static void Action(Terrain terrain, Entite Perso, Liste<EntiteInconnu> ListEntites)
+                        {
+                            user_code
+                        }
+                    }
+                }
+            ";
+
+            //je remplace le mot user_code pour ce qui ce trouve dans la text box
+            string richText = ctb_main.Text;
+            string finalCode = code.Replace("user_code", richText);
+            //initialisation d'un compilateur de code C#
+            CSharpCodeProvider provider = new CSharpCodeProvider(new Dictionary<string, string>() { { "CompilerVersion", "v3.5" } });
+            //initialisation des paramètres du compilateur de code C#
+            CompilerParameters parameters = new CompilerParameters();
+            //ajout des lien de bibliothèque dynamique (dll)
+            //parameters.ReferencedAssemblies.Add("WindowsBase.dll");
+            parameters.ReferencedAssemblies.Add("GofusSharp.dll");
+            parameters.ReferencedAssemblies.Add("MySql.Data.dll");
+            //System.Windows.Forms.MessageBox.Show(  );
+            //compilation du code 
+            CompilerResults results = provider.CompileAssemblyFromSource(parameters, finalCode);
+            //recherche d'érreurs de compilation
+            if (results.Errors.HasErrors)
+            {
+                StringBuilder sb = new StringBuilder();
+
+                foreach (CompilerError error in results.Errors)
+                {
+                    sb.AppendLine(string.Format("Erreur (Ligne {0}): {1}", (error.Line - 8).ToString(), error.ErrorText));
+                }
+                System.Windows.Forms.MessageBox.Show(sb.ToString());
+                return;
+                //throw new InvalidOperationException(sb.ToString());
+            }
+            System.Windows.Forms.MessageBox.Show("Aucune érreur de compilation");
+        }
         #endregion
 
         #region Inventaire
@@ -1413,6 +1790,5 @@ namespace test
 
 
         #endregion
-
     }
 }

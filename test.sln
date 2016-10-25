@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "test.csproj", "{DD77FDCB-DE4F-4A2F-BFE0-99D21F26D75E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeTextBox", "CodeTextBox\CodeTextBox.csproj", "{2C9E628D-0909-428B-967F-84CFF0967B64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GofusSharp", "..\GofusSharp\GofusSharp.csproj", "{CC87A83F-6D7F-45AA-A354-DF25AA43E8AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{2C9E628D-0909-428B-967F-84CFF0967B64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C9E628D-0909-428B-967F-84CFF0967B64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C9E628D-0909-428B-967F-84CFF0967B64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC87A83F-6D7F-45AA-A354-DF25AA43E8AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC87A83F-6D7F-45AA-A354-DF25AA43E8AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC87A83F-6D7F-45AA-A354-DF25AA43E8AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC87A83F-6D7F-45AA-A354-DF25AA43E8AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
