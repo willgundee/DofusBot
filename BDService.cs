@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Windows;
+using System.Configuration;
 
 namespace test
 {
@@ -22,12 +23,17 @@ namespace test
         private string utilisateur = "gofusprog";
         private string motPasse = "GP994433";
 
+        private MySqlConnection connexion;
         public BDService()
         {
             try
             {
-                string connexionString = "server=" + serveur + ";database=" + baseDonnee + ";uid=" + utilisateur + ";password=" + motPasse;
+                // string connexionString = "server=" + serveur + ";database=" + baseDonnee + ";uid=" + utilisateur + ";password=" + motPasse;
 
+                string connexionString;
+                connexionString = ConfigurationManager.ConnectionStrings["MySqlConnexion"].ConnectionString;
+
+                connexion = new MySqlConnection(connexionString);
 
                 BDSelect = new MySqlConnection(connexionString);
 
