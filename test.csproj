@@ -100,6 +100,9 @@
     </Compile>
     <Compile Include="Chat\Chat.cs" />
     <Compile Include="Chat\MessageText.cs" />
+    <Compile Include="choixAvatar.xaml.cs">
+      <DependentUpon>choixAvatar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Classes\Classe.cs" />
     <Compile Include="Classes\Condition.cs" />
     <Compile Include="Classes\Effet.cs" />
@@ -211,6 +214,10 @@
     <Page Include="ChatWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="choixAvatar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Combat.xaml">
       <SubType>Designer</SubType>
