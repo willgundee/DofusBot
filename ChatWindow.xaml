@@ -39,6 +39,7 @@
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
+        <Label x:Name="lblEtat" Content="État:" HorizontalAlignment="Left" Margin="22,102.568,0,0" Grid.Row="2" VerticalAlignment="Top" Width="379"/>
 
 
     </Grid>

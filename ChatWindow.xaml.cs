@@ -4,6 +4,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace test
@@ -104,6 +105,8 @@ namespace test
         {
             aTimer.Start();
             txtMessage.IsEnabled = true;
+            lblEtat.Content = "État : Connecter à la salle.";
+            lblEtat.Foreground = new SolidColorBrush(Colors.ForestGreen);
         }
 
         private void btnQuitterSalle_Click(object sender, RoutedEventArgs e)
@@ -113,7 +116,8 @@ namespace test
             txtboxHistorique.Text = "";
             btnEnvoyerMessage.IsEnabled = false;
             txtMessage.IsEnabled = false;
-
+            lblEtat.Content = "État : Déconnecter.";
+            lblEtat.Foreground = new SolidColorBrush(Colors.Orange);
             this.Close();
         }
     }
