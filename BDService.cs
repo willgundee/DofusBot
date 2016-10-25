@@ -280,6 +280,12 @@ namespace test
 
 
 
+
+
+
+
+
+
         private bool ouvrirConnexionINSERT()
         {
             try
