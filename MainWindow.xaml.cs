@@ -101,7 +101,6 @@ namespace test
             ctb_main.CreateTreeView(generateTree());
             ctb_main.UpdateSyntaxHightlight();
             ctb_main.UpdateTreeView();
-
             pgperso = new ObservableCollection<PagePerso>();
             pgCperso = new ObservableCollection<pageCpersonage>();
 
@@ -1445,26 +1444,28 @@ namespace test
         #endregion
 
         #region Marché
-
+        /// <summary>
+        /// action du bouton d'achat du marché
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAchat_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult m = System.Windows.MessageBox.Show("Voulez vous vraiment acheter l'objet : " + lblItem.Content + ". Au cout de " + lblPrix.Content + " Kamas ?", "Achat", MessageBoxButton.YesNo, MessageBoxImage.Information);
+            MessageBoxResult m = System.Windows.MessageBox.Show("Voulez vous vraiment acheter l'objet : " + lblItem.Content + ". Au cout de " + lblPrix.Content + " Kamas ?", "Achat", MessageBoxButton.YesNo, MessageBoxImage.Information);// affichage d'un message box te demandant situ veut acheter ceci
             if (m == MessageBoxResult.Yes)
-            {
-                Player.Kamas -= (int)lblPrix.Content;
-                string g = "UPDATE  Joueurs SET  argent =  " + Player.Kamas + " WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "';COMMIT;";
-                bd.Update(g);
-                //TODO: l'update fucktop tout donc je l'ai enlever 
+            {// si oui 
+                Player.Kamas -= (int)lblPrix.Content; // je change l'argent du joueur
+                bd.Update("UPDATE  Joueurs SET  argent =  " + Player.Kamas + " WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "';COMMIT;");// et dans la bd 
                 List<string> rep = bd.selection("SELECT je.quantite,je.idJoueurEquipement FROM joueursequipements je INNER JOIN joueurs j ON je.idJoueur = j.idJoueur  INNER JOIN Equipements e ON e.idEquipement = je.idEquipement WHERE e.nom ='" + lblItem.Content.ToString() + "' AND j.nomUtilisateur = '" + Player.NomUtilisateur + "'")[0];
-
-                if (rep[0] == "rien")
+                    // je regarde s'il a deja cette item dans son inventaire 
+                if (rep[0] == "rien")// si non je l'ajoute en bd
                     bd.insertion("INSERT INTO  JoueursEquipements (idJoueur ,idEquipement ,quantite ,quantiteEquipe) VALUES ( (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur = '" + Player.NomUtilisateur + "'),(SELECT idEquipement FROM Equipements WHERE nom = '" + lblItem.Content.ToString() + "') ,1, 0); ");
-                else
+                else// ou je change la quantité posseder
                     bd.Update("UPDATE JoueursEquipements SET  quantite =  " + (Convert.ToInt16(rep[0]) + 1) + " WHERE  idJoueurEquipement =" + rep[1] + ";COMMIT;");
 
-                if (rep[0] == "rien")
+                if (rep[0] == "rien")// et sur lui
                     Player.Inventaire.Add(new Equipement(bd.selection("SELECT * FROM Equipements WHERE nom = '" + lblItem.Content.ToString() + "'")[0], true, Convert.ToInt32(bd.selection("SELECT * FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "'")[0][0])));
-                else
+                else// change la quantité sur le joueur
                     foreach (Equipement item in Player.Inventaire)
                         if (item.Nom == lblItem.Content.ToString())
                         {
@@ -1472,17 +1473,21 @@ namespace test
                             break;
                         }
             }
-            lblKamas.Content = Player.Kamas;
+            lblKamas.Content = Player.Kamas;// actualise son argent
 
             if (Player.Kamas < (int)lblPrix.Content)
-                btnAchat.IsEnabled = false;
+                btnAchat.IsEnabled = false;// active le bouton ou non s'il a encore assé d'argent
             else
                 btnAchat.IsEnabled = true;
         }
 
+        /// <summary>
+        /// action d'un click d'une image dans le marché
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void image_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            //TODO : add border to selected item
 
             #region Abracadabra
             btnAchat.Visibility = Visibility.Visible;
@@ -1492,17 +1497,18 @@ namespace test
             tabControlStats.Visibility = Visibility.Visible;
             #endregion
 
-            if (imgCurrent.Source == (((ImageItem)sender).imgItem.Source))
+            if (imgCurrent.Source == (((ImageItem)sender).imgItem.Source))// si tu veut les description de l'item que tu a deja
                 return;
+
             lblKamas.Content = Player.Kamas;
-            LstCaras.Clear();
+            LstCaras.Clear();//réinitialisation des list d'infos
             LstStats.Clear();
             LstConds.Clear();
 
-            imgCurrent.Source = ((ImageItem)sender).imgItem.Source;
+            imgCurrent.Source = ((ImageItem)sender).imgItem.Source;// met l'article choisi en gros
             string info = "SELECT * FROM Equipements  WHERE nom ='" + ((ImageItem)sender).txtNom.Text.ToString() + "'";
 
-            Equipement item = new Equipement(bd.selection(info)[0], true, 0);
+            Equipement item = new Equipement(bd.selection(info)[0], true, 0);// crée l'item
             lblItem.Content = item.Nom;
 
             lblPrix.Content = item.Prix;
@@ -1513,7 +1519,7 @@ namespace test
 
             txtBDesc.Text = item.Desc;
 
-            // ajoutes les nouvelles
+            // affiche les info
             if (item.EstArme)
             {
                 tbCara.Visibility = Visibility.Visible;
@@ -1536,7 +1542,9 @@ namespace test
                 else
                     LstConds.Add(cond.Stat.NomSimple + " " + cond.Signe + "  " + cond.Stat.Valeur.ToString());
         }
-
+        /// <summary>
+        /// rempli les combobox
+        /// </summary>
         private void fillSortCbo()
         {
             List<string> type = new List<string>();
@@ -1546,7 +1554,6 @@ namespace test
                 type.Add(typeNom[0]);
             cboTrie.ItemsSource = type;
             cboTrie.SelectedIndex = 0;
-            //cboTrie.SelectionChanged += cboTrie_SelectionChanged;
 
             cboTrieInventaire.ItemsSource = type;
             cboTrieInventaire.SelectedIndex = 0;
@@ -1555,28 +1562,37 @@ namespace test
                 entitesNom.Add(perso.Nom);// TODO ne marchera pas si crée un perso marche
             cboChoixEntite.ItemsSource = entitesNom;
             cboChoixEntite.SelectedIndex = 0;
-            //cboChoixEntite.SelectionChanged += cboChoixEntite_SelectionChanged;
         }
 
+        /// <summary>
+        /// quand tu change de trie ceci change les items afficher
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cboTrie_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string type = ((System.Windows.Controls.ComboBox)sender).SelectedValue.ToString();
             LstImgItems.Clear();
-            string query = "SELECT * FROM Equipements  e INNER JOIN ConditionsEquipements c ON c.idEquipement = e.idEquipement INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE idCondition = 21 " + (type == "Tous" ? "" : "AND t.nom ='" + type + "'") + " ORDER BY c.valeur  LIMIT 10 OFFSET 0";
+            string query = "SELECT * FROM Equipements  e INNER JOIN ConditionsEquipements c ON c.idEquipement = e.idEquipement INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE idCondition = 21 " + (type == "Tous" ? "" : "AND t.nom ='" + type + "'") + " ORDER BY c.valeur  LIMIT 10 OFFSET 0";// les 10 premier item triée par ordre de niveau
             string count = "SELECT COUNT(*) FROM Equipements  e INNER JOIN ConditionsEquipements c ON c.idEquipement = e.idEquipement INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE idCondition = 21 " + (type == "Tous" ? "" : "AND t.nom ='" + type + "'");
 
             List<string>[] items = bd.selection(query);
             dckLink.Children.Clear();
             if (items[0][0] != "rien")
             {
-                createPageLinks(Convert.ToInt32(bd.selection(count)[0][0]), 1);
-                retrieveItem(items);
+                createPageLinks(Convert.ToInt32(bd.selection(count)[0][0]), 1);// créations des numeros de pages
+                retrieveItem(items);// affidhe les items
             }
         }
 
+        /// <summary>
+        /// action d'un click sur un numero de page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btn_link_click(object sender, RoutedEventArgs e)
         {
-            string query = "SELECT * FROM Equipements  e INNER JOIN ConditionsEquipements c ON c.idEquipement = e.idEquipement INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE idCondition = 21 " + ((string)cboTrie.SelectedValue == "Tous" ? "" : "AND t.nom ='" + (string)cboTrie.SelectedValue + "'") + " ORDER BY c.valeur  LIMIT 10 OFFSET " + ((Convert.ToInt16(((System.Windows.Controls.Button)sender).Content) - 1) * 10).ToString();
+            string query = "SELECT * FROM Equipements  e INNER JOIN ConditionsEquipements c ON c.idEquipement = e.idEquipement INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE idCondition = 21 " + ((string)cboTrie.SelectedValue == "Tous" ? "" : "AND t.nom ='" + (string)cboTrie.SelectedValue + "'") + " ORDER BY c.valeur  LIMIT 10 OFFSET " + ((Convert.ToInt16(((System.Windows.Controls.Button)sender).Content) - 1) * 10).ToString();// choisi avec un offset les xieme articles a afficher
             string count = "SELECT COUNT(*) FROM Equipements  e INNER JOIN ConditionsEquipements c ON c.idEquipement = e.idEquipement INNER JOIN TypesEquipements t ON t.idTypeEquipement = e.idTypeEquipement WHERE idCondition = 21 " + ((string)cboTrie.SelectedValue == "Tous" ? "" : "AND t.nom ='" + (string)cboTrie.SelectedValue + "'");
 
             LstImgItems.Clear();
@@ -1589,6 +1605,11 @@ namespace test
             }
         }
 
+        /// <summary>
+        /// crée les numeros des pages 
+        /// </summary>
+        /// <param name="nbPages"></param>
+        /// <param name="actuel"></param>
         private void createPageLinks(int nbPages, int actuel)
         {            //<Button Style="{StaticResource LinkButton}" Content="Clicky" />
             if (nbPages % 10 == 0)
@@ -1702,7 +1723,6 @@ namespace test
             cboTrieInventaire.SelectedIndex = 0;
         }
 
-
         private void cboTrieInventaire_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string type = ((System.Windows.Controls.ComboBox)sender).SelectedValue.ToString();
@@ -1730,8 +1750,6 @@ namespace test
                 lbxInventaire.Style = (Style)FindResource("RowFix");
             else
                 lbxInventaire.Style = (Style)FindResource("RowOverflow");
-
-
         }
 
         private void imgInv_MouseDown(object sender, MouseButtonEventArgs e)

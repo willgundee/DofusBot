@@ -8,7 +8,13 @@
         Title="choixAvatar" Height="300" Width="300" ResizeMode="NoResize" Topmost="True">
     <Grid>
         <Button x:Name="btnChoisir" Content="Choisir" HorizontalAlignment="Left" Margin="100,241,0,0" VerticalAlignment="Top" Width="75"/>
-        <ListBox x:Name="listBoxAvatars" HorizontalAlignment="Left" Height="236" VerticalAlignment="Top" Width="294" Margin="0,0,-0.4,0"/>
+        <ListBox x:Name="listBoxAvatars" HorizontalAlignment="Left" Height="236" VerticalAlignment="Top" Width="294" Margin="0,0,-0.4,0">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="10" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
 
     </Grid>
 </Window>
