@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:test"
         mc:Ignorable="d"
         Title="Chat" Height="579.066" Width="642.407" ResizeMode="NoResize" WindowStyle="None">
-    <Grid Margin="0,0,15,8" Background="#FFAAA7A7">
+    <Grid Background="#FFAAA7A7">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
