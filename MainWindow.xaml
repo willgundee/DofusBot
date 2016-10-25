@@ -298,7 +298,7 @@
                     <RowDefinition Height="63*"/>
                 </Grid.RowDefinitions>
 
-                <ScrollViewer x:Name="Scroll" Margin="10,0,55,10" CanContentScroll="True" Grid.Row="1">
+                <ScrollViewer x:Name="Scroll" Margin="10,0,10,10" CanContentScroll="True" Grid.Row="1">
                     <TextBlock x:Name="txtboxHistorique" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Top" Width="510" 
             Foreground="#FF1132C5" 
             Background="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" ScrollViewer.HorizontalScrollBarVisibility="Visible"
