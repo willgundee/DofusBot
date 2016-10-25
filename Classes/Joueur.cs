@@ -67,7 +67,7 @@ namespace test
         /// Pour ajouter les personnages du joueur
         /// </summary>
         /// <param name="idJoueur">Le joueur</param>
-        private void addPerso(int idJoueur)
+        public void addPerso(int idJoueur)
         {
             LstEntites = new ObservableCollection<Entite>();
             string entit = "SELECT * FROM entites e INNER JOIN Joueurs j ON j.idJoueur = e.idJoueur WHERE j.idJoueur =" + idJoueur;

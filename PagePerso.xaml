@@ -61,12 +61,6 @@
                 <DataGridTextColumn Header="Nom"  Binding="{Binding Nom}" FontSize="15" Width="2*" />
                 <DataGridTextColumn Header="Valeur" Binding="{Binding Valeur}" FontSize="15" Width="*"/>
             </DataGrid.Columns>
-            <DataGrid.RowDetailsTemplate>
-                <DataTemplate>
-                    <TextBox Text="Info"></TextBox>
-                </DataTemplate>
-            </DataGrid.RowDetailsTemplate>
-
         </DataGrid>
         <Label x:Name="lblResistance" Grid.Row="1" Grid.Column="2" Content="Résistances" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="80,0,0,70"></Label>
 
@@ -75,11 +69,7 @@
                 <DataGridTextColumn Header="Nom"  Binding="{Binding Nom}" FontSize="15" Width="2*" />
                 <DataGridTextColumn Header="Valeur" Binding="{Binding Valeur}" FontSize="15" Width="*"/>
             </DataGrid.Columns>
-            <DataGrid.RowDetailsTemplate>
-                <DataTemplate>
-                    <TextBox Text="Info"></TextBox>
-                </DataTemplate>
-            </DataGrid.RowDetailsTemplate>
+    
         </DataGrid>
     </Grid>
 
