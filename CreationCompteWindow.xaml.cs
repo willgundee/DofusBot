@@ -50,8 +50,8 @@ namespace test
             #region nomUtilisateurValidations
             if (txt_nom.Text.ToString() == "")
             {
-                lbl_nom.Content = "Nom d'utilisateur (Champs vide)";
-                lbl_nom.Foreground = new SolidColorBrush(Colors.Red);
+                lbl_nom.Content = "Nom d'utilisateur (Champs Obligatoire)";
+                lbl_nom.Foreground = new SolidColorBrush(Colors.Orange);
                 Valide = false;
             }
             else
@@ -59,8 +59,8 @@ namespace test
 
                 if (result[0][0] != "rien")
                 {
-                    lbl_nom.Content = "Nom d'utilisateur (Nom utilisé)";
-                    lbl_nom.Foreground = new SolidColorBrush(Colors.Red);
+                    lbl_nom.Content = "Nom d'utilisateur (Nom déjà utilisé)";
+                    lbl_nom.Foreground = new SolidColorBrush(Colors.Orange);
                     Valide = false;
                 }
                 else
@@ -68,7 +68,7 @@ namespace test
                     if (txt_nom.Text.ToString().Length > 13 || txt_nom.Text.ToString().Length < 5)
                     {
                         lbl_nom.Content = "Nom d'utilisateur (Entre 5 et 13 Lettres/chiffres)";
-                        lbl_nom.Foreground = new SolidColorBrush(Colors.Red);
+                        lbl_nom.Foreground = new SolidColorBrush(Colors.Orange);
                         Valide = false;
                     }
                     else
@@ -86,8 +86,8 @@ namespace test
 
             if (txt_mdp.Password != txtConfirmation.Password)
             {
-                lbl_Confirmation.Content = "Confimation de mot de passe ( Doit être identique au champs de mot de passe ) ";
-                lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Red);
+                lbl_Confirmation.Content = "Confimation de mot de passe ( Doit être identique au mot de passe ) ";
+                lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Orange);
                 Valide = false;
             }
             else
@@ -98,8 +98,8 @@ namespace test
 
             if (txt_mdp.Password.Length < 5 || txt_mdp.Password.Length > 15)
             {
-                lbl_Mdp.Content = "Mot de passe (Doit contenir entre 5 et 15 lettres/chiffres)";
-                lbl_Mdp.Foreground = new SolidColorBrush(Colors.Red);
+                lbl_Mdp.Content = "Mot de passe (Entre 5 et 15 Lettres/chiffres)";
+                lbl_Mdp.Foreground = new SolidColorBrush(Colors.Orange);
                 Valide = false;
             }
             else
@@ -112,7 +112,8 @@ namespace test
 
             if (txt_Courriel.Text.ToString() == "")
             {
-                lbl_Courriel.Foreground = new SolidColorBrush(Colors.Red);
+                lbl_Courriel.Foreground = new SolidColorBrush(Colors.Orange);
+                lbl_Courriel.Content = "Champs Obligatoire";
                 Valide = false;
             }
             else

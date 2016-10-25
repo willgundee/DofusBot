@@ -408,7 +408,7 @@ namespace test
             {
                 rapport = new FenetreRapport(idJoueur);
                 rapport.Closed += MainWindow_RapportClosing;
-                rapport.Show();
+                rapport.ShowDialog();
             }
 
         }
