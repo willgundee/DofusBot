@@ -113,7 +113,7 @@ namespace test
             if (txt_Courriel.Text.ToString() == "")
             {
                 lbl_Courriel.Foreground = new SolidColorBrush(Colors.Orange);
-                lbl_Courriel.Content = "Champs Obligatoire";
+                lbl_Courriel.Content = "Courriel (Champs Obligatoire)";
                 Valide = false;
             }
             else
