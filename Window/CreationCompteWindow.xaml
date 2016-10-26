@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:test"
         mc:Ignorable="d"
         Background="Gray"
-        Title="Creation de compte" Height="371.021" Width="528.98" WindowStyle="None" ResizeMode="NoResize" Icon="Resources/Gofus.png" Topmost="True">
+        Title="Creation de compte" Height="371.021" Width="521.389" WindowStyle="None" ResizeMode="NoResize" Icon="..\Resources/Gofus.png" Topmost="True">
     <Grid Margin="0,0,0,-3.979" HorizontalAlignment="Left" Width="519">
         <Grid.RowDefinitions>
             <RowDefinition Height="287*"/>
