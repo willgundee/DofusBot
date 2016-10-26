@@ -96,12 +96,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ChatWindow.xaml.cs">
+    <Compile Include="Window\ChatWindow.xaml.cs">
       <DependentUpon>ChatWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Chat\Chat.cs" />
     <Compile Include="Chat\MessageText.cs" />
-    <Compile Include="choixAvatar.xaml.cs">
+    <Compile Include="Window\choixAvatar.xaml.cs">
       <DependentUpon>choixAvatar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Classes\Classe.cs" />
@@ -115,18 +115,17 @@
     <Compile Include="Classes\Sort.cs" />
     <Compile Include="Classes\Statistique.cs" />
     <Compile Include="Classes\Zone.cs" />
-    <Compile Include="FenetreRapport.xaml.cs">
+    <Compile Include="Window\FenetreRapport.xaml.cs">
       <DependentUpon>FenetreRapport.xaml</DependentUpon>
     </Compile>
     <Compile Include="BDService.cs" />
     <Compile Include="Authentification.xaml.cs">
       <DependentUpon>Authentification.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CreationCompteWindow.xaml.cs">
+    <Compile Include="Window\CreationCompteWindow.xaml.cs">
       <DependentUpon>CreationCompteWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="observableCollection.cs" />
-    <Compile Include="pageCpersonage.xaml.cs">
+    <Compile Include="UserControl\pageCpersonage.xaml.cs">
       <DependentUpon>pageCpersonage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControl\DescItem.xaml.cs">
@@ -140,10 +139,10 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PageEquipement.xaml.cs">
+    <Compile Include="Window\PageEquipement.xaml.cs">
       <DependentUpon>PageEquipement.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PagePerso.xaml.cs">
+    <Compile Include="UserControl\PagePerso.xaml.cs">
       <DependentUpon>PagePerso.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -192,15 +191,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="ChatWindow.xaml">
+    <Page Include="Window\ChatWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="choixAvatar.xaml">
+    <Page Include="Window\choixAvatar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FenetreRapport.xaml">
+    <Page Include="Window\FenetreRapport.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -212,15 +211,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CreationCompteWindow.xaml">
+    <Page Include="Window\CreationCompteWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="pageCpersonage.xaml">
+    <Page Include="UserControl\pageCpersonage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PageEquipement.xaml">
+    <Page Include="Window\PageEquipement.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -232,7 +231,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PagePerso.xaml">
+    <Page Include="UserControl\PagePerso.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
