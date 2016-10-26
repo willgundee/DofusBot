@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:test"
         mc:Ignorable="d"
-        Title="Fenêtre d'envois de rapport" Height="500" Width="350" ResizeMode="NoResize" Icon="Resources/Gofus.png" Topmost="True">
+        Title="Fenêtre d'envois de rapport" Height="500" Width="350" ResizeMode="NoResize" Icon="../Resources/Gofus.png" Topmost="True">
     <Window.Effect>
         <DropShadowEffect/>
     </Window.Effect>
