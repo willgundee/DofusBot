@@ -52,7 +52,7 @@
 
     <TabControl TabStripPlacement="Left">
 
-        <TabItem  Header="PersonNages" Height="30"  Selector.Selected="TabItem_Selected" >
+        <TabItem  Header="Personnages" Height="30"   >
             <Grid x:Name="grd_Perso" IsEnabled="True" Selector.IsSelected="True">
                 <TabControl x:Name="tCPerso" Grid.ColumnSpan="2"  HorizontalAlignment="Left" Height="560" Margin="3,1,0,-1" VerticalAlignment="Top" Width="577" Grid.RowSpan="2" >
 
@@ -261,14 +261,14 @@
                         <ColumnDefinition Width="7*"/>
                         <ColumnDefinition Width="36*"/>
                     </Grid.ColumnDefinitions>
-                    <Image Name="imgCapeInv" AllowDrop="True" Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan ="2"/>
-                    <Image Name="imgAmuletteInv" MouseDown="imgInv_MouseDown" Grid.Column="6" Grid.Row="2"/>
-                    <Image Name="imgChapeauInv" MouseDown="imgInv_MouseDown" Grid.Column="9" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2"/>
-                    <Image Name="imgAnneau1Inv" MouseDown="imgInv_MouseDown" Grid.Column="2" Grid.Row="5"/>
-                    <Image Name="imgAnneau2Inv" MouseDown="imgInv_MouseDown" Grid.Column="10" Grid.Row="5"/>
-                    <Image Name="imgCeintureInv" MouseDown="imgInv_MouseDown" Grid.Column="5" Grid.Row="4" Grid.ColumnSpan="3" Grid.RowSpan ="3"/>
-                    <Image Name="imgBotteInv"  MouseDown="imgInv_MouseDown" Grid.Column="5" Grid.Row="8" Grid.ColumnSpan="3"/>
-                    <Image Name="imgArmeInv" MouseDown="imgInv_MouseDown" Grid.Column="9" Grid.Row="8" Grid.ColumnSpan="3" />
+                    <Image Name="imgCapeInv" Source="resources/vide.png" AllowDrop="True" Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan ="2"/>
+                    <Image Name="imgAmuletteInv" Source="resources/vide.png" AllowDrop="True" Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" Grid.Column="6" Grid.Row="2"/>
+                    <Image Name="imgChapeauInv" Source="resources/vide.png" AllowDrop="True" Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" Grid.Column="9" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2"/>
+                    <Image Name="imgAnneau1Inv" Source="resources/vide.png" AllowDrop="True" Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" Grid.Column="2" Grid.Row="5"/>
+                    <Image Name="imgAnneau2Inv" Source="resources/vide.png" AllowDrop="True" Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" Grid.Column="10" Grid.Row="5"/>
+                    <Image Name="imgCeintureInv" Source="resources/vide.png" AllowDrop="True" Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" Grid.Column="5" Grid.Row="4" Grid.ColumnSpan="3" Grid.RowSpan ="3"/>
+                    <Image Name="imgBotteInv" Source="resources/vide.png" AllowDrop="True" Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" Grid.Column="5" Grid.Row="8" Grid.ColumnSpan="3"/>
+                    <Image Name="imgArmeInv" Source="resources/vide.png" AllowDrop="True" Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" Grid.Column="9" Grid.Row="8" Grid.ColumnSpan="3" />
                     <Label Name="lblNomEntite" Content="Lou-blood" FontSize="10" Grid.Column="4" Grid.ColumnSpan="5" Foreground="White"/>
                 </Grid>
 

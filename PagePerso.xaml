@@ -8,7 +8,7 @@
              d:DesignHeight="560" d:DesignWidth="577">
 
 
-    <Grid Background="Gray">
+    <Grid x:Name="grdperso" Background="Gray">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
@@ -19,21 +19,25 @@
 
             <ColumnDefinition Width="284*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
+
+        <Image x:Name="Imgfond"  Source="resources/fondEquipement.jpg"  Height="260" Width="283" Grid.RowSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="20.19,43,15,0"  Grid.Column="1" />
+        <Grid x:Name="grdEquip"  Grid.Column="1" Margin="15,0,15,267" Grid.RowSpan="2">
+            <Image x:Name="imageAmulette" Source="resources/vide.png"  Height="40" Width="40" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,75,25,0"   MouseLeftButtonDown="image_MouseDown"  />
+            <Image x:Name="imageCape" Source="resources/vide.png" Height="60" Width="60" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" MouseLeftButtonDown="image_MouseDown"  Margin="10,60,0,0"/>
+            <Image x:Name="imageCasque" Source="resources/vide.png" Height="60" Width="60" VerticalAlignment="Top" HorizontalAlignment="Right" MouseLeftButtonDown="image_MouseDown" Margin="0,60,25,0"/>
+            <Image x:Name="imageCeinture" Source="resources/vide.png" Height="60" Width="58" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" MouseLeftButtonDown="image_MouseDown" Margin="0,45,20,0" />
+            <Image x:Name="imageAnneau1" Source="resources/vide.png" Height="40" Width="40" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" MouseLeftButtonDown="image_MouseDown" Margin="20,30,0,0"  />
+            <Image x:Name="imageAnneau2" Source="resources/vide.png" Height="40" Width="40" VerticalAlignment="Center" HorizontalAlignment="Right" MouseLeftButtonDown="image_MouseDown" Margin="0,30,35,0"  />
+            <Image x:Name="imageBotte" Source="resources/vide.png" Height="58" Width="58" VerticalAlignment="Bottom" HorizontalAlignment="Center" MouseLeftButtonDown="image_MouseDown" Margin="0,0,30,0"  />
+            <Image x:Name="imageArme" Source="resources/vide.png" Height="58" Width="59" VerticalAlignment="Bottom" HorizontalAlignment="Right" MouseLeftButtonDown="image_MouseDown" Margin="0,0,30,15"  />
+
+        </Grid>
         <Label x:Name="lblNom" VerticalAlignment="Top" FontSize="16" HorizontalAlignment="Left" Margin="10,10,0,0"/>
         <Label Grid.Column="2"  HorizontalAlignment="Center" FontSize="25" VerticalAlignment="Top" Margin="71,0,70,0.02" Content="Équipement"/>
         <Rectangle x:Name="rect"   Height="75" Width="75" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Margin="20,60,0,0" Fill="#FFF0E9E9" Grid.ColumnSpan="2"   />
         <Image x:Name="Imgclasse" Height="75" Width="75" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Margin="20,60,0,0" Grid.ColumnSpan="2"   />
         <Label x:Name="lblClasse" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,35,0,0" Content="Classe : "/>
         <Label x:Name="lblNomClasse" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="50,35,0,0"/>
-        <Image x:Name="Imgfond"  Source="resources/fondEquipement.jpg"  Height="260" Width="283" Grid.RowSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="20.19,43,15,0"  Grid.Column="1" />
-        <Image x:Name="imageAmulette" Source="resources/vide.png"  Height="40" Width="40" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,76,25,0"   MouseLeftButtonDown="image_MouseDown"  />
-        <Image x:Name="imageCape" Source="resources/vide.png" Height="60" Width="60" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" MouseLeftButtonDown="image_MouseDown"  Margin="25,60,0,0"/>
-        <Image x:Name="imageCasque" Source="resources/vide.png" Height="60" Width="60" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Right" MouseLeftButtonDown="image_MouseDown" Margin="0,60,45,0"/>
-        <Image x:Name="imageCeinture" Source="resources/vide.png" Height="60" Width="58" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" MouseLeftButtonDown="image_MouseDown" Margin="0,40,25,0" />
-        <Image x:Name="imageAnneau1" Source="resources/vide.png" Height="40" Width="40" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" MouseLeftButtonDown="image_MouseDown" Margin="35,100,0,70"  />
-        <Image x:Name="imageAnneau2" Source="resources/vide.png" Height="40" Width="40" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" MouseLeftButtonDown="image_MouseDown" Margin="0,100,50,70"  />
-        <Image x:Name="imageBotte" Source="resources/vide.png" Height="58" Width="59" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" MouseLeftButtonDown="image_MouseDown" Margin="0,0,20,0"  />
-        <Image x:Name="imageArme" Source="resources/vide.png" Height="58" Width="59" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" MouseLeftButtonDown="image_MouseDown" Margin="0,0,45,0"  />
         <Label x:Name="lblScript" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="31,36.98,0,197.04" FontSize="15">Script :</Label>
         <ComboBox x:Name="cbScript" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="180" Margin="87,40,17,201"  />
         <Label x:Name="lblStats" VerticalAlignment="Center" Margin="5,139,283,99.02" Content="Statistique" Grid.ColumnSpan="3" />
@@ -61,12 +65,6 @@
                 <DataGridTextColumn Header="Nom"  Binding="{Binding Nom}" FontSize="15" Width="2*" />
                 <DataGridTextColumn Header="Valeur" Binding="{Binding Valeur}" FontSize="15" Width="*"/>
             </DataGrid.Columns>
-            <DataGrid.RowDetailsTemplate>
-                <DataTemplate>
-                    <TextBox Text="Info"></TextBox>
-                </DataTemplate>
-            </DataGrid.RowDetailsTemplate>
-
         </DataGrid>
         <Label x:Name="lblResistance" Grid.Row="1" Grid.Column="2" Content="Résistances" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="80,0,0,70"></Label>
 
@@ -75,11 +73,7 @@
                 <DataGridTextColumn Header="Nom"  Binding="{Binding Nom}" FontSize="15" Width="2*" />
                 <DataGridTextColumn Header="Valeur" Binding="{Binding Valeur}" FontSize="15" Width="*"/>
             </DataGrid.Columns>
-            <DataGrid.RowDetailsTemplate>
-                <DataTemplate>
-                    <TextBox Text="Info"></TextBox>
-                </DataTemplate>
-            </DataGrid.RowDetailsTemplate>
+
         </DataGrid>
     </Grid>
 

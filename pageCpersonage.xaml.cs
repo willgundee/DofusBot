@@ -27,10 +27,10 @@ namespace test
         private Joueur Player;
 
         public BDService bd = new BDService();
-        public pageCpersonage(Joueur Player)
+        public pageCpersonage(Joueur Playert)
         {
             InitializeComponent();
-            this.Player = Player;
+            this.Player = Playert;
         }
 
         private void image_MouseDown(object sender, MouseButtonEventArgs e)
@@ -124,7 +124,19 @@ namespace test
 
 
                 string h=bd.selection("SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='"+Player.NomUtilisateur+"'")[0][0];
-                MainWindow perso = new MainWindow(Convert.ToInt32(h));
+
+                string selentite = bd.selection("SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "'")[0][0];
+
+                Player.addPerso(int.Parse(h));
+
+                foreach (MainWindow m in Application.Current.Windows)
+                {
+                    m.pgperso.Add(new PagePerso(Player.LstEntites[0], Player));
+                    m.tCPerso.ItemsSource = m.pgperso;                   
+                }
+               
+
+
                // perso.Show();
             }
 
