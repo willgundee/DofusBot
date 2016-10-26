@@ -172,7 +172,7 @@ namespace test
                         Player.LstEntites.First(x => x.Nom == NomENT).LstEquipements.Remove(Player.LstEntites.First(x => x.Nom == NomENT).LstEquipements.First(y => y.NoImg == ide.ToString()));
                         //ajoute le nouvel equipement
                         Player.LstEntites.First(x => x.Nom == NomENT).LstEquipements.Add(Player.Inventaire.First(x => x.NoImg == idE.ToString()));
-                        //augmente la quantité equiper de celui équiper
+                        //augmente la quantité equiper de ce lui équiper
                         Player.Inventaire.First(x => x.NoImg == idE.ToString()).QuantiteEquipe++;
                         // réduit celle qui a été désequipé
                         Player.Inventaire.First(x => x.NoImg == ide.ToString()).QuantiteEquipe--;
