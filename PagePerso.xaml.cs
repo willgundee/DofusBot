@@ -79,7 +79,7 @@ namespace test
                 }
                 initialiserLstStats(perso.LstStats);
                 dgStats.ItemsSource = lstStat;
-                calculervalues();
+                //calculervalues();
                 dgDommage.ItemsSource = initialiserLstDMG(perso);
                 dgResistance.ItemsSource = initialiserLstRES(perso);
             }
@@ -275,7 +275,7 @@ namespace test
                 Equip.ShowDialog();
             foreach (Entite perso in Player.LstEntites)
             {
-                calculervalues();
+                //calculervalues();
                 dgDommage.ItemsSource = initialiserLstDMG(perso);
                 dgResistance.ItemsSource = initialiserLstRES(perso);
             }
