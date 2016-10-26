@@ -275,6 +275,7 @@ namespace test
                 Equip.ShowDialog();
             foreach (Entite perso in Player.LstEntites)
             {
+                initialiserLstStats(perso.LstStats);
                 //calculervalues();
                 dgDommage.ItemsSource = initialiserLstDMG(perso);
                 dgResistance.ItemsSource = initialiserLstRES(perso);

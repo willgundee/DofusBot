@@ -1740,7 +1740,7 @@ namespace test
                     if (type == "Tous" && item.Quantite - item.QuantiteEquipe != 0)
                     {
                         ImageItem i = new ImageItem(item, false, item.Quantite - item.QuantiteEquipe);
-                        i.MouseDown += image_desc;
+                        i.PreviewMouseDoubleClick += image_desc;
                         LstInventaire.Add(i);
                     }
                     else
@@ -1748,7 +1748,7 @@ namespace test
                         if (item.Type == type && item.Quantite - item.QuantiteEquipe != 0)
                         {
                             ImageItem i = new ImageItem(item, false, item.Quantite - item.QuantiteEquipe);
-                            i.MouseDown += image_desc;
+                            i.PreviewMouseDoubleClick += image_desc;
 
                             LstInventaire.Add(i);
                         }
@@ -1767,10 +1767,13 @@ namespace test
         /// <param name="e"></param>
         private void imgInv_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            LstDesc.Clear();
-            if (Path.GetFileNameWithoutExtension((sender as Image).Source.ToString().Split('/').Last()) != "vide")
-                LstDesc.Add(new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE noImage =" + Convert.ToInt32(Path.GetFileNameWithoutExtension((sender as Image).Source.ToString().Split('/').Last())))[0], true, 0)));
-            lbxInventaire.SelectedIndex = -1;
+            if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
+            {
+                LstDesc.Clear();
+                if (Path.GetFileNameWithoutExtension((sender as Image).Source.ToString().Split('/').Last()) != "vide")
+                    LstDesc.Add(new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE noImage =" + Convert.ToInt32(Path.GetFileNameWithoutExtension((sender as Image).Source.ToString().Split('/').Last())))[0], true, 0)));
+                lbxInventaire.SelectedIndex = -1;
+            }
         }
 
         /// <summary>
@@ -1825,6 +1828,7 @@ namespace test
             System.Windows.Controls.ListBox parent = (System.Windows.Controls.ListBox)sender;
             dragSource = parent;
             ImageItem data = (ImageItem)GetDataFromListBox(dragSource, e.GetPosition(parent));
+            //imgInv_MouseDown(data, e);
             if (data != null)
             {
                 System.Windows.DataObject dragData = new System.Windows.DataObject("image", data);
@@ -1944,12 +1948,34 @@ namespace test
         // ***************************************************
         int alert = 0;
 
-      /*  private void TabItem_Selected(object sender, RoutedEventArgs e)
+        /*  private void TabItem_Selected(object sender, RoutedEventArgs e)
+          {
+              if (alert != 0)
+              {
+                  return;
+              }
+              if (Player.LstEntites.Count() == 0)
+              {
+                  pgCperso.Add(new pageCpersonage(Player));
+                  tCPerso.ItemsSource = pgCperso;
+
+              }
+
+              //le nom du perso 
+              foreach (Entite perso in Player.LstEntites)
+              {
+
+                  pgperso.Add(new PagePerso(perso, Player));
+                  tCPerso.ItemsSource = pgperso;
+              }
+              alert++;
+          }
+
+          */
+
+        private void TabItem_Loaded(object sender, RoutedEventArgs e)
         {
-            if (alert != 0)
-            {
-                return;
-            }
+
             if (Player.LstEntites.Count() == 0)
             {
                 pgCperso.Add(new pageCpersonage(Player));
@@ -1960,36 +1986,14 @@ namespace test
             //le nom du perso 
             foreach (Entite perso in Player.LstEntites)
             {
-
-                pgperso.Add(new PagePerso(perso, Player));
-                tCPerso.ItemsSource = pgperso;
-            }
-            alert++;
-        }
-
-        */
-
-        private void TabItem_Loaded(object sender, RoutedEventArgs e)
-        {
-
-            if (Player.LstEntites.Count() == 0)
-            {
-                pgCperso.Add(new pageCpersonage(Player));
-                tCPerso.ItemsSource = pgCperso;              
-
-            }
-
-            //le nom du perso 
-            foreach (Entite perso in Player.LstEntites)
-            {
                 pgperso.Add(new PagePerso(perso, Player));
                 tCPerso.ItemsSource = pgperso;
             }
 
-            
+
         }
 
-    
+
 
 
 
