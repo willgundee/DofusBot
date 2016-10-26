@@ -2,12 +2,14 @@
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+
 
 namespace GofusSharp
 {
@@ -44,10 +46,9 @@ namespace GofusSharp
                 using GofusSharp;
                 namespace Arene
                 {
-                    public class Combat
+                    public class Action
                     {
-                        public Combat(){}
-                        public void Action(Terrain terrain, Entite Perso, ListeLectureSeule<EntiteInconnu> ListEntites)
+                        public static void Execution(Terrain terrain, Personnage joueur, ListeLectureSeule<EntiteInconnu> ListEntites)
                         {
                             user_code
                         }
@@ -60,11 +61,9 @@ namespace GofusSharp
             //initialisation d'un compilateur de code C#
             CSharpCodeProvider provider = new CSharpCodeProvider(new Dictionary<string, string>() { { "CompilerVersion", "v3.5" } });
             //initialisation des paramètres du compilateur de code C#
-            CompilerParameters parameters = new CompilerParameters();
+            CompilerParameters parameters = new CompilerParameters() { GenerateInMemory = true };
             //ajout des lien de bibliothèque dynamique (dll)
-            //parameters.ReferencedAssemblies.Add("WindowsBase.dll");
             parameters.ReferencedAssemblies.Add("GofusSharp.dll");
-            //System.Windows.Forms.MessageBox.Show(  );
             //compilation du code 
             CompilerResults results = provider.CompileAssemblyFromSource(parameters, finalCode);
             //recherche d'érreurs de compilation
@@ -78,34 +77,13 @@ namespace GofusSharp
                 }
                 System.Windows.Forms.MessageBox.Show(sb.ToString());
                 return;
-                //throw new InvalidOperationException(sb.ToString());
             }
             //mettre la fonction compilé dans une variable
 
-            Type type = results.CompiledAssembly.GetType();
-            ConstructorInfo constructor = type.GetConstructor(Type.EmptyTypes);
-            object classObject = constructor.Invoke(new object[] { });
-            //invoqué la fonction compilée avec la variable
-            MethodInfo method = type.GetMethod("Action");
-            method.Invoke(classObject, new object[] { terrain, joueur, ListEntites });
-            //EntiteInconnu ennemi = null;
-            //foreach (EntiteInconnu entite in ListEntites)
-            //{
-            //    if (entite.Equipe != joueur.Equipe)
-            //    {
-            //        ennemi = entite;
-            //        break;
-            //    }
-            //}
-            //if (terrain.DistanceEntreCases(joueur.Position, ennemi.Position) > 1)
-            //{
-            //    int result = 1;
-            //    while (result != 0 && result != -1)
-            //    {
-            //        result = joueur.AvancerVers(terrain.CheminEntreCases(joueur.Position, ennemi.Position).First(), 1);
-            //    }
-            //}
-            //joueur.UtiliserSort(ennemi);
+            MethodInfo mi = results.CompiledAssembly.GetType("Arene.Action").GetMethod("Execution");
+
+
+            mi.Invoke(null, new object[] { terrain, joueur, ListEntites });
         }
 
         public void Action(Terrain terrain, Entite joueur, ListeLectureSeule<EntiteInconnu> ListEntites)
@@ -126,6 +104,10 @@ namespace GofusSharp
                 {
                     result = joueur.AvancerVers(terrain.CheminEntreCases(joueur.Position, ennemi.Position).First(), 1);
                 }
+            }
+            if ()
+            {
+
             }
             joueur.UtiliserSort(joueur.ClasseEntite.TabSorts[1], ennemi);
         }

@@ -44,6 +44,7 @@ namespace test
     {
         public BDService bd = new BDService();
 
+
         ObservableCollection<ImageItem> LstImgItems;
         ObservableCollection<string> LstStats;
         ObservableCollection<string> LstConds;
@@ -498,24 +499,24 @@ namespace test
                 //throw new InvalidOperationException(sb.ToString());
             }
             string codeAI = @"
-            EntiteInconnu ennemi = ListEntites[0];
+            EntiteInconnu ennemi = null;
             foreach (EntiteInconnu entite in ListEntites)
             {
-                if (entite.Equipe != Perso.Equipe)
+                if (entite.Equipe != joueur.Equipe)
                 {
                     ennemi = entite;
                     break;
                 }
             }
-            if (terrain.DistanceEntreCases(Perso.Position, ennemi.Position) > 1)
+            if (terrain.DistanceEntreCases(joueur.Position, ennemi.Position) > 1)
             {
                 int result = 1;
                 while (result != 0 && result != -1)
                 {
-                    result = Perso.AvancerVers(terrain.CheminEntreCases(Perso.Position, ennemi.Position)[0], 1);
+                    result = joueur.AvancerVers(terrain.CheminEntreCases(joueur.Position, ennemi.Position)[0], 1);
                 }
             }
-            Perso.UtiliserSort(Perso.ClasseEntite.TabSorts[0], ennemi);";
+            joueur.UtiliserSort(joueur.ClasseEntite.TabSorts[0], ennemi);";
             Combat combat = new Combat(ctb_main.Text, codeAI);
         }
 
@@ -1636,24 +1637,24 @@ namespace test
         private void btn_test_Click(object sender, RoutedEventArgs e)
         {
             string codeAI = @"
-            EntiteInconnu ennemi = ListEntites[0];
+            EntiteInconnu ennemi = null;
             foreach (EntiteInconnu entite in ListEntites)
             {
-                if (entite.Equipe != Perso.Equipe)
+                if (entite.Equipe != joueur.Equipe)
                 {
                     ennemi = entite;
                     break;
                 }
             }
-            if (terrain.DistanceEntreCases(Perso.Position, ennemi.Position) > 1)
+            if (terrain.DistanceEntreCases(joueur.Position, ennemi.Position) > 1)
             {
                 int result = 1;
                 while (result != 0 && result != -1)
                 {
-                    result = Perso.AvancerVers(terrain.CheminEntreCases(Perso.Position, ennemi.Position)[0], 1);
+                    result = joueur.AvancerVers(terrain.CheminEntreCases(joueur.Position, ennemi.Position)[0], 1);
                 }
             }
-            Perso.UtiliserSort(Perso.ClasseEntite.TabSorts[0], ennemi);";
+            joueur.UtiliserSort(joueur.ClasseEntite.TabSorts[0], ennemi);";
             Combat combat = new Combat(codeAI, codeAI);
         }
 
