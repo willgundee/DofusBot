@@ -380,6 +380,7 @@ namespace test
                     {
                         foreach (List<string> e in bd.selection("SELECT * FROM TypesStatistiques WHERE idTypeStatistique =" + item[0]))
                         {
+                         
                             foreach (Statistique sts in persoActuel.LstStats)
                                 if (sts.Nom.ToString() == e[1])
                                 {
@@ -393,7 +394,7 @@ namespace test
 
                     }
                 }
-                //int b = Convert.ToInt32(bd.selection("SELECT idTypeStatistique FROM StatistiquesEquipements WHERE idEquipement=(SELECT idEquipement From Equipements WHERE noImage=" + imag + ")")); 
+              
             }
 
         }
