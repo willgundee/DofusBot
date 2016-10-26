@@ -77,9 +77,9 @@ namespace test
                     if (emplacement != null)
                         AfficherElementEquipe(eq, emplacement[0].ToString());
                 }
-                calculervalues(Player);
                 initialiserLstStats(perso.LstStats);
                 dgStats.ItemsSource = lstStat;
+                calculervalues();
                 dgDommage.ItemsSource = initialiserLstDMG(perso);
                 dgResistance.ItemsSource = initialiserLstRES(perso);
             }
@@ -273,7 +273,12 @@ namespace test
             PageEquipement Equip = new PageEquipement(TypeEquipement, emp, source, Player);
             if (validePg != false)
                 Equip.ShowDialog();
-
+            foreach (Entite perso in Player.LstEntites)
+            {
+                calculervalues();
+                dgDommage.ItemsSource = initialiserLstDMG(perso);
+                dgResistance.ItemsSource = initialiserLstRES(perso);
+            }
         }
 
         private void AfficherElementEquipe(Equipement eq, string emp)
@@ -369,33 +374,21 @@ namespace test
             lblNbPointsC.Content = (changement - 1);
         }
 
-        public void calculervalues(Joueur player)
+        public void calculervalues()
         {
             foreach (Image img in grdEquip.Children)
             {
                 string imag = Path.GetFileNameWithoutExtension(img.Source.ToString().Split('/').Last()).ToString();
                 if (imag != "vide")
-                {
-                    foreach (List<string> item in bd.selection("SELECT idTypeStatistique , valeur FROM StatistiquesEquipements WHERE idEquipement=(SELECT idEquipement From Equipements WHERE noImage=" + imag + ")"))
-                    {
+                    foreach (List<string> item in bd.selection("SELECT idTypeStatistique, valeur FROM StatistiquesEquipements WHERE idEquipement=(SELECT idEquipement From Equipements WHERE noImage=" + imag + ")"))
                         foreach (List<string> e in bd.selection("SELECT * FROM TypesStatistiques WHERE idTypeStatistique =" + item[0]))
-                        {
                             foreach (Statistique sts in persoActuel.LstStats)
                                 if (sts.Nom.ToString() == e[1])
                                 {
                                     sts.Valeur = Convert.ToInt32(e[0]);
-
                                     break;
                                 }
-
-                        }
-
-
-                    }
-                }
-                //int b = Convert.ToInt32(bd.selection("SELECT idTypeStatistique FROM StatistiquesEquipements WHERE idEquipement=(SELECT idEquipement From Equipements WHERE noImage=" + imag + ")")); 
             }
-
         }
     }
 }

@@ -73,5 +73,11 @@ namespace test
                 foreach (List<string> item in items)
                     LstEquipements.Add(new Equipement(item,true,0));
         }
+
+        public List<Statistique> genereListStatsAllEquipement()
+        {
+            List<Statistique> lstTot = new List<Statistique>();
+            return lstTot;
+        }
     }
 }
