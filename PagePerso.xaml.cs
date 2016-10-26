@@ -375,26 +375,15 @@ namespace test
             {
                 string imag = Path.GetFileNameWithoutExtension(img.Source.ToString().Split('/').Last()).ToString();
                 if (imag != "vide")
-                {
+
                     foreach (List<string> item in bd.selection("SELECT idTypeStatistique , valeur FROM StatistiquesEquipements WHERE idEquipement=(SELECT idEquipement From Equipements WHERE noImage=" + imag + ")"))
-                    {
                         foreach (List<string> e in bd.selection("SELECT * FROM TypesStatistiques WHERE idTypeStatistique =" + item[0]))
-                        {
-                         
                             foreach (Statistique sts in persoActuel.LstStats)
                                 if (sts.Nom.ToString() == e[1])
                                 {
                                     sts.Valeur = Convert.ToInt32(e[0]);
-
                                     break;
                                 }
-
-                        }
-
-
-                    }
-                }
-              
             }
 
         }
