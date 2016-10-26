@@ -1718,8 +1718,8 @@ namespace test
         private void TabItem_Selected_Inventaire(object sender, RoutedEventArgs e)
         {
             refreshInv();
-            /*cboChoixEntite.SelectedIndex = -1;
-            cboChoixEntite.SelectedIndex = 0;*/
+            cboChoixEntite.SelectedIndex = -1;
+            cboChoixEntite.SelectedIndex = 0;
         }
 
         /// <summary>
