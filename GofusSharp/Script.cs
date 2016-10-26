@@ -1,6 +1,6 @@
 ﻿namespace GofusSharp
 {
-    internal class Script
+    public class Script
     {
         internal int IdScript { get; set; }
         internal string Texte { get; set; }
