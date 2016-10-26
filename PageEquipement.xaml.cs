@@ -45,8 +45,6 @@ namespace test
                 }
             }
             lbxItem.ItemsSource = listImg;
-
-
         }
 
         private bool afficherEquipementDispo(string TypeEquipement, string NomJoueur)

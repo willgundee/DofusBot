@@ -12,7 +12,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
+
+using System.IO;
 
 namespace test
 {
@@ -76,8 +77,8 @@ namespace test
                     if (emplacement != null)
                         AfficherElementEquipe(eq, emplacement[0].ToString());
                 }
-
-                    initialiserLstStats(perso.LstStats);
+                calculervalues(Player);
+                initialiserLstStats(perso.LstStats);
                 dgStats.ItemsSource = lstStat;
                 dgDommage.ItemsSource = initialiserLstDMG(perso);
                 dgResistance.ItemsSource = initialiserLstRES(perso);
@@ -144,7 +145,7 @@ namespace test
                     }
                 }
             }
-            
+
         }
         private List<Statistique> initialiserLstDMG(Entite perso)
         {
@@ -228,7 +229,7 @@ namespace test
 
         private void image_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Image source= (sender as Image);
+            Image source = (sender as Image);
             string choix = (sender as Image).Name;
             string TypeEquipement = null;
             string emp = null;
@@ -273,7 +274,6 @@ namespace test
             if (validePg != false)
                 Equip.ShowDialog();
 
-            
         }
 
         private void AfficherElementEquipe(Equipement eq, string emp)
@@ -325,17 +325,13 @@ namespace test
             string choix = (sender as Button).Name;
             Statistique.element s;
             int changement;
-            Statistique.element modif ;
-
-
-
 
 
             switch (choix.ToString())
             {
                 case "btnVitalite":
                     s = Statistique.element.vitalite;
-                   // modif = Statistique.element.vie;                          
+                    // modif = Statistique.element.vie;                          
                     break;
                 case "btnSagesse":
                     s = Statistique.element.sagesse;
@@ -358,7 +354,7 @@ namespace test
             }
 
 
-            foreach (Statistique sts in persoActuel.LstStats)               
+            foreach (Statistique sts in persoActuel.LstStats)
                 if (sts.Nom == s)
                 {
                     sts.Valeur += 1;
@@ -366,11 +362,40 @@ namespace test
                     break;
                 }
 
-            
+
             initialiserLstStats(persoActuel.LstStats);
 
             changement = Convert.ToInt32(lblNbPointsC.Content);
             lblNbPointsC.Content = (changement - 1);
+        }
+
+        public void calculervalues(Joueur player)
+        {
+            foreach (Image img in grdEquip.Children)
+            {
+                string imag = Path.GetFileNameWithoutExtension(img.Source.ToString().Split('/').Last()).ToString();
+                if (imag != "vide")
+                {
+                    foreach (List<string> item in bd.selection("SELECT idTypeStatistique , valeur FROM StatistiquesEquipements WHERE idEquipement=(SELECT idEquipement From Equipements WHERE noImage=" + imag + ")"))
+                    {
+                        foreach (List<string> e in bd.selection("SELECT * FROM TypesStatistiques WHERE idTypeStatistique =" + item[0]))
+                        {
+                            foreach (Statistique sts in persoActuel.LstStats)
+                                if (sts.Nom.ToString() == e[1])
+                                {
+                                    sts.Valeur = Convert.ToInt32(e[0]);
+
+                                    break;
+                                }
+
+                        }
+
+
+                    }
+                }
+                //int b = Convert.ToInt32(bd.selection("SELECT idTypeStatistique FROM StatistiquesEquipements WHERE idEquipement=(SELECT idEquipement From Equipements WHERE noImage=" + imag + ")")); 
+            }
+
         }
     }
 }
