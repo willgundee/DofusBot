@@ -243,27 +243,6 @@
     <Resource Include="Resources\Cra.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\Avatars\1.png" />
-    <Resource Include="Resources\Avatars\10.png" />
-    <Resource Include="Resources\Avatars\11.png" />
-    <Resource Include="Resources\Avatars\12.png" />
-    <Resource Include="Resources\Avatars\13.png" />
-    <Resource Include="Resources\Avatars\14.png" />
-    <Resource Include="Resources\Avatars\15.png" />
-    <Resource Include="Resources\Avatars\16.png" />
-    <Resource Include="Resources\Avatars\17.png" />
-    <Resource Include="Resources\Avatars\18.png" />
-    <Resource Include="Resources\Avatars\19.png" />
-    <Resource Include="Resources\Avatars\2.png" />
-    <Resource Include="Resources\Avatars\20.png" />
-    <Resource Include="Resources\Avatars\3.png" />
-    <Resource Include="Resources\Avatars\4.png" />
-    <Resource Include="Resources\Avatars\5.png" />
-    <Resource Include="Resources\Avatars\6.png" />
-    <Resource Include="Resources\Avatars\7.png" />
-    <Resource Include="Resources\Avatars\8.png" />
-    <Resource Include="Resources\Avatars\9.png" />
-    <Resource Include="Resources\Avatars\21.png" />
     <Content Include="Resources\fondEquipement.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
