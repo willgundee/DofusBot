@@ -39,9 +39,8 @@ namespace GofusSharp
             UpdateInfo();
         }
 
-        public void Action(Terrain terrain, Personnage joueur, ListeLectureSeule<EntiteInconnu> ListEntites)
+        public void Action(Terrain terrain, Personnage joueur, System.Collections.ObjectModel.ReadOnlyCollection<EntiteInconnu> ListEntites)
         {
-            /*
             //code dynamique 
             string code = @"
                 using GofusSharp;
@@ -49,7 +48,7 @@ namespace GofusSharp
                 {
                     public class Action
                     {
-                        public static void Execution(Terrain terrain, Personnage joueur, ListeLectureSeule<EntiteInconnu> ListEntites)
+                        public static void Execution(Terrain terrain, Personnage joueur, System.Collections.ObjectModel.ReadOnlyCollection<EntiteInconnu> ListEntites)
                         {
                             user_code
                         }
@@ -84,29 +83,28 @@ namespace GofusSharp
             MethodInfo mi = results.CompiledAssembly.GetType("Arene.Action").GetMethod("Execution");
 
             mi.Invoke(null, new object[] { terrain, joueur, ListEntites });
-            */
 
-            EntiteInconnu ennemi = null;
-            foreach (EntiteInconnu entite in ListEntites)
-            {
-                if (entite.Equipe != joueur.Equipe)
-                {
-                    ennemi = entite;
-                    break;
-                }
-            }
-            if (terrain.DistanceEntreCases(joueur.Position, ennemi.Position) > 1)
-            {
-                int result = 1;
-                while (result != 0 && result != -1)
-                {
-                    result = joueur.AvancerVers(terrain.CheminEntreCases(joueur.Position, ennemi.Position).First(), 1);
-                }
-            }
-            if (new Random().Next(1, 3) == 1)
-                joueur.UtiliserSort(joueur.ClasseEntite.TabSorts[1], ennemi);
-            else
-                joueur.Attaquer(ennemi);
+        //    EntiteInconnu ennemi = null;
+        //    foreach (EntiteInconnu entite in ListEntites)
+        //    {
+        //        if (entite.Equipe != joueur.Equipe)
+        //        {
+        //            ennemi = entite;
+        //            break;
+        //        }
+        //    }
+        //    if (terrain.DistanceEntreCases(joueur.Position, ennemi.Position) > 1)
+        //    {
+        //        int result = 1;
+        //        while (result != 0 && result != -1)
+        //        {
+        //            result = joueur.AvancerVers(terrain.CheminEntreCases(joueur.Position, ennemi.Position).First(), 1);
+        //        }
+        //    }
+        //    if (new Random().Next(1, 3) == 1)
+        //        joueur.UtiliserSort(joueur.ClasseEntite.TabSorts[1], ennemi);
+        //    else
+        //        joueur.Attaquer(ennemi);
         }
 
         public void Action(Terrain terrain, Entite joueur, System.Collections.ObjectModel.ReadOnlyCollection<EntiteInconnu> ListEntites)
