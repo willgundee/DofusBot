@@ -41,6 +41,7 @@ namespace GofusSharp
 
         public void Action(Terrain terrain, Personnage joueur, ListeLectureSeule<EntiteInconnu> ListEntites)
         {
+            /*
             //code dynamique 
             string code = @"
                 using GofusSharp;
@@ -82,11 +83,33 @@ namespace GofusSharp
 
             MethodInfo mi = results.CompiledAssembly.GetType("Arene.Action").GetMethod("Execution");
 
-
             mi.Invoke(null, new object[] { terrain, joueur, ListEntites });
+            */
+
+            EntiteInconnu ennemi = null;
+            foreach (EntiteInconnu entite in ListEntites)
+            {
+                if (entite.Equipe != joueur.Equipe)
+                {
+                    ennemi = entite;
+                    break;
+                }
+            }
+            if (terrain.DistanceEntreCases(joueur.Position, ennemi.Position) > 1)
+            {
+                int result = 1;
+                while (result != 0 && result != -1)
+                {
+                    result = joueur.AvancerVers(terrain.CheminEntreCases(joueur.Position, ennemi.Position).First(), 1);
+                }
+            }
+            if (new Random().Next(1, 3) == 1)
+                joueur.UtiliserSort(joueur.ClasseEntite.TabSorts[1], ennemi);
+            else
+                joueur.Attaquer(ennemi);
         }
 
-        public void Action(Terrain terrain, Entite joueur, ListeLectureSeule<EntiteInconnu> ListEntites)
+        public void Action(Terrain terrain, Entite joueur, System.Collections.ObjectModel.ReadOnlyCollection<EntiteInconnu> ListEntites)
         {
             EntiteInconnu ennemi = null;
             foreach (EntiteInconnu entite in ListEntites)
@@ -105,11 +128,8 @@ namespace GofusSharp
                     result = joueur.AvancerVers(terrain.CheminEntreCases(joueur.Position, ennemi.Position).First(), 1);
                 }
             }
-            if ()
-            {
-
-            }
             joueur.UtiliserSort(joueur.ClasseEntite.TabSorts[1], ennemi);
+
         }
 
 
@@ -172,7 +192,7 @@ namespace GofusSharp
                 if (entite.Etat == EntiteInconnu.typeEtat.mort)
                     continue;
                 PartieTest.DebuterAction(entite);
-                Action(PartieTest.TerrainPartie, entite as Personnage, (PartieTest.ListEntites.AsReadOnly() as ListeLectureSeule<EntiteInconnu>));
+                Action(PartieTest.TerrainPartie, entite as Personnage, PartieTest.ListEntites.AsReadOnly());
                 PartieTest.SyncroniserJoueur();
                 UpdateInfo();
                 bool vivante = false;
