@@ -129,11 +129,10 @@ namespace test
 
                 Player.addPerso(int.Parse(h));
 
-                foreach (MainWindow m in Application.Current.Windows)
-                {
-                    m.pgperso.Add(new PagePerso(Player.LstEntites[0], Player));
-                    m.tCPerso.ItemsSource = m.pgperso;                   
-                }
+
+                ((MainWindow)Application.Current.MainWindow).pgperso.Add(new PagePerso(Player.LstEntites[0], Player));
+                ((MainWindow)Application.Current.MainWindow).tCPerso.ItemsSource = ((MainWindow)Application.Current.MainWindow).pgperso;                   
+             
                
 
 
