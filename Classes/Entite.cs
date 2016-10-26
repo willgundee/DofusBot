@@ -100,6 +100,7 @@ namespace test
                         LstStats.First(x => x.Nom == Statistique.element.agilite).Valeur += stats.Valeur;
                         break;
                     case Statistique.element.vitalite:
+                        LstStats.First(x => x.Nom == Statistique.element.vie).Valeur += stats.Valeur;
                         LstStats.First(x => x.Nom == Statistique.element.vitalite).Valeur += stats.Valeur;
                         break;
                     case Statistique.element.sagesse:
