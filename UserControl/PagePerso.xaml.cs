@@ -45,7 +45,7 @@ namespace test
                 lblNom.Content = perso.Nom;
                 lblNomClasse.Content = perso.ClasseEntite.Nom;
                 lblNbPointsC.Content = perso.CapitalLibre;
-                string SourceImgClasse = "resources/" + perso.ClasseEntite.Nom;
+                string SourceImgClasse = "../resources/" + perso.ClasseEntite.Nom;
                 double Exp;
                 BitmapImage path = new BitmapImage();
                 path.BeginInit();
