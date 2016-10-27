@@ -10,7 +10,7 @@ namespace GofusSharp
         {
             this.TabCases = TabCases;
         }
-        public Terrain(int Largeur, int Hauteur)
+        internal Terrain(int Largeur, int Hauteur)
         {
             this.Largeur = Largeur;
             this.Hauteur = Hauteur;
@@ -20,12 +20,6 @@ namespace GofusSharp
             {
                 TabCases[i] = new Case[Hauteur];
             }
-        }
-        public void HardCode(int X, int Y, Case.type Contenu)
-        {
-            TabCases[X][Y].X = X;
-            TabCases[X][Y].Y = Y;
-            TabCases[X][Y].Contenu = Contenu;
         }
         public int DistanceEntreCases(Case case1, Case case2)
         {

@@ -8,8 +8,8 @@ namespace GofusSharp
         public Liste<Entite> ListAttaquants { get; internal set; }
         public Liste<Entite> ListDefendants { get; internal set; }
         public Liste<EntiteInconnu> ListEntites { get; internal set; }
-        public System.Random Seed { get; internal set; }
-        public int valeurSeed { get; internal set; }
+        internal System.Random Seed { get; set; }
+        internal int valeurSeed { get; set; }
         internal Partie(int IdPartie, Terrain TerrainPartie, Liste<Entite> ListAttaquants, Liste<Entite> ListDefendants, int valeurSeed)
         {
             this.IdPartie = IdPartie;

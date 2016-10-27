@@ -96,6 +96,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="UserControl\pArchives.xaml.cs">
+      <DependentUpon>pArchives.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Window\ChatWindow.xaml.cs">
       <DependentUpon>ChatWindow.xaml</DependentUpon>
     </Compile>
@@ -191,6 +194,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="UserControl\pArchives.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Window\ChatWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -45,7 +45,7 @@ namespace test
                 lblNom.Content = perso.Nom;
                 lblNomClasse.Content = perso.ClasseEntite.Nom;
                 lblNbPointsC.Content = perso.CapitalLibre;
-                string SourceImgClasse = "resources/" + perso.ClasseEntite.Nom;
+                string SourceImgClasse = "../resources/" + perso.ClasseEntite.Nom;
                 double Exp;
                 BitmapImage path = new BitmapImage();
                 path.BeginInit();
@@ -79,10 +79,12 @@ namespace test
                 }
                 initialiserLstStats(perso.LstStats);
                 dgStats.ItemsSource = lstStat;
+
                 //calculervalues();
                 dgDommage.ItemsSource = initialiserLstDMG(perso);
-                dgResistance.ItemsSource = initialiserLstRES(perso);
+                dgResistance.ItemsSource = initialiserLstRES(perso);                
             }
+            
         }
 
         #region grid_listes
@@ -364,15 +366,18 @@ namespace test
                 if (sts.Nom == s)
                 {
                     sts.Valeur += 1;
-
+                    string valeurInitial = "SELECT valeur FROM statistiquesEntites WHERE idEntite = (SELECT idEntite FROM Entites WHERE  nom ='" + persoActuel.Nom + "') AND idTypeStatistique=(SELECT idTypeStatistique FROM typesStatistiques WHERE nom ='" + s.ToString() + "' ) ";
+                    int values = Convert.ToInt32(bd.selection(valeurInitial)[0][0])+1;
+                    bd.Update("UPDATE statistiquesEntites SET valeur = "+ values + " WHERE idEntite = (SELECT idEntite FROM Entites WHERE  nom ='" + persoActuel.Nom + "') AND idTypeStatistique=(SELECT idTypeStatistique FROM typesStatistiques WHERE nom ='"+s.ToString() + "' ) ");
                     break;
                 }
 
 
             initialiserLstStats(persoActuel.LstStats);
-
+           
             changement = Convert.ToInt32(lblNbPointsC.Content);
             lblNbPointsC.Content = (changement - 1);
+                 bd.Update("UPDATE Entites SET CapitalLibre ="+ lblNbPointsC.Content + " WHERE nom ='"+persoActuel.Nom +"' ");
         }
 
         public void calculervalues()

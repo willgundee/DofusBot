@@ -5,7 +5,7 @@ namespace GofusSharp
     public class Personnage : Entite
     {
         public Equipement[] TabEquipements { get; internal set; }
-        public Personnage(int IdEntite, Classe ClasseEntite, string Nom, float Experience, type Equipe, Liste<Statistique> ListStatistiques, Script ScriptEntite, Equipement[] TabEquipements, Terrain TerrainEntite) : base(IdEntite, ClasseEntite, Nom, Experience, Equipe, ListStatistiques, ScriptEntite, TerrainEntite, 0)
+        internal Personnage(int IdEntite, Classe ClasseEntite, string Nom, float Experience, type Equipe, Liste<Statistique> ListStatistiques, Script ScriptEntite, Equipement[] TabEquipements, Terrain TerrainEntite) : base(IdEntite, ClasseEntite, Nom, Experience, Equipe, ListStatistiques, ScriptEntite, TerrainEntite, 0)
         {
             this.TabEquipements = TabEquipements;
             foreach (Equipement item in TabEquipements)
@@ -31,7 +31,7 @@ namespace GofusSharp
 
         public bool Attaquer(EntiteInconnu cible)
         {
-            Arme arme = new Arme(0, null, "poing", Equipement.type.arme, new Effet[] { new Effet(Effet.type.ATT_neutre, 3, 5) }, new Zone(Zone.type.croix, 1, 1), new Zone(Zone.type.carre, 0, 0), Arme.typeArme.dague);
+            Arme arme = new Arme(0, null, "poing", Equipement.type.arme, new Effet[] { new Effet(Effet.type.ATT_neutre, 3, 5) }, new Zone(Zone.type.croix, 1, 1), new Zone(Zone.type.carre, 0, 0), Arme.typeArme.dague, 3);
 
             foreach (Equipement invent in TabEquipements)
             {
@@ -67,7 +67,7 @@ namespace GofusSharp
         }
         public bool Attaquer(Case cible)
         {
-            Arme arme = new Arme(0, null, "poing", Equipement.type.arme, new Effet[] { new Effet(Effet.type.ATT_neutre, 3, 5) }, new Zone(Zone.type.croix, 1, 1), new Zone(Zone.type.carre, 0, 0), Arme.typeArme.dague);
+            Arme arme = new Arme(0, null, "poing", Equipement.type.arme, new Effet[] { new Effet(Effet.type.ATT_neutre, 3, 5) }, new Zone(Zone.type.croix, 1, 1), new Zone(Zone.type.carre, 0, 0), Arme.typeArme.dague, 3);
             foreach (Equipement invent in TabEquipements)
             {
                 if (invent is Arme)
