@@ -457,7 +457,7 @@ namespace test
                 {
                     public class Combat
                     {
-                        public static void Action(Terrain terrain, Entite Perso, Liste<EntiteInconnu> ListEntites)
+                        public static void Action(Terrain terrain, Entite joueur, Liste<EntiteInconnu> ListEntites)
                         {
                             user_code
                         }
@@ -489,7 +489,6 @@ namespace test
                 }
                 System.Windows.Forms.MessageBox.Show(sb.ToString());
                 return;
-                //throw new InvalidOperationException(sb.ToString());
             }
             string codeAI = @"
             EntiteInconnu ennemi = null;
@@ -509,7 +508,7 @@ namespace test
                     result = joueur.AvancerVers(terrain.CheminEntreCases(joueur.Position, ennemi.Position)[0], 1);
                 }
             }
-            joueur.UtiliserSort(joueur.ClasseEntite.TabSorts[0], ennemi);";
+            joueur.UtiliserSort(joueur.ClasseEntite.TabSorts[1], ennemi);";
             Combat combat = new Combat(ctb_main.Text, codeAI);
         }
 
@@ -1647,7 +1646,7 @@ namespace test
                     result = joueur.AvancerVers(terrain.CheminEntreCases(joueur.Position, ennemi.Position)[0], 1);
                 }
             }
-            joueur.UtiliserSort(joueur.ClasseEntite.TabSorts[0], ennemi);";
+            joueur.UtiliserSort(joueur.ClasseEntite.TabSorts[1], ennemi);";
             Combat combat = new Combat(codeAI, codeAI);
         }
 
@@ -1661,7 +1660,7 @@ namespace test
                 {
                     public class Combat
                     {
-                        public static void Action(Terrain terrain, Entite Perso, Liste<EntiteInconnu> ListEntites)
+                        public static void Action(Terrain terrain, Entite joueur, Liste<EntiteInconnu> ListEntites)
                         {
                             user_code
                         }
