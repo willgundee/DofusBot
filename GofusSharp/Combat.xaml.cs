@@ -83,28 +83,6 @@ namespace GofusSharp
             MethodInfo mi = results.CompiledAssembly.GetType("Arene.Action").GetMethod("Execution");
 
             mi.Invoke(null, new object[] { terrain, joueur, ListEntites });
-
-        //    EntiteInconnu ennemi = null;
-        //    foreach (EntiteInconnu entite in ListEntites)
-        //    {
-        //        if (entite.Equipe != joueur.Equipe)
-        //        {
-        //            ennemi = entite;
-        //            break;
-        //        }
-        //    }
-        //    if (terrain.DistanceEntreCases(joueur.Position, ennemi.Position) > 1)
-        //    {
-        //        int result = 1;
-        //        while (result != 0 && result != -1)
-        //        {
-        //            result = joueur.AvancerVers(terrain.CheminEntreCases(joueur.Position, ennemi.Position).First(), 1);
-        //        }
-        //    }
-        //    if (new Random().Next(1, 3) == 1)
-        //        joueur.UtiliserSort(joueur.ClasseEntite.TabSorts[1], ennemi);
-        //    else
-        //        joueur.Attaquer(ennemi);
         }
 
         public void Action(Terrain terrain, Entite joueur, System.Collections.ObjectModel.ReadOnlyCollection<EntiteInconnu> ListEntites)
@@ -174,7 +152,7 @@ namespace GofusSharp
             Sort[] tabSortDef = new Sort[] { new Sort(1, tabEffetDef1, "bond", false, true, true, zonePorteeDef1, zoneEffetDef1, 3, 5), new Sort(2, tabEffetDef2, "intimidation", true, false, false, zonePorteeDef2, zoneEffetDef2, -2, 2) };
             Classe classeDef = new Classe(1, tabSortDef, Classe.type.iop);
             Statistique[] statItemDef = new Statistique[] { new Statistique(Statistique.type.force, 70) };
-            Equipement[] tabEquipDef = new Equipement[] { new Equipement(1, statItemDef, "Coiffe bouftou", Equipement.type.chapeau), new Arme(2, statItemAtt, "Marteau bouftous", Equipement.type.arme, tabEffetAtt2, zonePorteeAtt2, zoneEffetAtt2, Arme.typeArme.marteau) };
+            Equipement[] tabEquipDef = new Equipement[] { new Equipement(1, statItemDef, "Coiffe bouftou", Equipement.type.chapeau), new Arme(2, statItemAtt, "Marteau bouftous", Equipement.type.arme, tabEffetAtt2, zonePorteeAtt2, zoneEffetAtt2, Arme.typeArme.marteau, 5) };
             Terrain terrain = new Terrain(10, 10);
             Liste<Entite> ListAttaquants = new Liste<Entite>();
             ListAttaquants.Add(new Personnage(10, classeAtt, "Trebor", 10000, EntiteInconnu.type.attaquant, listStatistiqueAtt, scriptAtt, tabEquipAtt, terrain));

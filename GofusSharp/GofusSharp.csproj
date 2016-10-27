@@ -56,13 +56,13 @@
     <Compile Include="Combat.xaml.cs">
       <DependentUpon>Combat.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Debug.cs" />
     <Compile Include="Effet.cs" />
     <Compile Include="Entite.cs" />
     <Compile Include="EntiteInconnu.cs" />
     <Compile Include="Envoutement.cs" />
     <Compile Include="Equipement.cs" />
     <Compile Include="Liste.cs" />
-    <Compile Include="ListeLectureSeule.cs" />
     <Compile Include="Math.cs" />
     <Compile Include="Partie.cs" />
     <Compile Include="Personnage.cs" />
