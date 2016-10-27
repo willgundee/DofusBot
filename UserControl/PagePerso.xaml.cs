@@ -366,7 +366,9 @@ namespace test
                 if (sts.Nom == s)
                 {
                     sts.Valeur += 1;
-
+                    string valeurInitial = "SELECT valeur FROM statistiquesEntites WHERE idEntite = (SELECT idEntite FROM Entites WHERE  nom ='" + persoActuel.Nom + "') AND idTypeStatistique=(SELECT idTypeStatistique FROM typesStatistiques WHERE nom ='" + s.ToString() + "' ) ";
+                    int values = Convert.ToInt32(bd.selection(valeurInitial)[0][0])+1;
+                    bd.Update("UPDATE statistiquesEntites SET valeur = "+ values + " WHERE idEntite = (SELECT idEntite FROM Entites WHERE  nom ='" + persoActuel.Nom + "') AND idTypeStatistique=(SELECT idTypeStatistique FROM typesStatistiques WHERE nom ='"+s.ToString() + "' ) ");
                     break;
                 }
 

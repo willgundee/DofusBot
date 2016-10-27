@@ -22,14 +22,14 @@
 
         <Image x:Name="Imgfond"  Source="../resources/fondEquipement.jpg"  Height="260" Width="283" Grid.RowSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="20.19,43,15,0"  Grid.Column="1" />
         <Grid x:Name="grdEquip"  Grid.Column="1" Margin="15,0,15,267" Grid.RowSpan="2">
-            <Image x:Name="imageAmulette" Source="resources/vide.png"  Height="40" Width="40" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,75,25,0"   MouseLeftButtonDown="image_MouseDown"  />
-            <Image x:Name="imageCape" Source="resources/vide.png" Height="60" Width="60" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" MouseLeftButtonDown="image_MouseDown"  Margin="10,60,0,0"/>
-            <Image x:Name="imageCasque" Source="resources/vide.png" Height="60" Width="60" VerticalAlignment="Top" HorizontalAlignment="Right" MouseLeftButtonDown="image_MouseDown" Margin="0,60,25,0"/>
-            <Image x:Name="imageCeinture" Source="resources/vide.png" Height="60" Width="58" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" MouseLeftButtonDown="image_MouseDown" Margin="0,45,20,0" />
-            <Image x:Name="imageAnneau1" Source="resources/vide.png" Height="40" Width="40" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" MouseLeftButtonDown="image_MouseDown" Margin="20,30,0,0"  />
-            <Image x:Name="imageAnneau2" Source="resources/vide.png" Height="40" Width="40" VerticalAlignment="Center" HorizontalAlignment="Right" MouseLeftButtonDown="image_MouseDown" Margin="0,30,35,0"  />
-            <Image x:Name="imageBotte" Source="resources/vide.png" Height="58" Width="58" VerticalAlignment="Bottom" HorizontalAlignment="Center" MouseLeftButtonDown="image_MouseDown" Margin="0,0,30,0"  />
-            <Image x:Name="imageArme" Source="resources/vide.png" Height="58" Width="59" VerticalAlignment="Bottom" HorizontalAlignment="Right" MouseLeftButtonDown="image_MouseDown" Margin="0,0,25,0"  />
+            <Image x:Name="imageAmulette" Source="../resources/vide.png"  Height="40" Width="40" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,75,25,0"   MouseLeftButtonDown="image_MouseDown"  />
+            <Image x:Name="imageCape" Source="../resources/vide.png" Height="60" Width="60" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Left" MouseLeftButtonDown="image_MouseDown"  Margin="10,60,0,0"/>
+            <Image x:Name="imageCasque" Source="../resources/vide.png" Height="60" Width="60" VerticalAlignment="Top" HorizontalAlignment="Right" MouseLeftButtonDown="image_MouseDown" Margin="0,60,25,0"/>
+            <Image x:Name="imageCeinture" Source="../resources/vide.png" Height="60" Width="58" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" MouseLeftButtonDown="image_MouseDown" Margin="0,45,20,0" />
+            <Image x:Name="imageAnneau1" Source="../resources/vide.png" Height="40" Width="40" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" MouseLeftButtonDown="image_MouseDown" Margin="20,30,0,0"  />
+            <Image x:Name="imageAnneau2" Source="../resources/vide.png" Height="40" Width="40" VerticalAlignment="Center" HorizontalAlignment="Right" MouseLeftButtonDown="image_MouseDown" Margin="0,30,35,0"  />
+            <Image x:Name="imageBotte" Source="../resources/vide.png" Height="58" Width="58" VerticalAlignment="Bottom" HorizontalAlignment="Center" MouseLeftButtonDown="image_MouseDown" Margin="0,0,30,0"  />
+            <Image x:Name="imageArme" Source="../resources/vide.png" Height="58" Width="59" VerticalAlignment="Bottom" HorizontalAlignment="Right" MouseLeftButtonDown="image_MouseDown" Margin="0,0,25,0"  />
 
         </Grid>
         <Label x:Name="lblNom" VerticalAlignment="Top" FontSize="16" HorizontalAlignment="Left" Margin="10,10,0,0"/>
