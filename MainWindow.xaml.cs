@@ -1769,8 +1769,8 @@ namespace test
             if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
             {
                 LstDesc.Clear();
-                if (Path.GetFileNameWithoutExtension((sender as Image).Source.ToString().Split('/').Last()) != "vide")
-                    LstDesc.Add(new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE noImage =" + Convert.ToInt32(Path.GetFileNameWithoutExtension((sender as Image).Source.ToString().Split('/').Last())))[0], true, 0)));
+                if (convertPathToNoItem((sender as Image).Source.ToString()) != "vide")
+                    LstDesc.Add(new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE noImage =" + Convert.ToInt32(convertPathToNoItem((sender as Image).Source.ToString())))[0], true, 0)));
                 lbxInventaire.SelectedIndex = -1;
             }
         }
@@ -1827,9 +1827,38 @@ namespace test
             System.Windows.Controls.ListBox parent = (System.Windows.Controls.ListBox)sender;
             dragSource = parent;
             ImageItem data = (ImageItem)GetDataFromListBox(dragSource, e.GetPosition(parent));
+
             //imgInv_MouseDown(data, e);
             if (data != null)
             {
+                Equipement itemDrag = Player.Inventaire.First(x => x.NoImg == convertPathToNoItem(data.imgItem.Source.ToString()));
+                switch (itemDrag.Type)
+                {
+                    case "Cape":
+                        imgCapeInv.AllowDrop = true;
+                        
+                        break;
+                    case "Chapeau":
+                        imgChapeauInv.AllowDrop = true;
+                        break;
+                    case "Botte":
+                        imgBotteInv.AllowDrop = true;
+                        break;
+                    case "Ceinture":
+                        imgCeintureInv.AllowDrop = true;
+                        break;
+                    case "Anneau":
+                        imgAnneau1Inv.AllowDrop = true;
+                        imgAnneau2Inv.AllowDrop = true;
+                        break;
+                    case "Amulette":
+                        imgAmuletteInv.AllowDrop = true;
+                        break;
+                    default://arme
+                        imgArmeInv.AllowDrop = true;
+                        break;
+                }
+
                 System.Windows.DataObject dragData = new System.Windows.DataObject("image", data);
                 DragDrop.DoDragDrop(parent, dragData, System.Windows.DragDropEffects.Move);
             }
@@ -1859,69 +1888,25 @@ namespace test
             }
             return null;
         }
-
+        private string convertPathToNoItem(string path)
+        {
+            return Path.GetFileNameWithoutExtension(path.Split('/').Last());
+        }
         private void imgInv_Drop(object sender, System.Windows.DragEventArgs e)
         {
             Image cible = (Image)sender;
             ImageItem data = e.Data.GetData("image") as ImageItem;
-            bool possible = false;
             Equipement itemDejaEquipe = null;
 
-            Equipement itemVoulantEtreEquiper = new Equipement(bd.selection("SELECT * FROM Equipements WHERE noImage =" + Convert.ToInt32(Path.GetFileNameWithoutExtension(data.imgItem.Source.ToString().Split('/').Last())))[0], true, 0);
+
+            Equipement itemVoulantEtreEquiper = Player.Inventaire.First(x=>x.NoImg == convertPathToNoItem(data.imgItem.Source.ToString()));
 
             if (Path.GetFileNameWithoutExtension(cible.Source.ToString().Split('/').Last()) != "vide")
-                itemDejaEquipe = new Equipement(bd.selection("SELECT * FROM Equipements WHERE noImage =" + Convert.ToInt32(Path.GetFileNameWithoutExtension(cible.Source.ToString().Split('/').Last())))[0], true, 0);
+                itemDejaEquipe = Player.Inventaire.First(x => x.NoImg == convertPathToNoItem(cible.Source.ToString()));
             //TODO: l'add dans la list d'equipement du perso quand tu la drop dedans et l'enlever l'inverse
             //TODO: bouger l'image au lieu de rien
             //TODO: le modif dans bd
-            switch (cible.Name)
-            {
-                case "imgCapeInv":
-                    if (itemVoulantEtreEquiper.Type == "Cape")
-                        possible = true;
-                    break;
-
-                case "imgAmuletteInv":
-                    if (itemVoulantEtreEquiper.Type == "Amulette")
-                        possible = true;
-                    break;
-
-                case "imgChapeauInv":
-                    if (itemVoulantEtreEquiper.Type == "Chapeau")
-                        possible = true;
-                    break;
-
-                case "imgAnneau1Inv":
-                case "imgAnneau2Inv":
-                    if (itemVoulantEtreEquiper.Type == "Anneau")
-                        possible = true;
-                    break;
-
-                case "imgCeintureInv":
-                    if (itemVoulantEtreEquiper.Type == "Ceinture")
-                        possible = true;
-                    break;
-
-                case "imgBotteInv":
-                    if (itemVoulantEtreEquiper.Type == "Botte")
-                        possible = true;
-                    break;
-
-                case "imgArmeInv":
-                    if (itemVoulantEtreEquiper.Type == "Hache"
-                     || itemVoulantEtreEquiper.Type == "Pelle"
-                     || itemVoulantEtreEquiper.Type == "Baguette"
-                     || itemVoulantEtreEquiper.Type == "Épée"
-                     || itemVoulantEtreEquiper.Type == "Arc"
-                     || itemVoulantEtreEquiper.Type == "Dague"
-                     || itemVoulantEtreEquiper.Type == "Bâton"
-                     || itemVoulantEtreEquiper.Type == "Marteau"
-                     || itemVoulantEtreEquiper.Type == "Faux")
-                        possible = true;
-                    break;
-            }
-            if (possible)
-            {
+            cible.AllowDrop = false;
                 cible.Source = data.imgItem.Source;
                 Player.Inventaire.First(x => x.Nom == itemVoulantEtreEquiper.Nom).Quantite--;
                 if (itemDejaEquipe != null)
@@ -1930,7 +1915,7 @@ namespace test
                     Player.Inventaire.Add(itemVoulantEtreEquiper);
 
                 refreshInv();
-            }
+            
         }
 
         private void refreshInv()

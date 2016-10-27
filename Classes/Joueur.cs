@@ -32,7 +32,6 @@ namespace test
 
             addInventaire(Convert.ToInt32(infoUser[0]));
             addScripts(Convert.ToInt32(infoUser[0]));
-            addInventaire(Convert.ToInt32(infoUser[0]));
             addPerso(Convert.ToInt32(infoUser[0]));
 
 
