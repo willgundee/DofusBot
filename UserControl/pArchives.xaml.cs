@@ -23,6 +23,8 @@ namespace Gofus
     public partial class pArchives : UserControl
     {
 
+        BDService BD;
+
         public ObservableCollection<Partie> lstPartiePerso;
         public ObservableCollection<Partie> lstPartieAll;
         public pArchives()
@@ -31,6 +33,8 @@ namespace Gofus
 
             lstPartieAll = new ObservableCollection<Partie>();
             lstPartiePerso = new ObservableCollection<Partie>();
+
+            BD = new BDService();
 
             cboTypePartie.Items.Add("Mes Parties");
             cboTypePartie.Items.Add("Les partie de tout le monde");
@@ -41,7 +45,14 @@ namespace Gofus
 
         private void loadParties(string typePartie)
         {
-            string select = "Select * From Partieentites ";
+            string selectid = "Select  idPartie From Parties ";
+            List<string>[] lstPartie = BD.selection(selectid);
+
+            foreach (List<string>  p in lstPartie)
+            {
+                string selectAttaquant;
+            }
+
 
         }
    
