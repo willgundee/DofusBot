@@ -10,6 +10,20 @@ namespace test
     {
         public int seed { get; set; }
 
+        public string Attaquant { get; set; }
+        public string Defendant { get; set; }
+
+        public DateTime datePartie;
+
+        public Partie(string a , string d,DateTime date)
+        {
+            Attaquant = a;
+            Defendant = d;
+            datePartie = new DateTime();
+            datePartie = date;
+        }
+
+
 
     }
 }
