@@ -79,10 +79,12 @@ namespace test
                 }
                 initialiserLstStats(perso.LstStats);
                 dgStats.ItemsSource = lstStat;
+
                 //calculervalues();
                 dgDommage.ItemsSource = initialiserLstDMG(perso);
-                dgResistance.ItemsSource = initialiserLstRES(perso);
+                dgResistance.ItemsSource = initialiserLstRES(perso);                
             }
+            
         }
 
         #region grid_listes
@@ -370,9 +372,10 @@ namespace test
 
 
             initialiserLstStats(persoActuel.LstStats);
-
+           
             changement = Convert.ToInt32(lblNbPointsC.Content);
             lblNbPointsC.Content = (changement - 1);
+                 bd.Update("UPDATE Entites SET CapitalLibre ="+ lblNbPointsC.Content + " WHERE nom ='"+persoActuel.Nom +"' ");
         }
 
         public void calculervalues()

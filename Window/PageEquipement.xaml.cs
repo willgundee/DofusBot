@@ -163,7 +163,7 @@ namespace test
                         string j = "SELECT quantiteEquipe FROM JoueursEquipements  WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + nomJoueur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE noImage =" + ide + ")";
                         int qqt2 = Convert.ToInt32(bd.selection(j)[0][0]);
                         qqt2 -= 1;// changer ici le qqt = -1 a qqt -= 1
-                        bd.Update("UPDATE equipementsentites SET idEquipement = (SELECT idEquipement FROM Equipements WHERE noImage = " + idE + ") WHERE emplacement='" + TypeEQ + "' AND idEntite = (SELECT idEntite FROM Entites e  INNER JOIN Joueurs j ON j.idJoueur = e.idJoueur WHERE j.nomUtilisateur='" + nomJoueur + "')");// ajout de AND idEntite..... dans la condition WHERE
+                        bd.Update("UPDATE equipementsentites SET idEquipement = (SELECT idEquipement FROM Equipements WHERE noImage = " + idE + ") WHERE emplacement='" + TypeEQ + "' AND idEntite = (SELECT idEntite FROM Entites e  INNER JOIN Joueurs j ON j.idJoueur = e.idJoueur WHERE j.nomUtilisateur='" + nomJoueur + "')");
                         bd.Update("UPDATE JoueursEquipements SET quantiteEquipe= " + qqt2 + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + nomJoueur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE noImage ='" + ide + "')");
 
                         //enleve de l'équipement de l'entité l'equipement que tu vien de changer
