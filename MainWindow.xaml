@@ -51,7 +51,7 @@
         </Style>
     </Window.Resources>
 
-    <TabControl TabStripPlacement="Left" SelectionChanged="TabControl_SelectionChanged">
+    <TabControl TabStripPlacement="Left" >
 
         <TabItem  Header="Personnages" Height="30"   >
             <Grid x:Name="grd_Perso" IsEnabled="True" Selector.IsSelected="True">
