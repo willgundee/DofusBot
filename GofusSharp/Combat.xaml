@@ -41,7 +41,9 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
         </Grid>
-        <TextBlock Name="tb_Log" Grid.Column="0" Grid.Row="1"></TextBlock>
+        <ScrollViewer Name="srv_Log" CanContentScroll="True" Grid.Column="0" Grid.Row="1" ScrollChanged="srv_Log_ScrollChanged">
+            <TextBlock Name="tb_Log" TextWrapping="Wrap" Background="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" />
+        </ScrollViewer>
         <Grid Name="grd_perso" Grid.Column="1" Grid.Row="0">
             <Grid.RowDefinitions>
                 <RowDefinition/>

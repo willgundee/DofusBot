@@ -8,7 +8,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <DataGrid x:Name="dgHistorique" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="246" Width="300" Margin="0,0,0,54"/>
-        <Button x:Name="btnVisionner" Content="Visionner" HorizontalAlignment="Left" Margin="193,268,0,0" VerticalAlignment="Top" Width="97" IsCancel="True"/>
+        <Button x:Name="btnVisionner" Content="Visionner" HorizontalAlignment="Left" Margin="193,268,0,0" VerticalAlignment="Top" Width="97" IsCancel="True" Click="btnVisionner_Click"/>
         <ComboBox x:Name="cboTypePartie" HorizontalAlignment="Left" Margin="10,268,0,0" VerticalAlignment="Top" Width="163" SelectedIndex="0" SelectionChanged="cboTypePartie_SelectionChanged"/>
 
     </Grid>

@@ -18,6 +18,8 @@ using System.Windows.Media;
 using System.Threading;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Windows.Shapes;
+using Gofus;
 
 namespace test
 {
@@ -42,6 +44,8 @@ namespace test
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Window _dragdropWindow = null;
+
         public BDService bd = new BDService();
 
 
@@ -51,6 +55,7 @@ namespace test
         ObservableCollection<string> LstCaras;
         ObservableCollection<ImageItem> LstInventaire;
         ObservableCollection<DescItem> LstDesc;
+        ObservableCollection<pArchives> LstArchive;
         List<string> lstAvatars;
         System.Windows.Controls.ListBox dragSource = null;
 
@@ -99,6 +104,10 @@ namespace test
             pgperso = new ObservableCollection<PagePerso>();
             pgCperso = new ObservableCollection<pageCpersonage>();
             pgSort = new ObservableCollection<Gofus.pageSort>();
+
+            LstArchive = new ObservableCollection<pArchives>();
+            archive.ItemsSource = LstArchive;
+            
 
             #region linking Marché et inventaire
             LstImgItems = new ObservableCollection<ImageItem>();
@@ -459,7 +468,7 @@ namespace test
                 {
                     public class Combat
                     {
-                        public static void Action(Terrain terrain, Entite joueur, Liste<EntiteInconnu> ListEntites)
+                        public static void Action(Terrain terrain, Entite Perso, Liste<EntiteInconnu> ListEntites)
                         {
                             user_code
                         }
@@ -496,21 +505,21 @@ namespace test
             EntiteInconnu ennemi = null;
             foreach (EntiteInconnu entite in ListEntites)
             {
-                if (entite.Equipe != joueur.Equipe)
+                if (entite.Equipe != Perso.Equipe)
                 {
                     ennemi = entite;
                     break;
                 }
             }
-            if (terrain.DistanceEntreCases(joueur.Position, ennemi.Position) > 1)
+            if (terrain.DistanceEntreCases(Perso.Position, ennemi.Position) > 1)
             {
                 int result = 1;
                 while (result != 0 && result != -1)
                 {
-                    result = joueur.AvancerVers(terrain.CheminEntreCases(joueur.Position, ennemi.Position)[0], 1);
+                    result = Perso.AvancerVers(terrain.CheminEntreCases(Perso.Position, ennemi.Position)[0], 1);
                 }
             }
-            joueur.UtiliserSort(joueur.ClasseEntite.TabSorts[1], ennemi);";
+            Perso.UtiliserSort(Perso.ClasseEntite.TabSorts[1], ennemi);";
             Combat combat = new Combat(ctb_main.Text, codeAI);
         }
 
@@ -1045,6 +1054,263 @@ namespace test
                 Tnode.Text = "system";
             }
             //#############################################################################################################
+            TreeNode[] treeNodeTab_T_sort_enum = new TreeNode[] {
+                new TreeNode("felintion"),
+                new TreeNode("chance_d_ecaflip"),
+                new TreeNode("bond_du_felin"),
+                new TreeNode("bluff"),
+                new TreeNode("pile_ou_face"),
+                new TreeNode("perception"),
+                new TreeNode("contrecoup"),
+                new TreeNode("griffe_invocatrice"),
+                new TreeNode("tout_ou_rien"),
+                new TreeNode("roulette"),
+                new TreeNode("topkaj"),
+                new TreeNode("langue_rapeuse"),
+                new TreeNode("roue_de_la_fortune"),
+                new TreeNode("esprit_felin"),
+                new TreeNode("trefle"),
+                new TreeNode("odorat"),
+                new TreeNode("reflexes"),
+                new TreeNode("griffe_joueuse"),
+                new TreeNode("griffe_de_ceangal"),
+                new TreeNode("rekopdestin_d_ecaflip"),
+                new TreeNode("invocation_de_dopeul_ecaflip"),
+                new TreeNode("mot_blessant"),
+                new TreeNode("mot_alternatif"),
+                new TreeNode("mot_d_amitie"),
+                new TreeNode("mot_decisif"),
+                new TreeNode("mot_interdit"),
+                new TreeNode("mot_de_frayeur"),
+                new TreeNode("mot_stimulant"),
+                new TreeNode("mot_turbulent"),
+                new TreeNode("mot_de_jouvence"),
+                new TreeNode("mot_selectif"),
+                new TreeNode("mot_eclatant"),
+                new TreeNode("mot_de_prevention"),
+                new TreeNode("mot_de_regeneration"),
+                new TreeNode("mot_d_immobilisation"),
+                new TreeNode("mot_deroutant"),
+                new TreeNode("mot_tournoyant"),
+                new TreeNode("mot_fracassant"),
+                new TreeNode("mot_de_silence"),
+                new TreeNode("mot_d_envol"),
+                new TreeNode("mot_de_revitalisation"),
+                new TreeNode("mot_de_reconstitution"),
+                new TreeNode("invocation_de_dopeul_eniripsa"),
+                new TreeNode("brokle"),
+                new TreeNode("pression"),
+                new TreeNode("bond"),
+                new TreeNode("intimidation"),
+                new TreeNode("vitalite"),
+                new TreeNode("epee_divine"),
+                new TreeNode("epeedesctructrice"),
+                new TreeNode("poutch"),
+                new TreeNode("souffle"),
+                new TreeNode("concentration"),
+                new TreeNode("couper"),
+                new TreeNode("friction"),
+                new TreeNode("duel"),
+                new TreeNode("epee_du_jugement"),
+                new TreeNode("puissance"),
+                new TreeNode("precipitation"),
+                new TreeNode("tempete_de_puissance"),
+                new TreeNode("epee_celeste"),
+                new TreeNode("epee_du_iop"),
+                new TreeNode("epee_du_destin"),
+                new TreeNode("colere_du_iop"),
+                new TreeNode("invocation_de_dopeul_iop"),
+                new TreeNode("fleche_de_dispersion"),
+                new TreeNode("fleche_magique"),
+                new TreeNode("fleche_empoisonne"),
+                new TreeNode("fleche_de_recul"),
+                new TreeNode("fleche_glacee"),
+                new TreeNode("fleche_enflammee"),
+                new TreeNode("tir_eloigne"),
+                new TreeNode("fleche_d_expiation"),
+                new TreeNode("œil_de_taupe"),
+                new TreeNode("tir_critique"),
+                new TreeNode("fleche_d_immobilisation"),
+                new TreeNode("fleche_punitive"),
+                new TreeNode("tir_puissant"),
+                new TreeNode("fleche_harcelante"),
+                new TreeNode("fleche_persecutrice"),
+                new TreeNode("fleche_cinglante"),
+                new TreeNode("fleche_destructrice"),
+                new TreeNode("fleche_absorbante"),
+                new TreeNode("fleche_ralentissante"),
+                new TreeNode("fleche_explosive"),
+                new TreeNode("maitrise_de_l_arc"),
+                new TreeNode("invocation_de_dopeul_cra"),
+                new TreeNode("mise_en_garde"),
+                new TreeNode("aveuglement"),
+                new TreeNode("attaque_naturelle"),
+                new TreeNode("rempart"),
+                new TreeNode("typhon"),
+                new TreeNode("bulle"),
+                new TreeNode("barricade"),
+                new TreeNode("glyphe_agressif"),
+                new TreeNode("lethargie"),
+                new TreeNode("attaque_nuageuse"),
+                new TreeNode("bastion"),
+                new TreeNode("retour_du_baton"),
+                new TreeNode("teleglyphe"),
+                new TreeNode("glyphe_de_repulsion"),
+                new TreeNode("treve"),
+                new TreeNode("glyphe_d_aveuglement"),
+                new TreeNode("frisson"),
+                new TreeNode("glyphe_optique"),
+                new TreeNode("glyphe_gravitationnel"),
+                new TreeNode("glyphe_enflamme"),
+                new TreeNode("bouclier_feca"),
+                new TreeNode("invocation_de_dopeul_feca"),
+                new TreeNode("douleur_partage"),
+                new TreeNode("chatiment_force"),
+                new TreeNode("attirance"),
+                new TreeNode("pied_du_sacrieur"),
+                new TreeNode("derobade"),
+                new TreeNode("detour"),
+                new TreeNode("assaut"),
+                new TreeNode("chatiment_agile"),
+                new TreeNode("dissolution"),
+                new TreeNode("chatiment_ose"),
+                new TreeNode("chatiment_spirituel"),
+                new TreeNode("sacrifice"),
+                new TreeNode("absorption"),
+                new TreeNode("chatiment_vitalesque"),
+                new TreeNode("cooperation"),
+                new TreeNode("transposition"),
+                new TreeNode("punition"),
+                new TreeNode("furie"),
+                new TreeNode("epee_volante"),
+                new TreeNode("transfert_de_vie"),
+                new TreeNode("folie_sanguinaire"),
+                new TreeNode("invocation_de_dopeul_sacrieur"),
+                new TreeNode("ronce"),
+                new TreeNode("la_bloqueuse"),
+                new TreeNode("poison_paralysant"),
+                new TreeNode("sacrifice_poupesque"),
+                new TreeNode("larme"),
+                new TreeNode("la_folle"),
+                new TreeNode("ronce_apaisante"),
+                new TreeNode("puissance_sylvestre"),
+                new TreeNode("la_sacrifiee"),
+                new TreeNode("tremblement"),
+                new TreeNode("connaissance_des_poupees"),
+                new TreeNode("ronces_multiples"),
+                new TreeNode("arbre"),
+                new TreeNode("vent_empoisonne"),
+                new TreeNode("la_gonflable"),
+                new TreeNode("ronce_agressives"),
+                new TreeNode("herbe_folle"),
+                new TreeNode("feu_de_brousse"),
+                new TreeNode("ronce_insolente"),
+                new TreeNode("la_surpuissante"),
+                new TreeNode("invocation_de_dopeul_sadida"),
+                new TreeNode("laisse_spirituelle"),
+                new TreeNode("griffe_spectrale"),
+                new TreeNode("resistance_naturelle"),
+                new TreeNode("invocation_de_tofu"),
+                new TreeNode("beneditcion_animale"),
+                new TreeNode("deplacement_felin"),
+                new TreeNode("invocation_de_bouftou"),
+                new TreeNode("crapaud"),
+                new TreeNode("invocation_de_prespic"),
+                new TreeNode("fouet"),
+                new TreeNode("piqure_motivante"),
+                new TreeNode("corbeau"),
+                new TreeNode("griffe_cinglante"),
+                new TreeNode("soin_animal"),
+                new TreeNode("invocation_de_sanglier"),
+                new TreeNode("frappe_du_craqueleur"),
+                new TreeNode("cris_de_l_ours"),
+                new TreeNode("invocation_de_bwork_mage"),
+                new TreeNode("crocs_du_mulou"),
+                new TreeNode("invocation_de_craqueleur"),
+                new TreeNode("invocation_de_dragonnet_rouge"),
+                new TreeNode("invocation_de_dopeul_osamodas"),
+                new TreeNode("retraite_anticipee"),
+                new TreeNode("sac_anime"),
+                new TreeNode("lancer_de_pelle"),
+                new TreeNode("lancer_de_pieces"),
+                new TreeNode("pelle_fantomatique"),
+                new TreeNode("acceleration"),
+                new TreeNode("boite_de_pandore"),
+                new TreeNode("remblai"),
+                new TreeNode("cle_reductrice"),
+                new TreeNode("force_de_l_age"),
+                new TreeNode("pelle_animee"),
+                new TreeNode("cupidite"),
+                new TreeNode("roulage_de_pelle"),
+                new TreeNode("maladresse"),
+                new TreeNode("maladresse_de_masse"),
+                new TreeNode("chance"),
+                new TreeNode("pelle_de_jugement"),
+                new TreeNode("pelle_massacrante"),
+                new TreeNode("corruption"),
+                new TreeNode("desinvocation"),
+                new TreeNode("coffre_anime"),
+                new TreeNode("invocation_de_dopeul_enutrof"),
+                new TreeNode("poisse"),
+                new TreeNode("sournoiserie"),
+                new TreeNode("piege_sournois"),
+                new TreeNode("invisibilite"),
+                new TreeNode("poison_insidieux"),
+                new TreeNode("fourvoiment"),
+                new TreeNode("coup_sournois"),
+                new TreeNode("double_sram"),
+                new TreeNode("pulsion_de_chakra"),
+                new TreeNode("piege_de_masse"),
+                new TreeNode("invisibilite_d_autrui"),
+                new TreeNode("piege_empoisonne"),
+                new TreeNode("concentration_de_chakra"),
+                new TreeNode("piege_d_immobilisation"),
+                new TreeNode("piege_de_silence"),
+                new TreeNode("piege_repulsif"),
+                new TreeNode("peur"),
+                new TreeNode("arnaque"),
+                new TreeNode("reperage"),
+                new TreeNode("attaque_mortelle"),
+                new TreeNode("piege_mortel"),
+                new TreeNode("invocation_de_dopeul_sram"),
+                new TreeNode("ralentissement"),
+                new TreeNode("rembobinage"),
+                new TreeNode("aiguille"),
+                new TreeNode("gelure"),
+                new TreeNode("sablier_de_xelor"),
+                new TreeNode("rayon_obscur"),
+                new TreeNode("teleportation"),
+                new TreeNode("fletrissement"),
+                new TreeNode("flou"),
+                new TreeNode("poussiere_temporelle"),
+                new TreeNode("vol_du_temps"),
+                new TreeNode("aiguille_chercheuse"),
+                new TreeNode("devoument"),
+                new TreeNode("fuite"),
+                new TreeNode("demotivation"),
+                new TreeNode("contre"),
+                new TreeNode("momification"),
+                new TreeNode("horloge"),
+                new TreeNode("frappe_de_xelor"),
+                new TreeNode("cadran_de_xelor"),
+                new TreeNode("invocation_de_dopeul_xelor")
+            };
+            foreach (TreeNode Tnode in treeNodeTab_T_sort_enum)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "namespace";
+                Tnode.Text = "system";
+            }
+            TreeNode[] treeNodeTab_T_sort = new TreeNode[] {
+                new TreeNode("nom_sort",treeNodeTab_T_sort_enum)
+            };
+            foreach (TreeNode Tnode in treeNodeTab_T_sort)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "namespace";
+                Tnode.Text = "system";
+            }
+            //#############################################################################################################
             TreeNode[] treeNodeTab_T_case_enum = new TreeNode[] {
                 new TreeNode("vide"),
                 new TreeNode("joueur"),
@@ -1107,7 +1373,7 @@ namespace test
                 new TreeNode("Equipement", treeNodeTab_T_equip),
                 new TreeNode("Liste"),
                 new TreeNode("Personnage"),
-                new TreeNode("Sort"),
+                new TreeNode("Sort", treeNodeTab_T_sort),
                 new TreeNode("Statistique", treeNodeTab_T_stat),
                 new TreeNode("Terrain"),
                 new TreeNode("Zone", treeNodeTab_T_zone)
@@ -1634,21 +1900,21 @@ namespace test
             EntiteInconnu ennemi = null;
             foreach (EntiteInconnu entite in ListEntites)
             {
-                if (entite.Equipe != joueur.Equipe)
+                if (entite.Equipe != Perso.Equipe)
                 {
                     ennemi = entite;
                     break;
                 }
             }
-            if (terrain.DistanceEntreCases(joueur.Position, ennemi.Position) > 1)
+            if (terrain.DistanceEntreCases(Perso.Position, ennemi.Position) > 1)
             {
                 int result = 1;
                 while (result != 0 && result != -1)
                 {
-                    result = joueur.AvancerVers(terrain.CheminEntreCases(joueur.Position, ennemi.Position)[0], 1);
+                    result = Perso.AvancerVers(terrain.CheminEntreCases(Perso.Position, ennemi.Position)[0], 1);
                 }
             }
-            joueur.UtiliserSort(joueur.ClasseEntite.TabSorts[1], ennemi);";
+            Perso.UtiliserSort(Perso.ClasseEntite.TabSorts[1], ennemi);";
             Combat combat = new Combat(codeAI, codeAI);
         }
 
@@ -1662,7 +1928,7 @@ namespace test
                 {
                     public class Combat
                     {
-                        public static void Action(Terrain terrain, Entite joueur, Liste<EntiteInconnu> ListEntites)
+                        public static void Action(Terrain terrain, Entite Perso, Liste<EntiteInconnu> ListEntites)
                         {
                             user_code
                         }
@@ -1828,6 +2094,7 @@ namespace test
 
         private void lbxInventaire_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            DataContext = this;
             System.Windows.Controls.ListBox parent = (System.Windows.Controls.ListBox)sender;
             dragSource = parent;
             ImageItem data = (ImageItem)GetDataFromListBox(dragSource, e.GetPosition(parent));
@@ -1850,7 +2117,7 @@ namespace test
             borderCac.BorderBrush = Brushes.Transparent;
 
 
-
+            SolidColorBrush color = Brushes.Orange;
             if (data != null)
             {
                 Equipement itemDrag = Player.Inventaire.First(x => x.NoImg == convertPathToNoItem(data.imgItem.Source.ToString()));
@@ -1858,40 +2125,46 @@ namespace test
                 {
                     case "Cape":
                         imgCapeInv.AllowDrop = true;
-                        borderCape.BorderBrush = Brushes.Orange;
+                        borderCape.BorderBrush = color;
                         break;
                     case "Chapeau":
                         imgChapeauInv.AllowDrop = true;
-                        borderCoiffe.BorderBrush = Brushes.Orange;
+                        borderCoiffe.BorderBrush = color;
                         break;
                     case "Botte":
                         imgBotteInv.AllowDrop = true;
-                        borderBotte.BorderBrush = Brushes.Orange;
+                        borderBotte.BorderBrush = color;
                         break;
                     case "Ceinture":
                         imgCeintureInv.AllowDrop = true;
-                        borderCeinture.BorderBrush = Brushes.Orange;
+                        borderCeinture.BorderBrush = color;
                         break;
                     case "Anneau":
                         imgAnneau1Inv.AllowDrop = true;
                         imgAnneau2Inv.AllowDrop = true;
-                        borderAno1.BorderBrush = Brushes.Orange;// prob pour drop/border
-                        borderAno2.BorderBrush = Brushes.Orange;
+                        borderAno1.BorderBrush = color;
+                        borderAno2.BorderBrush = color;
                         break;
                     case "Amulette":
                         imgAmuletteInv.AllowDrop = true;
-                        borderAmu.BorderBrush = Brushes.Orange;
+                        borderAmu.BorderBrush = color;
                         break;
                     default://arme
                         imgArmeInv.AllowDrop = true;
-                        borderCac.BorderBrush = Brushes.Orange;
+                        borderCac.BorderBrush = color;
                         break;
                 }
-
+                //http://stackoverflow.com/questions/3129443/wpf-4-drag-and-drop-with-visual-element-as-cursor
                 System.Windows.DataObject dragData = new System.Windows.DataObject("image", data);
+                CreateDragDropWindow(data.imgItem);
                 var effet = DragDrop.DoDragDrop(parent, dragData, System.Windows.DragDropEffects.Move);
                 if (effet == System.Windows.DragDropEffects.None)
                 {//drop fail
+                    if (this._dragdropWindow != null)
+                    {
+                        this._dragdropWindow.Close();
+                        this._dragdropWindow = null;
+                    }
                     borderCape.BorderBrush = Brushes.Transparent;
                     borderCoiffe.BorderBrush = Brushes.Transparent;
                     borderBotte.BorderBrush = Brushes.Transparent;
@@ -1901,12 +2174,47 @@ namespace test
                     borderAmu.BorderBrush = Brushes.Transparent;
                     borderCac.BorderBrush = Brushes.Transparent;
                 }
-                if (effet == System.Windows.DragDropEffects.Move)
-                {
-                }
-
             }
         }
+        private void Image_GiveFeedback(object sender, System.Windows.GiveFeedbackEventArgs e)
+        {
+            // update the position of the visual feedback item
+            Win32Point w32Mouse = new Win32Point();
+            GetCursorPos(ref w32Mouse);
+            //TODO DIOT ENTRER LA DEDANS 
+            this._dragdropWindow.Left = w32Mouse.X;
+            this._dragdropWindow.Top = w32Mouse.Y;
+        }
+        private void CreateDragDropWindow(Visual dragElement)
+        {
+            this._dragdropWindow = new Window();
+            _dragdropWindow.WindowStyle = WindowStyle.None;
+            _dragdropWindow.AllowsTransparency = true;
+            _dragdropWindow.AllowDrop = false;
+            _dragdropWindow.Background = null;
+            _dragdropWindow.IsHitTestVisible = false;
+            _dragdropWindow.SizeToContent = SizeToContent.WidthAndHeight;
+            _dragdropWindow.Topmost = true;
+            _dragdropWindow.ShowInTaskbar = false;
+
+            Rectangle r = new Rectangle();
+            r.Width = ((FrameworkElement)dragElement).ActualWidth;
+            r.Height = ((FrameworkElement)dragElement).ActualHeight;
+            r.Fill = new VisualBrush(dragElement);
+            this._dragdropWindow.Content = r;
+
+
+            Win32Point w32Mouse = new Win32Point();
+            GetCursorPos(ref w32Mouse);
+
+
+            this._dragdropWindow.Left = w32Mouse.X;
+            this._dragdropWindow.Top = w32Mouse.Y;
+            this._dragdropWindow.Show();
+        }
+
+
+
 
         private static object GetDataFromListBox(System.Windows.Controls.ListBox source, Point point)
         {
@@ -1936,7 +2244,7 @@ namespace test
 
         private string convertPathToNoItem(string path)
         {
-            return Path.GetFileNameWithoutExtension(path.Split('/').Last());
+            return System.IO.Path.GetFileNameWithoutExtension(path.Split('/').Last());
         }
 
         private void imgInv_Drop(object sender, System.Windows.DragEventArgs e)
@@ -1961,7 +2269,7 @@ namespace test
 
 
 
-            if (Path.GetFileNameWithoutExtension(cible.Source.ToString().Split('/').Last()) != "vide")
+            if (convertPathToNoItem(cible.Source.ToString()) != "vide")
                 itemDejaEquipe = Player.Inventaire.First(x => x.NoImg == convertPathToNoItem(cible.Source.ToString()));
 
             //TODO: l'add dans la list d'equipement du perso quand tu la drop dedans et l'enlever l'inverse
@@ -1976,9 +2284,26 @@ namespace test
             else
                 Player.Inventaire.Add(itemVoulantEtreEquiper);
 
+            if (this._dragdropWindow != null)
+            {
+                this._dragdropWindow.Close();
+                this._dragdropWindow = null;
+            }
+
             refreshInv();
 
         }
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool GetCursorPos(ref Win32Point pt);
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct Win32Point
+        {
+            public Int32 X;
+            public Int32 Y;
+        };
+
 
         private void refreshInv()
         {

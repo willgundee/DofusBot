@@ -1,18 +1,13 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 
 namespace GofusSharp
 {
     public class Debug
     {
-        static void log(object Value)
+        public static void log(object Value)
         {
-            foreach (Window window in Application.Current.Windows)
-            {
-                if (window.GetType() == typeof(Combat))
-                {
-                    (window as Combat).tb_Log.Text += "\n" + Value.ToString();
-                }
-            }
+            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Value.ToString();
         }
     }
 }

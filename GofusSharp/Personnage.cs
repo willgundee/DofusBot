@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 
 namespace GofusSharp
 {
@@ -41,28 +42,22 @@ namespace GofusSharp
                     break;
                 }
             }
-            foreach (Window window in Application.Current.Windows)
+            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " attaque " + cible.Nom + " avec " + arme.Nom;
+            if (PA < arme.CoutPA)
             {
-                if (window.GetType() == typeof(Combat))
-                {
-                    (window as Combat).tb_Log.Text += "\n" + Nom + " attaque " + cible.Nom + " avec " + arme.Nom;
-                }
+                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " n'a pas assez de PA pour utiliser " + arme.Nom;
+                return false;
             }
             if (CaseEstDansZone(arme.ZonePortee.Type, arme.ZonePortee.PorteeMin, arme.ZonePortee.PorteeMax, Position, cible.Position))
             {
+                PA -= arme.CoutPA;
                 foreach (Effet effet in arme.TabEffets)
                 {
                     InfligerEffet(effet, arme.ZoneEffet, cible.Position);
                 }
                 return true;
             }
-            foreach (Window window in Application.Current.Windows)
-            {
-                if (window.GetType() == typeof(Combat))
-                {
-                    (window as Combat).tb_Log.Text += "\n" + cible.Nom + " est hors de portée de l'arme " + arme.Nom;
-                }
-            }
+            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + cible.Nom + " est hors de portée de l'arme " + arme.Nom;
             return false;
         }
         public bool Attaquer(Case cible)
@@ -76,28 +71,22 @@ namespace GofusSharp
                     break;
                 }
             }
-            foreach (Window window in Application.Current.Windows)
+            if (PA < arme.CoutPA)
             {
-                if (window.GetType() == typeof(Combat))
-                {
-                    (window as Combat).tb_Log.Text += "\n" + Nom + " attaque à X: " + cible.X + " Y: " + cible.Y + " avec " + arme.Nom;
-                }
+                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " n'a pas assez de PA pour utiliser " + arme.Nom;
+                return false;
             }
+            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " attaque à X: " + cible.X + " Y: " + cible.Y + " avec " + arme.Nom;
             if (CaseEstDansZone(arme.ZonePortee.Type, arme.ZonePortee.PorteeMin, arme.ZonePortee.PorteeMax, Position, cible))
             {
+                PA -= arme.CoutPA;
                 foreach (Effet effet in arme.TabEffets)
                 {
                     InfligerEffet(effet, arme.ZoneEffet, cible);
                 }
                 return true;
             }
-            foreach (Window window in Application.Current.Windows)
-            {
-                if (window.GetType() == typeof(Combat))
-                {
-                    (window as Combat).tb_Log.Text += "\n" + cible.X + " Y: " + cible.Y + " est hors de portée de l'arme " + arme.Nom;
-                }
-            }
+            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + cible.X + " Y: " + cible.Y + " est hors de portée de l'arme " + arme.Nom;
             return false;
         }
     }
