@@ -219,8 +219,12 @@
                 <DockPanel Name="dckLink"  LastChildFill="False"  Grid.Row="2" />
             </Grid>
         </TabItem>
-        <TabItem Header="Sorts" Height="30">
-            <Label HorizontalAlignment="Center" FontSize="25" Grid.Row="0" >Sorts</Label>
+        <TabItem  Header="Sorts" Height="30" Selector.Selected="PGSort_Selected">
+                
+            <TabControl  Name="PGSort"> 
+                
+            </TabControl>
+            
         </TabItem>
         <TabItem Header="Inventaire" Selector.Selected="TabItem_Selected_Inventaire" Height="30">
             <Grid>

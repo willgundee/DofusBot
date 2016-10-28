@@ -62,6 +62,7 @@ namespace test
 
         public ObservableCollection<PagePerso> pgperso;
         public ObservableCollection<pageCpersonage> pgCperso;
+        public ObservableCollection<Gofus.pageSort> pgSort;
 
         #region Marc_Chat,FenetreChat,DispatcherTimer,ThreadEnvoie
         public Chat chat;
@@ -97,6 +98,7 @@ namespace test
             ctb_main.UpdateTreeView();
             pgperso = new ObservableCollection<PagePerso>();
             pgCperso = new ObservableCollection<pageCpersonage>();
+            pgSort = new ObservableCollection<Gofus.pageSort>();
 
             #region linking Marché et inventaire
             LstImgItems = new ObservableCollection<ImageItem>();
@@ -2009,12 +2011,19 @@ namespace test
 
 
         }
-        #endregion
+        #endregion    
 
-
-
-
-
-
+        private void PGSort_Selected(object sender, RoutedEventArgs e)
+        {
+           
+                pgSort.Add(new Gofus.pageSort());
+                PGSort.ItemsSource = pgSort;
+            /* PGSort c'est un tab item ya pas de itemsSource donc tu doit crée un objet dans 
+             * le tabitem pour le link comme un itemControl une listbox nimporte quoi comme tu 
+             * le veut sa ne me derange pas tant qu'il possede un itemsSource tu seras correct et 
+             * j'aime bien écrire sur la meme ligne pour que tu ai besoin de scroll horizontalement
+             *  et ne pas pouvoir tout lire d'un coup*/
+            
+        }
     }
 }
