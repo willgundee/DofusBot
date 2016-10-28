@@ -18,6 +18,7 @@ using System.Windows.Media;
 using System.Threading;
 using System.Collections.ObjectModel;
 using System.IO;
+using Gofus;
 
 namespace test
 {
@@ -51,6 +52,7 @@ namespace test
         ObservableCollection<string> LstCaras;
         ObservableCollection<ImageItem> LstInventaire;
         ObservableCollection<DescItem> LstDesc;
+        ObservableCollection<pArchives> LstArchive;
         List<string> lstAvatars;
         System.Windows.Controls.ListBox dragSource = null;
 
@@ -97,6 +99,9 @@ namespace test
             ctb_main.UpdateTreeView();
             pgperso = new ObservableCollection<PagePerso>();
             pgCperso = new ObservableCollection<pageCpersonage>();
+            LstArchive = new ObservableCollection<pArchives>();
+            archive.ItemsSource = LstArchive;
+            
 
             #region linking Marché et inventaire
             LstImgItems = new ObservableCollection<ImageItem>();
@@ -2009,12 +2014,16 @@ namespace test
 
 
         }
+
+
+
+
+
         #endregion
 
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
 
-
-
-
-
+        }
     }
 }

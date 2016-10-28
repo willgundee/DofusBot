@@ -7,12 +7,13 @@
         xmlns:local="clr-namespace:test"
         xmlns:Forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:Gofus="clr-namespace:Gofus"
         x:Class="test.MainWindow"
         mc:Ignorable="d"
      Icon="resources/Gofus.png"
         Title="Gofus" Height="600" Width="700" ResizeMode="NoResize">
     <Window.Resources>
-        <Style x:Key="RowOverflow" TargetType="ListBox">
+        <Style x:Key="RowOverflow" TargetType="{x:Type ListBox}">
             <Setter Property="ItemsPanel">
                 <Setter.Value>
                     <ItemsPanelTemplate>
@@ -21,7 +22,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="RowFix" TargetType="ListBox">
+        <Style x:Key="RowFix" TargetType="{x:Type ListBox}">
             <Setter Property="ItemsPanel">
                 <Setter.Value>
                     <ItemsPanelTemplate>
@@ -30,13 +31,13 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="LinkButton" TargetType="Button">
+        <Style x:Key="LinkButton" TargetType="{x:Type Button}">
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <TextBlock TextDecorations="Underline">
-                    <ContentPresenter />
-                        </TextBlock>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <TextBlock TextDecorations="Underline"><InlineUIContainer>
+                                <ContentPresenter />
+                            </InlineUIContainer></TextBlock>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -50,13 +51,12 @@
         </Style>
     </Window.Resources>
 
-    <TabControl TabStripPlacement="Left">
+    <TabControl TabStripPlacement="Left" SelectionChanged="TabControl_SelectionChanged">
 
         <TabItem  Header="Personnages" Height="30"   >
             <Grid x:Name="grd_Perso" IsEnabled="True" Selector.IsSelected="True">
-                <TabControl x:Name="tCPerso" Grid.ColumnSpan="2"  HorizontalAlignment="Left" Height="560" Margin="3,1,0,-1" VerticalAlignment="Top" Width="577" Grid.RowSpan="2" >
-
-                </TabControl>
+                
+                <TabControl x:Name="tCPerso" Grid.ColumnSpan="2"  HorizontalAlignment="Left" Height="560" Margin="3,1,0,-1" VerticalAlignment="Top" Width="577" Grid.RowSpan="2" />
             </Grid>
         </TabItem>
         <TabItem Header="Éditeur" Height="30">
@@ -163,15 +163,15 @@
                         </wf:CodeTextBox.CodeWords_Chaines>
                     </wf:CodeTextBox>
                 </WindowsFormsHost>
-                <Grid Name="grd_controlButton" Grid.Row="1" Grid.Column="1">
+                <Grid x:Name="grd_controlButton" Grid.Row="1" Grid.Column="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Button Name="btn_run" Content="Run" Grid.Column="0" Width="75" Height="40" Click="btn_run_Click"/>
-                    <Button Name="btn_test" Content="test" Grid.Column="1" Width="75" Height="40" Click="btn_test_Click"/>
-                    <Button Name="btn_debug" Content="debug" Grid.Column="3" Width="75" Height="40" Click="btn_debug_Click"/>
+                    <Button x:Name="btn_run" Content="Run" Grid.Column="0" Width="75" Height="40" Click="btn_run_Click"/>
+                    <Button x:Name="btn_test" Content="test" Grid.Column="1" Width="75" Height="40" Click="btn_test_Click"/>
+                    <Button x:Name="btn_debug" Content="debug" Grid.Column="3" Width="75" Height="40" Click="btn_debug_Click"/>
                 </Grid>
             </Grid>
         </TabItem>
@@ -179,8 +179,8 @@
 
             <Grid Margin="2,-5,-5,-3">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="284*"></RowDefinition>
-                    <RowDefinition Height="268*"></RowDefinition>
+                    <RowDefinition Height="284*"/>
+                    <RowDefinition Height="268*"/>
                     <RowDefinition Height="21*"/>
                 </Grid.RowDefinitions>
                 <Image x:Name="imgCurrent" HorizontalAlignment="Left" Height="200" Margin="378,10,0,0" VerticalAlignment="Top" Width="200"/>
@@ -190,24 +190,24 @@
                 <Label x:Name="lblPri" Visibility="Hidden" Content="Prix:" HorizontalAlignment="Left" Margin="427,241,0,0" VerticalAlignment="Top" Width="35" Height="26"/>
                 <Button x:Name="btnAchat" Visibility="Hidden" HorizontalContentAlignment="Center" Content="Acheter" HorizontalAlignment="Left" Margin="442,7,0,0" VerticalAlignment="Top" Width="75" Click="btnAchat_Click" Height="22" Grid.Row="1"/>
                 <Label x:Name="lblItem" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="191" Height="26"/>
-                <Label Name="lblLvl" Width="167"  HorizontalAlignment="Left" Height="26" Margin="206,10,0,248.489" Content="" />
-                <TextBlock Name="txtBDesc" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="363" Height="82" Margin="10,41,0,0" />
+                <Label x:Name="lblLvl" Width="167"  HorizontalAlignment="Left" Height="26" Margin="206,10,0,248.489" Content="" />
+                <TextBlock x:Name="txtBDesc" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="363" Height="82" Margin="10,41,0,0" />
                 <!--Image x:Name="imgKamas" Visibility="Visible" Source="resources/kamas.png" HorizontalAlignment="Left" Height="26" Margin="522,215,0,0" VerticalAlignment="Top" Width="38"/-->
 
                 <TabControl x:Name="tabControlStats" Visibility="Hidden" Height="151" Margin="10,128,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="363">
                     <TabItem Header="Statistiques" >
-                        <ListBox  Name="lbxStats"/>
+                        <ListBox  x:Name="lbxStats"/>
                     </TabItem>
                     <TabItem Header="Conditions">
-                        <ListBox  Name="lbxCond"/>
+                        <ListBox  x:Name="lbxCond"/>
                     </TabItem>
-                    <TabItem Name="tbCara" Header="caractéristiques" Visibility="Hidden">
-                        <ListBox  Name="lbxCara"/>
+                    <TabItem x:Name="tbCara" Header="caractéristiques" Visibility="Hidden">
+                        <ListBox  x:Name="lbxCara"/>
                     </TabItem>
                 </TabControl>
                 <ComboBox x:Name="cboTrie" SelectionChanged="cboTrie_SelectionChanged" HorizontalAlignment="Left" Margin="81,6.511,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120"/>
 
-                <ItemsControl Name="itmCtrlEquip" Grid.Row="1" Margin="0,34,3,0" >
+                <ItemsControl x:Name="itmCtrlEquip" Grid.Row="1" Margin="0,34,3,0" >
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <UniformGrid Columns="5" Rows="2"/>
@@ -216,11 +216,11 @@
                 </ItemsControl>
 
                 <Label x:Name="lblTrie" Content="Afficher :" HorizontalAlignment="Left" Margin="10,2.511,0,0" Grid.Row="1" VerticalAlignment="Top" Width="71"/>
-                <DockPanel Name="dckLink"  LastChildFill="False"  Grid.Row="2" />
+                <DockPanel x:Name="dckLink"  LastChildFill="False"  Grid.Row="2" />
             </Grid>
         </TabItem>
         <TabItem Header="Sorts" Height="30">
-            <Label HorizontalAlignment="Center" FontSize="25" Grid.Row="0" >Sorts</Label>
+            <Label HorizontalAlignment="Center" FontSize="25" Grid.Row="0" Content="Sorts" />
         </TabItem>
         <TabItem Header="Inventaire" Selector.Selected="TabItem_Selected_Inventaire" Height="30">
             <Grid>
@@ -261,48 +261,48 @@
                         <ColumnDefinition Width="7*"/>
                         <ColumnDefinition Width="36*"/>
                     </Grid.ColumnDefinitions>
-                    <Border Name="borderCape" BorderThickness="3" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan ="2">
-                        <Image Name="imgCapeInv" Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" />
+                    <Border x:Name="borderCape" BorderThickness="3" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan ="2">
+                        <Image x:Name="imgCapeInv" Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" />
                     </Border>
-                    <Border Name="borderAmu" BorderThickness="3" Grid.Column="6" Grid.Row="2">
-                        <Image Name="imgAmuletteInv" Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" Margin="0,0,0,-3" />
+                    <Border x:Name="borderAmu" BorderThickness="3" Grid.Column="6" Grid.Row="2">
+                        <Image x:Name="imgAmuletteInv" Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" Margin="0,0,0,-3" />
                     </Border>
-                    <Border Name="borderCoiffe" BorderThickness="3" Grid.Column="9" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2">
-                        <Image Name="imgChapeauInv" Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" />
+                    <Border x:Name="borderCoiffe" BorderThickness="3" Grid.Column="9" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2">
+                        <Image x:Name="imgChapeauInv" Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" />
                     </Border>
-                    <Border Name="borderAno1" BorderThickness="3" Grid.Column="2" Grid.Row="5">
-                        <Image Name="imgAnneau1Inv" Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" />
+                    <Border x:Name="borderAno1" BorderThickness="3" Grid.Column="2" Grid.Row="5">
+                        <Image x:Name="imgAnneau1Inv" Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" />
                     </Border>
-                    <Border Name="borderAno2" BorderThickness="3" Grid.Column="10" Grid.Row="5">
-                        <Image Name="imgAnneau2Inv" Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" />
+                    <Border x:Name="borderAno2" BorderThickness="3" Grid.Column="10" Grid.Row="5">
+                        <Image x:Name="imgAnneau2Inv" Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" />
                     </Border>
-                    <Border Name="borderCeinture" BorderThickness="3" Grid.Column="5" Grid.Row="4" Grid.ColumnSpan="3" Grid.RowSpan ="3">
-                        <Image Name="imgCeintureInv" Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" />
+                    <Border x:Name="borderCeinture" BorderThickness="3" Grid.Column="5" Grid.Row="4" Grid.ColumnSpan="3" Grid.RowSpan ="3">
+                        <Image x:Name="imgCeintureInv" Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" />
                     </Border>
-                    <Border Name="borderBotte" BorderThickness="3" Grid.Column="5" Grid.Row="8" Grid.ColumnSpan="3">
-                        <Image Name="imgBotteInv" Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" Margin="0,0,0,-3" />
+                    <Border x:Name="borderBotte" BorderThickness="3" Grid.Column="5" Grid.Row="8" Grid.ColumnSpan="3">
+                        <Image x:Name="imgBotteInv" Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" Margin="0,0,0,-3" />
                     </Border>
-                    <Border Name="borderCac" BorderThickness="3" Grid.Column="9" Grid.Row="8" Grid.ColumnSpan="3" Margin="0,0,0,32" Grid.RowSpan="2">
-                        <Image Name="imgArmeInv" Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown"/>
+                    <Border x:Name="borderCac" BorderThickness="3" Grid.Column="9" Grid.Row="8" Grid.ColumnSpan="3" Margin="0,0,0,32" Grid.RowSpan="2">
+                        <Image x:Name="imgArmeInv" Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown"/>
                     </Border>
-                    <Label Name="lblNomEntite" Content="Lou-blood" FontSize="10" Grid.Column="4" Grid.ColumnSpan="5" Foreground="White"/>
+                    <Label x:Name="lblNomEntite" Content="Lou-blood" FontSize="10" Grid.Column="4" Grid.ColumnSpan="5" Foreground="White"/>
                 </Grid>
 
-                <ListBox Name="lbxInventaire" Grid.RowSpan="2" Style="{StaticResource RowOverflow}" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,69,0,0" PreviewMouseLeftButtonDown="lbxInventaire_PreviewMouseLeftButtonDown"/>
-                <ItemsControl Name="itmCtrlDesc" Grid.Row="1" />
-                <ComboBox Name="cboChoixEntite" Grid.Column="1" SelectionChanged="cboChoixEntite_SelectionChanged" HorizontalAlignment="Left" Margin="94,10,0,0" VerticalAlignment="Top" Width="120"/>
-                <ComboBox Name="cboTrieInventaire" Grid.Column="1" SelectionChanged="cboTrieInventaire_SelectionChanged" HorizontalAlignment="Left" Margin="94,37,0,0" VerticalAlignment="Top" Width="120"/>
+                <ListBox x:Name="lbxInventaire" Grid.RowSpan="2" Style="{StaticResource RowOverflow}" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,69,0,0" PreviewMouseLeftButtonDown="lbxInventaire_PreviewMouseLeftButtonDown"/>
+                <ItemsControl x:Name="itmCtrlDesc" Grid.Row="1" />
+                <ComboBox x:Name="cboChoixEntite" Grid.Column="1" SelectionChanged="cboChoixEntite_SelectionChanged" HorizontalAlignment="Left" Margin="94,10,0,0" VerticalAlignment="Top" Width="120"/>
+                <ComboBox x:Name="cboTrieInventaire" Grid.Column="1" SelectionChanged="cboTrieInventaire_SelectionChanged" HorizontalAlignment="Left" Margin="94,37,0,0" VerticalAlignment="Top" Width="120"/>
                 <Label Content="Personnage :" Grid.Column="1" HorizontalAlignment="Left" Margin="10,6,0,0" VerticalAlignment="Top" Width="79"/>
                 <Label Content="Trier par :" Grid.Column="1" HorizontalAlignment="Left" Margin="10,33,0,0" VerticalAlignment="Top" Width="79"/>
-            </Grid >
+            </Grid>
         </TabItem>
         <TabItem Header="Arène" Height="30">
-            <Label HorizontalAlignment="Center" FontSize="25">Arène</Label>
+            <Label HorizontalAlignment="Center" FontSize="25" Content="Arène"/>
         </TabItem>
         <TabItem Header="Documentation" Height="30">
-            <Label HorizontalAlignment="Center" FontSize="25">Documentation</Label>
+            <Label HorizontalAlignment="Center" FontSize="25" Content="Documentation"/>
         </TabItem>
-        <TabItem Name="TabClavardage" Header="Clavardage" Height="30">
+        <TabItem x:Name="TabClavardage" Header="Clavardage" Height="30">
             <TabItem.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="0"/>
@@ -350,9 +350,14 @@
             </Grid>
         </TabItem>
         <TabItem Header="Archives" Height="30">
-            <Label HorizontalAlignment="Center" FontSize="25">Archives</Label>
+            <Grid>
+                 <Label HorizontalAlignment="Center" FontSize="25" Content="Archives"/>
+                <ItemsControl Name="archive" ItemsSource="{Binding LstArchive}"  Margin="152,66,201.38,135" ></ItemsControl>
+            </Grid>
+           
+            
         </TabItem>
-        <TabItem Header="Gestion de compte&#xD;&#xA;" Height="30">
+        <TabItem Header="Gestion de compte&#xA;" Height="30">
             <Grid Background="Gray">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="118*"/>
@@ -362,11 +367,9 @@
                     <ColumnDefinition Width="*"/>
 
                 </Grid.ColumnDefinitions>
-                <Label HorizontalAlignment="Center" FontSize="25"  Width="240" Margin="199,0,128.38,402.326" Content="Gestion de compte&#xD;&#xA;" />
+                <Label HorizontalAlignment="Center" FontSize="25"  Width="240" Margin="199,0,128.38,402.326" Content="Gestion de compte&#xA;" />
                 <Label x:Name="label" Content="Avatar" HorizontalAlignment="Left" Margin="48,19,0,0" VerticalAlignment="Top" FontSize="15" Height="30" Width="54" />
-                <Image x:Name="iAvatar" HorizontalAlignment="Left" Height="73" Margin="20,40,0,0" VerticalAlignment="Top" Width="123" Source="Resources/vide.png" MouseDown="Change_Avatar">
-
-                </Image>
+                <Image x:Name="iAvatar" HorizontalAlignment="Left" Height="73" Margin="20,40,0,0" VerticalAlignment="Top" Width="123" Source="Resources/vide.png" MouseDown="Change_Avatar"/>
                 <Label x:Name="lbl_nom" Content="Nom d'utilisateur" HorizontalAlignment="Left" Margin="20,130,0,0" VerticalAlignment="Top" Height="30" Width="240" FontSize="15"/>
                 <TextBox x:Name="txt_nomUtilisateur" HorizontalAlignment="Left"  Height="22" Margin="20,160,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" IsEnabled="False"  Text="" />
                 <Label x:Name="lbl_AncienMdp"  Content="Ancien mot de passe" HorizontalAlignment="Left" Margin="20,394,0,48" VerticalAlignment="Center" FontSize="15" Height="30" Width="240"/>
@@ -387,11 +390,7 @@
                 </Label>
                 <Label x:Name="lblConfirmation" Content="Confirmation :" FontSize="15" HorizontalAlignment="Right" Width="220" VerticalAlignment="Top" Margin="0,375,49.6,0" Height="31"/>
                 <Label x:Name="lblInfoConfirmation"   FontSize="15" Height="50"  HorizontalAlignment="Right" Width="220" VerticalAlignment="Top" Margin="0,395,49.6,0">
-                    <TextBlock>
-                Doit être identique au
-                <LineBreak/>
-                mot de passe
-                    </TextBlock>
+                    <TextBlock><Run Text="Doit être identique au"/><LineBreak/><Run Text="mot de passe"/></TextBlock>
                 </Label>
 
                 <Button x:Name="btnAnnuler" Content="Annuler" HorizontalAlignment="Center" FontSize="15" Margin="174,22,299.6,46" VerticalAlignment="Center" Width="100"  Click="btnAnnuler_Click" Grid.Row="1" Height="24"/>
@@ -404,6 +403,8 @@
             </Grid>
 
         </TabItem>
+
+       
 
     </TabControl>
 </Window>
