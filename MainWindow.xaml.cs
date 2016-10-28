@@ -2095,10 +2095,9 @@ namespace test
         private void lbxInventaire_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             DataContext = this;
-            System.Windows.Controls.ListBox parent = (System.Windows.Controls.ListBox)sender;
+            System.Windows.Controls.ListBox parent = (System.Windows.Controls.ListBox)sender  ;
             dragSource = parent;
             ImageItem data = (ImageItem)GetDataFromListBox(dragSource, e.GetPosition(parent));
-
             imgCapeInv.AllowDrop = false;
             imgChapeauInv.AllowDrop = false;
             imgBotteInv.AllowDrop = false;
@@ -2176,6 +2175,8 @@ namespace test
                 }
             }
         }
+
+
         private void Image_GiveFeedback(object sender, System.Windows.GiveFeedbackEventArgs e)
         {
             // update the position of the visual feedback item
