@@ -29,14 +29,15 @@ namespace Gofus
             InitializeComponent();
             lstSort = new ObservableCollection<SortList>();
             contenuCmbType();
-            contenulxbSort();
+            
           
         }
 
         void contenulxbSort()
         {
-
-            string classe;
+            int con;
+           List<string>[] Type;
+                  
             /*
              -0=tous
              -1=Iop
@@ -45,15 +46,26 @@ namespace Gofus
              */
             if (cmbType.SelectedIndex==0)
             {
-                lstSort.Add(new SortList());
+                Type = bd.selection("SELECT * FROM Sorts s INNER JOIN ClassesSorts cs ON s.idSort =cs.idSort WHERE idClasse=1 OR idClasse=2 OR idClasse=3");
+
+                con = Type.Count();
+                for (int i = 0; i < con; i++)
+                {
+
+                lstSort.Add(new SortList(Type[i]));
                 lbxsort.ItemsSource = lstSort;            
+                }
             }
             else
             {
-            classe= bd.selection("SELECT * FROM ClassesSorts WHERE idClasse=(SELECT idClasse FROM Classes WHERE nom='"+cmbType.SelectedItem+"')")[0][1];
-
-                lstSort.Add(new SortList(classe));
-                lbxsort.ItemsSource = lstSort;
+            //    string i = "SELECT * FROM Sorts s INNER JOIN ClassesSorts cs ON s.idSort =cs.idSort WHERE idClasse=(SELECT idClasse FROM Classes WHERE nom='" + cmbType.SelectedValue + "')";
+                Type = bd.selection("SELECT * FROM Sorts s INNER JOIN ClassesSorts cs ON s.idSort =cs.idSort WHERE idClasse=(SELECT idClasse FROM Classes WHERE nom='" + cmbType.SelectedValue+"')");
+                con = Type.Count();
+                for (int i = 0; i < con; i++)
+                {
+                    lstSort.Add(new SortList(Type[i]));
+                    lbxsort.ItemsSource = lstSort;
+                }
             } 
         }
 
@@ -71,6 +83,12 @@ namespace Gofus
         private void lbxsort_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
 
+        }
+
+        private void cmbType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            
+            contenulxbSort();
         }
     }
 }

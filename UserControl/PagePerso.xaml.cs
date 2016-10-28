@@ -45,8 +45,8 @@ namespace test
                 lblNom.Content = perso.Nom;
                 lblNomClasse.Content = perso.ClasseEntite.Nom;
                 lblNbPointsC.Content = perso.CapitalLibre;
-                string SourceImgClasse = "../resources/" + perso.ClasseEntite.Nom;
                 double Exp;
+                string SourceImgClasse = "../resources/" + perso.ClasseEntite.Nom;
                 BitmapImage path = new BitmapImage();
                 path.BeginInit();
                 path.UriSource = new Uri(SourceImgClasse + ".png", UriKind.Relative);

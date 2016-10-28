@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using test;
 
 namespace Gofus
 {
@@ -20,15 +21,26 @@ namespace Gofus
     /// </summary>
     public partial class SortList : UserControl
     {
-        public SortList()
+        public SortList(List<string> sorts)
         {
             InitializeComponent();
+
+            int con = sorts.Count();
+
+     
+   
+                BitmapImage path = new BitmapImage();
+                path.BeginInit();
+                path.UriSource = new Uri("../resources/Cra.png", UriKind.Relative);
+                path.EndInit();
+                ImgSort.Source = path;
+               
+                 lblNomSort.Content = sorts[3] ;              
+            
+
         }
 
-        public SortList(string NoClasse)
-        {
-            InitializeComponent();
-        }
+
 
     }
 }
