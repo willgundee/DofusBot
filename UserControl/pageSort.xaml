@@ -14,9 +14,9 @@
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
 
-        <ComboBox Name="cmbType" Grid.Column="0" HorizontalAlignment="Left" Margin="10,37,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Name="cmbType" SelectedIndex="0" Grid.Column="0" HorizontalAlignment="Left" Margin="10,37,0,0" VerticalAlignment="Top" Width="120"/>
 
-        <ListBox Name="lbxsort" Grid.Column="0"  Margin="0,69,0,0" MouseDoubleClick="lbxsort_MouseDoubleClick" />
+        <ListBox Name="lbxsort" Grid.Column="0" Width="190" Margin="0,69,0,0" MouseDoubleClick="lbxsort_MouseDoubleClick" />
 
 
 

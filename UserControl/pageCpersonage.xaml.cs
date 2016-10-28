@@ -119,7 +119,7 @@ namespace test
                 bd.insertion("INSERT INTO statistiquesentites(idEntite,idTypeStatistique,valeur) VALUES ((SELECT idEntite FROM Entites WHERE nom='" + txtNom.Text.ToString() + "'), 8 ,0)");
                 bd.insertion("INSERT INTO statistiquesentites(idEntite,idTypeStatistique,valeur) VALUES ((SELECT idEntite FROM Entites WHERE nom='" + txtNom.Text.ToString() + "'), 9 ,6)");
                 bd.insertion("INSERT INTO statistiquesentites(idEntite,idTypeStatistique,valeur) VALUES ((SELECT idEntite FROM Entites WHERE nom='" + txtNom.Text.ToString() + "'), 10 ,3)");
-                for (int i = 11; i <= 30; i++)               
+                for (int i = 11; i <= 38; i++)               
                     bd.insertion("INSERT INTO statistiquesentites(idEntite,idTypeStatistique,valeur) VALUES ("+idEntite[0]+"," + i + ",0)");
 
 

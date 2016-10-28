@@ -25,5 +25,10 @@ namespace Gofus
             InitializeComponent();
         }
 
+        public SortList(string NoClasse)
+        {
+            InitializeComponent();
+        }
+
     }
 }
