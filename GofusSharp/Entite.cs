@@ -583,17 +583,20 @@ namespace GofusSharp
             return 0;
         }
 
-        internal bool CaseEstDansZone(Zone.type TypeZone, int porteeMin, int porteeMax, Case source, Case cible)
+        internal bool CaseEstDansZone(Zone.type TypeZone, int porteeMin, int porteeMax, Case source, Case cible, bool ligneDeVue = false)
         {
             try
             {
-
                 switch (TypeZone)
                 {
                     case Zone.type.cercle:
                         int portee = TerrainEntite.DistanceEntreCases(source, cible);
                         if (portee >= porteeMin && portee <= porteeMax)
                         {
+                            if (ligneDeVue)
+                            {
+                                //Case CaseDSort = ;
+                            }
                             return true;
                         }
                         break;
