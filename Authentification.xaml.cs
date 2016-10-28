@@ -45,6 +45,8 @@ namespace test
 
             if (hh[0][0] != "rien" && valide(hh) == true)
             {
+                Mouse.SetCursor(Cursors.AppStarting);
+
                 MainWindow perso = new MainWindow(Convert.ToInt32(hh[0][0]));
                 perso.Show();
                 this.Close();

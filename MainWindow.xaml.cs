@@ -1718,8 +1718,9 @@ namespace test
         private void TabItem_Selected_Inventaire(object sender, RoutedEventArgs e)
         {
             refreshInv();
-            cboChoixEntite.SelectedIndex = -1;
+            cboChoixEntite.SelectedIndex = -1;// # not legit
             cboChoixEntite.SelectedIndex = 0;
+
         }
 
         /// <summary>
@@ -1768,6 +1769,7 @@ namespace test
         {
             if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
             {
+
                 LstDesc.Clear();
                 if (convertPathToNoItem((sender as Image).Source.ToString()) != "vide")
                     LstDesc.Add(new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE noImage =" + Convert.ToInt32(convertPathToNoItem((sender as Image).Source.ToString())))[0], true, 0)));
@@ -1828,7 +1830,25 @@ namespace test
             dragSource = parent;
             ImageItem data = (ImageItem)GetDataFromListBox(dragSource, e.GetPosition(parent));
 
-            //imgInv_MouseDown(data, e);
+            imgCapeInv.AllowDrop = false;
+            imgChapeauInv.AllowDrop = false;
+            imgBotteInv.AllowDrop = false;
+            imgAnneau1Inv.AllowDrop = false;
+            imgAnneau2Inv.AllowDrop = false;
+            imgAmuletteInv.AllowDrop = false;
+            imgArmeInv.AllowDrop = false;
+
+            borderCape.BorderBrush = Brushes.Transparent;
+            borderCoiffe.BorderBrush = Brushes.Transparent;
+            borderBotte.BorderBrush = Brushes.Transparent;
+            borderCeinture.BorderBrush = Brushes.Transparent;
+            borderAno1.BorderBrush = Brushes.Transparent;
+            borderAno2.BorderBrush = Brushes.Transparent;
+            borderAmu.BorderBrush = Brushes.Transparent;
+            borderCac.BorderBrush = Brushes.Transparent;
+
+
+
             if (data != null)
             {
                 Equipement itemDrag = Player.Inventaire.First(x => x.NoImg == convertPathToNoItem(data.imgItem.Source.ToString()));
@@ -1836,33 +1856,56 @@ namespace test
                 {
                     case "Cape":
                         imgCapeInv.AllowDrop = true;
-                        
+                        borderCape.BorderBrush = Brushes.Orange;
                         break;
                     case "Chapeau":
                         imgChapeauInv.AllowDrop = true;
+                        borderCoiffe.BorderBrush = Brushes.Orange;
                         break;
                     case "Botte":
                         imgBotteInv.AllowDrop = true;
+                        borderBotte.BorderBrush = Brushes.Orange;
                         break;
                     case "Ceinture":
                         imgCeintureInv.AllowDrop = true;
+                        borderCeinture.BorderBrush = Brushes.Orange;
                         break;
                     case "Anneau":
                         imgAnneau1Inv.AllowDrop = true;
                         imgAnneau2Inv.AllowDrop = true;
+                        borderAno1.BorderBrush = Brushes.Orange;// prob pour drop/border
+                        borderAno2.BorderBrush = Brushes.Orange;
                         break;
                     case "Amulette":
                         imgAmuletteInv.AllowDrop = true;
+                        borderAmu.BorderBrush = Brushes.Orange;
                         break;
                     default://arme
                         imgArmeInv.AllowDrop = true;
+                        borderCac.BorderBrush = Brushes.Orange;
                         break;
                 }
 
                 System.Windows.DataObject dragData = new System.Windows.DataObject("image", data);
-                DragDrop.DoDragDrop(parent, dragData, System.Windows.DragDropEffects.Move);
+                var effet = DragDrop.DoDragDrop(parent, dragData, System.Windows.DragDropEffects.Move);
+                if (effet == System.Windows.DragDropEffects.None)
+                {//drop fail
+                    borderCape.BorderBrush = Brushes.Transparent;
+                    borderCoiffe.BorderBrush = Brushes.Transparent;
+                    borderBotte.BorderBrush = Brushes.Transparent;
+                    borderCeinture.BorderBrush = Brushes.Transparent;
+                    borderAno1.BorderBrush = Brushes.Transparent;
+                    borderAno2.BorderBrush = Brushes.Transparent;
+                    borderAmu.BorderBrush = Brushes.Transparent;
+                    borderCac.BorderBrush = Brushes.Transparent;
+                }
+                if (effet == System.Windows.DragDropEffects.Move)
+                {
+                }
+
             }
         }
+
         private static object GetDataFromListBox(System.Windows.Controls.ListBox source, Point point)
         {
             UIElement element = source.InputHitTest(point) as UIElement;
@@ -1888,34 +1931,51 @@ namespace test
             }
             return null;
         }
+
         private string convertPathToNoItem(string path)
         {
             return Path.GetFileNameWithoutExtension(path.Split('/').Last());
         }
+
         private void imgInv_Drop(object sender, System.Windows.DragEventArgs e)
         {
             Image cible = (Image)sender;
             ImageItem data = e.Data.GetData("image") as ImageItem;
             Equipement itemDejaEquipe = null;
 
+            Equipement itemVoulantEtreEquiper = Player.Inventaire.First(x => x.NoImg == convertPathToNoItem(data.imgItem.Source.ToString()));
+            if (itemVoulantEtreEquiper.Type == "Anneau")
+            {
+                borderAno1.BorderBrush = Brushes.Transparent;
+                borderAno2.BorderBrush = Brushes.Transparent;
+                imgAnneau1Inv.AllowDrop = false;
+                imgAnneau2Inv.AllowDrop = false;
+            }
+            else
+            {
+                (cible.Parent as Border).BorderBrush = Brushes.Transparent;
+                cible.AllowDrop = false;
+            }
 
-            Equipement itemVoulantEtreEquiper = Player.Inventaire.First(x=>x.NoImg == convertPathToNoItem(data.imgItem.Source.ToString()));
+
 
             if (Path.GetFileNameWithoutExtension(cible.Source.ToString().Split('/').Last()) != "vide")
                 itemDejaEquipe = Player.Inventaire.First(x => x.NoImg == convertPathToNoItem(cible.Source.ToString()));
+
             //TODO: l'add dans la list d'equipement du perso quand tu la drop dedans et l'enlever l'inverse
             //TODO: bouger l'image au lieu de rien
             //TODO: le modif dans bd
-            cible.AllowDrop = false;
-                cible.Source = data.imgItem.Source;
-                Player.Inventaire.First(x => x.Nom == itemVoulantEtreEquiper.Nom).Quantite--;
-                if (itemDejaEquipe != null)
-                    Player.Inventaire.First(x => x.Nom == itemDejaEquipe.Nom).Quantite++;
-                else
-                    Player.Inventaire.Add(itemVoulantEtreEquiper);
 
-                refreshInv();
-            
+
+            cible.Source = data.imgItem.Source;
+            Player.Inventaire.First(x => x.Nom == itemVoulantEtreEquiper.Nom).Quantite--;
+            if (itemDejaEquipe != null)
+                Player.Inventaire.First(x => x.Nom == itemDejaEquipe.Nom).Quantite++;
+            else
+                Player.Inventaire.Add(itemVoulantEtreEquiper);
+
+            refreshInv();
+
         }
 
         private void refreshInv()
