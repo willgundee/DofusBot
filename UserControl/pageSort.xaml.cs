@@ -29,15 +29,43 @@ namespace Gofus
             InitializeComponent();
             lstSort = new ObservableCollection<SortList>();
             contenuCmbType();
+            contenulxbSort();
+          
         }
 
-        void contenuCmbType()
+        void contenulxbSort()
+        {
+
+            string classe;
+            /*
+             -0=tous
+             -1=Iop
+             -2=Cra        
+             -3=Ecaflip
+             */
+            if (cmbType.SelectedIndex==0)
+            {
+                lstSort.Add(new SortList());
+                lbxsort.ItemsSource = lstSort;            
+            }
+            else
+            {
+            classe= bd.selection("SELECT * FROM ClassesSorts WHERE idClasse=(SELECT idClasse FROM Classes WHERE nom='"+cmbType.SelectedItem+"')")[0][1];
+
+                lstSort.Add(new SortList(classe));
+                lbxsort.ItemsSource = lstSort;
+            } 
+        }
+
+
+            void contenuCmbType()
         {
             List<string> type = new List<string>();
             type.Add("Tous");
             type.Add("Iop");
             type.Add("Cra");
             type.Add("Ecaflip");
+            cmbType.ItemsSource = type;
         }
 
         private void lbxsort_MouseDoubleClick(object sender, MouseButtonEventArgs e)

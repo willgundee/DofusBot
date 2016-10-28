@@ -8,19 +8,20 @@ namespace test
 {
     public class Partie
     {
-        public int seed { get; set; }
+        //public int seed { get; set; }
+
+        
 
         public string Attaquant { get; set; }
         public string Defendant { get; set; }
 
-        public DateTime datePartie;
+        //public DateTime datePartie;
 
-        public Partie(string a , string d,DateTime date)
+        public Partie(string a , string d)
         {
             Attaquant = a;
             Defendant = d;
-            datePartie = new DateTime();
-            datePartie = date;
+          
         }
 
 
