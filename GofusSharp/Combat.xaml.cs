@@ -5,20 +5,25 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
 
+[assembly: InternalsVisibleTo("test")]
 namespace GofusSharp
 {
     /// <summary>
     /// Logique d'interaction pour Combat.xaml
     /// </summary>
-    public partial class Combat : Window
+    internal partial class Combat : Window
     {
+        public static int lel = 1;
         private Partie PartieTest { get; set; }
+
+        private Boolean AutoScroll = true;
         public Combat(string script1, string script2)
         {
             InitializeComponent();
@@ -39,7 +44,7 @@ namespace GofusSharp
             UpdateInfo();
         }
 
-        public void Action(Terrain terrain, Personnage joueur, System.Collections.ObjectModel.ReadOnlyCollection<EntiteInconnu> ListEntites)
+        private void Action(Terrain terrain, Personnage joueur, System.Collections.ObjectModel.ReadOnlyCollection<EntiteInconnu> ListEntites)
         {
             //code dynamique 
             string code = @"
@@ -48,7 +53,7 @@ namespace GofusSharp
                 {
                     public class Action
                     {
-                        public static void Execution(Terrain terrain, Personnage joueur, System.Collections.ObjectModel.ReadOnlyCollection<EntiteInconnu> ListEntites)
+                        public static void Execution(Terrain terrain, Personnage Perso, System.Collections.ObjectModel.ReadOnlyCollection<EntiteInconnu> ListEntites)
                         {
                             user_code
                         }
@@ -85,7 +90,7 @@ namespace GofusSharp
             mi.Invoke(null, new object[] { terrain, joueur, ListEntites });
         }
 
-        public void Action(Terrain terrain, Entite joueur, System.Collections.ObjectModel.ReadOnlyCollection<EntiteInconnu> ListEntites)
+        private void Action(Terrain terrain, Entite joueur, System.Collections.ObjectModel.ReadOnlyCollection<EntiteInconnu> ListEntites)
         {
             EntiteInconnu ennemi = null;
             foreach (EntiteInconnu entite in ListEntites)
@@ -239,5 +244,34 @@ namespace GofusSharp
             info.Append("\nEtat: " + PartieTest.ListDefendants.First().Etat);
             tb_perso1.Text = info.ToString();
         }
+
+
+        private void srv_Log_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            ScrollViewer log = sender as ScrollViewer;
+            // User scroll event : set or unset autoscroll mode
+            if (e.ExtentHeightChange == 0)
+            {   // Content unchanged : user scroll event
+                if (log.VerticalOffset == log.ScrollableHeight)
+                {   // Scroll bar is in bottom
+                    // Set autoscroll mode
+                    AutoScroll = true;
+                }
+                else
+                {   // Scroll bar isn't in bottom
+                    // Unset autoscroll mode
+                    AutoScroll = false;
+                }
+            }
+
+            // Content scroll event : autoscroll eventually
+            if (AutoScroll && e.ExtentHeightChange != 0)
+            {   // Content changed and autoscroll mode set
+                // Autoscroll
+                log.ScrollToVerticalOffset(log.ExtentHeight);
+            }
+        }
+
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Linq;
 
 namespace GofusSharp
 {
@@ -44,55 +45,105 @@ namespace GofusSharp
 
         public bool UtiliserSort(Sort sort, EntiteInconnu cible)
         {
-            foreach (Window window in Application.Current.Windows)
+            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " lance " + sort.Nom + " sur " + cible.Nom;
+            if (PA < sort.CoutPA)
             {
-                if (window.GetType() == typeof(Combat))
-                {
-                    (window as Combat).tb_Log.Text += "\n" + Nom + " lance " + sort.Nom + " sur " + cible.Nom;
-                }
+                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " n'a pas assez de PA pour lancer " + sort.Nom;
+                return false;
             }
             if (CaseEstDansZone(sort.ZonePortee.Type, sort.ZonePortee.PorteeMin, sort.ZonePortee.PorteeMax, Position, cible.Position))
             {
+                PA -= sort.CoutPA;
                 foreach (Effet effet in sort.TabEffets)
                 {
                     InfligerEffet(effet, sort.ZoneEffet, cible.Position);
                 }
                 return true;
             }
-            foreach (Window window in Application.Current.Windows)
-            {
-                if (window.GetType() == typeof(Combat))
-                {
-                    (window as Combat).tb_Log.Text += "\n" + cible.Nom + " est hors de portée du sort " + sort.Nom;
-                }
-            }
+            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + cible.Nom + " est hors de portée du sort " + sort.Nom;
             return false;
         }
 
         public bool UtiliserSort(Sort sort, Case cible)
         {
-            foreach (Window window in Application.Current.Windows)
+            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " lance " + sort.Nom + " à X: " + cible.X.ToString() + " Y: " + cible.Y.ToString();
+            if (PA < sort.CoutPA)
             {
-                if (window.GetType() == typeof(Combat))
-                {
-                    (window as Combat).tb_Log.Text += "\n" + Nom + " lance " + sort.Nom + " à X: " + cible.X.ToString() + " Y: " + cible.Y.ToString();
-                }
+                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " n'a pas assez de PA pour lancer " + sort.Nom;
+                return false;
             }
             if (CaseEstDansZone(sort.ZonePortee.Type, sort.ZonePortee.PorteeMin, sort.ZonePortee.PorteeMax, Position, cible))
             {
+                PA -= sort.CoutPA;
                 foreach (Effet effet in sort.TabEffets)
                 {
                     InfligerEffet(effet, sort.ZoneEffet, cible);
                 }
                 return true;
             }
-            foreach (Window window in Application.Current.Windows)
+            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + cible.X + " Y: " + cible.Y + " est hors de portée du sort " + sort.Nom;
+            return false;
+        }
+
+        public bool UtiliserSort(Sort.nom_sort vraiNom, EntiteInconnu cible)
+        {
+            Sort sort = null;
+            try
             {
-                if (window.GetType() == typeof(Combat))
-                {
-                    (window as Combat).tb_Log.Text += "\n" + cible.X + " Y: " + cible.Y + " est hors de portée du sort " + sort.Nom;
-                }
+                sort = ClasseEntite.TabSorts.First(x => x.VraiNom == vraiNom);
             }
+            catch (System.Exception)
+            {
+                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\nle sort " + vraiNom.ToString() + " n'est pas à votre disposition";
+                return false;
+            }
+            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " lance " + sort.Nom + " sur " + cible.Nom;
+            if (PA < sort.CoutPA)
+            {
+                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " n'a pas assez de PA pour lancer " + sort.Nom;
+                return false;
+            }
+            if (CaseEstDansZone(sort.ZonePortee.Type, sort.ZonePortee.PorteeMin, sort.ZonePortee.PorteeMax, Position, cible.Position))
+            {
+                PA -= sort.CoutPA;
+                foreach (Effet effet in sort.TabEffets)
+                {
+                    InfligerEffet(effet, sort.ZoneEffet, cible.Position);
+                }
+                return true;
+            }
+            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + cible.Nom + " est hors de portée du sort " + sort.Nom;
+            return false;
+        }
+
+        public bool UtiliserSort(Sort.nom_sort vraiNom, Case cible)
+        {
+            Sort sort = null;
+            try
+            {
+                sort = ClasseEntite.TabSorts.First(x => x.VraiNom == vraiNom);
+            }
+            catch (System.Exception)
+            {
+                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\nle sort " + vraiNom.ToString() + " n'est pas à votre disposition";
+                return false;
+            }
+            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " lance " + sort.Nom + " à X: " + cible.X.ToString() + " Y: " + cible.Y.ToString();
+            if (PA < sort.CoutPA)
+            {
+                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " n'a pas assez de PA pour lancer " + sort.Nom;
+                return false;
+            }
+            if (CaseEstDansZone(sort.ZonePortee.Type, sort.ZonePortee.PorteeMin, sort.ZonePortee.PorteeMax, Position, cible))
+            {
+                PA -= sort.CoutPA;
+                foreach (Effet effet in sort.TabEffets)
+                {
+                    InfligerEffet(effet, sort.ZoneEffet, cible);
+                }
+                return true;
+            }
+            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + cible.X + " Y: " + cible.Y + " est hors de portée du sort " + sort.Nom;
             return false;
         }
 
@@ -112,13 +163,7 @@ namespace GofusSharp
                     bool result = ChangerPosition(source);
                     if (result)
                     {
-                        foreach (Window window in Application.Current.Windows)
-                        {
-                            if (window.GetType() == typeof(Combat))
-                            {
-                                (window as Combat).tb_Log.Text += "\n" + Nom + " s'est téléporté a X: " + source.X + " Y: " + source.Y;
-                            }
-                        }
+                        (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " s'est téléporté a X: " + source.X + " Y: " + source.Y;
                     }
                     return (result ? 1 : 0);
                 case Effet.type.ATT_neutre:
