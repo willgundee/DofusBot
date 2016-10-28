@@ -18,6 +18,7 @@ using System.Windows.Media;
 using System.Threading;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Windows.Shapes;
 using Gofus;
 
 namespace test
@@ -43,6 +44,8 @@ namespace test
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Window _dragdropWindow = null;
+
         public BDService bd = new BDService();
 
 
@@ -2091,6 +2094,7 @@ namespace test
 
         private void lbxInventaire_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            DataContext = this;
             System.Windows.Controls.ListBox parent = (System.Windows.Controls.ListBox)sender;
             dragSource = parent;
             ImageItem data = (ImageItem)GetDataFromListBox(dragSource, e.GetPosition(parent));
@@ -2113,7 +2117,7 @@ namespace test
             borderCac.BorderBrush = Brushes.Transparent;
 
 
-
+            SolidColorBrush color = Brushes.Orange;
             if (data != null)
             {
                 Equipement itemDrag = Player.Inventaire.First(x => x.NoImg == convertPathToNoItem(data.imgItem.Source.ToString()));
@@ -2121,40 +2125,46 @@ namespace test
                 {
                     case "Cape":
                         imgCapeInv.AllowDrop = true;
-                        borderCape.BorderBrush = Brushes.Orange;
+                        borderCape.BorderBrush = color;
                         break;
                     case "Chapeau":
                         imgChapeauInv.AllowDrop = true;
-                        borderCoiffe.BorderBrush = Brushes.Orange;
+                        borderCoiffe.BorderBrush = color;
                         break;
                     case "Botte":
                         imgBotteInv.AllowDrop = true;
-                        borderBotte.BorderBrush = Brushes.Orange;
+                        borderBotte.BorderBrush = color;
                         break;
                     case "Ceinture":
                         imgCeintureInv.AllowDrop = true;
-                        borderCeinture.BorderBrush = Brushes.Orange;
+                        borderCeinture.BorderBrush = color;
                         break;
                     case "Anneau":
                         imgAnneau1Inv.AllowDrop = true;
                         imgAnneau2Inv.AllowDrop = true;
-                        borderAno1.BorderBrush = Brushes.Orange;// prob pour drop/border
-                        borderAno2.BorderBrush = Brushes.Orange;
+                        borderAno1.BorderBrush = color;
+                        borderAno2.BorderBrush = color;
                         break;
                     case "Amulette":
                         imgAmuletteInv.AllowDrop = true;
-                        borderAmu.BorderBrush = Brushes.Orange;
+                        borderAmu.BorderBrush = color;
                         break;
                     default://arme
                         imgArmeInv.AllowDrop = true;
-                        borderCac.BorderBrush = Brushes.Orange;
+                        borderCac.BorderBrush = color;
                         break;
                 }
-
+                //http://stackoverflow.com/questions/3129443/wpf-4-drag-and-drop-with-visual-element-as-cursor
                 System.Windows.DataObject dragData = new System.Windows.DataObject("image", data);
+                CreateDragDropWindow(data.imgItem);
                 var effet = DragDrop.DoDragDrop(parent, dragData, System.Windows.DragDropEffects.Move);
                 if (effet == System.Windows.DragDropEffects.None)
                 {//drop fail
+                    if (this._dragdropWindow != null)
+                    {
+                        this._dragdropWindow.Close();
+                        this._dragdropWindow = null;
+                    }
                     borderCape.BorderBrush = Brushes.Transparent;
                     borderCoiffe.BorderBrush = Brushes.Transparent;
                     borderBotte.BorderBrush = Brushes.Transparent;
@@ -2164,12 +2174,47 @@ namespace test
                     borderAmu.BorderBrush = Brushes.Transparent;
                     borderCac.BorderBrush = Brushes.Transparent;
                 }
-                if (effet == System.Windows.DragDropEffects.Move)
-                {
-                }
-
             }
         }
+        private void Image_GiveFeedback(object sender, System.Windows.GiveFeedbackEventArgs e)
+        {
+            // update the position of the visual feedback item
+            Win32Point w32Mouse = new Win32Point();
+            GetCursorPos(ref w32Mouse);
+            //TODO DIOT ENTRER LA DEDANS 
+            this._dragdropWindow.Left = w32Mouse.X;
+            this._dragdropWindow.Top = w32Mouse.Y;
+        }
+        private void CreateDragDropWindow(Visual dragElement)
+        {
+            this._dragdropWindow = new Window();
+            _dragdropWindow.WindowStyle = WindowStyle.None;
+            _dragdropWindow.AllowsTransparency = true;
+            _dragdropWindow.AllowDrop = false;
+            _dragdropWindow.Background = null;
+            _dragdropWindow.IsHitTestVisible = false;
+            _dragdropWindow.SizeToContent = SizeToContent.WidthAndHeight;
+            _dragdropWindow.Topmost = true;
+            _dragdropWindow.ShowInTaskbar = false;
+
+            Rectangle r = new Rectangle();
+            r.Width = ((FrameworkElement)dragElement).ActualWidth;
+            r.Height = ((FrameworkElement)dragElement).ActualHeight;
+            r.Fill = new VisualBrush(dragElement);
+            this._dragdropWindow.Content = r;
+
+
+            Win32Point w32Mouse = new Win32Point();
+            GetCursorPos(ref w32Mouse);
+
+
+            this._dragdropWindow.Left = w32Mouse.X;
+            this._dragdropWindow.Top = w32Mouse.Y;
+            this._dragdropWindow.Show();
+        }
+
+
+
 
         private static object GetDataFromListBox(System.Windows.Controls.ListBox source, Point point)
         {
@@ -2199,7 +2244,7 @@ namespace test
 
         private string convertPathToNoItem(string path)
         {
-            return Path.GetFileNameWithoutExtension(path.Split('/').Last());
+            return System.IO.Path.GetFileNameWithoutExtension(path.Split('/').Last());
         }
 
         private void imgInv_Drop(object sender, System.Windows.DragEventArgs e)
@@ -2224,7 +2269,7 @@ namespace test
 
 
 
-            if (Path.GetFileNameWithoutExtension(cible.Source.ToString().Split('/').Last()) != "vide")
+            if (convertPathToNoItem(cible.Source.ToString()) != "vide")
                 itemDejaEquipe = Player.Inventaire.First(x => x.NoImg == convertPathToNoItem(cible.Source.ToString()));
 
             //TODO: l'add dans la list d'equipement du perso quand tu la drop dedans et l'enlever l'inverse
@@ -2239,9 +2284,26 @@ namespace test
             else
                 Player.Inventaire.Add(itemVoulantEtreEquiper);
 
+            if (this._dragdropWindow != null)
+            {
+                this._dragdropWindow.Close();
+                this._dragdropWindow = null;
+            }
+
             refreshInv();
 
         }
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool GetCursorPos(ref Win32Point pt);
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct Win32Point
+        {
+            public Int32 X;
+            public Int32 Y;
+        };
+
 
         private void refreshInv()
         {
