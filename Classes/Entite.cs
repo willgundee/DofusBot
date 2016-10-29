@@ -10,7 +10,6 @@ namespace test
 
     public class Entite
     {
-
         public ObservableCollection<Statistique> LstStats { get; set; }
         public ObservableCollection<Equipement> LstEquipements { get; set; }
         public Script ScriptEntite { get; set; }
@@ -73,7 +72,72 @@ namespace test
             if (items[0][0] != "rien")
                 foreach (List<string> item in items)
                     ajouterEquipement(new Equipement(item, true, 0));
-            
+
+        }
+        public bool peutEquiper(Equipement equip)
+        {
+            Statistique statItem = null;
+            Condition condItem = null;
+
+            foreach (Condition cond in equip.LstConditions)
+            {
+                switch (cond.Stat.Nom)
+                {
+                    case Statistique.element.experience:
+                        condItem = cond;
+                        statItem = equip.LstStatistiques.FirstOrDefault(x => x.Nom == Statistique.element.experience);
+                        break;
+                    case Statistique.element.vie:
+                        condItem = cond;
+                        break;
+                    case Statistique.element.force:
+                        condItem = cond;
+                        break;
+                    case Statistique.element.intelligence:
+                        condItem = cond;
+                        break;
+                    case Statistique.element.chance:
+                        condItem = cond;
+                        break;
+                    case Statistique.element.vitalite:
+                        condItem = cond;
+                        break;
+                    case Statistique.element.sagesse:
+                        condItem = cond;
+                        break;
+                    case Statistique.element.PA:
+                        condItem = cond;
+                        break;
+                    case Statistique.element.PM:
+                        condItem = cond;
+                        break;
+                }
+            }
+
+            switch (condItem.Signe)
+            {
+                case "<":
+                    if (LstStats.First(x => x.Nom == condItem.Stat.Nom).Valeur + (statItem != null ? statItem.Valeur : 0) < condItem.Stat.Valeur)
+                        return true;
+                    break;
+                case "<=":
+                    if (LstStats.First(x => x.Nom == condItem.Stat.Nom).Valeur + (statItem != null ? statItem.Valeur : 0) <= condItem.Stat.Valeur)
+                        return true;
+                    break;
+                case ">":
+                    if (LstStats.First(x => x.Nom == condItem.Stat.Nom).Valeur + (statItem != null ? statItem.Valeur : 0) > condItem.Stat.Valeur)
+                        return true;
+                    break;
+                case ">=":
+                    if (LstStats.First(x => x.Nom == condItem.Stat.Nom).Valeur + (statItem != null ? statItem.Valeur : 0) >= condItem.Stat.Valeur)
+                        return true;
+                    break;
+                case "=":
+                    if (LstStats.First(x => x.Nom == condItem.Stat.Nom).Valeur + (statItem != null ? statItem.Valeur : 0) == condItem.Stat.Valeur)
+                        return true;
+                    break;
+            }
+            return false;
         }
         public void ajouterEquipement(Equipement aAjouter)
         {
@@ -94,7 +158,7 @@ namespace test
                         LstStats.First(x => x.Nom == Statistique.element.vie).Valeur -= stats.Valeur;
                         break;
                     case Statistique.element.force:
-                        if(stats.Valeur > 0)
+                        if (stats.Valeur > 0)
                             LstStats.First(x => x.Nom == Statistique.element.initiative).Valeur -= stats.Valeur;
                         LstStats.First(x => x.Nom == Statistique.element.force).Valeur -= stats.Valeur;
                         break;

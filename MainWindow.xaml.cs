@@ -44,11 +44,12 @@ namespace test
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Window _dragdropWindow = null;
 
         public BDService bd = new BDService();
 
+        #region Variable De Binding Lou
 
+        private Window _dragdropWindow = null;
         ObservableCollection<ImageItem> LstImgItems;
         ObservableCollection<string> LstStats;
         ObservableCollection<string> LstConds;
@@ -56,8 +57,11 @@ namespace test
         ObservableCollection<ImageItem> LstInventaire;
         ObservableCollection<DescItem> LstDesc;
         ObservableCollection<pArchives> LstArchive;
-        List<string> lstAvatars;
         System.Windows.Controls.ListBox dragSource = null;
+
+        #endregion
+
+        List<string> lstAvatars;
 
         public Joueur Player { get; set; }
 
@@ -81,14 +85,13 @@ namespace test
         {
             //CombatTest combat = new CombatTest();
             InitializeComponent();
-
-
+            Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
+            idJoueur = id;
             lstAvatars = new List<string>();
             GenererAvatars();
 
 
             btnQuitterSalle.IsEnabled = false;
-            Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
 
 
             string URI = lstAvatars[Player.Avatar];
@@ -96,7 +99,6 @@ namespace test
 
             lblEtat.Content = "État : Non connecté à la salle";
             lblEtat.Foreground = new SolidColorBrush(Colors.Orange);
-            idJoueur = id;
 
             ctb_main.CreateTreeView(generateTree());
             ctb_main.UpdateSyntaxHightlight();
@@ -107,9 +109,8 @@ namespace test
 
             LstArchive = new ObservableCollection<pArchives>();
             archive.ItemsSource = LstArchive;
-            
 
-            #region linking Marché et inventaire
+            #region Lou
             LstImgItems = new ObservableCollection<ImageItem>();
             LstInventaire = new ObservableCollection<ImageItem>();
             LstDesc = new ObservableCollection<DescItem>();
@@ -126,7 +127,6 @@ namespace test
 
             fillSortCbo();
             #endregion
-
 
             txt_AncienCourriel.Text = Player.Courriel;
             txt_nomUtilisateur.Text = Player.NomUtilisateur;
@@ -147,15 +147,10 @@ namespace test
             aTimer.Interval = new TimeSpan(0, 0, 1);
             #endregion
 
-            //dgStats.ItemsSource=
-
         }
 
         void GenererAvatars()
         {
-
-
-
 
             for (int J = 1; J < 94; J++)
             {
@@ -167,11 +162,7 @@ namespace test
                 string path = "http://staticns.ankama.com/dofus/www/game/items/200/180" + ajout + J.ToString() + ".png";
                 lstAvatars.Add(path);
             }
-
-
         }
-
-
 
         /*   protected override void OnClosed(EventArgs e)
            {
@@ -2091,13 +2082,39 @@ namespace test
                     }
             }
         }
+        /// <summary>
+        /// truc pas legit pour refaire la list de l'inventaire
+        /// </summary>
+        private void refreshInv()
+        {
+            int i = cboTrieInventaire.SelectedIndex;
+            cboTrieInventaire.SelectedIndex = -1;
+            cboTrieInventaire.SelectedIndex = i;
+        }
+        /// <summary>
+        /// je trouvais la fonction longue donc je lui ai donné un long nom 
+        /// </summary>
+        /// <param name="path">la source de l'image</param>
+        /// <returns></returns>
+        private string convertPathToNoItem(string path)
+        {
+            return System.IO.Path.GetFileNameWithoutExtension(path.Split('/').Last());
+        }
 
+        #region Drag&Drop
+        /// <summary>
+        /// le Drag du Drag&Drop
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void lbxInventaire_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             DataContext = this;
-            System.Windows.Controls.ListBox parent = (System.Windows.Controls.ListBox)sender  ;
+            System.Windows.Controls.ListBox parent = (System.Windows.Controls.ListBox)sender;
             dragSource = parent;
             ImageItem data = (ImageItem)GetDataFromListBox(dragSource, e.GetPosition(parent));
+
+            #region drop pas icitte !
             imgCapeInv.AllowDrop = false;
             imgChapeauInv.AllowDrop = false;
             imgBotteInv.AllowDrop = false;
@@ -2105,16 +2122,7 @@ namespace test
             imgAnneau2Inv.AllowDrop = false;
             imgAmuletteInv.AllowDrop = false;
             imgArmeInv.AllowDrop = false;
-
-            borderCape.BorderBrush = Brushes.Transparent;
-            borderCoiffe.BorderBrush = Brushes.Transparent;
-            borderBotte.BorderBrush = Brushes.Transparent;
-            borderCeinture.BorderBrush = Brushes.Transparent;
-            borderAno1.BorderBrush = Brushes.Transparent;
-            borderAno2.BorderBrush = Brushes.Transparent;
-            borderAmu.BorderBrush = Brushes.Transparent;
-            borderCac.BorderBrush = Brushes.Transparent;
-
+            #endregion
 
             SolidColorBrush color = Brushes.Orange;
             if (data != null)
@@ -2153,7 +2161,7 @@ namespace test
                         borderCac.BorderBrush = color;
                         break;
                 }
-                //http://stackoverflow.com/questions/3129443/wpf-4-drag-and-drop-with-visual-element-as-cursor
+                //image qui suit le curseur http://stackoverflow.com/questions/3129443/wpf-4-drag-and-drop-with-visual-element-as-cursor
                 System.Windows.DataObject dragData = new System.Windows.DataObject("image", data);
                 CreateDragDropWindow(data.imgItem);
                 var effet = DragDrop.DoDragDrop(parent, dragData, System.Windows.DragDropEffects.Move);
@@ -2164,6 +2172,7 @@ namespace test
                         this._dragdropWindow.Close();
                         this._dragdropWindow = null;
                     }
+                    #region Pouf Transparent
                     borderCape.BorderBrush = Brushes.Transparent;
                     borderCoiffe.BorderBrush = Brushes.Transparent;
                     borderBotte.BorderBrush = Brushes.Transparent;
@@ -2172,20 +2181,28 @@ namespace test
                     borderAno2.BorderBrush = Brushes.Transparent;
                     borderAmu.BorderBrush = Brushes.Transparent;
                     borderCac.BorderBrush = Brushes.Transparent;
+                    #endregion
                 }
             }
         }
 
-
+        /// <summary>
+        /// suis la position du curseur
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Image_GiveFeedback(object sender, System.Windows.GiveFeedbackEventArgs e)
         {
             // update the position of the visual feedback item
             Win32Point w32Mouse = new Win32Point();
             GetCursorPos(ref w32Mouse);
-            //TODO DIOT ENTRER LA DEDANS 
             this._dragdropWindow.Left = w32Mouse.X;
             this._dragdropWindow.Top = w32Mouse.Y;
         }
+        /// <summary>
+        /// crée l'image qui suis le curseur une window
+        /// </summary>
+        /// <param name="dragElement"></param>
         private void CreateDragDropWindow(Visual dragElement)
         {
             this._dragdropWindow = new Window();
@@ -2204,19 +2221,20 @@ namespace test
             r.Fill = new VisualBrush(dragElement);
             this._dragdropWindow.Content = r;
 
-
             Win32Point w32Mouse = new Win32Point();
             GetCursorPos(ref w32Mouse);
-
 
             this._dragdropWindow.Left = w32Mouse.X;
             this._dragdropWindow.Top = w32Mouse.Y;
             this._dragdropWindow.Show();
         }
 
-
-
-
+        /// <summary>
+        /// renvoi l'information de ta position dans la listbox
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="point"></param>
+        /// <returns></returns>
         private static object GetDataFromListBox(System.Windows.Controls.ListBox source, Point point)
         {
             UIElement element = source.InputHitTest(point) as UIElement;
@@ -2227,27 +2245,21 @@ namespace test
                 {
                     data = source.ItemContainerGenerator.ItemFromContainer(element);
                     if (data == DependencyProperty.UnsetValue)
-                    {
                         element = VisualTreeHelper.GetParent(element) as UIElement;
-                    }
                     if (element == source)
-                    {
                         return null;
-                    }
                 }
                 if (data != DependencyProperty.UnsetValue)
-                {
                     return data;
-                }
             }
             return null;
         }
 
-        private string convertPathToNoItem(string path)
-        {
-            return System.IO.Path.GetFileNameWithoutExtension(path.Split('/').Last());
-        }
-
+        /// <summary>
+        /// Le Drop du Drag&Drop
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void imgInv_Drop(object sender, System.Windows.DragEventArgs e)
         {
             Image cible = (Image)sender;
@@ -2255,6 +2267,8 @@ namespace test
             Equipement itemDejaEquipe = null;
 
             Equipement itemVoulantEtreEquiper = Player.Inventaire.First(x => x.NoImg == convertPathToNoItem(data.imgItem.Source.ToString()));
+
+
             if (itemVoulantEtreEquiper.Type == "Anneau")
             {
                 borderAno1.BorderBrush = Brushes.Transparent;
@@ -2277,13 +2291,16 @@ namespace test
             //TODO: bouger l'image au lieu de rien
             //TODO: le modif dans bd
 
+            if (Player.LstEntites.First(x => x.Nom == cboChoixEntite.SelectedValue.ToString()).peutEquiper(itemVoulantEtreEquiper))
+            {
 
-            cible.Source = data.imgItem.Source;
-            Player.Inventaire.First(x => x.Nom == itemVoulantEtreEquiper.Nom).Quantite--;
-            if (itemDejaEquipe != null)
-                Player.Inventaire.First(x => x.Nom == itemDejaEquipe.Nom).Quantite++;
-            else
-                Player.Inventaire.Add(itemVoulantEtreEquiper);
+                cible.Source = data.imgItem.Source;
+                Player.Inventaire.First(x => x.Nom == itemVoulantEtreEquiper.Nom).Quantite--;
+                if (itemDejaEquipe != null)
+                    Player.Inventaire.First(x => x.Nom == itemDejaEquipe.Nom).Quantite++;
+               /* else
+                    Player.Inventaire.Add(itemVoulantEtreEquiper);*/
+            }
 
             if (this._dragdropWindow != null)
             {
@@ -2292,26 +2309,24 @@ namespace test
             }
 
             refreshInv();
-
         }
+
+        #region Truc pour invoquer des squelettes
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool GetCursorPos(ref Win32Point pt);
 
         [StructLayout(LayoutKind.Sequential)]
+
         internal struct Win32Point
         {
             public Int32 X;
             public Int32 Y;
         };
+        #endregion
 
+        #endregion
 
-        private void refreshInv()
-        {
-            int i = cboTrieInventaire.SelectedIndex;
-            cboTrieInventaire.SelectedIndex = -1;
-            cboTrieInventaire.SelectedIndex = i;
-        }
         #endregion
 
         #region Michael/Perso
@@ -2341,15 +2356,15 @@ namespace test
 
         private void PGSort_Selected(object sender, RoutedEventArgs e)
         {
-           
-                pgSort.Add(new Gofus.pageSort());
-                PGSort.ItemsSource = pgSort;
+
+            /* pgSort.Add(new Gofus.pageSort());
+             PGSort.ItemsSource = pgSort;*/
             /* PGSort c'est un tab item ya pas de itemsSource donc tu doit crée un objet dans 
              * le tabitem pour le link comme un itemControl une listbox nimporte quoi comme tu 
              * le veut sa ne me derange pas tant qu'il possede un itemsSource tu seras correct et 
              * j'aime bien écrire sur la meme ligne pour que tu ai besoin de scroll horizontalement
              *  et ne pas pouvoir tout lire d'un coup*/
-            
+
         }
     }
 }
