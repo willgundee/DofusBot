@@ -30,64 +30,60 @@ namespace test
 
         public PagePerso(Entite ent, Joueur Player)
         {
-
             InitializeComponent();
             this.Player = Player;
             persoActuel = ent;
             lblLevelEntite.Content = "Niv. " + ent.LstStats.First(x => x.Nom == Statistique.element.experience).toLevel().ToString();
             pgbExp.Value = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur;
-            pgbExp.Maximum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.LstStats.First(x => x.Nom == Statistique.element.experience).toLevel()+1];
+            pgbExp.Maximum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.LstStats.First(x => x.Nom == Statistique.element.experience).toLevel() + 1];
             pgbExp.ToolTip = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur.ToString() + " Sur " + ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.LstStats.First(x => x.Nom == Statistique.element.experience).toLevel() + 1].ToString() + " Expériences !";
             int nbScript = Player.LstScripts.Count;
             for (int i = 0; i < nbScript; i++)
                 cbScript.Items.Add(Player.LstScripts[i].Nom);
 
-            foreach (Entite perso in Player.LstEntites)
+            //todo création de plusieurs onglets personnage
+            lblNomClasse.Content = ent.ClasseEntite.Nom;
+            lblNbPointsC.Content = ent.CapitalLibre;
+            double Exp;
+            string SourceImgClasse = "../resources/" + ent.ClasseEntite.Nom;
+            BitmapImage path = new BitmapImage();
+            path.BeginInit();
+            path.UriSource = new Uri(SourceImgClasse + ".png", UriKind.Relative);
+            path.EndInit();
+            Imgclasse.Source = path;
+
+            cbScript.SelectedValue = ent.ScriptEntite.Nom;
+
+            if (ent.CapitalLibre > 0)
             {
-                //todo création de plusieurs onglets personnage
-                lblNom.Content = perso.Nom;
-                lblNomClasse.Content = perso.ClasseEntite.Nom;
-                lblNbPointsC.Content = perso.CapitalLibre;
-                double Exp;
-                string SourceImgClasse = "../resources/" + perso.ClasseEntite.Nom;
-                BitmapImage path = new BitmapImage();
-                path.BeginInit();
-                path.UriSource = new Uri(SourceImgClasse + ".png", UriKind.Relative);
-                path.EndInit();
-                Imgclasse.Source = path;
-
-                cbScript.SelectedItem = perso.ScriptEntite.Nom;
-
-                if (perso.CapitalLibre > 0)
-                {
-                    btnAgilite.Visibility = Visibility.Visible;
-                    btnChance.Visibility = Visibility.Visible;
-                    btnForce.Visibility = Visibility.Visible;
-                    btnIntelligence.Visibility = Visibility.Visible;
-                    btnSagesse.Visibility = Visibility.Visible;
-                    btnVitalite.Visibility = Visibility.Visible;
-                }
-
-                foreach (Statistique st in perso.LstStats)
-                {
-                    if (st.Nom == Statistique.element.experience)
-                        Exp = st.Valeur;
-                }
-                foreach (Equipement eq in perso.LstEquipements)
-                {
-                    List<string> emplacement = bd.selection("SELECT emplacement FROM Equipementsentites WHERE idEquipement = (SELECT idEquipement FROM Equipements WHERE nom='" + eq.Nom + "' )AND idEntite =(SELECT idEntite FROM Entites WHERE nom='" + perso.Nom + "')")[0];
-
-                    if (emplacement != null)
-                        AfficherElementEquipe(eq, emplacement[0].ToString());
-                }
-                initialiserLstStats(perso.LstStats);
-                dgStats.ItemsSource = lstStat;
-
-                //calculervalues();
-                dgDommage.ItemsSource = initialiserLstDMG(perso);
-                dgResistance.ItemsSource = initialiserLstRES(perso);                
+                btnAgilite.Visibility = Visibility.Visible;
+                btnChance.Visibility = Visibility.Visible;
+                btnForce.Visibility = Visibility.Visible;
+                btnIntelligence.Visibility = Visibility.Visible;
+                btnSagesse.Visibility = Visibility.Visible;
+                btnVitalite.Visibility = Visibility.Visible;
             }
-            
+
+            foreach (Statistique st in ent.LstStats)
+            {
+                if (st.Nom == Statistique.element.experience)
+                    Exp = st.Valeur;
+            }
+            foreach (Equipement eq in ent.LstEquipements)
+            {
+                List<string> emplacement = bd.selection("SELECT emplacement FROM Equipementsentites WHERE idEquipement = (SELECT idEquipement FROM Equipements WHERE nom='" + eq.Nom + "' )AND idEntite =(SELECT idEntite FROM Entites WHERE nom='" + ent.Nom + "')")[0];
+
+                if (emplacement != null)
+                    AfficherElementEquipe(eq, emplacement[0].ToString());
+            }
+
+            initialiserLstStats(ent.LstStats);
+            dgStats.ItemsSource = lstStat;
+
+            //calculervalues();
+            dgDommage.ItemsSource = initialiserLstDMG(ent);
+            dgResistance.ItemsSource = initialiserLstRES(ent);
+
         }
 
         #region grid_listes
@@ -239,6 +235,7 @@ namespace test
             string TypeEquipement = null;
             string emp = null;
 
+
             switch (choix.ToString())
             {
                 case "imageCasque":
@@ -278,13 +275,11 @@ namespace test
             PageEquipement Equip = new PageEquipement(TypeEquipement, emp, source, Player);
             if (validePg != false)
                 Equip.ShowDialog();
-            foreach (Entite perso in Player.LstEntites)
-            {
-                initialiserLstStats(perso.LstStats);
-                //calculervalues();
-                dgDommage.ItemsSource = initialiserLstDMG(perso);
-                dgResistance.ItemsSource = initialiserLstRES(perso);
-            }
+            initialiserLstStats(persoActuel.LstStats);
+            //calculervalues();
+            dgDommage.ItemsSource = initialiserLstDMG(persoActuel);
+            dgResistance.ItemsSource = initialiserLstRES(persoActuel);
+
         }
 
         private void AfficherElementEquipe(Equipement eq, string emp)
@@ -370,20 +365,20 @@ namespace test
                 {
                     sts.Valeur += 1;
                     string valeurInitial = "SELECT valeur FROM statistiquesEntites WHERE idEntite = (SELECT idEntite FROM Entites WHERE  nom ='" + persoActuel.Nom + "') AND idTypeStatistique=(SELECT idTypeStatistique FROM typesStatistiques WHERE nom ='" + s.ToString() + "' ) ";
-                    int values = Convert.ToInt32(bd.selection(valeurInitial)[0][0])+1;
-                    bd.Update("UPDATE statistiquesEntites SET valeur = "+ values + " WHERE idEntite = (SELECT idEntite FROM Entites WHERE  nom ='" + persoActuel.Nom + "') AND idTypeStatistique=(SELECT idTypeStatistique FROM typesStatistiques WHERE nom ='"+s.ToString() + "' ) ");
+                    int values = Convert.ToInt32(bd.selection(valeurInitial)[0][0]) + 1;
+                    bd.Update("UPDATE statistiquesEntites SET valeur = " + values + " WHERE idEntite = (SELECT idEntite FROM Entites WHERE  nom ='" + persoActuel.Nom + "') AND idTypeStatistique=(SELECT idTypeStatistique FROM typesStatistiques WHERE nom ='" + s.ToString() + "' ) ");
                     break;
                 }
 
 
             initialiserLstStats(persoActuel.LstStats);
-           
+
             changement = Convert.ToInt32(lblNbPointsC.Content);
             lblNbPointsC.Content = (changement - 1);
-                 bd.Update("UPDATE Entites SET CapitalLibre ="+ lblNbPointsC.Content + " WHERE nom ='"+persoActuel.Nom +"' ");
+            bd.Update("UPDATE Entites SET CapitalLibre =" + lblNbPointsC.Content + " WHERE nom ='" + persoActuel.Nom + "' ");
         }
 
-        public void calculervalues()
+       /* public void calculervalues()
         {
             foreach (Image img in grdEquip.Children)
             {
@@ -398,6 +393,6 @@ namespace test
                                     break;
                                 }
             }
-        }
+        }*/
     }
 }

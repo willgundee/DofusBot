@@ -26,8 +26,9 @@ namespace test
         private string TypeEQ;
         private string nomJoueur;
         private string imgDEquipe;
+        private PagePerso pageActuel;
         private Joueur Player;
-        public PageEquipement(string TypeEquipement,  string emplacement, Image NomImgDEquip, Joueur player)
+        public PageEquipement(string TypeEquipement, string emplacement, Image NomImgDEquip, Joueur player)
         {
             this.Player = player;
             nomJoueur = player.NomUtilisateur;
@@ -41,7 +42,8 @@ namespace test
             {
                 if (Page.GetType() == typeof(MainWindow))
                 {
-                    (Page as MainWindow).pgperso.First().validePg = valide;
+                    pageActuel = ((Page as MainWindow).tCPerso.SelectedContent as PagePerso);
+                    pageActuel.validePg = valide;
                 }
             }
             lbxItem.ItemsSource = listImg;
@@ -96,106 +98,100 @@ namespace test
 
         private void image_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            foreach (Window Page in Application.Current.Windows)
+            switch (TypeEQ)
             {
-                if (Page.GetType() == typeof(MainWindow))
-                {
-                    switch (TypeEQ)
-                    {
-                        case "tête":
-                            (Page as MainWindow).pgperso.First().imageCasque.Source = (sender as Image).Source;
-                            break;
-                        case "dos":
-                            (Page as MainWindow).pgperso.First().imageCape.Source = (sender as Image).Source;
-                            break;
-                        case "arme":
-                            (Page as MainWindow).pgperso.First().imageArme.Source = (sender as Image).Source;
-                            break;
-                        case "hanche":
-                            (Page as MainWindow).pgperso.First().imageCeinture.Source = (sender as Image).Source;
-                            break;
-                        case "ano1":
-                            (Page as MainWindow).pgperso.First().imageAnneau1.Source = (sender as Image).Source;
-                            break;
-                        case "ano2":
-                            (Page as MainWindow).pgperso.First().imageAnneau2.Source = (sender as Image).Source;
-                            break;
-                        case "pied":
-                            (Page as MainWindow).pgperso.First().imageBotte.Source = (sender as Image).Source;
-                            break;
-                        case "cou":
-                            (Page as MainWindow).pgperso.First().imageAmulette.Source = (sender as Image).Source;
-                            break;
-                    }
-                    //équipe après
-                    int idE = Convert.ToInt32(Path.GetFileNameWithoutExtension((sender as Image).Source.ToString().Split('/').Last()));
-                    //équipe avant
-                    string ide = Path.GetFileNameWithoutExtension(imgDEquipe.ToString().Split('/').Last());
-                    string NomENT = bd.selection("SELECT nom FROM Entites e  INNER JOIN Joueurs j ON j.idJoueur = e.idJoueur WHERE j.nomUtilisateur='" + nomJoueur + "'")[0][0];
-
-
-                    int qqt = Convert.ToInt32(bd.selection("SELECT quantiteEquipe FROM JoueursEquipements  WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + nomJoueur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE noImage =" + idE.ToString() + ")")[0][0]);
-                    qqt += 1;
-
-                    if (ide == "vide")
-                    {
-                        bd.insertion("INSERT INTO equipementsEntites (idEquipement,idEntite,Emplacement)VALUES((SELECT idEquipement FROM Equipements WHERE noImage =" + idE + "),(SELECT idEntite FROM Entites e  INNER JOIN Joueurs j ON j.idJoueur = e.idJoueur WHERE j.nomUtilisateur='" + nomJoueur + "'),'" + TypeEQ + "')");
-                        //Ajout dans la liste d'équipement de l'entité l'équipement de son inventaire
-                        Player.LstEntites.First(x => x.Nom == NomENT).ajouterEquipement(Player.Inventaire.First(x => x.NoImg == idE.ToString()));
-                        //augmente la quantité equiper de cet équipement dans son inventaire
-                        Player.Inventaire.First(x => x.NoImg == idE.ToString()).QuantiteEquipe++;
-
-                        /*
-                         * ne sert pu a rien était incomplet
-                         * 
-                         * foreach (Entite et in Player.LstEntites)
-                            if (et.Nom == NomENT)
-                            {
-                                Equipement equip = new Equipement(bd.selection("SELECT * FROM Equipements WHERE noImage =" + idE)[0], true, 0);
-                                equip.QuantiteEquipe = 1;
-                                equip.Quantite = 1;
-                                et.LstEquipements.Add(equip);
-
-                            }*/
-                    }
-                    else
-                    {
-                        string j = "SELECT quantiteEquipe FROM JoueursEquipements  WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + nomJoueur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE noImage =" + ide + ")";
-                        int qqt2 = Convert.ToInt32(bd.selection(j)[0][0]);
-                        qqt2 -= 1;// changer ici le qqt = -1 a qqt -= 1
-                        bd.Update("UPDATE equipementsentites SET idEquipement = (SELECT idEquipement FROM Equipements WHERE noImage = " + idE + ") WHERE emplacement='" + TypeEQ + "' AND idEntite = (SELECT idEntite FROM Entites e  INNER JOIN Joueurs j ON j.idJoueur = e.idJoueur WHERE j.nomUtilisateur='" + nomJoueur + "')");
-                        bd.Update("UPDATE JoueursEquipements SET quantiteEquipe= " + qqt2 + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + nomJoueur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE noImage ='" + ide + "')");
-
-                        //enleve de l'équipement de l'entité l'equipement que tu vien de changer
-                        Player.LstEntites.First(x => x.Nom == NomENT).enleverItem(Player.LstEntites.First(x => x.Nom == NomENT).LstEquipements.First(y => y.NoImg == ide.ToString()));
-                        //ajoute le nouvel equipement
-                        Player.LstEntites.First(x => x.Nom == NomENT).ajouterEquipement(Player.Inventaire.First(x => x.NoImg == idE.ToString()));
-                        //augmente la quantité equiper de ce lui équiper
-                        Player.Inventaire.First(x => x.NoImg == idE.ToString()).QuantiteEquipe++;
-                        // réduit celle qui a été désequipé
-                        Player.Inventaire.First(x => x.NoImg == ide.ToString()).QuantiteEquipe--;
-
-
-                        /* 
-                         * ne sert pu a rien
-                         * 
-                         * foreach (Entite et in Player.LstEntites)
-                             if (et.Nom == NomENT)
-                                 foreach (Equipement equi in et.LstEquipements)
-                                 {
-                                     if (equi.NoImg == idE.ToString())
-                                         equi.QuantiteEquipe += 1;
-
-                                     if (equi.NoImg == ide.ToString())
-                                         equi.QuantiteEquipe -= 1;
-                                 }*/
-
-                    }
-                    bd.Update("UPDATE JoueursEquipements SET quantiteEquipe = " + qqt + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + nomJoueur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE noImage ='" + idE + "')");
-                    //diminu qttéquipé                   
-                    Close();
-                }
+                case "tête":
+                    pageActuel.imageCasque.Source = (sender as Image).Source;
+                    break;
+                case "dos":
+                    pageActuel.imageCape.Source = (sender as Image).Source;
+                    break;
+                case "arme":
+                    pageActuel.imageArme.Source = (sender as Image).Source;
+                    break;
+                case "hanche":
+                    pageActuel.imageCeinture.Source = (sender as Image).Source;
+                    break;
+                case "ano1":
+                    pageActuel.imageAnneau1.Source = (sender as Image).Source;
+                    break;
+                case "ano2":
+                    pageActuel.imageAnneau2.Source = (sender as Image).Source;
+                    break;
+                case "pied":
+                    pageActuel.imageBotte.Source = (sender as Image).Source;
+                    break;
+                case "cou":
+                    pageActuel.imageAmulette.Source = (sender as Image).Source;
+                    break;
             }
+            //équipe après
+            int idE = Convert.ToInt32(Path.GetFileNameWithoutExtension((sender as Image).Source.ToString().Split('/').Last()));
+            //équipe avant
+            string ide = Path.GetFileNameWithoutExtension(imgDEquipe.ToString().Split('/').Last());
+            string NomENT = bd.selection("SELECT nom FROM Entites WHERE nom='" +pageActuel.persoActuel.Nom +"'")[0][0];
+
+
+            int qqt = Convert.ToInt32(bd.selection("SELECT quantiteEquipe FROM JoueursEquipements  WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + nomJoueur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE noImage =" + idE.ToString() + ")")[0][0]);
+            qqt += 1;
+
+            if (ide == "vide")
+            {
+                bd.insertion("INSERT INTO equipementsEntites (idEquipement,idEntite,Emplacement)VALUES((SELECT idEquipement FROM Equipements WHERE noImage =" + idE + "),(SELECT idEntite FROM Entites WHERE nom ='" + pageActuel.persoActuel.Nom + "'),'" + TypeEQ + "')");
+                //Ajout dans la liste d'équipement de l'entité l'équipement de son inventaire
+                Player.LstEntites.First(x => x.Nom == NomENT).ajouterEquipement(Player.Inventaire.First(x => x.NoImg == idE.ToString()));
+                //augmente la quantité equiper de cet équipement dans son inventaire
+                Player.Inventaire.First(x => x.NoImg == idE.ToString()).QuantiteEquipe++;
+
+                /*
+                 * ne sert pu a rien était incomplet
+                 * 
+                 * foreach (Entite et in Player.LstEntites)
+                    if (et.Nom == NomENT)
+                    {
+                        Equipement equip = new Equipement(bd.selection("SELECT * FROM Equipements WHERE noImage =" + idE)[0], true, 0);
+                        equip.QuantiteEquipe = 1;
+                        equip.Quantite = 1;
+                        et.LstEquipements.Add(equip);
+
+                    }*/
+            }
+            else
+            {
+                string j = "SELECT quantiteEquipe FROM JoueursEquipements  WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + nomJoueur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE noImage =" + ide + ")";
+                int qqt2 = Convert.ToInt32(bd.selection(j)[0][0]);
+                qqt2 -= 1;// changer ici le qqt = -1 a qqt -= 1
+                bd.Update("UPDATE equipementsentites SET idEquipement = (SELECT idEquipement FROM Equipements WHERE noImage = " + idE + ") WHERE emplacement='" + TypeEQ + "' AND idEntite = (SELECT idEntite FROM Entites WHERE nom ='" + pageActuel.persoActuel.Nom + "')");
+                bd.Update("UPDATE JoueursEquipements SET quantiteEquipe= " + qqt2 + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + nomJoueur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE noImage ='" + ide + "')");
+
+                //enleve de l'équipement de l'entité l'equipement que tu vien de changer
+                Player.LstEntites.First(x => x.Nom == NomENT).enleverItem(Player.LstEntites.First(x => x.Nom == NomENT).LstEquipements.First(y => y.NoImg == ide.ToString()));
+                //ajoute le nouvel equipement
+                Player.LstEntites.First(x => x.Nom == NomENT).ajouterEquipement(Player.Inventaire.First(x => x.NoImg == idE.ToString()));
+                //augmente la quantité equiper de ce lui équiper
+                Player.Inventaire.First(x => x.NoImg == idE.ToString()).QuantiteEquipe++;
+                // réduit celle qui a été désequipé
+                Player.Inventaire.First(x => x.NoImg == ide.ToString()).QuantiteEquipe--;
+
+
+                /* 
+                 * ne sert pu a rien
+                 * 
+                 * foreach (Entite et in Player.LstEntites)
+                     if (et.Nom == NomENT)
+                         foreach (Equipement equi in et.LstEquipements)
+                         {
+                             if (equi.NoImg == idE.ToString())
+                                 equi.QuantiteEquipe += 1;
+
+                             if (equi.NoImg == ide.ToString())
+                                 equi.QuantiteEquipe -= 1;
+                         }*/
+
+            }
+            bd.Update("UPDATE JoueursEquipements SET quantiteEquipe = " + qqt + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + nomJoueur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE noImage ='" + idE + "')");
+            //diminu qttéquipé                   
+            Close();
         }
     }
 }

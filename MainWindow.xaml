@@ -53,10 +53,12 @@
 
     <TabControl TabStripPlacement="Left" >
 
-        <TabItem  Header="Personnages" Height="30"   >
-            <Grid x:Name="grd_Perso" IsEnabled="True" Selector.IsSelected="True">
-                
-                <TabControl x:Name="tCPerso" Grid.ColumnSpan="2"  HorizontalAlignment="Left" Height="560" Margin="3,1,0,-1" VerticalAlignment="Top" Width="577" Grid.RowSpan="2" />
+        <TabItem  Header="Personnages" Height="30"  Loaded="TabPerso_Loaded"  >
+            <Grid x:Name="grd_Perso" >
+                <TabControl Name="tCPerso">
+                </TabControl>
+
+                <!--TabControl x:Name="tCPerso" Grid.ColumnSpan="2"  HorizontalAlignment="Left" Height="560" Margin="3,1,0,-1" VerticalAlignment="Top" Width="577" Grid.RowSpan="2" /-->
             </Grid>
         </TabItem>
         <TabItem Header="Éditeur" Height="30">
@@ -237,7 +239,7 @@
                     <RowDefinition Height="48*"/>
                 </Grid.RowDefinitions>
                 <Image Source="resources/fondEquipement.jpg"/>
-                <Grid>
+                <Grid Name="grdEquipInv">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="21*"/>
                         <RowDefinition Height="21*"/>

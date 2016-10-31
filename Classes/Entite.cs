@@ -77,8 +77,10 @@ namespace test
         public bool peutEquiper(Equipement equip)
         {
             Statistique statItem = null;
+            Statistique statActuel = null;
             Condition condItem = null;
-
+            bool possible = false;
+            StringBuilder requis = new StringBuilder();
             foreach (Condition cond in equip.LstConditions)
             {
                 switch (cond.Stat.Nom)
@@ -89,55 +91,87 @@ namespace test
                         break;
                     case Statistique.element.vie:
                         condItem = cond;
+                        statItem = equip.LstStatistiques.FirstOrDefault(x => x.Nom == Statistique.element.vie);
                         break;
                     case Statistique.element.force:
                         condItem = cond;
+                        statItem = equip.LstStatistiques.FirstOrDefault(x => x.Nom == Statistique.element.force);
+                        break;
+                    case Statistique.element.agilite:
+                        condItem = cond;
+                        statItem = equip.LstStatistiques.FirstOrDefault(x => x.Nom == Statistique.element.agilite);
                         break;
                     case Statistique.element.intelligence:
                         condItem = cond;
+                        statItem = equip.LstStatistiques.FirstOrDefault(x => x.Nom == Statistique.element.intelligence);
                         break;
                     case Statistique.element.chance:
                         condItem = cond;
+                        statItem = equip.LstStatistiques.FirstOrDefault(x => x.Nom == Statistique.element.chance);
                         break;
                     case Statistique.element.vitalite:
                         condItem = cond;
+                        statItem = equip.LstStatistiques.FirstOrDefault(x => x.Nom == Statistique.element.vitalite);
                         break;
                     case Statistique.element.sagesse:
                         condItem = cond;
+                        statItem = equip.LstStatistiques.FirstOrDefault(x => x.Nom == Statistique.element.sagesse);
                         break;
                     case Statistique.element.PA:
                         condItem = cond;
+                        statItem = equip.LstStatistiques.FirstOrDefault(x => x.Nom == Statistique.element.PA);
                         break;
                     case Statistique.element.PM:
                         condItem = cond;
+                        statItem = equip.LstStatistiques.FirstOrDefault(x => x.Nom == Statistique.element.PM);
+                        break;
+                }
+
+                switch (condItem.Signe)
+                {
+                    case "<":
+                        statActuel = LstStats.First(x => x.Nom == condItem.Stat.Nom);
+                        if (statActuel.Valeur + (statItem != null ? statItem.Valeur : 0) < condItem.Stat.Valeur)
+                            possible = true;
+                        else
+                            requis.Append("Vous avez : " + statActuel.Valeur.ToString() + " " + statActuel.NomSimple + " et il vous faut moins de " + condItem.Stat.Valeur.ToString() + " " + condItem.Stat.NomSimple + Environment.NewLine);
+                        break;
+                    case "<=":
+                        statActuel = LstStats.First(x => x.Nom == condItem.Stat.Nom);
+                        if (statActuel.Valeur + (statItem != null ? statItem.Valeur : 0) <= condItem.Stat.Valeur)
+                            possible = true;
+                        else
+                            requis.Append("Vous avez : " + statActuel.Valeur.ToString() + " " + statActuel.NomSimple + " et il vous faut au plus " + condItem.Stat.Valeur.ToString() + " " + condItem.Stat.NomSimple + Environment.NewLine);
+                        break;
+                    case ">":
+                        statActuel = LstStats.First(x => x.Nom == condItem.Stat.Nom);
+                        if (statActuel.Valeur + (statItem != null ? statItem.Valeur : 0) > condItem.Stat.Valeur)
+                            possible = true;
+                        else
+                            requis.Append("Vous avez : " + statActuel.Valeur.ToString() + " " + statActuel.NomSimple + " et il vous faut plus de " + condItem.Stat.Valeur.ToString() + " " + condItem.Stat.NomSimple + Environment.NewLine);
+                        break;
+                    case ">=":
+                        statActuel = LstStats.First(x => x.Nom == condItem.Stat.Nom);
+                        if (statActuel.Valeur + (statItem != null ? statItem.Valeur : 0) >= condItem.Stat.Valeur)
+                            possible = true;
+                        else
+                            if (condItem.Stat.Nom == Statistique.element.experience)
+                            requis.Append("Vous êtes niveau : " + statActuel.toLevel().ToString() + " et vous devez être au moins niveau : " + condItem.Stat.toLevel().ToString() + Environment.NewLine);
+                        else
+                            requis.Append("Vous avez : " + statActuel.Valeur.ToString() + " " + statActuel.NomSimple + " et il vous faut au moins " + condItem.Stat.Valeur.ToString() + " " + condItem.Stat.NomSimple + Environment.NewLine);
+                        break;
+                    case "=":
+                        statActuel = LstStats.First(x => x.Nom == condItem.Stat.Nom);
+                        if (statActuel.Valeur + (statItem != null ? statItem.Valeur : 0) == condItem.Stat.Valeur)
+                            possible = true;
+                        else
+                            requis.Append("Vous avez : " + statActuel.Valeur.ToString() + " " + statActuel.NomSimple + " et il vous faut exactement " + condItem.Stat.Valeur.ToString() + " " + condItem.Stat.NomSimple + Environment.NewLine);
                         break;
                 }
             }
-
-            switch (condItem.Signe)
-            {
-                case "<":
-                    if (LstStats.First(x => x.Nom == condItem.Stat.Nom).Valeur + (statItem != null ? statItem.Valeur : 0) < condItem.Stat.Valeur)
-                        return true;
-                    break;
-                case "<=":
-                    if (LstStats.First(x => x.Nom == condItem.Stat.Nom).Valeur + (statItem != null ? statItem.Valeur : 0) <= condItem.Stat.Valeur)
-                        return true;
-                    break;
-                case ">":
-                    if (LstStats.First(x => x.Nom == condItem.Stat.Nom).Valeur + (statItem != null ? statItem.Valeur : 0) > condItem.Stat.Valeur)
-                        return true;
-                    break;
-                case ">=":
-                    if (LstStats.First(x => x.Nom == condItem.Stat.Nom).Valeur + (statItem != null ? statItem.Valeur : 0) >= condItem.Stat.Valeur)
-                        return true;
-                    break;
-                case "=":
-                    if (LstStats.First(x => x.Nom == condItem.Stat.Nom).Valeur + (statItem != null ? statItem.Valeur : 0) == condItem.Stat.Valeur)
-                        return true;
-                    break;
-            }
-            return false;
+            if (!possible)
+                System.Windows.Forms.MessageBox.Show(requis.ToString());
+            return possible;
         }
         public void ajouterEquipement(Equipement aAjouter)
         {

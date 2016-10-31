@@ -103,7 +103,6 @@ namespace test
             ctb_main.CreateTreeView(generateTree());
             ctb_main.UpdateSyntaxHightlight();
             ctb_main.UpdateTreeView();
-            pgperso = new ObservableCollection<PagePerso>();
             pgCperso = new ObservableCollection<pageCpersonage>();
             pgSort = new ObservableCollection<Gofus.pageSort>();
 
@@ -131,7 +130,6 @@ namespace test
             txt_AncienCourriel.Text = Player.Courriel;
             txt_nomUtilisateur.Text = Player.NomUtilisateur;
 
-            TabItem_Loaded(null, null);
 
             #region Marc_TimerTick_Chat
 
@@ -2036,6 +2034,17 @@ namespace test
             }
         }
 
+        public void resetImagesEquipements()
+        {
+            BitmapImage link = new BitmapImage(new Uri("resources/vide.png",UriKind.Relative));
+            imgAmuletteInv.Source = link;
+            imgBotteInv.Source = link;
+            imgAnneau1Inv.Source = link;
+            imgAnneau2Inv.Source = link;
+            imgArmeInv.Source = link;
+            imgCeintureInv.Source = link;
+            imgCapeInv.Source = link;
+        }
         /// <summary>
         /// Affiche les équipement du personnages
         /// </summary>
@@ -2045,6 +2054,7 @@ namespace test
         {//emplacement possible : tete, cou, pied, ano1, ano2, arme, hanche, dos.
             if (((System.Windows.Controls.ComboBox)sender).SelectedIndex != -1)
             {
+                resetImagesEquipements();
                 string nomPerso = ((System.Windows.Controls.ComboBox)sender).SelectedValue.ToString();
                 lblNomEntite.Content = nomPerso;
                 List<string>[] info = bd.selection("SELECT e.noImage,ee.emplacement FROM equipementsentites ee INNER JOIN Equipements e ON e.idEquipement = ee.idEquipement INNER JOIN Entites et ON ee.idEntite = et.idEntite WHERE et.nom = '" + nomPerso + "'");
@@ -2082,6 +2092,7 @@ namespace test
                     }
             }
         }
+
         /// <summary>
         /// truc pas legit pour refaire la list de l'inventaire
         /// </summary>
@@ -2298,8 +2309,8 @@ namespace test
                 Player.Inventaire.First(x => x.Nom == itemVoulantEtreEquiper.Nom).Quantite--;
                 if (itemDejaEquipe != null)
                     Player.Inventaire.First(x => x.Nom == itemDejaEquipe.Nom).Quantite++;
-               /* else
-                    Player.Inventaire.Add(itemVoulantEtreEquiper);*/
+                /* else
+                     Player.Inventaire.Add(itemVoulantEtreEquiper);*/
             }
 
             if (this._dragdropWindow != null)
@@ -2333,22 +2344,37 @@ namespace test
         // ***************************************************
         //Onglet Personnage
         // ***************************************************
-        private void TabItem_Loaded(object sender, RoutedEventArgs e)
+        private void TabPerso_Loaded(object sender, RoutedEventArgs e)
         {
-
-            if (Player.LstEntites.Count() == 0)
-            {
-                pgCperso.Add(new pageCpersonage(Player));
-                tCPerso.ItemsSource = pgCperso;
-
-            }
-
-            //le nom du perso 
             foreach (Entite perso in Player.LstEntites)
             {
-                pgperso.Add(new PagePerso(perso, Player));
-                tCPerso.ItemsSource = pgperso;
+
+                TabItem onglet = new TabItem();
+                onglet.Header = perso.Nom;
+                onglet.Content = new PagePerso(perso, Player);
+                tCPerso.Items.Add(onglet);
             }
+            tCPerso.SelectedIndex = 0;
+            if (tCPerso.Items.Count <=4)
+            {
+                TabItem onglet = new TabItem();
+                onglet.Header = "+";
+                onglet.Content = new pageCpersonage(Player);
+                tCPerso.Items.Add(onglet);
+            }
+            /* if (Player.LstEntites.Count() == 0)
+             {
+                 pgCperso.Add(new pageCpersonage(Player));
+                 tCPerso.ItemsSource = pgCperso;
+
+             }
+
+             //le nom du perso 
+             foreach (Entite perso in Player.LstEntites)
+             {
+                 pgperso.Add(new PagePerso(perso, Player));
+                 tCPerso.ItemsSource = pgperso;
+             }*/
 
 
         }
