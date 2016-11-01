@@ -2390,32 +2390,34 @@ namespace test
             {
                 string selectPartici = "SELECT estAttaquant,idEntite FROM PartiesEntites WHERE idPartie = " + p[0];
                 List<string>[] result = bd.selection(selectPartici);
-                int seed = Int32.Parse(p[2]);
-                string att ="";
-                string def="";
-
-                foreach (List<string> particip in result)
+                if (result[0][0] != "rien")
                 {
+                    int seed = Int32.Parse(p[2]);
+                    string att = "";
+                    string def = "";
 
-                    if (particip[0] == "False")
+                    foreach (List<string> particip in result)
                     {
-                        string selectN = "SELECT nomUtilisateur FROM Joueurs WHERE idJoueur=" + particip[1].ToString();
-                        List<string>[] selectNom = bd.selection(selectN);
-                        def = selectNom[0][0];
+
+                        if (particip[0] == "False")
+                        {
+                            string selectN = "SELECT nomUtilisateur FROM Joueurs WHERE idJoueur=" + particip[1].ToString();
+                            List<string>[] selectNom = bd.selection(selectN);
+                            def = selectNom[0][0];
+                        }
+                        else
+                        {
+                            string selectN = "SELECT nomUtilisateur FROM Joueurs WHERE idJoueur=" + particip[1].ToString();
+                            List<string>[] selectNom = bd.selection(selectN);
+                            att = selectNom[0][0];
+                        }
+
                     }
-                    else
-                    {
-                        string selectN = "SELECT nomUtilisateur FROM Joueurs WHERE idJoueur=" + particip[1].ToString();
-                        List<string>[] selectNom = bd.selection(selectN);
-                        att = selectNom[0][0];
-                    }
+                    lstpartie.Add(new Partie(att, def, p[1], seed));
 
                 }
-                lstpartie.Add(new Partie(att, def,p[1],seed));
 
             }
-
-
         }
 
 
