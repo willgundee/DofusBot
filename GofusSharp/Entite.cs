@@ -583,20 +583,81 @@ namespace GofusSharp
             return 0;
         }
 
+        private void castShadow(int x, int y, int[][] tabCase)
+        {
+            if (tabCase[x][y] != 1)
+                return;
+            float slope1 = getSlope((float)(x - 0.5), (float)(y + 0.5));
+            float slope2 = getSlope((float)(x + 0.5), (float)(y - 0.5));
+
+            for (int cy = y; cy <= tabCase.Length; cy++)
+            {
+                for (int cx = x; cx <= tabCase[0].Length; cx++)
+                {
+                    if (cx != x || cy != y)
+                    {
+                        float slope = getSlope(cx, cy);
+                        if ((slope > slope1) && (slope < slope2 || (slope2 < 0 && cx > x)))
+                        {
+                            tabCase[cx][cy] = -1;
+                        }
+                    }
+                }
+            }
+        }
+
+        private float getSlope(float a, float b)
+        {
+            if (b == 0)
+                return 99;
+            return a / b;
+        }
+
         internal bool CaseEstDansZone(Zone.type TypeZone, int porteeMin, int porteeMax, Case source, Case cible, bool ligneDeVue = false)
         {
             try
             {
+                if (ligneDeVue)
+                {
+                    int[][] tabCase = new int[TerrainEntite.Largeur][];
+                    for (int i = 0; i < TerrainEntite.Largeur; i++)
+                    {
+                        tabCase[i] = new int[TerrainEntite.Hauteur];
+                    }
+                    for (int i = 0; i < TerrainEntite.Largeur; i++)
+                    {
+                        for (int j = 0; j < TerrainEntite.Hauteur; j++)
+                        {
+                            switch (TerrainEntite.TabCases[i][j].Contenu)
+                            {
+                                case Case.type.joueur:
+                                case Case.type.obstacle:
+                                    tabCase[i][j] = 1;
+                                    break;
+                                default:
+                                    tabCase[i][j] = 0;
+                                    break;
+                            }
+                        }
+                    }
+                    for (int i = 0; i < TerrainEntite.Largeur; i++)
+                    {
+                        for (int j = 0; j < TerrainEntite.Hauteur; j++)
+                        {
+                            castShadow(i, j, tabCase);
+                        }
+                    }
+                    if (tabCase[cible.X][cible.Y] != 0)
+                    {
+                        return false;
+                    }
+                }
                 switch (TypeZone)
                 {
                     case Zone.type.cercle:
                         int portee = TerrainEntite.DistanceEntreCases(source, cible);
                         if (portee >= porteeMin && portee <= porteeMax)
                         {
-                            if (ligneDeVue)
-                            {
-                                //Case CaseDSort = ;
-                            }
                             return true;
                         }
                         break;

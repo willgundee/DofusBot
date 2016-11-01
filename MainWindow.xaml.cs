@@ -56,7 +56,6 @@ namespace test
         ObservableCollection<string> LstCaras;
         ObservableCollection<ImageItem> LstInventaire;
         ObservableCollection<DescItem> LstDesc;
-        ObservableCollection<pArchives> LstArchive;
         System.Windows.Controls.ListBox dragSource = null;
 
         #endregion
@@ -66,6 +65,8 @@ namespace test
         public Joueur Player { get; set; }
 
         public FenetreRapport rapport;
+
+        public List<Partie> lstpartie;
 
         public int idJoueur { get; set; }
 
@@ -103,8 +104,8 @@ namespace test
             ctb_main.UpdateTreeView();
             pgSort = new ObservableCollection<Gofus.pageSort>();
 
-            LstArchive = new ObservableCollection<pArchives>();
-            archive.ItemsSource = LstArchive;
+            
+    
 
             #region Lou
             LstImgItems = new ObservableCollection<ImageItem>();
@@ -126,6 +127,17 @@ namespace test
 
             txt_AncienCourriel.Text = Player.Courriel;
             txt_nomUtilisateur.Text = Player.NomUtilisateur;
+
+
+
+         lstpartie = new List<Partie>();
+
+
+            dgHistorique.ItemsSource = lstpartie;
+
+            cboTypePartie.Items.Add("Mes Parties");
+            cboTypePartie.Items.Add("Les partie de tout le monde");
+
 
 
             #region Marc_TimerTick_Chat
@@ -2361,7 +2373,69 @@ namespace test
 
 
         }
-        #endregion    
+        #endregion
+
+        #region page archive
+        private void loadParties()
+        {
+
+            string selectid = "Select  idPartie,temps,seed From Parties LIMIT 70 ";
+            List<string>[] lstPartieBd = bd.selection(selectid);
+
+            
+
+            lstpartie.Clear();
+
+            foreach (List<string> p in lstPartieBd)
+            {
+                string selectPartici = "SELECT estAttaquant,idEntite FROM PartiesEntites WHERE idPartie = " + p[0];
+                List<string>[] result = bd.selection(selectPartici);
+                int seed = Int32.Parse(p[2]);
+                string att ="";
+                string def="";
+
+                foreach (List<string> particip in result)
+                {
+
+                    if (particip[0] == "False")
+                    {
+                        string selectN = "SELECT nomUtilisateur FROM Joueurs WHERE idJoueur=" + particip[1].ToString();
+                        List<string>[] selectNom = bd.selection(selectN);
+                        def = selectNom[0][0];
+                    }
+                    else
+                    {
+                        string selectN = "SELECT nomUtilisateur FROM Joueurs WHERE idJoueur=" + particip[1].ToString();
+                        List<string>[] selectNom = bd.selection(selectN);
+                        att = selectNom[0][0];
+                    }
+
+                }
+                lstpartie.Add(new Partie(att, def,p[1],seed));
+
+            }
+
+
+        }
+
+
+        private void cboTypePartie_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cboTypePartie.SelectedIndex == 0)
+            {
+                
+                loadParties();
+                dgHistorique.Items.Refresh();
+    
+            }
+            else
+            {
+                loadParties();
+                dgHistorique.Items.Refresh();
+            }
+        }
+
+        #endregion
 
         private void PGSort_Selected(object sender, RoutedEventArgs e)
         {
