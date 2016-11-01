@@ -69,8 +69,6 @@ namespace test
 
         public int idJoueur { get; set; }
 
-        public ObservableCollection<PagePerso> pgperso;
-        public ObservableCollection<pageCpersonage> pgCperso;
         public ObservableCollection<Gofus.pageSort> pgSort;
 
         #region Marc_Chat,FenetreChat,DispatcherTimer,ThreadEnvoie
@@ -103,7 +101,6 @@ namespace test
             ctb_main.CreateTreeView(generateTree());
             ctb_main.UpdateSyntaxHightlight();
             ctb_main.UpdateTreeView();
-            pgCperso = new ObservableCollection<pageCpersonage>();
             pgSort = new ObservableCollection<Gofus.pageSort>();
 
             LstArchive = new ObservableCollection<pArchives>();
@@ -1977,7 +1974,6 @@ namespace test
             refreshInv();
             cboChoixEntite.SelectedIndex = -1;// # not legit
             cboChoixEntite.SelectedIndex = 0;
-
         }
 
         /// <summary>
@@ -2026,7 +2022,6 @@ namespace test
         {
             if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
             {
-
                 LstDesc.Clear();
                 if (convertPathToNoItem((sender as Image).Source.ToString()) != "vide")
                     LstDesc.Add(new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE noImage =" + Convert.ToInt32(convertPathToNoItem((sender as Image).Source.ToString())))[0], true, 0)));
@@ -2183,7 +2178,7 @@ namespace test
                         this._dragdropWindow.Close();
                         this._dragdropWindow = null;
                     }
-                    #region Pouf Transparent
+                    #region Pouf Transparent !
                     borderCape.BorderBrush = Brushes.Transparent;
                     borderCoiffe.BorderBrush = Brushes.Transparent;
                     borderBotte.BorderBrush = Brushes.Transparent;
