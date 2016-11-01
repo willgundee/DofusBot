@@ -271,7 +271,7 @@
                         <Image Name="imgCapeInv" Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" />
                     </Border>
                     <Border Name="borderAmu" BorderThickness="3" Grid.Column="6" Grid.Row="2" Margin="1,1,1,-1">
-                        <Image Name="imgAmuletteInv" Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown"  />
+                        <Image Name="imgAmuletteInv" Source="resources/vide.png"  Drop="imgInv_Drop" PreviewMouseDown="imgInv_MouseDown"  />
                     </Border>
                     <Border Name="borderCoiffe" BorderThickness="3" Grid.Column="9" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2">
                         <Image Name="imgChapeauInv"  Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" />
