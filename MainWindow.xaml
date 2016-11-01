@@ -223,10 +223,10 @@
         </TabItem>
         <TabItem  Header="Sorts" Height="30" Selector.Selected="PGSort_Selected">
             <TabControl Name="PGSort">
-                
+
             </TabControl>
-          
-            
+
+
         </TabItem>
         <TabItem Header="Inventaire" Selector.Selected="TabItem_Selected_Inventaire" Height="30">
             <Grid>
@@ -303,7 +303,12 @@
             </Grid>
         </TabItem>
         <TabItem Header="Arène" Height="30">
-            <Label HorizontalAlignment="Center" FontSize="25" Content="Arène"/>
+            <Grid>
+                <ContentControl Name="controlArene"/>
+              
+
+            </Grid>
+
         </TabItem>
         <TabItem Header="Documentation" Height="30">
             <Label HorizontalAlignment="Center" FontSize="25" Content="Documentation"/>

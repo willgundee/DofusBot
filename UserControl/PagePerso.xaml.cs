@@ -36,7 +36,7 @@ namespace test
             lblLevelEntite.Content = "Niv. " + ent.LstStats.First(x => x.Nom == Statistique.element.experience).toLevel().ToString();
             pgbExp.Value = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur;
             pgbExp.Maximum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.LstStats.First(x => x.Nom == Statistique.element.experience).toLevel() + 1];
-            pgbExp.Minimum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.LstStats.First(x => x.Nom == Statistique.element.experience).toLevel() - 1];
+            pgbExp.Minimum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.LstStats.First(x => x.Nom == Statistique.element.experience).toLevel() - (ent.Niveau == 1 ? 0:-1)];
             pgbExp.ToolTip = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur.ToString() + " Sur " + ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.LstStats.First(x => x.Nom == Statistique.element.experience).toLevel() + 1].ToString() + " Expériences !";
             int nbScript = Player.LstScripts.Count;
             for (int i = 0; i < nbScript; i++)
@@ -379,21 +379,5 @@ namespace test
             bd.Update("UPDATE Entites SET CapitalLibre =" + lblNbPointsC.Content + " WHERE nom ='" + persoActuel.Nom + "' ");
         }
 
-       /* public void calculervalues()
-        {
-            foreach (Image img in grdEquip.Children)
-            {
-                string imag = Path.GetFileNameWithoutExtension(img.Source.ToString().Split('/').Last()).ToString();
-                if (imag != "vide")
-                    foreach (List<string> item in bd.selection("SELECT idTypeStatistique, valeur FROM StatistiquesEquipements WHERE idEquipement=(SELECT idEquipement From Equipements WHERE noImage=" + imag + ")"))
-                        foreach (List<string> e in bd.selection("SELECT * FROM TypesStatistiques WHERE idTypeStatistique =" + item[0]))
-                            foreach (Statistique sts in persoActuel.LstStats)
-                                if (sts.Nom.ToString() == e[1])
-                                {
-                                    sts.Valeur = Convert.ToInt32(e[0]);
-                                    break;
-                                }
-            }
-        }*/
     }
 }

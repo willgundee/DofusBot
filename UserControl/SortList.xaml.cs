@@ -33,12 +33,7 @@ namespace Gofus
 
                 ImgSort.Source = path;
                
-                 lblNomSort.Content = sorts[3] ;              
-            
-
-        }
-
-
-
+                 lblNomSort.Content = sorts[3] ;                        
+        }        
     }
 }
