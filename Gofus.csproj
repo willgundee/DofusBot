@@ -99,11 +99,11 @@
     <Compile Include="UserControl\pageSort.xaml.cs">
       <DependentUpon>pageSort.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControl\SortDesc.xaml.cs">
+      <DependentUpon>SortDesc.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControl\SortList.xaml.cs">
       <DependentUpon>SortList.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControl\pArchives.xaml.cs">
-      <DependentUpon>pArchives.xaml</DependentUpon>
     </Compile>
     <Compile Include="Window\ChatWindow.xaml.cs">
       <DependentUpon>ChatWindow.xaml</DependentUpon>
@@ -200,11 +200,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="UserControl\pArchives.xaml">
+    <Page Include="UserControl\pageSort.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControl\pageSort.xaml">
+    <Page Include="UserControl\SortDesc.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

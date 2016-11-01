@@ -17,28 +17,21 @@ using test;
 namespace Gofus
 {
     /// <summary>
-    /// Logique d'interaction pour SortList.xaml
+    /// Logique d'interaction pour SortDesc.xaml
     /// </summary>
-    public partial class SortList : UserControl
+    public partial class SortDesc : UserControl
     {
-        private Sort Sorts ;
-        public SortList(List<string> sorts)
+        public SortDesc(Sort s)
         {
             InitializeComponent();
-
-            Sorts = new Sort(sorts);
-            int con = sorts.Count();
-
-            BitmapImage path = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/spells/55/sort_" + Sorts.NoImage + ".png"));
-
-                ImgSort.Source = path;
-               
-                 lblNomSort.Content = sorts[3] ;              
+           
             
 
+            BitmapImage path = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/spells/55/sort_" + s.NoImage + ".png"));
+
+            Imgsort.Source = path;
+            lblNom.Content = s.Nom;
+            lblDescription.Content = s.Description;
         }
-
-
-
     }
 }

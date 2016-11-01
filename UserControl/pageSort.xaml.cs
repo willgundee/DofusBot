@@ -22,55 +22,65 @@ namespace Gofus
     /// </summary>
     public partial class pageSort : UserControl
     {
+        private Sort sorts;
        public BDService bd = new BDService();
        private ObservableCollection<SortList> lstSort;
+        private ObservableCollection<SortDesc> lstDescription;
         public pageSort()
         {
             InitializeComponent();
             lstSort = new ObservableCollection<SortList>();
-            contenuCmbType();
-            
-          
+            lstDescription = new ObservableCollection<SortDesc>();
+            lbxsort.ItemsSource = lstSort;          
+            lbxDescript.ItemsSource = lstDescription;     
+            contenuCmbType();                   
         }
 
         void contenulxbSort()
         {
             int con;
            List<string>[] Type;
-                  
-            /*
-             -0=tous
-             -1=Iop
-             -2=Cra        
-             -3=Ecaflip
-             */
+           
+            lstSort.Clear();
+
             if (cmbType.SelectedIndex==0)
             {
-                Type = bd.selection("SELECT * FROM Sorts s INNER JOIN ClassesSorts cs ON s.idSort =cs.idSort WHERE idClasse=1 OR idClasse=2 OR idClasse=3");
-
+                Type = bd.selection("SELECT * FROM Sorts s INNER JOIN ClassesSorts cs ON s.idSort =cs.idSort WHERE idClasse=1 OR idClasse=2 OR idClasse=3");             
                 con = Type.Count();
                 for (int i = 0; i < con; i++)
                 {
-
-                lstSort.Add(new SortList(Type[i]));
-                lbxsort.ItemsSource = lstSort;            
+                    SortList s = new SortList(Type[i]);
+                    s.MouseDoubleClick += lbxsort_MouseDoubleClick;
+                lstSort.Add(s);            
                 }
             }
             else
             {
-            //    string i = "SELECT * FROM Sorts s INNER JOIN ClassesSorts cs ON s.idSort =cs.idSort WHERE idClasse=(SELECT idClasse FROM Classes WHERE nom='" + cmbType.SelectedValue + "')";
                 Type = bd.selection("SELECT * FROM Sorts s INNER JOIN ClassesSorts cs ON s.idSort =cs.idSort WHERE idClasse=(SELECT idClasse FROM Classes WHERE nom='" + cmbType.SelectedValue+"')");
                 con = Type.Count();
+
                 for (int i = 0; i < con; i++)
                 {
-                    lstSort.Add(new SortList(Type[i]));
-                    lbxsort.ItemsSource = lstSort;
+                    SortList s = new SortList(Type[i]);
+                    s.MouseDoubleClick += lbxsort_MouseDoubleClick;                    
+                    lstSort.Add(s);       
                 }
             } 
         }
 
+        void contenuLxbDesc(string nom)
+        {
+            List<string>[] info;
+            info = bd.selection("SELECT * FROM Sorts WHERE nom='"+nom+"'");
+            Sort ds = new Sort(info[0]);
+            SortDesc descS = new SortDesc(ds);
 
-            void contenuCmbType()
+            lstDescription.Add(descS);
+
+        }
+
+
+        void contenuCmbType()
         {
             List<string> type = new List<string>();
             type.Add("Tous");
@@ -83,6 +93,10 @@ namespace Gofus
         private void lbxsort_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
 
+            string nom = (sender as SortList).lblNomSort.Content.ToString();
+            
+
+            contenuLxbDesc(nom);
         }
 
         private void cmbType_SelectionChanged(object sender, SelectionChangedEventArgs e)

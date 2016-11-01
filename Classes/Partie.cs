@@ -15,13 +15,17 @@ namespace test
         public string Attaquant { get; set; }
         public string Defendant { get; set; }
 
-        //public DateTime datePartie;
+        public string Date { get; set; }
 
-        public Partie(string a , string d)
+
+        private int seed { get; set; }
+        public Partie(string a , string d ,string dt,int sd)
         {
             Attaquant = a;
             Defendant = d;
-          
+            seed = sd;
+            Date = dt;
+
         }
 
 
