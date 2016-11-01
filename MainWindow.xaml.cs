@@ -1976,6 +1976,17 @@ namespace test
         #endregion
 
         #region Inventaire
+
+
+
+
+        //TODO: REFONTE INVENTAIRE  ajout bouton onclick dans page perso qui pop l'inventaire coté ,double clic désequipe drag drop de l'inventaire à fenetre mick, unselected tab close l'inventaire si pas fait 
+
+
+
+
+
+
         /// <summary>
         /// action d'un click sur un item dans l'inventaire
         /// </summary>
