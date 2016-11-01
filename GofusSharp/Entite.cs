@@ -152,8 +152,50 @@ namespace GofusSharp
             switch (effet.Nom)
             {
                 case Effet.type.pousse:
+                    foreach (EntiteInconnu entiteInconnu in ListEntites)
+                    {
+                        if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
+                        {
+                            int magnitude = new System.Random().Next(effet.ValeurMin, effet.ValeurMax);
+                            int direction = 0;
+                            string axe = "";
+                            if (Position.X - entiteInconnu.Position.X != 0)
+                            {
+                                direction = Position.X - entiteInconnu.Position.X;
+                                axe = "X";
+                            }
+                            else
+                            {
+                                direction = Position.Y - entiteInconnu.Position.Y;
+                                axe = "Y";
+                            }
+                            int caseTraversee;
+                            for (caseTraversee = 0; caseTraversee < magnitude; caseTraversee++)
+                            {
+                                try
+                                {
+                                    if (axe == "X")
+                                    {
+                                        if (!entiteInconnu.ChangerPosition(TerrainEntite.TabCases[entiteInconnu.Position.X - direction][entiteInconnu.Position.Y]))
+                                            break;
+                                    }
+                                    else
+                                    {
+                                        if (!entiteInconnu.ChangerPosition(TerrainEntite.TabCases[entiteInconnu.Position.X][entiteInconnu.Position.Y - direction]))
+                                            break;
+                                    }
+                                }
+                                catch (System.Exception)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                    }
                     break;
-                case Effet.type.pousse_lanceur:
+                case Effet.type.repousse:
+                    break;
+                case Effet.type.repousse_lanceur:
                     break;
                 case Effet.type.tire:
                     break;
@@ -914,6 +956,15 @@ namespace GofusSharp
                 return true;
             }
             return false;
+        }
+        public int RetourneNiveau()
+        {
+            for (int i = 1; i < 200; i++)
+                if (Experience >= Statistique.dictLvl[i] && Experience < Statistique.dictLvl[i + 1])
+                    return i;
+            if (Experience >= Statistique.dictLvl[200])
+                return 200;
+            return 0; //si toutes fuck up
         }
     }
 }
