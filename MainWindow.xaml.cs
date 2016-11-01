@@ -2458,7 +2458,7 @@ namespace test
         private void loadParties()
         {
 
-          /*string selectid = "Select  idPartie,temps,seed From Parties LIMIT 70 ";
+          string selectid = "Select  idPartie,temps,seed From Parties LIMIT 70 ";
             List<string>[] lstPartieBd = bd.selection(selectid);
 
 
