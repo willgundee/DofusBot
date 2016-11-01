@@ -20,6 +20,7 @@ namespace test
         public bool PorteeModifiable { get; set; }
         public int TauxDeRelance { get; set; }
         public int PointActionRequis { get; set; }
+        public int NoImage { get; set; }
 
         private BDService bd = new BDService();
         /// <summary>
@@ -39,6 +40,7 @@ namespace test
             TauxDeRelance = Convert.ToInt32(Sorts[8]);
             PorteeModifiable = Convert.ToBoolean(Sorts[9]);
             PointActionRequis = Convert.ToInt32(Sorts[10]);
+            NoImage = Convert.ToInt32(Sorts[11]);
         }
         /// <summary>
         /// Pour ajouter la zone de portée du sort
