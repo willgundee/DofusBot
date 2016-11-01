@@ -6,17 +6,15 @@
              xmlns:local="clr-namespace:Gofus"
              mc:Ignorable="d" 
                d:DesignHeight="560" d:DesignWidth="577">
-
-
     <Grid Background="Gray">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="233*"/>
-            <ColumnDefinition Width="344*"/>
+            <ColumnDefinition Width="247*"/>
+            <ColumnDefinition Width="330*"/>
         </Grid.ColumnDefinitions>
 
-        <ComboBox Name="cmbType" SelectedIndex="0" Grid.Column="0" HorizontalAlignment="Left" Margin="10,37,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="cmbType_SelectionChanged" Height="22" />
+        <ComboBox Name="cmbType" SelectedIndex="0" Grid.Column="0" HorizontalAlignment="Left" Margin="10,37,0,0" VerticalAlignment="Top"  Width="120" SelectionChanged="cmbType_SelectionChanged" Height="22" />
 
-        <ListBox Name="lbxsort" Grid.Column="0" Height="400" Width="220" Margin="5" MouseDoubleClick="lbxsort_MouseDoubleClick" />
+        <ListBox Name="lbxsort" Grid.Column="0" Margin="6,80,37,80" ScrollViewer.HorizontalScrollBarVisibility="Disabled" MouseDoubleClick="lbxsort_MouseDoubleClick" />
 
 
 

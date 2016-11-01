@@ -222,10 +222,10 @@
             </Grid>
         </TabItem>
         <TabItem  Header="Sorts" Height="30" Selector.Selected="PGSort_Selected">
-                
-            <TabControl  Name="PGSort"> 
+            <TabControl Name="PGSort">
                 
             </TabControl>
+          
             
         </TabItem>
         <TabItem Header="Inventaire" Selector.Selected="TabItem_Selected_Inventaire" Height="30">
@@ -357,11 +357,13 @@
         </TabItem>
         <TabItem Header="Archives" Height="30">
             <Grid>
-                 <Label HorizontalAlignment="Center" FontSize="25" Content="Archives"/>
-                <ItemsControl Name="archive" ItemsSource="{Binding LstArchive}"  Margin="152,66,201.38,135" ></ItemsControl>
+                <Label HorizontalAlignment="Center" FontSize="25" Content="Archives"/>
+                <DataGrid x:Name="dgHistorique" ItemsSource="{Binding lstpartie}"  HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="418" Width="502" Margin="36,0,0,100" IsReadOnly="True" FrozenColumnCount="3" CanUserResizeColumns="False" CanUserReorderColumns="False" ColumnWidth="*"/>
+                <Button x:Name="btnVisionner" Content="Visionner" HorizontalAlignment="Left" Margin="340,481,0,0" VerticalAlignment="Top" Width="198" IsCancel="True"/>
+                <ComboBox x:Name="cboTypePartie" HorizontalAlignment="Left" Margin="36,481,0,0" VerticalAlignment="Top" Width="273" SelectedIndex="0" SelectionChanged="cboTypePartie_SelectionChanged"/>
             </Grid>
-           
-            
+
+
         </TabItem>
         <TabItem Header="Gestion de compte&#xA;" Height="30">
             <Grid Background="Gray">
@@ -410,7 +412,7 @@
 
         </TabItem>
 
-       
+
 
     </TabControl>
 </Window>

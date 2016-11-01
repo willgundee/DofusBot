@@ -21,18 +21,16 @@ namespace Gofus
     /// </summary>
     public partial class SortList : UserControl
     {
+        private Sort Sorts ;
         public SortList(List<string> sorts)
         {
             InitializeComponent();
 
+            Sorts = new Sort(sorts);
             int con = sorts.Count();
 
-     
-   
-                BitmapImage path = new BitmapImage();
-                path.BeginInit();
-                path.UriSource = new Uri("../resources/Cra.png", UriKind.Relative);
-                path.EndInit();
+            BitmapImage path = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/spells/55/sort_" + Sorts.NoImage + ".png"));
+
                 ImgSort.Source = path;
                
                  lblNomSort.Content = sorts[3] ;              
