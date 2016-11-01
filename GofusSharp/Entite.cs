@@ -365,7 +365,7 @@ namespace GofusSharp
                                 RES_Pourcent_neutre = 0;
                             if (reduction_physique < 0)
                                 reduction_physique = 0;
-                            if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_neutre / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + force + puissance) / 100 + DMG_neutre) - RES_neutre - reduction_physique)));
+                            if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_neutre / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + force + puissance) / 100 + DMG_neutre) - RES_neutre - reduction_physique)))
                             {
                                 foreach (EntiteInconnu invoc in ListEntites)
                                 {
