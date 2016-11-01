@@ -8,7 +8,7 @@
              d:DesignHeight="560" d:DesignWidth="577">
     <Grid Background="#FFC5A8A8">
         <Button x:Name="btnAtt" Content="Attaquer" HorizontalAlignment="Left" Margin="366,510,0,0" VerticalAlignment="Top" Width="178" Height="39"/>
-        <ComboBox x:Name="cboPersonna" HorizontalAlignment="Left" Margin="35,527,0,0" VerticalAlignment="Top" Width="126"/>
+        <ComboBox x:Name="cboPersonna" HorizontalAlignment="Left" Margin="35,527,0,0" VerticalAlignment="Top" Width="177"/>
         <Label x:Name="lblChoixPerso" Content="Personnage :" HorizontalAlignment="Left" Margin="35,496,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.559,1.83" Width="101"/>
         <Label x:Name="TypeAdversaire" Content="Type d'adversaire:" HorizontalAlignment="Left" Margin="10,29,0,0" VerticalAlignment="Top" Width="126"/>
         <ComboBox x:Name="cboTypeAdversaire" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="202" SelectionChanged="cboTypeAdversaire_SelectionChanged"/>

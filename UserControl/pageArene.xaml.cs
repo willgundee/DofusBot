@@ -49,16 +49,16 @@ namespace test
 
             cboPersonna.ItemsSource = lstPerso;
 
-            cboPersonna.SelectedIndex = 0;
+           
 
             List<string>[] Result = bd.selection("SELECT * FROM Entites WHERE idJoueur IS NOT NULL AND idJoueur != " + id.ToString());
 
-            int i = 0;
+
             foreach (List<string> enti in Result)
             {
 
                 lstAdversaire.Add(new Entite(enti));
-                i++;
+
             }
 
 
@@ -70,6 +70,8 @@ namespace test
 
         private void cboTypeAdversaire_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+           
+
             if (cboTypeAdversaire.SelectedIndex == 0)
             {
                 List<string>[] Result = bd.selection("SELECT * FROM Entites WHERE idJoueur IS NOT NULL AND idJoueur != " + idJoueur.ToString());
@@ -81,7 +83,7 @@ namespace test
                     lstAdversaire.Add(new Entite(enti));
             
                 }
-
+                dataGrid.Items.Clear();
 
                 dataGrid.ItemsSource = lstAdversaire;
                 dataGrid.Items.Refresh();
