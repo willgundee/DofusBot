@@ -57,39 +57,49 @@
 
         </Grid>
         <Label Grid.Column="1"  HorizontalAlignment="Center" FontSize="25" VerticalAlignment="Top" Margin="88,0,46,0" Content="Équipement" Width="178"/>
-        <Rectangle x:Name="rect"   Height="75" Width="75" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Margin="10,51,0,0" Fill="#FFF0E9E9"   />
-        <Image x:Name="Imgclasse" Height="75" Width="75" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Margin="10,51,0,0"   />
+        <Rectangle x:Name="rect"   Height="75" Width="75" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Margin="10,36,0,0" Fill="#FFF0E9E9"   />
+        <Image x:Name="Imgclasse" Height="75" Width="75" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Margin="10,36,0,0"   />
         <Label x:Name="lblClasse" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,0,0" Content="Classe : "/>
         <Label x:Name="lblNomClasse" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="62,10,0,0" Height="33" Width="102"/>
         <Label x:Name="lblScript" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="41,24,0,187" FontSize="15" Height="33">Script :</Label>
         <ComboBox x:Name="cbScript" Grid.Column="1" Grid.Row="1" Margin="101,18,60,188"  />
-        <Label x:Name="lblStats" VerticalAlignment="Center" Margin="0,135,283,123" Content="Statistique" Grid.ColumnSpan="2" Height="36" />
-        <Label x:Name="lblPCap" Content="Point Capital:" Width="100" Grid.Column="0" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,0,0,30" />
-        <Label x:Name="lblNbPointsC" Content="11" Width="34" Height="31" Grid.Row="1" HorizontalAlignment="Center" FontSize="14" VerticalAlignment="Bottom" Margin="79,0,140.427,27" Grid.Column="0" />
+        <Label x:Name="lblPCap" Content="Point Capital:" Width="100" Grid.Column="0" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="13,0,0,8" />
+        <Label x:Name="lblNbPointsC" Content="11" Width="34" Height="31" Grid.Row="1" HorizontalAlignment="Center" FontSize="14" VerticalAlignment="Bottom" Margin="90,0,126,5" Grid.Column="0" />
         <!--todo mettre hidden quand pas de point capital-->
-        <Button x:Name="btnVitalite" Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,15,20,0" VerticalAlignment="Top" Width="25" Height="20" Grid.Column="0" Visibility="Hidden"       Click="btnStatsPlus_Click"/>
-        <Button x:Name="btnSagesse"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,40,20,0" VerticalAlignment="Top" Width="25" Height="20" Grid.Column="0" Visibility="Hidden"        Click="btnStatsPlus_Click"/>
-        <Button x:Name="btnForce"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,65,20,0" VerticalAlignment="Top" Width="25" Height="20" Grid.Column="0" Visibility="Hidden"         Click="btnStatsPlus_Click"/>
-        <Button x:Name="btnIntelligence"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,90.565,20,0" VerticalAlignment="Top" Width="25" Height="20" Grid.Column="0" Visibility="Hidden"  Click="btnStatsPlus_Click"/>
-        <Button x:Name="btnChance"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,115,20,90" VerticalAlignment="Center" Width="25" Height="20" Grid.Column="0" Visibility="Hidden"    Click="btnStatsPlus_Click"/>
-        <Button x:Name="btnAgilite"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,140,20,65" VerticalAlignment="Center" Width="25" Height="20" Grid.Column="0" Visibility="Hidden"   Click="btnStatsPlus_Click"/>
 
-        <DataGrid x:Name="dgStats" IsReadOnly="True" CanUserAddRows="False" CanUserSortColumns="False" HorizontalAlignment="Left"  Height="295" Width="195"  VerticalAlignment="Bottom" Margin="5,0,0,63" Grid.RowSpan="2"  AutoGenerateColumns="False">
+        <TabControl  Height="350" Width="230" Background="Gray"  VerticalAlignment="Bottom" Margin="13,0,42,34" Grid.RowSpan="2" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+
+            <TabItem  Header="basse" HorizontalAlignment="Left">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="149*"/>
+                        <ColumnDefinition Width="36*"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid x:Name="dgStats" IsReadOnly="True" HorizontalAlignment="Left" ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="317" Width="150" CanUserAddRows="False" CanUserSortColumns="False" ScrollViewer.CanContentScroll="False"   AutoGenerateColumns="False" Grid.ColumnSpan="2">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Nom"  Binding="{Binding Nom}" FontSize="16" Width="2*" />
+                            <DataGridTextColumn Header="Valeur" Binding="{Binding Valeur}" FontSize="16" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Name="btnVitalite"     Content="+"  Width="25" Height="20" Visibility="Hidden" VerticalAlignment="Center" Click="btnStatsPlus_Click" Grid.Column="1" Margin="0,40,0,0" />
+                    <Button Name="btnSagesse"      Content="+"  Width="25" Height="20" Visibility="Hidden" VerticalAlignment="Center" Click="btnStatsPlus_Click" Grid.Column="1" Margin="0,90,0,0" />
+                    <Button Name="btnForce"        Content="+"  Width="25" Height="20" Visibility="Hidden" VerticalAlignment="Center" Click="btnStatsPlus_Click" Grid.Column="1" Margin="0,140,0,0" />
+                    <Button Name="btnIntelligence" Content="+"  Width="25" Height="20" Visibility="Hidden" VerticalAlignment="Bottom" Click="btnStatsPlus_Click" Grid.Column="1" Margin="0,0,0,55" />
+                    <Button Name="btnChance"       Content="+"  Width="25" Height="20" Visibility="Hidden" VerticalAlignment="Bottom" Click="btnStatsPlus_Click" Grid.Column="1" Margin="0,0,0,30" />
+                    <Button Name="btnAgilite"      Content="+"  Width="25" Height="20" Visibility="Hidden" VerticalAlignment="Bottom" Click="btnStatsPlus_Click" Grid.Column="1" Margin="0,0,0,5" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Avancé">
+
+        <DataGrid x:Name="dgDommage" IsReadOnly="True" CanUserAddRows="False" CanUserSortColumns="False"  HorizontalAlignment="Left"   Height="300" Width="190"  AutoGenerateColumns="False" >
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Nom"  Binding="{Binding Nom}" FontSize="16" Width="3*" />
-                <DataGridTextColumn Header="Valeur" Binding="{Binding Valeur}" FontSize="16" Width="*"/>
-            </DataGrid.Columns>
-
-
-        </DataGrid>
-        <Label x:Name="lblDommage"  Content="Dommages"  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="239,40,0,155" Height="31" Grid.Row="1" RenderTransformOrigin="0.028,0.597" Grid.ColumnSpan="2"/>
-        <DataGrid x:Name="dgDommage" IsReadOnly="True" CanUserAddRows="False" CanUserSortColumns="False"  HorizontalAlignment="Left"  Height="150" Width="150"  VerticalAlignment="Bottom" AutoGenerateColumns="False" Margin="239,0,0,5" Grid.Row="1" Grid.ColumnSpan="2">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Nom"  Binding="{Binding Nom}" FontSize="15" Width="2*" />
+                <DataGridTextColumn Header="Nom"  Binding="{Binding NomSimple}" FontSize="15" Width="3*" />
                 <DataGridTextColumn Header="Valeur" Binding="{Binding Valeur}" FontSize="15" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Label x:Name="lblResistance" Grid.Row="1" Grid.Column="1" Content="Résistances" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="157,43,71,160" Height="23" Width="79"></Label>
+            </TabItem>
+        </TabControl>
+        <!--Label x:Name="lblResistance" Grid.Row="1" Grid.Column="1" Content="Résistances" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="157,43,71,160" Height="23" Width="79"></>
 
         <DataGrid x:Name="dgResistance" IsReadOnly="True" CanUserAddRows="False" CanUserSortColumns="False"  HorizontalAlignment="Right"  Height="150" Width="150"  VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="1" AutoGenerateColumns="False" Margin="0,0,0,5">
             <DataGrid.Columns>
@@ -97,7 +107,7 @@
                 <DataGridTextColumn Header="Valeur" Binding="{Binding Valeur}" FontSize="15" Width="*"/>
             </DataGrid.Columns>
 
-        </DataGrid>
+        </DataGrid-->
         <ProgressBar Name="pgbExp" HorizontalAlignment="Left" Height="15" Margin="100,58,0,0" VerticalAlignment="Top" Width="100" Foreground="DarkRed" />
     </Grid>
 

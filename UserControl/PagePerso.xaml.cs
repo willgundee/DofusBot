@@ -83,7 +83,7 @@ namespace test
 
             //calculervalues();
             dgDommage.ItemsSource = initialiserLstDMG(ent);
-            dgResistance.ItemsSource = initialiserLstRES(ent);
+            //dgResistance.ItemsSource = initialiserLstRES(ent);
 
         }
 
@@ -91,7 +91,7 @@ namespace test
         private void initialiserLstStats(ObservableCollection<Statistique> lstStats)
         {
             lstStat.Clear();
-            for (int i = 0; i < 11; i++)
+            for (int i = 0; i < 12; i++)
             {
                 foreach (Statistique stat in lstStats)
                 {
@@ -114,30 +114,34 @@ namespace test
                                 lstStat.Add(stat);
                             break;
                         case 4:
-                            if (stat.Nom == Statistique.element.portee)
+                            if (stat.Nom == Statistique.element.invocation)
                                 lstStat.Add(stat);
                             break;
                         case 5:
-                            if (stat.Nom == Statistique.element.vitalite)
+                            if (stat.Nom == Statistique.element.portee)
                                 lstStat.Add(stat);
                             break;
                         case 6:
-                            if (stat.Nom == Statistique.element.sagesse)
+                            if (stat.Nom == Statistique.element.vitalite)
                                 lstStat.Add(stat);
                             break;
                         case 7:
-                            if (stat.Nom == Statistique.element.force)
+                            if (stat.Nom == Statistique.element.sagesse)
                                 lstStat.Add(stat);
                             break;
                         case 8:
-                            if (stat.Nom == Statistique.element.intelligence)
+                            if (stat.Nom == Statistique.element.force)
                                 lstStat.Add(stat);
                             break;
                         case 9:
-                            if (stat.Nom == Statistique.element.chance)
+                            if (stat.Nom == Statistique.element.intelligence)
                                 lstStat.Add(stat);
                             break;
                         case 10:
+                            if (stat.Nom == Statistique.element.chance)
+                                lstStat.Add(stat);
+                            break;
+                        case 11:
                             if (stat.Nom == Statistique.element.agilite)
                                 lstStat.Add(stat);
                             break;
@@ -153,7 +157,7 @@ namespace test
         {
             List<Statistique> LstDMG = new List<Statistique>();
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 24; i++)
             {
                 foreach (Statistique stat in perso.LstStats)
                 {
@@ -179,6 +183,83 @@ namespace test
                             if (stat.Nom == Statistique.element.DMG_eau)
                                 LstDMG.Add(stat);
                             break;
+                        case 5:
+                            if (stat.Nom == Statistique.element.DMG_poussee)
+                                LstDMG.Add(stat);
+                            break;
+                        case 6:
+                            if (stat.Nom == Statistique.element.renvoie_DMG)
+                                LstDMG.Add(stat);
+                            break;
+                        case 7:
+                            if (stat.Nom == Statistique.element.puissance)
+                                LstDMG.Add(stat);
+                            break;
+                        case 8:
+                            if (stat.Nom == Statistique.element.RES_neutre)
+                                LstDMG.Add(stat);
+                            break;
+                        case 9:
+                            if (stat.Nom == Statistique.element.RES_terre)
+                                LstDMG.Add(stat);
+                            break;
+                        case 10:
+                            if (stat.Nom == Statistique.element.RES_feu)
+                                LstDMG.Add(stat);
+                            break;
+                        case 11:
+                            if (stat.Nom == Statistique.element.RES_air)
+                                LstDMG.Add(stat);
+                            break;
+                        case 12:
+                            if (stat.Nom == Statistique.element.RES_eau)
+                                LstDMG.Add(stat);
+                            break;
+                        case 13:
+                            if (stat.Nom == Statistique.element.RES_poussee)
+                                LstDMG.Add(stat);
+                            break;
+                        case 14:
+                            if (stat.Nom == Statistique.element.RES_Pourcent_neutre)
+                                LstDMG.Add(stat);
+                            break;
+                        case 15:
+                            if (stat.Nom == Statistique.element.RES_Pourcent_feu)
+                                LstDMG.Add(stat);
+                            break;
+                        case 16:
+                            if (stat.Nom == Statistique.element.RES_Pourcent_air)
+                                LstDMG.Add(stat);
+                            break;
+                        case 17:
+                            if (stat.Nom == Statistique.element.RES_Pourcent_terre)
+                                LstDMG.Add(stat);
+                            break;
+                        case 18:
+                            if (stat.Nom == Statistique.element.RES_Pourcent_eau)
+                                LstDMG.Add(stat);
+                            break;
+                        case 19:
+                            if (stat.Nom == Statistique.element.retrait_PA)
+                                LstDMG.Add(stat);
+                            break;
+                        case 20:
+                            if (stat.Nom == Statistique.element.retrait_PM)
+                                LstDMG.Add(stat);
+                            break;
+                        case 21:
+                            if (stat.Nom == Statistique.element.esquive_PA)
+                                LstDMG.Add(stat);
+                            break;
+                        case 22:
+                            if (stat.Nom == Statistique.element.esquive_PM)
+                                LstDMG.Add(stat);
+                            break;
+                        case 23:
+                            if (stat.Nom == Statistique.element.soin)
+                                LstDMG.Add(stat);
+                            break;
+
                         default:
                             break;
                     }
@@ -188,7 +269,7 @@ namespace test
             }
             return LstDMG;
         }
-        private List<Statistique> initialiserLstRES(Entite perso)
+  /*      private List<Statistique> initialiserLstRES(Entite perso)
         {
             List<Statistique> LstRES = new List<Statistique>();
 
@@ -226,7 +307,7 @@ namespace test
 
             }
             return LstRES;
-        }
+        }*/
         #endregion
 
         private void image_MouseDown(object sender, MouseButtonEventArgs e)
@@ -279,7 +360,7 @@ namespace test
             initialiserLstStats(persoActuel.LstStats);
             //calculervalues();
             dgDommage.ItemsSource = initialiserLstDMG(persoActuel);
-            dgResistance.ItemsSource = initialiserLstRES(persoActuel);
+           // dgResistance.ItemsSource = initialiserLstRES(persoActuel);
 
         }
 
@@ -370,7 +451,6 @@ namespace test
                     bd.Update("UPDATE statistiquesEntites SET valeur = " + values + " WHERE idEntite = (SELECT idEntite FROM Entites WHERE  nom ='" + persoActuel.Nom + "') AND idTypeStatistique=(SELECT idTypeStatistique FROM typesStatistiques WHERE nom ='" + s.ToString() + "' ) ");
                     break;
                 }
-
 
             initialiserLstStats(persoActuel.LstStats);
 
