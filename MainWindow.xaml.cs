@@ -66,6 +66,8 @@ namespace test
 
         public FenetreRapport rapport;
 
+        public pageArene pgArene;
+
         public List<Partie> lstpartie;
 
         public int idJoueur { get; set; }
@@ -138,6 +140,9 @@ namespace test
             cboTypePartie.Items.Add("Mes Parties");
             cboTypePartie.Items.Add("Les partie de tout le monde");
 
+            pgArene = new pageArene();
+
+            controlArene.Content = pgArene;
 
 
             #region Marc_TimerTick_Chat
@@ -2527,5 +2532,6 @@ namespace test
 
         }
 
+      
     }
 }

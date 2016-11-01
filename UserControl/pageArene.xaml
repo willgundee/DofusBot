@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="test.pageArene"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:test"
+             mc:Ignorable="d" 
+             d:DesignHeight="560" d:DesignWidth="577">
+    <Grid Background="#FFC5A8A8">
+        <Button x:Name="btnAtt" Content="Attaquer" HorizontalAlignment="Left" Margin="366,510,0,0" VerticalAlignment="Top" Width="178" Height="39"/>
+        <ComboBox x:Name="cboPersonna" HorizontalAlignment="Left" Margin="35,527,0,0" VerticalAlignment="Top" Width="126"/>
+        <Label x:Name="lblChoixPerso" Content="Personnage :" HorizontalAlignment="Left" Margin="35,496,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.559,1.83" Width="101"/>
+        <Label x:Name="TypeAdversaire" Content="Type d'adversaire:" HorizontalAlignment="Left" Margin="10,29,0,0" VerticalAlignment="Top" Width="126"/>
+        <ComboBox x:Name="cboTypeAdversaire" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="202"/>
+        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top" Height="381" Width="557" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Nom"  Binding="{Binding Nom}" FontSize="15" Width="2*" />
+                <DataGridTextColumn Header="Niveau" Binding="{Binding Niveau}" FontSize="15" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>
