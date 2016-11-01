@@ -2,7 +2,7 @@
 {
     public class Effet
     {
-        public enum type { pousse, pousse_lanceur, tire, tire_lanceur, teleportation, ATT_neutre, ATT_air, ATT_feu, ATT_terre, ATT_eau, envoutement, pose_piege, pose_glyphe, invocation, soin}
+        public enum type { pousse, repousse, repousse_lanceur, tire, tire_lanceur, teleportation, ATT_neutre, ATT_air, ATT_feu, ATT_terre, ATT_eau, envoutement, pose_piege, pose_glyphe, invocation, soin}
         public type Nom { get; internal set; }
         public int ValeurMin { get; internal set; }
         public int ValeurMax { get; internal set; }
