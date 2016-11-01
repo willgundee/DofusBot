@@ -19,7 +19,7 @@ namespace test
     /// </summary>
     public partial class Authentification : Window
     {
-        BDService bdService = new BDService();
+       public  BDService bdService = new BDService();
         public Authentification()
         {
             InitializeComponent();
