@@ -190,6 +190,40 @@ namespace GofusSharp
                                     break;
                                 }
                             }
+                            int DMG_poussee = 0;
+                            foreach (Statistique stat in ListStatistiques)
+                            {
+                                if (stat.Nom == Statistique.type.DMG_poussee)
+                                    DMG_poussee = stat.Valeur;
+                            }
+                            foreach (Envoutement envoutement in ListEnvoutements)
+                            {
+                                if (envoutement.Stat == Statistique.type.DMG_poussee)
+                                    DMG_poussee = envoutement.Valeur;
+                            }
+                            int RES_poussee = 0;
+                            foreach (Statistique stat in entiteInconnu.ListStatistiques)
+                            {
+                                if (stat.Nom == Statistique.type.RES_poussee)
+                                    RES_poussee = stat.Valeur;
+                            }
+                            foreach (Envoutement envoutement in entiteInconnu.ListEnvoutements)
+                            {
+                                if (envoutement.Stat == Statistique.type.RES_poussee)
+                                    RES_poussee = envoutement.Valeur;
+                            }
+                            if (entiteInconnu.recevoirDommages((8 + (magnitude - caseTraversee) * Niveau / 50) * Distance + DoPou - RéPou) ;
+                            {
+                                foreach (EntiteInconnu invoc in ListEntites)
+                                {
+                                    if (invoc.Proprietaire == entiteInconnu.IdEntite)
+                                    {
+                                        invoc.Etat = typeEtat.mort;
+                                        invoc.Position.Contenu = Case.type.vide;
+                                        invoc.Position = null;
+                                    }
+                                }
+                            }
                         }
                     }
                     break;
