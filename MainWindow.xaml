@@ -268,33 +268,33 @@
                         <ColumnDefinition Width="36*"/>
                     </Grid.ColumnDefinitions>
                     <Border Name="borderCape" BorderThickness="3" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan ="2">
-                        <Image Name="imgCapeInv" Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" />
+                        <Image GiveFeedback="Image_GiveFeedback" Name="imgCapeInv" Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" />
                     </Border>
                     <Border Name="borderAmu" BorderThickness="3" Grid.Column="6" Grid.Row="2" Margin="1,1,1,-1">
-                        <Image Name="imgAmuletteInv" Source="resources/vide.png"  Drop="imgInv_Drop" PreviewMouseDown="imgInv_MouseDown"  />
+                        <Image GiveFeedback="Image_GiveFeedback" Name="imgAmuletteInv" Source="resources/vide.png"  Drop="imgInv_Drop" PreviewMouseDown="imgInv_MouseDown"  />
                     </Border>
                     <Border Name="borderCoiffe" BorderThickness="3" Grid.Column="9" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2">
-                        <Image Name="imgChapeauInv"  Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" />
+                        <Image GiveFeedback="Image_GiveFeedback" Name="imgChapeauInv"  Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" />
                     </Border>
                     <Border Name="borderAno1" BorderThickness="3" Grid.Column="2" Grid.Row="5">
-                        <Image Name="imgAnneau1Inv" Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" />
+                        <Image GiveFeedback="Image_GiveFeedback" Name="imgAnneau1Inv" Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" />
                     </Border>
                     <Border Name="borderAno2" BorderThickness="3" Grid.Column="10" Grid.Row="5">
-                        <Image Name="imgAnneau2Inv" Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" />
+                        <Image GiveFeedback="Image_GiveFeedback" Name="imgAnneau2Inv" Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" />
                     </Border>
                     <Border Name="borderCeinture" BorderThickness="3" Grid.Column="5" Grid.Row="4" Grid.ColumnSpan="3" Grid.RowSpan ="3">
-                        <Image Name="imgCeintureInv" Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" />
+                        <Image GiveFeedback="Image_GiveFeedback" Name="imgCeintureInv" Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" />
                     </Border>
                     <Border Name="borderBotte" BorderThickness="3" Grid.Column="5" Grid.Row="8" Grid.ColumnSpan="3">
-                        <Image Name="imgBotteInv" Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" Margin="0,0,0,-3" />
+                        <Image GiveFeedback="Image_GiveFeedback" Name="imgBotteInv" Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" Margin="0,0,0,-3" />
                     </Border>
                     <Border Name="borderCac" BorderThickness="3" Grid.Column="9" Grid.Row="8" Grid.ColumnSpan="3" Margin="0,0,0,32" Grid.RowSpan="2">
-                        <Image Name="imgArmeInv"  Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown"/>
+                        <Image GiveFeedback="Image_GiveFeedback" Name="imgArmeInv"  Source="resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown"/>
                     </Border>
                     <Label x:Name="lblNomEntite" Content="Lou-blood" FontSize="10" Grid.Column="4" Grid.ColumnSpan="5" Foreground="White"/>
                 </Grid>
 
-                <ListBox x:Name="lbxInventaire" Grid.RowSpan="2" Style="{StaticResource RowOverflow}" GiveFeedback="Image_GiveFeedback" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,69,0,0" PreviewMouseLeftButtonDown="lbxInventaire_PreviewMouseLeftButtonDown"/>
+                <ListBox x:Name="lbxInventaire" Grid.RowSpan="2" Style="{StaticResource RowOverflow}" Drop="lbxInventaire_Drop" GiveFeedback="Image_GiveFeedback" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,69,0,0" PreviewMouseLeftButtonDown="lbxInventaire_PreviewMouseLeftButtonDown"/>
                 <ItemsControl x:Name="itmCtrlDesc" Grid.Row="1" />
                 <ComboBox x:Name="cboChoixEntite" Grid.Column="1" SelectionChanged="cboChoixEntite_SelectionChanged" HorizontalAlignment="Left" Margin="94,10,0,0" VerticalAlignment="Top" Width="120"/>
                 <ComboBox x:Name="cboTrieInventaire" Grid.Column="1" SelectionChanged="cboTrieInventaire_SelectionChanged" HorizontalAlignment="Left" Margin="94,37,0,0" VerticalAlignment="Top" Width="120"/>

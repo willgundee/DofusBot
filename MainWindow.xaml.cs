@@ -104,8 +104,8 @@ namespace test
             ctb_main.UpdateTreeView();
             pgSort = new ObservableCollection<Gofus.pageSort>();
 
-            
-    
+
+
 
             #region Lou
             LstImgItems = new ObservableCollection<ImageItem>();
@@ -130,7 +130,7 @@ namespace test
 
 
 
-         lstpartie = new List<Partie>();
+            lstpartie = new List<Partie>();
 
 
             dgHistorique.ItemsSource = lstpartie;
@@ -2040,9 +2040,28 @@ namespace test
                     LstDesc.Add(new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE noImage =" + Convert.ToInt32(convertPathToNoItem((sender as Image).Source.ToString())))[0], true, 0)));
                 lbxInventaire.SelectedIndex = -1;
             }
-            else
+            if (e.ChangedButton == MouseButton.Left && e.ClickCount == 1)
             {
+                Image data = (Image)sender;
+                Equipement itemDrag = null;
+                if (convertPathToNoItem(data.Source.ToString()) != "vide")
+                    itemDrag = Player.LstEntites.First(x => x.Nom == cboChoixEntite.SelectedValue.ToString()).LstEquipements.First(x => x.NoImg == convertPathToNoItem(data.Source.ToString()));
+                lbxInventaire.AllowDrop = true;
+                System.Windows.DataObject dragData = new System.Windows.DataObject("image", data);
+                CreateDragDropWindow(data);
+                var effet = DragDrop.DoDragDrop(data, dragData, System.Windows.DragDropEffects.Move);
+                if (effet == System.Windows.DragDropEffects.None)
+                {//drop fail
+                    if (this._dragdropWindow != null)
+                    {
+                        this._dragdropWindow.Close();
+                        this._dragdropWindow = null;
+                    }
+                }
+                
+                //System.Windows.Forms.MessageBox.Show(e.ClickCount.ToString());
             }
+
         }
 
         public void resetImagesEquipements()
@@ -2131,7 +2150,7 @@ namespace test
         /// <param name="e"></param>
         private void lbxInventaire_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            DataContext = this;
+            // DataContext = this;
             System.Windows.Controls.ListBox parent = (System.Windows.Controls.ListBox)sender;
             dragSource = parent;
             ImageItem data = (ImageItem)GetDataFromListBox(dragSource, e.GetPosition(parent));
@@ -2371,6 +2390,11 @@ namespace test
 
             refreshInv();
         }
+        private void lbxInventaire_Drop(object sender, System.Windows.DragEventArgs e)
+        {
+
+        }
+
 
         #region Truc pour invoquer des squelettes
         [DllImport("user32.dll")]
@@ -2425,7 +2449,7 @@ namespace test
             string selectid = "Select  idPartie,temps,seed From Parties LIMIT 70 ";
             List<string>[] lstPartieBd = bd.selection(selectid);
 
-            
+
 
             lstpartie.Clear();
 
@@ -2468,10 +2492,10 @@ namespace test
         {
             if (cboTypePartie.SelectedIndex == 0)
             {
-                
+
                 loadParties();
                 dgHistorique.Items.Refresh();
-    
+
             }
             else
             {
@@ -2486,9 +2510,10 @@ namespace test
         {
 
             TabItem ong = new TabItem();
-            ong.Content= new pageSort();
+            ong.Content = new pageSort();
             PGSort.Items.Add(ong);
 
         }
+
     }
 }
