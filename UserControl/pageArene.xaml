@@ -11,8 +11,8 @@
         <ComboBox x:Name="cboPersonna" HorizontalAlignment="Left" Margin="35,527,0,0" VerticalAlignment="Top" Width="126"/>
         <Label x:Name="lblChoixPerso" Content="Personnage :" HorizontalAlignment="Left" Margin="35,496,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.559,1.83" Width="101"/>
         <Label x:Name="TypeAdversaire" Content="Type d'adversaire:" HorizontalAlignment="Left" Margin="10,29,0,0" VerticalAlignment="Top" Width="126"/>
-        <ComboBox x:Name="cboTypeAdversaire" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="202"/>
-        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top" Height="381" Width="557" AutoGenerateColumns="False">
+        <ComboBox x:Name="cboTypeAdversaire" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="202" SelectionChanged="cboTypeAdversaire_SelectionChanged"/>
+        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top" Height="381" Width="557" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Nom"  Binding="{Binding Nom}" FontSize="15" Width="2*" />
                 <DataGridTextColumn Header="Niveau" Binding="{Binding Niveau}" FontSize="15" Width="*"/>

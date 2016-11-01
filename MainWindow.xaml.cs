@@ -140,7 +140,7 @@ namespace test
             cboTypePartie.Items.Add("Mes Parties");
             cboTypePartie.Items.Add("Les partie de tout le monde");
 
-            pgArene = new pageArene();
+            pgArene = new pageArene(id);
 
             controlArene.Content = pgArene;
 
