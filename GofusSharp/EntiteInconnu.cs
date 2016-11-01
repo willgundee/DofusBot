@@ -112,5 +112,14 @@ namespace GofusSharp
             }
             return false;
         }
+        public int RetourneNiveau()
+        {
+            for (int i = 1; i < 200; i++)
+                if (Experience >= Statistique.dictLvl[i] && Experience < Statistique.dictLvl[i + 1])
+                    return i;
+            if (Experience >= Statistique.dictLvl[200])
+                return 200;
+            return 0; //si toutes fuck up
+        }
     }
 }

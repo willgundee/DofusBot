@@ -22,7 +22,7 @@ namespace GofusSharp
         public static int lel = 1;
         private Partie PartieTest { get; set; }
 
-        private Boolean AutoScroll = true;
+        private bool AutoScroll = true;
         public Combat(string script1, string script2)
         {
             InitializeComponent();
@@ -129,7 +129,7 @@ namespace GofusSharp
             Effet[] tabEffetAtt1 = new Effet[] { new Effet(Effet.type.teleportation, 0, 0) };
             Zone zoneEffetAtt1 = new Zone(Zone.type.carre, 0, 0);
             Zone zonePorteeAtt1 = new Zone(Zone.type.cercle, 1, 5);
-            Effet[] tabEffetAtt2 = new Effet[] { new Effet(Effet.type.pousse, 4, 4), new Effet(Effet.type.ATT_neutre, 10, 15) };
+            Effet[] tabEffetAtt2 = new Effet[] { new Effet(Effet.type.ATT_neutre, 10, 15), new Effet(Effet.type.pousse, 4, 4) };
             Zone zoneEffetAtt2 = new Zone(Zone.type.carre, 0, 0);
             Zone zonePorteeAtt2 = new Zone(Zone.type.croix, 1, 1);
             Sort[] tabSortAtt = new Sort[] { new Sort(1, tabEffetAtt1, "bond", false, true, true, zonePorteeAtt1, zoneEffetAtt1, 3, 5, Sort.nom_sort.bond), new Sort(2, tabEffetAtt2, "intimidation", true, false, false, zonePorteeAtt2, zoneEffetAtt2, -2, 2, Sort.nom_sort.intimidation) };
@@ -150,7 +150,7 @@ namespace GofusSharp
             Effet[] tabEffetDef1 = new Effet[] { new Effet(Effet.type.teleportation, 0, 0) };
             Zone zoneEffetDef1 = new Zone(Zone.type.carre, 0, 0);
             Zone zonePorteeDef1 = new Zone(Zone.type.cercle, 1, 5);
-            Effet[] tabEffetDef2 = new Effet[] { new Effet(Effet.type.pousse, 4, 4), new Effet(Effet.type.ATT_neutre, 10, 15) };
+            Effet[] tabEffetDef2 = new Effet[] { new Effet(Effet.type.ATT_neutre, 10, 15), new Effet(Effet.type.pousse, 4, 4) };
             Zone zoneEffetDef2 = new Zone(Zone.type.carre, 0, 0);
             Zone zonePorteeDef2 = new Zone(Zone.type.croix, 1, 1);
             Sort[] tabSortDef = new Sort[] { new Sort(1, tabEffetDef1, "bond", false, true, true, zonePorteeDef1, zoneEffetDef1, 3, 5, Sort.nom_sort.bond), new Sort(2, tabEffetDef2, "intimidation", true, false, false, zonePorteeDef2, zoneEffetDef2, -2, 2, Sort.nom_sort.intimidation) };
