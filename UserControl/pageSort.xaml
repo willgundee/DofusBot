@@ -16,7 +16,7 @@
         <Label Name="lblNomSorts" Content="Sorts :" FontSize="16" Margin="5,50,0,0"/>
         <ListBox Name="lbxsort" Grid.Column="0" Margin="6,80,37,80" ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
         <Label Name="lblDescription" Content="Description du sort" VerticalAlignment="Top" Height="30" Grid.Column="1" FontSize="16" Margin="40,10,40,0" />
-        <ListBox Name="lbxDescript" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="40,40,40,20" Width="250" Height="500" ScrollViewer.HorizontalScrollBarVisibility="Disabled" MouseDoubleClick="lbxsort_MouseDoubleClick" />
+        <ListBox Name="lbxDescript" Background="WhiteSmoke" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="40,40,40,20" Width="250" Height="500" ScrollViewer.HorizontalScrollBarVisibility="Disabled" MouseDoubleClick="lbxsort_MouseDoubleClick" />
 
 
     </Grid>
