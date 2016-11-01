@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:test"
              mc:Ignorable="d" 
-             d:DesignHeight="535" d:DesignWidth="565">
+             d:DesignHeight="520" d:DesignWidth="557">
 
 
     <Grid x:Name="grdperso" Background="Gray">
@@ -43,7 +43,7 @@
                 <ColumnDefinition Width="39*"/>
                 <ColumnDefinition Width="9*"/>
                 <ColumnDefinition Width="41*"/>
-                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="8"/>
                 <ColumnDefinition Width="29*"/>
             </Grid.ColumnDefinitions>
             <Image x:Name="imageAmulette" Source="../resources/vide.png" MouseLeftButtonDown="image_MouseDown" Grid.Column="6" Grid.Row="2"/>
@@ -56,23 +56,23 @@
             <Image x:Name="imageArme" Source="../resources/vide.png" MouseLeftButtonDown="image_MouseDown" Grid.Column="9" Grid.ColumnSpan="3" Grid.Row="7"/>
 
         </Grid>
-        <Label Grid.Column="1"  HorizontalAlignment="Center" FontSize="25" VerticalAlignment="Top" Margin="84.573,0,84,0" Content="Équipement"/>
+        <Label Grid.Column="1"  HorizontalAlignment="Center" FontSize="25" VerticalAlignment="Top" Margin="88,0,46,0" Content="Équipement" Width="178"/>
         <Rectangle x:Name="rect"   Height="75" Width="75" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Margin="10,51,0,0" Fill="#FFF0E9E9"   />
         <Image x:Name="Imgclasse" Height="75" Width="75" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Margin="10,51,0,0"   />
         <Label x:Name="lblClasse" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,0,0" Content="Classe : "/>
         <Label x:Name="lblNomClasse" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="62,10,0,0" Height="33" Width="102"/>
-        <Label x:Name="lblScript" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="30.573,3.565,0,199" FontSize="15">Script :</Label>
-        <ComboBox x:Name="cbScript" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="180" Margin="100.573,7.565,31,203"  />
-        <Label x:Name="lblStats" VerticalAlignment="Center" Margin="0,131,283,135" Content="Statistique" Grid.ColumnSpan="2" Height="36" />
+        <Label x:Name="lblScript" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="41,24,0,187" FontSize="15" Height="33">Script :</Label>
+        <ComboBox x:Name="cbScript" Grid.Column="1" Grid.Row="1" Margin="101,18,60,188"  />
+        <Label x:Name="lblStats" VerticalAlignment="Center" Margin="0,135,283,123" Content="Statistique" Grid.ColumnSpan="2" Height="36" />
         <Label x:Name="lblPCap" Content="Point Capital:" Width="100" Grid.Column="0" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,0,0,30" />
         <Label x:Name="lblNbPointsC" Content="11" Width="34" Height="31" Grid.Row="1" HorizontalAlignment="Center" FontSize="14" VerticalAlignment="Bottom" Margin="79,0,140.427,27" Grid.Column="0" />
         <!--todo mettre hidden quand pas de point capital-->
-        <Button x:Name="btnVitalite" Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,19.565,19.427,0" VerticalAlignment="Top" Width="30" Grid.Column="0" Visibility="Hidden"       Click="btnStatsPlus_Click"/>
-        <Button x:Name="btnSagesse"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,45.565,19.427,0" VerticalAlignment="Top" Width="30" Grid.Column="0" Visibility="Hidden"        Click="btnStatsPlus_Click"/>
-        <Button x:Name="btnForce"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,69.565,19.427,0" VerticalAlignment="Top" Width="30" Grid.Column="0" Visibility="Hidden"         Click="btnStatsPlus_Click"/>
-        <Button x:Name="btnIntelligence"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,95.565,19.427,0" VerticalAlignment="Top" Width="30" Grid.Column="0" Visibility="Hidden"  Click="btnStatsPlus_Click"/>
-        <Button x:Name="btnChance"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,121.565,19.427,91" VerticalAlignment="Center" Width="30" Grid.Column="0" Visibility="Hidden"    Click="btnStatsPlus_Click"/>
-        <Button x:Name="btnAgilite"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,146.565,19.427,66" VerticalAlignment="Center" Width="30" Grid.Column="0" Visibility="Hidden"   Click="btnStatsPlus_Click"/>
+        <Button x:Name="btnVitalite" Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,15,20,0" VerticalAlignment="Top" Width="25" Height="20" Grid.Column="0" Visibility="Hidden"       Click="btnStatsPlus_Click"/>
+        <Button x:Name="btnSagesse"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,40,20,0" VerticalAlignment="Top" Width="25" Height="20" Grid.Column="0" Visibility="Hidden"        Click="btnStatsPlus_Click"/>
+        <Button x:Name="btnForce"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,65,20,0" VerticalAlignment="Top" Width="25" Height="20" Grid.Column="0" Visibility="Hidden"         Click="btnStatsPlus_Click"/>
+        <Button x:Name="btnIntelligence"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,90.565,20,0" VerticalAlignment="Top" Width="25" Height="20" Grid.Column="0" Visibility="Hidden"  Click="btnStatsPlus_Click"/>
+        <Button x:Name="btnChance"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,115,20,90" VerticalAlignment="Center" Width="25" Height="20" Grid.Column="0" Visibility="Hidden"    Click="btnStatsPlus_Click"/>
+        <Button x:Name="btnAgilite"  Grid.Row="1" Content="+" HorizontalAlignment="Right" Margin="0,140,20,65" VerticalAlignment="Center" Width="25" Height="20" Grid.Column="0" Visibility="Hidden"   Click="btnStatsPlus_Click"/>
 
         <DataGrid x:Name="dgStats" IsReadOnly="True" CanUserAddRows="False" CanUserSortColumns="False" HorizontalAlignment="Left"  Height="295" Width="195"  VerticalAlignment="Bottom" Margin="5,0,0,63" Grid.RowSpan="2"  AutoGenerateColumns="False">
             <DataGrid.Columns>
@@ -82,16 +82,16 @@
 
 
         </DataGrid>
-        <Label x:Name="lblDommage" Grid.Row="1"  Content="Dommages"  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="253,50.565,0,156" Grid.ColumnSpan="2"/>
-        <DataGrid x:Name="dgDommage" IsReadOnly="True" CanUserAddRows="False" CanUserSortColumns="False"  HorizontalAlignment="Left"  Height="150" Width="150"  VerticalAlignment="Bottom" AutoGenerateColumns="False" Margin="253,0,0,10" Grid.Row="1" Grid.ColumnSpan="2">
+        <Label x:Name="lblDommage"  Content="Dommages"  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="239,40,0,155" Height="31" Grid.Row="1" RenderTransformOrigin="0.028,0.597" Grid.ColumnSpan="2"/>
+        <DataGrid x:Name="dgDommage" IsReadOnly="True" CanUserAddRows="False" CanUserSortColumns="False"  HorizontalAlignment="Left"  Height="150" Width="150"  VerticalAlignment="Bottom" AutoGenerateColumns="False" Margin="239,0,0,5" Grid.Row="1" Grid.ColumnSpan="2">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Nom"  Binding="{Binding Nom}" FontSize="15" Width="2*" />
                 <DataGridTextColumn Header="Valeur" Binding="{Binding Valeur}" FontSize="15" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Label x:Name="lblResistance" Grid.Row="1" Grid.Column="1" Content="Résistances" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="160.573,50.565,81,156"></Label>
+        <Label x:Name="lblResistance" Grid.Row="1" Grid.Column="1" Content="Résistances" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="157,43,71,160" Height="23" Width="79"></Label>
 
-        <DataGrid x:Name="dgResistance" IsReadOnly="True" CanUserAddRows="False" CanUserSortColumns="False"  HorizontalAlignment="Right"  Height="150" Width="150"  VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="1" AutoGenerateColumns="False" Margin="0,0,10,10">
+        <DataGrid x:Name="dgResistance" IsReadOnly="True" CanUserAddRows="False" CanUserSortColumns="False"  HorizontalAlignment="Right"  Height="150" Width="150"  VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="1" AutoGenerateColumns="False" Margin="0,0,0,5">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Nom"  Binding="{Binding Nom}" FontSize="15" Width="2*" />
                 <DataGridTextColumn Header="Valeur" Binding="{Binding Valeur}" FontSize="15" Width="*"/>
