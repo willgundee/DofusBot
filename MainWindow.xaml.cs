@@ -2020,6 +2020,7 @@ namespace test
         /// <param name="e"></param>
         private void imgInv_MouseDown(object sender, MouseButtonEventArgs e)
         {
+
             if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
             {
                 LstDesc.Clear();
@@ -2027,11 +2028,14 @@ namespace test
                     LstDesc.Add(new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE noImage =" + Convert.ToInt32(convertPathToNoItem((sender as Image).Source.ToString())))[0], true, 0)));
                 lbxInventaire.SelectedIndex = -1;
             }
+            else
+            {
+            }
         }
 
         public void resetImagesEquipements()
         {
-            BitmapImage link = new BitmapImage(new Uri("resources/vide.png",UriKind.Relative));
+            BitmapImage link = new BitmapImage(new Uri("resources/vide.png", UriKind.Relative));
             imgAmuletteInv.Source = link;
             imgBotteInv.Source = link;
             imgAnneau1Inv.Source = link;
@@ -2271,10 +2275,9 @@ namespace test
             Image cible = (Image)sender;
             ImageItem data = e.Data.GetData("image") as ImageItem;
             Equipement itemDejaEquipe = null;
-
             Equipement itemVoulantEtreEquiper = Player.Inventaire.First(x => x.NoImg == convertPathToNoItem(data.imgItem.Source.ToString()));
-
-
+            Entite perso = Player.LstEntites.First(x => x.Nom == cboChoixEntite.SelectedValue.ToString());
+            string emplacement = "";
             if (itemVoulantEtreEquiper.Type == "Anneau")
             {
                 borderAno1.BorderBrush = Brushes.Transparent;
@@ -2299,14 +2302,54 @@ namespace test
 
             if (Player.LstEntites.First(x => x.Nom == cboChoixEntite.SelectedValue.ToString()).peutEquiper(itemVoulantEtreEquiper))
             {
+                switch (cible.Name)
+                { //emplacement possible : tete, cou, pied, ano1, ano2, arme, hanche, dos.
+
+                    case "imgCapeInv":
+                        emplacement = "dos";
+                        break;
+                    case "imgChapeauInv":
+                        emplacement = "tête";
+                        break;
+                    case "imgBotteInv":
+                        emplacement = "pied";
+                        break;
+                    case "imgCeintureInv":
+                        emplacement = "hanche";
+                        break;
+                    case "imgAnneau1Inv":
+                        emplacement = "ano1";
+                        break;
+                    case "imgAnneau2Inv":
+                        emplacement = "ano2";
+                        break;
+                    case "imgAmuletteInv":
+                        emplacement = "cou";
+                        break;
+                    case "imgArmeInv":
+                        emplacement = "arme";
+                        break;
+                }
 
                 cible.Source = data.imgItem.Source;
-                Player.Inventaire.First(x => x.Nom == itemVoulantEtreEquiper.Nom).Quantite--;
+
                 if (itemDejaEquipe != null)
-                    Player.Inventaire.First(x => x.Nom == itemDejaEquipe.Nom).Quantite++;
-                /* else
-                     Player.Inventaire.Add(itemVoulantEtreEquiper);*/
+                {
+                    Player.LstEntites.First(x => x.Nom == cboChoixEntite.SelectedValue.ToString()).enleverItem(Player.LstEntites.First(x => x.Nom == cboChoixEntite.SelectedValue.ToString()).LstEquipements.First(x => x.Nom == itemDejaEquipe.Nom));
+                    Player.Inventaire.First(x => x.Nom == itemDejaEquipe.Nom).QuantiteEquipe--;
+                    bd.Update("UPDATE equipementsentites SET idEquipement = (SELECT idEquipement FROM Equipements WHERE nom = '" + itemVoulantEtreEquiper.Nom + "') WHERE emplacement='" + emplacement + "' AND idEntite = (SELECT idEntite FROM Entites WHERE nom ='" + perso.Nom + "')");
+                    bd.Update("UPDATE JoueursEquipements SET quantiteEquipe= " + Player.Inventaire.First(x => x.Nom == itemDejaEquipe.Nom).QuantiteEquipe.ToString() + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + itemDejaEquipe.Nom + "')");
+
+                }
+                else
+                    bd.insertion("INSERT INTO equipementsEntites (idEquipement,idEntite,Emplacement)VALUES((SELECT idEquipement FROM Equipements WHERE nom ='" + itemVoulantEtreEquiper.Nom + "'),(SELECT idEntite FROM Entites WHERE nom ='" + perso.Nom + "'),'" + emplacement + "');COMMIT;");
+
+                Player.LstEntites.First(x => x.Nom == cboChoixEntite.SelectedValue.ToString()).ajouterEquipement(itemVoulantEtreEquiper);
+                Player.Inventaire.First(x => x.Nom == itemVoulantEtreEquiper.Nom).QuantiteEquipe++;
+                bd.Update("UPDATE JoueursEquipements SET quantiteEquipe= " + Player.Inventaire.First(x => x.Nom == itemVoulantEtreEquiper.Nom).QuantiteEquipe.ToString() + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + itemVoulantEtreEquiper.Nom + "')");
+
             }
+
 
             if (this._dragdropWindow != null)
             {
@@ -2350,7 +2393,7 @@ namespace test
                 tCPerso.Items.Add(onglet);
             }
             tCPerso.SelectedIndex = 0;
-            if (tCPerso.Items.Count <=4)
+            if (tCPerso.Items.Count <= 4)
             {
                 TabItem onglet = new TabItem();
                 onglet.Header = "+";
@@ -2373,7 +2416,7 @@ namespace test
 
 
         }
-        #endregion    
+        #endregion
 
         private void PGSort_Selected(object sender, RoutedEventArgs e)
         {
