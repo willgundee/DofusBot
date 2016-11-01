@@ -17,6 +17,8 @@ namespace test
         public string Nom { get; set; }
         public int CapitalLibre { get; set; }
 
+        public int Niveau { get; set; }
+
         private BDService bd = new BDService();
 
         /// <summary>
@@ -31,6 +33,8 @@ namespace test
             addEquipements(Convert.ToInt16(infoEntite[0]));
             Nom = infoEntite[4];
             CapitalLibre = Convert.ToInt32(infoEntite[5]);
+
+            Niveau = LstStats.First(x => x.Nom == Statistique.element.experience).toLevel(); 
             //addListStatsAllEquipement();
         }
         /// <summary>
