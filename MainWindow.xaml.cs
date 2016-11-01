@@ -88,7 +88,7 @@ namespace test
             idJoueur = id;
             lstAvatars = new List<string>();
             GenererAvatars();
-
+            txtMessage.IsEnabled = false;
 
             btnQuitterSalle.IsEnabled = false;
 
@@ -218,6 +218,18 @@ namespace test
             trdEnvoie.Start();
             Thread.Yield();
         }
+        private void OnKeyDownHandler(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Return && aTimer.IsEnabled)
+            {
+                string text = txtMessage.Text;
+                trdEnvoie = new Thread(() => { chat.envoyerMessage(text); });
+                trdEnvoie.Start();
+                Thread.Yield();
+            }
+        }
+
+
 
 
         private void txtMessage_TextChange(object sender, TextChangedEventArgs e)
