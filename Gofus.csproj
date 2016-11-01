@@ -99,6 +99,9 @@
     <Compile Include="UserControl\pageSort.xaml.cs">
       <DependentUpon>pageSort.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControl\SortDesc.xaml.cs">
+      <DependentUpon>SortDesc.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControl\SortList.xaml.cs">
       <DependentUpon>SortList.xaml</DependentUpon>
     </Compile>
@@ -198,6 +201,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="UserControl\pageSort.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl\SortDesc.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
