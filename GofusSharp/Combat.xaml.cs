@@ -2,7 +2,6 @@
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -12,7 +11,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 
 
-[assembly: InternalsVisibleTo("test")]
+[assembly: InternalsVisibleTo("Gofus")]
 namespace GofusSharp
 {
     /// <summary>
@@ -133,7 +132,7 @@ namespace GofusSharp
             Effet[] tabEffetAtt2 = new Effet[] { new Effet(Effet.type.pousse, 4, 4), new Effet(Effet.type.ATT_neutre, 10, 15) };
             Zone zoneEffetAtt2 = new Zone(Zone.type.carre, 0, 0);
             Zone zonePorteeAtt2 = new Zone(Zone.type.croix, 1, 1);
-            Sort[] tabSortAtt = new Sort[] { new Sort(1, tabEffetAtt1, "bond", false, true, true, zonePorteeAtt1, zoneEffetAtt1, 3, 5), new Sort(2, tabEffetAtt2, "intimidation", true, false, false, zonePorteeAtt2, zoneEffetAtt2, -2, 2) };
+            Sort[] tabSortAtt = new Sort[] { new Sort(1, tabEffetAtt1, "bond", false, true, true, zonePorteeAtt1, zoneEffetAtt1, 3, 5, Sort.nom_sort.bond), new Sort(2, tabEffetAtt2, "intimidation", true, false, false, zonePorteeAtt2, zoneEffetAtt2, -2, 2, Sort.nom_sort.intimidation) };
             Classe classeAtt = new Classe(1, tabSortAtt, Classe.type.iop);
             Statistique[] statItemAtt = new Statistique[] { new Statistique(Statistique.type.force, 70) };
             Equipement[] tabEquipAtt = new Equipement[] { new Equipement(1, statItemAtt, "Coiffe bouftou", Equipement.type.chapeau) };
@@ -154,7 +153,7 @@ namespace GofusSharp
             Effet[] tabEffetDef2 = new Effet[] { new Effet(Effet.type.pousse, 4, 4), new Effet(Effet.type.ATT_neutre, 10, 15) };
             Zone zoneEffetDef2 = new Zone(Zone.type.carre, 0, 0);
             Zone zonePorteeDef2 = new Zone(Zone.type.croix, 1, 1);
-            Sort[] tabSortDef = new Sort[] { new Sort(1, tabEffetDef1, "bond", false, true, true, zonePorteeDef1, zoneEffetDef1, 3, 5), new Sort(2, tabEffetDef2, "intimidation", true, false, false, zonePorteeDef2, zoneEffetDef2, -2, 2) };
+            Sort[] tabSortDef = new Sort[] { new Sort(1, tabEffetDef1, "bond", false, true, true, zonePorteeDef1, zoneEffetDef1, 3, 5, Sort.nom_sort.bond), new Sort(2, tabEffetDef2, "intimidation", true, false, false, zonePorteeDef2, zoneEffetDef2, -2, 2, Sort.nom_sort.intimidation) };
             Classe classeDef = new Classe(1, tabSortDef, Classe.type.iop);
             Statistique[] statItemDef = new Statistique[] { new Statistique(Statistique.type.force, 70) };
             Equipement[] tabEquipDef = new Equipement[] { new Equipement(1, statItemDef, "Coiffe bouftou", Equipement.type.chapeau), new Arme(2, statItemAtt, "Marteau bouftous", Equipement.type.arme, tabEffetAtt2, zonePorteeAtt2, zoneEffetAtt2, Arme.typeArme.marteau, 5) };
