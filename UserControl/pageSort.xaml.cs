@@ -28,6 +28,7 @@ namespace Gofus
         {
             InitializeComponent();
             lstSort = new ObservableCollection<SortList>();
+            lbxsort.ItemsSource = lstSort;
             contenuCmbType();
             
           
@@ -37,23 +38,17 @@ namespace Gofus
         {
             int con;
            List<string>[] Type;
-                  
-            /*
-             -0=tous
-             -1=Iop
-             -2=Cra        
-             -3=Ecaflip
-             */
+            lstSort.Clear();
+
             if (cmbType.SelectedIndex==0)
             {
                 Type = bd.selection("SELECT * FROM Sorts s INNER JOIN ClassesSorts cs ON s.idSort =cs.idSort WHERE idClasse=1 OR idClasse=2 OR idClasse=3");
-
                 con = Type.Count();
                 for (int i = 0; i < con; i++)
                 {
 
                 lstSort.Add(new SortList(Type[i]));
-                lbxsort.ItemsSource = lstSort;            
+             
                 }
             }
             else
@@ -63,8 +58,7 @@ namespace Gofus
                 con = Type.Count();
                 for (int i = 0; i < con; i++)
                 {
-                    lstSort.Add(new SortList(Type[i]));
-                    lbxsort.ItemsSource = lstSort;
+                    lstSort.Add(new SortList(Type[i]));       
                 }
             } 
         }

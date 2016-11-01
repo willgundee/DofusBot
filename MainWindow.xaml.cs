@@ -2383,8 +2383,8 @@ namespace test
         private void PGSort_Selected(object sender, RoutedEventArgs e)
         {
 
-            /* pgSort.Add(new Gofus.pageSort());
-             PGSort.ItemsSource = pgSort;*/
+             pgSort.Add(new Gofus.pageSort());
+             PGSort.ItemsSource = pgSort;
             /* PGSort c'est un tab item ya pas de itemsSource donc tu doit crée un objet dans 
              * le tabitem pour le link comme un itemControl une listbox nimporte quoi comme tu 
              * le veut sa ne me derange pas tant qu'il possede un itemsSource tu seras correct et 
