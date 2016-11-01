@@ -222,10 +222,10 @@
             </Grid>
         </TabItem>
         <TabItem  Header="Sorts" Height="30" Selector.Selected="PGSort_Selected">
-                
-            <TabControl  Name="PGSort"> 
+            <TabControl Name="PGSort">
                 
             </TabControl>
+          
             
         </TabItem>
         <TabItem Header="Inventaire" Selector.Selected="TabItem_Selected_Inventaire" Height="30">

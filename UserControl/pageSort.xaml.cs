@@ -29,6 +29,7 @@ namespace Gofus
             InitializeComponent();
             lstSort = new ObservableCollection<SortList>();
             lbxsort.ItemsSource = lstSort;
+        
             contenuCmbType();                   
         }
 
