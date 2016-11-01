@@ -67,7 +67,7 @@
         <Label x:Name="lblNbPointsC" Content="11" Width="34" Height="31" Grid.Row="1" HorizontalAlignment="Center" FontSize="14" VerticalAlignment="Bottom" Margin="90,0,126,5" Grid.Column="0" />
         <!--todo mettre hidden quand pas de point capital-->
 
-        <TabControl  Height="350" Width="230" Background="Gray"  VerticalAlignment="Bottom" Margin="13,0,42,34" Grid.RowSpan="2" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+        <TabControl  Height="350" Width="190" Background="Gray"  VerticalAlignment="Bottom" Margin="13,0,42,34" Grid.RowSpan="2" ScrollViewer.VerticalScrollBarVisibility="Disabled">
 
             <TabItem  Header="basse" HorizontalAlignment="Left">
                 <Grid>
@@ -91,7 +91,7 @@
             </TabItem>
             <TabItem Header="Avancé">
 
-        <DataGrid x:Name="dgDommage" IsReadOnly="True" CanUserAddRows="False" CanUserSortColumns="False"  HorizontalAlignment="Left"   Height="300" Width="190"  AutoGenerateColumns="False" >
+        <DataGrid x:Name="dgDommage" IsReadOnly="True" CanUserAddRows="False" CanUserSortColumns="False"  HorizontalAlignment="Left"  Height="300" Width="170"  AutoGenerateColumns="False" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Nom"  Binding="{Binding NomSimple}" FontSize="15" Width="3*" />
                 <DataGridTextColumn Header="Valeur" Binding="{Binding Valeur}" FontSize="15" Width="*"/>
