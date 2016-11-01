@@ -96,6 +96,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Window\Inventaire.xaml.cs">
+      <DependentUpon>Inventaire.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\pageArene.xaml.cs">
+      <DependentUpon>pageArene.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControl\pageSort.xaml.cs">
       <DependentUpon>pageSort.xaml</DependentUpon>
     </Compile>
@@ -200,6 +206,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="UserControl\pageArene.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window\Inventaire.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControl\pageSort.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

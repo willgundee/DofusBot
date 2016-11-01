@@ -190,6 +190,12 @@ namespace GofusSharp
                                     break;
                                 }
                             }
+                            if (magnitude - caseTraversee == 0)
+                            {
+                                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + entiteInconnu.Nom + " recule de " + caseTraversee + " cases ";
+                                continue;
+                            }
+                            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + entiteInconnu.Nom + " recule de " + caseTraversee + " cases et se cogne contre un obstacle";
                             int DMG_poussee = 0;
                             foreach (Statistique stat in ListStatistiques)
                             {
@@ -232,8 +238,66 @@ namespace GofusSharp
                 case Effet.type.repousse_lanceur:
                     break;
                 case Effet.type.tire:
+                    foreach (EntiteInconnu entiteInconnu in ListEntites)
+                    {
+                        if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
+                        {
+                            int magnitude = new System.Random().Next(effet.ValeurMin, effet.ValeurMax);
+                            int caseTraversee;
+                            for (caseTraversee = 0; caseTraversee < magnitude; caseTraversee++)
+                            {
+                                try
+                                {
+                                    if (Position.X - entiteInconnu.Position.X != 0)
+                                    {
+                                        if (!entiteInconnu.ChangerPosition(TerrainEntite.TabCases[entiteInconnu.Position.X - (Position.X - entiteInconnu.Position.X > 0 ? 1 : -1)][entiteInconnu.Position.Y]))
+                                            break;
+                                    }
+                                    else
+                                    {
+                                        if (!entiteInconnu.ChangerPosition(TerrainEntite.TabCases[entiteInconnu.Position.X][entiteInconnu.Position.Y - (Position.Y - entiteInconnu.Position.Y > 0 ? -1 : 1)]))
+                                            break;
+                                    }
+                                }
+                                catch (System.Exception)
+                                {
+                                    break;
+                                }
+                            }
+                            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + entiteInconnu.Nom + " est attiré de " + caseTraversee + " cases vers " + Nom;
+                        }
+                    }
                     break;
                 case Effet.type.tire_lanceur:
+                    foreach (EntiteInconnu entiteInconnu in ListEntites)
+                    {
+                        if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
+                        {
+                            int magnitude = new System.Random().Next(effet.ValeurMin, effet.ValeurMax);
+                            int caseTraversee;
+                            for (caseTraversee = 0; caseTraversee < magnitude; caseTraversee++)
+                            {
+                                try
+                                {
+                                    if (entiteInconnu.Position.X - Position.X != 0)
+                                    {
+                                        if (!ChangerPosition(TerrainEntite.TabCases[entiteInconnu.Position.X - (entiteInconnu.Position.X - Position.X > 0 ? 1 : -1)][entiteInconnu.Position.Y]))
+                                            break;
+                                    }
+                                    else
+                                    {
+                                        if (!ChangerPosition(TerrainEntite.TabCases[entiteInconnu.Position.X][entiteInconnu.Position.Y - (entiteInconnu.Position.Y - Position.Y > 0 ? -1 : 1)]))
+                                            break;
+                                    }
+                                }
+                                catch (System.Exception)
+                                {
+                                    break;
+                                }
+                            }
+                            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + entiteInconnu.Nom + " est attiré de " + caseTraversee + " cases vers " + Nom;
+                        }
+                    }
                     break;
                 case Effet.type.teleportation:
                     bool result = ChangerPosition(source);
@@ -301,7 +365,7 @@ namespace GofusSharp
                                 RES_Pourcent_neutre = 0;
                             if (reduction_physique < 0)
                                 reduction_physique = 0;
-                            if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_neutre / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + force + puissance) / 100 + DMG_neutre) - RES_neutre - reduction_physique)));
+                            if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_neutre / 100)) * ((new System.Random().Next(effet.ValeurMin, effet.ValeurMax) * (100 + force + puissance) / 100 + DMG_neutre) - RES_neutre - reduction_physique)))
                             {
                                 foreach (EntiteInconnu invoc in ListEntites)
                                 {
@@ -990,15 +1054,6 @@ namespace GofusSharp
                 return true;
             }
             return false;
-        }
-        public int RetourneNiveau()
-        {
-            for (int i = 1; i < 200; i++)
-                if (Experience >= Statistique.dictLvl[i] && Experience < Statistique.dictLvl[i + 1])
-                    return i;
-            if (Experience >= Statistique.dictLvl[200])
-                return 200;
-            return 0; //si toutes fuck up
         }
     }
 }

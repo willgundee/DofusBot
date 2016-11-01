@@ -1,0 +1,43 @@
+﻿<Window x:Class="Gofus.Inventaire"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Gofus"
+        mc:Ignorable="d"
+        Title="Inventaire" Height="570" Width="350">
+    <Window.Resources>
+        <Style x:Key="RowOverflow" TargetType="{x:Type ListBox}">
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="3" />
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="RowFix" TargetType="{x:Type ListBox}">
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="3" Rows="6"/>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="37*"/>
+            <RowDefinition Height="273*"/>
+            <RowDefinition Height="230*"/>
+        </Grid.RowDefinitions>
+        <Label Content="Trier par :" HorizontalAlignment="Left"  Width="79" Margin="31,5,0,5"/>
+
+        <!--ListBox x:Name="lbxInventaire" Style="{StaticResource RowOverflow}" GiveFeedback="Image_GiveFeedback" ScrollViewer.HorizontalScrollBarVisibility="Disabled"  PreviewMouseLeftButtonDown="lbxInventaire_PreviewMouseLeftButtonDown" Grid.Row="1" Grid.RowSpan="2"/>
+
+        <ComboBox x:Name="cboTrieInventaire" SelectionChanged="cboTrieInventaire_SelectionChanged" HorizontalAlignment="Left" Margin="124,10,0,0" VerticalAlignment="Top" Width="120"/>
+        <ItemsControl x:Name="itmCtrlDesc" Grid.Row="2" /-->
+
+    </Grid>
+</Window>

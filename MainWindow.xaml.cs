@@ -66,6 +66,8 @@ namespace test
 
         public FenetreRapport rapport;
 
+        public pageArene pgArene;
+
         public List<Partie> lstpartie;
 
         public int idJoueur { get; set; }
@@ -138,6 +140,9 @@ namespace test
             cboTypePartie.Items.Add("Mes Parties");
             cboTypePartie.Items.Add("Les partie de tout le monde");
 
+            pgArene = new pageArene(id);
+
+            controlArene.Content = pgArene;
 
 
             #region Marc_TimerTick_Chat
@@ -1976,6 +1981,17 @@ namespace test
         #endregion
 
         #region Inventaire
+
+
+
+
+        //TODO: REFONTE INVENTAIRE  ajout bouton onclick dans page perso qui pop l'inventaire coté ,double clic désequipe drag drop de l'inventaire à fenetre mick, unselected tab close l'inventaire si pas fait 
+
+
+
+
+
+
         /// <summary>
         /// action d'un click sur un item dans l'inventaire
         /// </summary>
@@ -2527,5 +2543,6 @@ namespace test
 
         }
 
+      
     }
 }
