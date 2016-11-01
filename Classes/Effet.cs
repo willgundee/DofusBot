@@ -8,7 +8,7 @@ namespace test
 {
     public class Effet
     {
-        public enum effet { pousse, pousse_lanceur, tire, tire_lanceur, teleportation, ATT_neutre, ATT_air, ATT_feu, ATT_terre, ATT_eau, envoutement, pose_piege, pose_glyphe, invocation, soin }
+        public enum effet { pousse, repousse, repousse_lanceur, tire, tire_lanceur, teleportation, ATT_neutre, ATT_air, ATT_feu, ATT_terre, ATT_eau, envoutement, pose_piege, pose_glyphe, invocation, soin }
         private Dictionary<effet, string> dictSimple = new Dictionary<effet, string>()
         #region ddt
         {
@@ -22,7 +22,8 @@ namespace test
             {effet.pose_glyphe,"Poser un glyphe"},
             {effet.pose_piege,"Poser un piège"},
             {effet.pousse,"Pousser la cible"},
-            {effet.pousse_lanceur,"Pousse le lanceur"},
+            {effet.repousse_lanceur,"Repousse le lanceur"},
+            {effet.repousse,"Repousse les cibles"},
             {effet.soin,"Soingne"},
             {effet.teleportation,"Téléportation"},
             {effet.tire,"Attire la cible"},
