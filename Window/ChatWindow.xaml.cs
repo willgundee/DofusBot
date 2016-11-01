@@ -45,7 +45,7 @@ namespace test
 
 
 
-        private void OnKeyDownHandler(object sender, System.Windows.Input.KeyEventArgs e)
+        private void OnKeyDowntxtMessage(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key == Key.Return && aTimer.IsEnabled)
             {

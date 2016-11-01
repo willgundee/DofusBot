@@ -31,7 +31,35 @@ namespace Gofus
 
             Imgsort.Source = path;
             lblNom.Content = s.Nom;
-            lblDescription.Content = s.Description;
+            lblDescription.Text = s.Description;
+            lblExperiece.Content = s.Exprience;
+            lblPa.Content = s.PointActionRequis;
+            lblTaux.Content = s.TauxDeRelance;
+
+           if(s.CelluleLibre)
+            {
+                lblCellule.Content = "Vrai";
+            }
+            else
+            {
+                lblCellule.Content = "Faux";
+            }
+            if (s.LigneDeVue)
+            {
+                lblLigne.Content = "Vrai";
+            }
+            else
+            {
+                lblLigne.Content = "Faux";
+            }
+            if (s.PorteeModifiable)
+            {
+                lblPorte.Content = "Vrai";
+            }
+            else
+            {
+                lblPorte.Content = "Faux";
+            }
         }
     }
 }
