@@ -295,7 +295,7 @@
                 </Grid>
 
                 <ListBox x:Name="lbxInventaire" Grid.RowSpan="2" Style="{StaticResource RowOverflow}" Drop="lbxInventaire_Drop" GiveFeedback="Image_GiveFeedback" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,69,0,0" PreviewMouseLeftButtonDown="lbxInventaire_PreviewMouseLeftButtonDown"/>
-                <ItemsControl x:Name="itmCtrlDesc" Grid.Row="1" />
+                <ItemsControl x:Name="itmCtrlDesc" Height="239" Margin="0,323,0.186,0" Grid.RowSpan="2" VerticalAlignment="Top" />
                 <ComboBox x:Name="cboChoixEntite" Grid.Column="1" SelectionChanged="cboChoixEntite_SelectionChanged" HorizontalAlignment="Left" Margin="94,10,0,0" VerticalAlignment="Top" Width="120"/>
                 <ComboBox x:Name="cboTrieInventaire" Grid.Column="1" SelectionChanged="cboTrieInventaire_SelectionChanged" HorizontalAlignment="Left" Margin="94,37,0,0" VerticalAlignment="Top" Width="120"/>
                 <Label Content="Personnage :" Grid.Column="1" HorizontalAlignment="Left" Margin="10,6,0,0" VerticalAlignment="Top" Width="79"/>
