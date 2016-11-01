@@ -338,7 +338,7 @@
 
 
 
-                <TextBox x:Name="txtMessage" HorizontalAlignment="Left" Height="85" Margin="10,10,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="471" TextChanged="txtMessage_TextChange" MaxLength="254" KeyDown="OnKeyDownHandler"/>
+                <TextBox x:Name="txtMessage" HorizontalAlignment="Left" Height="85" Margin="10,10,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="471" TextChanged="txtMessage_TextChange" MaxLength="254" KeyDown="OnKeyDowntxtMessage"/>
                 <Button x:Name="btnEnvoyerMessage" Content="Envoyer" HorizontalAlignment="Left" Margin="487,10,0,0" Grid.Row="2" VerticalAlignment="Top" Width="71" Height="85" Click="BtnEnvoyer_Click" FontFamily="Vrinda" FontSize="16">
                     <Button.BorderBrush>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
