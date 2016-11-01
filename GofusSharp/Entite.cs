@@ -212,7 +212,7 @@ namespace GofusSharp
                                 if (envoutement.Stat == Statistique.type.RES_poussee)
                                     RES_poussee = envoutement.Valeur;
                             }
-                            if (entiteInconnu.recevoirDommages((8 + (magnitude - caseTraversee) * Niveau / 50) * Distance + DoPou - RéPou) ;
+                            if (entiteInconnu.recevoirDommages((8 + new System.Random().Next(1, 8) * RetourneNiveau() / 50) * (magnitude - caseTraversee) + DMG_poussee - RES_poussee))
                             {
                                 foreach (EntiteInconnu invoc in ListEntites)
                                 {
