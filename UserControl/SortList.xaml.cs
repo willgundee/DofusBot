@@ -31,7 +31,7 @@ namespace Gofus
        
 
          
-            BitmapImage path = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/spells/55/sort_" + line[0] + ".png"));
+            BitmapImage path = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/spells/55/sort_" + sorts[14] + ".png"));
 
                 ImgSort.Source = path;
                
