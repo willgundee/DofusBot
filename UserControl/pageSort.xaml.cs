@@ -71,6 +71,9 @@ namespace Gofus
         void contenuLxbDesc(string nom)
         {
             List<string>[] info;
+
+            lstDescription.Clear();
+
             info = bd.selection("SELECT * FROM Sorts WHERE nom='"+nom+"'");
             Sort ds = new Sort(info[0]);
             SortDesc descS = new SortDesc(ds);

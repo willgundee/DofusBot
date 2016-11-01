@@ -100,5 +100,17 @@ namespace GofusSharp
             }
             return false;
         }
+
+        internal bool ChangerPosition(Case nextPosition)
+        {
+            if (nextPosition.Contenu == Case.type.vide)
+            {
+                Position.Contenu = Case.type.vide;
+                nextPosition.Contenu = Case.type.joueur;
+                Position = nextPosition;
+                return true;
+            }
+            return false;
+        }
     }
 }
