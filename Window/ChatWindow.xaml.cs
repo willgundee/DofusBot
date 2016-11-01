@@ -45,6 +45,18 @@ namespace test
 
 
 
+        private void OnKeyDowntxtMessage(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Return && aTimer.IsEnabled)
+            {
+                string text = txtMessage.Text;
+                trdEnvoie = new Thread(() => { chat.envoyerMessage(text); });
+                trdEnvoie.Start();
+                Thread.Yield();
+            }
+        }
+
+
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
