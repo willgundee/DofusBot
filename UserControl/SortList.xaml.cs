@@ -27,12 +27,12 @@ namespace Gofus
 
             int con = sorts.Count();
 
-     
-   
-                BitmapImage path = new BitmapImage();
-                path.BeginInit();
-                path.UriSource = new Uri("../resources/Cra.png", UriKind.Relative);
-                path.EndInit();
+            
+       
+
+         
+            BitmapImage path = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/spells/55/sort_" + line[0] + ".png"));
+
                 ImgSort.Source = path;
                
                  lblNomSort.Content = sorts[3] ;              
