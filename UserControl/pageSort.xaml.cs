@@ -50,7 +50,7 @@ namespace Gofus
                 for (int i = 0; i < con; i++)
                 {
                     SortList s = new SortList(Type[i]);
-                    s.MouseDoubleClick += lbxsort_MouseDoubleClick;
+                    s.MouseDown += lbxsort_MouseDoubleClick;
                 lstSort.Add(s);            
                 }
             }
@@ -62,7 +62,7 @@ namespace Gofus
                 for (int i = 0; i < con; i++)
                 {
                     SortList s = new SortList(Type[i]);
-                    s.MouseDoubleClick += lbxsort_MouseDoubleClick;                    
+                    s.MouseDown += lbxsort_MouseDoubleClick;                    
                     lstSort.Add(s);       
                 }
             } 
