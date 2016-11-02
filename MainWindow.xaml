@@ -57,7 +57,6 @@
             <Grid x:Name="grd_Perso" >
                 <TabControl Name="tCPerso">
                 </TabControl>
-
                 <!--TabControl x:Name="tCPerso" Grid.ColumnSpan="2"  HorizontalAlignment="Left" Height="560" Margin="3,1,0,-1" VerticalAlignment="Top" Width="577" Grid.RowSpan="2" /-->
             </Grid>
         </TabItem>
@@ -71,9 +70,12 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="15*"/>
                 </Grid.ColumnDefinitions>
-                <RichTextBox x:Name="rtb_lineNumber" FontFamily="Courier New" Block.LineHeight="1" Block.TextAlignment="Right" IsReadOnly="True"/>
+
+                <WindowsFormsHost Grid.Row="0" Grid.Column="0">
+                    <wf:SSRichTextBox x:Name="rtb_lineNumber" ScrollBars="ForcedHorizontal"></wf:SSRichTextBox>
+                </WindowsFormsHost>
                 <WindowsFormsHost Grid.Row="0" Grid.Column="1">
-                    <wf:CodeTextBox x:Name="ctb_main" CodeColor_Chaine="Crimson" CodeColor_Comment="Green" CodeColor_Function="CornflowerBlue" CodeColor_Keyword="Blue" CodeColor_PlainText="Black" CodeColor_Type="CornflowerBlue" AcceptsTab="True" KeyUp="ctb_KeyUp" VScroll="ctb_main_VScroll">
+                    <wf:CodeTextBox x:Name="ctb_main" CodeColor_Chaine="Crimson" CodeColor_Comment="Green" CodeColor_Function="CornflowerBlue" CodeColor_Keyword="Blue" CodeColor_PlainText="Black" CodeColor_Type="CornflowerBlue" AcceptsTab="True" KeyUp="ctb_KeyUp" VScroll="ctb_main_VScroll" ScrollBars="ForcedBoth">
                         <wf:CodeTextBox.CodeWords_Keywords>
                             <System:String>abstract</System:String>
                             <System:String>as</System:String>

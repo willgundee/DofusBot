@@ -545,7 +545,7 @@ namespace test
             int linecount = ctb_main.Text.Split('\n').Count();
             if (linecount != maxLC)
             {
-                rtb_lineNumber.Document.Blocks.Clear();
+                rtb_lineNumber.Clear();
                 for (int i = 1; i < linecount + 1; i++)
                 {
                     if (i == 1)
@@ -1681,7 +1681,7 @@ namespace test
             int nPos = GetScrollPos(ctb_main.Handle, (int)ScrollBarType.SbVert);
             nPos <<= 16;
             uint wParam = (uint)ScrollBarCommands.SB_THUMBPOSITION | (uint)nPos;
-            SendMessage(new WindowInteropHelper(Window.GetWindow(rtb_lineNumber)).Handle, (int)Message.WM_VSCROLL, new UIntPtr(wParam), new UIntPtr(0));
+            SendMessage(rtb_lineNumber.Handle, (int)Message.WM_VSCROLL, new UIntPtr(wParam), new UIntPtr(0));
         }
 
         #endregion

@@ -277,19 +277,22 @@ namespace Moonlight
             InitializeComponent();
 
             //Set some defaults...
-            this.AcceptsTab = true;
-            this.Font = new Font(FontFamily.GenericMonospace, 10);
+            AcceptsTab = true;
+            Font = new Font(FontFamily.GenericMonospace, 10);
+
+            ReadOnly = false;
+            RightToLeft = RightToLeft.No;
 
             // TODO
             //
             //Do not enable drag and dropping text
             //The same problem, as paste - the onDragDrop event fires, BEFORE the text is written into the textbox
             //Need to be handled in WndPrc
-            this.EnableAutoDragDrop = false;
+            EnableAutoDragDrop = false;
             
-            this.DetectUrls = false;
-            this.WordWrap = false;
-            this.AutoWordSelection = true;
+            DetectUrls = false;
+            WordWrap = false;
+            AutoWordSelection = true;
 
             #region Instantiate Syntax highlightning and Intellisense members
             //Instantiate word lists

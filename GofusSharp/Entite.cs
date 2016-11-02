@@ -690,7 +690,7 @@ namespace GofusSharp
                 case Effet.type.pose_glyphe:
                     break;
                 case Effet.type.invocation:
-                    ListEntites.Add(new EntiteInconnu(effet.ValeurMax, new Classe(48,), "bouftou", 1000, source, Equipe, IdEntite));
+                    //ListEntites.Add(new EntiteInconnu(effet.ValeurMax, new Classe(48,), "bouftou", 1000, source, Equipe, IdEntite));
                     break;
                 case Effet.type.soin:
                     foreach (EntiteInconnu entiteInconnu in ListEntites)

@@ -284,6 +284,7 @@ namespace Moonlight.Intellisense
             if (words.Length < 1)
             {
                 //Hide intellisense...
+                HideIntellisenseBox();
                 return false;
             }
 
