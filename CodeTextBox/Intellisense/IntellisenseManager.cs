@@ -31,6 +31,7 @@ namespace Moonlight.Intellisense
         {
             if (m_CodeTextBox.IntellisenseTree == null)
             {
+                HideIntellisenseBox();
                 return;
             }
 
@@ -46,6 +47,7 @@ namespace Moonlight.Intellisense
         {
             if (m_CodeTextBox.IntellisenseTree == null)
             {
+                HideIntellisenseBox();
                 return;
             }
 
@@ -56,6 +58,11 @@ namespace Moonlight.Intellisense
             }
             catch { }
 
+            if (m_CodeTextBox.IntellisenseBox.SelectedItem == null)
+            {
+                HideIntellisenseBox();
+                return;
+            }
 
             //Get top-left coordinate for our intellisenseBox
             Point topLeft = m_CodeTextBox.GetPositionFromCharIndex(m_CodeTextBox.SelectionStart);
@@ -334,6 +341,7 @@ namespace Moonlight.Intellisense
             //Couldn't find one of the sub words...
             if (node == null)
             {
+                HideIntellisenseBox();
                 return false;
             }
 
@@ -501,7 +509,7 @@ namespace Moonlight.Intellisense
                 string lastChar = lastWord.Substring(lastWord.Length - 1, 1);
                 if (lastScopeOperatorChars.Contains(lastChar))
                 {
-                    return richTextbox.SelectionStart; ;
+                    return richTextbox.SelectionStart;
                 }
             }
             catch { }

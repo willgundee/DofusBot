@@ -548,11 +548,11 @@ namespace Moonlight
         protected override void OnKeyDown(KeyEventArgs e)
         {
             #region Show Intellisense
-            if (e.KeyCode >= Keys.A && e.KeyCode <= Keys.Z)
+            if (e.KeyCode >= Keys.A && e.KeyCode <= Keys.Z || e.KeyCode == Keys.OemMinus && e.Shift == true)
             {
                 m_IntellisenseManager.ShowIntellisenseBox();
                 e.Handled = true;
-                this.Focus();
+                Focus();
                 return;
             }
             #endregion
