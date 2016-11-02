@@ -195,29 +195,29 @@ namespace GofusSharp
                 }
                 if (!existe)
                 {
-                    //Entite newInvoc = new Entite(entiteInconnu, new Script(3, "//Placeholder"), TerrainPartie, entite.Proprietaire);
-                    //if (newInvoc.Equipe == EntiteInconnu.type.attaquant)
-                    //{
-                    //    foreach (Entite entiteProp in ListAttaquants)
-                    //    {
-                    //        if (entiteProp.IdEntite == newInvoc.Proprietaire)
-                    //        {
-                    //            ListAttaquants.Insert(ListAttaquants.FindIndex(entiteProp), newInvoc);
-                    //            break;
-                    //        }
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    foreach (Entite entiteProp in ListDefendants)
-                    //    {
-                    //        if (entiteProp.IdEntite == newInvoc.Proprietaire)
-                    //        {
-                    //            ListDefendants.Add(newInvoc, ListDefendants.TrouverPosition(entiteProp));
-                    //            break;
-                    //        }
-                    //    }
-                    //}
+                    Entite newInvoc = new Entite(entiteInconnu, new Script(3, "//Placeholder"), TerrainPartie, entiteInconnu.Proprietaire);
+                    if (newInvoc.Equipe == EntiteInconnu.type.attaquant)
+                    {
+                        foreach (Entite entiteProp in ListAttaquants)
+                        {
+                            if (entiteProp.IdEntite == newInvoc.Proprietaire)
+                            {
+                                ListAttaquants.Insert(ListAttaquants.FindIndex(x => x == entiteProp), newInvoc);
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (Entite entiteProp in ListDefendants)
+                        {
+                            if (entiteProp.IdEntite == newInvoc.Proprietaire)
+                            {
+                                ListDefendants.Insert(ListDefendants.FindIndex(x => x == entiteProp), newInvoc);
+                                break;
+                            }
+                        }
+                    }
                 }
             }
         }

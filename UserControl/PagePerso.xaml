@@ -109,7 +109,7 @@
 
         </DataGrid-->
         <Label Name="lblexp" Content="Experience :"  HorizontalAlignment="Left" Height="25" Margin="100,35,0,0" VerticalAlignment="Top" />
-        <ProgressBar Name="pgbExp" HorizontalAlignment="Left" Height="15" Margin="100,58,0,0" VerticalAlignment="Top" Width="100" Foreground="Red" />
+        <ProgressBar Name="pgbExp" HorizontalAlignment="Left" Height="15" Margin="100,58,0,0" VerticalAlignment="Top" Width="100" Foreground="Chartreuse" />
     </Grid>
 
 

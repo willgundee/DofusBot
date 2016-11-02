@@ -19,8 +19,7 @@ namespace GofusSharp
     /// </summary>
     internal partial class Combat : Window
     {
-        public static int lel = 1;
-        private Partie PartieTest { get; set; }
+        internal Partie PartieTest { get; set; }
 
         private bool AutoScroll = true;
         public Combat(string script1, string script2)

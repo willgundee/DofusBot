@@ -87,6 +87,10 @@ namespace GofusSharp
             }
         }
 
+        internal EntiteInconnu(int IdClasse, int idProprietaire)
+        {
+        }
+
         internal bool recevoirDommages(int dommageRecu)
         {
             (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " à perdu " + dommageRecu.ToString() + " point de vie";
