@@ -102,5 +102,18 @@ namespace test
             }
 
         }
+
+        private void btnAtt_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataGrid.SelectedIndex != -1)
+            {
+                System.Windows.Forms.MessageBox.Show("1233");
+
+                int random;
+
+                string insert = "INSERT INTO Partie (";
+
+            }
+        }
     }
 }
