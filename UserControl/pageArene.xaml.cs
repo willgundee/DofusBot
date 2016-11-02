@@ -22,17 +22,17 @@ namespace test
         public BDService bd;
         public ObservableCollection<string> lstScripts;
         public ObservableCollection<string> lstTypeAdver;
-        public ObservableCollection<string> lstPerso;
+        public Dictionary<int, string> lstPerso;
         public ObservableCollection<Entite> lstAdversaire;
 
         public int idJoueur;
 
-        public pageArene(int id)
+        public pageArene(int id,ObservableCollection<Entite> lstPersonnages)
         {
             InitializeComponent();
             lstScripts = new ObservableCollection<string>();
             lstAdversaire = new ObservableCollection<Entite>();
-            lstPerso = new ObservableCollection<string>();
+            lstPerso = new Dictionary<int,string>();
             lstTypeAdver = new ObservableCollection<string>();
 
             bd = new BDService();
@@ -41,25 +41,21 @@ namespace test
 
             idJoueur = id;
             cboTypeAdversaire.ItemsSource = lstTypeAdver;
-            cboTypeAdversaire.SelectedIndex = 0;
-            /*  foreach (Entite perso in ((MainWindow)Application.Current.MainWindow).Player.LstEntites)
+            int i = 0;
+              foreach (Entite perso in lstPersonnages)
               {
-                  lstPerso.Add(perso.Nom);
-              }*/
+                  lstPerso.Add(i,perso.Nom);
+                i++;
+              }
+
+
 
             cboPersonna.ItemsSource = lstPerso;
+            cboPersonna.DisplayMemberPath = "Value";
 
-           
+            cboTypeAdversaire.SelectedIndex = 0;
 
-            List<string>[] Result = bd.selection("SELECT * FROM Entites WHERE idJoueur IS NOT NULL AND idJoueur != " + id.ToString());
-
-
-            foreach (List<string> enti in Result)
-            {
-
-                lstAdversaire.Add(new Entite(enti));
-
-            }
+            cboPersonna.SelectedIndex = 0;
 
 
             dataGrid.ItemsSource = lstAdversaire;
@@ -70,20 +66,20 @@ namespace test
 
         private void cboTypeAdversaire_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-           
+
 
             if (cboTypeAdversaire.SelectedIndex == 0)
             {
                 List<string>[] Result = bd.selection("SELECT * FROM Entites WHERE idJoueur IS NOT NULL AND idJoueur != " + idJoueur.ToString());
+                lstAdversaire = new ObservableCollection<Entite>();
 
-                
                 foreach (List<string> enti in Result)
                 {
 
                     lstAdversaire.Add(new Entite(enti));
-            
+
                 }
-                dataGrid.Items.Clear();
+
 
                 dataGrid.ItemsSource = lstAdversaire;
                 dataGrid.Items.Refresh();
@@ -92,12 +88,12 @@ namespace test
             {
                 List<string>[] Result = bd.selection("SELECT * FROM Entites WHERE idJoueur IS NULL");
 
-               
+                lstAdversaire = new ObservableCollection<Entite>();
                 foreach (List<string> enti in Result)
                 {
 
                     lstAdversaire.Add(new Entite(enti));
-                  
+
                 }
 
 
