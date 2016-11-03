@@ -95,9 +95,7 @@ namespace Gofus
 
         private void lbxsort_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
             string nom = (sender as SortList).lblNomSort.Content.ToString();
-            
 
             contenuLxbDesc(nom);
         }
