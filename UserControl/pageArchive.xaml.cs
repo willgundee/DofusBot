@@ -63,6 +63,8 @@ namespace test
                     int seed = Int32.Parse(p[2]);
                     string att = "";
                     string def = "";
+                    int idatt = -1;
+                    int iddef = -1;
 
                     foreach (List<string> particip in result)
                     {
@@ -72,21 +74,26 @@ namespace test
                             string selectN = "SELECT nomUtilisateur FROM Joueurs WHERE idJoueur=" + particip[1].ToString();
                             List<string>[] selectNom = bd.selection(selectN);
                             def = selectNom[0][0];
+                            iddef = Int32.Parse(particip[1]);
                         }
                         else
                         {
                             string selectN = "SELECT nomUtilisateur FROM Joueurs WHERE idJoueur=" + particip[1].ToString();
                             List<string>[] selectNom = bd.selection(selectN);
                             att = selectNom[0][0];
+                            idatt = Int32.Parse(particip[1]);
                         }
 
                     }
-                    if (type == "joueur" && att == idJoueur.ToString() || type == "joueur" && def == idJoueur.ToString())
+                    if (type == "joueur" && idatt == idJoueur || type == "joueur" && iddef == idJoueur || type == "all")
                     {
-
+                        lstpartie.Add(new Partie(att, def, p[1], seed));
                     }
-
-                    lstpartie.Add(new Partie(att, def, p[1], seed));
+                    else
+                    {
+                       
+                    }
+                    
 
                 }
 
