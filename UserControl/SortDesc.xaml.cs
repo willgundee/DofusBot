@@ -23,7 +23,6 @@ namespace Gofus
     {
         public BDService bd = new BDService();
 
-
         public SortDesc(Sort s)
         {
             InitializeComponent();
@@ -34,16 +33,12 @@ namespace Gofus
             lblNom.Content = s.Nom;
             lblDescription.Text = s.Description;
 
-         
-
             lblExperiece.Content = toLevel(s);
-
 
             lblPa.Content = s.PointActionRequis;
             lblTaux.Content = s.TauxDeRelance;
             lblZoneE.Content = s.ZoneEffet.Nom;
             lblZoneP.Content = s.ZonePortee.Nom;
-
 
             if (s.CelluleLibre)
             {
@@ -278,10 +273,8 @@ namespace Gofus
         #endregion
         public int toLevel(Sort s)
         {
-
             for (int i = 1; i < 200; i++)
             {
-
                 if (s.Exprience >= dictLvl[i] && s.Exprience < dictLvl[i + 1])
                     return i;
             }
@@ -290,6 +283,8 @@ namespace Gofus
 
             return 0;//si tout fucktop
         }
+
+
     }
 
 

@@ -50,7 +50,7 @@
         <Label Name="lblPorte" FontSize="14" Height="30"  VerticalAlignment="Top" Margin="36,30,10,0" Grid.Row="4" Grid.Column="1"/>
 
         <Label Name="lblTDescription" Content="Description : " Margin="10,0,10,0" FontSize="16" VerticalAlignment="Top" Grid.Row="5" Grid.ColumnSpan="2" Height="31"  />
-        <TextBlock Name="lblDescription" FontSize="14"  VerticalAlignment="Top" Width="200" Height="120" Margin="10,30,10,0" Grid.Row="5" Grid.ColumnSpan="2" TextWrapping="WrapWithOverflow"  />
+        <TextBlock Name="lblDescription"  FontSize="14"  VerticalAlignment="Top" Width="200" Height="120" Margin="10,30,10,0" Grid.Row="5" Grid.ColumnSpan="2" TextWrapping="WrapWithOverflow"  />
 
 
     </Grid>
