@@ -96,6 +96,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="UserControl\pageArchive.xaml.cs">
+      <DependentUpon>pageArchive.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Window\Inventaire.xaml.cs">
       <DependentUpon>Inventaire.xaml</DependentUpon>
     </Compile>
@@ -206,6 +209,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="UserControl\pageArchive.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControl\pageArene.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -109,9 +109,6 @@ namespace test
             {
                 System.Windows.Forms.MessageBox.Show("1233");
 
-                int random;
-
-                string insert = "INSERT INTO Partie (";
 
             }
         }

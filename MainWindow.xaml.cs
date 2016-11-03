@@ -68,7 +68,7 @@ namespace test
 
         public pageArene pgArene;
 
-        public List<Partie> lstpartie;
+   
 
         public int idJoueur { get; set; }
 
@@ -132,13 +132,7 @@ namespace test
 
 
 
-            lstpartie = new List<Partie>();
-
-
-            dgHistorique.ItemsSource = lstpartie;
-
-            cboTypePartie.Items.Add("Mes Parties");
-            cboTypePartie.Items.Add("Les partie de tout le monde");
+           
 
             pgArene = new pageArene(id,Player.LstEntites);
 
@@ -2470,67 +2464,8 @@ namespace test
         }
         #endregion
 
-        #region page archive
-        private void loadParties()
-        {
-
-          string selectid = "Select  idPartie,temps,seed From Parties LIMIT 70 ";
-            List<string>[] lstPartieBd = bd.selection(selectid);
-
-
-
-            lstpartie.Clear();
-
-            foreach (List<string> p in lstPartieBd)
-            {
-                string selectPartici = "SELECT estAttaquant,idEntite FROM PartiesEntites WHERE idPartie = " + p[0];
-                List<string>[] result = bd.selection(selectPartici);
-                if (result[0][0] != "rien")
-                {
-                    int seed = Int32.Parse(p[2]);
-                    string att = "";
-                    string def = "";
-
-                    foreach (List<string> particip in result)
-                    {
-
-                        if (particip[0] == "False")
-                        {
-                            string selectN = "SELECT nomUtilisateur FROM Joueurs WHERE idJoueur=" + particip[1].ToString();
-                            List<string>[] selectNom = bd.selection(selectN);
-                            def = selectNom[0][0];
-                        }
-                        else
-                        {
-                            string selectN = "SELECT nomUtilisateur FROM Joueurs WHERE idJoueur=" + particip[1].ToString();
-                            List<string>[] selectNom = bd.selection(selectN);
-                            att = selectNom[0][0];
-                        }
-
-                    }
-                    lstpartie.Add(new Partie(att, def, p[1], seed));
-
-                }
-
-            }
-        }
-
-
-        private void cboTypePartie_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (cboTypePartie.SelectedIndex == 0)
-            {
-
-                loadParties();
-                dgHistorique.Items.Refresh();
-
-            }
-            else
-            {
-                loadParties();
-                dgHistorique.Items.Refresh();
-            }
-        }
+ 
+      
 
         #endregion
 

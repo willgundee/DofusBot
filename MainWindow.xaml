@@ -364,10 +364,7 @@
         </TabItem>
         <TabItem Header="Archives" Height="30">
             <Grid Background="Gray">
-                <Label HorizontalAlignment="Center" FontSize="25" Content="Archives"/>
-                <DataGrid x:Name="dgHistorique" ItemsSource="{Binding lstpartie}"  HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="418" Width="502" Margin="40,0,0,90" IsReadOnly="True" FrozenColumnCount="3" CanUserResizeColumns="False" CanUserReorderColumns="False" ColumnWidth="*"/>
-                <Button x:Name="btnVisionner" Content="Visionner" HorizontalAlignment="Right" Margin="0,0,30,40" VerticalAlignment="Bottom" Width="198" IsCancel="True"/>
-                <ComboBox x:Name="cboTypePartie" HorizontalAlignment="Left" Margin="40,0,0,40" VerticalAlignment="Bottom" Width="273" SelectedIndex="0" SelectionChanged="cboTypePartie_SelectionChanged"/>
+               
             </Grid>
 
 
