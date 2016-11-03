@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 using System.Windows.Forms;
 
 namespace Moonlight
@@ -13,10 +13,29 @@ namespace Moonlight
             while (pos > 1)
             {
                 string substr = richTextbox.Text.Substring(pos - 1, 1);
-
-                if (Char.IsWhiteSpace(substr, 0))
+                if (substr == ")")
                 {
-                    return richTextbox.Text.Substring(pos, richTextbox.SelectionStart - pos);
+                    int nbParenthesis = 1;
+                    while (nbParenthesis != 0 && pos > 1)
+                    {
+                        pos--;
+                        substr = richTextbox.Text.Substring(pos - 1, 1);
+                        if (substr == "(")
+                            nbParenthesis--;
+                        else if (substr == ")")
+                            nbParenthesis++;
+                    }
+                }
+                if (!(char.IsLetterOrDigit(substr,0) || substr == "_" || substr == "."))
+                {
+                    string word = richTextbox.Text.Substring(pos, richTextbox.SelectionStart - pos);
+                    if (word.Contains("(") && word.Contains(")"))
+                    {
+                        int ouverture = word.IndexOf(word.First(x => x == '('));
+                        int fermeture = word.IndexOf(word.Last(x => x == ')'));
+                        word = word.Remove(ouverture + 1, fermeture - ouverture - 1);
+                    }
+                    return word;
                 }
 
                 pos--;

@@ -38,6 +38,7 @@ namespace Moonlight.Intellisense
             //If our box has no elements, do not show it...
             if (!UpdateIntellisense(false,"",""))
             {
+                HideIntellisenseBox();
                 return;
             }
 
@@ -518,7 +519,7 @@ namespace Moonlight.Intellisense
             {
                 string substr = richTextbox.Text.Substring(pos - 1, 1);
 
-                if (Char.IsWhiteSpace(substr, 0))
+                if (!(char.IsLetterOrDigit(substr, 0) || substr == "_" || substr == "."))
                 {
                     return pos;
                 }
