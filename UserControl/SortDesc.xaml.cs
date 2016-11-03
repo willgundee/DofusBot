@@ -30,40 +30,43 @@ namespace Gofus
          BitmapImage path = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/spells/55/sort_" + s.NoImage + ".png"));
 
             Imgsort.Source = path;
-            lblNom.Content = s.Nom;
+            lblNom.Text = s.Nom;
             lblDescription.Text = s.Description;
 
-            lblExperiece.Content = toLevel(s);
+            lblExperiece.Text = toLevel(s).ToString();
 
-            lblPa.Content = s.PointActionRequis;
-            lblTaux.Content = s.TauxDeRelance;
-            lblZoneE.Content = s.ZoneEffet.Nom;
-            lblZoneP.Content = s.ZonePortee.Nom;
+            lblPa.Text = s.PointActionRequis.ToString();
+           
+            TauxDeRelance(s);
 
+            NomCommunZones(s);
+
+            #region vrai ou faux
             if (s.CelluleLibre)
             {
-                lblCellule.Content = "Vrai";
+                lblCellule.Text = "Vrai";
             }
             else
             {
-                lblCellule.Content = "Faux";
+                lblCellule.Text = "Faux";
             }
             if (s.LigneDeVue)
             {
-                lblLigne.Content = "Vrai";
+                lblLigne.Text = "Vrai";
             }
             else
             {
-                lblLigne.Content = "Faux";
+                lblLigne.Text = "Faux";
             }
             if (s.PorteeModifiable)
             {
-                lblPorte.Content = "Vrai";
+                lblPorte.Text = "Vrai";
             }
             else
             {
-                lblPorte.Content = "Faux";
+                lblPorte.Text = "Faux";
             }
+            #endregion
         }
 
         public Dictionary<int, double> dictLvl = new Dictionary<int, double>()
@@ -284,6 +287,93 @@ namespace Gofus
             return 0;//si tout fucktop
         }
 
+        public void NomCommunZones(Sort s)
+        {
+            string nomZoneE;
+            string nomZoneP;
+
+            switch(s.ZoneEffet.Nom.ToString())
+            {
+                case "carre":
+                    nomZoneE = "Carre";
+                    break;
+                case "Cercle":
+                    nomZoneE = "Cercle";
+                    break;
+                case "cone":
+                    nomZoneE = "Cone";
+                    break;
+                case "croix":
+                    nomZoneE = "Croix";
+                    break;
+                case "tous":
+                    nomZoneE = "Tous";
+                    break;
+                case "ligne_verticale":
+                    nomZoneE = "Ligne Verticale";
+                    break;
+                case "ligne_horizontale":
+                    nomZoneE = "Ligne horizontale";
+                    break;
+                case "demi_cercle":
+                    nomZoneE = "Demi-cercle";
+                    break;
+                default:
+                    nomZoneE = s.ZoneEffet.Nom.ToString();
+                    break;
+            }
+
+            switch (s.ZonePortee.Nom.ToString())
+            {
+                case "carre":
+                    nomZoneP = "Carre";
+                    break;
+                case "Cercle":
+                    nomZoneP = "Cercle";
+                    break;
+                case "cone":
+                    nomZoneP = "Cone";
+                    break;
+                case "croix":
+                    nomZoneP = "Croix";
+                    break;
+                case "tous":
+                    nomZoneP = "Tous";
+                    break;
+                case "ligne_verticale":
+                    nomZoneP = "Ligne Verticale";
+                    break;
+                case "ligne_horizontale":
+                    nomZoneP = "Ligne horizontale";
+                    break;
+                case "demi_cercle":
+                    nomZoneP = "Demi-cercle";
+                    break;
+                default:
+                    nomZoneP = s.ZonePortee.Nom.ToString();
+                    break;
+            }
+            lblZoneE.Text = nomZoneE;
+            lblZoneP.Text = nomZoneP;
+        }
+
+        public void TauxDeRelance(Sort s)
+        {
+            string taux;
+
+            if (Convert.ToInt32(s.TauxDeRelance)>0)
+            {
+                lblTtaux.Content = "NB lancé par tour :";
+                taux=s.TauxDeRelance.ToString();
+            }
+            else
+            {
+                lblTtaux.Content = "Tour de relance :";
+                taux = (Convert.ToInt32(s.TauxDeRelance.ToString()) * -1).ToString();
+            }
+
+            lblTaux.Text = taux;
+        }
 
     }
 
