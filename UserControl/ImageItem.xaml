@@ -8,12 +8,11 @@
              d:DesignHeight="115" d:DesignWidth="115">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="3*"/>
-            <RowDefinition Height="3*"/>
-            <RowDefinition Height="17*"/>
+            <RowDefinition Height="83*"/>
+            <RowDefinition Height="32*"/>
         </Grid.RowDefinitions>
 
         <Image Name="imgItem"/>
-        <TextBlock Name="txtNom" HorizontalAlignment="Center" TextWrapping="WrapWithOverflow"/>
+        <TextBlock Name="txtNom" HorizontalAlignment="Center" TextWrapping="WrapWithOverflow" Grid.Row="1" />
     </Grid>
 </UserControl>

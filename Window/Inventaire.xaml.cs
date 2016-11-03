@@ -36,6 +36,7 @@ namespace Gofus
 
             InitializeComponent();
             LstInventaire = new ObservableCollection<ImageItem>();
+            LstDesc = new ObservableCollection<DescItem>();
             w = (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow);
             this.Player = Player;
             List<string> type = new List<string>();
@@ -45,7 +46,6 @@ namespace Gofus
             cboTrieInventaire.ItemsSource = type;
             cboTrieInventaire.SelectedIndex = 0;
             lbxInventaire.ItemsSource = LstInventaire;
-            (w.tCPerso.SelectedContent as PagePerso).itmCtrlDesc.ItemsSource = LstDesc;
 
         }
         /// <summary>
@@ -229,7 +229,7 @@ namespace Gofus
                             LstInventaire.Add(i);
                         }
                     }
-                if (LstInventaire.Count <= 3 * 6)
+                if (LstInventaire.Count <= 3 * 4)
                     lbxInventaire.Style = (Style)FindResource("RowFix");
                 else
                     lbxInventaire.Style = (Style)FindResource("RowOverflow");
@@ -252,13 +252,9 @@ namespace Gofus
         private void image_desc(object sender, MouseButtonEventArgs e)
         {
             LstDesc.Clear();
-            string nom = (((ImageItem)sender).imgItem).Name.Replace("_", " ");
-            LstDesc.Add(new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE nom ='" + nom + "'")[0], true, 0)));
-        }
-
-        private void TabItem_Selected_Inventaire(object sender, RoutedEventArgs e)
-        {//TODO pas sur selected item
-            refreshInv();
+            (w.tCPerso.SelectedContent as PagePerso).itmCtrlDesc.ItemsSource = LstDesc;
+            string i = convertPathToNoItem((sender as ImageItem).imgItem.Source.ToString());
+            LstDesc.Add(new DescItem(Player.Inventaire.First(x=>x.NoImg == i)));
         }
 
         public void refreshInv()

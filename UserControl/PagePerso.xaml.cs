@@ -445,7 +445,7 @@ namespace test
         private void btnStatsPlus_Click(object sender, RoutedEventArgs e)
         {
 
-            if (Convert.ToInt32(lblNbPointsC.Content) == 1)
+            if (Convert.ToInt32(lblNbPointsC.Content) < 1)
             {
                 btnAgilite.Visibility = Visibility.Hidden;
                 btnChance.Visibility = Visibility.Hidden;
@@ -453,7 +453,7 @@ namespace test
                 btnIntelligence.Visibility = Visibility.Hidden;
                 btnSagesse.Visibility = Visibility.Hidden;
                 btnVitalite.Visibility = Visibility.Hidden;
-
+                return;
             }
 
             string choix = (sender as Button).Name;

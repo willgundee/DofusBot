@@ -20,7 +20,7 @@
             <Setter Property="ItemsPanel">
                 <Setter.Value>
                     <ItemsPanelTemplate>
-                        <UniformGrid Columns="3" Rows="6"/>
+                        <UniformGrid Columns="3" Rows="4"/>
                     </ItemsPanelTemplate>
                 </Setter.Value>
             </Setter>
