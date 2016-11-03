@@ -20,6 +20,7 @@ namespace Moonlight
         private IntellisenseManager m_IntellisenseManager;
         private ImageListBox mp_IntellisenseBox;
         private TreeView mp_IntellisenseTree;
+        private TreeView mp_IntellisenseTree_Template;
         private Keys mp_IntellisenseKey = Keys.Space;
         
         #region Drawing
@@ -346,9 +347,11 @@ namespace Moonlight
         /// <summary>
         /// Create the treeview from a treenode array
         /// </summary>
-        public void CreateTreeView(TreeNode[] treeNode_arr_main)
+        public void CreateTreeView(TreeNode[] treeNode_arr_main, TreeNode[] treeNode_arr_template)
         {
             mp_IntellisenseTree.Nodes.AddRange(treeNode_arr_main);
+            mp_IntellisenseTree_Template.Nodes.AddRange(treeNode_arr_template);
+            
         }
         #endregion
 

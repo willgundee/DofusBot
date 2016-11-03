@@ -95,8 +95,8 @@ namespace test
 
             lblEtat.Content = "État : Non connecté à la salle";
             lblEtat.Foreground = new SolidColorBrush(Colors.Orange);
-
-            ctb_main.CreateTreeView(generateTree());
+            TreeNode[] template = generateTreeTemplate();
+            ctb_main.CreateTreeView(generateTree(template), template);
             ctb_main.UpdateSyntaxHightlight();
             ctb_main.UpdateTreeView();
             pgSort = new ObservableCollection<Gofus.pageSort>();
@@ -543,12 +543,9 @@ namespace test
             ctb_main_VScroll(new object(), new EventArgs());
         }
 
-
-        #region generate tree
-        private TreeNode[] generateTree()
+        private TreeNode[] generateTreeTemplate()
         {
-            //#############################################################################################################
-
+            #region chaine
             TreeNode[] treeNodeTab_method_chaine = new TreeNode[] {
                 new TreeNode("Clone()"),
                 new TreeNode("CompareTo()"),
@@ -590,7 +587,8 @@ namespace test
             TreeNode[] treeNodeTab_chaine = new TreeNode[treeNodeTab_method_chaine.Length + treeNodeTab_attribut_chaine.Length];
             treeNodeTab_method_chaine.CopyTo(treeNodeTab_chaine, 0);
             treeNodeTab_attribut_chaine.CopyTo(treeNodeTab_chaine, treeNodeTab_method_chaine.Length);
-            //#############################################################################################################
+            #endregion
+            #region simpleVar
             TreeNode[] treeNodeTab_simpleVar = new TreeNode[] {
                 new TreeNode("CompareTo()"),
                 new TreeNode("Equals()"),
@@ -605,7 +603,8 @@ namespace test
                 Tnode.Tag = "class";
                 Tnode.Text = "system";
             }
-            //############################################################################################################# 
+            #endregion
+            #region tab
             TreeNode[] treeNodeTab_method_tab = new TreeNode[] {
                 new TreeNode("Clone()"),
                 new TreeNode("CopyTo()"),
@@ -648,8 +647,8 @@ namespace test
             TreeNode[] treeNodeTab_tab = new TreeNode[treeNodeTab_method_tab.Length + treeNodeTab_attribut_tab.Length];
             treeNodeTab_method_tab.CopyTo(treeNodeTab_tab, 0);
             treeNodeTab_attribut_tab.CopyTo(treeNodeTab_tab, treeNodeTab_method_tab.Length);
-
-            //#############################################################################################################
+            #endregion
+            #region Liste
             TreeNode[] treeNodeTab_method_Liste = new TreeNode[] {
                 new TreeNode("Add()"),
                 new TreeNode("AddRange()"),
@@ -702,39 +701,386 @@ namespace test
             TreeNode[] treeNodeTab_Liste = new TreeNode[treeNodeTab_method_Liste.Length + treeNodeTab_attribut_Liste.Length];
             treeNodeTab_method_Liste.CopyTo(treeNodeTab_Liste, 0);
             treeNodeTab_attribut_Liste.CopyTo(treeNodeTab_Liste, treeNodeTab_method_Liste.Length);
+            #endregion
+            #region Effet
+            TreeNode[] treeNodeTab_effet = new TreeNode[] {
+                new TreeNode("Nom"),
+                new TreeNode("ValeurMin", treeNodeTab_simpleVar),
+                new TreeNode("ValeurMax", treeNodeTab_simpleVar),
+                new TreeNode("NbTour", treeNodeTab_simpleVar),
+                new TreeNode("Stat")
+            };
+            foreach (TreeNode Tnode in treeNodeTab_effet)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "property";
+                Tnode.Text = "system";
+            }
+            #endregion
+            #region Envoutement
+            TreeNode[] treeNodeTab_envoutement = new TreeNode[] {
+                new TreeNode("Stat"),
+                new TreeNode("Valeur", treeNodeTab_simpleVar),
+                new TreeNode("TourRestants", treeNodeTab_simpleVar),
+                new TreeNode("IdLanceur", treeNodeTab_simpleVar)
+            };
+            foreach (TreeNode Tnode in treeNodeTab_envoutement)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "property";
+                Tnode.Text = "system";
+            }
+            #endregion
+            #region Statistique
+            TreeNode[] treeNodeTab_stat = new TreeNode[] {
+                new TreeNode("Nom"),
+                new TreeNode("Valeur", treeNodeTab_simpleVar)
+            };
+            foreach (TreeNode Tnode in treeNodeTab_stat)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "property";
+                Tnode.Text = "system";
+            }
+            #endregion
+            #region Equipement
+            TreeNode[] treeNodeTab_equip = new TreeNode[] {
+                new TreeNode("IdEquipement", treeNodeTab_simpleVar),
+                new TreeNode("Nom", treeNodeTab_chaine),
+                new TreeNode("TabStatistiques", treeNodeTab_tab),
+                new TreeNode("Type")
+            };
+            foreach (TreeNode Tnode in treeNodeTab_equip)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "property";
+                Tnode.Text = "system";
+            }
+            #endregion
+            #region Case
+            TreeNode[] treeNodeTab_case = new TreeNode[] {
+                new TreeNode("X", treeNodeTab_simpleVar),
+                new TreeNode("Y", treeNodeTab_simpleVar),
+                new TreeNode("Contenu")
+            };
+            foreach (TreeNode Tnode in treeNodeTab_case)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "property";
+                Tnode.Text = "system";
+            }
+            #endregion
+            #region Zone
+            TreeNode[] treeNodeTab_zone = new TreeNode[] {
+                new TreeNode("PorteeMin", treeNodeTab_simpleVar),
+                new TreeNode("PorteeMax", treeNodeTab_simpleVar),
+                new TreeNode("Type")
+            };
+            foreach (TreeNode Tnode in treeNodeTab_zone)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "property";
+                Tnode.Text = "system";
+            }
+            #endregion
+            #region Arme
+            TreeNode[] treeNodeTab_arme = new TreeNode[] {
+                new TreeNode("IdEquipement", treeNodeTab_simpleVar),
+                new TreeNode("Nom", treeNodeTab_chaine),
+                new TreeNode("TabStatistiques", treeNodeTab_tab),
+                new TreeNode("Type"),
+                new TreeNode("TypeArme"),
+                new TreeNode("ZonePortee", treeNodeTab_zone),
+                new TreeNode("ZoneEffet", treeNodeTab_zone),
+                new TreeNode("CoutPA", treeNodeTab_simpleVar),
+                new TreeNode("TabEffets", treeNodeTab_tab)
+            };
+            foreach (TreeNode Tnode in treeNodeTab_arme)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "property";
+                Tnode.Text = "system";
+            }
 
+            #endregion
+            #region Sort
+            TreeNode[] treeNodeTab_sort = new TreeNode[] {
+                new TreeNode("IdSort", treeNodeTab_simpleVar),
+                new TreeNode("TabEffets", treeNodeTab_tab),
+                new TreeNode("Nom", treeNodeTab_chaine),
+                new TreeNode("LigneDeVue", treeNodeTab_simpleVar),
+                new TreeNode("PorteeModifiable", treeNodeTab_simpleVar),
+                new TreeNode("CelluleLibre", treeNodeTab_simpleVar),
+                new TreeNode("ZonePortee", treeNodeTab_zone),
+                new TreeNode("ZoneEffet", treeNodeTab_zone),
+                new TreeNode("TabEffets", treeNodeTab_tab),
+                new TreeNode("TauxDeRelance", treeNodeTab_simpleVar),
+                new TreeNode("CoutPA", treeNodeTab_simpleVar)
+            };
+            foreach (TreeNode Tnode in treeNodeTab_sort)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "property";
+                Tnode.Text = "system";
+            }
+            #endregion
+            #region Classe
+            TreeNode[] treeNodeTab_classe = new TreeNode[] {
+                new TreeNode("IdClasse", treeNodeTab_simpleVar),
+                new TreeNode("TabSorts", treeNodeTab_tab),
+                new TreeNode("Nom")
+            };
+            foreach (TreeNode Tnode in treeNodeTab_classe)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "property";
+                Tnode.Text = "system";
+            }
+            #endregion
+            #region Personnage
+            TreeNode[] treeNodeTab_method_perso = new TreeNode[] {
+                new TreeNode("UtiliserSort()", treeNodeTab_simpleVar),
+                new TreeNode("AvancerVers()", treeNodeTab_simpleVar),
+                new TreeNode("Attaquer()", treeNodeTab_simpleVar)
+            };
+
+            foreach (TreeNode Tnode in treeNodeTab_method_perso)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "method";
+                Tnode.Text = "system";
+            }
+
+            TreeNode[] treeNodeTab_attribut_perso = new TreeNode[] {
+                new TreeNode("Equipe"),
+                new TreeNode("Etat"),
+                new TreeNode("IdEntite", treeNodeTab_simpleVar),
+                new TreeNode("ClasseEntite", treeNodeTab_classe),
+                new TreeNode("Nom", treeNodeTab_chaine),
+                new TreeNode("Experience", treeNodeTab_simpleVar),
+                new TreeNode("PV", treeNodeTab_simpleVar),
+                new TreeNode("PV_MAX", treeNodeTab_simpleVar),
+                new TreeNode("PA", treeNodeTab_simpleVar),
+                new TreeNode("PA_MAX", treeNodeTab_simpleVar),
+                new TreeNode("PM", treeNodeTab_simpleVar),
+                new TreeNode("PM_MAX", treeNodeTab_simpleVar),
+                new TreeNode("Proprietaire", treeNodeTab_simpleVar),
+                new TreeNode("ListStatistiques", treeNodeTab_Liste),
+                new TreeNode("ListEnvoutements", treeNodeTab_Liste),
+                new TreeNode("TabEquipements", treeNodeTab_tab)
+            };
+            foreach (TreeNode Tnode in treeNodeTab_attribut_perso)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "property";
+                Tnode.Text = "system";
+            }
+
+            TreeNode[] treeNodeTab_perso = new TreeNode[treeNodeTab_method_perso.Length + treeNodeTab_attribut_perso.Length];
+            treeNodeTab_method_perso.CopyTo(treeNodeTab_perso, 0);
+            treeNodeTab_attribut_perso.CopyTo(treeNodeTab_perso, treeNodeTab_method_perso.Length);
+            #endregion
+            #region Entite
+            TreeNode[] treeNodeTab_method_entite = new TreeNode[] {
+                new TreeNode("UtiliserSort()", treeNodeTab_simpleVar),
+                new TreeNode("AvancerVers()", treeNodeTab_simpleVar)
+            };
+
+            foreach (TreeNode Tnode in treeNodeTab_method_entite)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "method";
+                Tnode.Text = "system";
+            }
+
+            TreeNode[] treeNodeTab_attribut_entite = new TreeNode[] {
+                new TreeNode("Equipe"),
+                new TreeNode("Etat"),
+                new TreeNode("IdEntite", treeNodeTab_simpleVar),
+                new TreeNode("ClasseEntite", treeNodeTab_classe),
+                new TreeNode("Nom", treeNodeTab_chaine),
+                new TreeNode("Experience", treeNodeTab_simpleVar),
+                new TreeNode("PV", treeNodeTab_simpleVar),
+                new TreeNode("PV_MAX", treeNodeTab_simpleVar),
+                new TreeNode("PA", treeNodeTab_simpleVar),
+                new TreeNode("PA_MAX", treeNodeTab_simpleVar),
+                new TreeNode("PM", treeNodeTab_simpleVar),
+                new TreeNode("PM_MAX", treeNodeTab_simpleVar),
+                new TreeNode("Proprietaire", treeNodeTab_simpleVar),
+                new TreeNode("ListStatistiques", treeNodeTab_Liste),
+                new TreeNode("ListEnvoutements", treeNodeTab_Liste)
+            };
+            foreach (TreeNode Tnode in treeNodeTab_attribut_entite)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "property";
+                Tnode.Text = "system";
+            }
+
+            TreeNode[] treeNodeTab_entite = new TreeNode[treeNodeTab_method_entite.Length + treeNodeTab_attribut_entite.Length];
+            treeNodeTab_method_entite.CopyTo(treeNodeTab_entite, 0);
+            treeNodeTab_attribut_entite.CopyTo(treeNodeTab_entite, treeNodeTab_method_entite.Length);
+            #endregion
+            #region EntiteInconnu
+            TreeNode[] treeNodeTab_method_perso_i = new TreeNode[] {
+                new TreeNode("UtiliserSort()", treeNodeTab_simpleVar),
+                new TreeNode("AvancerVers()", treeNodeTab_simpleVar),
+                new TreeNode("Attaquer()", treeNodeTab_simpleVar)
+            };
+
+            foreach (TreeNode Tnode in treeNodeTab_method_perso_i)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "method";
+                Tnode.Text = "system";
+            }
+
+            TreeNode[] treeNodeTab_attribut_perso_i = new TreeNode[] {
+                new TreeNode("Equipe"),
+                new TreeNode("Etat"),
+                new TreeNode("IdEntite", treeNodeTab_simpleVar),
+                new TreeNode("ClasseEntite", treeNodeTab_classe),
+                new TreeNode("Nom", treeNodeTab_chaine),
+                new TreeNode("Experience", treeNodeTab_simpleVar),
+                new TreeNode("PV", treeNodeTab_simpleVar),
+                new TreeNode("PV_MAX", treeNodeTab_simpleVar),
+                new TreeNode("PA", treeNodeTab_simpleVar),
+                new TreeNode("PA_MAX", treeNodeTab_simpleVar),
+                new TreeNode("PM", treeNodeTab_simpleVar),
+                new TreeNode("PM_MAX", treeNodeTab_simpleVar),
+                new TreeNode("Proprietaire", treeNodeTab_simpleVar),
+                new TreeNode("ListStatistiques", treeNodeTab_Liste),
+                new TreeNode("ListEnvoutements", treeNodeTab_Liste)
+            };
+            foreach (TreeNode Tnode in treeNodeTab_attribut_perso_i)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "property";
+                Tnode.Text = "system";
+            }
+
+            TreeNode[] treeNodeTab_perso_i = new TreeNode[treeNodeTab_method_perso_i.Length + treeNodeTab_attribut_perso_i.Length];
+            treeNodeTab_method_perso_i.CopyTo(treeNodeTab_perso_i, 0);
+            treeNodeTab_attribut_perso_i.CopyTo(treeNodeTab_perso_i, treeNodeTab_method_perso_i.Length);
+            #endregion
+            #region Terrain
+            TreeNode[] treeNodeTab_method_terrain = new TreeNode[] {
+                new TreeNode("DistanceEntreCases()", treeNodeTab_simpleVar),
+                new TreeNode("CaseAvecObstacle()", treeNodeTab_Liste),
+                new TreeNode("CheminEntreCases()", treeNodeTab_Liste),
+                new TreeNode("CaseVoisines()", treeNodeTab_Liste)
+            };
+
+            foreach (TreeNode Tnode in treeNodeTab_method_terrain)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "method";
+                Tnode.Text = "system";
+            }
+
+            TreeNode[] treeNodeTab_attribut_terrain = new TreeNode[] {
+                new TreeNode("TabCases", treeNodeTab_tab),
+                new TreeNode("Largeur", treeNodeTab_simpleVar),
+                new TreeNode("Hauteur", treeNodeTab_simpleVar)
+            };
+            foreach (TreeNode Tnode in treeNodeTab_attribut_terrain)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "property";
+                Tnode.Text = "system";
+            }
+
+            TreeNode[] treeNodeTab_terrain = new TreeNode[treeNodeTab_method_terrain.Length + treeNodeTab_attribut_terrain.Length];
+            treeNodeTab_method_terrain.CopyTo(treeNodeTab_terrain, 0);
+            treeNodeTab_attribut_terrain.CopyTo(treeNodeTab_terrain, treeNodeTab_method_terrain.Length);
+            #endregion
+            
+
+            TreeNode treeNode_Template_1 = new TreeNode("chaine", treeNodeTab_chaine);
+            TreeNode treeNode_Template_2 = new TreeNode("simpleVar", treeNodeTab_simpleVar);
+            TreeNode treeNode_Template_3 = new TreeNode("tab", treeNodeTab_tab);
+            TreeNode treeNode_Template_4 = new TreeNode("fonctionVoid");
+            TreeNode treeNode_Template_5 = new TreeNode("Liste", treeNodeTab_Liste);
+            TreeNode treeNode_Template_6 = new TreeNode("Effet", treeNodeTab_effet);
+            TreeNode treeNode_Template_7 = new TreeNode("Envoutement", treeNodeTab_envoutement);
+            TreeNode treeNode_Template_8 = new TreeNode("Statistique", treeNodeTab_stat);
+            TreeNode treeNode_Template_9 = new TreeNode("Equipement", treeNodeTab_equip);
+            TreeNode treeNode_Template_10 = new TreeNode("Case", treeNodeTab_case);
+            TreeNode treeNode_Template_11 = new TreeNode("Zone", treeNodeTab_zone);
+            TreeNode treeNode_Template_12 = new TreeNode("Arme", treeNodeTab_arme);
+            TreeNode treeNode_Template_13 = new TreeNode("Sort", treeNodeTab_sort);
+            TreeNode treeNode_Template_14 = new TreeNode("Classe", treeNodeTab_classe);
+            TreeNode treeNode_Template_15 = new TreeNode("Personnage", treeNodeTab_perso);
+            TreeNode treeNode_Template_16 = new TreeNode("Entite", treeNodeTab_entite);
+            TreeNode treeNode_Template_17 = new TreeNode("EntiteInconnu", treeNodeTab_perso_i);
+            TreeNode treeNode_Template_18 = new TreeNode("Terrain", treeNodeTab_terrain);
+
+            TreeNode[] treeNode_root = new TreeNode[] {
+            treeNode_Template_1,
+            treeNode_Template_2,
+            treeNode_Template_3,
+            treeNode_Template_4,
+            treeNode_Template_5,
+            treeNode_Template_6,
+            treeNode_Template_7,
+            treeNode_Template_8,
+            treeNode_Template_9,
+            treeNode_Template_10,
+            treeNode_Template_11,
+            treeNode_Template_12,
+            treeNode_Template_13,
+            treeNode_Template_14,
+            treeNode_Template_15,
+            treeNode_Template_16,
+            treeNode_Template_17,
+            treeNode_Template_18};
+
+            foreach (TreeNode Tnode in treeNode_root)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "class";
+                Tnode.Text = "system";
+            }
+
+            return treeNode_root;
+        }
+
+        #region generate tree
+        private TreeNode[] generateTree(TreeNode[] treeNode_template)
+        {
+            #region system and keyword
             //#############################################################################################################
             TreeNode[] treeNodeTab_method_math = new TreeNode[] {
-                new TreeNode("Abs()", treeNodeTab_simpleVar),
-                new TreeNode("Acos()", treeNodeTab_simpleVar),
-                new TreeNode("Asin()", treeNodeTab_simpleVar),
-                new TreeNode("Atan()", treeNodeTab_simpleVar),
-                new TreeNode("Atan2()", treeNodeTab_simpleVar),
-                new TreeNode("BigMul()", treeNodeTab_simpleVar),
-                new TreeNode("Ceiling()", treeNodeTab_simpleVar),
-                new TreeNode("Cos()", treeNodeTab_simpleVar),
-                new TreeNode("Cosh()", treeNodeTab_simpleVar),
-                new TreeNode("DivRem()", treeNodeTab_simpleVar),
-                new TreeNode("Exp()", treeNodeTab_simpleVar),
-                new TreeNode("Floor()", treeNodeTab_simpleVar),
-                new TreeNode("Log()", treeNodeTab_simpleVar),
-                new TreeNode("Log10()", treeNodeTab_simpleVar),
-                new TreeNode("Max()", treeNodeTab_simpleVar),
-                new TreeNode("Min()", treeNodeTab_simpleVar),
-                new TreeNode("Pow()", treeNodeTab_simpleVar),
-                new TreeNode("Round()", treeNodeTab_simpleVar),
-                new TreeNode("Sign()", treeNodeTab_simpleVar),
-                new TreeNode("Sin()", treeNodeTab_simpleVar),
-                new TreeNode("Sinh()", treeNodeTab_simpleVar),
-                new TreeNode("Sqrt()", treeNodeTab_simpleVar),
-                new TreeNode("Tan()", treeNodeTab_simpleVar),
-                new TreeNode("Tanh()", treeNodeTab_simpleVar),
-                new TreeNode("Truncate()", treeNodeTab_simpleVar),
-                new TreeNode("Sinh()", treeNodeTab_simpleVar),
-                new TreeNode("Sqrt()", treeNodeTab_simpleVar),
-                new TreeNode("Tan()", treeNodeTab_simpleVar),
-                new TreeNode("Tanh()", treeNodeTab_simpleVar),
-                new TreeNode("Truncate()", treeNodeTab_simpleVar)
+                new TreeNode("Abs()", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray()),
+                new TreeNode("Acos()", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray()),
+                new TreeNode("Asin()", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray()),
+                new TreeNode("Atan()", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray()),
+                new TreeNode("Atan2()", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray()),
+                new TreeNode("BigMul()", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray()),
+                new TreeNode("Ceiling()", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray()),
+                new TreeNode("Cos()", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray()),
+                new TreeNode("Cosh()", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray()),
+                new TreeNode("DivRem()", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray()),
+                new TreeNode("Exp()", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray()),
+                new TreeNode("Floor()", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray()),
+                new TreeNode("Log()", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray()),
+                new TreeNode("Log10()", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray()),
+                new TreeNode("Max()", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray()),
+                new TreeNode("Min()", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray()),
+                new TreeNode("Pow()", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray()),
+                new TreeNode("Round()", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray()),
+                new TreeNode("Sign()", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray()),
+                new TreeNode("Sin()", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray()),
+                new TreeNode("Sinh()", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray()),
+                new TreeNode("Sqrt()", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray()),
+                new TreeNode("Tan()", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray()),
+                new TreeNode("Tanh()", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray()),
+                new TreeNode("Truncate()", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray()),
+                new TreeNode("Sinh()", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray()),
+                new TreeNode("Sqrt()", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray()),
+                new TreeNode("Tan()", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray()),
+                new TreeNode("Tanh()", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray()),
+                new TreeNode("Truncate()", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray())
             };
 
             foreach (TreeNode Tnode in treeNodeTab_method_math)
@@ -746,8 +1092,8 @@ namespace test
 
 
             TreeNode[] treeNodeTab_attribut_math = new TreeNode[] {
-                new TreeNode("E", treeNodeTab_simpleVar),
-                new TreeNode("PI", treeNodeTab_simpleVar)
+                new TreeNode("E", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray()),
+                new TreeNode("PI", treeNode_template.First(x => x.Name == "simpleVar").Nodes.Cast<TreeNode>().ToArray())
             };
             foreach (TreeNode Tnode in treeNodeTab_attribut_math)
             {
@@ -846,7 +1192,9 @@ namespace test
                 Tnode.Tag = "namespace";
                 Tnode.Text = "system";
             }
+            #endregion
             //#############################################################################################################
+            #region enum
             TreeNode[] treeNodeTab_T_zone_enum = new TreeNode[] {
                 new TreeNode("cercle"),
                 new TreeNode("ligne_verticale"),
@@ -1361,6 +1709,7 @@ namespace test
                 Tnode.Tag = "namespace";
                 Tnode.Text = "system";
             }
+            #endregion
             //#############################################################################################################
             TreeNode[] treeNodeTab_gofus = new TreeNode[] {
                 new TreeNode("Arme", treeNodeTab_T_arme),
@@ -1385,209 +1734,12 @@ namespace test
                 Tnode.Text = "system";
             }
             //#############################################################################################################
-            TreeNode[] treeNodeTab_stat = new TreeNode[] {
-                new TreeNode("Nom"),
-                new TreeNode("Valeur", treeNodeTab_simpleVar)
-            };
-            foreach (TreeNode Tnode in treeNodeTab_stat)
-            {
-                Tnode.Name = Tnode.Text;
-                Tnode.Tag = "property";
-                Tnode.Text = "system";
-            }
-            //#############################################################################################################
-            TreeNode[] treeNodeTab_equip = new TreeNode[] {
-                new TreeNode("IdEquipement", treeNodeTab_simpleVar),
-                new TreeNode("Nom", treeNodeTab_chaine),
-                new TreeNode("TabStatistiques", treeNodeTab_tab),
-                new TreeNode("Type")
-            };
-            foreach (TreeNode Tnode in treeNodeTab_equip)
-            {
-                Tnode.Name = Tnode.Text;
-                Tnode.Tag = "property";
-                Tnode.Text = "system";
-            }
-            //#############################################################################################################
-            TreeNode[] treeNodeTab_case = new TreeNode[] {
-                new TreeNode("X", treeNodeTab_simpleVar),
-                new TreeNode("Y", treeNodeTab_simpleVar),
-                new TreeNode("Contenu")
-            };
-            foreach (TreeNode Tnode in treeNodeTab_case)
-            {
-                Tnode.Name = Tnode.Text;
-                Tnode.Tag = "property";
-                Tnode.Text = "system";
-            }
-            //#############################################################################################################
-            TreeNode[] treeNodeTab_zone = new TreeNode[] {
-                new TreeNode("PorteeMin", treeNodeTab_simpleVar),
-                new TreeNode("PorteeMax", treeNodeTab_simpleVar),
-                new TreeNode("Type")
-            };
-            foreach (TreeNode Tnode in treeNodeTab_zone)
-            {
-                Tnode.Name = Tnode.Text;
-                Tnode.Tag = "property";
-                Tnode.Text = "system";
-            }
-            //#############################################################################################################
-            TreeNode[] treeNodeTab_sort = new TreeNode[] {
-                new TreeNode("IdSort", treeNodeTab_simpleVar),
-                new TreeNode("TabEffets", treeNodeTab_tab),
-                new TreeNode("Nom", treeNodeTab_chaine),
-                new TreeNode("LigneDeVue", treeNodeTab_simpleVar),
-                new TreeNode("PorteeModifiable", treeNodeTab_simpleVar),
-                new TreeNode("CelluleLibre", treeNodeTab_simpleVar),
-                new TreeNode("ZonePortee", treeNodeTab_zone),
-                new TreeNode("ZoneEffet", treeNodeTab_zone),
-                new TreeNode("TabEffets", treeNodeTab_tab),
-                new TreeNode("TauxDeRelance", treeNodeTab_simpleVar),
-                new TreeNode("CoutPA", treeNodeTab_simpleVar)
-            };
-            foreach (TreeNode Tnode in treeNodeTab_sort)
-            {
-                Tnode.Name = Tnode.Text;
-                Tnode.Tag = "property";
-                Tnode.Text = "system";
-            }
-            //#############################################################################################################
-            TreeNode[] treeNodeTab_classe = new TreeNode[] {
-                new TreeNode("IdClasse", treeNodeTab_simpleVar),
-                new TreeNode("TabSorts", treeNodeTab_tab),
-                new TreeNode("Nom")
-            };
-            foreach (TreeNode Tnode in treeNodeTab_classe)
-            {
-                Tnode.Name = Tnode.Text;
-                Tnode.Tag = "property";
-                Tnode.Text = "system";
-            }
-            //#############################################################################################################
-            TreeNode[] treeNodeTab_method_perso = new TreeNode[] {
-                new TreeNode("UtiliserSort()", treeNodeTab_simpleVar),
-                new TreeNode("AvancerVers()", treeNodeTab_simpleVar),
-                new TreeNode("Attaquer()", treeNodeTab_simpleVar)
-            };
-
-            foreach (TreeNode Tnode in treeNodeTab_method_perso)
-            {
-                Tnode.Name = Tnode.Text;
-                Tnode.Tag = "method";
-                Tnode.Text = "system";
-            }
-
-            TreeNode[] treeNodeTab_attribut_perso = new TreeNode[] {
-                new TreeNode("Equipe"),
-                new TreeNode("Etat"),
-                new TreeNode("IdEntite", treeNodeTab_simpleVar),
-                new TreeNode("ClasseEntite", treeNodeTab_classe),
-                new TreeNode("Nom", treeNodeTab_chaine),
-                new TreeNode("Experience", treeNodeTab_simpleVar),
-                new TreeNode("PV", treeNodeTab_simpleVar),
-                new TreeNode("PV_MAX", treeNodeTab_simpleVar),
-                new TreeNode("PA", treeNodeTab_simpleVar),
-                new TreeNode("PA_MAX", treeNodeTab_simpleVar),
-                new TreeNode("PM", treeNodeTab_simpleVar),
-                new TreeNode("PM_MAX", treeNodeTab_simpleVar),
-                new TreeNode("Proprietaire", treeNodeTab_simpleVar),
-                new TreeNode("ListStatistiques", treeNodeTab_Liste),
-                new TreeNode("ListEnvoutements", treeNodeTab_Liste)
-            };
-            foreach (TreeNode Tnode in treeNodeTab_attribut_perso)
-            {
-                Tnode.Name = Tnode.Text;
-                Tnode.Tag = "property";
-                Tnode.Text = "system";
-            }
-
-            TreeNode[] treeNodeTab_perso = new TreeNode[treeNodeTab_method_perso.Length + treeNodeTab_attribut_perso.Length];
-            treeNodeTab_method_perso.CopyTo(treeNodeTab_perso, 0);
-            treeNodeTab_attribut_perso.CopyTo(treeNodeTab_perso, treeNodeTab_method_perso.Length);
-            //#############################################################################################################
-            TreeNode[] treeNodeTab_method_perso_i = new TreeNode[] {
-                new TreeNode("UtiliserSort()", treeNodeTab_simpleVar),
-                new TreeNode("AvancerVers()", treeNodeTab_simpleVar),
-                new TreeNode("Attaquer()", treeNodeTab_simpleVar)
-            };
-
-            foreach (TreeNode Tnode in treeNodeTab_method_perso_i)
-            {
-                Tnode.Name = Tnode.Text;
-                Tnode.Tag = "method";
-                Tnode.Text = "system";
-            }
-
-            TreeNode[] treeNodeTab_attribut_perso_i = new TreeNode[] {
-                new TreeNode("Equipe"),
-                new TreeNode("Etat"),
-                new TreeNode("IdEntite", treeNodeTab_simpleVar),
-                new TreeNode("ClasseEntite", treeNodeTab_classe),
-                new TreeNode("Nom", treeNodeTab_chaine),
-                new TreeNode("Experience", treeNodeTab_simpleVar),
-                new TreeNode("PV", treeNodeTab_simpleVar),
-                new TreeNode("PV_MAX", treeNodeTab_simpleVar),
-                new TreeNode("PA", treeNodeTab_simpleVar),
-                new TreeNode("PA_MAX", treeNodeTab_simpleVar),
-                new TreeNode("PM", treeNodeTab_simpleVar),
-                new TreeNode("PM_MAX", treeNodeTab_simpleVar),
-                new TreeNode("Proprietaire", treeNodeTab_simpleVar),
-                new TreeNode("ListStatistiques", treeNodeTab_Liste),
-                new TreeNode("ListEnvoutements", treeNodeTab_Liste)
-            };
-            foreach (TreeNode Tnode in treeNodeTab_attribut_perso_i)
-            {
-                Tnode.Name = Tnode.Text;
-                Tnode.Tag = "property";
-                Tnode.Text = "system";
-            }
-
-            TreeNode[] treeNodeTab_perso_i = new TreeNode[treeNodeTab_method_perso_i.Length + treeNodeTab_attribut_perso_i.Length];
-            treeNodeTab_method_perso_i.CopyTo(treeNodeTab_perso_i, 0);
-            treeNodeTab_attribut_perso_i.CopyTo(treeNodeTab_perso_i, treeNodeTab_method_perso_i.Length);
-            //#############################################################################################################
-            TreeNode[] treeNodeTab_method_terrain = new TreeNode[] {
-                new TreeNode("DistanceEntreCases()", treeNodeTab_simpleVar),
-                new TreeNode("CaseAvecObstacle()", treeNodeTab_Liste),
-                new TreeNode("CheminEntreCases()", treeNodeTab_Liste),
-                new TreeNode("CaseVoisines()", treeNodeTab_Liste)
-            };
-
-            foreach (TreeNode Tnode in treeNodeTab_method_terrain)
-            {
-                Tnode.Name = Tnode.Text;
-                Tnode.Tag = "method";
-                Tnode.Text = "system";
-            }
-
-            TreeNode[] treeNodeTab_attribut_terrain = new TreeNode[] {
-                new TreeNode("TabCases", treeNodeTab_tab),
-                new TreeNode("Largeur", treeNodeTab_simpleVar),
-                new TreeNode("Hauteur", treeNodeTab_simpleVar)
-            };
-            foreach (TreeNode Tnode in treeNodeTab_attribut_terrain)
-            {
-                Tnode.Name = Tnode.Text;
-                Tnode.Tag = "property";
-                Tnode.Text = "system";
-            }
-
-            TreeNode[] treeNodeTab_terrain = new TreeNode[treeNodeTab_method_terrain.Length + treeNodeTab_attribut_terrain.Length];
-            treeNodeTab_method_terrain.CopyTo(treeNodeTab_terrain, 0);
-            treeNodeTab_attribut_terrain.CopyTo(treeNodeTab_terrain, treeNodeTab_method_terrain.Length);
-            //#############################################################################################################
             TreeNode treeNode_1 = new TreeNode("keyword");
             TreeNode treeNode_2 = new TreeNode("classGofus");
             TreeNode treeNode_3 = new TreeNode("Math", treeNodeTab_math);
-            TreeNode treeNode_4 = new TreeNode("chaine", treeNodeTab_chaine);
-            TreeNode treeNode_5 = new TreeNode("simpleVar", treeNodeTab_simpleVar);
-            TreeNode treeNode_6 = new TreeNode("tab", treeNodeTab_tab);
-            TreeNode treeNode_7 = new TreeNode("fonctionVoid");
-            TreeNode treeNode_8 = new TreeNode("Liste", treeNodeTab_Liste);
-            TreeNode treeNode_9 = new TreeNode("Perso", treeNodeTab_perso);
-            TreeNode treeNode_10 = new TreeNode("ListeEntite", treeNodeTab_Liste);
-            TreeNode treeNode_11 = new TreeNode("terrain", treeNodeTab_terrain);
+            TreeNode treeNode_4 = new TreeNode("Perso", treeNode_template.First(x => x.Name == "Personnage").Nodes.Cast<TreeNode>().ToArray());
+            TreeNode treeNode_5 = new TreeNode("ListeEntite", treeNode_template.First(x => x.Name == "Liste").Nodes.Cast<TreeNode>().ToArray());
+            TreeNode treeNode_6 = new TreeNode("terrain", treeNode_template.First(x => x.Name == "Terrain").Nodes.Cast<TreeNode>().ToArray());
 
             treeNode_1.Name = "keyword";
             treeNode_1.Tag = "class";
@@ -1601,37 +1753,17 @@ namespace test
             treeNode_3.Tag = "class";
             treeNode_3.Text = "system";
 
-            treeNode_4.Name = "chaine";
-            treeNode_4.Tag = "class";
+            treeNode_4.Name = "Perso";
+            treeNode_4.Tag = "property";
             treeNode_4.Text = "system";
 
-            treeNode_5.Name = "simpleVar";
-            treeNode_5.Tag = "class";
+            treeNode_5.Name = "ListeEntite";
+            treeNode_5.Tag = "property";
             treeNode_5.Text = "system";
 
-            treeNode_6.Name = "tab";
-            treeNode_6.Tag = "class";
+            treeNode_6.Name = "terrain";
+            treeNode_6.Tag = "property";
             treeNode_6.Text = "system";
-
-            treeNode_7.Name = "fonctionVoid";
-            treeNode_7.Tag = "class";
-            treeNode_7.Text = "system";
-
-            treeNode_8.Name = "Liste";
-            treeNode_8.Tag = "class";
-            treeNode_8.Text = "system";
-
-            treeNode_9.Name = "Perso";
-            treeNode_9.Tag = "property";
-            treeNode_9.Text = "system";
-
-            treeNode_10.Name = "ListeEntite";
-            treeNode_10.Tag = "property";
-            treeNode_10.Text = "system";
-
-            treeNode_11.Name = "terrain";
-            treeNode_11.Tag = "property";
-            treeNode_11.Text = "system";
 
             TreeNode[] treeNode_root = new TreeNode[] {
             treeNode_1,
@@ -1639,14 +1771,7 @@ namespace test
             treeNode_3,
             treeNode_4,
             treeNode_5,
-            treeNode_6,
-            treeNode_7,
-            treeNode_8,
-            treeNode_9,
-            treeNode_10,
-            treeNode_11};
-
-
+            treeNode_6};
 
             TreeNode[] treeNode_Intellisense = new TreeNode[treeNode_root.Length + treeNodeTab_keyword.Length + treeNodeTab_gofus.Length];
             treeNodeTab_keyword.CopyTo(treeNode_Intellisense, 0);
