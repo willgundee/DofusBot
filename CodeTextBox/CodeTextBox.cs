@@ -244,6 +244,14 @@ namespace Moonlight
             set { mp_IntellisenseTree = value; }
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Browsable(true), Category("CodeTexbox"), Description("Gets or Sets the intellisense template item tree.")]
+        public TreeView IntellisenseTree_Template
+        {
+            get { return mp_IntellisenseTree_Template; }
+            set { mp_IntellisenseTree_Template = value; }
+        }
+
         [Browsable(true), Category("CodeTexbox"), Description("Gets or Sets the key to open intellisense.")]
         public Keys IntellisenseKey
         {
@@ -311,7 +319,8 @@ namespace Moonlight
             mp_IntellisenseBox           = new ImageListBox();
 
             //Instantiate intellisense tree
-            mp_IntellisenseTree          = new TreeView();
+            mp_IntellisenseTree = new TreeView();
+            mp_IntellisenseTree_Template = new TreeView();
             #endregion
 
             #region Setup intellisense box
@@ -341,7 +350,7 @@ namespace Moonlight
         public void UpdateTreeView()
         {
             m_IntellisenseDynamic.Update(this);
-            m_IntellisenseDynamic.DoIntellisense_AllLines(this, mp_IntellisenseTree);
+            m_IntellisenseDynamic.DoIntellisense_AllLines(this, mp_IntellisenseTree, mp_IntellisenseTree_Template);
         }
 
         /// <summary>
@@ -351,7 +360,6 @@ namespace Moonlight
         {
             mp_IntellisenseTree.Nodes.AddRange(treeNode_arr_main);
             mp_IntellisenseTree_Template.Nodes.AddRange(treeNode_arr_template);
-            
         }
         #endregion
 
@@ -423,7 +431,7 @@ namespace Moonlight
                         this.SelectedText = text;
 
                         m_SyntaxHighLighter.DoSyntaxHightlight_Selection(this, selectionStart, selectionLength);
-                        m_IntellisenseDynamic.DoIntellisense_Selection(this, selectionStart, selectionLength, mp_IntellisenseTree);
+                        m_IntellisenseDynamic.DoIntellisense_Selection(this, selectionStart, selectionLength, mp_IntellisenseTree, mp_IntellisenseTree_Template);
                         #endregion
                     }
                     break;
@@ -533,9 +541,9 @@ namespace Moonlight
             //Syntax Highlight the current line... :)
             m_SyntaxHighLighter.DoSyntaxHightlight_CurrentLine(this);
 
-            m_IntellisenseDynamic.DoIntellisense_CurrentLine(this, mp_IntellisenseTree);
+            m_IntellisenseDynamic.DoIntellisense_CurrentLine(this, mp_IntellisenseTree, mp_IntellisenseTree_Template);
 
-            m_IntellisenseDynamic.RefreshIntellisense(this, mp_IntellisenseTree);
+            m_IntellisenseDynamic.RefreshIntellisense(this, mp_IntellisenseTree, mp_IntellisenseTree_Template);
 
             base.OnTextChanged(e);
         }

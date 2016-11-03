@@ -73,7 +73,7 @@ namespace Moonlight.IntellisenseDynamic
         #endregion
 
         #region Methods
-        public void DoIntellisense_CurrentLine(CodeTextBox codeTextbox, TreeView m_IntellisenseTree)
+        public void DoIntellisense_CurrentLine(CodeTextBox codeTextbox, TreeView m_IntellisenseTree, TreeView m_IntellisenseTree_Template)
         {
             #region Compile regexs if necessary
             if (!compiled)
@@ -85,9 +85,9 @@ namespace Moonlight.IntellisenseDynamic
             string line = RichTextboxHelper.GetCurrentLine(codeTextbox);
             int lineStart = RichTextboxHelper.GetCurrentLineStartIndex(codeTextbox);
 
-            ProcessLine(codeTextbox, line, lineStart, m_IntellisenseTree);
+            ProcessLine(codeTextbox, line, lineStart, m_IntellisenseTree, m_IntellisenseTree_Template);
         }
-        public void DoIntellisense_Selection(CodeTextBox codeTextbox, int selectionStart, int selectionLength, TreeView m_IntellisenseTree)
+        public void DoIntellisense_Selection(CodeTextBox codeTextbox, int selectionStart, int selectionLength, TreeView m_IntellisenseTree, TreeView m_IntellisenseTree_Template)
         {
             #region Compile regexs if necessary
             if (!compiled)
@@ -96,9 +96,9 @@ namespace Moonlight.IntellisenseDynamic
             }
             #endregion
 
-            ProcessSelection(codeTextbox, selectionStart, selectionLength, m_IntellisenseTree);
+            ProcessSelection(codeTextbox, selectionStart, selectionLength, m_IntellisenseTree, m_IntellisenseTree_Template);
         }
-        public void DoIntellisense_AllLines(CodeTextBox codeTextbox, TreeView m_IntellisenseTree)
+        public void DoIntellisense_AllLines(CodeTextBox codeTextbox, TreeView m_IntellisenseTree, TreeView m_IntellisenseTree_Template)
         {
             #region Compile regexs if necessary
             if (!compiled)
@@ -107,10 +107,10 @@ namespace Moonlight.IntellisenseDynamic
             }
             #endregion
 
-            ProcessAllLines(codeTextbox, m_IntellisenseTree);
+            ProcessAllLines(codeTextbox, m_IntellisenseTree, m_IntellisenseTree_Template);
 
         }
-        public void RefreshIntellisense(CodeTextBox codeTextbox, TreeView m_IntellisenseTree)
+        public void RefreshIntellisense(CodeTextBox codeTextbox, TreeView m_IntellisenseTree, TreeView m_IntellisenseTree_Template)
         {
             #region Compile regexs if necessary
             if (!compiled)
@@ -119,7 +119,7 @@ namespace Moonlight.IntellisenseDynamic
             }
             #endregion
 
-            RemoveInexistant(codeTextbox, m_IntellisenseTree);
+            RemoveInexistant(codeTextbox, m_IntellisenseTree, m_IntellisenseTree_Template);
 
         }
         /// <summary>
@@ -240,7 +240,7 @@ namespace Moonlight.IntellisenseDynamic
         /// <param name="lineStart"></param>
         /// <param name="regexp"></param>
         /// <param name="color"></param>
-        private void ProcessRegex(CodeTextBox codeTextbox, string line, int lineStart, Regex regexp, string nodeType, string nodeTag, TreeView m_IntellisenseTree)
+        private void ProcessRegex(CodeTextBox codeTextbox, string line, int lineStart, Regex regexp, string nodeType, string nodeTag, TreeView m_IntellisenseTree, TreeView m_IntellisenseTree_Template)
         {
             if (regexp == null)
             {
@@ -265,7 +265,7 @@ namespace Moonlight.IntellisenseDynamic
                         break;
 
                     TreeNode newNode = new TreeNode(result);
-                    newNode = (TreeNode)m_IntellisenseTree.Nodes.Find(nodeType, false)[0].Clone();
+                    newNode = (TreeNode)m_IntellisenseTree_Template.Nodes.Find(nodeType, false)[0].Clone();
                     newNode.Name = result;
                     newNode.Tag = nodeTag;
                     newNode.Text = nodeType;
@@ -280,171 +280,171 @@ namespace Moonlight.IntellisenseDynamic
         /// <param name="syntaxSettings"></param>
         /// <param name="line"></param>
         /// <param name="lineStart"></param>
-        private void ProcessLine(CodeTextBox codeTextbox, string line, int lineStart, TreeView m_IntellisenseTree)
+        private void ProcessLine(CodeTextBox codeTextbox, string line, int lineStart, TreeView m_IntellisenseTree, TreeView m_IntellisenseTree_Template)
         {
             // Process the simpleVar
-            ProcessRegex(codeTextbox, line, lineStart, simpleVarRegexp, "simpleVar", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, line, lineStart, simpleVarFonctionRegexp, "simpleVar", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, line, lineStart, simpleVarRegexp, "simpleVar", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, line, lineStart, simpleVarFonctionRegexp, "simpleVar", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
             // Process the string
-            ProcessRegex(codeTextbox, line, lineStart, chainesRegexp, "chaine", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, line, lineStart, chainesFonctionRegexp, "chaine", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, line, lineStart, chainesRegexp, "chaine", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, line, lineStart, chainesFonctionRegexp, "chaine", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
             // Process the simpleVar
-            ProcessRegex(codeTextbox, line, lineStart, tableauRegexp, "tab", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, line, lineStart, tableauFonctionRegexp, "tab", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, line, lineStart, tableauRegexp, "tab", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, line, lineStart, tableauFonctionRegexp, "tab", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
             // Process the string
-            ProcessRegex(codeTextbox, line, lineStart, voidFonctionRegexp, "fonctionVoid", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, line, lineStart, voidFonctionRegexp, "fonctionVoid", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
 
             #region process gofus
-            ProcessRegex(codeTextbox, line, lineStart, ArmeRegexp, "Arme", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, line, lineStart, ArmeFonctionRegexp, "Arme", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, line, lineStart, ArmeRegexp, "Arme", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, line, lineStart, ArmeFonctionRegexp, "Arme", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
 
-            ProcessRegex(codeTextbox, line, lineStart, CaseRegexp, "Case", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, line, lineStart, CaseFonctionRegexp, "Case", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, line, lineStart, CaseRegexp, "Case", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, line, lineStart, CaseFonctionRegexp, "Case", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
 
-            ProcessRegex(codeTextbox, line, lineStart, ClasseRegexp, "Classe", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, line, lineStart, ClasseFonctionRegexp, "Classe", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, line, lineStart, ClasseRegexp, "Classe", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, line, lineStart, ClasseFonctionRegexp, "Classe", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
 
-            ProcessRegex(codeTextbox, line, lineStart, EffetRegexp, "Effet", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, line, lineStart, EffetFonctionRegexp, "Effet", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, line, lineStart, EffetRegexp, "Effet", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, line, lineStart, EffetFonctionRegexp, "Effet", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
 
-            ProcessRegex(codeTextbox, line, lineStart, EntiteRegexp, "Entite", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, line, lineStart, EntiteFonctionRegexp, "Entite", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, line, lineStart, EntiteRegexp, "Entite", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, line, lineStart, EntiteFonctionRegexp, "Entite", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
 
-            ProcessRegex(codeTextbox, line, lineStart, EntiteInconnuRegexp, "EntiteInconnu", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, line, lineStart, EntiteInconnuFonctionRegexp, "EntiteInconnu", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, line, lineStart, EntiteInconnuRegexp, "EntiteInconnu", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, line, lineStart, EntiteInconnuFonctionRegexp, "EntiteInconnu", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
 
-            ProcessRegex(codeTextbox, line, lineStart, EnvoutementRegexp, "Envoutement", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, line, lineStart, EnvoutementFonctionRegexp, "Envoutement", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, line, lineStart, EnvoutementRegexp, "Envoutement", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, line, lineStart, EnvoutementFonctionRegexp, "Envoutement", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
 
-            ProcessRegex(codeTextbox, line, lineStart, EquipementRegexp, "Equipement", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, line, lineStart, EquipementFonctionRegexp, "Equipement", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, line, lineStart, EquipementRegexp, "Equipement", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, line, lineStart, EquipementFonctionRegexp, "Equipement", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
 
-            ProcessRegex(codeTextbox, line, lineStart, ListeRegexp, "Liste", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, line, lineStart, ListeFonctionRegexp, "Liste", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, line, lineStart, ListeRegexp, "Liste", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, line, lineStart, ListeFonctionRegexp, "Liste", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
 
-            ProcessRegex(codeTextbox, line, lineStart, PersonnageRegexp, "Personnage", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, line, lineStart, PersonnageFonctionRegexp, "Personnage", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, line, lineStart, PersonnageRegexp, "Personnage", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, line, lineStart, PersonnageFonctionRegexp, "Personnage", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
 
-            ProcessRegex(codeTextbox, line, lineStart, SortRegexp, "Sort", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, line, lineStart, SortFonctionRegexp, "Sort", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, line, lineStart, SortRegexp, "Sort", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, line, lineStart, SortFonctionRegexp, "Sort", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
 
-            ProcessRegex(codeTextbox, line, lineStart, StatistiqueRegexp, "Statistique", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, line, lineStart, StatistiqueFonctionRegexp, "Statistique", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, line, lineStart, StatistiqueRegexp, "Statistique", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, line, lineStart, StatistiqueFonctionRegexp, "Statistique", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
 
-            ProcessRegex(codeTextbox, line, lineStart, TerrainRegexp, "Terrain", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, line, lineStart, TerrainFonctionRegexp, "Terrain", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, line, lineStart, TerrainRegexp, "Terrain", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, line, lineStart, TerrainFonctionRegexp, "Terrain", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
 
-            ProcessRegex(codeTextbox, line, lineStart, ZoneRegexp, "Zone", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, line, lineStart, ZoneFonctionRegexp, "Zone", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, line, lineStart, ZoneRegexp, "Zone", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, line, lineStart, ZoneFonctionRegexp, "Zone", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
 
             #endregion
         }
-        private void ProcessSelection(CodeTextBox codeTextbox, int selectionStart, int selectionLength, TreeView m_IntellisenseTree)
+        private void ProcessSelection(CodeTextBox codeTextbox, int selectionStart, int selectionLength, TreeView m_IntellisenseTree, TreeView m_IntellisenseTree_Template)
         {
             string text = codeTextbox.SelectedText;
 
             // Process the simpleVar
-            ProcessRegex(codeTextbox, text, selectionStart, simpleVarRegexp, "simpleVar", "Property", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, text, selectionStart, simpleVarRegexp, "simpleVar", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
 
-            ProcessRegex(codeTextbox, text, selectionStart, simpleVarFonctionRegexp, "simpleVar", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, text, selectionStart, simpleVarFonctionRegexp, "simpleVar", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
 
             // Process the string
-            ProcessRegex(codeTextbox, text, selectionStart, chainesRegexp, "chaine", "Property", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, text, selectionStart, chainesRegexp, "chaine", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
 
-            ProcessRegex(codeTextbox, text, selectionStart, chainesFonctionRegexp, "chaine", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, text, selectionStart, chainesFonctionRegexp, "chaine", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
 
             // Process the simpleVar
-            ProcessRegex(codeTextbox, text, selectionStart, tableauRegexp, "tab", "Property", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, text, selectionStart, tableauRegexp, "tab", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
 
-            ProcessRegex(codeTextbox, text, selectionStart, tableauFonctionRegexp, "tab", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, text, selectionStart, tableauFonctionRegexp, "tab", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
 
             // Process the string
-            ProcessRegex(codeTextbox, text, selectionStart, voidFonctionRegexp, "fonctionVoid", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, text, selectionStart, voidFonctionRegexp, "fonctionVoid", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
 
             #region process gofus
-            ProcessRegex(codeTextbox, text, selectionStart, ArmeRegexp, "Arme", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, text, selectionStart, ArmeFonctionRegexp, "Arme", "Method", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, text, selectionStart, CaseRegexp, "Case", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, text, selectionStart, CaseFonctionRegexp, "Case", "Method", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, text, selectionStart, ClasseRegexp, "Classe", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, text, selectionStart, ClasseFonctionRegexp, "Classe", "Method", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, text, selectionStart, EffetRegexp, "Effet", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, text, selectionStart, EffetFonctionRegexp, "Effet", "Method", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, text, selectionStart, EntiteRegexp, "Entite", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, text, selectionStart, EntiteFonctionRegexp, "Entite", "Method", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, text, selectionStart, EntiteInconnuRegexp, "EntiteInconnu", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, text, selectionStart, EntiteInconnuFonctionRegexp, "EntiteInconnu", "Method", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, text, selectionStart, EnvoutementRegexp, "Envoutement", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, text, selectionStart, EnvoutementFonctionRegexp, "Envoutement", "Method", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, text, selectionStart, EquipementRegexp, "Equipement", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, text, selectionStart, EquipementFonctionRegexp, "Equipement", "Method", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, text, selectionStart, ListeRegexp, "Liste", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, text, selectionStart, ListeFonctionRegexp, "Liste", "Method", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, text, selectionStart, PersonnageRegexp, "Personnage", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, text, selectionStart, PersonnageFonctionRegexp, "Personnage", "Method", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, text, selectionStart, SortRegexp, "Sort", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, text, selectionStart, SortFonctionRegexp, "Sort", "Method", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, text, selectionStart, StatistiqueRegexp, "Statistique", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, text, selectionStart, StatistiqueFonctionRegexp, "Statistique", "Method", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, text, selectionStart, TerrainRegexp, "Terrain", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, text, selectionStart, TerrainFonctionRegexp, "Terrain", "Method", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, text, selectionStart, ZoneRegexp, "Zone", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, text, selectionStart, ZoneFonctionRegexp, "Zone", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, text, selectionStart, ArmeRegexp, "Arme", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, text, selectionStart, ArmeFonctionRegexp, "Arme", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, text, selectionStart, CaseRegexp, "Case", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, text, selectionStart, CaseFonctionRegexp, "Case", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, text, selectionStart, ClasseRegexp, "Classe", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, text, selectionStart, ClasseFonctionRegexp, "Classe", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, text, selectionStart, EffetRegexp, "Effet", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, text, selectionStart, EffetFonctionRegexp, "Effet", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, text, selectionStart, EntiteRegexp, "Entite", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, text, selectionStart, EntiteFonctionRegexp, "Entite", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, text, selectionStart, EntiteInconnuRegexp, "EntiteInconnu", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, text, selectionStart, EntiteInconnuFonctionRegexp, "EntiteInconnu", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, text, selectionStart, EnvoutementRegexp, "Envoutement", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, text, selectionStart, EnvoutementFonctionRegexp, "Envoutement", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, text, selectionStart, EquipementRegexp, "Equipement", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, text, selectionStart, EquipementFonctionRegexp, "Equipement", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, text, selectionStart, ListeRegexp, "Liste", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, text, selectionStart, ListeFonctionRegexp, "Liste", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, text, selectionStart, PersonnageRegexp, "Personnage", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, text, selectionStart, PersonnageFonctionRegexp, "Personnage", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, text, selectionStart, SortRegexp, "Sort", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, text, selectionStart, SortFonctionRegexp, "Sort", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, text, selectionStart, StatistiqueRegexp, "Statistique", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, text, selectionStart, StatistiqueFonctionRegexp, "Statistique", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, text, selectionStart, TerrainRegexp, "Terrain", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, text, selectionStart, TerrainFonctionRegexp, "Terrain", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, text, selectionStart, ZoneRegexp, "Zone", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, text, selectionStart, ZoneFonctionRegexp, "Zone", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
 
             #endregion
         }
-        private void ProcessAllLines(CodeTextBox codeTextbox, TreeView m_IntellisenseTree)
+        private void ProcessAllLines(CodeTextBox codeTextbox, TreeView m_IntellisenseTree, TreeView m_IntellisenseTree_Template)
         {
             // Process the simpleVar
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, simpleVarRegexp, "simpleVar", "Property", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, simpleVarRegexp, "simpleVar", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
 
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, simpleVarFonctionRegexp, "simpleVar", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, simpleVarFonctionRegexp, "simpleVar", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
 
             // Process the string
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, chainesRegexp, "chaine", "Property", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, chainesRegexp, "chaine", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
 
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, chainesFonctionRegexp, "chaine", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, chainesFonctionRegexp, "chaine", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
 
             // Process the simpleVar
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, tableauRegexp, "tab", "Property", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, tableauRegexp, "tab", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
 
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, tableauFonctionRegexp, "tab", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, tableauFonctionRegexp, "tab", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
 
             // Process the string
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, voidFonctionRegexp, "fonctionVoid", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, voidFonctionRegexp, "fonctionVoid", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
 
             #region process gofus
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, ArmeRegexp, "Arme", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, ArmeFonctionRegexp, "Arme", "Method", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, CaseRegexp, "Case", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, CaseFonctionRegexp, "Case", "Method", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, ClasseRegexp, "Classe", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, ClasseFonctionRegexp, "Classe", "Method", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, EffetRegexp, "Effet", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, EffetFonctionRegexp, "Effet", "Method", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, EntiteRegexp, "Entite", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, EntiteFonctionRegexp, "Entite", "Method", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, EntiteInconnuRegexp, "EntiteInconnu", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, EntiteInconnuFonctionRegexp, "EntiteInconnu", "Method", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, EnvoutementRegexp, "Envoutement", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, EnvoutementFonctionRegexp, "Envoutement", "Method", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, EquipementRegexp, "Equipement", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, EquipementFonctionRegexp, "Equipement", "Method", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, ListeRegexp, "Liste", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, ListeFonctionRegexp, "Liste", "Method", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, PersonnageRegexp, "Personnage", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, PersonnageFonctionRegexp, "Personnage", "Method", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, SortRegexp, "Sort", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, SortFonctionRegexp, "Sort", "Method", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, StatistiqueRegexp, "Statistique", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, StatistiqueFonctionRegexp, "Statistique", "Method", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, TerrainRegexp, "Terrain", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, TerrainFonctionRegexp, "Terrain", "Method", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, ZoneRegexp, "Zone", "Property", m_IntellisenseTree);
-            ProcessRegex(codeTextbox, codeTextbox.Text, 0, ZoneFonctionRegexp, "Zone", "Method", m_IntellisenseTree);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, ArmeRegexp, "Arme", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, ArmeFonctionRegexp, "Arme", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, CaseRegexp, "Case", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, CaseFonctionRegexp, "Case", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, ClasseRegexp, "Classe", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, ClasseFonctionRegexp, "Classe", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, EffetRegexp, "Effet", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, EffetFonctionRegexp, "Effet", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, EntiteRegexp, "Entite", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, EntiteFonctionRegexp, "Entite", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, EntiteInconnuRegexp, "EntiteInconnu", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, EntiteInconnuFonctionRegexp, "EntiteInconnu", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, EnvoutementRegexp, "Envoutement", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, EnvoutementFonctionRegexp, "Envoutement", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, EquipementRegexp, "Equipement", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, EquipementFonctionRegexp, "Equipement", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, ListeRegexp, "Liste", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, ListeFonctionRegexp, "Liste", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, PersonnageRegexp, "Personnage", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, PersonnageFonctionRegexp, "Personnage", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, SortRegexp, "Sort", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, SortFonctionRegexp, "Sort", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, StatistiqueRegexp, "Statistique", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, StatistiqueFonctionRegexp, "Statistique", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, TerrainRegexp, "Terrain", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, TerrainFonctionRegexp, "Terrain", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, ZoneRegexp, "Zone", "Property", m_IntellisenseTree, m_IntellisenseTree_Template);
+            ProcessRegex(codeTextbox, codeTextbox.Text, 0, ZoneFonctionRegexp, "Zone", "Method", m_IntellisenseTree, m_IntellisenseTree_Template);
             #endregion
         }
-        private void RemoveInexistant(CodeTextBox codeTextbox, TreeView m_IntellisenseTree)
+        private void RemoveInexistant(CodeTextBox codeTextbox, TreeView m_IntellisenseTree, TreeView m_IntellisenseTree_Template)
         {
             // Process the simpleVar
             RefreshRegex(codeTextbox, codeTextbox.Text, 0, simpleVarRegexp, "simpleVar", "Property", m_IntellisenseTree);
@@ -495,8 +495,6 @@ namespace Moonlight.IntellisenseDynamic
             RefreshRegex(codeTextbox, codeTextbox.Text, 0, ZoneFonctionRegexp, "Zone", "Method", m_IntellisenseTree);
             #endregion
         }
-
-
         #endregion
     }
 }

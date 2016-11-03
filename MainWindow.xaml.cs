@@ -1193,8 +1193,8 @@ namespace test
                 Tnode.Text = "system";
             }
             #endregion
-            //#############################################################################################################
-            #region enum
+            #region enum and Debug
+            #region Zone
             TreeNode[] treeNodeTab_T_zone_enum = new TreeNode[] {
                 new TreeNode("cercle"),
                 new TreeNode("ligne_verticale"),
@@ -1222,7 +1222,8 @@ namespace test
                 Tnode.Tag = "namespace";
                 Tnode.Text = "system";
             }
-            //#############################################################################################################
+            #endregion
+            #region Statistique
             TreeNode[] treeNodeTab_T_stat_enum = new TreeNode[] {
                 new TreeNode("vie"),
                 new TreeNode("force"),
@@ -1283,7 +1284,8 @@ namespace test
                 Tnode.Tag = "namespace";
                 Tnode.Text = "system";
             }
-            //#############################################################################################################
+            #endregion
+            #region Equipement
             TreeNode[] treeNodeTab_T_equip_enum = new TreeNode[] {
                 new TreeNode("chapeau"),
                 new TreeNode("anneau"),
@@ -1308,7 +1310,8 @@ namespace test
                 Tnode.Tag = "namespace";
                 Tnode.Text = "system";
             }
-            //#############################################################################################################
+            #endregion
+            #region Entite
             TreeNode[] treeNodeTab_T_Enti_enum_1 = new TreeNode[] {
                 new TreeNode("attaquant"),
                 new TreeNode("defendant")
@@ -1339,7 +1342,8 @@ namespace test
                 Tnode.Tag = "namespace";
                 Tnode.Text = "system";
             }
-            //#############################################################################################################
+            #endregion
+            #region Effet
             TreeNode[] treeNodeTab_T_effet_enum = new TreeNode[] {
                 new TreeNode("pousse"),
                 new TreeNode("pousse_lanceur"),
@@ -1371,7 +1375,8 @@ namespace test
                 Tnode.Tag = "namespace";
                 Tnode.Text = "system";
             }
-            //#############################################################################################################
+            #endregion
+            #region Classe
             TreeNode[] treeNodeTab_T_classe_enum = new TreeNode[] {
                 new TreeNode("ecaflip"),
                 new TreeNode("eniripsa"),
@@ -1401,7 +1406,8 @@ namespace test
                 Tnode.Tag = "namespace";
                 Tnode.Text = "system";
             }
-            //#############################################################################################################
+            #endregion
+            #region Sort
             TreeNode[] treeNodeTab_T_sort_enum = new TreeNode[] {
                 new TreeNode("felintion"),
                 new TreeNode("chance_d_ecaflip"),
@@ -1658,7 +1664,8 @@ namespace test
                 Tnode.Tag = "namespace";
                 Tnode.Text = "system";
             }
-            //#############################################################################################################
+            #endregion
+            #region Case
             TreeNode[] treeNodeTab_T_case_enum = new TreeNode[] {
                 new TreeNode("vide"),
                 new TreeNode("joueur"),
@@ -1680,7 +1687,8 @@ namespace test
                 Tnode.Tag = "namespace";
                 Tnode.Text = "system";
             }
-            //#############################################################################################################
+            #endregion
+            #region Arme
             TreeNode[] treeNodeTab_T_arme_enum = new TreeNode[] {
                 new TreeNode("arc"),
                 new TreeNode("baguette"),
@@ -1710,7 +1718,18 @@ namespace test
                 Tnode.Text = "system";
             }
             #endregion
-            //#############################################################################################################
+            //########################################################################################################################################################################################################################################################################################################################################################################
+            #region Debug
+            TreeNode[] treeNodeTab_T_Debug = new TreeNode[] {
+                new TreeNode("Log()")
+            };
+            foreach (TreeNode Tnode in treeNodeTab_T_arme_enum)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "method";
+                Tnode.Text = "system";
+            }
+            #endregion
             TreeNode[] treeNodeTab_gofus = new TreeNode[] {
                 new TreeNode("Arme", treeNodeTab_T_arme),
                 new TreeNode("Case", treeNodeTab_T_case),
@@ -1733,45 +1752,33 @@ namespace test
                 Tnode.Tag = "namespace";
                 Tnode.Text = "system";
             }
-            //#############################################################################################################
-            TreeNode treeNode_1 = new TreeNode("keyword");
-            TreeNode treeNode_2 = new TreeNode("classGofus");
-            TreeNode treeNode_3 = new TreeNode("Math", treeNodeTab_math);
-            TreeNode treeNode_4 = new TreeNode("Perso", treeNode_template.First(x => x.Name == "Personnage").Nodes.Cast<TreeNode>().ToArray());
-            TreeNode treeNode_5 = new TreeNode("ListeEntite", treeNode_template.First(x => x.Name == "Liste").Nodes.Cast<TreeNode>().ToArray());
-            TreeNode treeNode_6 = new TreeNode("terrain", treeNode_template.First(x => x.Name == "Terrain").Nodes.Cast<TreeNode>().ToArray());
+            #endregion
+            TreeNode treeNode_1 = new TreeNode("Math", treeNodeTab_math);
+            TreeNode treeNode_2 = new TreeNode("Perso", treeNode_template.First(x => x.Name == "Personnage").Nodes.Cast<TreeNode>().ToArray());
+            TreeNode treeNode_3 = new TreeNode("ListeEntite", treeNode_template.First(x => x.Name == "Liste").Nodes.Cast<TreeNode>().ToArray());
+            TreeNode treeNode_4 = new TreeNode("terrain", treeNode_template.First(x => x.Name == "Terrain").Nodes.Cast<TreeNode>().ToArray());
 
-            treeNode_1.Name = "keyword";
+            treeNode_1.Name = "Math";
             treeNode_1.Tag = "class";
             treeNode_1.Text = "system";
 
-            treeNode_2.Name = "classGofus";
-            treeNode_2.Tag = "class";
+            treeNode_2.Name = "Perso";
+            treeNode_2.Tag = "property";
             treeNode_2.Text = "system";
 
-            treeNode_3.Name = "Math";
-            treeNode_3.Tag = "class";
+            treeNode_3.Name = "ListeEntite";
+            treeNode_3.Tag = "property";
             treeNode_3.Text = "system";
 
-            treeNode_4.Name = "Perso";
+            treeNode_4.Name = "terrain";
             treeNode_4.Tag = "property";
             treeNode_4.Text = "system";
-
-            treeNode_5.Name = "ListeEntite";
-            treeNode_5.Tag = "property";
-            treeNode_5.Text = "system";
-
-            treeNode_6.Name = "terrain";
-            treeNode_6.Tag = "property";
-            treeNode_6.Text = "system";
 
             TreeNode[] treeNode_root = new TreeNode[] {
             treeNode_1,
             treeNode_2,
             treeNode_3,
-            treeNode_4,
-            treeNode_5,
-            treeNode_6};
+            treeNode_4};
 
             TreeNode[] treeNode_Intellisense = new TreeNode[treeNode_root.Length + treeNodeTab_keyword.Length + treeNodeTab_gofus.Length];
             treeNodeTab_keyword.CopyTo(treeNode_Intellisense, 0);
