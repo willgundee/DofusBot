@@ -30,7 +30,7 @@ namespace test
         private Joueur Player;
         public PageEquipement(string TypeEquipement, string emplacement, Image NomImgDEquip, Joueur player)
         {
-            this.Player = player;
+          /*  this.Player = player;
             nomJoueur = player.NomUtilisateur;
             TypeEQ = emplacement;
             imgDEquipe = NomImgDEquip.Source.ToString();
@@ -46,10 +46,10 @@ namespace test
                     pageActuel.validePg = valide;
                 }
             }
-            lbxItem.ItemsSource = listImg;
+            lbxItem.ItemsSource = listImg;*/
         }
 
-        private bool afficherEquipementDispo(string TypeEquipement, string NomJoueur)
+       /* private bool afficherEquipementDispo(string TypeEquipement, string NomJoueur)
         {
 
             bool valide = false;
@@ -81,9 +81,9 @@ namespace test
             }
 
             return valide;
-        }
+        }*/
 
-        private Image CreateImg(string Noimg)
+        /*private Image CreateImg(string Noimg)
         {
             Image img = new Image();
             ImageSource path = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/items/200/" + Noimg + ".png"));
@@ -154,7 +154,7 @@ namespace test
                         equip.Quantite = 1;
                         et.LstEquipements.Add(equip);
 
-                    }*/
+                    }
             }
             else
             {
@@ -186,13 +186,13 @@ namespace test
 
                              if (equi.NoImg == ide.ToString())
                                  equi.QuantiteEquipe -= 1;
-                         }*/
+                         }
 
             }
             bd.Update("UPDATE JoueursEquipements SET quantiteEquipe = " + qqt + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + nomJoueur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE noImage ='" + idE + "')");
             //diminu qttéquipé                   
             Close();
-        }
+        }  */
     }
 }
 

@@ -49,15 +49,10 @@ namespace test
 
         #region Variable De Binding Lou
 
-        private Window _dragdropWindow = null;
         ObservableCollection<ImageItem> LstImgItems;
         ObservableCollection<string> LstStats;
         ObservableCollection<string> LstConds;
         ObservableCollection<string> LstCaras;
-        ObservableCollection<ImageItem> LstInventaire;
-        ObservableCollection<DescItem> LstDesc;
-        System.Windows.Controls.ListBox dragSource = null;
-
         #endregion
 
         List<string> lstAvatars;
@@ -111,8 +106,6 @@ namespace test
 
             #region Lou
             LstImgItems = new ObservableCollection<ImageItem>();
-            LstInventaire = new ObservableCollection<ImageItem>();
-            LstDesc = new ObservableCollection<DescItem>();
             LstStats = new ObservableCollection<string>();
             LstConds = new ObservableCollection<string>();
             LstCaras = new ObservableCollection<string>();
@@ -121,8 +114,6 @@ namespace test
             lbxStats.ItemsSource = LstStats;
             lbxCond.ItemsSource = LstConds;
             lbxCara.ItemsSource = LstCaras;
-            lbxInventaire.ItemsSource = LstInventaire;
-            itmCtrlDesc.ItemsSource = LstDesc;
 
             fillSortCbo();
             #endregion
@@ -1799,13 +1790,8 @@ namespace test
             cboTrie.ItemsSource = type;
             cboTrie.SelectedIndex = 0;
 
-            cboTrieInventaire.ItemsSource = type;
-            cboTrieInventaire.SelectedIndex = 0;
-
             foreach (Entite perso in Player.LstEntites)
                 entitesNom.Add(perso.Nom);// TODO ne marchera pas si crée un perso marche
-            cboChoixEntite.ItemsSource = entitesNom;
-            cboChoixEntite.SelectedIndex = 0;
         }
 
         /// <summary>
@@ -1974,468 +1960,6 @@ namespace test
         }
         #endregion
 
-        #region Inventaire
-
-
-
-
-        //TODO: REFONTE INVENTAIRE  ajout bouton onclick dans page perso qui pop l'inventaire coté ,double clic désequipe drag drop de l'inventaire à fenetre mick, unselected tab close l'inventaire si pas fait 
-
-
-
-
-
-
-        /// <summary>
-        /// action d'un click sur un item dans l'inventaire
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void image_desc(object sender, MouseButtonEventArgs e)
-        {
-            LstDesc.Clear();
-            string nom = (((ImageItem)sender).imgItem).Name.Replace("_", " ");
-            LstDesc.Add(new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE nom ='" + nom + "'")[0], true, 0)));
-        }
-
-        /// <summary>
-        /// action quand on click sur l'onglet inventaire
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void TabItem_Selected_Inventaire(object sender, RoutedEventArgs e)
-        {
-            refreshInv();
-            cboChoixEntite.SelectedIndex = -1;// # not legit
-            cboChoixEntite.SelectedIndex = 0;
-        }
-
-        /// <summary>
-        /// quand on change le type de trie de l'inventaire
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void cboTrieInventaire_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (((System.Windows.Controls.ComboBox)sender).SelectedIndex != -1)
-            {
-                string type = ((System.Windows.Controls.ComboBox)sender).SelectedValue.ToString();
-
-                LstInventaire.Clear();
-
-                foreach (Equipement item in Player.Inventaire)
-                    if (type == "Tous" && item.Quantite - item.QuantiteEquipe != 0)
-                    {
-                        ImageItem i = new ImageItem(item, false, item.Quantite - item.QuantiteEquipe);
-                        i.PreviewMouseDoubleClick += image_desc;
-                        LstInventaire.Add(i);
-                    }
-                    else
-                    {
-                        if (item.Type == type && item.Quantite - item.QuantiteEquipe != 0)
-                        {
-                            ImageItem i = new ImageItem(item, false, item.Quantite - item.QuantiteEquipe);
-                            i.PreviewMouseDoubleClick += image_desc;
-
-                            LstInventaire.Add(i);
-                        }
-                    }
-                if (LstInventaire.Count <= 3 * 6)
-                    lbxInventaire.Style = (Style)FindResource("RowFix");
-                else
-                    lbxInventaire.Style = (Style)FindResource("RowOverflow");
-            }
-        }
-
-        /// <summary>
-        /// pour avoir la description d'un item qui est équiper sur soi
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void imgInv_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-
-            if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
-            {
-                LstDesc.Clear();
-                if (convertPathToNoItem((sender as Image).Source.ToString()) != "vide")
-                    LstDesc.Add(new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE noImage =" + Convert.ToInt32(convertPathToNoItem((sender as Image).Source.ToString())))[0], true, 0)));
-                lbxInventaire.SelectedIndex = -1;
-            }
-            if (e.ChangedButton == MouseButton.Left && e.ClickCount == 1)
-            {
-                Image data = (Image)sender;
-                Equipement itemDrag = null;
-                if (convertPathToNoItem(data.Source.ToString()) != "vide")
-                    itemDrag = Player.LstEntites.First(x => x.Nom == cboChoixEntite.SelectedValue.ToString()).LstEquipements.First(x => x.NoImg == convertPathToNoItem(data.Source.ToString()));
-                lbxInventaire.AllowDrop = true;
-                System.Windows.DataObject dragData = new System.Windows.DataObject("image", data);
-                CreateDragDropWindow(data);
-                var effet = DragDrop.DoDragDrop(data, dragData, System.Windows.DragDropEffects.Move);
-                if (effet == System.Windows.DragDropEffects.None)
-                {//drop fail
-                    if (this._dragdropWindow != null)
-                    {
-                        this._dragdropWindow.Close();
-                        this._dragdropWindow = null;
-                    }
-                }
-                
-                //System.Windows.Forms.MessageBox.Show(e.ClickCount.ToString());
-            }
-
-        }
-
-        public void resetImagesEquipements()
-        {
-            BitmapImage link = new BitmapImage(new Uri("resources/vide.png", UriKind.Relative));
-            imgAmuletteInv.Source = link;
-            imgBotteInv.Source = link;
-            imgAnneau1Inv.Source = link;
-            imgAnneau2Inv.Source = link;
-            imgArmeInv.Source = link;
-            imgCeintureInv.Source = link;
-            imgCapeInv.Source = link;
-        }
-        /// <summary>
-        /// Affiche les équipement du personnages
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void cboChoixEntite_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {//emplacement possible : tete, cou, pied, ano1, ano2, arme, hanche, dos.
-            if (((System.Windows.Controls.ComboBox)sender).SelectedIndex != -1)
-            {
-                resetImagesEquipements();
-                string nomPerso = ((System.Windows.Controls.ComboBox)sender).SelectedValue.ToString();
-                lblNomEntite.Content = nomPerso;
-                List<string>[] info = bd.selection("SELECT e.noImage,ee.emplacement FROM equipementsentites ee INNER JOIN Equipements e ON e.idEquipement = ee.idEquipement INNER JOIN Entites et ON ee.idEntite = et.idEntite WHERE et.nom = '" + nomPerso + "'");
-                if (info[0][0] != "rien")
-                    foreach (List<string> line in info)
-                    {
-                        BitmapImage link = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/items/200/" + line[0] + ".png"));
-                        switch (line[1])//l'emplacement de l'équipement
-                        {
-                            case "tête":
-                                imgChapeauInv.Source = link;
-                                break;
-                            case "cou":
-                                imgAmuletteInv.Source = link;
-                                break;
-                            case "pied":
-                                imgBotteInv.Source = link;
-                                break;
-                            case "ano1":
-                                imgAnneau1Inv.Source = link;
-                                break;
-                            case "ano2":
-                                imgAnneau2Inv.Source = link;
-                                break;
-                            case "arme":
-                                imgArmeInv.Source = link;
-                                break;
-                            case "hanche":
-                                imgCeintureInv.Source = link;
-                                break;
-                            case "dos":
-                                imgCapeInv.Source = link;
-                                break;
-                        }
-                    }
-            }
-        }
-
-        /// <summary>
-        /// truc pas legit pour refaire la list de l'inventaire
-        /// </summary>
-        private void refreshInv()
-        {
-            int i = cboTrieInventaire.SelectedIndex;
-            cboTrieInventaire.SelectedIndex = -1;
-            cboTrieInventaire.SelectedIndex = i;
-        }
-        /// <summary>
-        /// je trouvais la fonction longue donc je lui ai donné un long nom 
-        /// </summary>
-        /// <param name="path">la source de l'image</param>
-        /// <returns></returns>
-        private string convertPathToNoItem(string path)
-        {
-            return System.IO.Path.GetFileNameWithoutExtension(path.Split('/').Last());
-        }
-
-        #region Drag&Drop
-        /// <summary>
-        /// le Drag du Drag&Drop
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void lbxInventaire_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            // DataContext = this;
-            System.Windows.Controls.ListBox parent = (System.Windows.Controls.ListBox)sender;
-            dragSource = parent;
-            ImageItem data = (ImageItem)GetDataFromListBox(dragSource, e.GetPosition(parent));
-
-            #region drop pas icitte !
-            imgCapeInv.AllowDrop = false;
-            imgChapeauInv.AllowDrop = false;
-            imgBotteInv.AllowDrop = false;
-            imgAnneau1Inv.AllowDrop = false;
-            imgAnneau2Inv.AllowDrop = false;
-            imgAmuletteInv.AllowDrop = false;
-            imgArmeInv.AllowDrop = false;
-            #endregion
-
-            SolidColorBrush color = Brushes.Orange;
-            if (data != null)
-            {
-                Equipement itemDrag = Player.Inventaire.First(x => x.NoImg == convertPathToNoItem(data.imgItem.Source.ToString()));
-                switch (itemDrag.Type)
-                {
-                    case "Cape":
-                        imgCapeInv.AllowDrop = true;
-                        borderCape.BorderBrush = color;
-                        break;
-                    case "Chapeau":
-                        imgChapeauInv.AllowDrop = true;
-                        borderCoiffe.BorderBrush = color;
-                        break;
-                    case "Botte":
-                        imgBotteInv.AllowDrop = true;
-                        borderBotte.BorderBrush = color;
-                        break;
-                    case "Ceinture":
-                        imgCeintureInv.AllowDrop = true;
-                        borderCeinture.BorderBrush = color;
-                        break;
-                    case "Anneau":
-                        imgAnneau1Inv.AllowDrop = true;
-                        imgAnneau2Inv.AllowDrop = true;
-                        borderAno1.BorderBrush = color;
-                        borderAno2.BorderBrush = color;
-                        break;
-                    case "Amulette":
-                        imgAmuletteInv.AllowDrop = true;
-                        borderAmu.BorderBrush = color;
-                        break;
-                    default://arme
-                        imgArmeInv.AllowDrop = true;
-                        borderCac.BorderBrush = color;
-                        break;
-                }
-                //image qui suit le curseur http://stackoverflow.com/questions/3129443/wpf-4-drag-and-drop-with-visual-element-as-cursor
-                System.Windows.DataObject dragData = new System.Windows.DataObject("image", data);
-                CreateDragDropWindow(data.imgItem);
-                var effet = DragDrop.DoDragDrop(parent, dragData, System.Windows.DragDropEffects.Move);
-                if (effet == System.Windows.DragDropEffects.None)
-                {//drop fail
-                    if (this._dragdropWindow != null)
-                    {
-                        this._dragdropWindow.Close();
-                        this._dragdropWindow = null;
-                    }
-                    #region Pouf Transparent !
-                    borderCape.BorderBrush = Brushes.Transparent;
-                    borderCoiffe.BorderBrush = Brushes.Transparent;
-                    borderBotte.BorderBrush = Brushes.Transparent;
-                    borderCeinture.BorderBrush = Brushes.Transparent;
-                    borderAno1.BorderBrush = Brushes.Transparent;
-                    borderAno2.BorderBrush = Brushes.Transparent;
-                    borderAmu.BorderBrush = Brushes.Transparent;
-                    borderCac.BorderBrush = Brushes.Transparent;
-                    #endregion
-                }
-            }
-        }
-
-        /// <summary>
-        /// suis la position du curseur
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Image_GiveFeedback(object sender, System.Windows.GiveFeedbackEventArgs e)
-        {
-            // update the position of the visual feedback item
-            Win32Point w32Mouse = new Win32Point();
-            GetCursorPos(ref w32Mouse);
-            this._dragdropWindow.Left = w32Mouse.X;
-            this._dragdropWindow.Top = w32Mouse.Y;
-        }
-        /// <summary>
-        /// crée l'image qui suis le curseur une window
-        /// </summary>
-        /// <param name="dragElement"></param>
-        private void CreateDragDropWindow(Visual dragElement)
-        {
-            this._dragdropWindow = new Window();
-            _dragdropWindow.WindowStyle = WindowStyle.None;
-            _dragdropWindow.AllowsTransparency = true;
-            _dragdropWindow.AllowDrop = false;
-            _dragdropWindow.Background = null;
-            _dragdropWindow.IsHitTestVisible = false;
-            _dragdropWindow.SizeToContent = SizeToContent.WidthAndHeight;
-            _dragdropWindow.Topmost = true;
-            _dragdropWindow.ShowInTaskbar = false;
-
-            Rectangle r = new Rectangle();
-            r.Width = ((FrameworkElement)dragElement).ActualWidth;
-            r.Height = ((FrameworkElement)dragElement).ActualHeight;
-            r.Fill = new VisualBrush(dragElement);
-            this._dragdropWindow.Content = r;
-
-            Win32Point w32Mouse = new Win32Point();
-            GetCursorPos(ref w32Mouse);
-
-            this._dragdropWindow.Left = w32Mouse.X;
-            this._dragdropWindow.Top = w32Mouse.Y;
-            this._dragdropWindow.Show();
-        }
-
-        /// <summary>
-        /// renvoi l'information de ta position dans la listbox
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="point"></param>
-        /// <returns></returns>
-        private static object GetDataFromListBox(System.Windows.Controls.ListBox source, Point point)
-        {
-            UIElement element = source.InputHitTest(point) as UIElement;
-            if (element != null)
-            {
-                object data = DependencyProperty.UnsetValue;
-                while (data == DependencyProperty.UnsetValue)
-                {
-                    data = source.ItemContainerGenerator.ItemFromContainer(element);
-                    if (data == DependencyProperty.UnsetValue)
-                        element = VisualTreeHelper.GetParent(element) as UIElement;
-                    if (element == source)
-                        return null;
-                }
-                if (data != DependencyProperty.UnsetValue)
-                    return data;
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Le Drop du Drag&Drop
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void imgInv_Drop(object sender, System.Windows.DragEventArgs e)
-        {
-            Image cible = (Image)sender;
-            ImageItem data = e.Data.GetData("image") as ImageItem;
-            Equipement itemDejaEquipe = null;
-            Equipement itemVoulantEtreEquiper = Player.Inventaire.First(x => x.NoImg == convertPathToNoItem(data.imgItem.Source.ToString()));
-            Entite perso = Player.LstEntites.First(x => x.Nom == cboChoixEntite.SelectedValue.ToString());
-            string emplacement = "";
-            if (itemVoulantEtreEquiper.Type == "Anneau")
-            {
-                borderAno1.BorderBrush = Brushes.Transparent;
-                borderAno2.BorderBrush = Brushes.Transparent;
-                imgAnneau1Inv.AllowDrop = false;
-                imgAnneau2Inv.AllowDrop = false;
-            }
-            else
-            {
-                (cible.Parent as Border).BorderBrush = Brushes.Transparent;
-                cible.AllowDrop = false;
-            }
-
-
-
-            if (convertPathToNoItem(cible.Source.ToString()) != "vide")
-                itemDejaEquipe = Player.Inventaire.First(x => x.NoImg == convertPathToNoItem(cible.Source.ToString()));
-
-            //TODO: l'add dans la list d'equipement du perso quand tu la drop dedans et l'enlever l'inverse
-            //TODO: bouger l'image au lieu de rien
-            //TODO: le modif dans bd
-
-            if (Player.LstEntites.First(x => x.Nom == cboChoixEntite.SelectedValue.ToString()).peutEquiper(itemVoulantEtreEquiper))
-            {
-                switch (cible.Name)
-                { //emplacement possible : tete, cou, pied, ano1, ano2, arme, hanche, dos.
-
-                    case "imgCapeInv":
-                        emplacement = "dos";
-                        break;
-                    case "imgChapeauInv":
-                        emplacement = "tête";
-                        break;
-                    case "imgBotteInv":
-                        emplacement = "pied";
-                        break;
-                    case "imgCeintureInv":
-                        emplacement = "hanche";
-                        break;
-                    case "imgAnneau1Inv":
-                        emplacement = "ano1";
-                        break;
-                    case "imgAnneau2Inv":
-                        emplacement = "ano2";
-                        break;
-                    case "imgAmuletteInv":
-                        emplacement = "cou";
-                        break;
-                    case "imgArmeInv":
-                        emplacement = "arme";
-                        break;
-                }
-
-                cible.Source = data.imgItem.Source;
-
-                if (itemDejaEquipe != null)
-                {
-                    Player.LstEntites.First(x => x.Nom == cboChoixEntite.SelectedValue.ToString()).enleverItem(Player.LstEntites.First(x => x.Nom == cboChoixEntite.SelectedValue.ToString()).LstEquipements.First(x => x.Nom == itemDejaEquipe.Nom));
-                    Player.Inventaire.First(x => x.Nom == itemDejaEquipe.Nom).QuantiteEquipe--;
-                    bd.Update("UPDATE equipementsentites SET idEquipement = (SELECT idEquipement FROM Equipements WHERE nom = '" + itemVoulantEtreEquiper.Nom + "') WHERE emplacement='" + emplacement + "' AND idEntite = (SELECT idEntite FROM Entites WHERE nom ='" + perso.Nom + "')");
-                    bd.Update("UPDATE JoueursEquipements SET quantiteEquipe= " + Player.Inventaire.First(x => x.Nom == itemDejaEquipe.Nom).QuantiteEquipe.ToString() + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + itemDejaEquipe.Nom + "')");
-
-                }
-                else
-                    bd.insertion("INSERT INTO equipementsEntites (idEquipement,idEntite,Emplacement)VALUES((SELECT idEquipement FROM Equipements WHERE nom ='" + itemVoulantEtreEquiper.Nom + "'),(SELECT idEntite FROM Entites WHERE nom ='" + perso.Nom + "'),'" + emplacement + "');COMMIT;");
-
-                Player.LstEntites.First(x => x.Nom == cboChoixEntite.SelectedValue.ToString()).ajouterEquipement(itemVoulantEtreEquiper);
-                Player.Inventaire.First(x => x.Nom == itemVoulantEtreEquiper.Nom).QuantiteEquipe++;
-                bd.Update("UPDATE JoueursEquipements SET quantiteEquipe= " + Player.Inventaire.First(x => x.Nom == itemVoulantEtreEquiper.Nom).QuantiteEquipe.ToString() + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + itemVoulantEtreEquiper.Nom + "')");
-
-            }
-
-
-            if (this._dragdropWindow != null)
-            {
-                this._dragdropWindow.Close();
-                this._dragdropWindow = null;
-            }
-
-            refreshInv();
-        }
-        private void lbxInventaire_Drop(object sender, System.Windows.DragEventArgs e)
-        {
-
-        }
-
-
-        #region Truc pour invoquer des squelettes
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool GetCursorPos(ref Win32Point pt);
-
-        [StructLayout(LayoutKind.Sequential)]
-
-        internal struct Win32Point
-        {
-            public Int32 X;
-            public Int32 Y;
-        };
-        #endregion
-
-        #endregion
-
-        #endregion
-
         #region Michael/Perso
         // ***************************************************
         //Onglet Personnage
@@ -2465,10 +1989,6 @@ namespace test
         #endregion
 
  
-      
-
-        #endregion
-
         private void PGSort_Selected(object sender, RoutedEventArgs e)
         {
 
@@ -2478,6 +1998,12 @@ namespace test
 
         }
 
-      
+        private void TabItem_Unselected(object sender, RoutedEventArgs e)
+        {
+            if (System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(Inventaire)) != null)
+                System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Inventaire)).Close();
+
+
+        }
     }
 }

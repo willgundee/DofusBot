@@ -29,15 +29,13 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="37*"/>
-            <RowDefinition Height="273*"/>
-            <RowDefinition Height="230*"/>
+            <RowDefinition Height="503*"/>
         </Grid.RowDefinitions>
         <Label Content="Trier par :" HorizontalAlignment="Left"  Width="79" Margin="31,5,0,5"/>
 
-        <!--ListBox x:Name="lbxInventaire" Style="{StaticResource RowOverflow}" GiveFeedback="Image_GiveFeedback" ScrollViewer.HorizontalScrollBarVisibility="Disabled"  PreviewMouseLeftButtonDown="lbxInventaire_PreviewMouseLeftButtonDown" Grid.Row="1" Grid.RowSpan="2"/>
+        <ListBox x:Name="lbxInventaire" Style="{StaticResource RowOverflow}" GiveFeedback="Image_GiveFeedback" ScrollViewer.HorizontalScrollBarVisibility="Disabled"  PreviewMouseLeftButtonDown="lbxInventaire_PreviewMouseLeftButtonDown" Grid.Row="1"/>
 
         <ComboBox x:Name="cboTrieInventaire" SelectionChanged="cboTrieInventaire_SelectionChanged" HorizontalAlignment="Left" Margin="124,10,0,0" VerticalAlignment="Top" Width="120"/>
-        <ItemsControl x:Name="itmCtrlDesc" Grid.Row="2" /-->
 
     </Grid>
 </Window>

@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 
 using System.IO;
+using Gofus;
 
 namespace test
 {
@@ -27,16 +28,18 @@ namespace test
         public BDService bd = new BDService();
         public Entite persoActuel;
         public ObservableCollection<Statistique> lstStat = new ObservableCollection<Statistique>();
+        public ObservableCollection<DescItem> LstDesc = new ObservableCollection<DescItem>();
+
 
         public PagePerso(Entite ent, Joueur Player)
-        {
+        {// refaire le min/max
             InitializeComponent();
             this.Player = Player;
             persoActuel = ent;
             lblLevelEntite.Content = "Niv. " + ent.LstStats.First(x => x.Nom == Statistique.element.experience).toLevel().ToString();
             pgbExp.Value = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur;
-            pgbExp.Maximum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.LstStats.First(x => x.Nom == Statistique.element.experience).toLevel() + 1];
-            pgbExp.Minimum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.LstStats.First(x => x.Nom == Statistique.element.experience).toLevel() - (ent.Niveau == 1 ? 0:-1)];
+            pgbExp.Maximum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.Niveau + 1];
+            pgbExp.Minimum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.Niveau - (ent.Niveau == 1 ? 0 : -1)];
             pgbExp.ToolTip = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur.ToString() + " Sur " + ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.LstStats.First(x => x.Nom == Statistique.element.experience).toLevel() + 1].ToString() + " Expériences !";
             int nbScript = Player.LstScripts.Count;
             for (int i = 0; i < nbScript; i++)
@@ -52,7 +55,14 @@ namespace test
             path.UriSource = new Uri(SourceImgClasse + ".png", UriKind.Relative);
             path.EndInit();
             Imgclasse.Source = path;
+            itmCtrlDesc.ItemsSource = LstDesc;
+            foreach (Equipement item in ent.LstEquipements)
+            {
+                List<string> emplacement = bd.selection("SELECT emplacement FROM Equipementsentites WHERE idEquipement = (SELECT idEquipement FROM Equipements WHERE nom='" + item.Nom + "' )AND idEntite =(SELECT idEntite FROM Entites WHERE nom='" + ent.Nom + "')")[0];
 
+                if (emplacement != null)
+                    AfficherElementEquipe(item, emplacement[0].ToString());
+            }
             cbScript.SelectedValue = ent.ScriptEntite.Nom;
 
             if (ent.CapitalLibre > 0)
@@ -70,20 +80,9 @@ namespace test
                 if (st.Nom == Statistique.element.experience)
                     Exp = st.Valeur;
             }
-            foreach (Equipement eq in ent.LstEquipements)
-            {
-                List<string> emplacement = bd.selection("SELECT emplacement FROM Equipementsentites WHERE idEquipement = (SELECT idEquipement FROM Equipements WHERE nom='" + eq.Nom + "' )AND idEntite =(SELECT idEntite FROM Entites WHERE nom='" + ent.Nom + "')")[0];
-
-                if (emplacement != null)
-                    AfficherElementEquipe(eq, emplacement[0].ToString());
-            }
-
             initialiserLstStats(ent.LstStats);
             dgStats.ItemsSource = lstStat;
-
-            //calculervalues();
             dgDommage.ItemsSource = initialiserLstDMG(ent);
-            //dgResistance.ItemsSource = initialiserLstRES(ent);
 
         }
 
@@ -269,132 +268,179 @@ namespace test
             }
             return LstDMG;
         }
-  /*      private List<Statistique> initialiserLstRES(Entite perso)
-        {
-            List<Statistique> LstRES = new List<Statistique>();
+        /*      private List<Statistique> initialiserLstRES(Entite perso)
+              {
+                  List<Statistique> LstRES = new List<Statistique>();
 
-            for (int i = 0; i < 5; i++)
-            {
-                foreach (Statistique stat in perso.LstStats)
-                {
-                    switch (i)
-                    {
-                        case 0:
-                            if (stat.Nom == Statistique.element.RES_neutre)
-                                LstRES.Add(stat);
-                            break;
-                        case 1:
-                            if (stat.Nom == Statistique.element.RES_terre)
-                                LstRES.Add(stat);
-                            break;
-                        case 2:
-                            if (stat.Nom == Statistique.element.RES_feu)
-                                LstRES.Add(stat);
-                            break;
-                        case 3:
-                            if (stat.Nom == Statistique.element.RES_air)
-                                LstRES.Add(stat);
-                            break;
-                        case 4:
-                            if (stat.Nom == Statistique.element.RES_eau)
-                                LstRES.Add(stat);
-                            break;
-                        default:
-                            break;
-                    }
+                  for (int i = 0; i < 5; i++)
+                  {
+                      foreach (Statistique stat in perso.LstStats)
+                      {
+                          switch (i)
+                          {
+                              case 0:
+                                  if (stat.Nom == Statistique.element.RES_neutre)
+                                      LstRES.Add(stat);
+                                  break;
+                              case 1:
+                                  if (stat.Nom == Statistique.element.RES_terre)
+                                      LstRES.Add(stat);
+                                  break;
+                              case 2:
+                                  if (stat.Nom == Statistique.element.RES_feu)
+                                      LstRES.Add(stat);
+                                  break;
+                              case 3:
+                                  if (stat.Nom == Statistique.element.RES_air)
+                                      LstRES.Add(stat);
+                                  break;
+                              case 4:
+                                  if (stat.Nom == Statistique.element.RES_eau)
+                                      LstRES.Add(stat);
+                                  break;
+                              default:
+                                  break;
+                          }
 
-                }
+                      }
 
-            }
-            return LstRES;
-        }*/
+                  }
+                  return LstRES;
+              }*/
         #endregion
 
-        private void image_MouseDown(object sender, MouseButtonEventArgs e)
+        private void imgInv_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Image source = (sender as Image);
-            string choix = (sender as Image).Name;
-            string TypeEquipement = null;
-            string emp = null;
-
-
-            switch (choix.ToString())
-            {
-                case "imageCasque":
-                    TypeEquipement = "Chapeau";
-                    emp = "tête";
-                    break;
-                case "imageCape":
-                    TypeEquipement = "Cape";
-                    emp = "dos";
-                    break;
-                case "imageArme":
-                    TypeEquipement = "Arme";
-                    emp = "arme";
-                    break;
-                case "imageCeinture":
-                    TypeEquipement = "Ceinture";
-                    emp = "hanche";
-                    break;
-                case "imageAnneau1":
-                    TypeEquipement = "Anneau";
-                    emp = "ano1";
-                    break;
-                case "imageAnneau2":
-                    TypeEquipement = "Anneau";
-                    emp = "ano2";
-                    break;
-                case "imageBotte":
-                    TypeEquipement = "Botte";
-                    emp = "pied";
-                    break;
-                case "imageAmulette":
-                    TypeEquipement = "Amulette";
-                    emp = "cou";
-                    break;
-            }
-
-            PageEquipement Equip = new PageEquipement(TypeEquipement, emp, source, Player);
-            if (validePg != false)
-                Equip.ShowDialog();
-            initialiserLstStats(persoActuel.LstStats);
-            //calculervalues();
-            dgDommage.ItemsSource = initialiserLstDMG(persoActuel);
-           // dgResistance.ItemsSource = initialiserLstRES(persoActuel);
-
+            LstDesc.Clear();//TODO: crée desc avec la source
+            //string nom = (((Image)sender).Name.Replace("_", " ");
+            //LstDesc.Add(new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE nom ='" + nom + "'")[0], true, 0)));
         }
-
         private void AfficherElementEquipe(Equipement eq, string emp)
         {
             ImageSource path = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/items/200/" + eq.NoImg + ".png"));
             switch (emp)
             {
                 case "tête":
-                    imageCasque.Source = path;
+                    imgChapeauInv.Source = path;
                     break;
                 case "dos":
-                    imageCape.Source = path;
+                    imgCapeInv.Source = path;
                     break;
                 case "arme":
-                    imageArme.Source = path;
+                    imgArmeInv.Source = path;
                     break;
                 case "hanche":
-                    imageCeinture.Source = path;
+                    imgCeintureInv.Source = path;
                     break;
                 case "ano1":
-                    imageAnneau1.Source = path;
+                    imgAnneau1Inv.Source = path;
                     break;
                 case "ano2":
-                    imageAnneau2.Source = path;
+                    imgAnneau2Inv.Source = path;
                     break;
                 case "pied":
-                    imageBotte.Source = path;
+                    imgBotteInv.Source = path;
                     break;
                 case "cou":
-                    imageAmulette.Source = path;
+                    imgAmuletteInv.Source = path;
                     break;
             }
         }
+
+        private void imgInv_Drop(object sender, System.Windows.DragEventArgs e)
+        {
+            Image cible = (Image)sender;
+            ImageItem data = e.Data.GetData("image") as ImageItem;
+            Equipement itemDejaEquipe = null;
+            Equipement itemVoulantEtreEquiper = Player.Inventaire.First(x => x.NoImg == convertPathToNoItem(data.imgItem.Source.ToString()));
+            string emplacement = "";
+            if (itemVoulantEtreEquiper.Type == "Anneau")
+            {
+                borderAno1.BorderBrush = Brushes.Transparent;
+                borderAno2.BorderBrush = Brushes.Transparent;
+                imgAnneau1Inv.AllowDrop = false;
+                imgAnneau2Inv.AllowDrop = false;
+            }
+            else
+            {
+                (cible.Parent as Border).BorderBrush = Brushes.Transparent;
+                cible.AllowDrop = false;
+            }
+
+
+
+            if (convertPathToNoItem(cible.Source.ToString()) != "vide")
+                itemDejaEquipe = Player.Inventaire.First(x => x.NoImg == convertPathToNoItem(cible.Source.ToString()));
+
+            //TODO: l'add dans la list d'equipement du perso quand tu la drop dedans et l'enlever l'inverse
+            //TODO: bouger l'image au lieu de rien
+            //TODO: le modif dans bd
+
+            if (Player.LstEntites.First(x => x.Nom == persoActuel.Nom).peutEquiper(itemVoulantEtreEquiper))
+            {
+                switch (cible.Name)
+                { //emplacement possible : tete, cou, pied, ano1, ano2, arme, hanche, dos.
+
+                    case "imgCapeInv":
+                        emplacement = "dos";
+                        break;
+                    case "imgChapeauInv":
+                        emplacement = "tête";
+                        break;
+                    case "imgBotteInv":
+                        emplacement = "pied";
+                        break;
+                    case "imgCeintureInv":
+                        emplacement = "hanche";
+                        break;
+                    case "imgAnneau1Inv":
+                        emplacement = "ano1";
+                        break;
+                    case "imgAnneau2Inv":
+                        emplacement = "ano2";
+                        break;
+                    case "imgAmuletteInv":
+                        emplacement = "cou";
+                        break;
+                    case "imgArmeInv":
+                        emplacement = "arme";
+                        break;
+                }
+
+                cible.Source = data.imgItem.Source;
+
+                if (itemDejaEquipe != null)
+                {
+                    Player.LstEntites.First(x => x.Nom == persoActuel.Nom).enleverItem(Player.LstEntites.First(x => x.Nom == persoActuel.Nom).LstEquipements.First(x => x.Nom == itemDejaEquipe.Nom));
+                    Player.Inventaire.First(x => x.Nom == itemDejaEquipe.Nom).QuantiteEquipe--;
+                    bd.Update("UPDATE equipementsentites SET idEquipement = (SELECT idEquipement FROM Equipements WHERE nom = '" + itemVoulantEtreEquiper.Nom + "') WHERE emplacement='" + emplacement + "' AND idEntite = (SELECT idEntite FROM Entites WHERE nom ='" + persoActuel.Nom + "')");
+                    bd.Update("UPDATE JoueursEquipements SET quantiteEquipe= " + Player.Inventaire.First(x => x.Nom == itemDejaEquipe.Nom).QuantiteEquipe.ToString() + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + itemDejaEquipe.Nom + "')");
+
+                }
+                else
+                    bd.insertion("INSERT INTO equipementsEntites (idEquipement,idEntite,Emplacement)VALUES((SELECT idEquipement FROM Equipements WHERE nom ='" + itemVoulantEtreEquiper.Nom + "'),(SELECT idEntite FROM Entites WHERE nom ='" + persoActuel.Nom + "'),'" + emplacement + "');COMMIT;");
+
+                Player.LstEntites.First(x => x.Nom == persoActuel.Nom).ajouterEquipement(itemVoulantEtreEquiper);
+                Player.Inventaire.First(x => x.Nom == itemVoulantEtreEquiper.Nom).QuantiteEquipe++;
+                bd.Update("UPDATE JoueursEquipements SET quantiteEquipe= " + Player.Inventaire.First(x => x.Nom == itemVoulantEtreEquiper.Nom).QuantiteEquipe.ToString() + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + itemVoulantEtreEquiper.Nom + "')");
+
+            }
+            Inventaire i = (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Inventaire)) as Inventaire);
+
+
+            if (i._dragdropWindow != null)
+            {
+                i._dragdropWindow.Close();
+                i._dragdropWindow = null;
+            }
+
+            i.refreshInv();
+        }
+        private string convertPathToNoItem(string path)
+        {
+            return System.IO.Path.GetFileNameWithoutExtension(path.Split('/').Last());
+        }
+
 
         private void btnStatsPlus_Click(object sender, RoutedEventArgs e)
         {
@@ -459,5 +505,15 @@ namespace test
             bd.Update("UPDATE Entites SET CapitalLibre =" + lblNbPointsC.Content + " WHERE nom ='" + persoActuel.Nom + "' ");
         }
 
+        private void btnInventaire_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Inventaire inv = null;
+            if (Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(Inventaire)) == null)
+            {
+                inv = new Inventaire(Player);
+                inv.Show();
+            }
+
+        }
     }
 }
