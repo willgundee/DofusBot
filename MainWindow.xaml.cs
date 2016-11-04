@@ -21,7 +21,7 @@ using System.IO;
 using System.Windows.Shapes;
 using Gofus;
 
-namespace test
+namespace Gofus
 {
     public enum ScrollBarType : uint
     {
@@ -2120,8 +2120,8 @@ namespace test
         private void PGSort_Selected(object sender, RoutedEventArgs e)
         {
 
-
-            PGSort.Items.Clear();
+           
+         PGSort.Items.Clear();
             PGSort.Items.Add(new pageSort());
 
         }

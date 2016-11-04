@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 
 using System.IO;
 
-namespace test
+namespace Gofus
 {
     /// <summary>
     /// Logique d'interaction pour PageEquipement.xaml

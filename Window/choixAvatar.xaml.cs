@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace test
+namespace Gofus
 {
     /// <summary>
     /// Interaction logic for choixAvatar.xaml
