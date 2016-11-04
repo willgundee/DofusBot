@@ -13,7 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using test;
+
 
 namespace Gofus
 {
@@ -229,7 +229,7 @@ namespace Gofus
                             LstInventaire.Add(i);
                         }
                     }
-                if (LstInventaire.Count <= 3 * 4)
+                if (LstInventaire.Count <= 4 * 4)
                     lbxInventaire.Style = (Style)FindResource("RowFix");
                 else
                     lbxInventaire.Style = (Style)FindResource("RowOverflow");

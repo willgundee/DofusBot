@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace test
+namespace Gofus
 {
     /// <summary>
     /// Logique d'interaction pour pageArchive.xaml
@@ -33,6 +33,8 @@ namespace test
             InitializeComponent();
 
             lstpartie = new List<Partie>();
+
+            bd = new BDService();
 
             idJoueur = id;
 

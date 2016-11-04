@@ -1,18 +1,19 @@
-﻿<UserControl x:Class="test.pageArene"
+﻿<UserControl x:Class="Gofus.pageArene"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:test"
+             xmlns:local="clr-namespace:Gofus"
              mc:Ignorable="d" 
              d:DesignHeight="560" d:DesignWidth="577">
-    <Grid Background="#FFC5A8A8">
+    <Grid Background="Gray">
         <Button x:Name="btnAtt" Content="Attaquer" HorizontalAlignment="Left" Margin="366,510,0,0" VerticalAlignment="Top" Width="178" Height="39" Click="btnAtt_Click"/>
         <ComboBox x:Name="cboPersonna" HorizontalAlignment="Left" Margin="35,527,0,0" VerticalAlignment="Top" Width="177"/>
         <Label x:Name="lblChoixPerso" Content="Personnage :" HorizontalAlignment="Left" Margin="35,496,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.559,1.83" Width="101"/>
+        <Button Name="btnQuitter" Visibility="Hidden" Height="30" Width="150" Content="Quitter " Margin="35,510,392,20" Click="btnQuitter_Click"/>
         <Label x:Name="TypeAdversaire" Content="Type d'adversaire:" HorizontalAlignment="Left" Margin="10,29,0,0" VerticalAlignment="Top" Width="126"/>
         <ComboBox x:Name="cboTypeAdversaire" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="202" SelectionChanged="cboTypeAdversaire_SelectionChanged"/>
-        <DataGrid x:Name="dataGrid" SelectionMode="Single" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top" Height="381" Width="557" AutoGenerateColumns="False" IsReadOnly="True">
+        <DataGrid x:Name="dataGrid" SelectionMode="Single" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top" Height="381" Width="557" AutoGenerateColumns="False" IsReadOnly="True" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Nom"  Binding="{Binding Nom}" FontSize="15" Width="2*" />
                 <DataGridTextColumn Header="Niveau" Binding="{Binding Niveau}" FontSize="15" Width="*"/>

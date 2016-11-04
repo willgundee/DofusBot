@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using test;
+
 
 namespace Gofus
 {
@@ -22,7 +22,6 @@ namespace Gofus
     /// </summary>
     public partial class pageSort : UserControl
     {
-        private Sort sorts;
        public BDService bd = new BDService();
        private ObservableCollection<SortList> lstSort;
         private ObservableCollection<SortDesc> lstDescription;

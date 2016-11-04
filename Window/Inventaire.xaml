@@ -5,13 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gofus"
         mc:Ignorable="d"
-        Title="Inventaire" Height="570" Width="350">
+        Title="Inventaire" Height="570" Width="350" WindowStartupLocation="Manual"  Left="790" Top="40"
+        ResizeMode="NoResize">
     <Window.Resources>
-        <Style x:Key="RowOverflow" TargetType="{x:Type ListBox}">
+        <Style x:Key="RowOverflow" TargetType="{x:Type ListBox}" >
             <Setter Property="ItemsPanel">
                 <Setter.Value>
                     <ItemsPanelTemplate>
-                        <UniformGrid Columns="3" />
+                        <UniformGrid Columns="4" />
                     </ItemsPanelTemplate>
                 </Setter.Value>
             </Setter>
@@ -20,13 +21,13 @@
             <Setter Property="ItemsPanel">
                 <Setter.Value>
                     <ItemsPanelTemplate>
-                        <UniformGrid Columns="3" Rows="4"/>
+                        <UniformGrid Columns="4" Rows="4"/>
                     </ItemsPanelTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
     </Window.Resources>
-    <Grid>
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="37*"/>
             <RowDefinition Height="503*"/>

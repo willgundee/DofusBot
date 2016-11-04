@@ -16,7 +16,7 @@ using System.Windows.Navigation;
 using System.IO;
 using Gofus;
 
-namespace test
+namespace Gofus
 {
     /// <summary>
     /// Logique d'interaction pour PagePerso.xaml

@@ -7,7 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 
-namespace test
+namespace Gofus
 {
     /// <summary>
     /// Logique d'interaction pour Window1.xaml
