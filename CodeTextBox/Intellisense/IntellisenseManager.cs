@@ -385,6 +385,26 @@ namespace Moonlight.Intellisense
             {
                 return;
             }
+            TreeNode node = m_CodeTextBox.IntellisenseTree.Nodes.Find(wordSelected, true).First();
+            if (node.Parent != null)
+            {
+                TreeNode ParentNode = node.Parent;
+                int index = ParentNode.Nodes.IndexOf(node);
+                if (index != 0)
+                {
+                    ParentNode.Nodes.RemoveAt(index);
+                    ParentNode.Nodes.Insert(0, node);
+                }
+            }
+            else
+            {
+                int index = m_CodeTextBox.IntellisenseTree.Nodes.IndexOf(node);
+                if (index != 0)
+                {
+                    m_CodeTextBox.IntellisenseTree.Nodes.RemoveAt(index);
+                    m_CodeTextBox.IntellisenseTree.Nodes.Insert(0, node);
+                }
+            }
 
             //Get the actual position
             int currentPosition = m_CodeTextBox.SelectionStart;
@@ -394,6 +414,14 @@ namespace Moonlight.Intellisense
             //Set selection
             m_CodeTextBox.SelectionStart = lastWordPosition;
             m_CodeTextBox.SelectionLength = currentPosition - lastWordPosition;
+
+
+            if (wordSelected.Contains("(") && wordSelected.Contains(")"))
+            {
+                int ouverture = wordSelected.IndexOf(wordSelected.First(x => x == '('));
+                int fermeture = wordSelected.IndexOf(wordSelected.Last(x => x == ')'));
+                wordSelected = wordSelected.Remove(ouverture + 1, fermeture - ouverture - 1);
+            }
 
             //Change the word
             m_CodeTextBox.SelectedText = wordSelected;

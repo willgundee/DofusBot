@@ -13,7 +13,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using System.Windows.Input;
 using System.Windows.Documents;
-using System.Windows.Interop;
 using System.Windows.Media;
 using System.Threading;
 using System.Collections.ObjectModel;
@@ -542,30 +541,31 @@ namespace test
             }
             ctb_main_VScroll(new object(), new EventArgs());
         }
-
+        #region generate treeTemplate
         private TreeNode[] generateTreeTemplate()
         {
             #region chaine
+            char test;
             TreeNode[] treeNodeTab_method_chaine = new TreeNode[] {
                 new TreeNode("Clone()"),
-                new TreeNode("CompareTo()"),
-                new TreeNode("Contains()"),
-                new TreeNode("EndsWith()"),
-                new TreeNode("Equals()"),
+                new TreeNode("CompareTo(string|object ObjetDeComparaison)"),
+                new TreeNode("Contains(string ChaineRechercher)"),
+                new TreeNode("EndsWith(string ChaineRechercher)"),
+                new TreeNode("Equals(string|object ObjetDeComparaison)"),
                 new TreeNode("GetHashCode()"),
                 new TreeNode("GetType()"),
                 new TreeNode("GetTypeCode()"),
-                new TreeNode("IndexOf()"),
+                new TreeNode("IndexOf(char CarRechercher[, int Index[, int Longueur]])"),
                 new TreeNode("ToLower()"),
                 new TreeNode("ToUpper()"),
-                new TreeNode("Insert()"),
+                new TreeNode("Insert(int Index, string ChaineInseree)"),
                 new TreeNode("IsNormalized()"),
-                new TreeNode("LastIndexOf()"),
-                new TreeNode("Remove()"),
-                new TreeNode("Replace()"),
-                new TreeNode("Split()"),
-                new TreeNode("StartsWith()"),
-                new TreeNode("Substring()"),
+                new TreeNode("LastIndexOf(char CaractereRechercher[, int Index[, int Longueur]])"),
+                new TreeNode("Remove(int IndexDebut[, int IndexFin])"),
+                new TreeNode("Replace(char CarVieux, char CarNouveau)"),
+                new TreeNode("Split(char|string Separateur[, int NbSeparationMax])"),
+                new TreeNode("StartsWith(string ChaineRechercher)"),
+                new TreeNode("Substring(int Index[, int Longueur])"),
                 new TreeNode("ToCharArray()"),
                 new TreeNode("Trim()")
             };
@@ -590,8 +590,8 @@ namespace test
             #endregion
             #region simpleVar
             TreeNode[] treeNodeTab_simpleVar = new TreeNode[] {
-                new TreeNode("CompareTo()"),
-                new TreeNode("Equals()"),
+                new TreeNode("CompareTo(int|object ObjetDeComparaison)"),
+                new TreeNode("Equals(int|object ObjetDeComparaison)"),
                 new TreeNode("GetHashCode()"),
                 new TreeNode("GetType()"),
                 new TreeNode("GetTypeCode()"),
@@ -607,18 +607,18 @@ namespace test
             #region tab
             TreeNode[] treeNodeTab_method_tab = new TreeNode[] {
                 new TreeNode("Clone()"),
-                new TreeNode("CopyTo()"),
-                new TreeNode("Equals()"),
+                new TreeNode("CopyTo(tableau Cible, int Index)"),
+                new TreeNode("Equals(object ObjetDeComparaison)"),
                 new TreeNode("GetEnumerator()"),
                 new TreeNode("GetHashCode()"),
-                new TreeNode("GetLength()"),
-                new TreeNode("GetLongLength()"),
-                new TreeNode("GetLowerBound()"),
+                new TreeNode("GetLength(int DimensionDuTableau)"),
+                new TreeNode("GetLongLength(int DimensionDuTableau)"),
+                new TreeNode("GetLowerBound(int DimensionDuTableau)"),
                 new TreeNode("GetType()"),
-                new TreeNode("GetUpperBound()"),
-                new TreeNode("GetValue()"),
+                new TreeNode("GetUpperBound(int DimensionDuTableau)"),
+                new TreeNode("GetValue(int Index[, int Index2[, int Index3]] || array<int> Index)"),
                 new TreeNode("Initialize()"),
-                new TreeNode("SetValue()"),
+                new TreeNode("SetValue(object objet, int Index[, int Index2[, int Index3]] || object objet, array<int> Index))"),
                 new TreeNode("ToString()")
             };
 
@@ -680,7 +680,7 @@ namespace test
                 new TreeNode("TrueForAll()")
             };
 
-            foreach (TreeNode Tnode in treeNodeTab_method_tab)
+            foreach (TreeNode Tnode in treeNodeTab_method_Liste)
             {
                 Tnode.Name = Tnode.Text;
                 Tnode.Tag = "method";
@@ -691,7 +691,7 @@ namespace test
                 new TreeNode("Capacity"),
                 new TreeNode("Count")
             };
-            foreach (TreeNode Tnode in treeNodeTab_attribut_tab)
+            foreach (TreeNode Tnode in treeNodeTab_attribut_Liste)
             {
                 Tnode.Name = Tnode.Text;
                 Tnode.Tag = "property";
@@ -1044,6 +1044,7 @@ namespace test
 
             return treeNode_root;
         }
+        #endregion
 
         #region generate tree
         private TreeNode[] generateTree(TreeNode[] treeNode_template)
@@ -1718,12 +1719,11 @@ namespace test
                 Tnode.Text = "system";
             }
             #endregion
-            //########################################################################################################################################################################################################################################################################################################################################################################
             #region Debug
-            TreeNode[] treeNodeTab_T_Debug = new TreeNode[] {
+            TreeNode[] treeNodeTab_Debug = new TreeNode[] {
                 new TreeNode("Log()")
             };
-            foreach (TreeNode Tnode in treeNodeTab_T_arme_enum)
+            foreach (TreeNode Tnode in treeNodeTab_Debug)
             {
                 Tnode.Name = Tnode.Text;
                 Tnode.Tag = "method";
@@ -1754,31 +1754,37 @@ namespace test
             }
             #endregion
             TreeNode treeNode_1 = new TreeNode("Math", treeNodeTab_math);
-            TreeNode treeNode_2 = new TreeNode("Perso", treeNode_template.First(x => x.Name == "Personnage").Nodes.Cast<TreeNode>().ToArray());
-            TreeNode treeNode_3 = new TreeNode("ListeEntite", treeNode_template.First(x => x.Name == "Liste").Nodes.Cast<TreeNode>().ToArray());
-            TreeNode treeNode_4 = new TreeNode("terrain", treeNode_template.First(x => x.Name == "Terrain").Nodes.Cast<TreeNode>().ToArray());
+            TreeNode treeNode_2 = new TreeNode("Debug", treeNodeTab_Debug);
+            TreeNode treeNode_3 = new TreeNode("Perso", treeNode_template.First(x => x.Name == "Personnage").Nodes.Cast<TreeNode>().ToArray());
+            TreeNode treeNode_4 = new TreeNode("ListeEntite", treeNode_template.First(x => x.Name == "Liste").Nodes.Cast<TreeNode>().ToArray());
+            TreeNode treeNode_5 = new TreeNode("terrain", treeNode_template.First(x => x.Name == "Terrain").Nodes.Cast<TreeNode>().ToArray());
 
             treeNode_1.Name = "Math";
             treeNode_1.Tag = "class";
             treeNode_1.Text = "system";
 
-            treeNode_2.Name = "Perso";
-            treeNode_2.Tag = "property";
+            treeNode_2.Name = "Debug";
+            treeNode_2.Tag = "class";
             treeNode_2.Text = "system";
 
-            treeNode_3.Name = "ListeEntite";
+            treeNode_3.Name = "Perso";
             treeNode_3.Tag = "property";
             treeNode_3.Text = "system";
 
-            treeNode_4.Name = "terrain";
+            treeNode_4.Name = "ListeEntite";
             treeNode_4.Tag = "property";
             treeNode_4.Text = "system";
+
+            treeNode_5.Name = "terrain";
+            treeNode_5.Tag = "property";
+            treeNode_5.Text = "system";
 
             TreeNode[] treeNode_root = new TreeNode[] {
             treeNode_1,
             treeNode_2,
             treeNode_3,
-            treeNode_4};
+            treeNode_4,
+            treeNode_5};
 
             TreeNode[] treeNode_Intellisense = new TreeNode[treeNode_root.Length + treeNodeTab_keyword.Length + treeNodeTab_gofus.Length];
             treeNodeTab_keyword.CopyTo(treeNode_Intellisense, 0);

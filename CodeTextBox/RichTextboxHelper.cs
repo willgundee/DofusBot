@@ -25,6 +25,11 @@ namespace Moonlight
                         else if (substr == ")")
                             nbParenthesis++;
                     }
+                    if (pos > 1)
+                    {
+                        pos--;
+                        substr = richTextbox.Text.Substring(pos - 1, 1);
+                    }
                 }
                 if (!(char.IsLetterOrDigit(substr,0) || substr == "_" || substr == "."))
                 {

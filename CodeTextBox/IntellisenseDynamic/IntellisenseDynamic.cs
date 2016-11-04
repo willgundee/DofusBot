@@ -106,7 +106,6 @@ namespace Moonlight.IntellisenseDynamic
                 Update(codeTextbox);
             }
             #endregion
-
             ProcessAllLines(codeTextbox, m_IntellisenseTree, m_IntellisenseTree_Template);
 
         }

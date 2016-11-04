@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace Moonlight
 {
@@ -131,7 +132,10 @@ namespace Moonlight
                     e.Graphics.DrawString(this.Items[e.Index].ToString(), e.Font, new SolidBrush(e.ForeColor), e.Bounds.Left + mp_ImageSize.Width, e.Bounds.Top);
 
             }
-
+            Graphics g = CreateGraphics();
+            int hzSize = (int)g.MeasureString(Items.Cast<object>().First(x => x.ToString().Length == Items.Cast<object>().Max(y => y.ToString().Length)).ToString(), Font).Width;
+            HorizontalExtent = hzSize;
+            HorizontalScrollbar = true;
             base.OnDrawItem(e);
         }
         #endregion
