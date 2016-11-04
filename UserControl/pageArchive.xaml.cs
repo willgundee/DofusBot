@@ -44,7 +44,17 @@ namespace Gofus
             cboTypePartie.Items.Add("Les partie de tout le monde");
         }
 
+        public pageArchive()
+        {
+            InitializeComponent();
 
+            lstpartie = new List<Partie>();
+           
+
+            dgHistorique.ItemsSource = lstpartie;
+
+            cboTypePartie.Visibility = Visibility.Hidden;
+        }
 
         private void loadParties(string type)
         {
@@ -94,8 +104,7 @@ namespace Gofus
                     else
                     {
                        
-                    }
-                    
+                    }              
 
                 }
 
