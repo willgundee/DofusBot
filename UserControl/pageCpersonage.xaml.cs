@@ -88,14 +88,14 @@ namespace Gofus
             if (txtNom.Text.ToString() == "")
             {
                 lblNom.Content = "Nom du personnage (Champs Obligatoire)";
-                lblNom.Foreground = new SolidColorBrush(Colors.Red);
+                lblNom.Foreground = new SolidColorBrush(Colors.Orange);
                 valider = false;
             }
             else if (!checkUniqueNom())
             {
 
                 lblNom.Content = "Nom du personnage (nom déjà utilisé)";
-                lblNom.Foreground = new SolidColorBrush(Colors.Red);
+                lblNom.Foreground = new SolidColorBrush(Colors.Orange);
                 valider = false;
 
             }
@@ -111,13 +111,12 @@ namespace Gofus
             if (txtbDesc.Text == "")
             {
                 txtbDesc.Text = "Pas de classe sélectionné";
-                txtbDesc.Foreground = new SolidColorBrush(Colors.Red);
+                txtbDesc.Foreground = new SolidColorBrush(Colors.Orange);
                 valider = false;
             }
             else
             {
                 txtbDesc.Foreground = new SolidColorBrush(Colors.Black);
-                valider = true;
             }
             return valider;
         }
