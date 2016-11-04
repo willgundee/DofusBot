@@ -7,15 +7,8 @@
         mc:Ignorable="d"
         Title="PageVisionneuse" Height="600" Width="600">
     <Grid Background="Gray">
-        <Button x:Name="btnAtt" Content="Attaquer" HorizontalAlignment="Left" Margin="366,510,0,0" VerticalAlignment="Top" Width="178" Height="39" Click="btnAtt_Click"/>
-         <Button Name="btnQuitter" Height="30" Width="150" Content="Quitter " Margin="35,510,392,20" Click="btnQuitter_Click"/>
-        <DataGrid x:Name="dataGrid" SelectionMode="Single" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top" Height="381" Width="557" AutoGenerateColumns="False" IsReadOnly="True" >
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="No Partie"  Binding="{Binding idPartie}"    FontSize="15" Width="*" />
-                <DataGridTextColumn Header="Attaquant"  Binding="{Binding infoEntites}" FontSize="15" Width="2*"/>
-                <DataGridTextColumn Header="Défendant"  Binding="{Binding infoEntites}"    FontSize="15" Width="2*"/>
-                <DataGridTextColumn Header="Temps"      Binding="{Binding temps}" FontSize="15" Width="*" />
-            </DataGrid.Columns>
-        </DataGrid>
+        <ItemsControl Name="item">
+            
+        </ItemsControl>
     </Grid>
 </Window>

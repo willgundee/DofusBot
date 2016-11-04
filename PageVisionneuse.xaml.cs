@@ -32,35 +32,8 @@ namespace Gofus
         public PageVisionneuse()
         {
             InitializeComponent();
-
-            #region Mick/invité;
-
-            InitializeComponent();
-            lstScripts = new ObservableCollection<string>();
-            lstAdversaire = new ObservableCollection<Entite>();
-            lstPerso = new Dictionary<int, string>();
-            lstTypeAdver = new ObservableCollection<string>();
-
-            bd = new BDService();
-          
-
-           
-            
-            btnQuitter.Visibility = Visibility.Visible;
-         
-            dataGrid.ItemsSource = lstAdversaire;
-
+            item.Items.Add(new pageArchive());
         }
-
-        private void btnQuitter_Click(object sender, RoutedEventArgs e)
-        {
-            Authentification au = new Authentification();
-            au.Show();
-            if (System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(PageVisionneuse)) != null)
-                System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(PageVisionneuse)).Close();
-
-        }
-        #endregion
 
 
     }

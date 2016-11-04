@@ -10,7 +10,7 @@
         <Button x:Name="btnAtt" Content="Attaquer" HorizontalAlignment="Left" Margin="366,510,0,0" VerticalAlignment="Top" Width="178" Height="39" Click="btnAtt_Click"/>
         <ComboBox x:Name="cboPersonna" HorizontalAlignment="Left" Margin="35,527,0,0" VerticalAlignment="Top" Width="177"/>
         <Label x:Name="lblChoixPerso" Content="Personnage :" HorizontalAlignment="Left" Margin="35,496,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.559,1.83" Width="101"/>
-        <Button Name="btnQuitter" Visibility="Hidden" Height="30" Width="150" Content="Quitter " Margin="35,510,392,20" Click="btnQuitter_Click"/>
+        <Button Name="btnQuitter" Visibility="Hidden" Height="30" Width="150" Content="Quitter " Margin="35,510,392,20" />
         <Label x:Name="TypeAdversaire" Content="Type d'adversaire:" HorizontalAlignment="Left" Margin="10,29,0,0" VerticalAlignment="Top" Width="126"/>
         <ComboBox x:Name="cboTypeAdversaire" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="202" SelectionChanged="cboTypeAdversaire_SelectionChanged"/>
         <DataGrid x:Name="dataGrid" SelectionMode="Single" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top" Height="381" Width="557" AutoGenerateColumns="False" IsReadOnly="True" >
