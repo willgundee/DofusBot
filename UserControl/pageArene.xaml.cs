@@ -27,12 +27,13 @@ namespace Gofus
 
         public int idJoueur;
 
-        public pageArene(int id,ObservableCollection<Entite> lstPersonnages)
+
+        public pageArene(int id, ObservableCollection<Entite> lstPersonnages)
         {
             InitializeComponent();
             lstScripts = new ObservableCollection<string>();
             lstAdversaire = new ObservableCollection<Entite>();
-            lstPerso = new Dictionary<int,string>();
+            lstPerso = new Dictionary<int, string>();
             lstTypeAdver = new ObservableCollection<string>();
 
             bd = new BDService();
@@ -42,11 +43,11 @@ namespace Gofus
             idJoueur = id;
             cboTypeAdversaire.ItemsSource = lstTypeAdver;
             int i = 0;
-              foreach (Entite perso in lstPersonnages)
-              {
-                  lstPerso.Add(i,perso.Nom);
+            foreach (Entite perso in lstPersonnages)
+            {
+                lstPerso.Add(i, perso.Nom);
                 i++;
-              }
+            }
 
 
 
@@ -66,8 +67,6 @@ namespace Gofus
 
         private void cboTypeAdversaire_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
-
             if (cboTypeAdversaire.SelectedIndex == 0)
             {
                 List<string>[] Result = bd.selection("SELECT * FROM Entites WHERE idJoueur IS NOT NULL AND idJoueur != " + idJoueur.ToString());
@@ -75,11 +74,8 @@ namespace Gofus
 
                 foreach (List<string> enti in Result)
                 {
-
                     lstAdversaire.Add(new Entite(enti));
-
                 }
-
 
                 dataGrid.ItemsSource = lstAdversaire;
                 dataGrid.Items.Refresh();
@@ -91,11 +87,8 @@ namespace Gofus
                 lstAdversaire = new ObservableCollection<Entite>();
                 foreach (List<string> enti in Result)
                 {
-
                     lstAdversaire.Add(new Entite(enti));
-
                 }
-
 
                 dataGrid.ItemsSource = lstAdversaire;
                 dataGrid.Items.Refresh();
@@ -107,10 +100,11 @@ namespace Gofus
         {
             if (dataGrid.SelectedIndex != -1)
             {
-                System.Windows.Forms.MessageBox.Show("1233");
-
+               MessageBox.Show("1233");
 
             }
         }
+
+    
     }
 }

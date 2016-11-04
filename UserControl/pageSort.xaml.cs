@@ -22,7 +22,6 @@ namespace Gofus
     /// </summary>
     public partial class pageSort : UserControl
     {
-        private Sort sorts;
        public BDService bd = new BDService();
        private ObservableCollection<SortList> lstSort;
         private ObservableCollection<SortDesc> lstDescription;

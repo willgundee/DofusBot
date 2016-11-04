@@ -54,7 +54,9 @@ namespace Gofus
 
         private void btnVisionner_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.MessageBox.Show("Bientôt disponible !");
+            PageVisionneuse pgv = new PageVisionneuse();
+            pgv.Show();
+            this.Close();
         }
 
         private void btnInscription_Click(object sender, RoutedEventArgs e)
