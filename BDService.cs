@@ -5,7 +5,7 @@ using System.Data;
 using System.Windows;
 using System.Configuration;
 
-namespace test
+namespace Gofus
 {
     public class BDService
     {   /*
