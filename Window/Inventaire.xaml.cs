@@ -229,7 +229,7 @@ namespace Gofus
                             LstInventaire.Add(i);
                         }
                     }
-                if (LstInventaire.Count <= 3 * 4)
+                if (LstInventaire.Count <= 4 * 4)
                     lbxInventaire.Style = (Style)FindResource("RowFix");
                 else
                     lbxInventaire.Style = (Style)FindResource("RowOverflow");

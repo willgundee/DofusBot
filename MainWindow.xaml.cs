@@ -119,11 +119,7 @@ namespace test
             #endregion
 
             txt_AncienCourriel.Text = Player.Courriel;
-            txt_nomUtilisateur.Text = Player.NomUtilisateur;
-
-
-
-           
+            txt_nomUtilisateur.Text = Player.NomUtilisateur;   
 
             pgArene = new pageArene(id,Player.LstEntites);
 
@@ -2124,9 +2120,9 @@ namespace test
         private void PGSort_Selected(object sender, RoutedEventArgs e)
         {
 
-            TabItem ong = new TabItem();
-            ong.Content = new pageSort();
-            PGSort.Items.Add(ong);
+
+            PGSort.Items.Clear();
+            PGSort.Items.Add(new pageSort());
 
         }
 

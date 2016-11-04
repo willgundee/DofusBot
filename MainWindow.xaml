@@ -11,7 +11,9 @@
         x:Class="test.MainWindow"
         mc:Ignorable="d"
      Icon="resources/Gofus.png"
-        Title="Gofus" Height="600" Width="700" ResizeMode="NoResize">
+        Title="Gofus" Height="600" Width="700" 
+    ResizeMode="NoResize" 
+    WindowStartupLocation="Manual"  Left="80" Top="40">
     <Window.Resources>
         <Style x:Key="RowOverflow" TargetType="{x:Type ListBox}">
             <Setter Property="ItemsPanel">
