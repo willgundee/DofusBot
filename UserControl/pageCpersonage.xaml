@@ -8,7 +8,7 @@
              d:DesignHeight="535" d:DesignWidth="565">
     <Grid Background="Gray">
 
-        <TextBox x:Name="txtNom" Height="30" Width="450" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="64,44,51,0" />
+        <TextBox x:Name="txtNom" Height="30" Width="450" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="64,44,51,0" TextOptions.TextHintingMode="Animated" TextOptions.TextFormattingMode="Display" />
         <TextBlock x:Name="txtbDesc" FontSize="15" TextWrapping="Wrap" Background="WhiteSmoke" Margin="245,110,51,97"/>
         <Image x:Name="ClasseIop" Selector.IsSelected="False" Height="116" Width="131" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="64,98,0,0" MouseDown="image_MouseDown" Source="../resources/Iop.png" />
         <Image x:Name="ClasseCra" Selector.IsSelected="False" Height="125" Width="136" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="79,0,0,51" MouseDown="image_MouseDown" Source="../resources/Cra.png"/>
