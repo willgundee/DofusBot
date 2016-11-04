@@ -29,7 +29,7 @@
         <TextBlock Name="lblExperiece" TextAlignment="Right" FontSize="14" Height="30" HorizontalAlignment="Right" VerticalAlignment="Top" Width="75" Margin="0,0,10,0" Grid.Row="1" Grid.Column="1"/>
 
         <Label Name="lblTPa" Content="Point d'action : " FontSize="16" VerticalAlignment="Top" Margin="89,59,46,0" Height="31" Grid.ColumnSpan="2"/>
-        <TextBlock Name="lblPa" TextAlignment="Right" FontSize="14" Height="30"  VerticalAlignment="Top" Margin="72,61,10,0" Grid.Column="1"/>
+        <TextBlock Name="lblPa" TextAlignment="Right" FontSize="14" Height="30"  VerticalAlignment="Top" Margin="72,67,10,0" Grid.Column="1"/>
 
         <Label Name="lblTligne" Content="Ligne de vue : " FontSize="16" VerticalAlignment="Top" Margin="10,0,0,0" Grid.Row="3" Height="31"/>
         <TextBlock Name="lblLigne"  TextAlignment="Right" FontSize="14" Height="30"  VerticalAlignment="Top" Margin="36,0,10,0" Grid.Row="3" Grid.Column="1"/>
