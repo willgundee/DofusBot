@@ -34,6 +34,8 @@ namespace Gofus
 
             lstpartie = new List<Partie>();
 
+            bd = new BDService();
+
             idJoueur = id;
 
             dgHistorique.ItemsSource = lstpartie;

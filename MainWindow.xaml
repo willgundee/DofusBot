@@ -336,7 +336,7 @@
         </TabItem>
         <TabItem Header="Archives" Height="30">
             <Grid Background="Gray">
-               
+                <ContentControl Name="controlArchive"/>
             </Grid>
 
 

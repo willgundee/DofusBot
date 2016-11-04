@@ -63,6 +63,7 @@ namespace Gofus
 
         public pageArene pgArene;
 
+        public pageArchive pgArchive;
    
 
         public int idJoueur { get; set; }
@@ -123,7 +124,11 @@ namespace Gofus
 
             pgArene = new pageArene(id,Player.LstEntites);
 
+            pgArchive = new pageArchive(id);
+
             controlArene.Content = pgArene;
+
+            controlArchive.Content = pgArchive;
 
 
             #region Marc_TimerTick_Chat
