@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gofus"
         mc:Ignorable="d"
-        Title="PageVisionneuse" Height="600" Width="600">
+        Title="PageVisionneuse" Height="560" Width="577
+        ">
     <Grid Background="Gray">
         <ItemsControl Name="item">
             

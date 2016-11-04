@@ -47,13 +47,12 @@ namespace Gofus
         public pageArchive()
         {
             InitializeComponent();
-
             lstpartie = new List<Partie>();
            
-
             dgHistorique.ItemsSource = lstpartie;
-
             cboTypePartie.Visibility = Visibility.Hidden;
+            loadParties("all");
+            dgHistorique.Items.Refresh();
         }
 
         private void loadParties(string type)
