@@ -82,17 +82,32 @@ namespace test
         private bool valider()
         {
             bool valider = true;
+
+            
+
             if (txtNom.Text.ToString() == "")
             {
-                lblNom.Content = "Nom du personnage";
+                lblNom.Content = "Nom du personnage (Champs Obligatoire)";
                 lblNom.Foreground = new SolidColorBrush(Colors.Red);
                 valider = false;
+            }
+            else if (!checkUniqueNom())
+            {
+
+                lblNom.Content = "Nom du personnage (nom déjà utilisé)";
+                lblNom.Foreground = new SolidColorBrush(Colors.Red);
+                valider = false;
+
             }
             else
             {
                 lblNom.Content = "Nom du personnage";
                 lblNom.Foreground = new SolidColorBrush(Colors.Black);
             }
+
+
+
+
             if (txtbDesc.Text == "")
             {
                 txtbDesc.Text = "Pas de classe sélectionné";
@@ -106,6 +121,22 @@ namespace test
             }
             return valider;
         }
+        
+
+        /// <summary>
+        /// Vérifier si le nom est unique
+        /// </summary>
+        /// <returns></returns>
+        private bool checkUniqueNom()
+        {
+            string nom = txtNom.Text;
+            if ((bd.selection("SELECT idEntite FROM Entites WHERE nom='" + nom + "'"))[0][0] != "rien")
+            {
+                return false;
+            }
+            return true;
+        }
+
 
         private void btnConfimer_Click(object sender, RoutedEventArgs e)
         {
