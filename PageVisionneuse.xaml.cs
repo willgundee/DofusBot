@@ -60,8 +60,12 @@ namespace Gofus
                 System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(PageVisionneuse)).Close();
 
         }
+
         #endregion
 
+        private void btnAtt_Click(object sender, RoutedEventArgs e)
+        {
 
+        }
     }
 }

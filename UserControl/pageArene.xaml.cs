@@ -105,6 +105,9 @@ namespace Gofus
             }
         }
 
-    
+        private void btnQuitter_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

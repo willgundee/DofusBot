@@ -546,7 +546,6 @@ namespace Gofus
         private TreeNode[] generateTreeTemplate()
         {
             #region chaine
-            char test;
             TreeNode[] treeNodeTab_method_chaine = new TreeNode[] {
                 new TreeNode("Clone()"),
                 new TreeNode("CompareTo(string|object ObjetDeComparaison)"),
@@ -650,35 +649,36 @@ namespace Gofus
             treeNodeTab_attribut_tab.CopyTo(treeNodeTab_tab, treeNodeTab_method_tab.Length);
             #endregion
             #region Liste
+            List<int> test = new List<int>();
             TreeNode[] treeNodeTab_method_Liste = new TreeNode[] {
-                new TreeNode("Add()"),
-                new TreeNode("AddRange()"),
+                new TreeNode("Add(T ObjetAAjouter)"),
+                new TreeNode("AddRange(IEnumerable<T> ElementsAAjouter)"),
                 new TreeNode("BinarySearch()"),
                 new TreeNode("Clear()"),
-                new TreeNode("Contains()"),
-                new TreeNode("ConvertAll()"),
-                new TreeNode("CopyTo()"),
-                new TreeNode("Exists()"),
-                new TreeNode("Find()"),
-                new TreeNode("FindAll()"),
-                new TreeNode("FindIndex()"),
-                new TreeNode("FindLast()"),
-                new TreeNode("ForEach()"),
+                new TreeNode("Contains(T ObjetRechercher)"),
+                new TreeNode("CopyTo(Array<T>[, int Index])"),
+                new TreeNode("Exists(Predicate<T> Match)"),
+                new TreeNode("Find(Predicate<T> Match)"),
+                new TreeNode("FindAll(Predicate<T> Match)"),
+                new TreeNode("FindIndex(Predicate<T> Match)"),
+                new TreeNode("FindLast(Predicate<T> Match)"),
+                new TreeNode("ForEach(Action<T> action)"),
                 new TreeNode("GetEnumerator()"),
-                new TreeNode("GetRange()"),
-                new TreeNode("IndexOf()"),
-                new TreeNode("Insert()"),
-                new TreeNode("InsertRange()"),
-                new TreeNode("LastIndexOf()"),
-                new TreeNode("Remove()"),
-                new TreeNode("RemoveAll()"),
-                new TreeNode("RemoveAt()"),
-                new TreeNode("RemoveRange()"),
-                new TreeNode("Reverse()"),
-                new TreeNode("Sort()"),
+                new TreeNode("GetRange(int Index, int Longueur)"),
+                new TreeNode("IndexOf(T ObjetATrouver)"),
+                new TreeNode("Insert(int Index, T ObjetAAjouter)"),
+                new TreeNode("InsertRange(int Index, IEnumerable<T> ElementsAAjoute)"),
+                new TreeNode("LastIndexOf(T ObjetRechercher[, int Index2[, int Longueur]])"),
+                new TreeNode("Remove(T ObjetAEnlever)"),
+                new TreeNode("RemoveAll(Predicate<T> Match)"),
+                new TreeNode("RemoveAt(int Index)"),
+                new TreeNode("RemoveRange(int Index, int Longueur)"),
+                new TreeNode("Reverse([int Index, int Longueur])"),
+                new TreeNode("Sort(Comparison<T> comparison)"),
                 new TreeNode("ToArray()"),
+                new TreeNode("ToString()"),
                 new TreeNode("TrimExcess()"),
-                new TreeNode("TrueForAll()")
+                new TreeNode("TrueForAll(Predicate<T> Match)")
             };
 
             foreach (TreeNode Tnode in treeNodeTab_method_Liste)
@@ -839,10 +839,11 @@ namespace Gofus
             }
             #endregion
             #region Personnage
+            
             TreeNode[] treeNodeTab_method_perso = new TreeNode[] {
-                new TreeNode("UtiliserSort()", treeNodeTab_simpleVar),
-                new TreeNode("AvancerVers()", treeNodeTab_simpleVar),
-                new TreeNode("Attaquer()", treeNodeTab_simpleVar)
+                new TreeNode("UtiliserSort(Sort|nom_sort sort, EntiteInconnu|Case cible)", treeNodeTab_simpleVar),
+                new TreeNode("AvancerVers(EntiteInconnu|Case cible[, int PMAlouer)", treeNodeTab_simpleVar),
+                new TreeNode("Attaquer(EntiteInconnu|Case cible)", treeNodeTab_simpleVar)
             };
 
             foreach (TreeNode Tnode in treeNodeTab_method_perso)
@@ -883,8 +884,8 @@ namespace Gofus
             #endregion
             #region Entite
             TreeNode[] treeNodeTab_method_entite = new TreeNode[] {
-                new TreeNode("UtiliserSort()", treeNodeTab_simpleVar),
-                new TreeNode("AvancerVers()", treeNodeTab_simpleVar)
+                new TreeNode("UtiliserSort(Sort|nom_sort sort, EntiteInconnu|Case cible)", treeNodeTab_simpleVar),
+                new TreeNode("AvancerVers(EntiteInconnu|Case cible[, int PMAlouer)", treeNodeTab_simpleVar)
             };
 
             foreach (TreeNode Tnode in treeNodeTab_method_entite)
@@ -923,20 +924,7 @@ namespace Gofus
             treeNodeTab_attribut_entite.CopyTo(treeNodeTab_entite, treeNodeTab_method_entite.Length);
             #endregion
             #region EntiteInconnu
-            TreeNode[] treeNodeTab_method_perso_i = new TreeNode[] {
-                new TreeNode("UtiliserSort()", treeNodeTab_simpleVar),
-                new TreeNode("AvancerVers()", treeNodeTab_simpleVar),
-                new TreeNode("Attaquer()", treeNodeTab_simpleVar)
-            };
-
-            foreach (TreeNode Tnode in treeNodeTab_method_perso_i)
-            {
-                Tnode.Name = Tnode.Text;
-                Tnode.Tag = "method";
-                Tnode.Text = "system";
-            }
-
-            TreeNode[] treeNodeTab_attribut_perso_i = new TreeNode[] {
+            TreeNode[] treeNodeTab_perso_i = new TreeNode[] {
                 new TreeNode("Equipe"),
                 new TreeNode("Etat"),
                 new TreeNode("IdEntite", treeNodeTab_simpleVar),
@@ -953,23 +941,19 @@ namespace Gofus
                 new TreeNode("ListStatistiques", treeNodeTab_Liste),
                 new TreeNode("ListEnvoutements", treeNodeTab_Liste)
             };
-            foreach (TreeNode Tnode in treeNodeTab_attribut_perso_i)
+            foreach (TreeNode Tnode in treeNodeTab_perso_i)
             {
                 Tnode.Name = Tnode.Text;
                 Tnode.Tag = "property";
                 Tnode.Text = "system";
             }
-
-            TreeNode[] treeNodeTab_perso_i = new TreeNode[treeNodeTab_method_perso_i.Length + treeNodeTab_attribut_perso_i.Length];
-            treeNodeTab_method_perso_i.CopyTo(treeNodeTab_perso_i, 0);
-            treeNodeTab_attribut_perso_i.CopyTo(treeNodeTab_perso_i, treeNodeTab_method_perso_i.Length);
             #endregion
             #region Terrain
             TreeNode[] treeNodeTab_method_terrain = new TreeNode[] {
-                new TreeNode("DistanceEntreCases()", treeNodeTab_simpleVar),
+                new TreeNode("DistanceEntreCases(Case case1, Case case2)", treeNodeTab_simpleVar),
                 new TreeNode("CaseAvecObstacle()", treeNodeTab_Liste),
-                new TreeNode("CheminEntreCases()", treeNodeTab_Liste),
-                new TreeNode("CaseVoisines()", treeNodeTab_Liste)
+                new TreeNode("CheminEntreCases(Case case1, Case case2)", treeNodeTab_Liste),
+                new TreeNode("CaseVoisines(Case caseCible)", treeNodeTab_Liste)
             };
 
             foreach (TreeNode Tnode in treeNodeTab_method_terrain)
