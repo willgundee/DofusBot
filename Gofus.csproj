@@ -99,6 +99,9 @@
     <Compile Include="PageVisionneuse.xaml.cs">
       <DependentUpon>PageVisionneuse.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControl\pAdminMessages.xaml.cs">
+      <DependentUpon>pAdminMessages.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControl\pageArchive.xaml.cs">
       <DependentUpon>pageArchive.xaml</DependentUpon>
     </Compile>
@@ -213,6 +216,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="PageVisionneuse.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl\pAdminMessages.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
