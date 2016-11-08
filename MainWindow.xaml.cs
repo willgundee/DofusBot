@@ -60,12 +60,7 @@ namespace Gofus
 
         public int idJoueur { get; set; }
 
-        #region Marc_Chat,FenetreChat,DispatcherTimer,ThreadEnvoie
-        public Chat chat;
-        DispatcherTimer aTimer;
-        public ChatWindow fenetreChat;
-        public Thread trdEnvoie { get; private set; }
-        #endregion
+        private pageClavardage pgchat;
 
 
         public MainWindow(int id)
@@ -74,25 +69,14 @@ namespace Gofus
             InitializeComponent();
             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
             idJoueur = id;
-           
-            txtMessage.IsEnabled = false;
 
-            btnQuitterSalle.IsEnabled = false;
-
-
-           
-
-            lblEtat.Content = "État : Non connecté à la salle";
-            lblEtat.Foreground = new SolidColorBrush(Colors.Orange);
+            pgchat = new pageClavardage(Player.NomUtilisateur);
+         
 
             TreeNode[] template = generateTreeTemplate();
             ctb_main.CreateTreeView(generateTree(template), template);
             ctb_main.UpdateSyntaxHightlight();
             ctb_main.UpdateTreeView();
-     
-
-
-
 
             #region Lou
             LstImgItems = new ObservableCollection<ImageItem>();
@@ -107,26 +91,6 @@ namespace Gofus
 
             fillSortCbo();
             #endregion
-
-            
-
-           
-
-
-            #region Marc_TimerTick_Chat
-
-            this.chat = new Chat();
-            chat.nomUtilisateur = Player.NomUtilisateur;
-            chat.getId();
-
-            btnEnvoyerMessage.IsEnabled = false;
-
-
-            aTimer = new DispatcherTimer();
-            aTimer.Tick += new EventHandler(Timer_Tick);
-            aTimer.Interval = new TimeSpan(0, 0, 1);
-            #endregion
-
         }
 
         
@@ -137,125 +101,6 @@ namespace Gofus
                System.Windows.Application.Current.Shutdown();
            }
            */
-
-        #region Marc_Chat(Timer,WPF,EnvoieMessage,Refresh)
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            // Updating the Label which displays the current second
-            if (this != null)
-            {
-
-                ObservableCollection<string> messages = new ObservableCollection<string>();
-                Thread trdRefresh = new Thread(() =>
-                {
-
-                    messages = chat.refreshChat();
-                    System.Windows.Application.Current.Dispatcher.Invoke(new System.Action(() =>
-                    {
-                        txtboxHistorique.Text = "";
-                        foreach (string m in messages)
-                        {
-                            txtboxHistorique.Text += m;
-                        }
-                    }));
-                });
-                trdRefresh.Start();
-                Thread.Yield();
-
-                CommandManager.InvalidateRequerySuggested();
-            }
-            else
-            {
-                aTimer.Stop();
-            }
-        }
-
-        private void BtnEnvoyer_Click(object sender, RoutedEventArgs e)
-        {
-            string text = txtMessage.Text;
-            trdEnvoie = new Thread(() => { chat.envoyerMessage(text); });
-            trdEnvoie.Start();
-            Thread.Yield();
-        }
-        private void OnKeyDowntxtMessage(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if (e.Key == Key.Return && aTimer.IsEnabled)
-            {
-                string text = txtMessage.Text;
-                trdEnvoie = new Thread(() => { chat.envoyerMessage(text); });
-                trdEnvoie.Start();
-                Thread.Yield();
-            }
-        }
-
-
-
-
-        private void txtMessage_TextChange(object sender, TextChangedEventArgs e)
-        {
-
-
-            if (txtMessage.Text.ToString() == "")
-            {
-
-                btnEnvoyerMessage.IsEnabled = false;
-
-            }
-            else
-            {
-                if (aTimer.IsEnabled)
-                    btnEnvoyerMessage.IsEnabled = true;
-            }
-        }
-
-        private void btnRejoindreSalle_Click(object sender, RoutedEventArgs e)
-        {
-            aTimer.Start();
-            lblEtat.Content = "État : Connecter à la salle.";
-            lblEtat.Foreground = new SolidColorBrush(Colors.ForestGreen);
-            txtMessage.IsEnabled = true;
-            btnRejoindreSalle.IsEnabled = false;
-            btnQuitterSalle.IsEnabled = true;
-
-        }
-
-        private void btnQuitterSalle_Click(object sender, RoutedEventArgs e)
-        {
-            aTimer.Stop();
-            txtMessage.Text = "";
-            txtboxHistorique.Text = "";
-            lblEtat.Content = "État : Déconnecter.";
-            lblEtat.Foreground = new SolidColorBrush(Colors.Orange);
-
-            btnEnvoyerMessage.IsEnabled = false;
-            txtMessage.IsEnabled = false;
-
-            btnRejoindreSalle.IsEnabled = true;
-            btnQuitterSalle.IsEnabled = false;
-
-        }
-
-        public void MainWindow_ChatWindowClosing(object sender, System.EventArgs e)
-        {
-            fenetreChat = null;
-        }
-
-        private void BtnModLess_Click(object sender, RoutedEventArgs e)
-        {
-
-            if (fenetreChat != null)
-            {
-                fenetreChat.Activate();
-            }
-            else
-            {
-                fenetreChat = new ChatWindow(chat.nomUtilisateur);
-                fenetreChat.Closed += MainWindow_ChatWindowClosing;
-                fenetreChat.Show();
-            }
-        }
-        #endregion
-
        
 
         #region truc trop long de ced
@@ -1934,6 +1779,11 @@ namespace Gofus
         private void PgGestion_Selected(object sender, RoutedEventArgs e)
         {
             controlGestion.Content = new pageGestion(Player, idJoueur);
+        }
+
+        private void PgClavardage_Selected(object sender, RoutedEventArgs e)
+        {
+            contentClavardage.Content = pgchat;
         }
 
 
