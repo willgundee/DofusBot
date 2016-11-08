@@ -39,7 +39,7 @@ namespace GofusSharp
             }
             ListEnvoutements = new Liste<Envoutement>();
         }
-        internal EntiteInconnu(int IdEntite, Classe ClasseEntite, string Nom, float Experience, type Equipe)
+        internal EntiteInconnu(int IdEntite, Classe ClasseEntite, string Nom, double Experience, type Equipe)
         {
             this.IdEntite = IdEntite;
             this.ClasseEntite = ClasseEntite;

@@ -195,7 +195,7 @@ namespace GofusSharp
                 }
                 if (!existe)
                 {
-                    Entite newInvoc = new Entite(entiteInconnu, new Script(3, "//Placeholder"), TerrainPartie, entiteInconnu.Proprietaire);
+                    Entite newInvoc = new Entite(entiteInconnu, "//Placeholder", TerrainPartie, entiteInconnu.Proprietaire);
                     if (newInvoc.Equipe == EntiteInconnu.type.attaquant)
                     {
                         foreach (Entite entiteProp in ListAttaquants)

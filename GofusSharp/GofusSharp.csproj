@@ -67,7 +67,6 @@
     <Compile Include="Partie.cs" />
     <Compile Include="Personnage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Script.cs" />
     <Compile Include="Sort.cs" />
     <Compile Include="Statistique.cs" />
     <Compile Include="Terrain.cs" />

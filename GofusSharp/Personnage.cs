@@ -18,7 +18,7 @@ namespace GofusSharp
                     ListEquipements.Add(new Equipement(equip));
             }
         }
-        internal Personnage(int IdEntite, Classe ClasseEntite, string Nom, float Experience, type Equipe, Liste<Statistique> ListStatistiques, Script ScriptEntite, Liste<Equipement> ListEquipements, Terrain TerrainEntite) : base(IdEntite, ClasseEntite, Nom, Experience, Equipe, ListStatistiques, ScriptEntite, TerrainEntite, 0)
+        internal Personnage(int IdEntite, Classe ClasseEntite, string Nom, float Experience, type Equipe, Liste<Statistique> ListStatistiques, string ScriptEntite, Liste<Equipement> ListEquipements, Terrain TerrainEntite) : base(IdEntite, ClasseEntite, Nom, Experience, Equipe, ListStatistiques, ScriptEntite, TerrainEntite, 0)
         {
             this.ListEquipements = ListEquipements;
             foreach (Equipement item in ListEquipements)
@@ -44,7 +44,7 @@ namespace GofusSharp
 
         public bool Attaquer(EntiteInconnu cible)
         {
-            Arme arme = new Arme(0, null, "poing", Equipement.type.arme, new Effet[] { new Effet(Effet.type.ATT_neutre, 3, 5) }, new Zone(Zone.type.croix, 1, 1), new Zone(Zone.type.carre, 0, 0), Arme.typeArme.dague, 3);
+            Arme arme = new Arme(null, "poing", Equipement.type.arme, new Liste<Effet> { new Effet(Effet.type.ATT_neutre, 3, 5) }, new Zone(Zone.type.croix, 1, 1), new Zone(Zone.type.carre, 0, 0), Arme.typeArme.dague, 3);
 
             foreach (Equipement invent in ListEquipements)
             {
@@ -74,7 +74,7 @@ namespace GofusSharp
         }
         public bool Attaquer(Case cible)
         {
-            Arme arme = new Arme(0, null, "poing", Equipement.type.arme, new Effet[] { new Effet(Effet.type.ATT_neutre, 3, 5) }, new Zone(Zone.type.croix, 1, 1), new Zone(Zone.type.carre, 0, 0), Arme.typeArme.dague, 3);
+            Arme arme = new Arme(null, "poing", Equipement.type.arme, new Liste<Effet> { new Effet(Effet.type.ATT_neutre, 3, 5) }, new Zone(Zone.type.croix, 1, 1), new Zone(Zone.type.carre, 0, 0), Arme.typeArme.dague, 3);
             foreach (Equipement invent in ListEquipements)
             {
                 if (invent is Arme)

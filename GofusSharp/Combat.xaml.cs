@@ -63,7 +63,21 @@ namespace GofusSharp
 
         private void CreerPartie(List<Gofus.Entite> lstJoueurAtt, List<Gofus.Entite> lstJoueurDef)
         {
+            foreach (Gofus.Entite entite in lstJoueurAtt)
+            {
+                if (2 == 1 + 1)
+                    PartieTest.ListAttaquants.Add(new Entite(entite, EntiteInconnu.type.attaquant));
+                else
+                    PartieTest.ListAttaquants.Add(new Personnage(entite, EntiteInconnu.type.attaquant));
 
+            }
+            foreach (Gofus.Entite entite in lstJoueurDef)
+            {
+                if (2 == 1 + 1)
+                    PartieTest.ListAttaquants.Add(new Entite(entite, EntiteInconnu.type.defendant));
+                else
+                    PartieTest.ListAttaquants.Add(new Personnage(entite, EntiteInconnu.type.defendant));
+            }
         }
 
         private void Action(Terrain terrain, Personnage joueur, System.Collections.ObjectModel.ReadOnlyCollection<EntiteInconnu> ListEntites)
@@ -148,17 +162,16 @@ namespace GofusSharp
             listStatistiqueAtt.Add(new Statistique(Statistique.type.intelligence, 20));
             listStatistiqueAtt.Add(new Statistique(Statistique.type.agilite, 10));
             listStatistiqueAtt.Add(new Statistique(Statistique.type.chance, 50));
-            Script scriptAtt = new Script(1, script1);
-            Effet[] tabEffetAtt1 = new Effet[] { new Effet(Effet.type.teleportation, 0, 0) };
+            Liste<Effet> tabEffetAtt1 = new Liste<Effet> { new Effet(Effet.type.teleportation, 0, 0) };
             Zone zoneEffetAtt1 = new Zone(Zone.type.carre, 0, 0);
             Zone zonePorteeAtt1 = new Zone(Zone.type.cercle, 1, 5);
-            Effet[] tabEffetAtt2 = new Effet[] { new Effet(Effet.type.ATT_neutre, 10, 15), new Effet(Effet.type.pousse, 4, 4) };
+            Liste<Effet> tabEffetAtt2 = new Liste<Effet> { new Effet(Effet.type.ATT_neutre, 10, 15), new Effet(Effet.type.pousse, 4, 4) };
             Zone zoneEffetAtt2 = new Zone(Zone.type.carre, 0, 0);
             Zone zonePorteeAtt2 = new Zone(Zone.type.croix, 1, 1);
-            Sort[] tabSortAtt = new Sort[] { new Sort(tabEffetAtt1, "bond", false, true, true, zonePorteeAtt1, zoneEffetAtt1, 3, 5, Sort.nom_sort.bond), new Sort(2, tabEffetAtt2, "intimidation", true, false, false, zonePorteeAtt2, zoneEffetAtt2, -2, 2, Sort.nom_sort.intimidation) };
+            Liste<Sort> tabSortAtt = new Liste<Sort> { new Sort(tabEffetAtt1, "bond", false, true, true, zonePorteeAtt1, zoneEffetAtt1, 3, 5, Sort.nom_sort.bond), new Sort(tabEffetAtt2, "intimidation", true, false, false, zonePorteeAtt2, zoneEffetAtt2, -2, 2, Sort.nom_sort.intimidation) };
             Classe classeAtt = new Classe(tabSortAtt, "iop");
-            Statistique[] statItemAtt = new Statistique[] { new Statistique(Statistique.type.force, 70) };
-            Equipement[] tabEquipAtt = new Equipement[] { new Equipement(1, statItemAtt, "Coiffe bouftou", Equipement.type.chapeau) };
+            Liste<Statistique> statItemAtt = new Liste<Statistique> { new Statistique(Statistique.type.force, 70) };
+            Liste<Equipement> tabEquipAtt = new Liste<Equipement> { new Equipement(statItemAtt, "Coiffe bouftou", Equipement.type.chapeau) };
             Liste<Statistique> listStatistiqueDef = new Liste<Statistique>();
             listStatistiqueDef.Add(new Statistique(Statistique.type.PA, 6));
             listStatistiqueDef.Add(new Statistique(Statistique.type.PM, 3));
@@ -169,22 +182,21 @@ namespace GofusSharp
             listStatistiqueDef.Add(new Statistique(Statistique.type.intelligence, 20));
             listStatistiqueDef.Add(new Statistique(Statistique.type.agilite, 10));
             listStatistiqueDef.Add(new Statistique(Statistique.type.chance, 50));
-            Script scriptDef = new Script(2, script2);
-            Effet[] tabEffetDef1 = new Effet[] { new Effet(Effet.type.teleportation, 0, 0) };
+            Liste<Effet> tabEffetDef1 = new Liste<Effet> { new Effet(Effet.type.teleportation, 0, 0) };
             Zone zoneEffetDef1 = new Zone(Zone.type.carre, 0, 0);
             Zone zonePorteeDef1 = new Zone(Zone.type.cercle, 1, 5);
-            Effet[] tabEffetDef2 = new Effet[] { new Effet(Effet.type.ATT_neutre, 10, 15), new Effet(Effet.type.pousse, 4, 4) };
+            Liste<Effet> tabEffetDef2 = new Liste<Effet> { new Effet(Effet.type.ATT_neutre, 10, 15), new Effet(Effet.type.pousse, 4, 4) };
             Zone zoneEffetDef2 = new Zone(Zone.type.carre, 0, 0);
             Zone zonePorteeDef2 = new Zone(Zone.type.croix, 1, 1);
-            Sort[] tabSortDef = new Sort[] { new Sort(1, tabEffetDef1, "bond", false, true, true, zonePorteeDef1, zoneEffetDef1, 3, 5, Sort.nom_sort.bond), new Sort(2, tabEffetDef2, "intimidation", true, false, false, zonePorteeDef2, zoneEffetDef2, -2, 2, Sort.nom_sort.intimidation) };
-            Classe classeDef = new Classe(1, tabSortDef, "iop");
-            Statistique[] statItemDef = new Statistique[] { new Statistique(Statistique.type.force, 70) };
-            Equipement[] tabEquipDef = new Equipement[] { new Equipement(1, statItemDef, "Coiffe bouftou", Equipement.type.chapeau), new Arme(2, statItemAtt, "Marteau bouftous", Equipement.type.arme, tabEffetAtt2, zonePorteeAtt2, zoneEffetAtt2, Arme.typeArme.marteau, 5) };
+            Liste<Sort> tabSortDef = new Liste<Sort> { new Sort(tabEffetDef1, "bond", false, true, true, zonePorteeDef1, zoneEffetDef1, 3, 5, Sort.nom_sort.bond), new Sort(tabEffetDef2, "intimidation", true, false, false, zonePorteeDef2, zoneEffetDef2, -2, 2, Sort.nom_sort.intimidation) };
+            Classe classeDef = new Classe(tabSortDef, "iop");
+            Liste<Statistique> statItemDef = new Liste<Statistique> { new Statistique(Statistique.type.force, 70) };
+            Liste<Equipement> tabEquipDef = new Liste<Equipement> { new Equipement(statItemDef, "Coiffe bouftou", Equipement.type.chapeau), new Arme(statItemAtt, "Marteau bouftous", Equipement.type.arme, tabEffetAtt2, zonePorteeAtt2, zoneEffetAtt2, Arme.typeArme.marteau, 5) };
             Terrain terrain = new Terrain(10, 10);
             Liste<Entite> ListAttaquants = new Liste<Entite>();
-            ListAttaquants.Add(new Personnage(10, classeAtt, "Trebor", 10000, EntiteInconnu.type.attaquant, listStatistiqueAtt, scriptAtt, tabEquipAtt, terrain));
+            ListAttaquants.Add(new Personnage(10, classeAtt, "Trebor", 10000, EntiteInconnu.type.attaquant, listStatistiqueAtt, script1, tabEquipAtt, terrain));
             Liste<Entite> ListDefendants = new Liste<Entite>();
-            ListDefendants.Add(new Personnage(11, classeDef, "Robert", 9000, EntiteInconnu.type.defendant, listStatistiqueDef, scriptDef, tabEquipDef, terrain));
+            ListDefendants.Add(new Personnage(11, classeDef, "Robert", 9000, EntiteInconnu.type.defendant, listStatistiqueDef, script2, tabEquipDef, terrain));
             PartieTest = new Partie(1, ListAttaquants, ListDefendants);
         }
 

@@ -23,7 +23,7 @@ namespace GofusSharp
             TypeArme = (typeArme)System.Enum.Parse(typeof(typeArme), RemoveDiacritics(equip.Type.Replace(' ', '_').Replace('\'', '_').ToLower()));
             CoutPA = equip.Pa;
         }
-        internal Arme(int IdEquipement, Liste<Effet> ListEffets, string Nom, type Type, Effet[] TabEffets, Zone ZonePortee, Zone ZoneEffet, typeArme TypeArme, int CoutPA) : base(IdEquipement, TabStatistiques, Nom, Type)
+        internal Arme(Liste<Statistique> ListStat, string Nom, type Type, Liste<Effet> ListEffets, Zone ZonePortee, Zone ZoneEffet, typeArme TypeArme, int CoutPA) : base(ListStat, Nom, Type)
         {
             this.ListEffets = ListEffets;
             this.ZonePortee = ZonePortee;

@@ -13,6 +13,8 @@
             Nom = (type)System.Enum.Parse(typeof(type), effet.Nom.ToString());
             ValeurMin = effet.DmgMin;
             ValeurMax = effet.DmgMax;
+            NbTour = effet.NbTour;
+            Stat = (Statistique.type)System.Enum.Parse(typeof(Statistique.type), effet.Stat.ToString());
         }
         internal Effet(type Nom, int ValeurMin, int ValeurMax)
         {
