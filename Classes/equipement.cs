@@ -80,7 +80,7 @@ namespace Gofus
             LstStatistiques = new List<Statistique>();
             string sta = "SELECT t.nom,se.valeur FROM StatistiquesEquipements se INNER JOIN Equipements e ON e.idEquipement = se.idEquipement INNER JOIN TypesStatistiques t ON se.idTypeStatistique = t.idtypestatistique WHERE e.idEquipement =" + idEquipement;
             foreach (List<string> stat in bd.selection(sta))
-                LstStatistiques.Add(new Statistique(stat));
+                LstStatistiques.Add(new Statistique(stat,false));
         }
         /// <summary>
         /// ajout de la zone de portée de l'arme

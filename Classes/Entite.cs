@@ -18,6 +18,7 @@ namespace Gofus
         public int CapitalLibre { get; set; }
 
         public int Niveau { get; set; }
+        public int IdEntite { get; set; }
 
         private BDService bd = new BDService();
 
@@ -27,11 +28,13 @@ namespace Gofus
         /// <param name="infoEntite">La requête</param>
         public Entite(List<string> infoEntite)
         {
+            IdEntite = Convert.ToInt16(infoEntite[0]);
             addClasse(Convert.ToInt16(infoEntite[0]));
             addScript(Convert.ToInt16(infoEntite[0]));
             addStats(Convert.ToInt16(infoEntite[0]));
             addEquipements(Convert.ToInt16(infoEntite[0]));
             Nom = infoEntite[4];
+            if(infoEntite[5]!= "")
             CapitalLibre = Convert.ToInt32(infoEntite[5]);
 
             Niveau = LstStats.First(x => x.Nom == Statistique.element.experience).toLevel(); 
@@ -60,9 +63,9 @@ namespace Gofus
         private void addStats(int idEntite)
         {
             LstStats = new ObservableCollection<Statistique>();
-            string sta = "SELECT t.nom,se.valeur FROM statistiquesentites se INNER JOIN Entites e ON e.idEntite = se.idEntite INNER JOIN TypesStatistiques t ON se.idTypeStatistique = t.idtypestatistique WHERE e.idEntite =" + idEntite;
+            string sta = "SELECT * FROM statistiquesentites se INNER JOIN Entites e ON e.idEntite = se.idEntite INNER JOIN TypesStatistiques t ON se.idTypeStatistique = t.idtypestatistique WHERE e.idEntite =" + idEntite;
             foreach (List<string> stat in bd.selection(sta))
-                LstStats.Add(new Statistique(stat));
+                LstStats.Add(new Statistique(stat,true));
         }
         /// <summary>
         /// ajout des équipements portée par l'entité

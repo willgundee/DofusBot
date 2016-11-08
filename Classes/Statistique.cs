@@ -78,11 +78,23 @@ namespace Gofus
         /// Constructeur d'une statistique
         /// </summary>
         /// <param name="info">La requête</param>
-        public Statistique(List<string> info)
+        public Statistique(List<string> info, bool estEntite)
         {
-            Nom = (element)Enum.Parse(typeof(element), info[0], true);//convert string to enum;
-            NomSimple = dictElement[Nom];
-            Valeur = Convert.ToDouble(info[1]);
+            Random rnd = new Random();
+            if (!estEntite)
+            {
+                Nom = (element)Enum.Parse(typeof(element), info[0], true);//convert string to enum;
+                NomSimple = dictElement[Nom];
+                Valeur = Convert.ToDouble(info[1]);
+            }
+            else
+            {
+                Nom = (element)Enum.Parse(typeof(element), info[13], true);//convert string to enum;
+                NomSimple = dictElement[Nom];
+                if (info[3] != "")
+                    Valeur = Convert.ToDouble(rnd.Next(Convert.ToInt32(info[3]), Convert.ToInt32(info[4]) + 1));
+
+            }
         }
 
         public int toLevel()

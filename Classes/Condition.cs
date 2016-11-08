@@ -17,7 +17,7 @@ namespace Gofus
         /// <param name="info">La requête</param>
         public Condition(List<string> info )
         {
-            Stat = new Statistique(info);
+            Stat = new Statistique(info,false);
             Signe = info[2];
         }
     }
