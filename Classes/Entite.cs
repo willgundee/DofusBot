@@ -15,9 +15,9 @@ namespace Gofus
         public Classe ClasseEntite { get; set; }
         public string Nom { get; set; }
         public int CapitalLibre { get; set; }
-
         public int Niveau { get; set; }
         public int IdEntite { get; set; }
+        public bool EstPersonnage { get; set; }
 
         private BDService bd = new BDService();
 
@@ -34,10 +34,12 @@ namespace Gofus
             addEquipements(Convert.ToInt16(infoEntite[0]));
             Nom = infoEntite[4];
             Niveau = LstStats.First(x => x.Nom == Statistique.element.experience).toLevel();
+            EstPersonnage = true;
             if (infoEntite[5] != "")
             {
                 CapitalLibre = Convert.ToInt32(infoEntite[5]);
                 BalanceStatsMob();
+                EstPersonnage = false;
             }
 
             //addListStatsAllEquipement();
