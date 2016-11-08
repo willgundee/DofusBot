@@ -71,7 +71,7 @@ namespace Gofus
             idJoueur = id;
 
             pgchat = new pageClavardage(Player.NomUtilisateur);
-         
+            contentClavardage.Content = pgchat;
 
             TreeNode[] template = generateTreeTemplate();
             ctb_main.CreateTreeView(generateTree(template), template);
@@ -1779,11 +1779,6 @@ namespace Gofus
         private void PgGestion_Selected(object sender, RoutedEventArgs e)
         {
             controlGestion.Content = new pageGestion(Player, idJoueur);
-        }
-
-        private void PgClavardage_Selected(object sender, RoutedEventArgs e)
-        {
-            contentClavardage.Content = pgchat;
         }
 
 

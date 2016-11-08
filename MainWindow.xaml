@@ -306,7 +306,7 @@
         <TabItem Header="Documentation" Height="30">
             <Label HorizontalAlignment="Center" FontSize="25" Content="Documentation"/>
         </TabItem>
-        <TabItem x:Name="TabClavardage" Header="Clavardage" Height="30" Selector.Selected="PgClavardage_Selected">
+        <TabItem x:Name="TabClavardage" Header="Clavardage" Height="30">
 
             <ContentControl Name="contentClavardage"></ContentControl>
            
