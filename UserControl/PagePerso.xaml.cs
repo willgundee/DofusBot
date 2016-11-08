@@ -28,7 +28,6 @@ namespace Gofus
         public BDService bd = new BDService();
         public Entite persoActuel;
         public ObservableCollection<Statistique> lstStat = new ObservableCollection<Statistique>();
-        public ObservableCollection<DescItem> LstDesc = new ObservableCollection<DescItem>();
 
 
         public PagePerso(Entite ent, Joueur Player)
@@ -36,11 +35,15 @@ namespace Gofus
             InitializeComponent();
             this.Player = Player;
             persoActuel = ent;
-            lblLevelEntite.Content = "Niv. " + ent.LstStats.First(x => x.Nom == Statistique.element.experience).toLevel().ToString();
-            pgbExp.Value = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur;
+            lblLevelEntite.Content = "Niv. " + ent.Niveau;
+
             pgbExp.Maximum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.Niveau + 1];
-            pgbExp.Minimum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.Niveau - (ent.Niveau == 1 ? 0 : -1)];
-            pgbExp.ToolTip = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur.ToString() + " Sur " + ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.LstStats.First(x => x.Nom == Statistique.element.experience).toLevel() + 1].ToString() + " Expériences !";
+            pgbExp.Minimum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.Niveau];
+            pgbExp.Value = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur;
+
+            //lblPourcentExp.Content = Math.Round(pgbExp.Value / (pgbExp.Maximum-pgbExp.Minimum)) + " %";
+
+            pgbExp.ToolTip = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur.ToString() + " sur " + ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.LstStats.First(x => x.Nom == Statistique.element.experience).toLevel() + 1].ToString() + " exp";
             int nbScript = Player.LstScripts.Count;
             for (int i = 0; i < nbScript; i++)
                 cbScript.Items.Add(Player.LstScripts[i].Nom);
@@ -55,7 +58,7 @@ namespace Gofus
             path.UriSource = new Uri(SourceImgClasse + ".png", UriKind.Relative);
             path.EndInit();
             Imgclasse.Source = path;
-            itmCtrlDesc.ItemsSource = LstDesc;
+            //itmCtrlDesc.ItemsSource = LstDesc;
             foreach (Equipement item in ent.LstEquipements)
             {
                 List<string> emplacement = bd.selection("SELECT emplacement FROM Equipementsentites WHERE idEquipement = (SELECT idEquipement FROM Equipements WHERE nom='" + item.Nom + "' )AND idEntite =(SELECT idEntite FROM Entites WHERE nom='" + ent.Nom + "')")[0];
@@ -311,9 +314,9 @@ namespace Gofus
 
         private void imgInv_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            LstDesc.Clear();//TODO: crée desc avec la source
-            //string nom = (((Image)sender).Name.Replace("_", " ");
-            //LstDesc.Add(new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE nom ='" + nom + "'")[0], true, 0)));
+            string i = convertPathToNoItem((sender as Image).Source.ToString());
+            itmCtrlDesc.Items.Clear();
+            itmCtrlDesc.Items.Add(new DescItem(Player.Inventaire.First(x => x.NoImg == i)));
         }
         private void AfficherElementEquipe(Equipement eq, string emp)
         {

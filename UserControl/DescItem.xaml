@@ -5,33 +5,54 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Gofus"
              mc:Ignorable="d" 
-             d:DesignHeight="240" d:DesignWidth="349">
-    <Grid Background="White">
+             d:DesignHeight="173" d:DesignWidth="278">
+    <UserControl.Resources>
+        <Style x:Key="{x:Type ListBoxItem}" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <Border Name="Border" Padding="2" SnapsToDevicePixels="true">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter TargetName="Border" Property="Background" Value="Transparent"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="Transparent"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid Background="DarkGoldenrod">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="115*"/>
-            <ColumnDefinition Width="234*"/>
+            <ColumnDefinition Width="36*"/>
+            <ColumnDefinition Width="103*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="25*"/>
-            <RowDefinition Height="147*"/>
-            <RowDefinition Height="68*"/>
+            <RowDefinition Height="24*"/>
+            <RowDefinition Height="100*"/>
+            <RowDefinition Height="49*"/>
         </Grid.RowDefinitions>
-        <TabControl Name="tabControlStatsDesc" Grid.Column="1" FontSize="10" Margin="0,6,0,0" Grid.Row="1"  >
+        <TabControl Name="tabControlStatsDesc" Grid.Column="1" FontSize="10" Grid.Row="1"  >
             <TabItem Header="Statistiques">
-                <ListBox  Name="lbxStatsDesc" Height="121" ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+                <ListBox Name="lbxStatsDesc" Height="77"/>
             </TabItem>
             <TabItem Header="Conditions">
-                <ListBox  Name="lbxCondDesc" Height="121"/>
+                <ListBox  Name="lbxCondDesc" Height="77"/>
             </TabItem>
             <TabItem Name="tbCaraDesc" Header="caractéristiques" Visibility="Visible">
-                <ListBox  Name="lbxCaraDesc" Height="121"/>
+                <ListBox  Name="lbxCaraDesc" Height="77"/>
             </TabItem>
         </TabControl>
         <Image Name="imgDesc" Source="http://staticns.ankama.com/dofus/www/game/items/200/7085.png" Grid.Column="0" Grid.Row="1" />
-        <ScrollViewer Name="scrDesc" Grid.Row="2" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto" Margin="2,2,2,1" Width="340"  Height="65">
+        <ScrollViewer Name="scrDesc" Grid.Row="2" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto" Height="50">
             <TextBlock Name="txtDesc2" FontSize="12" Text="Catégorie : Chapeau&#10;Les rares graves sujets qui arrivent aux oreilles du Roi Joueur lui passent par-dessus la tête, et arrivent alors jusqu'à ce chapeau. Ce dernier s'est donc chargé en gravité au fil du temps, ce qui explique comment les anneaux dorés qui l'entourent sont maintenus en place mais aussi pourquoi il ne bouge pas lorsque vous faites volte-face." TextWrapping="Wrap"/>
         </ScrollViewer>
         <Label Name="lblNomItem" FontSize="11" Content="Ceinture rasboulaire du rasboul" Grid.ColumnSpan="2" Grid.Row="0" />
-        <Label Name="lblivItem" Grid.Column="1" Content="Niv.123" HorizontalAlignment="Right" FontSize="11"/>
+        <Label Name="lblivItem" Grid.Column="1" Content="Niv.123" HorizontalAlignment="Right" FontSize="11" Width="46"/>
     </Grid>
 </UserControl>

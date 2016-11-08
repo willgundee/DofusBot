@@ -2083,7 +2083,7 @@ namespace Gofus
         }
         #endregion
 
-        #region Michael/Perso
+        #region Michael("Francis")/Perso
         // ***************************************************
         //Onglet Personnage
         // ***************************************************
@@ -2097,7 +2097,9 @@ namespace Gofus
                 onglet.Content = new PagePerso(perso, Player);
                 tCPerso.Items.Add(onglet);
             }
+
             tCPerso.SelectedIndex = 0;
+
             if (tCPerso.Items.Count <= 4)
             {
                 TabItem onglet = new TabItem();
@@ -2105,13 +2107,11 @@ namespace Gofus
                 onglet.Content = new pageCpersonage(Player);
                 tCPerso.Items.Add(onglet);
             }
-
-
-
         }
+
         #endregion
 
- 
+
         private void PGSort_Selected(object sender, RoutedEventArgs e)
         {
 
@@ -2128,5 +2128,6 @@ namespace Gofus
 
 
         }
+
     }
 }

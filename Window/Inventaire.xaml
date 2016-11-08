@@ -8,6 +8,26 @@
         Title="Inventaire" Height="570" Width="350" WindowStartupLocation="Manual"  Left="790" Top="40"
         ResizeMode="NoResize">
     <Window.Resources>
+        <Style x:Key="{x:Type ListBoxItem}" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <Border Name="Border" Padding="2" SnapsToDevicePixels="true">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter TargetName="Border" Property="Background" Value="Transparent"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="Transparent"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <Style x:Key="RowOverflow" TargetType="{x:Type ListBox}" >
             <Setter Property="ItemsPanel">
                 <Setter.Value>
