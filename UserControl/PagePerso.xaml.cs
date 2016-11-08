@@ -315,8 +315,11 @@ namespace Gofus
         private void imgInv_MouseDown(object sender, MouseButtonEventArgs e)
         {
             string i = convertPathToNoItem((sender as Image).Source.ToString());
-            itmCtrlDesc.Items.Clear();
-            itmCtrlDesc.Items.Add(new DescItem(Player.Inventaire.First(x => x.NoImg == i)));
+            if (i != "vide")
+            {
+                itmCtrlDesc.Items.Clear();
+                itmCtrlDesc.Items.Add(new DescItem(Player.Inventaire.First(x => x.NoImg == i)));
+            }
         }
         private void AfficherElementEquipe(Equipement eq, string emp)
         {
@@ -517,6 +520,13 @@ namespace Gofus
                 inv.Show();
             }
 
+        }
+
+        private void imgCeintureInv_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ContextMenu cm = this.FindResource("cmClick") as ContextMenu;
+            cm.PlacementTarget = sender as Button;
+            cm.IsOpen = true;
         }
     }
 }

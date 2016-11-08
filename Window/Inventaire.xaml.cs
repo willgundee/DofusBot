@@ -254,8 +254,11 @@ namespace Gofus
             //LstDesc.Clear();
             string i = convertPathToNoItem((sender as ImageItem).imgItem.Source.ToString());
             //LstDesc.Add(new DescItem(Player.Inventaire.First(x=>x.NoImg == i)));
-            (w.tCPerso.SelectedContent as PagePerso).itmCtrlDesc.Items.Clear();
-            (w.tCPerso.SelectedContent as PagePerso).itmCtrlDesc.Items.Add(new DescItem(Player.Inventaire.First(x => x.NoImg == i)));
+            if (i != "vide")
+            {
+                (w.tCPerso.SelectedContent as PagePerso).itmCtrlDesc.Items.Clear();
+                (w.tCPerso.SelectedContent as PagePerso).itmCtrlDesc.Items.Add(new DescItem(Player.Inventaire.First(x => x.NoImg == i)));
+            }
         }
 
         public void refreshInv()

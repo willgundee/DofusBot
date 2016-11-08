@@ -6,7 +6,12 @@
              xmlns:local="clr-namespace:Gofus"
              mc:Ignorable="d" 
              d:DesignHeight="520" d:DesignWidth="557">
-
+    <UserControl.Resources>
+        <ContextMenu x:Key="cmClick">
+            <MenuItem Header="Désequiper"/>
+            <MenuItem Header="Vendre" />
+        </ContextMenu>
+    </UserControl.Resources>
 
     <Grid x:Name="grdperso" Background="Gray">
         <Grid.RowDefinitions>
@@ -64,7 +69,7 @@
                 <Image Name="imgAnneau2Inv" Source="../resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" />
             </Border>
             <Border Name="borderCeinture" BorderThickness="3" Grid.Column="5" Grid.Row="4" Grid.ColumnSpan="3" Grid.RowSpan ="4" >
-                <Image Name="imgCeintureInv" Source="../resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" />
+                <Image Name="imgCeintureInv" Source="../resources/vide.png"  Drop="imgInv_Drop" PreviewMouseRightButtonDown="imgCeintureInv_PreviewMouseRightButtonDown" MouseDown="imgInv_MouseDown" />
             </Border>
             <Border Name="borderBotte" BorderThickness="3" Grid.Column="5" Grid.Row="9" Grid.ColumnSpan="3">
                 <Image Name="imgBotteInv" Source="../resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" Margin="0,0,0,-3" />
