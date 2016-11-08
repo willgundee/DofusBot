@@ -686,7 +686,7 @@ namespace GofusSharp
                     {
                         if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
                         {
-                            entiteInconnu.ListEnvoutements.Add(new Envoutement(effet.Stat, (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax), effet.NbTour, IdEntite));
+                            entiteInconnu.ListEnvoutements.Add(new Envoutement(effet.Stat, (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax), effet.NbTour.GetValueOrDefault(), IdEntite));
                         }
                     }
                     break;

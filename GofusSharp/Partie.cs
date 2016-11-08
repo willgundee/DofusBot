@@ -11,12 +11,14 @@ namespace GofusSharp
         internal int valeurSeed { get; set; }
         internal Partie(Terrain TerrainPartie, Liste<Entite> ListAttaquants, Liste<Entite> ListDefendants, int valeurSeed)
         {
-            this.TerrainPartie = TerrainPartie;
             this.ListAttaquants = ListAttaquants;
             this.ListDefendants = ListDefendants;
             this.valeurSeed = valeurSeed;
+            this.TerrainPartie = TerrainPartie;
             Seed = new System.Random(valeurSeed);
-            GenererTerrain(10, 10);
+            GenererTerrain();
+            PlacerJoueurs();
+            PlacerObstacles();
             ListEntites = new Liste<EntiteInconnu>();
             DebuterPartie();
         }
@@ -24,12 +26,6 @@ namespace GofusSharp
         {
             this.ListAttaquants = ListAttaquants;
             this.ListDefendants = ListDefendants;
-            int total = 0;
-            foreach (Entite entite in ListAttaquants)
-                total += entite.IdEntite;
-            foreach (Entite entite in ListDefendants)
-                total += entite.IdEntite;
-            valeurSeed = System.DateTime.Now.Millisecond - total;
             Seed = new System.Random(valeurSeed);
             GenererTerrain(10, 10);
             PlacerJoueurs();
@@ -44,6 +40,16 @@ namespace GofusSharp
             for (int i = 0; i < Largeur; i++)
             {
                 for (int j = 0; j < Hauteur; j++)
+                {
+                    TerrainPartie.TabCases[i][j] = new Case(i, j, Case.type.vide);
+                }
+            }
+        }
+        private void GenererTerrain()
+        {
+            for (int i = 0; i < TerrainPartie.TabCases.Count(); i++)
+            {
+                for (int j = 0; j < TerrainPartie.TabCases[0].Count(); j++)
                 {
                     TerrainPartie.TabCases[i][j] = new Case(i, j, Case.type.vide);
                 }

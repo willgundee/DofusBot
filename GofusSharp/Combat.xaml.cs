@@ -9,6 +9,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Newtonsoft.Json;
 using GofusSharp;
 
 
@@ -47,6 +48,7 @@ namespace GofusSharp
             InitializeComponent();
             this.Show();
             CreerPartie(lstJoueurAtt, lstJoueurDef);
+            string test = JsonConvert.SerializeObject(CombatCourant);
             for (int i = 0; i < 10; i++)
             {
                 for (int j = 0; j < 10; j++)

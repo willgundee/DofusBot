@@ -6,7 +6,7 @@
         public type Nom { get; internal set; }
         public int ValeurMin { get; internal set; }
         public int ValeurMax { get; internal set; }
-        public int NbTour { get; internal set; }
+        public int? NbTour { get; internal set; }
         public Statistique.type Stat { get; internal set; }
         internal Effet(Gofus.Effet effet)
         {

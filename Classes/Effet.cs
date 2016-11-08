@@ -44,7 +44,7 @@ namespace Gofus
             NomSimplifier = dictSimple[Nom];
             DmgMin =Convert.ToInt32(ls[1]);
             DmgMax =Convert.ToInt32(ls[2]);
-            if (ls[3] != "")
+            if (ls.Count > 3 && ls[3] != "")
             {
                 NbTour = Convert.ToInt16(ls[3]);
                 Stat = (Statistique.element)Enum.Parse(typeof(Statistique.element), bd.selection("SELECT nom FROM TypesStatistiques WHERE idTypeStatistique = " + ls[4])[0][0], true);//convert string to enum;
