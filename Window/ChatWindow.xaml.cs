@@ -118,7 +118,7 @@ namespace Gofus
             aTimer.Start();
             txtMessage.IsEnabled = true;
             lblEtat.Content = "État : Connecter à la salle.";
-            lblEtat.Foreground = new SolidColorBrush(Colors.ForestGreen);
+            lblEtat.Foreground = new SolidColorBrush(Colors.Chartreuse);
             btnRejoindreSalle.IsEnabled = false;
             btnQuitterSalle.IsEnabled = true;
 

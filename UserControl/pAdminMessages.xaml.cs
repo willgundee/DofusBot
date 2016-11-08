@@ -18,7 +18,16 @@ namespace Gofus
 
         private void btnSupprimer_Click(object sender, RoutedEventArgs e)
         {
-            string delete = "DELETE FROM Messages WHERE temps < '" + datePick.SelectedDate.ToString() + "'";
+            var result = System.Windows.MessageBox.Show("Souhaitez-vous supprimer les messages qui ont étés envoyés avant le " + datePick.SelectedDate.ToString(), "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                string delete = "DELETE FROM Messages WHERE temps < '" + datePick.SelectedDate.ToString() + "'";
+
+                bool test = bd.delete(delete);
+            }
+
+
+
         }
     }
 }

@@ -324,7 +324,7 @@
         </TabItem>
 
    
-        <TabItem Header="Administration" Height="30" HorizontalAlignment="Left" Width="118" >
+        <TabItem Name="PaneauAdmin" Header="Administration" Height="30" HorizontalAlignment="Left" Width="118" >
 
             <ContentControl Name="controlAdmin">
                 

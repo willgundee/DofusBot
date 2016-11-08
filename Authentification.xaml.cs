@@ -10,13 +10,13 @@ namespace Gofus
     /// </summary>
     public partial class Authentification : Window
     {
-       public  BDService bdService = new BDService();
+        public BDService bdService = new BDService();
         public Authentification()
         {
             InitializeComponent();
         }
 
-  
+
 
         private bool valide(List<string>[] hh)
         {
@@ -54,20 +54,24 @@ namespace Gofus
         {
             // System.Windows.Forms.MessageBox.Show("Bientôt disponible !");
             CreationCompteWindow creation = new CreationCompteWindow();
-             creation.Show();
-             this.Close();
+            creation.Show();
+            this.Close();
         }
         private void OnKeyDowntxtMessage(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            List<string>[] hh = bdService.selection("SELECT * FROM Joueurs WHERE nomUtilisateur ='" + txtNomU.Text + "'");
-            if (hh[0][0] != "rien" && valide(hh) == true)
+            if (e.Key == Key.Return)
             {
-                Mouse.SetCursor(Cursors.AppStarting);
+                List<string>[] hh = bdService.selection("SELECT * FROM Joueurs WHERE nomUtilisateur ='" + txtNomU.Text + "'");
+                if (hh[0][0] != "rien" && valide(hh) == true)
+                {
+                    Mouse.SetCursor(Cursors.AppStarting);
 
-                MainWindow perso = new MainWindow(Convert.ToInt32(hh[0][0]));
-                perso.Show();
-                this.Close();
+                    MainWindow perso = new MainWindow(Convert.ToInt32(hh[0][0]));
+                    perso.Show();
+                    this.Close();
+                }
             }
+
         }
 
     }
