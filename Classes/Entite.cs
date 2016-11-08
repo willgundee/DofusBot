@@ -35,12 +35,14 @@ namespace Gofus
             Nom = infoEntite[4];
             Niveau = LstStats.First(x => x.Nom == Statistique.element.experience).toLevel();
             EstPersonnage = true;
-            if (infoEntite[5] != "")
+            if (infoEntite[3] == "")
             {
-                CapitalLibre = Convert.ToInt32(infoEntite[5]);
                 BalanceStatsMob();
                 EstPersonnage = false;
             }
+            else
+            CapitalLibre = Convert.ToInt32(infoEntite[5]);
+
 
             //addListStatsAllEquipement();
         }
@@ -48,11 +50,13 @@ namespace Gofus
         private void BalanceStatsMob()
         {
             //Round aussi Valeur = Convert.ToDouble(((max-min)/diff*lvl)+min);
-            double lvlMin = LstStats.First(x => x.Nom == Statistique.element.experience).ValeurMin;
-            int diff = Convert.ToInt16(LstStats.First(x => x.Nom == Statistique.element.experience).ValeurMax - lvlMin);
+            double lvlMin = LstStats[0].toLevel(LstStats.First(x => x.Nom == Statistique.element.experience).ValeurMin);
+            double lvlMax = LstStats[0].toLevel(LstStats.First(x => x.Nom == Statistique.element.experience).ValeurMax);
+            double diff = lvlMax - lvlMin;
+
 
             foreach (Statistique stats in LstStats)
-                stats.Valeur = Convert.ToDouble(((stats.ValeurMax - stats.ValeurMin) / diff * (Niveau-lvlMin)) + stats.ValeurMin);
+                stats.Valeur = Convert.ToDouble(Math.Round(((stats.ValeurMax - stats.ValeurMin) / diff) * (Niveau - lvlMin)) + stats.ValeurMin);
 
         }
 

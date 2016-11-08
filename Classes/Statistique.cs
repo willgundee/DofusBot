@@ -115,6 +115,16 @@ namespace Gofus
             }
             return 0;//si tout fucktop
         }
+        public int toLevel(double exp)
+        {
+                for (int i = 1; i < 200; i++)
+                    if (exp >= dictLvl[i] && exp < dictLvl[i + 1])
+                        return i;
+                if (exp >= dictLvl[200])
+                    return 200;
+            return 0;//si tout fucktop
+        }
+
 
     }
 }
