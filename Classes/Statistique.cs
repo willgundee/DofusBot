@@ -93,6 +93,8 @@ namespace Gofus
                 NomSimple = dictElement[Nom];
                 if (info[3] != "")
                     Valeur = Convert.ToDouble(rnd.Next(Convert.ToInt32(info[3]), Convert.ToInt32(info[4]) + 1));
+                else
+                    Valeur = Convert.ToInt32(info[5]);
 
             }
         }

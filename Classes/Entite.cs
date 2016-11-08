@@ -64,6 +64,7 @@ namespace Gofus
         {
             LstStats = new ObservableCollection<Statistique>();
             string sta = "SELECT * FROM statistiquesentites se INNER JOIN Entites e ON e.idEntite = se.idEntite INNER JOIN TypesStatistiques t ON se.idTypeStatistique = t.idtypestatistique WHERE e.idEntite =" + idEntite;
+
             foreach (List<string> stat in bd.selection(sta))
                 LstStats.Add(new Statistique(stat,true));
         }

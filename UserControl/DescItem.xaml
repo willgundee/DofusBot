@@ -27,10 +27,10 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <Grid Background="DarkGoldenrod">
+    <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="36*"/>
-            <ColumnDefinition Width="103*"/>
+            <ColumnDefinition Width="59*"/>
+            <ColumnDefinition Width="219*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="24*"/>
