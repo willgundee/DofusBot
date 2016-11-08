@@ -23,7 +23,7 @@ namespace Gofus
             {
                 string delete = "DELETE FROM Messages WHERE temps < '" + datePick.SelectedDate.ToString() + "'";
 
-                bool test = bd.Update(delete);
+                bool test = bd.delete(delete);
             }
 
 
