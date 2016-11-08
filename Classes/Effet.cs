@@ -34,6 +34,8 @@ namespace Gofus
         public string NomSimplifier { get; set; }
         public int DmgMin { get; set; }
         public int DmgMax { get; set; }
+        public int NbTour { get; set; }
+        public Statistique.element Stat { get; set; }
         /// <summary>
         /// Constructeur d'un effet
         /// </summary>
