@@ -14,6 +14,8 @@ namespace Gofus
         public int Kamas { get; set; }
         public int Avatar { get; set; }
 
+        public bool estAdmin { get; set; }
+
         private BDService bd = new BDService();
 
         /// <summary>
@@ -26,6 +28,8 @@ namespace Gofus
             Courriel = infoUser[2];
             Kamas = Convert.ToInt32(infoUser[4]);
             Avatar = Convert.ToInt32(infoUser[5]);
+
+            estAdmin = infoUser[6].Equals("True")? true : false;
 
             addInventaire(Convert.ToInt32(infoUser[0]));
             addScripts(Convert.ToInt32(infoUser[0]));

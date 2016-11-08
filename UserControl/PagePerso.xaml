@@ -80,7 +80,7 @@
 
             <Button x:Name="btnInventaire" Content="Inventaire" PreviewMouseLeftButtonDown="btnInventaire_MouseDown" VerticalAlignment="Center" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="9"/>
         </Grid>
-        <Label Grid.Column="1" HorizontalAlignment="Center" FontSize="25" VerticalAlignment="Top" Margin="88,0,46,0" Content="Équipement" Width="178"/>
+        <Label Grid.Column="1" HorizontalAlignment="Left" FontSize="25" VerticalAlignment="Top" Margin="68.161,0,0,0" Content="Équipement" Width="178"/>
         <Rectangle x:Name="rect" Height="75" Width="75" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Margin="10,36,0,0" Fill="#FFF0E9E9"   />
         <Image x:Name="Imgclasse" Height="75" Width="75" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Margin="10,36,0,0"   />
         <Label x:Name="lblClasse" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,0,0" Content="Classe : "/>
@@ -133,6 +133,7 @@
         </DataGrid-->
         <Label Name="lblexp" Content="Experience :"  HorizontalAlignment="Left" Height="25" Margin="100,35,0,0" VerticalAlignment="Top" />
         <ProgressBar Name="pgbExp" HorizontalAlignment="Left" Height="15" Margin="100,58,0,0" VerticalAlignment="Top" Width="100" Foreground="GreenYellow" />
+        <Button x:Name="btnSupprimer" Content="Supprimer ce personnage&#xD;&#xA;" HorizontalAlignment="Left" Margin="169,7,0,0" VerticalAlignment="Top" Width="144" Height="23" Grid.ColumnSpan="2" FontSize="10.667" FontFamily="Mongolian Baiti" Click="btnSupprimer_Click"/>
         <!--Label Name="lblPourcentExp" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="136,53,77,216" Height="25" Width="37" /-->
     </Grid>
 

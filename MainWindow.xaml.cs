@@ -46,10 +46,10 @@ namespace Gofus
         ObservableCollection<string> LstConds;
         ObservableCollection<string> LstCaras;
         #endregion
-     
+
         public Joueur Player { get; set; }
 
-       
+
 
         public int idJoueur { get; set; }
 
@@ -71,6 +71,18 @@ namespace Gofus
             ctb_main.UpdateSyntaxHightlight();
             ctb_main.UpdateTreeView();
 
+            if (Player.estAdmin)
+            {
+                PaneauAdmin.Visibility = Visibility.Visible;
+
+            }
+            else
+            {
+                PaneauAdmin.Visibility = Visibility.Hidden;
+            }
+
+            controlAdmin.Content = new pAdminMessages();
+
             #region Lou
             LstImgItems = new ObservableCollection<ImageItem>();
             LstStats = new ObservableCollection<string>();
@@ -86,7 +98,7 @@ namespace Gofus
             #endregion
         }
 
-        
+
         /*   protected override void OnClosed(EventArgs e)
            {
                base.OnClosed(e);
@@ -94,7 +106,7 @@ namespace Gofus
                System.Windows.Application.Current.Shutdown();
            }
            */
-       
+
 
         #region truc trop long de ced
         //**************************************************************************************************
@@ -478,7 +490,7 @@ namespace Gofus
             }
             #endregion
             #region Personnage
-            
+
             TreeNode[] treeNodeTab_method_perso = new TreeNode[] {
                 new TreeNode("UtiliserSort(Sort|nom_sort sort, EntiteInconnu|Case cible)", treeNodeTab_simpleVar),
                 new TreeNode("AvancerVers(EntiteInconnu|Case cible[, int PMAlouer)", treeNodeTab_simpleVar),
@@ -618,7 +630,7 @@ namespace Gofus
             treeNodeTab_method_terrain.CopyTo(treeNodeTab_terrain, 0);
             treeNodeTab_attribut_terrain.CopyTo(treeNodeTab_terrain, treeNodeTab_method_terrain.Length);
             #endregion
-            
+
 
             TreeNode treeNode_Template_1 = new TreeNode("chaine", treeNodeTab_chaine);
             TreeNode treeNode_Template_2 = new TreeNode("simpleVar", treeNodeTab_simpleVar);
@@ -1768,7 +1780,7 @@ namespace Gofus
 
         private void PgArene_Selected(object sender, RoutedEventArgs e)
         {
-            controlArene.Content = new pageArene(idJoueur,Player.LstEntites);
+            controlArene.Content = new pageArene(idJoueur, Player.LstEntites);
         }
 
         private void PgGestion_Selected(object sender, RoutedEventArgs e)

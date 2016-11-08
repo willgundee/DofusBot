@@ -29,6 +29,10 @@ namespace Gofus
             persoActuel = ent;
             lblLevelEntite.Content = "Niv. " + ent.Niveau;
 
+            #region .
+            pgbExp.Foreground = new SolidColorBrush(Colors.CornflowerBlue);
+            pgbExp.Background = new SolidColorBrush(Colors.Chartreuse);
+            #endregion
             pgbExp.Maximum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.Niveau + 1];
             pgbExp.Minimum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.Niveau];
             pgbExp.Value = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur;
@@ -349,9 +353,7 @@ namespace Gofus
 
         private void imgInv_Drop(object sender, System.Windows.DragEventArgs e)
         {
-            #region .
-            pgbExp.Foreground = new SolidColorBrush(Colors.AliceBlue);
-            #endregion
+          
             Image cible = (Image)sender;
             ImageItem data = e.Data.GetData("image") as ImageItem;
             Equipement itemDejaEquipe = null;
@@ -524,6 +526,11 @@ namespace Gofus
             ContextMenu cm = this.FindResource("cmClick") as ContextMenu;
             cm.PlacementTarget = sender as Button;
             cm.IsOpen = true;
+        }
+
+        private void btnSupprimer_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
