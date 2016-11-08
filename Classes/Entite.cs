@@ -37,14 +37,20 @@ namespace Gofus
             if (infoEntite[5] != "")
             {
                 CapitalLibre = Convert.ToInt32(infoEntite[5]);
-                BalanceStatsMob(Convert.ToInt16(infoEntite[0]), Niveau);
+                BalanceStatsMob();
             }
 
             //addListStatsAllEquipement();
         }
 
-        private void BalanceStatsMob(int idMob, int lvl)
+        private void BalanceStatsMob()
         {
+            //Round aussi Valeur = Convert.ToDouble(((max-min)/diff*lvl)+min);
+            double lvlMin = LstStats.First(x => x.Nom == Statistique.element.experience).ValeurMin;
+            int diff = Convert.ToInt16(LstStats.First(x => x.Nom == Statistique.element.experience).ValeurMax - lvlMin);
+
+            foreach (Statistique stats in LstStats)
+                stats.Valeur = Convert.ToDouble(((stats.ValeurMax - stats.ValeurMin) / diff * (Niveau-lvlMin)) + stats.ValeurMin);
 
         }
 
