@@ -86,9 +86,7 @@ namespace Gofus
             initialiserLstStats(ent.LstStats);
             dgStats.ItemsSource = lstStat;
             dgDommage.ItemsSource = initialiserLstDMG(ent);
-            #region .
-            pgbExp.Foreground = new SolidColorBrush(Colors.AliceBlue);
-            #endregion
+         
 
 
         }
@@ -359,6 +357,9 @@ namespace Gofus
 
         private void imgInv_Drop(object sender, System.Windows.DragEventArgs e)
         {
+            #region .
+            pgbExp.Foreground = new SolidColorBrush(Colors.AliceBlue);
+            #endregion
             Image cible = (Image)sender;
             ImageItem data = e.Data.GetData("image") as ImageItem;
             Equipement itemDejaEquipe = null;
