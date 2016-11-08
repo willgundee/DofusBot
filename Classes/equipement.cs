@@ -102,7 +102,7 @@ namespace Gofus
         private void addEffets(int idEquipement)
         {
             LstEffets = new List<Effet>();
-            foreach (List<string> effet in bd.selection("SELECT ef.nom,ee.valeurMin,ee.valeurMax FROM EffetsEquipements ee INNER JOIN Equipements e ON e.idEquipement = ee.idEquipement INNER JOIN Effets ef ON ef.idEffet = ee.idEffet WHERE e.idEquipement =" + idEquipement))
+            foreach (List<string> effet in bd.selection("SELECT ef.nom,ee.valeurMin,ee.valeurMax,ee.nbTour,ee.idTypeStatistique FROM EffetsEquipements ee INNER JOIN Equipements e ON e.idEquipement = ee.idEquipement INNER JOIN Effets ef ON ef.idEffet = ee.idEffet WHERE e.idEquipement =" + idEquipement))
                 LstEffets.Add(new Effet(effet));
         }
         /// <summary>

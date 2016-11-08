@@ -31,8 +31,9 @@ namespace Gofus
         public string NomSimplifier { get; set; }
         public int DmgMin { get; set; }
         public int DmgMax { get; set; }
-        public int NbTour { get; set; }
-        public Statistique.element Stat { get; set; }
+        public int? NbTour { get; set; }
+        public Statistique.element? Stat { get; set; }
+        BDService bd = new BDService();
         /// <summary>
         /// Constructeur d'un effet
         /// </summary>
@@ -43,6 +44,17 @@ namespace Gofus
             NomSimplifier = dictSimple[Nom];
             DmgMin =Convert.ToInt32(ls[1]);
             DmgMax =Convert.ToInt32(ls[2]);
+            if (ls[3] != "")
+            {
+                NbTour = Convert.ToInt16(ls[3]);
+                Stat = (Statistique.element)Enum.Parse(typeof(Statistique.element), bd.selection("SELECT nom FROM TypesStatistiques WHERE idTypeStatistique = " + ls[4])[0][0], true);//convert string to enum;
+
+            }
+            else
+            {
+                NbTour = null;
+                Stat = null;
+            }
 
         }
     }
