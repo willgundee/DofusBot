@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Gofus
 {
@@ -34,12 +33,21 @@ namespace Gofus
             addStats(Convert.ToInt16(infoEntite[0]));
             addEquipements(Convert.ToInt16(infoEntite[0]));
             Nom = infoEntite[4];
-            if(infoEntite[5]!= "")
-            CapitalLibre = Convert.ToInt32(infoEntite[5]);
+            Niveau = LstStats.First(x => x.Nom == Statistique.element.experience).toLevel();
+            if (infoEntite[5] != "")
+            {
+                CapitalLibre = Convert.ToInt32(infoEntite[5]);
+                BalanceStatsMob(Convert.ToInt16(infoEntite[0]), Niveau);
+            }
 
-            Niveau = LstStats.First(x => x.Nom == Statistique.element.experience).toLevel(); 
             //addListStatsAllEquipement();
         }
+
+        private void BalanceStatsMob(int idMob, int lvl)
+        {
+
+        }
+
         /// <summary>
         /// ajout de la classe de l'entité
         /// </summary>
@@ -64,9 +72,8 @@ namespace Gofus
         {
             LstStats = new ObservableCollection<Statistique>();
             string sta = "SELECT * FROM statistiquesentites se INNER JOIN Entites e ON e.idEntite = se.idEntite INNER JOIN TypesStatistiques t ON se.idTypeStatistique = t.idtypestatistique WHERE e.idEntite =" + idEntite;
-
             foreach (List<string> stat in bd.selection(sta))
-                LstStats.Add(new Statistique(stat,true));
+                LstStats.Add(new Statistique(stat, true));
         }
         /// <summary>
         /// ajout des équipements portée par l'entité

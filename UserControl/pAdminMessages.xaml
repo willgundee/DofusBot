@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="550" d:DesignWidth="550">
     <Grid>
-        <Button x:Name="btnSupprimer" Content="Supprimer" HorizontalAlignment="Left" Margin="10,114,0,0" VerticalAlignment="Top" Width="234"/>
+        <Button x:Name="btnSupprimer" Content="Supprimer" HorizontalAlignment="Left" Margin="10,114,0,0" VerticalAlignment="Top" Width="234" Click="btnSupprimer_Click"/>
         <DatePicker HorizontalAlignment="Left" Margin="10,85,0,0" VerticalAlignment="Top" Width="234" FirstDayOfWeek="Monday"/>
         <Label x:Name="lblInformation" Content="Selectionnez une date pour supprimer des messages. &#xD;&#xA;Tous les message posté à une date antérieur seront supprimés!" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="70" Width="344"/>
         <Label x:Name="lblRapport" Content="Liste des rapports" HorizontalAlignment="Left" Margin="76,193,0,0" VerticalAlignment="Top"/>

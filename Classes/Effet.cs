@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Gofus
 {
@@ -34,6 +31,8 @@ namespace Gofus
         public string NomSimplifier { get; set; }
         public int DmgMin { get; set; }
         public int DmgMax { get; set; }
+        public int NbTour { get; set; }
+        public Statistique.element Stat { get; set; }
         /// <summary>
         /// Constructeur d'un effet
         /// </summary>

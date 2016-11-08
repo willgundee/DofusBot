@@ -9,16 +9,9 @@ using System.Windows;
 using System.Windows.Forms;
 using GofusSharp;
 using System.Windows.Controls;
-using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 using System.Windows.Input;
-using System.Windows.Documents;
 using System.Windows.Media;
-using System.Threading;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Windows.Shapes;
-using Gofus;
 
 namespace Gofus
 {
@@ -1757,6 +1750,8 @@ namespace Gofus
 
         #endregion
 
+        #region UserControls
+
 
         private void PGSort_Selected(object sender, RoutedEventArgs e)
         {
@@ -1780,7 +1775,7 @@ namespace Gofus
         {
             controlGestion.Content = new pageGestion(Player, idJoueur);
         }
-
+        #endregion
 
 
         private void TabItem_Unselected(object sender, RoutedEventArgs e)
