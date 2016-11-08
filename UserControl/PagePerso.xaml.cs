@@ -29,7 +29,8 @@ namespace Gofus
             persoActuel = ent;
             lblLevelEntite.Content = "Niv. " + ent.Niveau;
             #region .
-            pgbExp.Foreground = new SolidColorBrush(Colors.MediumVioletRed);
+            pgbExp.Foreground = new SolidColorBrush(Colors.CornflowerBlue);
+            pgbExp.Background = new SolidColorBrush(Colors.Chartreuse);
             #endregion
             pgbExp.Maximum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.Niveau + 1];
             pgbExp.Minimum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.Niveau];
