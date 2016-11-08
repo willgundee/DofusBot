@@ -18,7 +18,7 @@ namespace Gofus
 
         private void btnSupprimer_Click(object sender, RoutedEventArgs e)
         {
-            string delete = "DELETE";
+            string delete = "DELETE FROM Messages WHERE temps < '" + datePick.SelectedDate.ToString() + "'";
         }
     }
 }

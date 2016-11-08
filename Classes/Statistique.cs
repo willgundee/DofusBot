@@ -15,6 +15,9 @@ namespace Gofus
         public element Nom { get; set; }
         public string NomSimple { get; set; }
         public double Valeur { get; set; }
+        public double ValeurMin { get; set; }
+        public double ValeurMax { get; set; }
+
         private Dictionary<element, string> dictElement = new Dictionary<element, string>()//dictionnaire servant à transformer les nom de la bd en nom lisible pour l'homme
             #region dict
         {
@@ -88,10 +91,12 @@ namespace Gofus
                 Nom = (element)Enum.Parse(typeof(element), info[13], true);//convert string to enum;
                 NomSimple = dictElement[Nom];
                 if (info[3] != "")
-                    if(Nom == Statistique.element.experience)
+                {
+                    if (Nom == Statistique.element.experience)
                         Valeur = Convert.ToDouble(rnd.Next(Convert.ToInt32(info[3]), Convert.ToInt32(info[4]) + 1));
-                    else
-                        Valeur = Convert.ToDouble(Convert.ToInt32(info[3]));
+                    ValeurMin = Convert.ToDouble(info[3]);
+                    ValeurMax = Convert.ToDouble(info[4]);
+                }
                 else
                     Valeur = Convert.ToDouble(info[5]);
 

@@ -323,7 +323,13 @@
 
         </TabItem>
 
+   
+        <TabItem Header="Administration" Height="30" HorizontalAlignment="Left" Width="118" >
 
+            <ContentControl Name="controlAdmin">
+                
+            </ContentControl>
+        </TabItem>
 
     </TabControl>
 </Window>
