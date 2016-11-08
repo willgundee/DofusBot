@@ -182,7 +182,8 @@ namespace Gofus
             Authentification a = new Authentification();
 
             a.Show();
-            ((MainWindow)Application.Current.MainWindow).Close();
+            if (Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(MainWindow)) != null)
+                Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)).Close();
         }
 
         public void MainWindow_RapportClosing(object sender, System.EventArgs e)
