@@ -65,18 +65,18 @@ namespace GofusSharp
         {
             foreach (Gofus.Entite entite in lstJoueurAtt)
             {
-                if (2 == 1 + 1)
-                    PartieTest.ListAttaquants.Add(new Entite(entite, EntiteInconnu.type.attaquant));
-                else
+                if (entite.EstPersonnage)
                     PartieTest.ListAttaquants.Add(new Personnage(entite, EntiteInconnu.type.attaquant));
+                else
+                    PartieTest.ListAttaquants.Add(new Entite(entite, EntiteInconnu.type.attaquant));
 
             }
             foreach (Gofus.Entite entite in lstJoueurDef)
             {
-                if (2 == 1 + 1)
-                    PartieTest.ListAttaquants.Add(new Entite(entite, EntiteInconnu.type.defendant));
-                else
+                if (entite.EstPersonnage)
                     PartieTest.ListAttaquants.Add(new Personnage(entite, EntiteInconnu.type.defendant));
+                else
+                    PartieTest.ListAttaquants.Add(new Entite(entite, EntiteInconnu.type.defendant));
             }
         }
 
