@@ -2,19 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-
-using System.IO;
-using Gofus;
 
 namespace Gofus
 {
@@ -86,9 +78,7 @@ namespace Gofus
             initialiserLstStats(ent.LstStats);
             dgStats.ItemsSource = lstStat;
             dgDommage.ItemsSource = initialiserLstDMG(ent);
-            #region .
-            pgbExp.Foreground = new SolidColorBrush(Colors.AliceBlue);
-            #endregion
+         
 
 
         }
@@ -359,6 +349,9 @@ namespace Gofus
 
         private void imgInv_Drop(object sender, System.Windows.DragEventArgs e)
         {
+            #region .
+            pgbExp.Foreground = new SolidColorBrush(Colors.AliceBlue);
+            #endregion
             Image cible = (Image)sender;
             ImageItem data = e.Data.GetData("image") as ImageItem;
             Equipement itemDejaEquipe = null;

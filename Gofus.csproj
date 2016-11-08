@@ -99,6 +99,9 @@
     <Compile Include="PageVisionneuse.xaml.cs">
       <DependentUpon>PageVisionneuse.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControl\pageClavardage.xaml.cs">
+      <DependentUpon>pageClavardage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControl\pAdminMessages.xaml.cs">
       <DependentUpon>pAdminMessages.xaml</DependentUpon>
     </Compile>
@@ -219,6 +222,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="PageVisionneuse.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl\pageClavardage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
