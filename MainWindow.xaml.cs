@@ -1757,6 +1757,8 @@ namespace Gofus
 
         #endregion
 
+        #region UserControls
+
 
         private void PGSort_Selected(object sender, RoutedEventArgs e)
         {
@@ -1780,7 +1782,7 @@ namespace Gofus
         {
             controlGestion.Content = new pageGestion(Player, idJoueur);
         }
-
+        #endregion
 
 
         private void TabItem_Unselected(object sender, RoutedEventArgs e)
