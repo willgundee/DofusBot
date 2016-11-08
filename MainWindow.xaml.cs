@@ -53,21 +53,12 @@ namespace Gofus
         ObservableCollection<string> LstConds;
         ObservableCollection<string> LstCaras;
         #endregion
-
-        List<string> lstAvatars;
-
+     
         public Joueur Player { get; set; }
 
-        public FenetreRapport rapport;
-
-        public pageArene pgArene;
-
-        public pageArchive pgArchive;
-   
+       
 
         public int idJoueur { get; set; }
-
-        public ObservableCollection<Gofus.pageSort> pgSort;
 
         #region Marc_Chat,FenetreChat,DispatcherTimer,ThreadEnvoie
         public Chat chat;
@@ -83,23 +74,22 @@ namespace Gofus
             InitializeComponent();
             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
             idJoueur = id;
-            lstAvatars = new List<string>();
-            GenererAvatars();
+           
             txtMessage.IsEnabled = false;
 
             btnQuitterSalle.IsEnabled = false;
 
 
-            string URI = lstAvatars[Player.Avatar];
-            iAvatar.Source = new BitmapImage(new Uri(URI));
+           
 
             lblEtat.Content = "État : Non connecté à la salle";
             lblEtat.Foreground = new SolidColorBrush(Colors.Orange);
+
             TreeNode[] template = generateTreeTemplate();
             ctb_main.CreateTreeView(generateTree(template), template);
             ctb_main.UpdateSyntaxHightlight();
             ctb_main.UpdateTreeView();
-            pgSort = new ObservableCollection<Gofus.pageSort>();
+     
 
 
 
@@ -118,16 +108,9 @@ namespace Gofus
             fillSortCbo();
             #endregion
 
-            txt_AncienCourriel.Text = Player.Courriel;
-            txt_nomUtilisateur.Text = Player.NomUtilisateur;   
+            
 
-            pgArene = new pageArene(id,Player.LstEntites);
-
-            pgArchive = new pageArchive(id);
-
-            controlArene.Content = pgArene;
-
-            controlArchive.Content = pgArchive;
+           
 
 
             #region Marc_TimerTick_Chat
@@ -146,21 +129,7 @@ namespace Gofus
 
         }
 
-        void GenererAvatars()
-        {
-
-            for (int J = 1; J < 94; J++)
-            {
-                string ajout;
-                if (J > 10)
-                    ajout = "";
-                else
-                    ajout = "0";
-                string path = "http://staticns.ankama.com/dofus/www/game/items/200/180" + ajout + J.ToString() + ".png";
-                lstAvatars.Add(path);
-            }
-        }
-
+        
         /*   protected override void OnClosed(EventArgs e)
            {
                base.OnClosed(e);
@@ -287,175 +256,7 @@ namespace Gofus
         }
         #endregion
 
-        #region Marc_OngletGestionCompte
-        /// ***************************************************
-        /// / ONGLET OPTIONS
-        // ***************************************************
-        private void btnSave_Click(object sender, RoutedEventArgs e)
-        {
-            bool valide = true;
-            StringBuilder UpdSt = new StringBuilder();
-            UpdSt.Append("UPDATE Joueurs SET ");
-            /* Faire un update si toute est legit*/
-            if (txt_mdp.Password != "" && txt_mdp.Password == txtConfirmation.Password && txtConfirmation.Password != "" || txt_Courriel.Text != "")
-            {
-                /* Update */
-                lbl_Mdp.Foreground = new SolidColorBrush(Colors.Black);
-                lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Black);
-
-                if (txt_Courriel.Text != "")
-                {
-                    if (txt_Courriel.Text != txt_AncienCourriel.Text)
-                    {
-                        lbl_Courriel.Foreground = new SolidColorBrush(Colors.Black);
-                        UpdSt.Append("courriel = '" + txt_Courriel.Text + "'");
-                    }
-                    else
-                    {
-                        System.Windows.Forms.MessageBox.Show("Votre nouveau courriel doit être différent de l'ancien", "Courriel");
-                        lbl_Courriel.Foreground = new SolidColorBrush(Colors.Red);
-                        valide = false;
-                    }
-
-                }
-                if (txt_mdp.Password != "" && txt_mdp.Password == txtConfirmation.Password && txtConfirmation.Password != "")
-                {
-                    string reqid = "SELECT motDePasse from Joueurs WHERE NomUtilisateur = '" + Player.NomUtilisateur + "';";
-                    List<string>[] idResult = bd.selection(reqid);
-                    string mdp = idResult[0][0];
-
-                    if (txt_AncienMdp.Password == mdp)
-                    {
-                        UpdSt.Append(" , motDePasse = '" + txt_mdp.Password + "'");
-                    }
-                    else
-                    {
-                        lbl_AncienMdp.Foreground = new SolidColorBrush(Colors.Red);
-                        System.Windows.Forms.MessageBox.Show("Votre Ancien mot de passe n'est pas valide", "Ancien mot de passe");
-                        valide = false;
-                    }
-
-
-                }
-
-            }
-            else
-            {
-                if (txt_mdp.Password == "" && txtConfirmation.Password == "")
-                {
-                    /* Aucune modification effectué*/
-                    lbl_Mdp.Foreground = new SolidColorBrush(Colors.Black);
-                    lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Black);
-                    lbl_Courriel.Foreground = new SolidColorBrush(Colors.Black);
-                    valide = false;
-                }
-                else if (txt_mdp.Password != "")
-                {
-                    /* Erreur de confirmation*/
-                    lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Red);
-                    valide = false;
-                    System.Windows.Forms.MessageBox.Show("Votre Confirmation doit être identique à votre nouveau mot de passe", "Confirmation");
-                }
-                else if (txt_mdp.Password == "" & txtConfirmation.Password != "")
-                {
-                    /* Mot de passe vide*/
-                    lbl_Mdp.Foreground = new SolidColorBrush(Colors.Red);
-                    valide = false;
-                    System.Windows.Forms.MessageBox.Show("Votre Confirmation doit être identique à votre nouveau mot de passe", "Champs mot de passe vide");
-                }
-            }
-
-
-            if (valide)
-            {
-                UpdSt.Append(" WHERE nomUtilisateur = '" + Player.NomUtilisateur + "';");
-                string st = UpdSt.ToString();
-                if (bd.Update(st))
-                {
-                    System.Windows.Forms.MessageBox.Show("Mise à jour avec succès de vos infos!!");
-                }
-                txt_AncienCourriel.Text = txt_Courriel.Text;
-                Player.Courriel = txt_AncienCourriel.Text;
-                txt_mdp.Password = "";
-                txtConfirmation.Password = "";
-                txt_Courriel.Text = "";
-                lbl_Courriel.Foreground = new SolidColorBrush(Colors.Black);
-                lbl_Mdp.Foreground = new SolidColorBrush(Colors.Black);
-                lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Black);
-                lbl_AncienMdp.Foreground = new SolidColorBrush(Colors.Black);
-
-            }
-
-
-        }
-
-        private void btnAnnuler_Click(object sender, RoutedEventArgs e)
-        {
-            txtConfirmation.Password = "";
-            txt_mdp.Password = "";
-            txt_Courriel.Text = "";
-
-            lbl_Mdp.Foreground = new SolidColorBrush(Colors.Black);
-            lbl_Confirmation.Foreground = new SolidColorBrush(Colors.Black);
-        }
-
-        private void btnDeconnexion_Click(object sender, RoutedEventArgs e)
-        {
-            Authentification a = new Authentification();
-
-            a.Show();
-            Close();
-        }
-
-        public void MainWindow_RapportClosing(object sender, System.EventArgs e)
-        {
-            rapport = null;
-        }
-
-
-
-        private void btnSuggestion_Click(object sender, RoutedEventArgs e)
-        {
-            if (rapport != null)
-            {
-                rapport.Activate();
-            }
-            else
-            {
-                rapport = new FenetreRapport(idJoueur);
-                rapport.Closed += MainWindow_RapportClosing;
-                rapport.ShowDialog();
-            }
-
-        }
-
-        private void Change_Avatar(object sender, MouseButtonEventArgs e)
-        {
-            ChangerAvatar();
-        }
-
-
-        private void ChangerAvatar()
-        {
-
-            choixAvatar choisir = new choixAvatar(lstAvatars, Player.Avatar);
-            choisir.ShowDialog();
-
-            string URI = lstAvatars[choisir.idAvatar];
-            iAvatar.Source = new BitmapImage(new Uri(URI));
-            Player.Avatar = choisir.idAvatar;
-
-
-            bool upd = bd.Update("UPDATE  Joueurs SET  Avatar =  " + Player.Avatar + " WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "';COMMIT");
-        }
-
-        private void btnChange_Avatar(object sender, RoutedEventArgs e)
-        {
-            ChangerAvatar();
-        }
-
-
-        #endregion
+       
 
         #region truc trop long de ced
         //**************************************************************************************************
@@ -2115,11 +1916,27 @@ namespace Gofus
         private void PGSort_Selected(object sender, RoutedEventArgs e)
         {
 
-           
-         PGSort.Items.Clear();
-            PGSort.Items.Add(new pageSort());
+
+            PGSort.Content = new pageSort();
 
         }
+
+        private void PgArchive_Selected(object sender, RoutedEventArgs e)
+        {
+            controlArchive.Content = new pageArchive(idJoueur);
+        }
+
+        private void PgArene_Selected(object sender, RoutedEventArgs e)
+        {
+            controlArene.Content = new pageArene(idJoueur,Player.LstEntites);
+        }
+
+        private void PgGestion_Selected(object sender, RoutedEventArgs e)
+        {
+            controlGestion.Content = new pageGestion(Player, idJoueur);
+        }
+
+
 
         private void TabItem_Unselected(object sender, RoutedEventArgs e)
         {
