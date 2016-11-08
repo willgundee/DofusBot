@@ -8,9 +8,10 @@ namespace GofusSharp
         internal string ScriptEntite { get; set; }
         internal Terrain TerrainEntite { get; set; }
         internal Liste<EntiteInconnu> ListEntites { get; set; }
-        internal Entite(Gofus.Entite entite, type Equipe) :base(entite, Equipe)
+        internal Entite(Gofus.Entite entite, type Equipe, Terrain TerrainEntite) :base(entite, Equipe)
         {
             ScriptEntite = entite.ScriptEntite.Code;
+            this.TerrainEntite = TerrainEntite;
         }
         internal Entite(int IdEntite, Classe ClasseEntite, string Nom, float Experience, type Equipe, Liste<Statistique> ListStatistiques, string ScriptEntite, Terrain TerrainEntite, int Proprietaire) : base(IdEntite, ClasseEntite, Nom, Experience, Equipe)
         {
@@ -160,7 +161,7 @@ namespace GofusSharp
                     {
                         if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
                         {
-                            int magnitude = (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).PartieTest.Seed.Next(effet.ValeurMin, effet.ValeurMax);
+                            int magnitude = (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax);
                             int direction = 0;
                             string axe = "";
                             if (Position.X - entiteInconnu.Position.X != 0)
@@ -222,7 +223,7 @@ namespace GofusSharp
                                 if (envoutement.Stat == Statistique.type.RES_poussee)
                                     RES_poussee = envoutement.Valeur;
                             }
-                            if (entiteInconnu.recevoirDommages((8 + (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).PartieTest.Seed.Next(1, 8) * RetourneNiveau() / 50) * (magnitude - caseTraversee) + DMG_poussee - RES_poussee))
+                            if (entiteInconnu.recevoirDommages((8 + (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(1, 8) * RetourneNiveau() / 50) * (magnitude - caseTraversee) + DMG_poussee - RES_poussee))
                             {
                                 foreach (EntiteInconnu invoc in ListEntites)
                                 {
@@ -246,7 +247,7 @@ namespace GofusSharp
                     {
                         if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
                         {
-                            int magnitude = (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).PartieTest.Seed.Next(effet.ValeurMin, effet.ValeurMax);
+                            int magnitude = (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax);
                             int caseTraversee;
                             for (caseTraversee = 0; caseTraversee < magnitude; caseTraversee++)
                             {
@@ -277,7 +278,7 @@ namespace GofusSharp
                     {
                         if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
                         {
-                            int magnitude = (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).PartieTest.Seed.Next(effet.ValeurMin, effet.ValeurMax);
+                            int magnitude = (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax);
                             int caseTraversee;
                             for (caseTraversee = 0; caseTraversee < magnitude; caseTraversee++)
                             {
@@ -369,7 +370,7 @@ namespace GofusSharp
                                 RES_Pourcent_neutre = 0;
                             if (reduction_physique < 0)
                                 reduction_physique = 0;
-                            if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_neutre / 100)) * (((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).PartieTest.Seed.Next(effet.ValeurMin, effet.ValeurMax) * (100 + force + puissance) / 100 + DMG_neutre) - RES_neutre - reduction_physique)))
+                            if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_neutre / 100)) * (((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) * (100 + force + puissance) / 100 + DMG_neutre) - RES_neutre - reduction_physique)))
                             {
                                 foreach (EntiteInconnu invoc in ListEntites)
                                 {
@@ -443,7 +444,7 @@ namespace GofusSharp
                                 RES_Pourcent_air = 0;
                             if (reduction_magique < 0)
                                 reduction_magique = 0;
-                            if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_air / 100)) * (((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).PartieTest.Seed.Next(effet.ValeurMin, effet.ValeurMax) * (100 + agilite + puissance) / 100 + DMG_air) - RES_air - reduction_magique)))
+                            if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_air / 100)) * (((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) * (100 + agilite + puissance) / 100 + DMG_air) - RES_air - reduction_magique)))
                             {
                                 foreach (EntiteInconnu invoc in ListEntites)
                                 {
@@ -517,7 +518,7 @@ namespace GofusSharp
                                 RES_Pourcent_feu = 0;
                             if (reduction_magique < 0)
                                 reduction_magique = 0;
-                            if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_feu / 100)) * (((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).PartieTest.Seed.Next(effet.ValeurMin, effet.ValeurMax) * (100 + intelligence + puissance) / 100 + DMG_feu) - RES_feu - reduction_magique)))
+                            if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_feu / 100)) * (((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) * (100 + intelligence + puissance) / 100 + DMG_feu) - RES_feu - reduction_magique)))
                             {
                                 foreach (EntiteInconnu invoc in ListEntites)
                                 {
@@ -591,7 +592,7 @@ namespace GofusSharp
                                 RES_Pourcent_terre = 0;
                             if (reduction_physique < 0)
                                 reduction_physique = 0;
-                            if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_terre / 100)) * (((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).PartieTest.Seed.Next(effet.ValeurMin, effet.ValeurMax) * (100 + force + puissance) / 100 + DMG_terre) - RES_terre - reduction_physique)))
+                            if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_terre / 100)) * (((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) * (100 + force + puissance) / 100 + DMG_terre) - RES_terre - reduction_physique)))
                             {
                                 foreach (EntiteInconnu invoc in ListEntites)
                                 {
@@ -665,7 +666,7 @@ namespace GofusSharp
                                 RES_Pourcent_eau = 0;
                             if (reduction_magique < 0)
                                 reduction_magique = 0;
-                            if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_eau / 100)) * (((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).PartieTest.Seed.Next(effet.ValeurMin, effet.ValeurMax) * (100 + chance + puissance) / 100 + DMG_eau) - RES_eau - reduction_magique)))
+                            if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_eau / 100)) * (((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) * (100 + chance + puissance) / 100 + DMG_eau) - RES_eau - reduction_magique)))
                             {
                                 foreach (EntiteInconnu invoc in ListEntites)
                                 {
@@ -685,7 +686,7 @@ namespace GofusSharp
                     {
                         if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
                         {
-                            entiteInconnu.ListEnvoutements.Add(new Envoutement(effet.Stat, (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).PartieTest.Seed.Next(effet.ValeurMin, effet.ValeurMax), effet.NbTour, IdEntite));
+                            entiteInconnu.ListEnvoutements.Add(new Envoutement(effet.Stat, (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax), effet.NbTour, IdEntite));
                         }
                     }
                     break;
@@ -717,7 +718,7 @@ namespace GofusSharp
                                 if (envoutement.Stat == Statistique.type.soin)
                                     soin = envoutement.Valeur;
                             }
-                            entiteInconnu.PV += (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).PartieTest.Seed.Next(effet.ValeurMin, effet.ValeurMax) * (100 + intelligence) / 100 + soin;
+                            entiteInconnu.PV += (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) * (100 + intelligence) / 100 + soin;
                         }
                     }
                     break;

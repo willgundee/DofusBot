@@ -7,7 +7,7 @@ namespace GofusSharp
     {
         public Liste<Equipement> ListEquipements { get; internal set; }
 
-        internal Personnage(Gofus.Entite entite, type Equipe) :base(entite, Equipe)
+        internal Personnage(Gofus.Entite entite, type Equipe, Terrain TerrainEntite) :base(entite, Equipe, TerrainEntite)
         {
             ListEquipements = new Liste<Equipement>();
             foreach (Gofus.Equipement equip in entite.LstEquipements)

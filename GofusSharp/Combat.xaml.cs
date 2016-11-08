@@ -20,7 +20,7 @@ namespace GofusSharp
     /// </summary>
     internal partial class Combat : Window
     {
-        internal Partie PartieTest { get; set; }
+        internal Partie CombatCourant { get; set; }
 
         private bool AutoScroll = true;
         public Combat(string script1, string script2)
@@ -46,6 +46,7 @@ namespace GofusSharp
         {
             InitializeComponent();
             this.Show();
+            CreerPartie(lstJoueurAtt, lstJoueurDef);
             for (int i = 0; i < 10; i++)
             {
                 for (int j = 0; j < 10; j++)
@@ -63,21 +64,26 @@ namespace GofusSharp
 
         private void CreerPartie(List<Gofus.Entite> lstJoueurAtt, List<Gofus.Entite> lstJoueurDef)
         {
+            Liste<Entite> ListEntiteAtt = new Liste<Entite>();
+            Liste<Entite> ListEntiteDef = new Liste<Entite>();
+            Terrain terrain = new Terrain(10, 10);
             foreach (Gofus.Entite entite in lstJoueurAtt)
             {
                 if (entite.EstPersonnage)
-                    PartieTest.ListAttaquants.Add(new Personnage(entite, EntiteInconnu.type.attaquant));
+                    ListEntiteAtt.Add(new Personnage(entite, EntiteInconnu.type.attaquant, terrain));
                 else
-                    PartieTest.ListAttaquants.Add(new Entite(entite, EntiteInconnu.type.attaquant));
+                    ListEntiteAtt.Add(new Entite(entite, EntiteInconnu.type.attaquant, terrain));
 
             }
             foreach (Gofus.Entite entite in lstJoueurDef)
             {
                 if (entite.EstPersonnage)
-                    PartieTest.ListAttaquants.Add(new Personnage(entite, EntiteInconnu.type.defendant));
+                    ListEntiteDef.Add(new Personnage(entite, EntiteInconnu.type.defendant, terrain));
                 else
-                    PartieTest.ListAttaquants.Add(new Entite(entite, EntiteInconnu.type.defendant));
+                    ListEntiteDef.Add(new Entite(entite, EntiteInconnu.type.defendant, terrain));
             }
+
+            CombatCourant = new Partie(terrain, ListEntiteAtt, ListEntiteDef, 1);
         }
 
         private void Action(Terrain terrain, Personnage joueur, System.Collections.ObjectModel.ReadOnlyCollection<EntiteInconnu> ListEntites)
@@ -197,21 +203,21 @@ namespace GofusSharp
             ListAttaquants.Add(new Personnage(10, classeAtt, "Trebor", 10000, EntiteInconnu.type.attaquant, listStatistiqueAtt, script1, tabEquipAtt, terrain));
             Liste<Entite> ListDefendants = new Liste<Entite>();
             ListDefendants.Add(new Personnage(11, classeDef, "Robert", 9000, EntiteInconnu.type.defendant, listStatistiqueDef, script2, tabEquipDef, terrain));
-            PartieTest = new Partie(1, ListAttaquants, ListDefendants);
+            CombatCourant = new Partie(ListAttaquants, ListDefendants);
         }
 
         private void btn_Next_Click(object sender, RoutedEventArgs e)
         {
-            foreach (Entite entite in Liste<Entite>.ConcatAlternate(PartieTest.ListAttaquants, PartieTest.ListDefendants))
+            foreach (Entite entite in Liste<Entite>.ConcatAlternate(CombatCourant.ListAttaquants, CombatCourant.ListDefendants))
             {
                 if (entite.Etat == EntiteInconnu.typeEtat.mort)
                     continue;
-                PartieTest.DebuterAction(entite);
-                Action(PartieTest.TerrainPartie, entite as Personnage, PartieTest.ListEntites.AsReadOnly());
-                PartieTest.SyncroniserJoueur();
+                CombatCourant.DebuterAction(entite);
+                Action(CombatCourant.TerrainPartie, entite as Personnage, CombatCourant.ListEntites.AsReadOnly());
+                CombatCourant.SyncroniserJoueur();
                 UpdateInfo();
                 bool vivante = false;
-                foreach (Entite entiteAtt in PartieTest.ListAttaquants)
+                foreach (Entite entiteAtt in CombatCourant.ListAttaquants)
                 {
                     if (entiteAtt.Etat == EntiteInconnu.typeEtat.vivant)
                     {
@@ -225,7 +231,7 @@ namespace GofusSharp
                     Close();
                 }
                 vivante = false;
-                foreach (Entite entiteDef in PartieTest.ListDefendants)
+                foreach (Entite entiteDef in CombatCourant.ListDefendants)
                 {
                     if (entiteDef.Etat == EntiteInconnu.typeEtat.vivant)
                     {
@@ -244,9 +250,9 @@ namespace GofusSharp
         {
             foreach (Label lbl in grd_Terrain.Children)
             {
-                lbl.Content = PartieTest.TerrainPartie.TabCases[Grid.GetRow(lbl)][Grid.GetColumn(lbl)].Contenu.ToString().First().ToString();
+                lbl.Content = CombatCourant.TerrainPartie.TabCases[Grid.GetRow(lbl)][Grid.GetColumn(lbl)].Contenu.ToString().First().ToString();
 
-                switch (PartieTest.TerrainPartie.TabCases[Grid.GetRow(lbl)][Grid.GetColumn(lbl)].Contenu)
+                switch (CombatCourant.TerrainPartie.TabCases[Grid.GetRow(lbl)][Grid.GetColumn(lbl)].Contenu)
                 {
                     case Case.type.vide:
                         lbl.Background = Brushes.White;
@@ -261,21 +267,21 @@ namespace GofusSharp
             }
             StringBuilder info = new StringBuilder();
             info.Append("Attaquant");
-            info.Append("\nPoint de vie: " + PartieTest.ListAttaquants.First().PV);
-            if (PartieTest.ListAttaquants.First().Etat == EntiteInconnu.typeEtat.vivant)
-                info.Append("\nPosition: X: " + PartieTest.ListAttaquants.First().Position.X + " Y: " + PartieTest.ListAttaquants.First().Position.Y);
+            info.Append("\nPoint de vie: " + CombatCourant.ListAttaquants.First().PV);
+            if (CombatCourant.ListAttaquants.First().Etat == EntiteInconnu.typeEtat.vivant)
+                info.Append("\nPosition: X: " + CombatCourant.ListAttaquants.First().Position.X + " Y: " + CombatCourant.ListAttaquants.First().Position.Y);
             else
                 info.Append("\nPosition: X: 0 Y: 0");
-            info.Append("\nEtat: " + PartieTest.ListAttaquants.First().Etat);
+            info.Append("\nEtat: " + CombatCourant.ListAttaquants.First().Etat);
             tb_perso0.Text = info.ToString();
             info.Clear();
             info.Append("Deffendant");
-            info.Append("\nPoint de vie: " + PartieTest.ListDefendants.First().PV);
-            if (PartieTest.ListDefendants.First().Etat == EntiteInconnu.typeEtat.vivant)
-                info.Append("\nPosition: X: " + PartieTest.ListDefendants.First().Position.X + " Y: " + PartieTest.ListDefendants.First().Position.Y);
+            info.Append("\nPoint de vie: " + CombatCourant.ListDefendants.First().PV);
+            if (CombatCourant.ListDefendants.First().Etat == EntiteInconnu.typeEtat.vivant)
+                info.Append("\nPosition: X: " + CombatCourant.ListDefendants.First().Position.X + " Y: " + CombatCourant.ListDefendants.First().Position.Y);
             else
                 info.Append("\nPosition: X: 0 Y: 0");
-            info.Append("\nEtat: " + PartieTest.ListDefendants.First().Etat);
+            info.Append("\nEtat: " + CombatCourant.ListDefendants.First().Etat);
             tb_perso1.Text = info.ToString();
         }
 

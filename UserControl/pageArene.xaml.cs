@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Linq;
 
 namespace Gofus
 {
@@ -31,21 +32,19 @@ namespace Gofus
 
             idJoueur = id;
             cboTypeAdversaire.ItemsSource = lstTypeAdver;
-            int i = 0;
             foreach (Entite perso in lstPersonnages)
             {
-                lstPerso.Add(i, perso.Nom);
-                i++;
+                lstPerso.Add(perso.IdEntite, perso.Nom);
             }
 
 
 
-            cboPersonna.ItemsSource = lstPerso;
-            cboPersonna.DisplayMemberPath = "Value";
+            cboPerso.ItemsSource = lstPerso;
+            cboPerso.DisplayMemberPath = "Value";
 
             cboTypeAdversaire.SelectedIndex = 0;
 
-            cboPersonna.SelectedIndex = 0;
+            cboPerso.SelectedIndex = 0;
 
 
             dataGrid.ItemsSource = lstAdversaire;
@@ -89,7 +88,11 @@ namespace Gofus
         {
             if (dataGrid.SelectedIndex != -1)
             {
-               
+                List<Entite> lstAtt = new List<Entite>();
+                List<Entite> lstDef = new List<Entite>();
+                lstAtt.Add((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow).Player.LstEntites.First(x => x.IdEntite == ((KeyValuePair<int, string>)cboPerso.SelectedItem).Key));
+                lstDef.Add(dataGrid.SelectedItem as Entite);
+                GofusSharp.Combat combat = new GofusSharp.Combat(lstAtt, lstDef);
             }
         }
     }

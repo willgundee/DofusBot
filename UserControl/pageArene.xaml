@@ -10,7 +10,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="10*"/>
+            <RowDefinition Height="15*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -18,16 +18,16 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Label x:Name="TypeAdversaire" Content="Type d'adversaire:" Grid.Column="0" Grid.Row="0" Width="126"/>
-        <ComboBox x:Name="cboTypeAdversaire" Grid.Column="0" Grid.Row="1" Width="202" SelectionChanged="cboTypeAdversaire_SelectionChanged"/>
-        <DataGrid x:Name="dataGrid" SelectionMode="Single" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Height="381" Width="557" AutoGenerateColumns="False" IsReadOnly="True" >
+        <Label x:Name="TypeAdversaire" Content="Type d'adversaire:" Grid.Column="0" Grid.Row="0" VerticalAlignment="Bottom" Width="126"/>
+        <ComboBox x:Name="cboTypeAdversaire" Grid.Column="0" Grid.Row="1" VerticalAlignment="top" Width="202" SelectionChanged="cboTypeAdversaire_SelectionChanged"/>
+        <DataGrid x:Name="dataGrid" SelectionMode="Single" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"  Width="557" AutoGenerateColumns="False" IsReadOnly="True" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Nom"  Binding="{Binding Nom}" FontSize="15" Width="2*" />
                 <DataGridTextColumn Header="Niveau" Binding="{Binding Niveau}" FontSize="15" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Label x:Name="lblChoixPerso" Content="Personnage :" Grid.Column="0" Grid.Row="3" Width="101"/>
-        <ComboBox x:Name="cboPersonna" Grid.Column="0" Grid.Row="4" Width="177"/>
+        <Label x:Name="lblChoixPerso" Content="Personnage :" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+        <ComboBox x:Name="cboPerso" Grid.Column="0" Grid.Row="4" VerticalAlignment="Top" Width="177"/>
         <Button x:Name="btnAtt" Content="Attaquer" Grid.Column="1" Grid.Row="3" Grid.RowSpan="2" Width="178" Height="39" Click="btnAtt_Click"/>
     </Grid>
 </UserControl>
