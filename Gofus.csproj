@@ -169,9 +169,6 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Window\PageEquipement.xaml.cs">
-      <DependentUpon>PageEquipement.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControl\PagePerso.xaml.cs">
       <DependentUpon>PagePerso.xaml</DependentUpon>
     </Compile>
@@ -286,10 +283,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControl\pageCpersonage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Window\PageEquipement.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
