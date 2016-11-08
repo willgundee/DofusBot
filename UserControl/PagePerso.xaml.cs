@@ -86,6 +86,10 @@ namespace Gofus
             initialiserLstStats(ent.LstStats);
             dgStats.ItemsSource = lstStat;
             dgDommage.ItemsSource = initialiserLstDMG(ent);
+            #region .
+            pgbExp.Foreground = new SolidColorBrush(Colors.AliceBlue);
+            #endregion
+
 
         }
 
