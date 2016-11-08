@@ -527,5 +527,10 @@ namespace Gofus
             cm.PlacementTarget = sender as Button;
             cm.IsOpen = true;
         }
+
+        private void btnSupprimer_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
