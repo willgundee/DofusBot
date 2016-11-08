@@ -244,9 +244,10 @@
             </Grid>
         </TabItem>
         <TabItem  Header="Sorts" Height="30" Selector.Selected="PGSort_Selected">
-            <TabControl Name="PGSort">
+            <ContentControl Name="PGSort">
+             
 
-            </TabControl>
+            </ContentControl>
 
 
         </TabItem>

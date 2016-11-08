@@ -2115,9 +2115,8 @@ namespace Gofus
         private void PGSort_Selected(object sender, RoutedEventArgs e)
         {
 
-           
-         PGSort.Items.Clear();
-            PGSort.Items.Add(new pageSort());
+
+            PGSort.Content = new pageSort();
 
         }
 
