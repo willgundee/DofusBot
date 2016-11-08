@@ -105,6 +105,9 @@
     <Compile Include="UserControl\pageArchive.xaml.cs">
       <DependentUpon>pageArchive.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControl\pageGestion.xaml.cs">
+      <DependentUpon>pageGestion.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Window\Inventaire.xaml.cs">
       <DependentUpon>Inventaire.xaml</DependentUpon>
     </Compile>
@@ -228,6 +231,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControl\pageArene.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl\pageGestion.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
