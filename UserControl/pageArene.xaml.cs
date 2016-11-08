@@ -89,14 +89,8 @@ namespace Gofus
         {
             if (dataGrid.SelectedIndex != -1)
             {
-               MessageBox.Show("1233");
-
+               
             }
-        }
-
-        private void btnQuitter_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

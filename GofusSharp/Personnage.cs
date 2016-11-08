@@ -5,13 +5,25 @@ namespace GofusSharp
 {
     public class Personnage : Entite
     {
-        public Equipement[] TabEquipements { get; internal set; }
-        internal Personnage(int IdEntite, Classe ClasseEntite, string Nom, float Experience, type Equipe, Liste<Statistique> ListStatistiques, Script ScriptEntite, Equipement[] TabEquipements, Terrain TerrainEntite) : base(IdEntite, ClasseEntite, Nom, Experience, Equipe, ListStatistiques, ScriptEntite, TerrainEntite, 0)
+        public Liste<Equipement> ListEquipements { get; internal set; }
+
+        internal Personnage(Gofus.Entite entite, type Equipe) :base(entite, Equipe)
         {
-            this.TabEquipements = TabEquipements;
-            foreach (Equipement item in TabEquipements)
+            ListEquipements = new Liste<Equipement>();
+            foreach (Gofus.Equipement equip in entite.LstEquipements)
             {
-                foreach (Statistique stat_item in item.TabStatistiques)
+                if (equip.EstArme)
+                    ListEquipements.Add(new Arme(equip));
+                else
+                    ListEquipements.Add(new Equipement(equip));
+            }
+        }
+        internal Personnage(int IdEntite, Classe ClasseEntite, string Nom, float Experience, type Equipe, Liste<Statistique> ListStatistiques, string ScriptEntite, Liste<Equipement> ListEquipements, Terrain TerrainEntite) : base(IdEntite, ClasseEntite, Nom, Experience, Equipe, ListStatistiques, ScriptEntite, TerrainEntite, 0)
+        {
+            this.ListEquipements = ListEquipements;
+            foreach (Equipement item in ListEquipements)
+            {
+                foreach (Statistique stat_item in item.ListStatistiques)
                 {
                     bool existe = false;
                     foreach (Statistique stat in this.ListStatistiques)
@@ -32,9 +44,9 @@ namespace GofusSharp
 
         public bool Attaquer(EntiteInconnu cible)
         {
-            Arme arme = new Arme(0, null, "poing", Equipement.type.arme, new Effet[] { new Effet(Effet.type.ATT_neutre, 3, 5) }, new Zone(Zone.type.croix, 1, 1), new Zone(Zone.type.carre, 0, 0), Arme.typeArme.dague, 3);
+            Arme arme = new Arme(null, "poing", Equipement.type.arme, new Liste<Effet> { new Effet(Effet.type.ATT_neutre, 3, 5) }, new Zone(Zone.type.croix, 1, 1), new Zone(Zone.type.carre, 0, 0), Arme.typeArme.dague, 3);
 
-            foreach (Equipement invent in TabEquipements)
+            foreach (Equipement invent in ListEquipements)
             {
                 if (invent is Arme)
                 {
@@ -51,7 +63,7 @@ namespace GofusSharp
             if (CaseEstDansZone(arme.ZonePortee.Type, arme.ZonePortee.PorteeMin, arme.ZonePortee.PorteeMax, Position, cible.Position))
             {
                 PA -= arme.CoutPA;
-                foreach (Effet effet in arme.TabEffets)
+                foreach (Effet effet in arme.ListEffets)
                 {
                     InfligerEffet(effet, arme.ZoneEffet, cible.Position);
                 }
@@ -62,8 +74,8 @@ namespace GofusSharp
         }
         public bool Attaquer(Case cible)
         {
-            Arme arme = new Arme(0, null, "poing", Equipement.type.arme, new Effet[] { new Effet(Effet.type.ATT_neutre, 3, 5) }, new Zone(Zone.type.croix, 1, 1), new Zone(Zone.type.carre, 0, 0), Arme.typeArme.dague, 3);
-            foreach (Equipement invent in TabEquipements)
+            Arme arme = new Arme(null, "poing", Equipement.type.arme, new Liste<Effet> { new Effet(Effet.type.ATT_neutre, 3, 5) }, new Zone(Zone.type.croix, 1, 1), new Zone(Zone.type.carre, 0, 0), Arme.typeArme.dague, 3);
+            foreach (Equipement invent in ListEquipements)
             {
                 if (invent is Arme)
                 {
@@ -80,7 +92,7 @@ namespace GofusSharp
             if (CaseEstDansZone(arme.ZonePortee.Type, arme.ZonePortee.PorteeMin, arme.ZonePortee.PorteeMax, Position, cible))
             {
                 PA -= arme.CoutPA;
-                foreach (Effet effet in arme.TabEffets)
+                foreach (Effet effet in arme.ListEffets)
                 {
                     InfligerEffet(effet, arme.ZoneEffet, cible);
                 }

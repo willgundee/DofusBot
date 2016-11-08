@@ -67,7 +67,6 @@
     <Compile Include="Partie.cs" />
     <Compile Include="Personnage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Script.cs" />
     <Compile Include="Sort.cs" />
     <Compile Include="Statistique.cs" />
     <Compile Include="Terrain.cs" />
@@ -78,6 +77,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Gofus.csproj">
+      <Project>{dd77fdcb-de4f-4a2f-bfe0-99d21f26d75e}</Project>
+      <Name>Gofus</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

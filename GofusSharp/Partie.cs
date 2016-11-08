@@ -136,7 +136,7 @@ namespace GofusSharp
                             break;
                     }
                 }
-                entite.PV_MAX = vie + (vitalite * (entite.ClasseEntite.Nom != Classe.type.sacrieur ? 1 : 2));
+                entite.PV_MAX = vie + (vitalite * (entite.ClasseEntite.Nom != "sacrieur" ? 1 : 2));
                 entite.PV = entite.PV_MAX;
                 ListEntites.Add(new EntiteInconnu(entite));
             }
@@ -195,7 +195,7 @@ namespace GofusSharp
                 }
                 if (!existe)
                 {
-                    Entite newInvoc = new Entite(entiteInconnu, new Script(3, "//Placeholder"), TerrainPartie, entiteInconnu.Proprietaire);
+                    Entite newInvoc = new Entite(entiteInconnu, "//Placeholder", TerrainPartie, entiteInconnu.Proprietaire);
                     if (newInvoc.Equipe == EntiteInconnu.type.attaquant)
                     {
                         foreach (Entite entiteProp in ListAttaquants)
