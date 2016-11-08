@@ -9,6 +9,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using GofusSharp;
 
 
 [assembly: InternalsVisibleTo("Gofus")]
@@ -41,6 +42,29 @@ namespace GofusSharp
             }
             UpdateInfo();
         }
+        public Combat(List<Gofus.Entite> lstJoueurAtt, List<Gofus.Entite> lstJoueurDef)
+        {
+            InitializeComponent();
+            this.Show();
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    Label lbl = new Label();
+                    lbl.HorizontalAlignment = HorizontalAlignment.Center;
+                    lbl.VerticalAlignment = VerticalAlignment.Center;
+                    Grid.SetRow(lbl, i);
+                    Grid.SetColumn(lbl, j);
+                    grd_Terrain.Children.Add(lbl);
+                }
+            }
+            UpdateInfo();
+        }
+
+        private void CreerPartie(List<Gofus.Entite> lstJoueurAtt, List<Gofus.Entite> lstJoueurDef)
+        {
+
+        }
 
         private void Action(Terrain terrain, Personnage joueur, System.Collections.ObjectModel.ReadOnlyCollection<EntiteInconnu> ListEntites)
         {
@@ -60,7 +84,7 @@ namespace GofusSharp
             ";
 
             //je remplace le mot user_code pour ce qui ce trouve dans la text box
-            string finalCode = code.Replace("user_code", joueur.ScriptEntite.Texte);
+            string finalCode = code.Replace("user_code", joueur.ScriptEntite);
             //initialisation d'un compilateur de code C#
             CSharpCodeProvider provider = new CSharpCodeProvider(new Dictionary<string, string>() { { "CompilerVersion", "v3.5" } });
             //initialisation des paramètres du compilateur de code C#
@@ -107,7 +131,7 @@ namespace GofusSharp
                     result = joueur.AvancerVers(terrain.CheminEntreCases(joueur.Position, ennemi.Position).First(), 1);
                 }
             }
-            joueur.UtiliserSort(joueur.ClasseEntite.TabSorts[1], ennemi);
+            joueur.UtiliserSort(joueur.ClasseEntite.ListSorts[1], ennemi);
 
         }
 
@@ -131,8 +155,8 @@ namespace GofusSharp
             Effet[] tabEffetAtt2 = new Effet[] { new Effet(Effet.type.ATT_neutre, 10, 15), new Effet(Effet.type.pousse, 4, 4) };
             Zone zoneEffetAtt2 = new Zone(Zone.type.carre, 0, 0);
             Zone zonePorteeAtt2 = new Zone(Zone.type.croix, 1, 1);
-            Sort[] tabSortAtt = new Sort[] { new Sort(1, tabEffetAtt1, "bond", false, true, true, zonePorteeAtt1, zoneEffetAtt1, 3, 5, Sort.nom_sort.bond), new Sort(2, tabEffetAtt2, "intimidation", true, false, false, zonePorteeAtt2, zoneEffetAtt2, -2, 2, Sort.nom_sort.intimidation) };
-            Classe classeAtt = new Classe(1, tabSortAtt, Classe.type.iop);
+            Sort[] tabSortAtt = new Sort[] { new Sort(tabEffetAtt1, "bond", false, true, true, zonePorteeAtt1, zoneEffetAtt1, 3, 5, Sort.nom_sort.bond), new Sort(2, tabEffetAtt2, "intimidation", true, false, false, zonePorteeAtt2, zoneEffetAtt2, -2, 2, Sort.nom_sort.intimidation) };
+            Classe classeAtt = new Classe(tabSortAtt, "iop");
             Statistique[] statItemAtt = new Statistique[] { new Statistique(Statistique.type.force, 70) };
             Equipement[] tabEquipAtt = new Equipement[] { new Equipement(1, statItemAtt, "Coiffe bouftou", Equipement.type.chapeau) };
             Liste<Statistique> listStatistiqueDef = new Liste<Statistique>();
@@ -153,7 +177,7 @@ namespace GofusSharp
             Zone zoneEffetDef2 = new Zone(Zone.type.carre, 0, 0);
             Zone zonePorteeDef2 = new Zone(Zone.type.croix, 1, 1);
             Sort[] tabSortDef = new Sort[] { new Sort(1, tabEffetDef1, "bond", false, true, true, zonePorteeDef1, zoneEffetDef1, 3, 5, Sort.nom_sort.bond), new Sort(2, tabEffetDef2, "intimidation", true, false, false, zonePorteeDef2, zoneEffetDef2, -2, 2, Sort.nom_sort.intimidation) };
-            Classe classeDef = new Classe(1, tabSortDef, Classe.type.iop);
+            Classe classeDef = new Classe(1, tabSortDef, "iop");
             Statistique[] statItemDef = new Statistique[] { new Statistique(Statistique.type.force, 70) };
             Equipement[] tabEquipDef = new Equipement[] { new Equipement(1, statItemDef, "Coiffe bouftou", Equipement.type.chapeau), new Arme(2, statItemAtt, "Marteau bouftous", Equipement.type.arme, tabEffetAtt2, zonePorteeAtt2, zoneEffetAtt2, Arme.typeArme.marteau, 5) };
             Terrain terrain = new Terrain(10, 10);

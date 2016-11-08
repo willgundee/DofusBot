@@ -8,6 +8,12 @@
         public int ValeurMax { get; internal set; }
         public int NbTour { get; internal set; }
         public Statistique.type Stat { get; internal set; }
+        internal Effet(Gofus.Effet effet)
+        {
+            Nom = (type)System.Enum.Parse(typeof(type), effet.Nom.ToString());
+            ValeurMin = effet.DmgMin;
+            ValeurMax = effet.DmgMax;
+        }
         internal Effet(type Nom, int ValeurMin, int ValeurMax)
         {
             this.Nom = Nom;

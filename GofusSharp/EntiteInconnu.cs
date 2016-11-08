@@ -12,7 +12,7 @@ namespace GofusSharp
         public int IdEntite { get; internal set; }
         public Classe ClasseEntite { get; internal set; }
         public string Nom { get; internal set; }
-        public float Experience { get; internal set; }
+        public double Experience { get; internal set; }
         public Case Position { get; internal set; }
         public type Equipe { get; internal set; }
         public int PV { get; internal set; }
@@ -24,6 +24,21 @@ namespace GofusSharp
         public int Proprietaire { get; internal set; }
         public Liste<Statistique> ListStatistiques { get; internal set; }
         public Liste<Envoutement> ListEnvoutements { get; internal set; }
+        internal EntiteInconnu(Gofus.Entite entite, type Equipe)
+        {
+            this.IdEntite = entite.IdEntite;
+            this.ClasseEntite = new Classe(entite.ClasseEntite);
+            this.Nom = entite.Nom;
+            this.Experience = entite.LstStats.First(x => x.Nom == Gofus.Statistique.element.experience).Valeur;
+            this.Equipe = Equipe;
+            ListStatistiques = new Liste<Statistique>();
+            foreach (Gofus.Statistique stat in entite.LstStats)
+            {
+                if (stat.Nom != Gofus.Statistique.element.experience)
+                    ListStatistiques.Add(new Statistique(stat));
+            }
+            ListEnvoutements = new Liste<Envoutement>();
+        }
         internal EntiteInconnu(int IdEntite, Classe ClasseEntite, string Nom, float Experience, type Equipe)
         {
             this.IdEntite = IdEntite;

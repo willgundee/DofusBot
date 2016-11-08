@@ -8,7 +8,7 @@ namespace Gofus
 {
     public class Zone
     {
-        public enum type { carre, Cercle, cone, croix, demi_cercle, ligne_horizontale, ligne_verticale, T, tous, X } // les types de zones possibles
+        public enum type { cercle, ligne_verticale, ligne_horizontale, carre, croix, T, X, demi_cercle, cone, tous } // les types de zones possibles
         public type Nom { get; set; }
         public int PorteeMin { get; set; }
         public int PorteeMax { get; set; }

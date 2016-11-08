@@ -136,7 +136,7 @@ namespace GofusSharp
                             break;
                     }
                 }
-                entite.PV_MAX = vie + (vitalite * (entite.ClasseEntite.Nom != Classe.type.sacrieur ? 1 : 2));
+                entite.PV_MAX = vie + (vitalite * (entite.ClasseEntite.Nom != "sacrieur" ? 1 : 2));
                 entite.PV = entite.PV_MAX;
                 ListEntites.Add(new EntiteInconnu(entite));
             }

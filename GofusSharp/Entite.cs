@@ -5,10 +5,14 @@ namespace GofusSharp
 {
     public class Entite : EntiteInconnu
     {
-        internal Script ScriptEntite { get; set; }
+        internal string ScriptEntite { get; set; }
         internal Terrain TerrainEntite { get; set; }
         internal Liste<EntiteInconnu> ListEntites { get; set; }
-        internal Entite(int IdEntite, Classe ClasseEntite, string Nom, float Experience, type Equipe, Liste<Statistique> ListStatistiques, Script ScriptEntite, Terrain TerrainEntite, int Proprietaire) : base(IdEntite, ClasseEntite, Nom, Experience, Equipe)
+        internal Entite(Gofus.Entite entite, type Equipe) :base(entite, Equipe)
+        {
+            ScriptEntite = entite.ScriptEntite.Code;
+        }
+        internal Entite(int IdEntite, Classe ClasseEntite, string Nom, float Experience, type Equipe, Liste<Statistique> ListStatistiques, string ScriptEntite, Terrain TerrainEntite, int Proprietaire) : base(IdEntite, ClasseEntite, Nom, Experience, Equipe)
         {
             this.ListStatistiques = ListStatistiques;
             foreach (Statistique stat in ListStatistiques)
@@ -25,7 +29,7 @@ namespace GofusSharp
             this.TerrainEntite = TerrainEntite;
             this.Proprietaire = Proprietaire;
         }
-        internal Entite(EntiteInconnu EntiteInconnu, Script ScriptEntite, Terrain TerrainEntite, int Proprietaire) : base(EntiteInconnu.IdEntite, EntiteInconnu.ClasseEntite, EntiteInconnu.Nom, EntiteInconnu.Experience, EntiteInconnu.Equipe)
+        internal Entite(EntiteInconnu EntiteInconnu, string ScriptEntite, Terrain TerrainEntite, int Proprietaire) : base(EntiteInconnu.IdEntite, EntiteInconnu.ClasseEntite, EntiteInconnu.Nom, EntiteInconnu.Experience, EntiteInconnu.Equipe)
         {
             ListStatistiques = EntiteInconnu.ListStatistiques;
             foreach (Statistique stat in EntiteInconnu.ListStatistiques)
@@ -54,7 +58,7 @@ namespace GofusSharp
             if (CaseEstDansZone(sort.ZonePortee.Type, sort.ZonePortee.PorteeMin, sort.ZonePortee.PorteeMax, Position, cible.Position))
             {
                 PA -= sort.CoutPA;
-                foreach (Effet effet in sort.TabEffets)
+                foreach (Effet effet in sort.ListEffets)
                 {
                     InfligerEffet(effet, sort.ZoneEffet, cible.Position);
                 }
@@ -75,7 +79,7 @@ namespace GofusSharp
             if (CaseEstDansZone(sort.ZonePortee.Type, sort.ZonePortee.PorteeMin, sort.ZonePortee.PorteeMax, Position, cible))
             {
                 PA -= sort.CoutPA;
-                foreach (Effet effet in sort.TabEffets)
+                foreach (Effet effet in sort.ListEffets)
                 {
                     InfligerEffet(effet, sort.ZoneEffet, cible);
                 }
@@ -90,7 +94,7 @@ namespace GofusSharp
             Sort sort = null;
             try
             {
-                sort = ClasseEntite.TabSorts.First(x => x.VraiNom == vraiNom);
+                sort = ClasseEntite.ListSorts.First(x => x.VraiNom == vraiNom);
             }
             catch (System.Exception)
             {
@@ -106,7 +110,7 @@ namespace GofusSharp
             if (CaseEstDansZone(sort.ZonePortee.Type, sort.ZonePortee.PorteeMin, sort.ZonePortee.PorteeMax, Position, cible.Position))
             {
                 PA -= sort.CoutPA;
-                foreach (Effet effet in sort.TabEffets)
+                foreach (Effet effet in sort.ListEffets)
                 {
                     InfligerEffet(effet, sort.ZoneEffet, cible.Position);
                 }
@@ -121,7 +125,7 @@ namespace GofusSharp
             Sort sort = null;
             try
             {
-                sort = ClasseEntite.TabSorts.First(x => x.VraiNom == vraiNom);
+                sort = ClasseEntite.ListSorts.First(x => x.VraiNom == vraiNom);
             }
             catch (System.Exception)
             {
@@ -137,7 +141,7 @@ namespace GofusSharp
             if (CaseEstDansZone(sort.ZonePortee.Type, sort.ZonePortee.PorteeMin, sort.ZonePortee.PorteeMax, Position, cible))
             {
                 PA -= sort.CoutPA;
-                foreach (Effet effet in sort.TabEffets)
+                foreach (Effet effet in sort.ListEffets)
                 {
                     InfligerEffet(effet, sort.ZoneEffet, cible);
                 }
