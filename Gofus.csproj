@@ -115,6 +115,9 @@
     <Compile Include="UserControl\pageGestion.xaml.cs">
       <DependentUpon>pageGestion.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControl\pageScript.xaml.cs">
+      <DependentUpon>pageScript.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Window\Inventaire.xaml.cs">
       <DependentUpon>Inventaire.xaml</DependentUpon>
     </Compile>
@@ -243,6 +246,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControl\pageGestion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl\pageScript.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

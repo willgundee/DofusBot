@@ -1,0 +1,144 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:wf="clr-namespace:Moonlight;assembly=CodeTextBox"
+             xmlns:local="clr-namespace:Gofus"
+             xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="Gofus.pageScript"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="15*"/>
+        </Grid.ColumnDefinitions>
+
+        <WindowsFormsHost Grid.Row="0" Grid.Column="0">
+            <wf:SSRichTextBox x:Name="rtb_lineNumber" ScrollBars="ForcedHorizontal"/>
+        </WindowsFormsHost>
+        <WindowsFormsHost Grid.Row="0" Grid.Column="1">
+            <wf:CodeTextBox x:Name="ctb_main" CodeColor_Chaine="Crimson" CodeColor_Comment="Green" CodeColor_Function="CornflowerBlue" CodeColor_Keyword="Blue" CodeColor_PlainText="Black" CodeColor_Type="CornflowerBlue" AcceptsTab="True" KeyUp="ctb_KeyUp" VScroll="ctb_main_VScroll" ScrollBars="ForcedBoth">
+                <wf:CodeTextBox.CodeWords_Keywords>
+                    <System:String>abstract</System:String>
+                    <System:String>as</System:String>
+                    <System:String>base</System:String>
+                    <System:String>bool</System:String>
+                    <System:String>break</System:String>
+                    <System:String>byte</System:String>
+                    <System:String>case</System:String>
+                    <System:String>catch</System:String>
+                    <System:String>char</System:String>
+                    <System:String>checked</System:String>
+                    <System:String>class</System:String>
+                    <System:String>const</System:String>
+                    <System:String>continue</System:String>
+                    <System:String>decimal</System:String>
+                    <System:String>default</System:String>
+                    <System:String>delegate</System:String>
+                    <System:String>do</System:String>
+                    <System:String>double</System:String>
+                    <System:String>else</System:String>
+                    <System:String>enum</System:String>
+                    <System:String>event</System:String>
+                    <System:String>explicit</System:String>
+                    <System:String>extern</System:String>
+                    <System:String>false</System:String>
+                    <System:String>finally</System:String>
+                    <System:String>fixed</System:String>
+                    <System:String>float</System:String>
+                    <System:String>for</System:String>
+                    <System:String>foreach</System:String>
+                    <System:String>goto</System:String>
+                    <System:String>if</System:String>
+                    <System:String>implicit</System:String>
+                    <System:String>in</System:String>
+                    <System:String>int</System:String>
+                    <System:String>interface</System:String>
+                    <System:String>internal</System:String>
+                    <System:String>is</System:String>
+                    <System:String>lock</System:String>
+                    <System:String>long</System:String>
+                    <System:String>namespace</System:String>
+                    <System:String>new</System:String>
+                    <System:String>null</System:String>
+                    <System:String>object</System:String>
+                    <System:String>operator</System:String>
+                    <System:String>out</System:String>
+                    <System:String>override</System:String>
+                    <System:String>params</System:String>
+                    <System:String>private</System:String>
+                    <System:String>protected</System:String>
+                    <System:String>public</System:String>
+                    <System:String>readonly</System:String>
+                    <System:String>ref</System:String>
+                    <System:String>return</System:String>
+                    <System:String>sbyte</System:String>
+                    <System:String>sealed</System:String>
+                    <System:String>short</System:String>
+                    <System:String>sizeof</System:String>
+                    <System:String>stackalloc</System:String>
+                    <System:String>static</System:String>
+                    <System:String>string</System:String>
+                    <System:String>struct</System:String>
+                    <System:String>switch</System:String>
+                    <System:String>this</System:String>
+                    <System:String>throw</System:String>
+                    <System:String>true</System:String>
+                    <System:String>try</System:String>
+                    <System:String>typeof</System:String>
+                    <System:String>uint</System:String>
+                    <System:String>ulong</System:String>
+                    <System:String>unchecked</System:String>
+                    <System:String>unsafe</System:String>
+                    <System:String>ushort</System:String>
+                    <System:String>using</System:String>
+                    <System:String>virtual</System:String>
+                    <System:String>void</System:String>
+                    <System:String>volatile</System:String>
+                    <System:String>while</System:String>
+                    <System:String>Arme</System:String>
+                    <System:String>Case</System:String>
+                    <System:String>Classe</System:String>
+                    <System:String>Debug</System:String>
+                    <System:String>Effet</System:String>
+                    <System:String>Entite</System:String>
+                    <System:String>EntiteInconnu</System:String>
+                    <System:String>Envoutement</System:String>
+                    <System:String>Equipement</System:String>
+                    <System:String>Liste</System:String>
+                    <System:String>Math</System:String>
+                    <System:String>Personnage</System:String>
+                    <System:String>Sort</System:String>
+                    <System:String>Statistique</System:String>
+                    <System:String>Terrain</System:String>
+                    <System:String>Zone</System:String>
+                </wf:CodeTextBox.CodeWords_Keywords>
+                <wf:CodeTextBox.CodeWords_ScopeOperators>
+                    <System:String>.</System:String>
+                </wf:CodeTextBox.CodeWords_ScopeOperators>
+                <wf:CodeTextBox.CodeWords_Comments>
+                    <System:String>//</System:String>
+                </wf:CodeTextBox.CodeWords_Comments>
+                <wf:CodeTextBox.CodeWords_Chaines>
+                    <System:String>"</System:String>
+                    <System:String>'</System:String>
+                </wf:CodeTextBox.CodeWords_Chaines>
+            </wf:CodeTextBox>
+        </WindowsFormsHost>
+        <Grid x:Name="grd_controlButton" Grid.Row="1" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="btn_run" Content="Tester" Grid.Column="0" Width="75" Height="40" Click="btn_run_Click"/>
+            <Button x:Name="btn_debug" Content="Générer" Grid.Column="1" Width="75" Height="40" Click="btn_debug_Click"/>
+            <Button x:Name="btn_sauvegarder" Content="Sauvegarder" Grid.Column="2" Width="75" Height="40" Click="btn_sauvegarder_Click"/>
+        </Grid>
+    </Grid>
+</UserControl>
