@@ -32,6 +32,7 @@ namespace Gofus
            
             
             music.Open(new Uri(@"..\..\Resources\Music.mp3", UriKind.RelativeOrAbsolute));
+            music.Volume = 1;
             music.Play();
         }
 
