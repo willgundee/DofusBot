@@ -1417,7 +1417,9 @@ namespace Gofus
          Player.LstScripts;*/
         private void btn_sauvegarder_Click(object sender, RoutedEventArgs e)
         {
-            bd.Update("UPDATE Scripts SET contenu =  '" + ctb_main.Text + "' WHERE uuid  ='" + UUID + "';COMMIT;");
+            if (bd.Update("UPDATE Scripts SET contenu =  '" + ctb_main.Text + "' WHERE uuid  ='" + UUID + "';COMMIT;"))
+                if (System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(MainWindow)) != null)
+                    (System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow).Player.LstScripts.First(x => x.Uuid == UUID).Code = ctb_main.Text;
         }
     }
 }
