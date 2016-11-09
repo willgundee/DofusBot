@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Gofus
 {
@@ -11,12 +14,27 @@ namespace Gofus
     public partial class Authentification : Window
     {
         public BDService bdService = new BDService();
+        public MediaPlayer music;
+
         public Authentification()
         {
             InitializeComponent();
+
+            music = new MediaPlayer();
+
+            PlaySound();
+
+
         }
 
-
+        private void PlaySound()
+        {
+           
+            
+            music.Open(new Uri(@"..\..\Resources\Music.mp3", UriKind.RelativeOrAbsolute));
+            music.Volume = 1;
+            music.Play();
+        }
 
         private bool valide(List<string>[] hh)
         {
@@ -59,6 +77,8 @@ namespace Gofus
         }
         private void OnKeyDowntxtMessage(object sender, System.Windows.Input.KeyEventArgs e)
         {
+         
+
             if (e.Key == Key.Return)
             {
                 List<string>[] hh = bdService.selection("SELECT * FROM Joueurs WHERE nomUtilisateur ='" + txtNomU.Text + "'");

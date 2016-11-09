@@ -28,6 +28,7 @@ namespace Gofus
 
         public pageGestion(Joueur joueur, int id)
         {
+            bd = new BDService();
             InitializeComponent();
             lstAvatars = new List<string>();
             GenererAvatars();
