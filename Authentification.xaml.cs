@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -53,7 +51,7 @@ namespace Gofus
             if (hh[0][0] != "rien" && valide(hh) == true)
             {
                 Mouse.SetCursor(Cursors.AppStarting);
-
+                music.Stop();
                 MainWindow perso = new MainWindow(Convert.ToInt32(hh[0][0]));
                 perso.Show();
                 this.Close();
@@ -85,7 +83,7 @@ namespace Gofus
                 if (hh[0][0] != "rien" && valide(hh) == true)
                 {
                     Mouse.SetCursor(Cursors.AppStarting);
-
+                    music.Stop();
                     MainWindow perso = new MainWindow(Convert.ToInt32(hh[0][0]));
                     perso.Show();
                     this.Close();
