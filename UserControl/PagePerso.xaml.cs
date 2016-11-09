@@ -30,8 +30,8 @@ namespace Gofus
             lblLevelEntite.Content = "Niv. " + ent.Niveau;
 
             #region .
-            pgbExp.Foreground = new SolidColorBrush(Colors.CornflowerBlue);
-            pgbExp.Background = new SolidColorBrush(Colors.Chartreuse);
+           /* pgbExp.Foreground = new SolidColorBrush(Colors.CornflowerBlue);
+            pgbExp.Background = new SolidColorBrush(Colors.Chartreuse);*/
             #endregion
             pgbExp.Maximum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.Niveau + 1];
             pgbExp.Minimum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.Niveau];
@@ -440,6 +440,10 @@ namespace Gofus
             }
 
             i.refreshInv();
+            initialiserLstStats(persoActuel.LstStats);
+            dgStats.ItemsSource = lstStat;
+            dgDommage.ItemsSource = initialiserLstDMG(persoActuel);
+
         }
         private string convertPathToNoItem(string path)
         {
@@ -521,14 +525,28 @@ namespace Gofus
 
         }
 
-        private void imgCeintureInv_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        private void imgInv_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            ContextMenu cm = this.FindResource("cmClick") as ContextMenu;
+            ContextMenu cm = FindResource("cmClick") as ContextMenu;
             cm.PlacementTarget = sender as Button;
             cm.IsOpen = true;
         }
 
         private void btnSupprimer_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ClickDesequip(object sender, RoutedEventArgs e)
+        {
+            object item = (sender as ContextMenu).Parent;
+            /*Equipement equiper = Player.LstEntites.First(x=>x.Nom == persoActuel.Nom).LstEquipements.First(x => x.NoImg == convertPathToNoItem(item.Source.ToString()));
+            item.Source = new BitmapImage(new Uri("../ resources / vide.png",UriKind.Relative));*/
+
+        }
+
+
+        private void ClickVendre(object sender, RoutedEventArgs e)
         {
 
         }

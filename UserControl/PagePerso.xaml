@@ -8,8 +8,8 @@
              d:DesignHeight="520" d:DesignWidth="557">
     <UserControl.Resources>
         <ContextMenu x:Key="cmClick">
-            <MenuItem Header="Désequiper"/>
-            <MenuItem Header="Vendre" />
+            <MenuItem Header="Désequiper" Click="ClickDesequip"/>
+            <MenuItem Header="Vendre" Click="ClickVendre"/>
         </ContextMenu>
     </UserControl.Resources>
 
@@ -26,59 +26,59 @@
         <Image x:Name="Imgfond"  Source="../resources/fondEquipement.jpg"  Height="260" Width="283" Grid.RowSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="16.573,43,12,0"  Grid.Column="1" />
         <Grid x:Name="grdEquip"  Grid.Column="1" Margin="16.573,43,12,1.435">
             <Grid.RowDefinitions>
-                <RowDefinition Height="17*"/>
-                <RowDefinition Height="14*"/>
-                <RowDefinition Height="43*"/>
-                <RowDefinition Height="12*"/>
+                <RowDefinition Height="16*"/>
+                <RowDefinition Height="15*"/>
+                <RowDefinition Height="45*"/>
+                <RowDefinition Height="10*"/>
                 <RowDefinition Height="4*"/>
                 <RowDefinition Height="38*"/>
                 <RowDefinition Height="6*"/>
-                <RowDefinition Height="11*"/>
-                <RowDefinition Height="31*"/>
-                <RowDefinition Height="58*"/>
-                <RowDefinition Height="15*"/>
+                <RowDefinition Height="12*"/>
+                <RowDefinition Height="28*"/>
+                <RowDefinition Height="60*"/>
+                <RowDefinition Height="16*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="7*"/>
-                <ColumnDefinition Width="6*"/>
-                <ColumnDefinition Width="41*"/>
-                <ColumnDefinition Width="11*"/>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="46*"/>
+                <ColumnDefinition Width="9*"/>
                 <ColumnDefinition Width="31*"/>
                 <ColumnDefinition Width="8*"/>
-                <ColumnDefinition Width="42*"/>
-                <ColumnDefinition Width="9*"/>
-                <ColumnDefinition Width="38*"/>
-                <ColumnDefinition Width="9*"/>
+                <ColumnDefinition Width="44*"/>
+                <ColumnDefinition Width="7*"/>
+                <ColumnDefinition Width="39*"/>
+                <ColumnDefinition Width="8*"/>
                 <ColumnDefinition Width="43*"/>
-                <ColumnDefinition Width="4.77"/>
-                <ColumnDefinition Width="29*"/>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="26*"/>
             </Grid.ColumnDefinitions>
             <Border Name="borderCape" BorderThickness="3" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan ="2">
-                <Image Name="imgCapeInv" Source="../resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" />
+                <Image Name="imgCapeInv" Source="../resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" PreviewMouseRightButtonDown="imgInv_PreviewMouseRightButtonDown" />
             </Border>
             <Border Name="borderAmu" BorderThickness="3" Grid.Column="6" Grid.Row="2" >
-                <Image Name="imgAmuletteInv" Source="../resources/vide.png"  Drop="imgInv_Drop" PreviewMouseDown="imgInv_MouseDown"  />
+                <Image Name="imgAmuletteInv" Source="../resources/vide.png"  Drop="imgInv_Drop" PreviewMouseDown="imgInv_MouseDown" PreviewMouseRightButtonDown="imgInv_PreviewMouseRightButtonDown" />
             </Border>
             <Border Name="borderCoiffe" BorderThickness="3" Grid.Column="9" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2">
-                <Image Name="imgChapeauInv"  Source="../resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" />
+                <Image Name="imgChapeauInv"  Source="../resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" PreviewMouseRightButtonDown="imgInv_PreviewMouseRightButtonDown" />
             </Border>
             <Border Name="borderAno1" BorderThickness="3" Grid.Column="2" Grid.Row="5"  Grid.RowSpan="2">
-                <Image Name="imgAnneau1Inv" Source="../resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" />
+                <Image Name="imgAnneau1Inv" Source="../resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" PreviewMouseRightButtonDown="imgInv_PreviewMouseRightButtonDown"/>
             </Border>
-            <Border Name="borderAno2" BorderThickness="3" Grid.Column="10" Grid.Row="4" Grid.ColumnSpan="2" Margin="0.134,3.966,4.607,0.053" Grid.RowSpan="3">
-                <Image Name="imgAnneau2Inv" Source="../resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" />
+            <Border Name="borderAno2" BorderThickness="3" Grid.Column="10" Grid.Row="5" Grid.RowSpan="2">
+                <Image Name="imgAnneau2Inv" Source="../resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" PreviewMouseRightButtonDown="imgInv_PreviewMouseRightButtonDown"/>
             </Border>
             <Border Name="borderCeinture" BorderThickness="3" Grid.Column="5" Grid.Row="4" Grid.ColumnSpan="3" Grid.RowSpan ="4" >
-                <Image Name="imgCeintureInv" Source="../resources/vide.png"  Drop="imgInv_Drop" PreviewMouseRightButtonDown="imgCeintureInv_PreviewMouseRightButtonDown" MouseDown="imgInv_MouseDown" />
+                <Image Name="imgCeintureInv" Source="../resources/vide.png"  Drop="imgInv_Drop" PreviewMouseRightButtonDown="imgInv_PreviewMouseRightButtonDown" MouseDown="imgInv_MouseDown" />
             </Border>
             <Border Name="borderBotte" BorderThickness="3" Grid.Column="5" Grid.Row="9" Grid.ColumnSpan="3">
-                <Image Name="imgBotteInv" Source="../resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" Margin="0,0,0,-3" />
+                <Image Name="imgBotteInv" Source="../resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" PreviewMouseRightButtonDown="imgInv_PreviewMouseRightButtonDown"/>
             </Border>
             <Border Name="borderCac" BorderThickness="3" Grid.Column="9" Grid.Row="9" Grid.ColumnSpan="3">
-                <Image Name="imgArmeInv"  Source="../resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown"/>
+                <Image Name="imgArmeInv"  Source="../resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" PreviewMouseRightButtonDown="imgInv_PreviewMouseRightButtonDown"/>
             </Border>
 
-            <Button x:Name="btnInventaire" Content="Inventaire" PreviewMouseLeftButtonDown="btnInventaire_MouseDown" VerticalAlignment="Center" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="9"/>
+            <Button x:Name="btnInventaire" Content="Inventaire" PreviewMouseLeftButtonDown="btnInventaire_MouseDown" VerticalAlignment="Center" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="9" Height="20" Margin="0,20"/>
         </Grid>
         <Label Grid.Column="1" HorizontalAlignment="Left" FontSize="25" VerticalAlignment="Top" Margin="68.161,0,0,0" Content="Équipement" Width="178"/>
         <Rectangle x:Name="rect" Height="75" Width="75" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Margin="10,36,0,0" Fill="#FFF0E9E9"   />

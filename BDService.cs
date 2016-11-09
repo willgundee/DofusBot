@@ -18,10 +18,10 @@ namespace Gofus
         private MySqlConnection BDSelect;
         private MySqlConnection BDInsert;
 
-        private string serveur = "420.cstj.qc.ca";
+       /* private string serveur = "420.cstj.qc.ca";
         private string baseDonnee = "420.5a5.a16_gofusprog";
         private string utilisateur = "gofusprog";
-        private string motPasse = "GP994433";
+        private string motPasse = "GP994433";*/
 
         private MySqlConnection connexion;
         public BDService()
