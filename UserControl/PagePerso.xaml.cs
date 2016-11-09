@@ -542,6 +542,20 @@ namespace Gofus
 
             }
         }
+
+     /*   public void DesEquipes(Equipement equiper, string emplacement)
+        {
+            Player.LstEntites.First(x => x.Nom == persoActuel.Nom).enleverItem(equiper);
+            Player.Inventaire.First(x => x.Nom == equiper.Nom).QuantiteEquipe--;
+            bd.Update("UPDATE JoueursEquipements SET quantiteEquipe= " + Player.Inventaire.First(x => x.Nom == equiper.Nom).QuantiteEquipe.ToString() + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + equiper.Nom + "');COMMIT;");
+            bd.delete("DELETE FROM EquipementsEntites WHERE idEntite = (SELECT idEntite FROM Entites WHERE nom ='" + persoActuel.Nom + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + equiper.Nom + "') AND emplacement ='" + emplacement + "'");
+
+                if ((Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(Inventaire)) as Inventaire) != null)
+                    (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Inventaire)) as Inventaire).refreshInv();
+            initialiserLstStats(persoActuel.LstStats);
+            dgStats.ItemsSource = lstStat;
+            dgDommage.ItemsSource = initialiserLstDMG(persoActuel);
+        }*/
         private string TrouveEmplacement(Image img)
         {
             string emplacement = "";
@@ -609,7 +623,14 @@ namespace Gofus
         }
         private void btnSupprimer_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.MessageBox.Show("Voules-vous vraiment supprimer ce personages! ", "Avertisement");
+            MessageBoxResult m = System.Windows.MessageBox.Show("Voules-vous vraiment supprimer ce personages! ", "Avertisement", MessageBoxButton.YesNo, MessageBoxImage.Information);// affichage d'un message box te demandant situ veut acheter ceci
+            if (m == MessageBoxResult.Yes)
+            {
+                // bd.delete("DELETE FROM StatistiquesEntites WHERE idEntite=( SELECT idEntite FROM Entites WHERE nom='" + persoActuel.Nom + "')");
+                // bd.delete("DELETE FROM Entites WHERE nom='" + persoActuel.Nom + "'");
+            }
+
+            return;
         }
     }
 }
