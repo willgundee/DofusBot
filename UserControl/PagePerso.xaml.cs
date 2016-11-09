@@ -609,7 +609,7 @@ namespace Gofus
         }
         private void btnSupprimer_Click(object sender, RoutedEventArgs e)
         {
-
+            System.Windows.Forms.MessageBox.Show("Voules-vous vraiment supprimer ce personages! ", "Avertisement");
         }
     }
 }
