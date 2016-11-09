@@ -33,13 +33,24 @@ namespace Gofus
             /* pgbExp.Foreground = new SolidColorBrush(Colors.CornflowerBlue);
              pgbExp.Background = new SolidColorBrush(Colors.Chartreuse);*/
             #endregion
-            pgbExp.Maximum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.Niveau + 1];
-            pgbExp.Minimum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.Niveau];
+            if (ent.Niveau < 200)
+            {
+                pgbExp.Maximum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.Niveau + 1];
+                pgbExp.Minimum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.Niveau];
+
+                pgbExp.ToolTip = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur.ToString() + " sur " + ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.LstStats.First(x => x.Nom == Statistique.element.experience).toLevel() + 1].ToString() + " exp";
+            }
+            else
+            {
+                pgbExp.Maximum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur;
+                pgbExp.Minimum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur;
+                pgbExp.ToolTip = "Over 9000!";
+            }
+
             pgbExp.Value = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur;
 
             //lblPourcentExp.Content = Math.Round(pgbExp.Value / (pgbExp.Maximum-pgbExp.Minimum)) + " %";
 
-            pgbExp.ToolTip = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur.ToString() + " sur " + ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.LstStats.First(x => x.Nom == Statistique.element.experience).toLevel() + 1].ToString() + " exp";
             int nbScript = Player.LstScripts.Count;
             for (int i = 0; i < nbScript; i++)
                 cbScript.Items.Add(Player.LstScripts[i].Nom);
@@ -386,34 +397,7 @@ namespace Gofus
 
             if (Player.LstEntites.First(x => x.Nom == persoActuel.Nom).peutEquiper(itemVoulantEtreEquiper))
             {
-                switch (cible.Name)
-                { //emplacement possible : tete, cou, pied, ano1, ano2, arme, hanche, dos.
-
-                    case "imgCapeInv":
-                        emplacement = "dos";
-                        break;
-                    case "imgChapeauInv":
-                        emplacement = "tête";
-                        break;
-                    case "imgBotteInv":
-                        emplacement = "pied";
-                        break;
-                    case "imgCeintureInv":
-                        emplacement = "hanche";
-                        break;
-                    case "imgAnneau1Inv":
-                        emplacement = "ano1";
-                        break;
-                    case "imgAnneau2Inv":
-                        emplacement = "ano2";
-                        break;
-                    case "imgAmuletteInv":
-                        emplacement = "cou";
-                        break;
-                    case "imgArmeInv":
-                        emplacement = "arme";
-                        break;
-                }
+                emplacement = TrouveEmplacement(cible);
 
                 cible.Source = data.imgItem.Source;
 
@@ -536,22 +520,94 @@ namespace Gofus
             cm.IsOpen = true;
         }
 
-        private void btnSupprimer_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         private void ClickDesequip(object sender, RoutedEventArgs e)
         {
             Image item = ((sender as MenuItem).Parent as ContextMenu).DataContext as Image;
+            if (convertPathToNoItem(item.Source.ToString()) != "vide")
+            {
+                string emplacement = TrouveEmplacement(item);
+                Equipement equiper = Player.LstEntites.First(x => x.Nom == persoActuel.Nom).LstEquipements.First(x => x.NoImg == convertPathToNoItem(item.Source.ToString()));
+                item.Source = new BitmapImage(new Uri("../resources/vide.png", UriKind.Relative));
+                Player.LstEntites.First(x => x.Nom == persoActuel.Nom).enleverItem(equiper);
+                Player.Inventaire.First(x => x.Nom == equiper.Nom).QuantiteEquipe--;
+                bd.Update("UPDATE JoueursEquipements SET quantiteEquipe= " + Player.Inventaire.First(x => x.Nom == equiper.Nom).QuantiteEquipe.ToString() + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + equiper.Nom + "');COMMIT;");
+                bd.delete("DELETE FROM EquipementsEntites WHERE idEntite = (SELECT idEntite FROM Entites WHERE nom ='" + persoActuel.Nom + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + equiper.Nom + "') AND emplacement ='" + emplacement + "'");
 
-            Equipement equiper = Player.LstEntites.First(x => x.Nom == persoActuel.Nom).LstEquipements.First(x => x.NoImg == convertPathToNoItem(item.Source.ToString()));
-            item.Source = new BitmapImage(new Uri("../ resources / vide.png", UriKind.Relative));
-            Player.LstEntites.First(x => x.Nom == persoActuel.Nom).enleverItem(equiper);
+                if ((Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(Inventaire)) as Inventaire) != null)
+                    (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Inventaire)) as Inventaire).refreshInv();
+                initialiserLstStats(persoActuel.LstStats);
+                dgStats.ItemsSource = lstStat;
+                dgDommage.ItemsSource = initialiserLstDMG(persoActuel);
+
+            }
+        }
+        private string TrouveEmplacement(Image img)
+        {
+            string emplacement = "";
+            switch (img.Name)
+            {
+                case "imgCapeInv":
+                    emplacement = "dos";
+                    break;
+                case "imgChapeauInv":
+                    emplacement = "tête";
+                    break;
+                case "imgBotteInv":
+                    emplacement = "pied";
+                    break;
+                case "imgCeintureInv":
+                    emplacement = "hanche";
+                    break;
+                case "imgAnneau1Inv":
+                    emplacement = "ano1";
+                    break;
+                case "imgAnneau2Inv":
+                    emplacement = "ano2";
+                    break;
+                case "imgAmuletteInv":
+                    emplacement = "cou";
+                    break;
+                case "imgArmeInv":
+                    emplacement = "arme";
+                    break;
+            }
+            return emplacement;
         }
 
 
         private void ClickVendre(object sender, RoutedEventArgs e)
+        {
+            Image item = ((sender as MenuItem).Parent as ContextMenu).DataContext as Image;
+            if (convertPathToNoItem(item.Source.ToString()) != "vide")
+            {
+                Equipement equiper = Player.LstEntites.First(x => x.Nom == persoActuel.Nom).LstEquipements.First(x => x.NoImg == convertPathToNoItem(item.Source.ToString()));
+                string emplacement = TrouveEmplacement(item);
+                item.Source = new BitmapImage(new Uri("../resources/vide.png", UriKind.Relative));
+                Player.LstEntites.First(x => x.Nom == persoActuel.Nom).enleverItem(equiper);
+                Player.Inventaire.First(x => x.Nom == equiper.Nom).QuantiteEquipe--;
+                Player.Inventaire.First(x => x.Nom == equiper.Nom).Quantite--;
+                if (Player.Inventaire.First(x => x.Nom == equiper.Nom).Quantite == 0)
+                    bd.delete("DELETE FROM JoueursEquipements WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "')AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + equiper.Nom + "')");
+                else
+                    bd.Update("UPDATE JoueursEquipements SET quantiteEquipe= " + Player.Inventaire.First(x => x.Nom == equiper.Nom).QuantiteEquipe.ToString() + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + equiper.Nom + "');COMMIT;");
+
+                bd.delete("DELETE FROM EquipementsEntites WHERE idEntite = (SELECT idEntite FROM Entites WHERE nom ='" + persoActuel.Nom + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + equiper.Nom + "') AND emplacement ='" + emplacement + "'");
+                float k = equiper.Prix * (float)0.8;
+                Player.Kamas += (int)k;
+
+                bd.Update("UPDATE  Joueurs SET  argent =  " + Player.Kamas.ToString() + " WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "';COMMIT;");
+
+                if ((Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(Inventaire)) as Inventaire) != null)
+                    (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Inventaire)) as Inventaire).refreshInv();
+                initialiserLstStats(persoActuel.LstStats);
+                dgStats.ItemsSource = lstStat;
+                dgDommage.ItemsSource = initialiserLstDMG(persoActuel);
+
+            }
+
+        }
+        private void btnSupprimer_Click(object sender, RoutedEventArgs e)
         {
 
         }

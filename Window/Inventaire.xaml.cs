@@ -212,6 +212,7 @@ namespace Gofus
                     {
                         ImageItem i = new ImageItem(item, false, item.Quantite - item.QuantiteEquipe);
                         i.PreviewMouseDoubleClick += image_desc;
+                        i.imgItem.PreviewMouseRightButtonDown += imgInv_PreviewMouseRightButtonDown;
                         LstInventaire.Add(i);
                     }
                     else
@@ -220,7 +221,7 @@ namespace Gofus
                         {
                             ImageItem i = new ImageItem(item, false, item.Quantite - item.QuantiteEquipe);
                             i.PreviewMouseDoubleClick += image_desc;
-
+                            i.imgItem.PreviewMouseRightButtonDown += imgInv_PreviewMouseRightButtonDown;
                             LstInventaire.Add(i);
                         }
                     }
@@ -308,6 +309,29 @@ namespace Gofus
 
         }
 
+        private void imgInv_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ContextMenu cm = FindResource("cmClick") as ContextMenu;
+            cm.PlacementTarget = sender as Button;
+            cm.DataContext = sender as Image;
+            cm.IsOpen = true;
+        }
 
+        private void ClickVendre(object sender, RoutedEventArgs e)
+        {
+            Image item = ((sender as MenuItem).Parent as ContextMenu).DataContext as Image;
+            Equipement equiper = Player.Inventaire.First(x => x.NoImg == convertPathToNoItem(item.Source.ToString()));
+            Player.Inventaire.First(x => x.Nom == equiper.Nom).Quantite--;
+            if (Player.Inventaire.First(x => x.Nom == equiper.Nom).Quantite == 0)
+                bd.delete("DELETE FROM JoueursEquipements WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "')AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + equiper.Nom + "')");
+            else
+                bd.Update("UPDATE JoueursEquipements SET quantiteEquipe= " + Player.Inventaire.First(x => x.Nom == equiper.Nom).QuantiteEquipe.ToString() + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + equiper.Nom + "');COMMIT;");
+
+            float k = equiper.Prix * (float)0.8;
+            Player.Kamas += (int)k;
+
+            bd.Update("UPDATE  Joueurs SET  argent =  " + Player.Kamas.ToString() + " WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "';COMMIT;");
+            refreshInv();
+        }
     }
 }
