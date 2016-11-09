@@ -8,7 +8,7 @@
              d:DesignHeight="520" d:DesignWidth="557">
     <UserControl.Resources>
         <ContextMenu x:Key="cmClick">
-            <MenuItem Header="Désequiper" Click="ClickDesequip"/>
+            <MenuItem Header="Déséquiper" Click="ClickDesequip"/>
             <MenuItem Header="Vendre" Click="ClickVendre"/>
         </ContextMenu>
     </UserControl.Resources>

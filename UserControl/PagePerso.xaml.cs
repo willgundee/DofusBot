@@ -30,8 +30,8 @@ namespace Gofus
             lblLevelEntite.Content = "Niv. " + ent.Niveau;
 
             #region .
-           /* pgbExp.Foreground = new SolidColorBrush(Colors.CornflowerBlue);
-            pgbExp.Background = new SolidColorBrush(Colors.Chartreuse);*/
+            /* pgbExp.Foreground = new SolidColorBrush(Colors.CornflowerBlue);
+             pgbExp.Background = new SolidColorBrush(Colors.Chartreuse);*/
             #endregion
             pgbExp.Maximum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.Niveau + 1];
             pgbExp.Minimum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.Niveau];
@@ -82,7 +82,7 @@ namespace Gofus
             initialiserLstStats(ent.LstStats);
             dgStats.ItemsSource = lstStat;
             dgDommage.ItemsSource = initialiserLstDMG(ent);
-         
+
 
 
         }
@@ -312,11 +312,14 @@ namespace Gofus
 
         private void imgInv_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            string i = convertPathToNoItem((sender as Image).Source.ToString());
-            if (i != "vide")
+            if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
             {
-                itmCtrlDesc.Items.Clear();
-                itmCtrlDesc.Items.Add(new DescItem(Player.Inventaire.First(x => x.NoImg == i)));
+                string i = convertPathToNoItem((sender as Image).Source.ToString());
+                if (i != "vide")
+                {
+                    itmCtrlDesc.Items.Clear();
+                    itmCtrlDesc.Items.Add(new DescItem(Player.Inventaire.First(x => x.NoImg == i)));
+                }
             }
         }
         private void AfficherElementEquipe(Equipement eq, string emp)
@@ -353,7 +356,7 @@ namespace Gofus
 
         private void imgInv_Drop(object sender, System.Windows.DragEventArgs e)
         {
-          
+
             Image cible = (Image)sender;
             ImageItem data = e.Data.GetData("image") as ImageItem;
             Equipement itemDejaEquipe = null;
@@ -529,6 +532,7 @@ namespace Gofus
         {
             ContextMenu cm = FindResource("cmClick") as ContextMenu;
             cm.PlacementTarget = sender as Button;
+            cm.DataContext = sender as Image;
             cm.IsOpen = true;
         }
 
@@ -539,10 +543,11 @@ namespace Gofus
 
         private void ClickDesequip(object sender, RoutedEventArgs e)
         {
-            object item = (sender as ContextMenu).Parent;
-            /*Equipement equiper = Player.LstEntites.First(x=>x.Nom == persoActuel.Nom).LstEquipements.First(x => x.NoImg == convertPathToNoItem(item.Source.ToString()));
-            item.Source = new BitmapImage(new Uri("../ resources / vide.png",UriKind.Relative));*/
+            Image item = ((sender as MenuItem).Parent as ContextMenu).DataContext as Image;
 
+            Equipement equiper = Player.LstEntites.First(x => x.Nom == persoActuel.Nom).LstEquipements.First(x => x.NoImg == convertPathToNoItem(item.Source.ToString()));
+            item.Source = new BitmapImage(new Uri("../ resources / vide.png", UriKind.Relative));
+            Player.LstEntites.First(x => x.Nom == persoActuel.Nom).enleverItem(equiper);
         }
 
 
