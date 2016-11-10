@@ -53,7 +53,7 @@ namespace Gofus
 
         private void SelectRaports()
         {
-            string sel = "SELECT contenu,temps,titre, FROM Rapport ORDER BY temps DESC";
+          /*  string sel = "SELECT contenu,temps,titre, FROM Rapport ORDER BY temps DESC";
 
             
 
@@ -62,7 +62,7 @@ namespace Gofus
             foreach(List<string> l  in result)
             {
                 lstRapport.Add(new Rapport(l[0], l[1], l[2]));
-            }
+            }*/
         }
 
     }
