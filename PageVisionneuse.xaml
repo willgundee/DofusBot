@@ -5,11 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gofus"
         mc:Ignorable="d"
-        Title="PageVisionneuse" Height="560" Width="577
+        Title="PageVisionneuse" Height="630" Width="577
         ">
-    <Grid Background="Gray">
-        <ItemsControl Name="item">
-            
-        </ItemsControl>
+    <Grid Background="Gray" >
+        <Image x:Name="imgLogo" Source="resources/Gofus.png" VerticalAlignment="Top" HorizontalAlignment="Center" Height="175" Margin="197,-19,197,0"   />
+        <ItemsControl Name="item" Width="577" Margin="-8,121,0,0" />
     </Grid>
 </Window>
