@@ -10,7 +10,7 @@ using System.Windows.Threading;
 namespace Gofus
 {
     /// <summary>
-    /// Logique d'interaction pour Clavardage.xaml
+    /// Fonctions de la page clavardage.
     /// </summary>
 
 
@@ -18,9 +18,16 @@ namespace Gofus
     public partial class pageClavardage : UserControl
     {
 
+        // Classe Chat
         public Chat chat;
+
+        // Timer async
         DispatcherTimer aTimer;
+
+        // Fenêtre de chat modless
         public ChatWindow fenetreChat;
+
+
         public Thread trdEnvoie { get; private set; }
         public pageClavardage(string NomUtilisateur)
         {
@@ -57,9 +64,8 @@ namespace Gofus
                 ObservableCollection<string> messages = new ObservableCollection<string>();
                 Thread trdRefresh = new Thread(() =>
                 {
-
                     messages = chat.refreshChat();
-                    System.Windows.Application.Current.Dispatcher.Invoke(new System.Action(() =>
+                    Application.Current.Dispatcher.Invoke(new Action(() =>
                     {
                         txtboxHistorique.Text = "";
                         foreach (string m in messages)
@@ -102,8 +108,6 @@ namespace Gofus
 
         private void txtMessage_TextChange(object sender, TextChangedEventArgs e)
         {
-
-
             if (txtMessage.Text.ToString() == "")
             {
 
@@ -125,7 +129,6 @@ namespace Gofus
             txtMessage.IsEnabled = true;
             btnRejoindreSalle.IsEnabled = false;
             btnQuitterSalle.IsEnabled = true;
-
         }
 
         private void btnQuitterSalle_Click(object sender, RoutedEventArgs e)
