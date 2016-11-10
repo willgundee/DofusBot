@@ -100,6 +100,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Classes\Rapport.cs" />
     <Compile Include="PageVisionneuse.xaml.cs">
       <DependentUpon>PageVisionneuse.xaml</DependentUpon>
     </Compile>
