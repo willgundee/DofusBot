@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -15,17 +16,12 @@ namespace Gofus
     {
 
         public BDService bd = new BDService();
-        public List<Partie> lstpartie;
+        public List<Partie> lstpartie = new List<Partie>();
 
         public int idJoueur { get; set; }
         public pageArchive(int id)
         {
             InitializeComponent();
-
-            lstpartie = new List<Partie>();
-
-           
-
             idJoueur = id;
 
             dgHistorique.ItemsSource = lstpartie;
@@ -37,8 +33,10 @@ namespace Gofus
         public pageArchive()
         {
             InitializeComponent();
-            lstpartie = new List<Partie>();
-           
+            btnQuitter.Visibility = Visibility.Visible;
+            lblQuitter.Visibility = Visibility.Visible;
+            lblCreer.Visibility = Visibility.Visible;
+            btnCreer.Visibility = Visibility.Visible;
             dgHistorique.ItemsSource = lstpartie;
             cboTypePartie.Visibility = Visibility.Hidden;
             loadParties("all");
@@ -50,7 +48,6 @@ namespace Gofus
 
             string selectid = "Select  idPartie,temps,seed From Parties LIMIT 70 ";
             List<string>[] lstPartieBd = bd.selection(selectid);
-
 
 
             lstpartie.Clear();
@@ -117,6 +114,18 @@ namespace Gofus
             }
         }
 
+        private void btnQuitter_Click(object sender, RoutedEventArgs e)
+        {
+            Authentification A = new Authentification();
+            A.Show();
+            System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(PageVisionneuse)).Close();
+        }
 
+        private void btnCreer_Click(object sender, RoutedEventArgs e)
+        {
+            CreationCompteWindow creation = new CreationCompteWindow();
+            creation.Show();
+            System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(PageVisionneuse)).Close();
+        }
     }
 }
