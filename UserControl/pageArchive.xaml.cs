@@ -14,7 +14,7 @@ namespace Gofus
     public partial class pageArchive : UserControl
     {
 
-        public BDService bd;
+        public BDService bd = new BDService();
         public List<Partie> lstpartie;
 
         public int idJoueur { get; set; }
@@ -24,7 +24,7 @@ namespace Gofus
 
             lstpartie = new List<Partie>();
 
-            bd = new BDService();
+           
 
             idJoueur = id;
 
