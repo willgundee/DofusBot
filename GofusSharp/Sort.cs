@@ -31,6 +31,7 @@ namespace GofusSharp
             ZoneEffet = new Zone(sort.ZoneEffet);
             TauxDeRelance = sort.TauxDeRelance;
             CoutPA = sort.PointActionRequis;
+            nom_sort test = (nom_sort)System.Enum.Parse(typeof(nom_sort), RemoveDiacritics(sort.Nom.Replace(' ', '_').Replace('\'', '_').ToLower()));
             VraiNom = (nom_sort)System.Enum.Parse(typeof(nom_sort),RemoveDiacritics(sort.Nom.Replace(' ', '_').Replace('\'', '_').ToLower()));
         }
         internal Sort(Liste<Effet> ListEffets, string Nom, bool LigneDeVue, bool PorteeModifiable, bool CelluleLibre, Zone ZonePortee, Zone ZoneEffet, int TauxDeRelance, int CoutPA, nom_sort VraiNom)
