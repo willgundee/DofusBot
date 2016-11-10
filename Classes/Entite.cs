@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Windows;
 
 namespace Gofus
 {
@@ -102,7 +103,7 @@ namespace Gofus
 
         }
         public bool peutEquiper(Equipement equip)
-        {
+        {//TODO: revoire sa marche pas cuz YOLO.
             Statistique statItem = null;
             Statistique statActuel = null;
             Condition condItem = null;
@@ -158,7 +159,7 @@ namespace Gofus
                 {
                     case "<":
                         statActuel = LstStats.First(x => x.Nom == condItem.Stat.Nom);
-                        if (statActuel.Valeur + (statItem != null ? statItem.Valeur : 0) < condItem.Stat.Valeur)
+                        if (!(statActuel.Valeur + (statItem != null ? statItem.Valeur : 0) < condItem.Stat.Valeur))
                             possible = true;
                         else
                             requis.Append("Vous avez : " + statActuel.Valeur.ToString() + " " + statActuel.NomSimple + " et il vous faut moins de " + condItem.Stat.Valeur.ToString() + " " + condItem.Stat.NomSimple + Environment.NewLine);
@@ -197,7 +198,7 @@ namespace Gofus
                 }
             }
             if (!possible)
-                System.Windows.Forms.MessageBox.Show(requis.ToString());
+                MessageBox.Show(requis.ToString(),"Vous ne pouvez pas faire ceci!",MessageBoxButton.OK,MessageBoxImage.Warning);
             return possible;
         }
         public void ajouterEquipement(Equipement aAjouter)
