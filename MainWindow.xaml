@@ -91,7 +91,7 @@
                     <RowDefinition Height="268*"/>
                     <RowDefinition Height="21*"/>
                 </Grid.RowDefinitions>
-                <Image x:Name="imgCurrent" HorizontalAlignment="Left" Height="200" Margin="378,10,0,0" VerticalAlignment="Top" Width="200"/>
+                <Image x:Name="imgCurrent" HorizontalAlignment="Left" Height="200" Margin="378,10,0,0" VerticalAlignment="Top" Width="186"/>
                 <Label x:Name="lblMoney" Visibility="Hidden" Content="Votre Argent:" HorizontalAlignment="Left" Margin="378,215,0,0" VerticalAlignment="Top" Width="84" Height="26"/>
                 <Label x:Name="lblPrix" ContentStringFormat="C" HorizontalAlignment="Left" Margin="462,241,0,0" VerticalAlignment="Top" Width="111" Height="26"/>
                 <Label x:Name="lblKamas" ContentStringFormat="C" HorizontalAlignment="Left" Margin="462,215,0,0" VerticalAlignment="Top" Width="111" Height="26"/>
@@ -193,7 +193,7 @@
         <TabItem x:Name="TabClavardage" Header="Clavardage" Height="30">
 
             <ContentControl Name="contentClavardage"></ContentControl>
-           
+
         </TabItem>
         <TabItem Header="Archives" Height="30" Selector.Selected="PgArchive_Selected">
             <Grid Background="Gray">
@@ -207,11 +207,11 @@
 
         </TabItem>
 
-   
+
         <TabItem Name="PaneauAdmin" Header="Administration" Height="30" HorizontalAlignment="Left" Width="118" >
 
             <ContentControl Name="controlAdmin">
-                
+
             </ContentControl>
         </TabItem>
 
