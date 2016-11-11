@@ -81,7 +81,7 @@
             </Grid>
         </TabItem>
         <TabItem Header="Éditeur" Height="30" Loaded="TabEdit_Loaded" >
-            <TabControl Name="tc_Edit"/>
+            <TabControl Name="tc_Edit" SelectionChanged="tc_Edit_SelectionChanged"/>
         </TabItem>
         <TabItem Header="Marché" Height="30" >
 

@@ -396,13 +396,44 @@ namespace Gofus
                 (onglet.Content as pageScript).ctb_main.Text = script.Code;
                 tc_Edit.Items.Add(onglet);
             }
-
             tc_Edit.SelectedIndex = 0;
-            if (tc_Edit.Items.Count <= 4)
+            if (tc_Edit.Items.Count < 10)
             {
                 TabItem onglet = new TabItem();
                 onglet.Header = "+";
                 tc_Edit.Items.Add(onglet);
+            }
+        }
+
+        private void tc_Edit_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            System.Windows.Controls.TabControl tab = sender as System.Windows.Controls.TabControl;
+            TabItem ti_selected = tab.SelectedItem as TabItem;
+            if (ti_selected == null)
+                return;
+            if (ti_selected.Header.ToString() == "+")
+            {
+                object f = e.Source;
+                string nom = "script" + tc_Edit.Items.Count;
+                long id = bd.insertion("INSERT INTO Scripts (contenu, nom, uuid) VALUES ('', '" + nom + "', uuid());");
+                if (id != 0)
+                {
+                    if (bd.insertion("INSERT INTO JoueursScripts (idJoueur, idScript) VALUES ((SELECT idJoueur FROM Joueurs WHERE nomUtilisateur ='" + Player.NomUtilisateur + "'), " + id + ");") != 0)
+                    {
+                        TabItem onglet = ti_selected;
+                        string uuid = bd.selection("SELECT uuid FROM Scripts WHERE idScript = " + id + ";").First().First();
+                        Player.LstScripts.Add(new Script(new List<string>() { "", nom, uuid }));
+                        onglet.Header = nom;
+                        onglet.Content = new pageScript(uuid);
+                        if (tc_Edit.Items.Count < 10)
+                        {
+                            TabItem ongletPlus = new TabItem();
+                            ongletPlus.Header = "+";
+                            tc_Edit.Items.Add(ongletPlus);
+                        }
+                    }
+                }
+
             }
         }
     }

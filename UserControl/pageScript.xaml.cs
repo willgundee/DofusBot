@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using Microsoft.CSharp;
 using System.CodeDom.Compiler;
 using GofusSharp;
+using System.Windows.Controls;
 
 namespace Gofus
 {
@@ -1412,14 +1413,33 @@ namespace Gofus
             System.Windows.Forms.MessageBox.Show("Aucune érreur de compilation");
         }
         #endregion
-
-        /* bd.selection("SELECT * FROM JoueursScripts js INNER JOIN Scripts s ON s.idScript =js.idScript INNER JOIN Joueurs j ON j.idJoueur = js.idJoueur WHERE j.nomUtilisateur = '" + Player.NomUtilisateur + "'");
-         Player.LstScripts;*/
+        
         private void btn_sauvegarder_Click(object sender, RoutedEventArgs e)
         {
             if (bd.Update("UPDATE Scripts SET contenu =  '" + ctb_main.Text + "' WHERE uuid  ='" + UUID + "';COMMIT;"))
                 if (System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(MainWindow)) != null)
                     (System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow).Player.LstScripts.First(x => x.Uuid == UUID).Code = ctb_main.Text;
+        }
+
+        private void btn_supprimer_Click(object sender, RoutedEventArgs e)
+        {
+            int idScript = Convert.ToInt16(bd.selection("SELECT idScript FROM Scripts WHERE uuid = '" + UUID + "';").First().First());
+            if (bd.delete("DELETE FROM JoueursScripts WHERE idScript = " + idScript + ";"))
+            {
+                bd.delete("DELETE FROM Scripts WHERE idScript = " + idScript + ";");
+                MainWindow mW = (System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow);
+                mW.Player.LstScripts.Remove(mW.Player.LstScripts.First(x => x.Uuid == UUID));
+                object itemADelete = mW.tc_Edit.SelectedItem;
+                mW.tc_Edit.SelectedIndex = 0;
+                mW.tc_Edit.Items.Remove(itemADelete);
+            }
+        }
+
+        private void btn_renommer_Click(object sender, RoutedEventArgs e)
+        {
+            //if (bd.Update("UPDATE Scripts SET contenu =  '" + ctb_main.Text + "' WHERE uuid  ='" + UUID + "';COMMIT;"))
+            //    if (System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(MainWindow)) != null)
+            //        (System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow).Player.LstScripts.First(x => x.Uuid == UUID).Code = ctb_main.Text;
         }
     }
 }

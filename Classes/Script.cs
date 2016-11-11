@@ -13,9 +13,9 @@ namespace Gofus
         /// <param name="c">La requête</param>
         public Script(List<string> c)
         {
-            Code = c[1];
-            Nom = c[2];
-            Uuid = c[3];
+            Code = c[0];
+            Nom = c[1];
+            Uuid = c[2];
         }
     }
 }
