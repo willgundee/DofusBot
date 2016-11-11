@@ -24,7 +24,7 @@ namespace Gofus
         public Joueur Player { get; set; }
         private BDService bd = new BDService();
         private MainWindow w;
-        //TODO: REFONTE INVENTAIRE  ajout bouton onclick dans page perso qui pop l'inventaire coté ,double clic désequipe drag drop de l'inventaire à fenetre mick, unselected tab close l'inventaire si pas fait 
+        
 
         public Inventaire(Joueur Player)
         {
@@ -41,6 +41,7 @@ namespace Gofus
             cboTrieInventaire.ItemsSource = type;
             cboTrieInventaire.SelectedIndex = 0;
             lbxInventaire.ItemsSource = LstInventaire;
+            lblArgent.Content = Player.Kamas;
 
         }
         /// <summary>
@@ -332,6 +333,9 @@ namespace Gofus
 
             bd.Update("UPDATE  Joueurs SET  argent =  " + Player.Kamas.ToString() + " WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "';COMMIT;");
             refreshInv();
+            lblArgent.Content = Player.Kamas;
+            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow).lblKamas.Content = Player.Kamas;
+
         }
     }
 }

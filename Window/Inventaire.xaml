@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gofus"
         mc:Ignorable="d"
-        Title="Inventaire" Height="570" Width="350" WindowStartupLocation="Manual"  Left="790" Top="40"
+        Title="Inventaire" Height="570" Width="350" WindowStartupLocation="Manual"  Left="790" Top="40" ResizeMode="NoResize"
         >
     <Window.Resources>
-            <ContextMenu x:Key="cmClick">
-                <MenuItem Header="Vendre" Click="ClickVendre"/>
-            </ContextMenu>
+        <ContextMenu x:Key="cmClick">
+            <MenuItem Header="Vendre" Click="ClickVendre"/>
+        </ContextMenu>
 
         <Style x:Key="{x:Type ListBoxItem}" TargetType="{x:Type ListBoxItem}">
             <Setter Property="Template">
@@ -53,14 +53,16 @@
     </Window.Resources>
     <Grid >
         <Grid.RowDefinitions>
-            <RowDefinition Height="37*"/>
-            <RowDefinition Height="503*"/>
+            <RowDefinition Height="13*"/>
+            <RowDefinition Height="77*"/>
         </Grid.RowDefinitions>
-        <Label Content="Trier par :" HorizontalAlignment="Left"  Width="79" Margin="31,5,0,5"/>
+        <Label Content="Trier par :" HorizontalAlignment="Left"  Width="79" Margin="31,5,0,37"/>
+        <Label Content="Votre argent :" HorizontalAlignment="Left"  Width="96" Margin="31,41,0,5"/>
+        <Label Name="lblArgent" ContentStringFormat="C" HorizontalAlignment="Right" Margin="0,41,0,10" Width="227"/>
 
         <ListBox x:Name="lbxInventaire" Style="{StaticResource RowOverflow}" GiveFeedback="Image_GiveFeedback" ScrollViewer.HorizontalScrollBarVisibility="Disabled"  PreviewMouseLeftButtonDown="lbxInventaire_PreviewMouseLeftButtonDown" Grid.Row="1"/>
 
-        <ComboBox x:Name="cboTrieInventaire" SelectionChanged="cboTrieInventaire_SelectionChanged" HorizontalAlignment="Left" Margin="124,10,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="cboTrieInventaire" SelectionChanged="cboTrieInventaire_SelectionChanged" HorizontalAlignment="Left" Margin="124,10,0,0" VerticalAlignment="Top" Width="120" Height="22"/>
 
     </Grid>
 </Window>
