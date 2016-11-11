@@ -42,7 +42,7 @@ namespace Gofus
                 EstPersonnage = false;
             }
             else
-            CapitalLibre = Convert.ToInt32(infoEntite[5]);
+                CapitalLibre = Convert.ToInt32(infoEntite[5]);
 
 
             //addListStatsAllEquipement();
@@ -103,11 +103,11 @@ namespace Gofus
 
         }
         public bool peutEquiper(Equipement equip)
-        {//TODO: revoire sa marche pas cuz YOLO.
+        {
             Statistique statItem = null;
             Statistique statActuel = null;
             Condition condItem = null;
-            bool possible = false;
+            bool possible = true;
             StringBuilder requis = new StringBuilder();
             foreach (Condition cond in equip.LstConditions)
             {
@@ -159,46 +159,51 @@ namespace Gofus
                 {
                     case "<":
                         statActuel = LstStats.First(x => x.Nom == condItem.Stat.Nom);
-                        if (!(statActuel.Valeur + (statItem != null ? statItem.Valeur : 0) < condItem.Stat.Valeur))
-                            possible = true;
-                        else
+                        if (statActuel.Valeur + (statItem != null ? statItem.Valeur : 0) >= condItem.Stat.Valeur)
+                        {
+                            possible = false;
                             requis.Append("Vous avez : " + statActuel.Valeur.ToString() + " " + statActuel.NomSimple + " et il vous faut moins de " + condItem.Stat.Valeur.ToString() + " " + condItem.Stat.NomSimple + Environment.NewLine);
+                        }
                         break;
                     case "<=":
                         statActuel = LstStats.First(x => x.Nom == condItem.Stat.Nom);
-                        if (statActuel.Valeur + (statItem != null ? statItem.Valeur : 0) <= condItem.Stat.Valeur)
-                            possible = true;
-                        else
+                        if (statActuel.Valeur + (statItem != null ? statItem.Valeur : 0) > condItem.Stat.Valeur)
+                        {
+                            possible = false;
                             requis.Append("Vous avez : " + statActuel.Valeur.ToString() + " " + statActuel.NomSimple + " et il vous faut au plus " + condItem.Stat.Valeur.ToString() + " " + condItem.Stat.NomSimple + Environment.NewLine);
+                        }
                         break;
                     case ">":
                         statActuel = LstStats.First(x => x.Nom == condItem.Stat.Nom);
-                        if (statActuel.Valeur + (statItem != null ? statItem.Valeur : 0) > condItem.Stat.Valeur)
-                            possible = true;
-                        else
+                        if (statActuel.Valeur + (statItem != null ? statItem.Valeur : 0) <= condItem.Stat.Valeur)
+                        {
+                            possible = false;
                             requis.Append("Vous avez : " + statActuel.Valeur.ToString() + " " + statActuel.NomSimple + " et il vous faut plus de " + condItem.Stat.Valeur.ToString() + " " + condItem.Stat.NomSimple + Environment.NewLine);
+                        }
                         break;
                     case ">=":
                         statActuel = LstStats.First(x => x.Nom == condItem.Stat.Nom);
-                        if (statActuel.Valeur + (statItem != null ? statItem.Valeur : 0) >= condItem.Stat.Valeur)
-                            possible = true;
-                        else
+                        if (statActuel.Valeur + (statItem != null ? statItem.Valeur : 0) < condItem.Stat.Valeur)
+                        {
+                            possible = false;
                             if (condItem.Stat.Nom == Statistique.element.experience)
-                            requis.Append("Vous êtes niveau : " + statActuel.toLevel().ToString() + " et vous devez être au moins niveau : " + condItem.Stat.toLevel().ToString() + Environment.NewLine);
-                        else
-                            requis.Append("Vous avez : " + statActuel.Valeur.ToString() + " " + statActuel.NomSimple + " et il vous faut au moins " + condItem.Stat.Valeur.ToString() + " " + condItem.Stat.NomSimple + Environment.NewLine);
+                                requis.Append("Vous êtes niveau : " + statActuel.toLevel().ToString() + " et vous devez être au moins niveau : " + condItem.Stat.toLevel().ToString() + Environment.NewLine);
+                            else
+                                requis.Append("Vous avez : " + statActuel.Valeur.ToString() + " " + statActuel.NomSimple + " et il vous faut au moins " + condItem.Stat.Valeur.ToString() + " " + condItem.Stat.NomSimple + Environment.NewLine);
+                        }
                         break;
                     case "=":
                         statActuel = LstStats.First(x => x.Nom == condItem.Stat.Nom);
-                        if (statActuel.Valeur + (statItem != null ? statItem.Valeur : 0) == condItem.Stat.Valeur)
-                            possible = true;
-                        else
+                        if (statActuel.Valeur + (statItem != null ? statItem.Valeur : 0) != condItem.Stat.Valeur)
+                        {
+                            possible = false;
                             requis.Append("Vous avez : " + statActuel.Valeur.ToString() + " " + statActuel.NomSimple + " et il vous faut exactement " + condItem.Stat.Valeur.ToString() + " " + condItem.Stat.NomSimple + Environment.NewLine);
+                        }
                         break;
                 }
             }
             if (!possible)
-                MessageBox.Show(requis.ToString(),"Vous ne pouvez pas faire ceci!",MessageBoxButton.OK,MessageBoxImage.Warning);
+                MessageBox.Show(requis.ToString(), "Vous ne pouvez pas faire ceci!", MessageBoxButton.OK, MessageBoxImage.Warning);
             return possible;
         }
         public void ajouterEquipement(Equipement aAjouter)
