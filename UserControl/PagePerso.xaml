@@ -84,9 +84,10 @@
         <Rectangle x:Name="rect" Height="75" Width="75" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Margin="10,36,0,0" Fill="#FFF0E9E9"   />
         <Image x:Name="Imgclasse" Height="75" Width="75" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Margin="10,36,0,0"   />
         <Label x:Name="lblClasse" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,0,0" Content="Classe : "/>
+        <Label x:Name="lblNomJoueur" VerticalAlignment="Top" FontSize="16" HorizontalAlignment="Center" Margin="178,10,249,0" Grid.ColumnSpan="2" Height="30" Width="130"/>
         <Label x:Name="lblNomClasse" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="62,10,0,0" Height="33" Width="102"/>
-        <Label x:Name="lblScript" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="41,24,0,187" FontSize="15" Height="33">Script :</Label>
-        <ComboBox x:Name="cbScript" Grid.Column="1" Grid.Row="1" Margin="101,18,60,188"  />
+        <Label x:Name="lblScript" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="40,25,0,190" FontSize="15" Height="33">Script :</Label>
+        <ComboBox x:Name="cbScript" Grid.Column="1" Grid.Row="1" Margin="100,20,60,188"  />
         <Label x:Name="lblPCap" Content="Point Capital:" Width="100" Grid.Column="0" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="13,0,0,8" />
         <Label x:Name="lblNbPointsC" Content="11" Width="70" Height="31" Grid.Row="1" HorizontalAlignment="Center" FontSize="14" VerticalAlignment="Bottom" Margin="90,0,90,5" Grid.Column="0" />
         <Label Content="Statistiques"  FontSize="16" Height="30" Width="150" Margin="10,106,90,158"  />
@@ -133,7 +134,7 @@
         </DataGrid-->
         <Label Name="lblexp" Content="Experience :"  HorizontalAlignment="Left" Height="25" Margin="100,35,0,0" VerticalAlignment="Top" />
         <ProgressBar Name="pgbExp" HorizontalAlignment="Left" Height="15" Margin="100,58,0,0" VerticalAlignment="Top" Width="100" Foreground="GreenYellow" />
-        <Button x:Name="btnSupprimer" Content="Supprimer ce personnage&#xD;&#xA;" HorizontalAlignment="Left" Margin="169,7,0,0" VerticalAlignment="Top" Width="144" Height="23" Grid.ColumnSpan="2" FontSize="10.667" FontFamily="Mongolian Baiti" Click="btnSupprimer_Click"/>
+        <Button x:Name="btnSupprimer" Content="Supprimer ce personnage&#xD;&#xA;" HorizontalAlignment="Left" Margin="16.161,280,0,0" VerticalAlignment="Top" Width="144" Height="20" FontSize="10.667" FontFamily="Mongolian Baiti" Click="btnSupprimer_Click" Grid.Column="1" Grid.RowSpan="2"/>
         <!--Label Name="lblPourcentExp" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="136,53,77,216" Height="25" Width="37" /-->
     </Grid>
 

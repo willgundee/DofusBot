@@ -72,7 +72,7 @@
         </Style>
     </Window.Resources>
 
-    <TabControl TabStripPlacement="Left" >
+    <TabControl TabStripPlacement="Left">
 
         <TabItem  Header="Personnages" Height="30" Selector.Unselected="TabItem_Unselected"  Loaded="TabPerso_Loaded"  >
             <Grid x:Name="grd_Perso" >
@@ -182,17 +182,19 @@
         <TabItem Header="Arène" Height="30" Selector.Selected="PgArene_Selected" >
             <Grid>
                 <ContentControl Name="controlArene"/>
-
+                
 
             </Grid>
 
         </TabItem>
-        <TabItem Header="Documentation" Height="30">
-            <Label HorizontalAlignment="Center" FontSize="25" Content="Documentation"/>
+        <TabItem Header="Documentation" Height="30" Loaded="TabItem_Loaded">
+            <ContentControl Name="PGDoc"/>
+
         </TabItem>
         <TabItem x:Name="TabClavardage" Header="Clavardage" Height="30">
 
             <ContentControl Name="contentClavardage"></ContentControl>
+            
 
         </TabItem>
         <TabItem Header="Archives" Height="30" Selector.Selected="PgArchive_Selected">

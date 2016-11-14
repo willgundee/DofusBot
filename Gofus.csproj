@@ -113,6 +113,9 @@
     <Compile Include="UserControl\pageArchive.xaml.cs">
       <DependentUpon>pageArchive.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControl\PageDoc.xaml.cs">
+      <DependentUpon>PageDoc.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControl\pageGestion.xaml.cs">
       <DependentUpon>pageGestion.xaml</DependentUpon>
     </Compile>
@@ -243,6 +246,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControl\pageArene.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl\PageDoc.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
