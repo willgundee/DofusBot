@@ -1,6 +1,19 @@
 ﻿using System.Windows;
 using System.Linq;
 
+//TODO
+//getAllies
+//getEnemies
+//getCellToUseWeapon
+//getCellToUseSpell
+//getWeaponAffectedEntities
+//getSpellAffectedEntities
+//getNearestEnemy
+//getNearestAlly
+//isInLineOfSight
+//moveAwayFrom
+//getTurn
+
 namespace GofusSharp
 {
     public class Entite : EntiteInconnu
