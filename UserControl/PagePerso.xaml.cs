@@ -28,7 +28,7 @@ namespace Gofus
             this.Player = Player;
             persoActuel = ent;
             lblLevelEntite.Content = "Niv. " + ent.Niveau;
-           
+            lblNomJoueur.Content = Player.NomUtilisateur;
             #region .
             /* pgbExp.Foreground = new SolidColorBrush(Colors.CornflowerBlue);
              pgbExp.Background = new SolidColorBrush(Colors.Chartreuse);*/

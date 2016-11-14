@@ -22,7 +22,7 @@
             <ColumnDefinition Width="231*"/>
             <ColumnDefinition Width="284*"/>
         </Grid.ColumnDefinitions>
-        <Label Name="lblLevelEntite" Margin="90,78,73.427,188" Content="Niv."/>
+        <Label Name="lblLevelEntite" Margin="90,90,73.839,175.533" Content="Niv."/>
         <Image x:Name="Imgfond"  Source="../resources/fondEquipement.jpg"  Height="260" Width="283" Grid.RowSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="16.573,43,12,0"  Grid.Column="1" />
         <Grid x:Name="grdEquip"  Grid.Column="1" Margin="16.573,43,12,1.435">
             <Grid.RowDefinitions>
@@ -80,12 +80,12 @@
 
             <Button x:Name="btnInventaire" Content="Inventaire" PreviewMouseLeftButtonDown="btnInventaire_MouseDown" VerticalAlignment="Center" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="9" Height="20" Margin="0,20"/>
         </Grid>
-        <Label Grid.Column="1" HorizontalAlignment="Left" FontSize="25" VerticalAlignment="Top" Margin="68.161,0,0,0" Content="Équipement" Width="178"/>
+        <Label Grid.Column="1" HorizontalAlignment="Right" FontSize="25" VerticalAlignment="Top" Margin="0,0,61,0" Content="Équipement" Width="178"/>
         <Rectangle x:Name="rect" Height="75" Width="75" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Margin="10,36,0,0" Fill="#FFF0E9E9"   />
         <Image x:Name="Imgclasse" Height="75" Width="75" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Margin="10,36,0,0"   />
-        <Label x:Name="lblClasse" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,0,0" Content="Classe : "/>
-        <Label x:Name="lblNomJoueur" VerticalAlignment="Top" FontSize="16" HorizontalAlignment="Center" Margin="178,10,249,0" Grid.ColumnSpan="2" Height="30" Width="130"/>
-        <Label x:Name="lblNomClasse" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="62,10,0,0" Height="33" Width="102"/>
+        <Label x:Name="lblClasse" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="94,34,0,0" Content="Classe : "/>
+        <Label x:Name="lblNomJoueur" VerticalAlignment="Top" FontSize="25" HorizontalAlignment="Left" Margin="10,-4,0,0" Height="47" Width="167"/>
+        <Label x:Name="lblNomClasse" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="144,34,0,0" Height="26" Width="102"/>
         <Label x:Name="lblScript" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="40,25,0,190" FontSize="15" Height="33">Script :</Label>
         <ComboBox x:Name="cbScript" Grid.Column="1" Grid.Row="1" Margin="100,20,60,188"  />
         <Label x:Name="lblPCap" Content="Point Capital:" Width="100" Grid.Column="0" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="13,0,0,8" />
@@ -132,8 +132,8 @@
             </DataGrid.Columns>
 
         </DataGrid-->
-        <Label Name="lblexp" Content="Experience :"  HorizontalAlignment="Left" Height="25" Margin="100,35,0,0" VerticalAlignment="Top" />
-        <ProgressBar Name="pgbExp" HorizontalAlignment="Left" Height="15" Margin="100,58,0,0" VerticalAlignment="Top" Width="100" Foreground="GreenYellow" />
+        <Label Name="lblexp" Content="Experience :"  HorizontalAlignment="Left" Height="25" Margin="94,51,0,0" VerticalAlignment="Top" />
+        <ProgressBar Name="pgbExp" HorizontalAlignment="Left" Height="15" Margin="94,76,0,0" VerticalAlignment="Top" Width="100" Foreground="GreenYellow" />
         <Button x:Name="btnSupprimer" Content="Supprimer ce personnage&#xD;&#xA;" HorizontalAlignment="Left" Margin="16.161,280,0,0" VerticalAlignment="Top" Width="144" Height="20" FontSize="10.667" FontFamily="Mongolian Baiti" Click="btnSupprimer_Click" Grid.Column="1" Grid.RowSpan="2"/>
         <!--Label Name="lblPourcentExp" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="136,53,77,216" Height="25" Width="37" /-->
     </Grid>
