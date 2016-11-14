@@ -152,6 +152,61 @@ namespace GofusSharp
             return false;
         }
 
+        public bool PeutUtiliserSort(Sort sort, EntiteInconnu cible)
+        {
+            if (PA < sort.CoutPA)
+                return false;
+            if (CaseEstDansZone(sort.ZonePortee.Type, sort.ZonePortee.PorteeMin, sort.ZonePortee.PorteeMax, Position, cible.Position))
+                return true;
+            return false;
+        }
+
+
+        public bool PeutUtiliserSort(Sort sort, Case cible)
+        {
+            if (PA < sort.CoutPA)
+                return false;
+            if (CaseEstDansZone(sort.ZonePortee.Type, sort.ZonePortee.PorteeMin, sort.ZonePortee.PorteeMax, Position, cible))
+                return true;
+            return false;
+        }
+
+        public bool PeutUtiliserSort(Sort.nom_sort vraiNom, EntiteInconnu cible)
+        {
+            Sort sort = null;
+            try
+            {
+                sort = ClasseEntite.ListSorts.First(x => x.VraiNom == vraiNom);
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+            if (PA < sort.CoutPA)
+                return false;
+            if (CaseEstDansZone(sort.ZonePortee.Type, sort.ZonePortee.PorteeMin, sort.ZonePortee.PorteeMax, Position, cible.Position))
+                return true;
+            return false;
+        }
+
+        public bool PeutUtiliserSort(Sort.nom_sort vraiNom, Case cible)
+        {
+            Sort sort = null;
+            try
+            {
+                sort = ClasseEntite.ListSorts.First(x => x.VraiNom == vraiNom);
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+            if (PA < sort.CoutPA)
+                return false;
+            if (CaseEstDansZone(sort.ZonePortee.Type, sort.ZonePortee.PorteeMin, sort.ZonePortee.PorteeMax, Position, cible))
+                return true;
+            return false;
+        }
+
         internal int InfligerEffet(Effet effet, Zone zoneEffet, Case source)
         {
             switch (effet.Nom)

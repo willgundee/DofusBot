@@ -101,5 +101,40 @@ namespace GofusSharp
             (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + cible.X + " Y: " + cible.Y + " est hors de portée de l'arme " + arme.Nom;
             return false;
         }
+
+        public bool PeutAttaquer(EntiteInconnu cible)
+        {
+            Arme arme = new Arme(null, "poing", Equipement.type.arme, new Liste<Effet> { new Effet(Effet.type.ATT_neutre, 3, 5) }, new Zone(Zone.type.croix, 1, 1), new Zone(Zone.type.carre, 0, 0), Arme.typeArme.dague, 3);
+            foreach (Equipement invent in ListEquipements)
+            {
+                if (invent is Arme)
+                {
+                    arme = invent as Arme;
+                    break;
+                }
+            }
+            if (PA < arme.CoutPA)
+                return false;
+            if (CaseEstDansZone(arme.ZonePortee.Type, arme.ZonePortee.PorteeMin, arme.ZonePortee.PorteeMax, Position, cible.Position))
+                return true;
+            return false;
+        }
+        public bool PeutAttaquer(Case cible)
+        {
+            Arme arme = new Arme(null, "poing", Equipement.type.arme, new Liste<Effet> { new Effet(Effet.type.ATT_neutre, 3, 5) }, new Zone(Zone.type.croix, 1, 1), new Zone(Zone.type.carre, 0, 0), Arme.typeArme.dague, 3);
+            foreach (Equipement invent in ListEquipements)
+            {
+                if (invent is Arme)
+                {
+                    arme = invent as Arme;
+                    break;
+                }
+            }
+            if (PA < arme.CoutPA)
+                return false;
+            if (CaseEstDansZone(arme.ZonePortee.Type, arme.ZonePortee.PorteeMin, arme.ZonePortee.PorteeMax, Position, cible))
+                return true;
+            return false;
+        }
     }
 }
