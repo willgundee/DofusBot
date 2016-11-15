@@ -73,16 +73,12 @@ namespace GofusSharp
             return ListEntites.FindAll(x => x.Equipe == Equipe) as Liste<EntiteInconnu>;
         }
 
-        public EntiteInconnu EnemiLePlusProche(Liste<EntiteInconnu> ListEntites = null)
+        public EntiteInconnu EnemiLePlusProche(Liste<EntiteInconnu> ListEntites)
         {
-            if (ListEntites == null)
-                ListEntites = this.ListEntites;
             return (ListEntites.FindAll(x => x.Equipe != Equipe) as Liste<EntiteInconnu>).First(x => Math.Abs(x.Position.X - Position.X) + Math.Abs(x.Position.Y - Position.Y) == ListEntites.Min(y => Math.Abs(y.Position.X - Position.X) + Math.Abs(y.Position.Y - Position.Y)));
         }
-        public EntiteInconnu AllieLePlusProche(Liste<EntiteInconnu> ListEntites = null)
+        public EntiteInconnu AllieLePlusProche(Liste<EntiteInconnu> ListEntites)
         {
-            if (ListEntites == null)
-                ListEntites = this.ListEntites;
             return (ListEntites.FindAll(x => x.Equipe == Equipe) as Liste<EntiteInconnu>).First(x => Math.Abs(x.Position.X - Position.X) + Math.Abs(x.Position.Y - Position.Y) == ListEntites.Min(y => Math.Abs(y.Position.X - Position.X) + Math.Abs(y.Position.Y - Position.Y)));
         }
 

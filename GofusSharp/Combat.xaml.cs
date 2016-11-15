@@ -48,7 +48,7 @@ namespace GofusSharp
             InitializeComponent();
             this.Show();
             CreerPartie(lstJoueurAtt, lstJoueurDef);
-            System.Windows.Forms.MessageBox.Show(JsonConvert.SerializeObject(CombatCourant)); 
+            System.Windows.Forms.MessageBox.Show(JsonConvert.SerializeObject(CombatCourant));
             for (int i = 0; i < 10; i++)
             {
                 for (int j = 0; j < 10; j++)
@@ -314,31 +314,5 @@ namespace GofusSharp
             }
         }
 
-        //        EntiteInconnu ennemi = null;
-        //foreach (EntiteInconnu entite in ListEntites)
-        //{
-        //    if (entite.Equipe != Perso.Equipe)
-        //    {
-        //        ennemi = entite;
-        //        break;
-        //    }
-        //}
-        //if (terrain.DistanceEntreCases(Perso.Position, ennemi.Position) > 1)
-        //{
-        //    int result = 1;
-        //    while (result != 0 && result != -1)
-        //    {
-        //        result = Perso.AvancerVers(terrain.CheminEntreCases(Perso.Position, ennemi.Position)[0], 1);
-        //    }
-        //}
-        //while(Perso.UtiliserSort(Sort.nom_sort.pression, ennemi))
-        //{
-
-        //}
-
-        public void Execution(Terrain terrain, Personnage Perso, System.Collections.ObjectModel.ReadOnlyCollection<EntiteInconnu> ListEntites)
-        {
-            
-        }
     }
 }
