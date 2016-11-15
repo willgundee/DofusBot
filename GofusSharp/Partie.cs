@@ -7,6 +7,7 @@ namespace GofusSharp
         public Liste<Entite> ListAttaquants { get; internal set; }
         public Liste<Entite> ListDefendants { get; internal set; }
         public Liste<EntiteInconnu> ListEntites { get; internal set; }
+        public int Tour { get; internal set; }
         internal System.Random Seed { get; set; }
         internal int valeurSeed { get; set; }
         internal Partie(Terrain TerrainPartie, Liste<Entite> ListAttaquants, Liste<Entite> ListDefendants, int valeurSeed)
@@ -15,6 +16,7 @@ namespace GofusSharp
             this.ListDefendants = ListDefendants;
             this.valeurSeed = valeurSeed;
             this.TerrainPartie = TerrainPartie;
+            Tour = 0;
             Seed = new System.Random(valeurSeed);
             GenererTerrain();
             PlacerJoueurs();

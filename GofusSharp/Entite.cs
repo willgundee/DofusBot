@@ -2,25 +2,25 @@
 using System.Linq;
 
 //TODO
-//getAllies
-//getEnemies
 //getCellToUseWeapon
 //getCellToUseSpell
 //getWeaponAffectedEntities
 //getSpellAffectedEntities
-//getNearestEnemy
-//getNearestAlly
-//isInLineOfSight
-//moveAwayFrom
-//getTurn
 
 namespace GofusSharp
 {
     public class Entite : EntiteInconnu
     {
+        #region propriété
+
         internal string ScriptEntite { get; set; }
         internal Terrain TerrainEntite { get; set; }
         internal Liste<EntiteInconnu> ListEntites { get; set; }
+
+        #endregion
+
+        #region constucteur
+
         internal Entite(Gofus.Entite entite, type Equipe, Terrain TerrainEntite) :base(entite, Equipe)
         {
             ScriptEntite = entite.ScriptEntite.Code;
@@ -61,6 +61,30 @@ namespace GofusSharp
             this.Proprietaire = Proprietaire;
         }
 
+        #endregion
+
+        #region utilitaire
+
+        public Liste<EntiteInconnu> ListeEnemis()
+        {
+            return ListEntites.FindAll(x => x.Equipe != Equipe) as Liste<EntiteInconnu>;
+        }
+        public Liste<EntiteInconnu> ListeAllies()
+        {
+            return ListEntites.FindAll(x => x.Equipe == Equipe) as Liste<EntiteInconnu>;
+        }
+
+        public EntiteInconnu EntiteLaPlusProche(Liste<EntiteInconnu> ListEntites = null)
+        {
+            if (ListEntites == null)
+                ListEntites = this.ListEntites;
+            return ListEntites.First(x => Math.Abs(x.Position.X - Position.X) + Math.Abs(x.Position.Y - Position.Y) == ListEntites.Min(y => Math.Abs(y.Position.X - Position.X) + Math.Abs(y.Position.Y - Position.Y)));
+        }
+
+        #endregion
+
+        #region utilisation de sort
+
         public bool UtiliserSort(Sort sort, EntiteInconnu cible)
         {
             (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " lance " + sort.Nom + " sur " + cible.Nom;
@@ -81,7 +105,6 @@ namespace GofusSharp
             (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + cible.Nom + " est hors de portée du sort " + sort.Nom;
             return false;
         }
-
         public bool UtiliserSort(Sort sort, Case cible)
         {
             (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " lance " + sort.Nom + " à X: " + cible.X.ToString() + " Y: " + cible.Y.ToString();
@@ -102,7 +125,6 @@ namespace GofusSharp
             (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + cible.X + " Y: " + cible.Y + " est hors de portée du sort " + sort.Nom;
             return false;
         }
-
         public bool UtiliserSort(Sort.nom_sort vraiNom, EntiteInconnu cible)
         {
             Sort sort = null;
@@ -133,7 +155,6 @@ namespace GofusSharp
             (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + cible.Nom + " est hors de portée du sort " + sort.Nom;
             return false;
         }
-
         public bool UtiliserSort(Sort.nom_sort vraiNom, Case cible)
         {
             Sort sort = null;
@@ -173,8 +194,6 @@ namespace GofusSharp
                 return true;
             return false;
         }
-
-
         public bool PeutUtiliserSort(Sort sort, Case cible)
         {
             if (PA < sort.CoutPA)
@@ -183,7 +202,6 @@ namespace GofusSharp
                 return true;
             return false;
         }
-
         public bool PeutUtiliserSort(Sort.nom_sort vraiNom, EntiteInconnu cible)
         {
             Sort sort = null;
@@ -201,7 +219,6 @@ namespace GofusSharp
                 return true;
             return false;
         }
-
         public bool PeutUtiliserSort(Sort.nom_sort vraiNom, Case cible)
         {
             Sort sort = null;
@@ -219,6 +236,61 @@ namespace GofusSharp
                 return true;
             return false;
         }
+        public bool PeutUtiliserSort(Sort sort, EntiteInconnu cible, Case source)
+        {
+            if (PA < sort.CoutPA)
+                return false;
+            if (CaseEstDansZone(sort.ZonePortee.Type, sort.ZonePortee.PorteeMin, sort.ZonePortee.PorteeMax, source, cible.Position))
+                return true;
+            return false;
+        }
+        public bool PeutUtiliserSort(Sort sort, Case cible, Case source)
+        {
+            if (PA < sort.CoutPA)
+                return false;
+            if (CaseEstDansZone(sort.ZonePortee.Type, sort.ZonePortee.PorteeMin, sort.ZonePortee.PorteeMax, source, cible))
+                return true;
+            return false;
+        }
+        public bool PeutUtiliserSort(Sort.nom_sort vraiNom, EntiteInconnu cible, Case source)
+        {
+            Sort sort = null;
+            try
+            {
+                sort = ClasseEntite.ListSorts.First(x => x.VraiNom == vraiNom);
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+            if (PA < sort.CoutPA)
+                return false;
+            if (CaseEstDansZone(sort.ZonePortee.Type, sort.ZonePortee.PorteeMin, sort.ZonePortee.PorteeMax, source, cible.Position))
+                return true;
+            return false;
+        }
+        public bool PeutUtiliserSort(Sort.nom_sort vraiNom, Case cible, Case source)
+        {
+            Sort sort = null;
+            try
+            {
+                sort = ClasseEntite.ListSorts.First(x => x.VraiNom == vraiNom);
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+            if (PA < sort.CoutPA)
+                return false;
+            if (CaseEstDansZone(sort.ZonePortee.Type, sort.ZonePortee.PorteeMin, sort.ZonePortee.PorteeMax, source, cible))
+                return true;
+            return false;
+        }
+
+        //public Liste<Case> CasePourUtiliserSort(Sort sort, Case cible)
+        //{
+
+        //}
 
         internal int InfligerEffet(Effet effet, Zone zoneEffet, Case source)
         {
@@ -795,22 +867,33 @@ namespace GofusSharp
             }
             return 0;
         }
-
-        private void castShadow(int x, int y, int[][] tabCase)
+        private void castShadow(Case source, int x, int y, int[][] tabCase)
         {
             if (tabCase[x][y] != 1)
                 return;
-            float slope1 = getSlope((float)(x - 0.5), (float)(y + 0.5));
-            float slope2 = getSlope((float)(x + 0.5), (float)(y - 0.5));
+            double px = source.X + 0.5;
+            double py = source.Y + 0.5;
 
-            for (int cy = y; cy <= tabCase.Length; cy++)
+            double pente_min = Pente(px, py, x, y);
+            double pente_max = Pente(px, py, x, y);
+
+            for (int i = x; i < x+2; i++)
+                for (int j = y; j < y+2; j++)
+                    if (pente_max < Pente(px, py, i, j))
+                        pente_max = Pente(px, py, i, j);
+                    else if (pente_min > Pente(px, py, i, j))
+                        pente_min = Pente(px, py, i, j);
+
+            for (int cx = 0; cx <= tabCase.Length; cx++)
             {
-                for (int cx = x; cx <= tabCase[0].Length; cx++)
+                for (int cy = 0; cy <= tabCase[0].Length; cy++)
                 {
+                    if (tabCase[cx][cy] == -1)
+                        continue;
                     if (cx != x || cy != y)
                     {
-                        float slope = getSlope(cx, cy);
-                        if ((slope > slope1) && (slope < slope2 || (slope2 < 0 && cx > x)))
+                        double pente = Pente(px, py, cx, cy);
+                        if (((pente > pente_min) && (pente < pente_max)) || (pente == 999999 && ((source.Y < y && y < cy)||(source.Y > y && y > cy)) && Pente(source.X,source.Y,x,y) == 999999))
                         {
                             tabCase[cx][cy] = -1;
                         }
@@ -818,12 +901,47 @@ namespace GofusSharp
                 }
             }
         }
-
-        private float getSlope(float a, float b)
+        private double Pente(double x1, double y1, double x2, double y2)
         {
-            if (b == 0)
-                return 99;
-            return a / b;
+            if (x1 - x2 == 0)
+                return 999999;
+            return (y1 - y2) / (x1 - x2);
+        }
+        public bool EstEnLigneDeVue(Case source, Case cible)
+        {
+            int[][] tabCase = new int[TerrainEntite.Largeur][];
+            for (int i = 0; i < TerrainEntite.Largeur; i++)
+            {
+                tabCase[i] = new int[TerrainEntite.Hauteur];
+            }
+            for (int i = 0; i < TerrainEntite.Largeur; i++)
+            {
+                for (int j = 0; j < TerrainEntite.Hauteur; j++)
+                {
+                    switch (TerrainEntite.TabCases[i][j].Contenu)
+                    {
+                        case Case.type.joueur:
+                        case Case.type.obstacle:
+                            tabCase[i][j] = 1;
+                            break;
+                        default:
+                            tabCase[i][j] = 0;
+                            break;
+                    }
+                }
+            }
+            for (int i = 0; i < TerrainEntite.Largeur; i++)
+            {
+                for (int j = 0; j < TerrainEntite.Hauteur; j++)
+                {
+                    castShadow(source, i, j, tabCase);
+                }
+            }
+            if (tabCase[cible.X][cible.Y] != 0)
+            {
+                return false;
+            }
+            return true;
         }
 
         internal bool CaseEstDansZone(Zone.type TypeZone, int porteeMin, int porteeMax, Case source, Case cible, bool ligneDeVue = false)
@@ -832,35 +950,7 @@ namespace GofusSharp
             {
                 if (ligneDeVue)
                 {
-                    int[][] tabCase = new int[TerrainEntite.Largeur][];
-                    for (int i = 0; i < TerrainEntite.Largeur; i++)
-                    {
-                        tabCase[i] = new int[TerrainEntite.Hauteur];
-                    }
-                    for (int i = 0; i < TerrainEntite.Largeur; i++)
-                    {
-                        for (int j = 0; j < TerrainEntite.Hauteur; j++)
-                        {
-                            switch (TerrainEntite.TabCases[i][j].Contenu)
-                            {
-                                case Case.type.joueur:
-                                case Case.type.obstacle:
-                                    tabCase[i][j] = 1;
-                                    break;
-                                default:
-                                    tabCase[i][j] = 0;
-                                    break;
-                            }
-                        }
-                    }
-                    for (int i = 0; i < TerrainEntite.Largeur; i++)
-                    {
-                        for (int j = 0; j < TerrainEntite.Hauteur; j++)
-                        {
-                            castShadow(i, j, tabCase);
-                        }
-                    }
-                    if (tabCase[cible.X][cible.Y] != 0)
+                    if (!EstEnLigneDeVue(source, cible))
                     {
                         return false;
                     }
@@ -928,6 +1018,10 @@ namespace GofusSharp
                 return false;
             }
         }
+
+        #endregion
+
+        #region deplacement
 
         public int AvancerVers(EntiteInconnu cible)
         {
@@ -1016,7 +1110,6 @@ namespace GofusSharp
             }
             return PM_Debut - PM;
         }
-
         public int AvancerVers(Case cible)
         {
             int PM_Debut = PM;
@@ -1128,5 +1221,7 @@ namespace GofusSharp
             }
             return false;
         }
+
+        #endregion
     }
 }
