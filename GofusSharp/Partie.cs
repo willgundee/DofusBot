@@ -170,12 +170,10 @@ namespace GofusSharp
                 {
                     if (buff.IdLanceur == entite.IdEntite)
                     {
-                        if (buff.PasserTour())
-                        {
-                            entiteInconnu.ListEnvoutements.Remove(buff);
-                        }
+                        buff.PasserTour();
                     }
                 }
+                entiteInconnu.ListEnvoutements.RemoveAll(x => x.TourRestants <= 0);
             }
         }
 
