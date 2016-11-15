@@ -3,7 +3,6 @@ using System.Linq;
 
 //TODO
 //getCellToUseWeapon
-//getCellToUseSpell
 //getWeaponAffectedEntities
 //getSpellAffectedEntities
 
@@ -85,6 +84,7 @@ namespace GofusSharp
 
         #region utilisation de sort
 
+        #region UtiliserSort
         public bool UtiliserSort(Sort sort, EntiteInconnu cible)
         {
             (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " lance " + sort.Nom + " sur " + cible.Nom;
@@ -185,7 +185,9 @@ namespace GofusSharp
             (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + cible.X + " Y: " + cible.Y + " est hors de portée du sort " + sort.Nom;
             return false;
         }
+        #endregion
 
+        #region PeutUtiliserSort
         public bool PeutUtiliserSort(Sort sort, EntiteInconnu cible)
         {
             if (PA < sort.CoutPA)
@@ -286,11 +288,46 @@ namespace GofusSharp
                 return true;
             return false;
         }
+        #endregion
 
-        //public Liste<Case> CasePourUtiliserSort(Sort sort, Case cible)
-        //{
-
-        //}
+        #region CasesPourUtiliserSort
+        public Liste<Case> CasesPourUtiliserSort(Sort sort, EntiteInconnu cible)
+        {
+            Liste<Case> caseValide = new Liste<Case>();
+            foreach (Case[] caseL in TerrainEntite.TabCases)
+                foreach (Case CaseH in caseL)
+                    if (PeutUtiliserSort(sort, cible))
+                        caseValide.Add(CaseH);
+            return caseValide;
+        }
+        public Liste<Case> CasesPourUtiliserSort(Sort.nom_sort sort, EntiteInconnu cible)
+        {
+            Liste<Case> caseValide = new Liste<Case>();
+            foreach (Case[] caseL in TerrainEntite.TabCases)
+                foreach (Case CaseH in caseL)
+                    if (PeutUtiliserSort(sort, cible))
+                        caseValide.Add(CaseH);
+            return caseValide;
+        }
+        public Liste<Case> CasesPourUtiliserSort(Sort sort, Case cible)
+        {
+            Liste<Case> caseValide = new Liste<Case>();
+            foreach (Case[] caseL in TerrainEntite.TabCases)
+                foreach (Case CaseH in caseL)
+                    if (PeutUtiliserSort(sort, cible))
+                        caseValide.Add(CaseH);
+            return caseValide;
+        }
+        public Liste<Case> CasesPourUtiliserSort(Sort.nom_sort sort, Case cible)
+        {
+            Liste<Case> caseValide = new Liste<Case>();
+            foreach (Case[] caseL in TerrainEntite.TabCases)
+                foreach (Case CaseH in caseL)
+                    if (PeutUtiliserSort(sort, cible))
+                        caseValide.Add(CaseH);
+            return caseValide;
+        }
+        #endregion
 
         internal int InfligerEffet(Effet effet, Zone zoneEffet, Case source)
         {
