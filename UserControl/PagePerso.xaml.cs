@@ -20,7 +20,8 @@ namespace Gofus
         public BDService bd = new BDService();
         public Entite persoActuel;
         public ObservableCollection<Statistique> lstStat = new ObservableCollection<Statistique>();
-
+      
+      
 
         public PagePerso(Entite ent, Joueur Player)
         {// refaire le min/max
@@ -624,7 +625,6 @@ namespace Gofus
                 initialiserLstStats(persoActuel.LstStats);
                 dgStats.ItemsSource = lstStat;
                 dgDommage.ItemsSource = initialiserLstDMG(persoActuel);
-
             }
 
         }
@@ -648,19 +648,43 @@ namespace Gofus
                             MessageBox.Show(item + " a été replacé dans l'inventaire");
                             }
                             
-                        /*
+                        
                      Player.Inventaire.First(x => x.Nom == nomE[0][0].ToString()).QuantiteEquipe--;
                      bd.Update("UPDATE JoueursEquipements SET quantiteEquipe= " + Player.Inventaire.First(x => x.Nom == nomE[0][0].ToString()).QuantiteEquipe.ToString() + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + nomE[0][0].ToString() + "');COMMIT;");
                      bd.delete("DELETE FROM EquipementsEntites WHERE idEntite = (SELECT idEntite FROM Entites WHERE nom ='" + persoActuel.Nom + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + nomE[0][0].ToString() + "')");
-                        */
+                        
                     }
-                /*
+                
                  bd.delete("DELETE FROM StatistiquesEntites WHERE idEntite=( SELECT idEntite FROM Entites WHERE nom='" + persoActuel.Nom + "')");
                  bd.delete("DELETE FROM Entites WHERE nom='" + persoActuel.Nom + "'");
-                 Player.LstEntites.Remove(persoActuel);*/
+                 Player.LstEntites.Remove(Player.LstEntites.First(x=>x.Nom==persoActuel.Nom));
+                 MainWindow main =(System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow);
+                 main.tCPerso.Items.Remove(main.tCPerso.SelectedItem);
+
+                foreach (Entite perso in Player.LstEntites)
+                {
+                    TabItem onglet = new TabItem();
+                    onglet.Header = perso.Nom;
+                    onglet.Content = new PagePerso(perso, Player);
+                }
+
+                main.tCPerso.SelectedIndex = 0;
+                if (main.tCPerso.Items.Count <= 4)
+                {
+                    TabItem onglet = new TabItem();
+                    onglet.Header = "+";
+                    onglet.Content = new pageCpersonage(Player);
+                    main.tCPerso.Items.Add(onglet);
+                }
+                if (System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(Inventaire)) != null)
+                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Inventaire)) as Inventaire).refreshInv();
+
+                
             }
 
             return;
-        }
+        }     
+
+
     }
 }

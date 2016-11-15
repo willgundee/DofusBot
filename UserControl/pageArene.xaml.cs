@@ -68,7 +68,6 @@ namespace Gofus
             Thread trdRefresh = new Thread(() =>
                 {
 
-
                     List<string>[] Result = bd.selection((index == 0) ? "SELECT nom,valeur FROM Entites INNER JOIN statistiquesentites ON Entites.idEntite = statistiquesentites.idEntite WHERE idTypeStatistique = 13 AND idJoueur IS NOT NULL AND idJoueur != " + idJoueur.ToString() : "SELECT nom,valeurMin,valeurMax FROM Entites INNER JOIN statistiquesentites ON Entites.idEntite = statistiquesentites.idEntite WHERE idTypeStatistique = 13 AND idJoueur IS NULL");
                     System.Windows.Application.Current.Dispatcher.Invoke(new System.Action(() =>
                     {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -51,57 +52,70 @@ namespace Gofus
         private void loadParties(string type)
         {
 
-            string selectid = "Select  idPartie,temps,seed From Parties";
-            List<string>[] lstPartieBd = bd.selection(selectid);
+                string selectid = "Select  idPartie,temps,seed From Parties";
+                List<string>[] lstPartieBd = bd.selection(selectid);
 
 
-            lstpartie.Clear();
 
-            foreach (List<string> p in lstPartieBd)
-            {
-                string selectPartici = "SELECT estAttaquant,idEntite FROM PartiesEntites WHERE idPartie = " + p[0];
-                List<string>[] result = bd.selection(selectPartici);
-                if (result[0][0] != "rien")
-                {
-                    int seed = Int32.Parse(p[2]);
-                    string att = "";
-                    string def = "";
-                    int idatt = -1;
-                    int iddef = -1;
-
-                    foreach (List<string> particip in result)
+               
+                    lstpartie.Clear();
+                    foreach (List<string> p in lstPartieBd)
                     {
+                        string selectPartici = "SELECT estAttaquant,idEntite FROM PartiesEntites WHERE idPartie = " + p[0];
+                        List<string>[] result = bd.selection(selectPartici);
+                        if (result[0][0] != "rien")
+                        {
+                            int seed = Int32.Parse(p[2]);
+                            string att = "";
+                            string def = "";
+                            string jrAtt = "";
+                            string jrDef = "";
+                            int idatt = -1;
+                            int iddef = -1;
 
-                        if (particip[0] == "False")
-                        {
-                            string selectN = "SELECT nom FROM Entites WHERE idEntite=" + particip[1].ToString();
-                            List<string>[] selectNom = bd.selection(selectN);
-                            def = selectNom[0][0];
-                            iddef = Int32.Parse(particip[1]);
-                        }
-                        else
-                        {
-                            string selectN = "SELECT nom FROM Entites WHERE idEntite=" + particip[1].ToString();
-                            List<string>[] selectNom = bd.selection(selectN);
-                            att = selectNom[0][0];
-                            idatt = Int32.Parse(particip[1]);
+                            foreach (List<string> particip in result)
+                            {
+
+                                if (particip[0] == "False")
+                                {
+                                    string selectN = "SELECT nom,idJoueur FROM Entites WHERE idEntite=" + particip[1].ToString();
+                                    List<string>[] selectNom = bd.selection(selectN);
+                                    def = selectNom[0][0];
+                                    jrDef = selectNom[0][1];
+                                    iddef = Int32.Parse(particip[1]);
+                                }
+                                else
+                                {
+                                    string selectN = "SELECT nom,idJoueur FROM Entites  WHERE idEntite=" + particip[1].ToString();
+                                    List<string>[] selectNom = bd.selection(selectN);
+                                    att = selectNom[0][0];
+                                    jrAtt = selectNom[0][1];
+                                    idatt = Int32.Parse(particip[1]);
+                                }
+
+                            }
+
+
+                            if (type == "all")
+                            {
+                                lstpartie.Add(new Partie(att, def, p[1], seed));
+                            }
+                            else
+                            {
+                                if (jrDef == idJoueur.ToString() || jrAtt == idJoueur.ToString())
+                                {
+                                    lstpartie.Add(new Partie(att, def, p[1], seed));
+                                }
+                            }
+
                         }
 
                     }
+              
+    
 
 
-                    if (type == "all")
-                    {
-                        lstpartie.Add(new Partie(att, def, p[1], seed));
-                    }
-                    else
-                    {
-                       
-                    }              
 
-                }
-
-            }
         }
 
 
