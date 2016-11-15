@@ -14,12 +14,19 @@ namespace Gofus
 
         public string titre { get; set; }
 
-        public Rapport(string M,string T,string Titre)
+        public string type { get; set; }
+
+        public Rapport(string M,string T,string Titre, string ty)
         {
             msg = M;
             temps = T;
             titre = Titre;
+            type = ty;
         }
+
+
+      
+
 
     }
 }

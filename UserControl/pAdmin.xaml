@@ -6,11 +6,20 @@
              xmlns:local="clr-namespace:Gofus"
              mc:Ignorable="d" 
              d:DesignHeight="550" d:DesignWidth="550">
-    <Grid>
-        <Button x:Name="btnSupprimer" Content="Supprimer" HorizontalAlignment="Left" Margin="10,114,0,0" VerticalAlignment="Top" Width="234" Click="btnSupprimer_Click"/>
-        <DatePicker Name="datePick" HorizontalAlignment="Left" Margin="10,85,0,0" VerticalAlignment="Top" Width="234" FirstDayOfWeek="Monday"/>
+    <Grid Background="#FFFFC8C8">
+        <Button x:Name="btnSupprimer" Content="Supprimer" HorizontalAlignment="Left" Margin="10,85,0,0" VerticalAlignment="Top" Width="234" Click="btnSupprimer_Click"/>
+        <DatePicker Text="Sélectionnez une date" Name="datePick" HorizontalAlignment="Left" Margin="10,56,0,0" VerticalAlignment="Top" Width="234" FirstDayOfWeek="Monday"/>
         <Label x:Name="lblInformation" Content="Selectionnez une date pour supprimer des messages. &#xD;&#xA;Tous les message posté à une date antérieur seront supprimés!" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="70" Width="344"/>
-        <Label x:Name="lblRapport" Content="Liste des rapports" HorizontalAlignment="Left" Margin="76,193,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lblRapport" Content="Liste des rapports" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top"/>
+        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Margin="10,141,0,0" VerticalAlignment="Top" Height="223" Width="530" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="dataGrid_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Date"  Binding="{Binding temps}" FontSize="15" Width="*" />
+                <DataGridTextColumn Header="Titre" Binding="{Binding titre}" FontSize="15" Width="*"/>
+                <DataGridTextColumn Header="Type" Binding="{Binding type}" FontSize="15" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBlock x:Name="tblContenu" HorizontalAlignment="Left" Margin="10,406,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="134" Width="530" Background="#FFB7A6A6"/>
+        <Label x:Name="label" Content="Message&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,369,0,0" VerticalAlignment="Top" Width="119"/>
 
     </Grid>
 </UserControl>
