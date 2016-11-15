@@ -17,11 +17,16 @@ namespace Gofus
 
         }
 
-        public string formaterMessager()
+        public string formaterMessager(bool date)
         {
             StringBuilder textFinal = new StringBuilder();
-            textFinal.Append(TempsEnvois);
-            textFinal.Append(" - " + auteur + " dit : " + message + "\n");
+            if (date)
+            {
+                textFinal.Append(TempsEnvois);
+                textFinal.Append(" - ");
+            }
+            
+            textFinal.Append(auteur + " dit : " + message + "\n");
             return textFinal.ToString();
         }
     }

@@ -66,11 +66,20 @@ namespace Gofus
         {
             if (this != null)
             {
+                bool afficheTemps;
+                if (ckBox.IsChecked == false)
+                {
+                    afficheTemps = false;
+                }
+                else
+                {
+                    afficheTemps = true;
+                }
                 ObservableCollection<string> messages = new ObservableCollection<string>();
                 Thread trdRefresh = new Thread(() =>
                 {
 
-                    messages = chat.refreshChat();
+                    messages = chat.refreshChat(afficheTemps);
                     System.Windows.Application.Current.Dispatcher.Invoke(new System.Action(() =>
                     {
                         txtboxHistorique.Text = "";

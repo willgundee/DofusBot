@@ -37,6 +37,7 @@
         </Button>
         <Button x:Name="btnModLess" Content="Mode Fenêtre" HorizontalAlignment="Left" Margin="445,10,0,0" VerticalAlignment="Top" Width="105" Height="22" Click="BtnModLess_Click" />
         <Label x:Name="lblTitre" Content="Clavardage" HorizontalAlignment="Left" Margin="217,0,0,0" VerticalAlignment="Top" Height="44" Width="202" FontSize="22"/>
+        <CheckBox x:Name="ckBox" Content="Afficher l'heure des messages" HorizontalAlignment="Left" Margin="10,107.135,0,0" VerticalAlignment="Top"  Grid.Row="2"/>
 
 
     </Grid>

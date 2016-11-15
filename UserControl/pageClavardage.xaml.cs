@@ -28,6 +28,7 @@ namespace Gofus
         public ChatWindow fenetreChat;
 
 
+
         public Thread trdEnvoie { get; private set; }
         public pageClavardage(string NomUtilisateur)
         {
@@ -54,11 +55,19 @@ namespace Gofus
             // Updating the Label which displays the current second
             if (this != null)
             {
-
+                bool afficheTemps;
+                if (ckBox.IsChecked == false)
+                {
+                     afficheTemps = false; 
+                }
+                else
+                {
+                    afficheTemps = true;
+                }
                 ObservableCollection<string> messages = new ObservableCollection<string>();
                 Thread trdRefresh = new Thread(() =>
                 {
-                    messages = chat.refreshChat();
+                    messages = chat.refreshChat(afficheTemps);
                     Application.Current.Dispatcher.Invoke(new Action(() =>
                     {
                         txtboxHistorique.Text = "";
@@ -82,7 +91,7 @@ namespace Gofus
         private void BtnEnvoyer_Click(object sender, RoutedEventArgs e)
         {
             string text = txtMessage.Text;
-            text = text.Replace("'", "\\'");
+            text =text.Replace("'", "\\'");
             trdEnvoie = new Thread(() =>
             {
                 chat.envoyerMessage(text);
@@ -150,7 +159,6 @@ namespace Gofus
             }
         }
 
-
-
+     
     }
 }

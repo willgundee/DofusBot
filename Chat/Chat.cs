@@ -39,7 +39,7 @@ namespace Gofus
             id = idResult[0][0];
         }
 
-        public ObservableCollection<string> refreshChat()
+        public ObservableCollection<string> refreshChat(bool date)
         {
             messages = new ObservableCollection<MessageText>();
             contenuChat = new ObservableCollection<string>();
@@ -48,7 +48,7 @@ namespace Gofus
 
             foreach (MessageText ms in messages)
             {
-                contenuChat.Add(ms.formaterMessager());
+                contenuChat.Add(ms.formaterMessager(date));
             }
             return contenuChat;
         }
