@@ -53,16 +53,16 @@ namespace Gofus
 
         private void SelectRaports()
         {
-          /*  string sel = "SELECT contenu,temps,titre, FROM Rapport ORDER BY temps DESC";
+            string sel = "SELECT contenu,temps,titre, FROM Rapport ORDER by temps";
 
             
 
             List<string>[] result = bd.selection(sel);
-
+            if(result[0][0] != "rien")
             foreach(List<string> l  in result)
             {
                 lstRapport.Add(new Rapport(l[0], l[1], l[2]));
-            }*/
+            }
         }
 
     }
