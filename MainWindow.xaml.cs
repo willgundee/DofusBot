@@ -327,7 +327,7 @@ namespace Gofus
         // ***************************************************
         //Onglet Personnage
         // ***************************************************
-        private void TabPerso_Loaded(object sender, RoutedEventArgs e)
+        public void TabPerso_Loaded(object sender, RoutedEventArgs e)
         {
             foreach (Entite perso in Player.LstEntites)
             {
