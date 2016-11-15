@@ -70,7 +70,7 @@ namespace Gofus
         {
             string reqMessages = "SELECT temps,contenu,nomUtilisateur FROM Messages INNER JOIN Joueurs ON Messages.idJoueur = Joueurs.idJoueur ORDER BY temps DESC LIMIT " + MAX_MESSAGES + " ;";
             DataSet result = bdSelect.selectionChat(reqMessages);
-
+            if(result != null)
             foreach (DataTable table in result.Tables)
             {
                 foreach (DataRow row in table.Rows)
