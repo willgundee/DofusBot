@@ -438,6 +438,7 @@ namespace Gofus
                 new TreeNode("PM", treeNodeTab_simpleVar),
                 new TreeNode("PM_MAX", treeNodeTab_simpleVar),
                 new TreeNode("Proprietaire", treeNodeTab_simpleVar),
+                new TreeNode("Position", treeNodeTab_case),
                 new TreeNode("ListStatistiques", treeNodeTab_Liste),
                 new TreeNode("ListEnvoutements", treeNodeTab_Liste),
                 new TreeNode("TabEquipements", treeNodeTab_tab)
@@ -480,6 +481,7 @@ namespace Gofus
                 new TreeNode("PM", treeNodeTab_simpleVar),
                 new TreeNode("PM_MAX", treeNodeTab_simpleVar),
                 new TreeNode("Proprietaire", treeNodeTab_simpleVar),
+                new TreeNode("Position", treeNodeTab_case),
                 new TreeNode("ListStatistiques", treeNodeTab_Liste),
                 new TreeNode("ListEnvoutements", treeNodeTab_Liste)
             };
@@ -509,6 +511,7 @@ namespace Gofus
                 new TreeNode("PM", treeNodeTab_simpleVar),
                 new TreeNode("PM_MAX", treeNodeTab_simpleVar),
                 new TreeNode("Proprietaire", treeNodeTab_simpleVar),
+                new TreeNode("Position", treeNodeTab_case),
                 new TreeNode("ListStatistiques", treeNodeTab_Liste),
                 new TreeNode("ListEnvoutements", treeNodeTab_Liste)
             };

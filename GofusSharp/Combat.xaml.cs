@@ -48,7 +48,7 @@ namespace GofusSharp
             InitializeComponent();
             this.Show();
             CreerPartie(lstJoueurAtt, lstJoueurDef);
-            System.Windows.Forms.MessageBox.Show(JsonConvert.SerializeObject(CombatCourant));
+            //System.Windows.Forms.MessageBox.Show(JsonConvert.SerializeObject(CombatCourant));
             for (int i = 0; i < 10; i++)
             {
                 for (int j = 0; j < 10; j++)
@@ -88,7 +88,7 @@ namespace GofusSharp
             CombatCourant = new Partie(terrain, ListEntiteAtt, ListEntiteDef, 1);
         }
 
-        private void Action(Terrain terrain, Personnage joueur, System.Collections.ObjectModel.ReadOnlyCollection<EntiteInconnu> ListEntites)
+        private void Action(Terrain terrain, Personnage joueur, Liste<EntiteInconnu> ListEntites)
         {
             //code dynamique 
             string code = @"
@@ -97,7 +97,7 @@ namespace GofusSharp
                 {
                     public class Action
                     {
-                        public static void Execution(Terrain terrain, Personnage Perso, System.Collections.ObjectModel.ReadOnlyCollection<EntiteInconnu> ListEntites)
+                        public static void Execution(Terrain terrain, Personnage Perso, Liste<EntiteInconnu> ListEntites)
                         {
                             user_code
                         }
@@ -134,27 +134,51 @@ namespace GofusSharp
             mi.Invoke(null, new object[] { terrain, joueur, ListEntites });
         }
 
-        private void Action(Terrain terrain, Entite joueur, System.Collections.ObjectModel.ReadOnlyCollection<EntiteInconnu> ListEntites)
+        //private void Action(Terrain terrain, Entite joueur, System.Collections.ObjectModel.ReadOnlyCollection<EntiteInconnu> ListEntites)
+        private void Action(Terrain terrain, Entite joueur, Liste<EntiteInconnu> ListEntites)
         {
-            EntiteInconnu ennemi = null;
-            foreach (EntiteInconnu entite in ListEntites)
-            {
-                if (entite.Equipe != joueur.Equipe)
+            //code dynamique 
+            string code = @"
+                using GofusSharp;
+                namespace Arene
                 {
-                    ennemi = entite;
-                    break;
+                    public class Action
+                    {
+                        public static void Execution(Terrain terrain, Entite Perso, Liste<EntiteInconnu> ListEntites)
+                        {
+                            user_code
+                        }
+                    }
                 }
-            }
-            if (terrain.DistanceEntreCases(joueur.Position, ennemi.Position) > 1)
-            {
-                int result = 1;
-                while (result != 0 && result != -1)
-                {
-                    result = joueur.AvancerVers(terrain.CheminEntreCases(joueur.Position, ennemi.Position).First(), 1);
-                }
-            }
-            joueur.UtiliserSort(joueur.ClasseEntite.ListSorts[1], ennemi);
+            ";
 
+            //je remplace le mot user_code pour ce qui ce trouve dans la text box
+            string finalCode = code.Replace("user_code", joueur.ScriptEntite);
+            //initialisation d'un compilateur de code C#
+            CSharpCodeProvider provider = new CSharpCodeProvider(new Dictionary<string, string>() { { "CompilerVersion", "v3.5" } });
+            //initialisation des paramètres du compilateur de code C#
+            CompilerParameters parameters = new CompilerParameters() { GenerateInMemory = true };
+            //ajout des lien de bibliothèque dynamique (dll)
+            parameters.ReferencedAssemblies.Add("GofusSharp.dll");
+            //compilation du code 
+            CompilerResults results = provider.CompileAssemblyFromSource(parameters, finalCode);
+            //recherche d'érreurs de compilation
+            if (results.Errors.HasErrors)
+            {
+                StringBuilder sb = new StringBuilder();
+
+                foreach (CompilerError error in results.Errors)
+                {
+                    sb.AppendLine(string.Format("Erreur (Ligne {0}): {1}", (error.Line - 8).ToString(), error.ErrorText));
+                }
+                System.Windows.Forms.MessageBox.Show(sb.ToString());
+                return;
+            }
+            //mettre la fonction compilé dans une variable
+
+            MethodInfo mi = results.CompiledAssembly.GetType("Arene.Action").GetMethod("Execution");
+
+            mi.Invoke(null, new object[] { terrain, joueur, ListEntites });
         }
 
 
@@ -216,9 +240,9 @@ namespace GofusSharp
                     continue;
                 CombatCourant.DebuterAction(entite);
                 if (entite is Personnage)
-                    Action(CombatCourant.TerrainPartie, entite as Personnage, CombatCourant.ListEntites.AsReadOnly());
+                    Action(CombatCourant.TerrainPartie, entite as Personnage, CombatCourant.ListEntites/*.AsReadOnly()*/);
                 else
-                    Action(CombatCourant.TerrainPartie, entite as Entite, CombatCourant.ListEntites.AsReadOnly());
+                    Action(CombatCourant.TerrainPartie, entite as Entite, CombatCourant.ListEntites/*.AsReadOnly()*/);
                 CombatCourant.SyncroniserJoueur();
                 UpdateInfo();
                 bool vivante = false;

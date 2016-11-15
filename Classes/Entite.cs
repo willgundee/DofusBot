@@ -75,7 +75,7 @@ namespace Gofus
         /// <param name="idEntite">l'entité</param>
         private void addScript(int idEntite)
         {
-            ScriptEntite = new Script(bd.selection("SELECT * FROM Scripts s INNER JOIN Entites e ON e.idScript = s.idScript WHERE idEntite =" + idEntite)[0]);
+            ScriptEntite = new Script(bd.selection("SELECT s.contenu,s.nom,s.uuid FROM Scripts s INNER JOIN Entites e ON e.idScript = s.idScript WHERE idEntite =" + idEntite)[0]);
         }
         /// <summary>
         /// ajout des stats de l'entités

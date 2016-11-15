@@ -454,7 +454,7 @@ namespace Gofus
             if (ti_selected.Header.ToString() == "+")
             {
                 object f = e.Source;
-                string nom = "script" + tc_Edit.Items.Count;
+                string nom = "Script" + tc_Edit.Items.Count;
                 long id = bd.insertion("INSERT INTO Scripts (contenu, nom, uuid) VALUES ('', '" + nom + "', uuid());");
                 if (id != 0)
                 {
