@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:Gofus"
         mc:Ignorable="d"
         Background="Gray"
-        Title="Creation de compte" Height="371.021" Width="232.508" WindowStyle="None" ResizeMode="NoResize" Icon="..\Resources/Gofus.png" Topmost="True">
-    <Grid Margin="0,0,-0.492,-3.979" HorizontalAlignment="Left" Width="233">
+        Title="Creation de compte" Height="371.021" Width="395.403" WindowStyle="None" ResizeMode="NoResize" Icon="..\Resources/Gofus.png" Topmost="True">
+    <Grid Margin="0,0,0,-3.8" HorizontalAlignment="Left" Width="395" Background="#FF9DBDBC">
         <Grid.RowDefinitions>
             <RowDefinition Height="287*"/>
             <RowDefinition Height="58*"/>
@@ -18,13 +18,13 @@
         <Button x:Name="btnAnnuler" Content="Annuler" HorizontalAlignment="Right" Margin="0,20,10,20" VerticalAlignment="Center" Width="75" Click="btnAnnuler_Click" Grid.Row="1" Grid.Column="1" Height="22"/>
 
         <Label x:Name="lbl_nom" Grid.Column="1" Content="Nom d'utilisateur&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,33,0,0" VerticalAlignment="Top" Height="26" Width="250"/>
-        <TextBox x:Name="txt_nom" Grid.Column="1" HorizontalAlignment="Left"  Height="23" Margin="10,64,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" />
+        <TextBox x:Name="txt_nom" HorizontalAlignment="Left"  Height="23" Margin="10,64,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="272" />
         <Label x:Name="lbl_Courriel" Grid.Column="1" Content="Courriel" HorizontalAlignment="Left" Margin="10,90,0,0" VerticalAlignment="Top" Height="26" Width="245"/>
-        <TextBox x:Name="txt_Courriel" Grid.Column="1" HorizontalAlignment="Left" Height="23"  TextWrapping="Wrap" VerticalAlignment="Center" Width="200" Margin="10,121,0,161"/>
+        <TextBox x:Name="txt_Courriel" HorizontalAlignment="Left" Height="24"  TextWrapping="Wrap" VerticalAlignment="Center" Width="272" Margin="10,124,0,164"/>
         <Label x:Name="lbl_Mdp" Grid.Column="1" Content="Mot de passe&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,151,0,126" VerticalAlignment="Center" Height="28" Width="240"/>
-        <PasswordBox x:Name="txt_mdp" Grid.Column="1" Height="23" Margin="10,181,0,101"  VerticalAlignment="Center"  HorizontalAlignment="Left" Width="200"/>
+        <PasswordBox x:Name="txt_mdp" Height="24" Margin="10,184,0,104"  VerticalAlignment="Center"  HorizontalAlignment="Left" Width="272"/>
         <Label x:Name="lbl_Confirmation" Grid.Column="1" Content="Confimation de mot de passe" HorizontalAlignment="Left" Margin="10,0,0,60" VerticalAlignment="Bottom" Height="26" Width="245"/>
-        <PasswordBox x:Name="txtConfirmation" Grid.Column="1" HorizontalAlignment="Left" Height="23" VerticalAlignment="Top" Width="200" Margin="10,250,0,0"/>
+        <PasswordBox x:Name="txtConfirmation" HorizontalAlignment="Left" Height="23" VerticalAlignment="Top" Width="272" Margin="10,250,0,0" BorderBrush="#FFABADB3"/>
 
     </Grid>
 </Window>
