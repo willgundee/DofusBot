@@ -26,7 +26,7 @@ namespace Gofus
             lstRapport = new ObservableCollection<Rapport>();
             SelectRaports();
 
-
+            dataGrid.ItemsSource = lstRapport;
         }
 
         private void btnSupprimer_Click(object sender, RoutedEventArgs e)
@@ -53,7 +53,7 @@ namespace Gofus
 
         private void SelectRaports()
         {
-            string sel = "SELECT contenu,temps,titre, FROM Rapport ORDER by temps";
+            string sel = "SELECT contenu,temps,titre,nom FROM Rapports INNER JOIN  typerapport ON Rapports.idTypeRapport =  typerapport.idTypeRapport ORDER by temps";
 
             
 
@@ -61,9 +61,13 @@ namespace Gofus
             if(result[0][0] != "rien")
             foreach(List<string> l  in result)
             {
-                lstRapport.Add(new Rapport(l[0], l[1], l[2]));
+                lstRapport.Add(new Rapport(l[0], l[1], l[2], l[3]));
             }
         }
 
+        private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            tblContenu.Text = ((Rapport)dataGrid.SelectedItem).msg;
+        }
     }
 }
