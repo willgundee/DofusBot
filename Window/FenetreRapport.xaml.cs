@@ -39,7 +39,8 @@ namespace Gofus
                 string message = txtCommentaire.Text;
                 string titre = txtTitre.Text;
 
-              
+                message = message.Replace("'", @"\'");
+                titre = titre.Replace("'", @"\'");
 
                 int typeRapportText = cboType.SelectedIndex + 1;
                 long envoie = 0;

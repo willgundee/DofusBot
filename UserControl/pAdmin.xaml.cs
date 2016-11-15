@@ -27,16 +27,22 @@ namespace Gofus
             SelectRaports();
 
             dataGrid.ItemsSource = lstRapport;
+            datePick.SelectedDate = DateTime.Now;
+            datePick.IsEnabled = true;
         }
 
         private void btnSupprimer_Click(object sender, RoutedEventArgs e)
         {
-            var result = System.Windows.MessageBox.Show("Souhaitez-vous supprimer les messages qui ont étés envoyés avant le " + datePick.SelectedDate.ToString(), "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (result == MessageBoxResult.Yes)
+            if (datePick.SelectedDate != null)
             {
-                string delete = "DELETE FROM Messages WHERE temps < '" + datePick.SelectedDate.ToString() + "'";
+                var result = System.Windows.MessageBox.Show("Souhaitez-vous supprimer les messages qui ont étés envoyés avant le " + datePick.SelectedDate.ToString(), "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    string delete = "DELETE FROM Messages WHERE temps < '" + datePick.SelectedDate.ToString() + "'";
 
-                bool test = bd.delete(delete);
+                    bool test = bd.delete(delete);
+                }
+
             }
 
 
@@ -46,28 +52,39 @@ namespace Gofus
 
         private void supprimerRap(Rapport r)
         {
-        
+
             lstRapport.Remove(r);
-              
+
         }
 
         private void SelectRaports()
         {
-            string sel = "SELECT contenu,temps,titre,nom FROM Rapports INNER JOIN  typerapport ON Rapports.idTypeRapport =  typerapport.idTypeRapport ORDER by temps";
+            string sel = "SELECT contenu,temps,titre,nom,Rapports.idRapport FROM Rapports INNER JOIN  typerapport ON Rapports.idTypeRapport =  typerapport.idTypeRapport ORDER by temps";
 
-            
+
 
             List<string>[] result = bd.selection(sel);
-            if(result[0][0] != "rien")
-            foreach(List<string> l  in result)
-            {
-                lstRapport.Add(new Rapport(l[0], l[1], l[2], l[3]));
-            }
+            if (result[0][0] != "rien")
+                foreach (List<string> l in result)
+                {
+                    lstRapport.Add(new Rapport(l[0], l[1], l[2], l[3],l[4]));
+                }
         }
 
         private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if(dataGrid.SelectedItem != null)
             tblContenu.Text = ((Rapport)dataGrid.SelectedItem).msg;
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            tblContenu.Text = "";
+            Rapport del = (Rapport)dataGrid.SelectedItem;
+            bool test = bd.delete("DELETE FROM Rapports WHERE idRapport = " + del.id);
+            lstRapport.Remove(del);
+            
+
         }
     }
 }
