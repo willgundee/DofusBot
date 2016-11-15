@@ -103,6 +103,12 @@ namespace Gofus
             }
         }
 
+        public Statistique()
+        {
+                
+        }   
+
+
         public int toLevel()
         {
             if (Nom == element.experience)

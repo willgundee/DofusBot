@@ -77,7 +77,7 @@ namespace Gofus
                 PaneauAdmin.Visibility = Visibility.Hidden;
             }
 
-            controlAdmin.Content = new pAdmin();
+            
 
             #region Lou
             LstImgItems = new ObservableCollection<ImageItem>();
@@ -98,7 +98,7 @@ namespace Gofus
           protected override void OnClosed(EventArgs e)
            {
                base.OnClosed(e);
-
+            if(pgchat.fenetreChat != null)
             pgchat.fenetreChat.Close();
            }
 
@@ -382,28 +382,37 @@ namespace Gofus
 
         #region UserControls
 
+        private void PgAdmin_Selected(object sender, RoutedEventArgs e)
+        {
+           if (!controlAdmin.HasContent)
+            controlAdmin.Content = new pAdmin();
+        }
+
 
         private void PGSort_Selected(object sender, RoutedEventArgs e)
         {
 
-
+            if(!PGSort.HasContent)
             PGSort.Content = new pageSort();
 
         }
 
         private void PgArchive_Selected(object sender, RoutedEventArgs e)
         {
-            controlArchive.Content = new pageArchive(idJoueur);
+            if (!controlArchive.HasContent)
+                controlArchive.Content = new pageArchive(idJoueur);
         }
 
         private void PgArene_Selected(object sender, RoutedEventArgs e)
         {
-            controlArene.Content = new pageArene(idJoueur, Player.LstEntites);
+            if (!controlArene.HasContent)
+                controlArene.Content = new pageArene(idJoueur, Player.LstEntites);
         }
 
         private void PgGestion_Selected(object sender, RoutedEventArgs e)
         {
-            controlGestion.Content = new pageGestion(Player, idJoueur);
+            if (!controlGestion.HasContent)
+                controlGestion.Content = new pageGestion(Player, idJoueur);
         }
         #endregion
 

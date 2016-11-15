@@ -44,7 +44,7 @@ namespace Gofus
 
             aTimer = new DispatcherTimer();
             aTimer.Tick += new EventHandler(Timer_Tick);
-            aTimer.Interval = new TimeSpan(0, 0, 1);
+            aTimer.Interval = new TimeSpan(0, 0,2);
 
             aTimer.Start();
             Scroll.ScrollToEnd();
