@@ -36,6 +36,7 @@ namespace Gofus
                 foreach (Effet effet in item.LstEffets)
                     LstStats.Add(effet.NomSimplifier + " : " + effet.DmgMin + " à " + effet.DmgMax);
                 LstCaras.Add("Pa requis : " + item.Pa);
+                LstCaras.Add("Portée : " + item.ZonePortee.Nom + " de " + (item.ZonePortee.PorteeMax == item.ZonePortee.PorteeMin ? item.ZonePortee.PorteeMax.ToString() : item.ZonePortee.PorteeMin.ToString() + " à " + item.ZonePortee.PorteeMax.ToString()));
             }
             else
                 tbCaraDesc.Visibility = Visibility.Hidden;

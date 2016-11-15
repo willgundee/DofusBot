@@ -162,6 +162,7 @@ namespace Gofus
                     newP.Content = new pageCpersonage(Player);
                     w.tCPerso.Items.Add(newP);
                 }
+                Player.LstEntites.Add(new Entite(h));
             }
 
         }
