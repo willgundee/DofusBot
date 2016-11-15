@@ -39,7 +39,7 @@ namespace Gofus
                 string message = txtCommentaire.Text;
                 string titre = txtTitre.Text;
 
-                message.
+              
 
                 int typeRapportText = cboType.SelectedIndex + 1;
                 long envoie = 0;

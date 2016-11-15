@@ -108,11 +108,13 @@ namespace Gofus
 
         private void btnAtt_Click(object sender, RoutedEventArgs e)
         {
+
+
             if (dataGrid.SelectedIndex != -1)
             {
                 
-                    string sele = "SELECT * FROM Entites WHERE nom = " + ((KeyValuePair<string,string>)dataGrid.SelectedItem).Key;
-                    List<string>[] defen = bd.selection(sele);
+                    string sele = "SELECT * FROM Entites WHERE nom = '" + ((KeyValuePair<string,string>)dataGrid.SelectedItem).Key + "'";
+                List<string>[] defen = bd.selection(sele);
                     Entite def = new Entite(defen[0]);
                
                 
