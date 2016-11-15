@@ -108,6 +108,8 @@ namespace Gofus
 
         private void btnAtt_Click(object sender, RoutedEventArgs e)
         {
+
+
             if (dataGrid.SelectedIndex != -1)
             {
                 
