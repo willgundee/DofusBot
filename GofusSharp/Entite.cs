@@ -17,7 +17,7 @@ namespace GofusSharp
         internal Liste<EntiteInconnu> ListEntites { get; set; }
 
         #endregion
-
+        //
         #region constucteur
 
         internal Entite(Gofus.Entite entite, type Equipe, Terrain TerrainEntite) :base(entite, Equipe)
