@@ -70,7 +70,7 @@ namespace Gofus
             if (Player.estAdmin)
             {
                 PaneauAdmin.Visibility = Visibility.Visible;
-                
+                controlAdmin.Content = new pAdmin();
 
             }
             else
@@ -102,34 +102,6 @@ namespace Gofus
             if(pgchat.fenetreChat != null)
             pgchat.fenetreChat.Close();
            }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             
 
