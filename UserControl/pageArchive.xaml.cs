@@ -16,13 +16,17 @@ namespace Gofus
     {
 
         public BDService bd = new BDService();
-        public List<Partie> lstpartie = new List<Partie>();
+        public List<Partie> lstpartie;
+        public List<String> lstNomPerso;
 
         public int idJoueur { get; set; }
         public pageArchive(int id)
         {
             InitializeComponent();
             idJoueur = id;
+
+            lstpartie = new List<Partie>();
+            //lstNomPerso = new List<string>();
 
             dgHistorique.ItemsSource = lstpartie;
 
@@ -33,6 +37,7 @@ namespace Gofus
         public pageArchive()
         {
             InitializeComponent();
+            lstpartie = new List<Partie>();
             btnQuitter.Visibility = Visibility.Visible;
             lblQuitter.Visibility = Visibility.Visible;
             lblCreer.Visibility = Visibility.Visible;
@@ -46,7 +51,7 @@ namespace Gofus
         private void loadParties(string type)
         {
 
-            string selectid = "Select  idPartie,temps,seed From Parties LIMIT 70 ";
+            string selectid = "Select  idPartie,temps,seed From Parties";
             List<string>[] lstPartieBd = bd.selection(selectid);
 
 
@@ -69,21 +74,23 @@ namespace Gofus
 
                         if (particip[0] == "False")
                         {
-                            string selectN = "SELECT nomUtilisateur FROM Joueurs WHERE idJoueur=" + particip[1].ToString();
+                            string selectN = "SELECT nom FROM Entites WHERE idEntite=" + particip[1].ToString();
                             List<string>[] selectNom = bd.selection(selectN);
                             def = selectNom[0][0];
                             iddef = Int32.Parse(particip[1]);
                         }
                         else
                         {
-                            string selectN = "SELECT nomUtilisateur FROM Joueurs WHERE idJoueur=" + particip[1].ToString();
+                            string selectN = "SELECT nom FROM Entites WHERE idEntite=" + particip[1].ToString();
                             List<string>[] selectNom = bd.selection(selectN);
                             att = selectNom[0][0];
                             idatt = Int32.Parse(particip[1]);
                         }
 
                     }
-                    if (type == "joueur" && idatt == idJoueur || type == "joueur" && iddef == idJoueur || type == "all")
+
+
+                    if (type == "all")
                     {
                         lstpartie.Add(new Partie(att, def, p[1], seed));
                     }

@@ -107,8 +107,8 @@
     <Compile Include="UserControl\pageClavardage.xaml.cs">
       <DependentUpon>pageClavardage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControl\pAdminMessages.xaml.cs">
-      <DependentUpon>pAdminMessages.xaml</DependentUpon>
+    <Compile Include="UserControl\pAdmin.xaml.cs">
+      <DependentUpon>pAdmin.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControl\pageArchive.xaml.cs">
       <DependentUpon>pageArchive.xaml</DependentUpon>
@@ -237,7 +237,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControl\pAdminMessages.xaml">
+    <Page Include="UserControl\pAdmin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

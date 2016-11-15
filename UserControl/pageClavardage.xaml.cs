@@ -33,27 +33,21 @@ namespace Gofus
         {
             InitializeComponent();
 
-            txtMessage.IsEnabled = false;
 
-            btnQuitterSalle.IsEnabled = false;
-
-            lblEtat.Content = "État : Non connecté à la salle";
-            lblEtat.Foreground = new SolidColorBrush(Colors.Orange);
-
-            
-       
 
             this.chat = new Chat();
             chat.nomUtilisateur = NomUtilisateur;
             chat.getId();
 
-            btnEnvoyerMessage.IsEnabled = false;
+
 
 
             aTimer = new DispatcherTimer();
             aTimer.Tick += new EventHandler(Timer_Tick);
             aTimer.Interval = new TimeSpan(0, 0, 1);
 
+            aTimer.Start();
+            Scroll.ScrollToEnd();
         }
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -88,9 +82,14 @@ namespace Gofus
         private void BtnEnvoyer_Click(object sender, RoutedEventArgs e)
         {
             string text = txtMessage.Text;
-            trdEnvoie = new Thread(() => { chat.envoyerMessage(text); });
+            trdEnvoie = new Thread(() =>
+            {
+                chat.envoyerMessage(text);
+            });
             trdEnvoie.Start();
             Thread.Yield();
+            Scroll.ScrollToEnd(); txtMessage.Text = "";
+
         }
         private void OnKeyDowntxtMessage(object sender, System.Windows.Input.KeyEventArgs e)
         {
@@ -100,6 +99,7 @@ namespace Gofus
                 trdEnvoie = new Thread(() => { chat.envoyerMessage(text); });
                 trdEnvoie.Start();
                 Thread.Yield();
+                Scroll.ScrollToEnd(); txtMessage.Text = "";
             }
         }
 
@@ -121,31 +121,8 @@ namespace Gofus
             }
         }
 
-        private void btnRejoindreSalle_Click(object sender, RoutedEventArgs e)
-        {
-            aTimer.Start();
-            lblEtat.Content = "État : Connecter à la salle.";
-            lblEtat.Foreground = new SolidColorBrush(Colors.Chartreuse);
-            txtMessage.IsEnabled = true;
-            btnRejoindreSalle.IsEnabled = false;
-            btnQuitterSalle.IsEnabled = true;
-        }
 
-        private void btnQuitterSalle_Click(object sender, RoutedEventArgs e)
-        {
-            aTimer.Stop();
-            txtMessage.Text = "";
-            txtboxHistorique.Text = "";
-            lblEtat.Content = "État : Déconnecter.";
-            lblEtat.Foreground = new SolidColorBrush(Colors.Orange);
 
-            btnEnvoyerMessage.IsEnabled = false;
-            txtMessage.IsEnabled = false;
-
-            btnRejoindreSalle.IsEnabled = true;
-            btnQuitterSalle.IsEnabled = false;
-
-        }
 
         public void MainWindow_ChatWindowClosing(object sender, System.EventArgs e)
         {

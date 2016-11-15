@@ -77,7 +77,7 @@ namespace Gofus
                 PaneauAdmin.Visibility = Visibility.Hidden;
             }
 
-            controlAdmin.Content = new pAdminMessages();
+            controlAdmin.Content = new pAdmin();
 
             #region Lou
             LstImgItems = new ObservableCollection<ImageItem>();
@@ -95,13 +95,13 @@ namespace Gofus
         }
 
 
-        /*   protected override void OnClosed(EventArgs e)
+          protected override void OnClosed(EventArgs e)
            {
                base.OnClosed(e);
 
-               System.Windows.Application.Current.Shutdown();
+            pgchat.fenetreChat.Close();
            }
-           */
+           
 
             
 

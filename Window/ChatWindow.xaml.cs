@@ -32,8 +32,10 @@ namespace Gofus
             aTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             aTimer.Interval = new TimeSpan(0, 0, 1);
             chat.nomUtilisateur = user;
-            btnQuitterSalle.IsEnabled = false;
             chat.getId();
+
+            aTimer.Start();
+            Scroll.ScrollToEnd();
         }
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
@@ -53,6 +55,8 @@ namespace Gofus
                 trdEnvoie = new Thread(() => { chat.envoyerMessage(text); });
                 trdEnvoie.Start();
                 Thread.Yield();
+                Scroll.ScrollToEnd();
+                txtMessage.Text = "";
             }
         }
 
@@ -96,6 +100,7 @@ namespace Gofus
             trdEnvoie = new Thread(() => { chat.envoyerMessage(text); });
             trdEnvoie.Start();
             Thread.Yield();
+            Scroll.ScrollToEnd(); txtMessage.Text = "";
         }
 
 
@@ -112,33 +117,6 @@ namespace Gofus
                     btnEnvoyerMessage.IsEnabled = true;
             }
         }
-
-        private void btnRejoindreSalle_Click(object sender, RoutedEventArgs e)
-        {
-            aTimer.Start();
-            txtMessage.IsEnabled = true;
-            lblEtat.Content = "État : Connecter à la salle.";
-            lblEtat.Foreground = new SolidColorBrush(Colors.Chartreuse);
-            btnRejoindreSalle.IsEnabled = false;
-            btnQuitterSalle.IsEnabled = true;
-
-
-        }
-
-        private void btnQuitterSalle_Click(object sender, RoutedEventArgs e)
-        {
-            aTimer.Stop();
-            txtMessage.Text = "";
-            txtboxHistorique.Text = "";
-            btnEnvoyerMessage.IsEnabled = false;
-            txtMessage.IsEnabled = false;
-            lblEtat.Content = "État : Déconnecter.";
-            lblEtat.Foreground = new SolidColorBrush(Colors.Orange);
-            btnRejoindreSalle.IsEnabled = true;
-            btnQuitterSalle.IsEnabled = false;
-       
-        }
-
       
         private void btnFermer_Click(object sender, RoutedEventArgs e)
         {

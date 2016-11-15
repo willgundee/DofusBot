@@ -17,11 +17,12 @@ namespace Gofus
         private MySqlConnection BDChat;
         private MySqlConnection BDSelect;
         private MySqlConnection BDInsert;
+        private MySqlConnection BDChatWindow;
 
-       /* private string serveur = "420.cstj.qc.ca";
-        private string baseDonnee = "420.5a5.a16_gofusprog";
-        private string utilisateur = "gofusprog";
-        private string motPasse = "GP994433";*/
+        /* private string serveur = "420.cstj.qc.ca";
+         private string baseDonnee = "420.5a5.a16_gofusprog";
+         private string utilisateur = "gofusprog";
+         private string motPasse = "GP994433";*/
 
         private MySqlConnection connexion;
         public BDService()
@@ -41,6 +42,7 @@ namespace Gofus
 
                 BDChat = new MySqlConnection(connexionString);
 
+                BDChatWindow = new MySqlConnection(connexionString);
 
 
 
@@ -156,7 +158,7 @@ namespace Gofus
                 if (ouvrirConnexionCHAT())
                 {
                     MySqlDataAdapter adapteur = new MySqlDataAdapter();
-                    adapteur.SelectCommand = new MySqlCommand(req, BDSelect);
+                    adapteur.SelectCommand = new MySqlCommand(req, BDChat);
 
                     adapteur.Fill(ds);
                 }
@@ -172,6 +174,37 @@ namespace Gofus
             }
             return ds;
         }
+
+        public DataSet selectionChatWindow(string req)
+        {
+            DataSet ds = new DataSet();
+
+            try
+            {
+                if (ouvrirConnexionCHAT())
+                {
+                    MySqlDataAdapter adapteur = new MySqlDataAdapter();
+                    adapteur.SelectCommand = new MySqlCommand(req, BDChatWindow);
+
+                    adapteur.Fill(ds);
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Erreur de récuperation : {0}", e.Message);
+                ds = null;
+            }
+            finally
+            {
+                fermerConnexionCHAT();
+            }
+            return ds;
+        }
+
+
+
+
+
 
 
 

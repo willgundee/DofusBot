@@ -13,13 +13,13 @@ namespace Gofus
     /// <summary>
     /// Logique d'interaction pour pAdminMessages.xaml
     /// </summary>
-    public partial class pAdminMessages : UserControl
+    public partial class pAdmin : UserControl
     {
         BDService bd;
 
         private ObservableCollection<Rapport> lstRapport;
 
-        public pAdminMessages()
+        public pAdmin()
         {
             InitializeComponent();
             bd = new BDService();
