@@ -630,11 +630,34 @@ namespace Gofus
         }
         private void btnSupprimer_Click(object sender, RoutedEventArgs e)
         {
+            List<string> info = new List<string>();
             MessageBoxResult m = System.Windows.MessageBox.Show("Voules-vous vraiment supprimer ce personages! ", "Avertisement", MessageBoxButton.YesNo, MessageBoxImage.Information);// affichage d'un message box te demandant situ veut acheter ceci
             if (m == MessageBoxResult.Yes)
             {
-                // bd.delete("DELETE FROM StatistiquesEntites WHERE idEntite=( SELECT idEntite FROM Entites WHERE nom='" + persoActuel.Nom + "')");
-                // bd.delete("DELETE FROM Entites WHERE nom='" + persoActuel.Nom + "'");
+                List<string>[] idequip = bd.selection("SELECT idEquipement FROM EquipementsEntites ee INNER JOIN Entites e ON ee.idEntite = e.idEntite WHERE e.nom = '" + persoActuel.Nom + "' ");
+                if (idequip[0][0] != "rien")
+                    for (int i = 0; i < idequip.Count(); i++)
+                    {
+                        List<string>[] nomE = bd.selection("SELECT nom FROM Equipements WHERE idEquipement =" + idequip[i][0]);
+                        info.Add(nomE[0][0] );
+
+                        if (i + 1 == idequip.Count())                        
+                            foreach (string item in info)
+                            {
+                               
+                            MessageBox.Show(item + " a été replacé dans l'inventaire");
+                            }
+                            
+                        /*
+                     Player.Inventaire.First(x => x.Nom == nomE[0][0].ToString()).QuantiteEquipe--;
+                     bd.Update("UPDATE JoueursEquipements SET quantiteEquipe= " + Player.Inventaire.First(x => x.Nom == nomE[0][0].ToString()).QuantiteEquipe.ToString() + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + nomE[0][0].ToString() + "');COMMIT;");
+                     bd.delete("DELETE FROM EquipementsEntites WHERE idEntite = (SELECT idEntite FROM Entites WHERE nom ='" + persoActuel.Nom + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + nomE[0][0].ToString() + "')");
+                        */
+                    }
+                /*
+                 bd.delete("DELETE FROM StatistiquesEntites WHERE idEntite=( SELECT idEntite FROM Entites WHERE nom='" + persoActuel.Nom + "')");
+                 bd.delete("DELETE FROM Entites WHERE nom='" + persoActuel.Nom + "'");
+                 Player.LstEntites.Remove(persoActuel);*/
             }
 
             return;
