@@ -58,6 +58,8 @@ namespace Gofus
             for (int i = 0; i < nbScript; i++)
                 cbScript.Items.Add(Player.LstScripts[i].Nom);
 
+            
+
             //todo création de plusieurs onglets personnage
             lblNomClasse.Content = ent.ClasseEntite.Nom;
             lblNbPointsC.Content = ent.CapitalLibre;
@@ -77,7 +79,7 @@ namespace Gofus
                     AfficherElementEquipe(item, emplacement[0].ToString());
             }
             cbScript.SelectedValue = ent.ScriptEntite.Nom;
-
+            #region btnStats
             if (ent.CapitalLibre > 0)
             {
                 btnAgilite.Visibility = Visibility.Visible;
@@ -87,7 +89,7 @@ namespace Gofus
                 btnSagesse.Visibility = Visibility.Visible;
                 btnVitalite.Visibility = Visibility.Visible;
             }
-
+            #endregion
             foreach (Statistique st in ent.LstStats)
             {
                 if (st.Nom == Statistique.element.experience)
@@ -546,19 +548,6 @@ namespace Gofus
             }
         }
 
-        /*   public void DesEquipes(Equipement equiper, string emplacement)
-           {
-               Player.LstEntites.First(x => x.Nom == persoActuel.Nom).enleverItem(equiper);
-               Player.Inventaire.First(x => x.Nom == equiper.Nom).QuantiteEquipe--;
-               bd.Update("UPDATE JoueursEquipements SET quantiteEquipe= " + Player.Inventaire.First(x => x.Nom == equiper.Nom).QuantiteEquipe.ToString() + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + equiper.Nom + "');COMMIT;");
-               bd.delete("DELETE FROM EquipementsEntites WHERE idEntite = (SELECT idEntite FROM Entites WHERE nom ='" + persoActuel.Nom + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + equiper.Nom + "') AND emplacement ='" + emplacement + "'");
-
-                   if ((Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(Inventaire)) as Inventaire) != null)
-                       (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Inventaire)) as Inventaire).refreshInv();
-               initialiserLstStats(persoActuel.LstStats);
-               dgStats.ItemsSource = lstStat;
-               dgDommage.ItemsSource = initialiserLstDMG(persoActuel);
-           }*/
         private string TrouveEmplacement(Image img)
         {
             string emplacement = "";
@@ -591,7 +580,6 @@ namespace Gofus
             }
             return emplacement;
         }
-
 
         private void ClickVendre(object sender, RoutedEventArgs e)
         {
@@ -677,14 +665,22 @@ namespace Gofus
                     main.tCPerso.Items.Add(onglet);
                 }
                 if (System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(Inventaire)) != null)
-                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Inventaire)) as Inventaire).refreshInv();
-
-                
+                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Inventaire)) as Inventaire).refreshInv();              
             }
 
             return;
-        }     
+        }
 
+        private void cbScript_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            foreach (Script item in Player.LstScripts)
+            {
+                if(item.Nom == cbScript.SelectedItem.ToString())
+                {
+                bd.Update("UPDATE Entites SET idScript = (SELECT idScript FROM Scripts WHERE Uuid ='"+item.Uuid+"') WHERE nom ='"+ persoActuel.Nom + "'");
+                }
+            }
 
+        }
     }
 }
