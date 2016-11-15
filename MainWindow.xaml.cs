@@ -70,6 +70,7 @@ namespace Gofus
             if (Player.estAdmin)
             {
                 PaneauAdmin.Visibility = Visibility.Visible;
+                
 
             }
             else
