@@ -101,7 +101,34 @@ namespace Gofus
 
             pgchat.fenetreChat.Close();
            }
-           
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             
 
@@ -195,6 +222,9 @@ namespace Gofus
                 foreach (Effet effet in item.LstEffets)
                     LstStats.Add(effet.NomSimplifier + " : " + effet.DmgMin + " à " + effet.DmgMax);
                 LstCaras.Add("Pa requis : " + item.Pa);
+                LstCaras.Add("Portée : " + item.ZonePortee.Nom + " de " + (item.ZonePortee.PorteeMax == item.ZonePortee.PorteeMin ? item.ZonePortee.PorteeMax.ToString() : item.ZonePortee.PorteeMin.ToString() + " à " + item.ZonePortee.PorteeMax.ToString()));
+                //LstCaras.Add("Zone d'effet : " + item.ZoneEffet.Nom + " de " + (item.ZoneEffet.PorteeMax == item.ZoneEffet.PorteeMin ? item.ZoneEffet.PorteeMax.ToString() : item.ZoneEffet.PorteeMin.ToString() + " à " + item.ZoneEffet.PorteeMax.ToString()));
+
             }
             else
                 tbCara.Visibility = Visibility.Hidden;
