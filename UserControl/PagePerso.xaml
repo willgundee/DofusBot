@@ -86,8 +86,8 @@
         <Label x:Name="lblClasse" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="94,34,0,0" Content="Classe : "/>
         <Label x:Name="lblNomJoueur" VerticalAlignment="Top" FontSize="25" HorizontalAlignment="Left" Margin="10,-4,0,0" Height="47" Width="167"/>
         <Label x:Name="lblNomClasse" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="144,34,0,0" Height="26" Width="102"/>
-        <Label x:Name="lblScript" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="40,25,0,190" FontSize="15" Height="33">Script :</Label>
-        <ComboBox x:Name="cbScript" Grid.Column="1" Grid.Row="1" Margin="100,20,60,188"  />
+        <Label x:Name="lblScript" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="40,12,0,181" FontSize="15" Height="33">Script :</Label>
+        <ComboBox x:Name="cbScript" Grid.Column="1" Grid.Row="1" Margin="100,15,60,186" Height="25" SelectionChanged="cbScript_SelectionChanged"  />
         <Label x:Name="lblPCap" Content="Point Capital:" Width="100" Grid.Column="0" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="13,0,0,8" />
         <Label x:Name="lblNbPointsC" Content="11" Width="70" Height="31" Grid.Row="1" HorizontalAlignment="Center" FontSize="14" VerticalAlignment="Bottom" Margin="90,0,90,5" Grid.Column="0" />
         <Label Content="Statistiques"  FontSize="16" Height="30" Width="150" Margin="10,106,90,158"  />
@@ -106,7 +106,7 @@
                         </DataGrid.Columns>
                     </DataGrid>
                     <Button Name="btnVitalite"     Content="+"  Width="25" Height="20" Visibility="Hidden" VerticalAlignment="Center" HorizontalAlignment="Left" Click="btnStatsPlus_Click" Grid.Column="1" Margin="0,40,0,0" />
-                    <Button Name="btnSagesse"      Content="+"  Width="25" Height="20" Visibility="Hidden" VerticalAlignment="Center" HorizontalAlignment="Left"  Click="btnStatsPlus_Click" Grid.Column="1" Margin="0,194,39,104" />
+                    <Button Name="btnSagesse"      Content="+"  Width="25" Height="20" Visibility="Hidden" VerticalAlignment="Center" HorizontalAlignment="Left"  Click="btnStatsPlus_Click" Grid.Column="1" Margin="0,90,0,0" />
                     <Button Name="btnForce"        Content="+"  Width="25" Height="20" Visibility="Hidden" VerticalAlignment="Center" HorizontalAlignment="Left" Click="btnStatsPlus_Click" Grid.Column="1" Margin="0,140,0,0" />
                     <Button Name="btnIntelligence" Content="+"  Width="25" Height="20" Visibility="Hidden" VerticalAlignment="Bottom" HorizontalAlignment="Left" Click="btnStatsPlus_Click" Grid.Column="1" Margin="0,0,0,55" />
                     <Button Name="btnChance"       Content="+"  Width="25" Height="20" Visibility="Hidden" VerticalAlignment="Bottom" HorizontalAlignment="Left" Click="btnStatsPlus_Click" Grid.Column="1" Margin="0,0,0,30" />

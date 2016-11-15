@@ -44,7 +44,7 @@ namespace Gofus
 
             aTimer = new DispatcherTimer();
             aTimer.Tick += new EventHandler(Timer_Tick);
-            aTimer.Interval = new TimeSpan(0, 0,2);
+            aTimer.Interval = new TimeSpan(0, 0, 2);
 
             aTimer.Start();
             Scroll.ScrollToEnd();
@@ -82,6 +82,7 @@ namespace Gofus
         private void BtnEnvoyer_Click(object sender, RoutedEventArgs e)
         {
             string text = txtMessage.Text;
+            text = text.Replace("'", "\\'");
             trdEnvoie = new Thread(() =>
             {
                 chat.envoyerMessage(text);
@@ -95,11 +96,16 @@ namespace Gofus
         {
             if (e.Key == Key.Return && aTimer.IsEnabled)
             {
-                string text = txtMessage.Text;
-                trdEnvoie = new Thread(() => { chat.envoyerMessage(text); });
-                trdEnvoie.Start();
-                Thread.Yield();
-                Scroll.ScrollToEnd(); txtMessage.Text = "";
+                if (txtMessage.Text != "")
+                {
+                    string text = txtMessage.Text;
+                   text = text.Replace("'", @"\'");
+                    trdEnvoie = new Thread(() => { chat.envoyerMessage(text); });
+                    trdEnvoie.Start();
+                    Thread.Yield();
+                    Scroll.ScrollToEnd(); txtMessage.Text = "";
+                }
+
             }
         }
 
