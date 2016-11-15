@@ -57,7 +57,7 @@ namespace Gofus
         private void addScripts(int idJoueur)
         {
             LstScripts = new ObservableCollection<Script>();
-            string script = "SELECT contenu,nom,uuid FROM JoueursScripts j INNER JOIN Scripts s ON s.idScript = j.idScript WHERE idJoueur =" + idJoueur;
+            string script = "SELECT s.contenu,s.nom,s.uuid FROM JoueursScripts j INNER JOIN Scripts s ON s.idScript = j.idScript WHERE idJoueur =" + idJoueur;
             List<string>[] scripts = bd.selection(script);
             if (scripts[0][0] != "rien")//TODO: enlever ensuite
                 foreach (List<string> src in scripts)

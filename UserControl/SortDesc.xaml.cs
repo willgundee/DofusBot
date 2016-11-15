@@ -21,42 +21,69 @@ namespace Gofus
 
             Imgsort.Source = path;
             lblNom.Text = s.Nom;
-            lblDescription.Text = s.Description;
-
             lblExperiece.Text = toLevel(s).ToString();
-
             lblPa.Text = s.PointActionRequis.ToString();
            
-            TauxDeRelance(s);
-
+            nbEffet(s);
             NomCommunZones(s);
-
+            TauxDeRelance(s);
             #region vrai ou faux
+            lstInfo.Text += "Cellule libre  : ";
             if (s.CelluleLibre)
             {
-                lblCellule.Text = "Vrai";
+
+                lstInfo.Text += "Vrai";
             }
             else
             {
-                lblCellule.Text = "Faux";
+                lstInfo.Text += "Faux";
             }
+            lstInfo.Text += Environment.NewLine + "------------------------------------------------" + Environment.NewLine;
+            lstInfo.Text += "Ligne de vue  : ";
             if (s.LigneDeVue)
             {
-                lblLigne.Text = "Vrai";
+                lstInfo.Text += "Vrai";
             }
             else
             {
-                lblLigne.Text = "Faux";
+                lstInfo.Text += "Faux";
             }
+            lstInfo.Text += Environment.NewLine + "------------------------------------------------" + Environment.NewLine;
+            lstInfo.Text += "Portée modifiable  : ";
             if (s.PorteeModifiable)
             {
-                lblPorte.Text = "Vrai";
+                lstInfo.Text += "Vrai";
             }
+
             else
             {
-                lblPorte.Text = "Faux";
+                lstInfo.Text += "Faux";
             }
+            lstInfo.Text += Environment.NewLine + "------------------------------------------------" + Environment.NewLine;
             #endregion
+            lstInfo.Text += "Description : " + Environment.NewLine;
+            lstInfo.Text += s.Description;
+
+        }
+
+        public void nbEffet(Sort s)
+        {
+            lstInfo.Text += "------------------------------------------------" + Environment.NewLine;
+            lstInfo.Text += "Effet :" + Environment.NewLine;
+
+            foreach (Effet item in s.LstEffets)
+            {
+                if (item.DmgMax == 0 && item.DmgMin == 0)
+                    lstInfo.Text += item.NomSimplifier + Environment.NewLine;
+                else if (item.DmgMax == item.DmgMin)
+                    lstInfo.Text += item.NomSimplifier + " de " + item.DmgMax + Environment.NewLine;
+                else
+                    lstInfo.Text += item.NomSimplifier + " de " + item.DmgMax + " à " + item.DmgMin + Environment.NewLine;
+
+                
+            }
+                lstInfo.Text += "------------------------------------------------" + Environment.NewLine;
+            
         }
 
         public Dictionary<int, double> dictLvl = new Dictionary<int, double>()
@@ -343,8 +370,9 @@ namespace Gofus
                     nomZoneP = s.ZonePortee.Nom.ToString();
                     break;
             }
-            lblZoneE.Text = nomZoneE;
-            lblZoneP.Text = nomZoneP;
+            lstInfo.Text +=  "Zone de portée :"+ Environment.NewLine + nomZoneP + " de "+ s.ZonePortee.PorteeMin+" à "+ s.ZonePortee.PorteeMax+Environment.NewLine  + "------------------------------------------------" + Environment.NewLine ;
+            lstInfo.Text += "Zone d'effet :" + Environment.NewLine + nomZoneE + " de " + s.ZoneEffet.PorteeMin + " à " + s.ZoneEffet.PorteeMax + Environment.NewLine  + "------------------------------------------------" + Environment.NewLine;
+
         }
 
         public void TauxDeRelance(Sort s)
@@ -353,18 +381,18 @@ namespace Gofus
 
             if (Convert.ToInt32(s.TauxDeRelance)>0)
             {
-                lblTtaux.Content = "NB lancé par tour :";
-                taux=s.TauxDeRelance.ToString();
+                lstInfo.Text += "NB lancé par tour : " ;
+                taux =s.TauxDeRelance.ToString();
             }
             else
             {
-                lblTtaux.Content = "Tour de relance :";
+                lstInfo.Text += "Tour de relance : ";
                 taux = (Convert.ToInt32(s.TauxDeRelance.ToString()) * -1).ToString();
             }
 
-            lblTaux.Text = taux;
+            lstInfo.Text += taux + Environment.NewLine + "------------------------------------------------" + Environment.NewLine;
         }
-
+       
     }
 
 

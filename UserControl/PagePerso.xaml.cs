@@ -669,7 +669,7 @@ namespace Gofus
                 }
 
                 main.tCPerso.SelectedIndex = 0;
-                if (main.tCPerso.Items.Count <= 4)
+                if (Player.LstEntites.Count == 4)
                 {
                     TabItem onglet = new TabItem();
                     onglet.Header = "+";

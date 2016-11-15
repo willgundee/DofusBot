@@ -133,7 +133,7 @@ namespace Gofus
 
             if (valider())
             {//TODO: revoir le link du script et bien linker la page que tu ajoute
-                bd.insertion("INSERT INTO Entites(idClasse, idScript,idJoueur, Nom, CapitalLibre) VALUES((SELECT idClasse FROM Classes WHERE nom ='" + Cl.Nom + "'),(SELECT idScript FROM JoueursScripts  s INNER JOIN Joueurs j ON  j.idJoueur = s.idJoueur WHERE j.NomUtilisateur='" + Player.NomUtilisateur + "'),(SELECT idJoueur FROM Joueurs WHERE NomUtilisateur='" + Player.NomUtilisateur + "'),'" + txtNom.Text.ToString() + "', 5)");
+                bd.insertion("INSERT INTO Entites(idClasse, idScript,idJoueur, Nom, CapitalLibre) VALUES((SELECT idClasse FROM Classes WHERE nom ='" + Cl.Nom + "'),(SELECT idScript FROM JoueursScripts  s INNER JOIN Joueurs j ON  j.idJoueur = s.idJoueur WHERE j.NomUtilisateur='" + Player.NomUtilisateur + "' LIMIT 1),(SELECT idJoueur FROM Joueurs WHERE NomUtilisateur='" + Player.NomUtilisateur + "'),'" + txtNom.Text.ToString() + "', 5)");
                 List<string> idEntite = bd.selection("SELECT idEntite FROM Entites WHERE nom = '" + txtNom.Text.ToString() + "'")[0];
                 for (int i = 1; i < 6; i++)
                     bd.insertion("INSERT INTO statistiquesentites(idEntite,idTypeStatistique,valeur) VALUES ((SELECT idEntite FROM Entites WHERE nom='" + txtNom.Text.ToString() + "')," + i + ",0)");
