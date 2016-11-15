@@ -147,7 +147,7 @@ namespace GofusSharp
             }
         }
 
-        public void DebuterAction(Entite entite)
+        internal void DebuterAction(Entite entite)
         {
             entite.PM = entite.PM_MAX;
             entite.PA = entite.PA_MAX;
@@ -179,7 +179,7 @@ namespace GofusSharp
             }
         }
 
-        public void SyncroniserJoueur()
+        internal void SyncroniserJoueur()
         {
             foreach (EntiteInconnu entiteInconnu in ListEntites)
             {
