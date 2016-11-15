@@ -64,6 +64,7 @@
     <Compile Include="Effet.cs" />
     <Compile Include="Entite.cs" />
     <Compile Include="EntiteInconnu.cs" />
+    <Compile Include="EnviroTest.cs" />
     <Compile Include="Envoutement.cs" />
     <Compile Include="Equipement.cs" />
     <Compile Include="Liste.cs" />
