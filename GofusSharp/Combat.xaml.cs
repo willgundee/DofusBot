@@ -215,7 +215,10 @@ namespace GofusSharp
                 if (entite.Etat == EntiteInconnu.typeEtat.mort)
                     continue;
                 CombatCourant.DebuterAction(entite);
-                Action(CombatCourant.TerrainPartie, entite as Personnage, CombatCourant.ListEntites.AsReadOnly());
+                if (entite is Personnage)
+                    Action(CombatCourant.TerrainPartie, entite as Personnage, CombatCourant.ListEntites.AsReadOnly());
+                else
+                    Action(CombatCourant.TerrainPartie, entite as Entite, CombatCourant.ListEntites.AsReadOnly());
                 CombatCourant.SyncroniserJoueur();
                 UpdateInfo();
                 bool vivante = false;

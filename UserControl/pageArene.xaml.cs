@@ -111,7 +111,7 @@ namespace Gofus
             if (dataGrid.SelectedIndex != -1)
             {
                 
-                    string sele = "SELECT * FROM Entites WHERE nom = " + ((KeyValuePair<string, int>)dataGrid.SelectedItem).Key;
+                    string sele = "SELECT * FROM Entites WHERE nom = '" + ((KeyValuePair<string, string>)dataGrid.SelectedItem).Key+"'";
                     List<string>[] defen = bd.selection(sele);
                     Entite def = new Entite(defen[0]);
                

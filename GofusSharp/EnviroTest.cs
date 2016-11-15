@@ -27,19 +27,33 @@ namespace test
         //}
 
         public void Execution(Terrain terrain, Entite Perso, Liste<EntiteInconnu> ListEntites)
-        { 
-            EntiteInconnu ennemi = Perso.EnemiLePlusProche(ListEntites);
-            Sort Bavouille;
-            Sort Mordillement;
+        {
+            Sort Bavouille = null;
+            Sort Mordillement = null;
             foreach (Sort item in Perso.ClasseEntite.ListSorts)
             {
                 switch (item.Nom)
                 {
-                    default:
+                    case "Bavouille":
+                        Bavouille = item;
+                        break;
+                    case "Mordillement":
+                        Mordillement = item;
                         break;
                 }
             }
-            if ()
+            while (terrain.DistanceEntreCases(Perso.Position, Perso.EnemiLePlusProche(ListEntites).Position) != 1)
+            {
+                Perso.AvancerVers(terrain.CheminEntreCases(Perso.Position, Perso.EnemiLePlusProche(ListEntites).Position)[0], 1);
+                if (terrain.DistanceEntreCases(Perso.Position, Perso.EnemiLePlusProche(ListEntites).Position) > 1 || terrain.DistanceEntreCases(Perso.Position, Perso.EnemiLePlusProche(ListEntites).Position) < 5)
+                    Perso.UtiliserSort(Bavouille, Perso.EnemiLePlusProche(ListEntites).Position);
+
+            }
+
+            if (terrain.DistanceEntreCases(Perso.Position, Perso.EnemiLePlusProche(ListEntites).Position) == 1)
+                Perso.UtiliserSort(Mordillement, Perso.EnemiLePlusProche(ListEntites).Position);
+
+
         }
     }
 }
