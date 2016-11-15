@@ -64,22 +64,13 @@ namespace GofusSharp
 
         #region utilitaire
 
-        private Liste<EntiteInconnu> ListeEnemis()
+        public EntiteInconnu EnnemiLePlusProche(Liste<EntiteInconnu> ListEntites)
         {
-            return ListEntites.FindAll(x => x.Equipe != Equipe) as Liste<EntiteInconnu>;
-        }
-        private Liste<EntiteInconnu> ListeAllies()
-        {
-            return ListEntites.FindAll(x => x.Equipe == Equipe) as Liste<EntiteInconnu>;
-        }
-
-        public EntiteInconnu EnemiLePlusProche(Liste<EntiteInconnu> ListEntites)
-        {
-            return (ListEntites.FindAll(x => x.Equipe != Equipe) as Liste<EntiteInconnu>).First(x => Math.Abs(x.Position.X - Position.X) + Math.Abs(x.Position.Y - Position.Y) == ListEntites.Min(y => Math.Abs(y.Position.X - Position.X) + Math.Abs(y.Position.Y - Position.Y)));
+            return ListEntites.FindAll(x => x.Equipe != Equipe).First(x => Math.Abs(x.Position.X - Position.X) + Math.Abs(x.Position.Y - Position.Y) == ListEntites.Min(y => Math.Abs(y.Position.X - Position.X) + Math.Abs(y.Position.Y - Position.Y)));
         }
         public EntiteInconnu AllieLePlusProche(Liste<EntiteInconnu> ListEntites)
         {
-            return (ListEntites.FindAll(x => x.Equipe == Equipe) as Liste<EntiteInconnu>).First(x => Math.Abs(x.Position.X - Position.X) + Math.Abs(x.Position.Y - Position.Y) == ListEntites.Min(y => Math.Abs(y.Position.X - Position.X) + Math.Abs(y.Position.Y - Position.Y)));
+            return ListEntites.FindAll(x => x.Equipe == Equipe).First(x => Math.Abs(x.Position.X - Position.X) + Math.Abs(x.Position.Y - Position.Y) == ListEntites.Min(y => Math.Abs(y.Position.X - Position.X) + Math.Abs(y.Position.Y - Position.Y)));
         }
 
         #endregion
