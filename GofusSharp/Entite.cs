@@ -1263,9 +1263,9 @@ namespace GofusSharp
                 Rcible.Y = Position.Y - (cible.Y - Position.Y);
                 if (Math.Abs(Position.X - Rcible.X) >= Math.Abs(Position.Y - Rcible.Y))
                 {
-                    if (Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) < 0 && TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y] == null && !ChangerPosition(TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
+                    if (Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) < 0 || TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
                     {
-                        if (Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) < 0 && TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)] == null && !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)]))
+                        if (Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) < 0 || TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)]))
                         {
                             return PM_Debut - PM;
                         }
@@ -1273,9 +1273,9 @@ namespace GofusSharp
                 }
                 else
                 {
-                    if (Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) < 0 && TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)] == null && !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)]))
+                    if (Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) < 0 || TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)]))
                     {
-                        if (Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) < 0 && TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y] == null && !ChangerPosition(TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
+                        if (Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) < 0 || TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
                         {
                             return PM_Debut - PM;
                         }

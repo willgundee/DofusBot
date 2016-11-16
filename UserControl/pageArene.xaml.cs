@@ -124,7 +124,7 @@ namespace Gofus
                 List<Entite> lstDef = new List<Entite>();
                 lstAtt.Add((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow).Player.LstEntites.First(x => x.IdEntite == ((KeyValuePair<int, string>)cboPerso.SelectedItem).Key));
                 lstDef.Add(def);
-                GofusSharp.Combat combat = new GofusSharp.Combat(lstAtt, lstDef, 5);
+                GofusSharp.Combat combat = new GofusSharp.Combat(lstAtt, lstDef, 10);
             }
         }
     }
