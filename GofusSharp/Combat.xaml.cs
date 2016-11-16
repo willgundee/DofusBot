@@ -43,11 +43,11 @@ namespace GofusSharp
             }
             UpdateInfo();
         }
-        public Combat(List<Gofus.Entite> lstJoueurAtt, List<Gofus.Entite> lstJoueurDef)
+        public Combat(List<Gofus.Entite> lstJoueurAtt, List<Gofus.Entite> lstJoueurDef, int seed)
         {
             InitializeComponent();
             this.Show();
-            CreerPartie(lstJoueurAtt, lstJoueurDef);
+            CreerPartie(lstJoueurAtt, lstJoueurDef, seed);
             //System.Windows.Forms.MessageBox.Show(JsonConvert.SerializeObject(CombatCourant));
             for (int i = 0; i < 10; i++)
             {
@@ -64,7 +64,7 @@ namespace GofusSharp
             UpdateInfo();
         }
 
-        private void CreerPartie(List<Gofus.Entite> lstJoueurAtt, List<Gofus.Entite> lstJoueurDef)
+        private void CreerPartie(List<Gofus.Entite> lstJoueurAtt, List<Gofus.Entite> lstJoueurDef, int seed)
         {
             Liste<Entite> ListEntiteAtt = new Liste<Entite>();
             Liste<Entite> ListEntiteDef = new Liste<Entite>();
@@ -85,7 +85,7 @@ namespace GofusSharp
                     ListEntiteDef.Add(new Entite(entite, EntiteInconnu.type.defendant, terrain));
             }
 
-            CombatCourant = new Partie(terrain, ListEntiteAtt, ListEntiteDef, 1);
+            CombatCourant = new Partie(terrain, ListEntiteAtt, ListEntiteDef, seed);
         }
 
         private void Action(Terrain terrain, Personnage joueur, Liste<EntiteInconnu> ListEntites)

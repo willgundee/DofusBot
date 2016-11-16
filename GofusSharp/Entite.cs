@@ -5,6 +5,7 @@ using System.Linq;
 //getCellToUseWeapon
 //getWeaponAffectedEntities
 //getSpellAffectedEntities
+//moveAwayFrom
 
 namespace GofusSharp
 {
@@ -17,7 +18,7 @@ namespace GofusSharp
         internal Liste<EntiteInconnu> ListEntites { get; set; }
 
         #endregion
-        //
+        
         #region constucteur
 
         internal Entite(Gofus.Entite entite, type Equipe, Terrain TerrainEntite) :base(entite, Equipe)
@@ -66,8 +67,8 @@ namespace GofusSharp
 
         public EntiteInconnu EnnemiLePlusProche(Liste<EntiteInconnu> ListEntites)
         {
-            int min = Math.Abs(ListEntites[0].Position.X - Position.X) + Math.Abs(ListEntites[0].Position.Y - Position.Y);
-            EntiteInconnu eMin = ListEntites[0];
+            int min = Math.Abs(ListEntites.First(x => x.Equipe != Equipe).Position.X - Position.X) + Math.Abs(ListEntites.First(x => x.Equipe != Equipe).Position.Y - Position.Y);
+            EntiteInconnu eMin = ListEntites.First(x => x.Equipe != Equipe);
             foreach (EntiteInconnu x in ListEntites)
             {
                 if (x.Equipe != Equipe && Math.Abs(x.Position.X - Position.X) + Math.Abs(x.Position.Y - Position.Y) < min)
@@ -80,8 +81,8 @@ namespace GofusSharp
         }
         public EntiteInconnu AllieLePlusProche(Liste<EntiteInconnu> ListEntites)
         {
-            int min = Math.Abs(ListEntites[0].Position.X - Position.X) + Math.Abs(ListEntites[0].Position.Y - Position.Y);
-            EntiteInconnu eMin = ListEntites[0];
+            int min = Math.Abs(ListEntites.First(x => x.Equipe == Equipe).Position.X - Position.X) + Math.Abs(ListEntites.First(x => x.Equipe == Equipe).Position.Y - Position.Y);
+            EntiteInconnu eMin = ListEntites.First(x => x.Equipe == Equipe);
             foreach (EntiteInconnu x in ListEntites)
             {
                 if (x.Equipe == Equipe && Math.Abs(x.Position.X - Position.X) + Math.Abs(x.Position.Y - Position.Y) < min)
@@ -1248,6 +1249,39 @@ namespace GofusSharp
                 PM_Alouer--;
                 if (Position == cible)
                     return PM_Debut - PM;
+            }
+            return PM_Debut - PM;
+        }
+        
+        public int SEloignerDe(Case cible)
+        {
+            Case Rcible = new Case(0, 0, Case.type.vide);
+            int PM_Debut = PM;
+            while (PM > 0)
+            {
+                Rcible.X = Position.X - (cible.X - Position.X);
+                Rcible.Y = Position.Y - (cible.Y - Position.Y);
+                if (Math.Abs(Position.X - Rcible.X) >= Math.Abs(Position.Y - Rcible.Y))
+                {
+                    if (Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) < 0 && TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y] == null && !ChangerPosition(TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
+                    {
+                        if (Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) < 0 && TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)] == null && !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)]))
+                        {
+                            return PM_Debut - PM;
+                        }
+                    }
+                }
+                else
+                {
+                    if (Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) < 0 && TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)] == null && !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)]))
+                    {
+                        if (Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) < 0 && TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y] == null && !ChangerPosition(TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
+                        {
+                            return PM_Debut - PM;
+                        }
+                    }
+                }
+                PM--;
             }
             return PM_Debut - PM;
         }
