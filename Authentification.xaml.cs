@@ -17,18 +17,12 @@ namespace Gofus
         public Authentification()
         {
             InitializeComponent();
-
             music = new MediaPlayer();
-
             PlaySound();
-
-
         }
 
         private void PlaySound()
-        {
-           
-            
+        {                   
             music.Open(new Uri(@"..\..\Resources\Music.mp3", UriKind.RelativeOrAbsolute));
             music.Volume = 1;
             music.Play();
@@ -38,16 +32,17 @@ namespace Gofus
         {
             if (!(hh[0][3] == txtMDP.Password))
             {
-                return false;
-            }
-
+                lblMDP.Foreground = new SolidColorBrush(Colors.Red);
+                return false;            
+            }          
             return true;
         }
 
         private void btnConnexion_Click(object sender, RoutedEventArgs e)
         {
-
             List<string>[] hh = bdService.selection("SELECT * FROM Joueurs WHERE nomUtilisateur ='" + txtNomU.Text + "'");
+            lblMDP.Foreground = new SolidColorBrush(Colors.Black);
+            lblNomU.Foreground = new SolidColorBrush(Colors.Black);
             if (hh[0][0] != "rien" && valide(hh) == true)
             {
                 Mouse.SetCursor(Cursors.AppStarting);
@@ -56,7 +51,10 @@ namespace Gofus
                 perso.Show();
                 this.Close();
             }
-
+            if (hh[0][0] == "rien")
+            {
+                lblNomU.Foreground = new SolidColorBrush(Colors.Red);
+            }
         }
 
         private void btnVisionner_Click(object sender, RoutedEventArgs e)
@@ -69,17 +67,17 @@ namespace Gofus
         private void btnInscription_Click(object sender, RoutedEventArgs e)
         {
             // System.Windows.Forms.MessageBox.Show("Bientôt disponible !");
-            CreationCompteWindow creation = new CreationCompteWindow();
+            créationUser creation = new créationUser();
             creation.Show();
             this.Close();
         }
         private void OnKeyDowntxtMessage(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-         
-
+        {     
             if (e.Key == Key.Return)
             {
                 List<string>[] hh = bdService.selection("SELECT * FROM Joueurs WHERE nomUtilisateur ='" + txtNomU.Text + "'");
+                lblMDP.Foreground = new SolidColorBrush(Colors.Black);
+                lblNomU.Foreground = new SolidColorBrush(Colors.Black);
                 if (hh[0][0] != "rien" && valide(hh) == true)
                 {
                     Mouse.SetCursor(Cursors.AppStarting);
@@ -88,6 +86,11 @@ namespace Gofus
                     perso.Show();
                     this.Close();
                 }
+                if (hh[0][0] == "rien")
+                {
+                    lblNomU.Foreground = new SolidColorBrush(Colors.Red);
+                }
+
             }
 
         }

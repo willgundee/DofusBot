@@ -134,7 +134,7 @@
         </DataGrid-->
         <Label Name="lblexp" Content="Experience :"  HorizontalAlignment="Left" Height="25" Margin="94,51,0,0" VerticalAlignment="Top" />
         <ProgressBar Name="pgbExp" HorizontalAlignment="Left" Height="15" Margin="94,76,0,0" VerticalAlignment="Top" Width="100" Foreground="GreenYellow" />
-        <Button x:Name="btnSupprimer" Content="Supprimer ce personnage&#xD;&#xA;" HorizontalAlignment="Left" Margin="16.161,280,0,0" VerticalAlignment="Top" Width="144" Height="20" FontSize="10.667" FontFamily="Mongolian Baiti" Click="btnSupprimer_Click" Grid.Column="1" Grid.RowSpan="2"/>
+        <Button x:Name="btnSupprimer" Content="X" BorderBrush="DarkRed" Foreground="DarkRed" Background="Black" HorizontalAlignment="Right" Margin="15" VerticalAlignment="Top" Width="25" Height="25" FontSize="18" FontFamily="Mongolian Baiti" Click="btnSupprimer_Click" Grid.Column="1" Grid.RowSpan="2"/>
         <!--Label Name="lblPourcentExp" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="136,53,77,216" Height="25" Width="37" /-->
     </Grid>
 
