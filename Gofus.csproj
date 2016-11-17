@@ -107,6 +107,15 @@
     <Compile Include="PageVisionneuse.xaml.cs">
       <DependentUpon>PageVisionneuse.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Résultat.xaml.cs">
+      <DependentUpon>Résultat.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\PageArme.xaml.cs">
+      <DependentUpon>PageArme.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\PageBestiaire.xaml.cs">
+      <DependentUpon>PageBestiaire.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControl\pageClavardage.xaml.cs">
       <DependentUpon>pageClavardage.xaml</DependentUpon>
     </Compile>
@@ -237,6 +246,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PageVisionneuse.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Résultat.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl\PageArme.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl\PageBestiaire.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

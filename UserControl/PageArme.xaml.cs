@@ -13,19 +13,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace Gofus
 {
     /// <summary>
-    /// Logique d'interaction pour PageDoc.xaml
+    /// Logique d'interaction pour PageArme.xaml
     /// </summary>
-    public partial class PageDoc : UserControl
+    public partial class PageArme : UserControl
     {
-        public PageDoc()
+        public PageArme()
         {
             InitializeComponent();
-            PGSort.Content = new pageSort();
-            pgArme.Content = new PageArme();
-            PgBestiaire.Content = new PageBestiaire();
         }
     }
 }

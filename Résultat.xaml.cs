@@ -10,22 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Gofus
 {
     /// <summary>
-    /// Logique d'interaction pour PageDoc.xaml
+    /// Logique d'interaction pour Résultat.xaml
     /// </summary>
-    public partial class PageDoc : UserControl
+    public partial class Résultat : Window
     {
-        public PageDoc()
+        public Résultat()
         {
             InitializeComponent();
-            PGSort.Content = new pageSort();
-            pgArme.Content = new PageArme();
-            PgBestiaire.Content = new PageBestiaire();
         }
     }
 }

@@ -16,16 +16,13 @@ using System.Windows.Shapes;
 namespace Gofus
 {
     /// <summary>
-    /// Logique d'interaction pour PageDoc.xaml
+    /// Logique d'interaction pour PageBestiaire.xaml
     /// </summary>
-    public partial class PageDoc : UserControl
+    public partial class PageBestiaire : UserControl
     {
-        public PageDoc()
+        public PageBestiaire()
         {
             InitializeComponent();
-            PGSort.Content = new pageSort();
-            pgArme.Content = new PageArme();
-            PgBestiaire.Content = new PageBestiaire();
         }
     }
 }
