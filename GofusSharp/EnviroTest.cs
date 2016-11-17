@@ -31,7 +31,7 @@ namespace test
             Sort Bavouille = null;
             Sort Mordillement = null;
             EntiteInconnu ennemi = null;
-            Perso.PeutUtiliserSort
+            //Perso.PeutUtiliserSort
             foreach (EntiteInconnu entite in ListEntites)
                 if (entite.Equipe != Perso.Equipe)
                 {

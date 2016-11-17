@@ -99,11 +99,6 @@ namespace Gofus
                 });
             trdRefresh.Start();
             Thread.Yield();
-
-
-
-
-
         }
 
         private void btnAtt_Click(object sender, RoutedEventArgs e)
@@ -112,19 +107,16 @@ namespace Gofus
 
             if (dataGrid.SelectedIndex != -1)
             {
-                
-                    string sele = "SELECT * FROM Entites WHERE nom = '" + ((KeyValuePair<string, string>)dataGrid.SelectedItem).Key+"'";
-                    List<string>[] defen = bd.selection(sele);
-                    Entite def = new Entite(defen[0]);
-               
-                
 
-
+                string sele = "SELECT * FROM Entites WHERE nom = '" + ((KeyValuePair<string, string>)dataGrid.SelectedItem).Key + "'";
+                List<string>[] defen = bd.selection(sele);
+                Entite def = new Entite(defen[0]);
+                
                 List<Entite> lstAtt = new List<Entite>();
                 List<Entite> lstDef = new List<Entite>();
                 lstAtt.Add((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow).Player.LstEntites.First(x => x.IdEntite == ((KeyValuePair<int, string>)cboPerso.SelectedItem).Key));
                 lstDef.Add(def);
-                GofusSharp.Combat combat = new GofusSharp.Combat(lstAtt, lstDef, 10);
+                GofusSharp.Combat combat = new GofusSharp.Combat(lstAtt, lstDef, 65555);
             }
         }
     }

@@ -136,5 +136,24 @@ namespace GofusSharp
                 return true;
             return false;
         }
+
+        public Liste<Case> CasesPourAttaquer(EntiteInconnu cible)
+        {
+            Liste<Case> caseValide = new Liste<Case>();
+            foreach (Case[] caseL in TerrainEntite.TabCases)
+                foreach (Case CaseH in caseL)
+                    if (PeutAttaquer(cible))
+                        caseValide.Add(CaseH);
+            return caseValide;
+        }
+        public Liste<Case> CasesPourAttaquer(Case cible)
+        {
+            Liste<Case> caseValide = new Liste<Case>();
+            foreach (Case[] caseL in TerrainEntite.TabCases)
+                foreach (Case CaseH in caseL)
+                    if (PeutAttaquer(cible))
+                        caseValide.Add(CaseH);
+            return caseValide;
+        }
     }
 }

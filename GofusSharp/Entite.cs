@@ -1,12 +1,6 @@
 ﻿using System.Windows;
 using System.Linq;
 
-//TODO
-//getCellToUseWeapon
-//getWeaponAffectedEntities
-//getSpellAffectedEntities
-//moveAwayFrom
-
 namespace GofusSharp
 {
     public class Entite : EntiteInconnu
@@ -18,10 +12,10 @@ namespace GofusSharp
         internal Liste<EntiteInconnu> ListEntites { get; set; }
 
         #endregion
-        
+
         #region constucteur
 
-        internal Entite(Gofus.Entite entite, type Equipe, Terrain TerrainEntite) :base(entite, Equipe)
+        internal Entite(Gofus.Entite entite, type Equipe, Terrain TerrainEntite) : base(entite, Equipe)
         {
             ScriptEntite = entite.ScriptEntite.Code;
             this.TerrainEntite = TerrainEntite;
@@ -345,576 +339,556 @@ namespace GofusSharp
 
         internal int InfligerEffet(Effet effet, Zone zoneEffet, Case source)
         {
-            switch (effet.Nom)
+            foreach (EntiteInconnu entiteInconnu in ListEntites)
             {
-                case Effet.type.pousse:
-                    foreach (EntiteInconnu entiteInconnu in ListEntites)
+                try
+                {
+                    switch (effet.Nom)
                     {
-                        if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
-                        {
-                            int magnitude = (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax);
-                            int direction = 0;
-                            string axe = "";
-                            if (Position.X - entiteInconnu.Position.X != 0)
+                        case Effet.type.pousse:
+                            if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
                             {
-                                direction = Position.X - entiteInconnu.Position.X;
-                                axe = "X";
-                            }
-                            else
-                            {
-                                direction = Position.Y - entiteInconnu.Position.Y;
-                                axe = "Y";
-                            }
-                            int caseTraversee;
-                            for (caseTraversee = 0; caseTraversee < magnitude; caseTraversee++)
-                            {
-                                try
+                                int magnitude = (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax);
+                                int direction = 0;
+                                string axe = "";
+                                if (Position.X - entiteInconnu.Position.X != 0)
                                 {
-                                    if (axe == "X")
-                                    {
-                                        if (!entiteInconnu.ChangerPosition(TerrainEntite.TabCases[entiteInconnu.Position.X - direction][entiteInconnu.Position.Y]))
-                                            break;
-                                    }
-                                    else
-                                    {
-                                        if (!entiteInconnu.ChangerPosition(TerrainEntite.TabCases[entiteInconnu.Position.X][entiteInconnu.Position.Y - direction]))
-                                            break;
-                                    }
+                                    direction = Position.X - entiteInconnu.Position.X;
+                                    axe = "X";
                                 }
-                                catch (System.Exception)
+                                else
                                 {
-                                    break;
+                                    direction = Position.Y - entiteInconnu.Position.Y;
+                                    axe = "Y";
                                 }
-                            }
-                            if (magnitude - caseTraversee == 0)
-                            {
-                                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + entiteInconnu.Nom + " recule de " + caseTraversee + " cases ";
-                                continue;
-                            }
-                            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + entiteInconnu.Nom + " recule de " + caseTraversee + " cases et se cogne contre un obstacle";
-                            int DMG_poussee = 0;
-                            foreach (Statistique stat in ListStatistiques)
-                            {
-                                if (stat.Nom == Statistique.type.DMG_poussee)
-                                    DMG_poussee = stat.Valeur;
-                            }
-                            foreach (Envoutement envoutement in ListEnvoutements)
-                            {
-                                if (envoutement.Stat == Statistique.type.DMG_poussee)
-                                    DMG_poussee = envoutement.Valeur;
-                            }
-                            int RES_poussee = 0;
-                            foreach (Statistique stat in entiteInconnu.ListStatistiques)
-                            {
-                                if (stat.Nom == Statistique.type.RES_poussee)
-                                    RES_poussee = stat.Valeur;
-                            }
-                            foreach (Envoutement envoutement in entiteInconnu.ListEnvoutements)
-                            {
-                                if (envoutement.Stat == Statistique.type.RES_poussee)
-                                    RES_poussee = envoutement.Valeur;
-                            }
-                            if (entiteInconnu.recevoirDommages((8 + (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(1, 8) * RetourneNiveau() / 50) * (magnitude - caseTraversee) + DMG_poussee - RES_poussee))
-                            {
-                                foreach (EntiteInconnu invoc in ListEntites)
+                                int caseTraversee;
+                                for (caseTraversee = 0; caseTraversee < magnitude; caseTraversee++)
                                 {
-                                    if (invoc.Proprietaire == entiteInconnu.IdEntite)
+                                    try
                                     {
-                                        invoc.Etat = typeEtat.mort;
-                                        invoc.Position.Contenu = Case.type.vide;
-                                        invoc.Position = null;
+                                        if (axe == "X")
+                                        {
+                                            if (!entiteInconnu.ChangerPosition(TerrainEntite.TabCases[entiteInconnu.Position.X - direction][entiteInconnu.Position.Y]))
+                                                break;
+                                        }
+                                        else
+                                        {
+                                            if (!entiteInconnu.ChangerPosition(TerrainEntite.TabCases[entiteInconnu.Position.X][entiteInconnu.Position.Y - direction]))
+                                                break;
+                                        }
+                                    }
+                                    catch (System.Exception)
+                                    {
+                                        break;
                                     }
                                 }
+                                if (magnitude - caseTraversee == 0)
+                                {
+                                    (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + entiteInconnu.Nom + " recule de " + caseTraversee + " cases ";
+                                    continue;
+                                }
+                                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + entiteInconnu.Nom + " recule de " + caseTraversee + " cases et se cogne contre un obstacle";
+                                int DMG_poussee = 0;
+                                foreach (Statistique stat in ListStatistiques)
+                                {
+                                    if (stat.Nom == Statistique.type.DMG_poussee)
+                                        DMG_poussee = stat.Valeur;
+                                }
+                                foreach (Envoutement envoutement in ListEnvoutements)
+                                {
+                                    if (envoutement.Stat == Statistique.type.DMG_poussee)
+                                        DMG_poussee = envoutement.Valeur;
+                                }
+                                int RES_poussee = 0;
+                                foreach (Statistique stat in entiteInconnu.ListStatistiques)
+                                {
+                                    if (stat.Nom == Statistique.type.RES_poussee)
+                                        RES_poussee = stat.Valeur;
+                                }
+                                foreach (Envoutement envoutement in entiteInconnu.ListEnvoutements)
+                                {
+                                    if (envoutement.Stat == Statistique.type.RES_poussee)
+                                        RES_poussee = envoutement.Valeur;
+                                }
+                                if (entiteInconnu.recevoirDommages((8 + (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(1, 8) * RetourneNiveau() / 50) * (magnitude - caseTraversee) + DMG_poussee - RES_poussee))
+                                {
+                                    foreach (EntiteInconnu invoc in ListEntites)
+                                    {
+                                        if (invoc.Proprietaire == entiteInconnu.IdEntite)
+                                        {
+                                            invoc.Etat = typeEtat.mort;
+                                            invoc.Position.Contenu = Case.type.vide;
+                                            invoc.Position = null;
+                                        }
+                                    }
+                                }
                             }
-                        }
+                            break;
+                        case Effet.type.repousse:
+                            break;
+                        case Effet.type.repousse_lanceur:
+                            break;
+                        case Effet.type.tire:
+                            if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
+                            {
+                                int magnitude = (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax);
+                                int caseTraversee;
+                                for (caseTraversee = 0; caseTraversee < magnitude; caseTraversee++)
+                                {
+                                    try
+                                    {
+                                        if (Position.X - entiteInconnu.Position.X != 0)
+                                        {
+                                            if (!entiteInconnu.ChangerPosition(TerrainEntite.TabCases[entiteInconnu.Position.X - (Position.X - entiteInconnu.Position.X > 0 ? 1 : -1)][entiteInconnu.Position.Y]))
+                                                break;
+                                        }
+                                        else
+                                        {
+                                            if (!entiteInconnu.ChangerPosition(TerrainEntite.TabCases[entiteInconnu.Position.X][entiteInconnu.Position.Y - (Position.Y - entiteInconnu.Position.Y > 0 ? -1 : 1)]))
+                                                break;
+                                        }
+                                    }
+                                    catch (System.Exception)
+                                    {
+                                        break;
+                                    }
+                                }
+                                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + entiteInconnu.Nom + " est attiré de " + caseTraversee + " cases vers " + Nom;
+                            }
+                            break;
+                        case Effet.type.tire_lanceur:
+                            if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
+                            {
+                                int magnitude = (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax);
+                                int caseTraversee;
+                                for (caseTraversee = 0; caseTraversee < magnitude; caseTraversee++)
+                                {
+                                    try
+                                    {
+                                        if (entiteInconnu.Position.X - Position.X != 0)
+                                        {
+                                            if (!ChangerPosition(TerrainEntite.TabCases[entiteInconnu.Position.X - (entiteInconnu.Position.X - Position.X > 0 ? 1 : -1)][entiteInconnu.Position.Y]))
+                                                break;
+                                        }
+                                        else
+                                        {
+                                            if (!ChangerPosition(TerrainEntite.TabCases[entiteInconnu.Position.X][entiteInconnu.Position.Y - (entiteInconnu.Position.Y - Position.Y > 0 ? -1 : 1)]))
+                                                break;
+                                        }
+                                    }
+                                    catch (System.Exception)
+                                    {
+                                        break;
+                                    }
+                                }
+                                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + entiteInconnu.Nom + " est attiré de " + caseTraversee + " cases vers " + Nom;
+                            }
+                            break;
+                        case Effet.type.teleportation:
+                            bool result = ChangerPosition(source);
+                            if (result)
+                            {
+                                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " s'est téléporté a X: " + source.X + " Y: " + source.Y;
+                            }
+                            return (result ? 1 : 0);
+                        case Effet.type.ATT_neutre:
+                            if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
+                            {
+                                int force = 0;
+                                int puissance = 0;
+                                int DMG_neutre = 0;
+                                int RES_neutre = 0;
+                                int RES_Pourcent_neutre = 0;
+                                int reduction_physique = 0;
+                                foreach (Statistique stat in ListStatistiques)
+                                {
+                                    if (stat.Nom == Statistique.type.force)
+                                        force = stat.Valeur;
+                                    if (stat.Nom == Statistique.type.puissance)
+                                        puissance = stat.Valeur;
+                                    if (stat.Nom == Statistique.type.DMG_neutre)
+                                        DMG_neutre = stat.Valeur;
+                                }
+                                foreach (Envoutement envoutement in ListEnvoutements)
+                                {
+                                    if (envoutement.Stat == Statistique.type.force)
+                                        force += envoutement.Valeur;
+                                    if (envoutement.Stat == Statistique.type.puissance)
+                                        puissance += envoutement.Valeur;
+                                    if (envoutement.Stat == Statistique.type.DMG_neutre)
+                                        DMG_neutre += envoutement.Valeur;
+                                }
+                                if (force < 0)
+                                    force = 0;
+                                if (puissance < 0)
+                                    puissance = 0;
+                                if (DMG_neutre < 0)
+                                    DMG_neutre = 0;
+                                foreach (Statistique stat_def in entiteInconnu.ListStatistiques)
+                                {
+                                    if (stat_def.Nom == Statistique.type.RES_neutre)
+                                        RES_neutre = stat_def.Valeur;
+                                    if (stat_def.Nom == Statistique.type.RES_Pourcent_neutre)
+                                        RES_Pourcent_neutre = stat_def.Valeur;
+                                    if (stat_def.Nom == Statistique.type.reduction_physique)
+                                        reduction_physique = stat_def.Valeur;
+                                }
+                                foreach (Envoutement envoutement_def in entiteInconnu.ListEnvoutements)
+                                {
+                                    if (envoutement_def.Stat == Statistique.type.RES_neutre)
+                                        RES_neutre += envoutement_def.Valeur;
+                                    if (envoutement_def.Stat == Statistique.type.RES_Pourcent_neutre)
+                                        RES_Pourcent_neutre += envoutement_def.Valeur;
+                                    if (envoutement_def.Stat == Statistique.type.reduction_physique)
+                                        reduction_physique += envoutement_def.Valeur;
+                                }
+                                if (RES_neutre < 0)
+                                    RES_neutre = 0;
+                                if (RES_Pourcent_neutre < 0)
+                                    RES_Pourcent_neutre = 0;
+                                if (reduction_physique < 0)
+                                    reduction_physique = 0;
+                                if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_neutre / 100)) * (((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) * (100 + force + puissance) / 100 + DMG_neutre) - RES_neutre - reduction_physique)))
+                                {
+                                    foreach (EntiteInconnu invoc in ListEntites)
+                                    {
+                                        if (invoc.Proprietaire == entiteInconnu.IdEntite)
+                                        {
+                                            invoc.Etat = typeEtat.mort;
+                                            invoc.Position.Contenu = Case.type.vide;
+                                            invoc.Position = null;
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                        case Effet.type.ATT_air:
+                            if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
+                            {
+                                int agilite = 0;
+                                int puissance = 0;
+                                int DMG_air = 0;
+                                int RES_air = 0;
+                                int RES_Pourcent_air = 0;
+                                int reduction_magique = 0;
+                                foreach (Statistique stat in ListStatistiques)
+                                {
+                                    if (stat.Nom == Statistique.type.agilite)
+                                        agilite = stat.Valeur;
+                                    if (stat.Nom == Statistique.type.puissance)
+                                        puissance = stat.Valeur;
+                                    if (stat.Nom == Statistique.type.DMG_air)
+                                        DMG_air = stat.Valeur;
+                                }
+                                foreach (Envoutement envoutement in ListEnvoutements)
+                                {
+                                    if (envoutement.Stat == Statistique.type.agilite)
+                                        agilite += envoutement.Valeur;
+                                    if (envoutement.Stat == Statistique.type.puissance)
+                                        puissance += envoutement.Valeur;
+                                    if (envoutement.Stat == Statistique.type.DMG_air)
+                                        DMG_air += envoutement.Valeur;
+                                }
+                                if (agilite < 0)
+                                    agilite = 0;
+                                if (puissance < 0)
+                                    puissance = 0;
+                                if (DMG_air < 0)
+                                    DMG_air = 0;
+                                foreach (Statistique stat_def in entiteInconnu.ListStatistiques)
+                                {
+                                    if (stat_def.Nom == Statistique.type.RES_air)
+                                        RES_air = stat_def.Valeur;
+                                    if (stat_def.Nom == Statistique.type.RES_Pourcent_air)
+                                        RES_Pourcent_air = stat_def.Valeur;
+                                    if (stat_def.Nom == Statistique.type.reduction_magique)
+                                        reduction_magique = stat_def.Valeur;
+                                }
+                                foreach (Envoutement envoutement_def in entiteInconnu.ListEnvoutements)
+                                {
+                                    if (envoutement_def.Stat == Statistique.type.RES_air)
+                                        RES_air += envoutement_def.Valeur;
+                                    if (envoutement_def.Stat == Statistique.type.RES_Pourcent_air)
+                                        RES_Pourcent_air += envoutement_def.Valeur;
+                                    if (envoutement_def.Stat == Statistique.type.reduction_magique)
+                                        reduction_magique += envoutement_def.Valeur;
+                                }
+                                if (RES_air < 0)
+                                    RES_air = 0;
+                                if (RES_Pourcent_air < 0)
+                                    RES_Pourcent_air = 0;
+                                if (reduction_magique < 0)
+                                    reduction_magique = 0;
+                                if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_air / 100)) * (((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) * (100 + agilite + puissance) / 100 + DMG_air) - RES_air - reduction_magique)))
+                                {
+                                    foreach (EntiteInconnu invoc in ListEntites)
+                                    {
+                                        if (invoc.Proprietaire == entiteInconnu.IdEntite)
+                                        {
+                                            invoc.Etat = typeEtat.mort;
+                                            invoc.Position.Contenu = Case.type.vide;
+                                            invoc.Position = null;
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                        case Effet.type.ATT_feu:
+                            if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
+                            {
+                                int intelligence = 0;
+                                int puissance = 0;
+                                int DMG_feu = 0;
+                                int RES_feu = 0;
+                                int RES_Pourcent_feu = 0;
+                                int reduction_magique = 0;
+                                foreach (Statistique stat in ListStatistiques)
+                                {
+                                    if (stat.Nom == Statistique.type.intelligence)
+                                        intelligence = stat.Valeur;
+                                    if (stat.Nom == Statistique.type.puissance)
+                                        puissance = stat.Valeur;
+                                    if (stat.Nom == Statistique.type.DMG_feu)
+                                        DMG_feu = stat.Valeur;
+                                }
+                                foreach (Envoutement envoutement in ListEnvoutements)
+                                {
+                                    if (envoutement.Stat == Statistique.type.intelligence)
+                                        intelligence += envoutement.Valeur;
+                                    if (envoutement.Stat == Statistique.type.puissance)
+                                        puissance += envoutement.Valeur;
+                                    if (envoutement.Stat == Statistique.type.DMG_feu)
+                                        DMG_feu += envoutement.Valeur;
+                                }
+                                if (intelligence < 0)
+                                    intelligence = 0;
+                                if (puissance < 0)
+                                    puissance = 0;
+                                if (DMG_feu < 0)
+                                    DMG_feu = 0;
+                                foreach (Statistique stat_def in entiteInconnu.ListStatistiques)
+                                {
+                                    if (stat_def.Nom == Statistique.type.RES_feu)
+                                        RES_feu = stat_def.Valeur;
+                                    if (stat_def.Nom == Statistique.type.RES_Pourcent_feu)
+                                        RES_Pourcent_feu = stat_def.Valeur;
+                                    if (stat_def.Nom == Statistique.type.reduction_magique)
+                                        reduction_magique = stat_def.Valeur;
+                                }
+                                foreach (Envoutement envoutement_def in entiteInconnu.ListEnvoutements)
+                                {
+                                    if (envoutement_def.Stat == Statistique.type.RES_feu)
+                                        RES_feu += envoutement_def.Valeur;
+                                    if (envoutement_def.Stat == Statistique.type.RES_Pourcent_feu)
+                                        RES_Pourcent_feu += envoutement_def.Valeur;
+                                    if (envoutement_def.Stat == Statistique.type.reduction_magique)
+                                        reduction_magique += envoutement_def.Valeur;
+                                }
+                                if (RES_feu < 0)
+                                    RES_feu = 0;
+                                if (RES_Pourcent_feu < 0)
+                                    RES_Pourcent_feu = 0;
+                                if (reduction_magique < 0)
+                                    reduction_magique = 0;
+                                if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_feu / 100)) * (((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) * (100 + intelligence + puissance) / 100 + DMG_feu) - RES_feu - reduction_magique)))
+                                {
+                                    foreach (EntiteInconnu invoc in ListEntites)
+                                    {
+                                        if (invoc.Proprietaire == entiteInconnu.IdEntite)
+                                        {
+                                            invoc.Etat = typeEtat.mort;
+                                            invoc.Position.Contenu = Case.type.vide;
+                                            invoc.Position = null;
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                        case Effet.type.ATT_terre:
+                            if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
+                            {
+                                int force = 0;
+                                int puissance = 0;
+                                int DMG_terre = 0;
+                                int RES_terre = 0;
+                                int RES_Pourcent_terre = 0;
+                                int reduction_physique = 0;
+                                foreach (Statistique stat in ListStatistiques)
+                                {
+                                    if (stat.Nom == Statistique.type.force)
+                                        force = stat.Valeur;
+                                    if (stat.Nom == Statistique.type.puissance)
+                                        puissance = stat.Valeur;
+                                    if (stat.Nom == Statistique.type.DMG_terre)
+                                        DMG_terre = stat.Valeur;
+                                }
+                                foreach (Envoutement envoutement in ListEnvoutements)
+                                {
+                                    if (envoutement.Stat == Statistique.type.force)
+                                        force += envoutement.Valeur;
+                                    if (envoutement.Stat == Statistique.type.puissance)
+                                        puissance += envoutement.Valeur;
+                                    if (envoutement.Stat == Statistique.type.DMG_terre)
+                                        DMG_terre += envoutement.Valeur;
+                                }
+                                if (force < 0)
+                                    force = 0;
+                                if (puissance < 0)
+                                    puissance = 0;
+                                if (DMG_terre < 0)
+                                    DMG_terre = 0;
+                                foreach (Statistique stat_def in entiteInconnu.ListStatistiques)
+                                {
+                                    if (stat_def.Nom == Statistique.type.RES_terre)
+                                        RES_terre = stat_def.Valeur;
+                                    if (stat_def.Nom == Statistique.type.RES_Pourcent_terre)
+                                        RES_Pourcent_terre = stat_def.Valeur;
+                                    if (stat_def.Nom == Statistique.type.reduction_physique)
+                                        reduction_physique = stat_def.Valeur;
+                                }
+                                foreach (Envoutement envoutement_def in entiteInconnu.ListEnvoutements)
+                                {
+                                    if (envoutement_def.Stat == Statistique.type.RES_terre)
+                                        RES_terre += envoutement_def.Valeur;
+                                    if (envoutement_def.Stat == Statistique.type.RES_Pourcent_terre)
+                                        RES_Pourcent_terre += envoutement_def.Valeur;
+                                    if (envoutement_def.Stat == Statistique.type.reduction_physique)
+                                        reduction_physique += envoutement_def.Valeur;
+                                }
+                                if (RES_terre < 0)
+                                    RES_terre = 0;
+                                if (RES_Pourcent_terre < 0)
+                                    RES_Pourcent_terre = 0;
+                                if (reduction_physique < 0)
+                                    reduction_physique = 0;
+                                if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_terre / 100)) * (((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) * (100 + force + puissance) / 100 + DMG_terre) - RES_terre - reduction_physique)))
+                                {
+                                    foreach (EntiteInconnu invoc in ListEntites)
+                                    {
+                                        if (invoc.Proprietaire == entiteInconnu.IdEntite)
+                                        {
+                                            invoc.Etat = typeEtat.mort;
+                                            invoc.Position.Contenu = Case.type.vide;
+                                            invoc.Position = null;
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                        case Effet.type.ATT_eau:
+                            if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
+                            {
+                                int chance = 0;
+                                int puissance = 0;
+                                int DMG_eau = 0;
+                                int RES_eau = 0;
+                                int RES_Pourcent_eau = 0;
+                                int reduction_magique = 0;
+                                foreach (Statistique stat in ListStatistiques)
+                                {
+                                    if (stat.Nom == Statistique.type.chance)
+                                        chance = stat.Valeur;
+                                    if (stat.Nom == Statistique.type.puissance)
+                                        puissance = stat.Valeur;
+                                    if (stat.Nom == Statistique.type.DMG_eau)
+                                        DMG_eau = stat.Valeur;
+                                }
+                                foreach (Envoutement envoutement in ListEnvoutements)
+                                {
+                                    if (envoutement.Stat == Statistique.type.chance)
+                                        chance += envoutement.Valeur;
+                                    if (envoutement.Stat == Statistique.type.puissance)
+                                        puissance += envoutement.Valeur;
+                                    if (envoutement.Stat == Statistique.type.DMG_eau)
+                                        DMG_eau += envoutement.Valeur;
+                                }
+                                if (chance < 0)
+                                    chance = 0;
+                                if (puissance < 0)
+                                    puissance = 0;
+                                if (DMG_eau < 0)
+                                    DMG_eau = 0;
+                                foreach (Statistique stat_def in entiteInconnu.ListStatistiques)
+                                {
+                                    if (stat_def.Nom == Statistique.type.RES_eau)
+                                        RES_eau = stat_def.Valeur;
+                                    if (stat_def.Nom == Statistique.type.RES_Pourcent_eau)
+                                        RES_Pourcent_eau = stat_def.Valeur;
+                                    if (stat_def.Nom == Statistique.type.reduction_magique)
+                                        reduction_magique = stat_def.Valeur;
+                                }
+                                foreach (Envoutement envoutement_def in entiteInconnu.ListEnvoutements)
+                                {
+                                    if (envoutement_def.Stat == Statistique.type.RES_eau)
+                                        RES_eau += envoutement_def.Valeur;
+                                    if (envoutement_def.Stat == Statistique.type.RES_Pourcent_eau)
+                                        RES_Pourcent_eau += envoutement_def.Valeur;
+                                    if (envoutement_def.Stat == Statistique.type.reduction_magique)
+                                        reduction_magique += envoutement_def.Valeur;
+                                }
+                                if (RES_eau < 0)
+                                    RES_eau = 0;
+                                if (RES_Pourcent_eau < 0)
+                                    RES_Pourcent_eau = 0;
+                                if (reduction_magique < 0)
+                                    reduction_magique = 0;
+                                if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_eau / 100)) * (((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) * (100 + chance + puissance) / 100 + DMG_eau) - RES_eau - reduction_magique)))
+                                {
+                                    foreach (EntiteInconnu invoc in ListEntites)
+                                    {
+                                        if (invoc.Proprietaire == entiteInconnu.IdEntite)
+                                        {
+                                            invoc.Etat = typeEtat.mort;
+                                            invoc.Position.Contenu = Case.type.vide;
+                                            invoc.Position = null;
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                        case Effet.type.envoutement:
+                            if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
+                            {
+                                entiteInconnu.ListEnvoutements.Add(new Envoutement(effet.Stat, (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax), effet.NbTour.GetValueOrDefault(), IdEntite));
+                            }
+                            break;
+                        case Effet.type.pose_piege:
+                            break;
+                        case Effet.type.pose_glyphe:
+                            break;
+                        case Effet.type.invocation:
+                            //ListEntites.Add(new EntiteInconnu(effet.ValeurMax, new Classe(48,), "bouftou", 1000, source, Equipe, IdEntite));
+                            break;
+                        case Effet.type.soin:
+                            if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
+                            {
+                                int intelligence = 0;
+                                int soin = 0;
+                                foreach (Statistique stat in ListStatistiques)
+                                {
+                                    if (stat.Nom == Statistique.type.intelligence)
+                                        intelligence = stat.Valeur;
+                                    if (stat.Nom == Statistique.type.soin)
+                                        soin = stat.Valeur;
+                                }
+                                foreach (Envoutement envoutement in ListEnvoutements)
+                                {
+                                    if (envoutement.Stat == Statistique.type.intelligence)
+                                        intelligence = envoutement.Valeur;
+                                    if (envoutement.Stat == Statistique.type.soin)
+                                        soin = envoutement.Valeur;
+                                }
+                                entiteInconnu.PV += (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) * (100 + intelligence) / 100 + soin;
+                            }
+                            break;
+                        default:
+                            break;
                     }
-                    break;
-                case Effet.type.repousse:
-                    break;
-                case Effet.type.repousse_lanceur:
-                    break;
-                case Effet.type.tire:
-                    foreach (EntiteInconnu entiteInconnu in ListEntites)
-                    {
-                        if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
-                        {
-                            int magnitude = (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax);
-                            int caseTraversee;
-                            for (caseTraversee = 0; caseTraversee < magnitude; caseTraversee++)
-                            {
-                                try
-                                {
-                                    if (Position.X - entiteInconnu.Position.X != 0)
-                                    {
-                                        if (!entiteInconnu.ChangerPosition(TerrainEntite.TabCases[entiteInconnu.Position.X - (Position.X - entiteInconnu.Position.X > 0 ? 1 : -1)][entiteInconnu.Position.Y]))
-                                            break;
-                                    }
-                                    else
-                                    {
-                                        if (!entiteInconnu.ChangerPosition(TerrainEntite.TabCases[entiteInconnu.Position.X][entiteInconnu.Position.Y - (Position.Y - entiteInconnu.Position.Y > 0 ? -1 : 1)]))
-                                            break;
-                                    }
-                                }
-                                catch (System.Exception)
-                                {
-                                    break;
-                                }
-                            }
-                            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + entiteInconnu.Nom + " est attiré de " + caseTraversee + " cases vers " + Nom;
-                        }
-                    }
-                    break;
-                case Effet.type.tire_lanceur:
-                    foreach (EntiteInconnu entiteInconnu in ListEntites)
-                    {
-                        if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
-                        {
-                            int magnitude = (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax);
-                            int caseTraversee;
-                            for (caseTraversee = 0; caseTraversee < magnitude; caseTraversee++)
-                            {
-                                try
-                                {
-                                    if (entiteInconnu.Position.X - Position.X != 0)
-                                    {
-                                        if (!ChangerPosition(TerrainEntite.TabCases[entiteInconnu.Position.X - (entiteInconnu.Position.X - Position.X > 0 ? 1 : -1)][entiteInconnu.Position.Y]))
-                                            break;
-                                    }
-                                    else
-                                    {
-                                        if (!ChangerPosition(TerrainEntite.TabCases[entiteInconnu.Position.X][entiteInconnu.Position.Y - (entiteInconnu.Position.Y - Position.Y > 0 ? -1 : 1)]))
-                                            break;
-                                    }
-                                }
-                                catch (System.Exception)
-                                {
-                                    break;
-                                }
-                            }
-                            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + entiteInconnu.Nom + " est attiré de " + caseTraversee + " cases vers " + Nom;
-                        }
-                    }
-                    break;
-                case Effet.type.teleportation:
-                    bool result = ChangerPosition(source);
-                    if (result)
-                    {
-                        (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " s'est téléporté a X: " + source.X + " Y: " + source.Y;
-                    }
-                    return (result ? 1 : 0);
-                case Effet.type.ATT_neutre:
-                    foreach (EntiteInconnu entiteInconnu in ListEntites)
-                    {
-                        if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
-                        {
-                            int force = 0;
-                            int puissance = 0;
-                            int DMG_neutre = 0;
-                            int RES_neutre = 0;
-                            int RES_Pourcent_neutre = 0;
-                            int reduction_physique = 0;
-                            foreach (Statistique stat in ListStatistiques)
-                            {
-                                if (stat.Nom == Statistique.type.force)
-                                    force = stat.Valeur;
-                                if (stat.Nom == Statistique.type.puissance)
-                                    puissance = stat.Valeur;
-                                if (stat.Nom == Statistique.type.DMG_neutre)
-                                    DMG_neutre = stat.Valeur;
-                            }
-                            foreach (Envoutement envoutement in ListEnvoutements)
-                            {
-                                if (envoutement.Stat == Statistique.type.force)
-                                    force += envoutement.Valeur;
-                                if (envoutement.Stat == Statistique.type.puissance)
-                                    puissance += envoutement.Valeur;
-                                if (envoutement.Stat == Statistique.type.DMG_neutre)
-                                    DMG_neutre += envoutement.Valeur;
-                            }
-                            if (force < 0)
-                                force = 0;
-                            if (puissance < 0)
-                                puissance = 0;
-                            if (DMG_neutre < 0)
-                                DMG_neutre = 0;
-                            foreach (Statistique stat_def in entiteInconnu.ListStatistiques)
-                            {
-                                if (stat_def.Nom == Statistique.type.RES_neutre)
-                                    RES_neutre = stat_def.Valeur;
-                                if (stat_def.Nom == Statistique.type.RES_Pourcent_neutre)
-                                    RES_Pourcent_neutre = stat_def.Valeur;
-                                if (stat_def.Nom == Statistique.type.reduction_physique)
-                                    reduction_physique = stat_def.Valeur;
-                            }
-                            foreach (Envoutement envoutement_def in entiteInconnu.ListEnvoutements)
-                            {
-                                if (envoutement_def.Stat == Statistique.type.RES_neutre)
-                                    RES_neutre += envoutement_def.Valeur;
-                                if (envoutement_def.Stat == Statistique.type.RES_Pourcent_neutre)
-                                    RES_Pourcent_neutre += envoutement_def.Valeur;
-                                if (envoutement_def.Stat == Statistique.type.reduction_physique)
-                                    reduction_physique += envoutement_def.Valeur;
-                            }
-                            if (RES_neutre < 0)
-                                RES_neutre = 0;
-                            if (RES_Pourcent_neutre < 0)
-                                RES_Pourcent_neutre = 0;
-                            if (reduction_physique < 0)
-                                reduction_physique = 0;
-                            if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_neutre / 100)) * (((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) * (100 + force + puissance) / 100 + DMG_neutre) - RES_neutre - reduction_physique)))
-                            {
-                                foreach (EntiteInconnu invoc in ListEntites)
-                                {
-                                    if (invoc.Proprietaire == entiteInconnu.IdEntite)
-                                    {
-                                        invoc.Etat = typeEtat.mort;
-                                        invoc.Position.Contenu = Case.type.vide;
-                                        invoc.Position = null;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    break;
-                case Effet.type.ATT_air:
-                    foreach (EntiteInconnu entiteInconnu in ListEntites)
-                    {
-                        if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
-                        {
-                            int agilite = 0;
-                            int puissance = 0;
-                            int DMG_air = 0;
-                            int RES_air = 0;
-                            int RES_Pourcent_air = 0;
-                            int reduction_magique = 0;
-                            foreach (Statistique stat in ListStatistiques)
-                            {
-                                if (stat.Nom == Statistique.type.agilite)
-                                    agilite = stat.Valeur;
-                                if (stat.Nom == Statistique.type.puissance)
-                                    puissance = stat.Valeur;
-                                if (stat.Nom == Statistique.type.DMG_air)
-                                    DMG_air = stat.Valeur;
-                            }
-                            foreach (Envoutement envoutement in ListEnvoutements)
-                            {
-                                if (envoutement.Stat == Statistique.type.agilite)
-                                    agilite += envoutement.Valeur;
-                                if (envoutement.Stat == Statistique.type.puissance)
-                                    puissance += envoutement.Valeur;
-                                if (envoutement.Stat == Statistique.type.DMG_air)
-                                    DMG_air += envoutement.Valeur;
-                            }
-                            if (agilite < 0)
-                                agilite = 0;
-                            if (puissance < 0)
-                                puissance = 0;
-                            if (DMG_air < 0)
-                                DMG_air = 0;
-                            foreach (Statistique stat_def in entiteInconnu.ListStatistiques)
-                            {
-                                if (stat_def.Nom == Statistique.type.RES_air)
-                                    RES_air = stat_def.Valeur;
-                                if (stat_def.Nom == Statistique.type.RES_Pourcent_air)
-                                    RES_Pourcent_air = stat_def.Valeur;
-                                if (stat_def.Nom == Statistique.type.reduction_magique)
-                                    reduction_magique = stat_def.Valeur;
-                            }
-                            foreach (Envoutement envoutement_def in entiteInconnu.ListEnvoutements)
-                            {
-                                if (envoutement_def.Stat == Statistique.type.RES_air)
-                                    RES_air += envoutement_def.Valeur;
-                                if (envoutement_def.Stat == Statistique.type.RES_Pourcent_air)
-                                    RES_Pourcent_air += envoutement_def.Valeur;
-                                if (envoutement_def.Stat == Statistique.type.reduction_magique)
-                                    reduction_magique += envoutement_def.Valeur;
-                            }
-                            if (RES_air < 0)
-                                RES_air = 0;
-                            if (RES_Pourcent_air < 0)
-                                RES_Pourcent_air = 0;
-                            if (reduction_magique < 0)
-                                reduction_magique = 0;
-                            if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_air / 100)) * (((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) * (100 + agilite + puissance) / 100 + DMG_air) - RES_air - reduction_magique)))
-                            {
-                                foreach (EntiteInconnu invoc in ListEntites)
-                                {
-                                    if (invoc.Proprietaire == entiteInconnu.IdEntite)
-                                    {
-                                        invoc.Etat = typeEtat.mort;
-                                        invoc.Position.Contenu = Case.type.vide;
-                                        invoc.Position = null;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    break;
-                case Effet.type.ATT_feu:
-                    foreach (EntiteInconnu entiteInconnu in ListEntites)
-                    {
-                        if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
-                        {
-                            int intelligence = 0;
-                            int puissance = 0;
-                            int DMG_feu = 0;
-                            int RES_feu = 0;
-                            int RES_Pourcent_feu = 0;
-                            int reduction_magique = 0;
-                            foreach (Statistique stat in ListStatistiques)
-                            {
-                                if (stat.Nom == Statistique.type.intelligence)
-                                    intelligence = stat.Valeur;
-                                if (stat.Nom == Statistique.type.puissance)
-                                    puissance = stat.Valeur;
-                                if (stat.Nom == Statistique.type.DMG_feu)
-                                    DMG_feu = stat.Valeur;
-                            }
-                            foreach (Envoutement envoutement in ListEnvoutements)
-                            {
-                                if (envoutement.Stat == Statistique.type.intelligence)
-                                    intelligence += envoutement.Valeur;
-                                if (envoutement.Stat == Statistique.type.puissance)
-                                    puissance += envoutement.Valeur;
-                                if (envoutement.Stat == Statistique.type.DMG_feu)
-                                    DMG_feu += envoutement.Valeur;
-                            }
-                            if (intelligence < 0)
-                                intelligence = 0;
-                            if (puissance < 0)
-                                puissance = 0;
-                            if (DMG_feu < 0)
-                                DMG_feu = 0;
-                            foreach (Statistique stat_def in entiteInconnu.ListStatistiques)
-                            {
-                                if (stat_def.Nom == Statistique.type.RES_feu)
-                                    RES_feu = stat_def.Valeur;
-                                if (stat_def.Nom == Statistique.type.RES_Pourcent_feu)
-                                    RES_Pourcent_feu = stat_def.Valeur;
-                                if (stat_def.Nom == Statistique.type.reduction_magique)
-                                    reduction_magique = stat_def.Valeur;
-                            }
-                            foreach (Envoutement envoutement_def in entiteInconnu.ListEnvoutements)
-                            {
-                                if (envoutement_def.Stat == Statistique.type.RES_feu)
-                                    RES_feu += envoutement_def.Valeur;
-                                if (envoutement_def.Stat == Statistique.type.RES_Pourcent_feu)
-                                    RES_Pourcent_feu += envoutement_def.Valeur;
-                                if (envoutement_def.Stat == Statistique.type.reduction_magique)
-                                    reduction_magique += envoutement_def.Valeur;
-                            }
-                            if (RES_feu < 0)
-                                RES_feu = 0;
-                            if (RES_Pourcent_feu < 0)
-                                RES_Pourcent_feu = 0;
-                            if (reduction_magique < 0)
-                                reduction_magique = 0;
-                            if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_feu / 100)) * (((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) * (100 + intelligence + puissance) / 100 + DMG_feu) - RES_feu - reduction_magique)))
-                            {
-                                foreach (EntiteInconnu invoc in ListEntites)
-                                {
-                                    if (invoc.Proprietaire == entiteInconnu.IdEntite)
-                                    {
-                                        invoc.Etat = typeEtat.mort;
-                                        invoc.Position.Contenu = Case.type.vide;
-                                        invoc.Position = null;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    break;
-                case Effet.type.ATT_terre:
-                    foreach (EntiteInconnu entiteInconnu in ListEntites)
-                    {
-                        if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
-                        {
-                            int force = 0;
-                            int puissance = 0;
-                            int DMG_terre = 0;
-                            int RES_terre = 0;
-                            int RES_Pourcent_terre = 0;
-                            int reduction_physique = 0;
-                            foreach (Statistique stat in ListStatistiques)
-                            {
-                                if (stat.Nom == Statistique.type.force)
-                                    force = stat.Valeur;
-                                if (stat.Nom == Statistique.type.puissance)
-                                    puissance = stat.Valeur;
-                                if (stat.Nom == Statistique.type.DMG_terre)
-                                    DMG_terre = stat.Valeur;
-                            }
-                            foreach (Envoutement envoutement in ListEnvoutements)
-                            {
-                                if (envoutement.Stat == Statistique.type.force)
-                                    force += envoutement.Valeur;
-                                if (envoutement.Stat == Statistique.type.puissance)
-                                    puissance += envoutement.Valeur;
-                                if (envoutement.Stat == Statistique.type.DMG_terre)
-                                    DMG_terre += envoutement.Valeur;
-                            }
-                            if (force < 0)
-                                force = 0;
-                            if (puissance < 0)
-                                puissance = 0;
-                            if (DMG_terre < 0)
-                                DMG_terre = 0;
-                            foreach (Statistique stat_def in entiteInconnu.ListStatistiques)
-                            {
-                                if (stat_def.Nom == Statistique.type.RES_terre)
-                                    RES_terre = stat_def.Valeur;
-                                if (stat_def.Nom == Statistique.type.RES_Pourcent_terre)
-                                    RES_Pourcent_terre = stat_def.Valeur;
-                                if (stat_def.Nom == Statistique.type.reduction_physique)
-                                    reduction_physique = stat_def.Valeur;
-                            }
-                            foreach (Envoutement envoutement_def in entiteInconnu.ListEnvoutements)
-                            {
-                                if (envoutement_def.Stat == Statistique.type.RES_terre)
-                                    RES_terre += envoutement_def.Valeur;
-                                if (envoutement_def.Stat == Statistique.type.RES_Pourcent_terre)
-                                    RES_Pourcent_terre += envoutement_def.Valeur;
-                                if (envoutement_def.Stat == Statistique.type.reduction_physique)
-                                    reduction_physique += envoutement_def.Valeur;
-                            }
-                            if (RES_terre < 0)
-                                RES_terre = 0;
-                            if (RES_Pourcent_terre < 0)
-                                RES_Pourcent_terre = 0;
-                            if (reduction_physique < 0)
-                                reduction_physique = 0;
-                            if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_terre / 100)) * (((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) * (100 + force + puissance) / 100 + DMG_terre) - RES_terre - reduction_physique)))
-                            {
-                                foreach (EntiteInconnu invoc in ListEntites)
-                                {
-                                    if (invoc.Proprietaire == entiteInconnu.IdEntite)
-                                    {
-                                        invoc.Etat = typeEtat.mort;
-                                        invoc.Position.Contenu = Case.type.vide;
-                                        invoc.Position = null;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    break;
-                case Effet.type.ATT_eau:
-                    foreach (EntiteInconnu entiteInconnu in ListEntites)
-                    {
-                        if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
-                        {
-                            int chance = 0;
-                            int puissance = 0;
-                            int DMG_eau = 0;
-                            int RES_eau = 0;
-                            int RES_Pourcent_eau = 0;
-                            int reduction_magique = 0;
-                            foreach (Statistique stat in ListStatistiques)
-                            {
-                                if (stat.Nom == Statistique.type.chance)
-                                    chance = stat.Valeur;
-                                if (stat.Nom == Statistique.type.puissance)
-                                    puissance = stat.Valeur;
-                                if (stat.Nom == Statistique.type.DMG_eau)
-                                    DMG_eau = stat.Valeur;
-                            }
-                            foreach (Envoutement envoutement in ListEnvoutements)
-                            {
-                                if (envoutement.Stat == Statistique.type.chance)
-                                    chance += envoutement.Valeur;
-                                if (envoutement.Stat == Statistique.type.puissance)
-                                    puissance += envoutement.Valeur;
-                                if (envoutement.Stat == Statistique.type.DMG_eau)
-                                    DMG_eau += envoutement.Valeur;
-                            }
-                            if (chance < 0)
-                                chance = 0;
-                            if (puissance < 0)
-                                puissance = 0;
-                            if (DMG_eau < 0)
-                                DMG_eau = 0;
-                            foreach (Statistique stat_def in entiteInconnu.ListStatistiques)
-                            {
-                                if (stat_def.Nom == Statistique.type.RES_eau)
-                                    RES_eau = stat_def.Valeur;
-                                if (stat_def.Nom == Statistique.type.RES_Pourcent_eau)
-                                    RES_Pourcent_eau = stat_def.Valeur;
-                                if (stat_def.Nom == Statistique.type.reduction_magique)
-                                    reduction_magique = stat_def.Valeur;
-                            }
-                            foreach (Envoutement envoutement_def in entiteInconnu.ListEnvoutements)
-                            {
-                                if (envoutement_def.Stat == Statistique.type.RES_eau)
-                                    RES_eau += envoutement_def.Valeur;
-                                if (envoutement_def.Stat == Statistique.type.RES_Pourcent_eau)
-                                    RES_Pourcent_eau += envoutement_def.Valeur;
-                                if (envoutement_def.Stat == Statistique.type.reduction_magique)
-                                    reduction_magique += envoutement_def.Valeur;
-                            }
-                            if (RES_eau < 0)
-                                RES_eau = 0;
-                            if (RES_Pourcent_eau < 0)
-                                RES_Pourcent_eau = 0;
-                            if (reduction_magique < 0)
-                                reduction_magique = 0;
-                            if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_eau / 100)) * (((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) * (100 + chance + puissance) / 100 + DMG_eau) - RES_eau - reduction_magique)))
-                            {
-                                foreach (EntiteInconnu invoc in ListEntites)
-                                {
-                                    if (invoc.Proprietaire == entiteInconnu.IdEntite)
-                                    {
-                                        invoc.Etat = typeEtat.mort;
-                                        invoc.Position.Contenu = Case.type.vide;
-                                        invoc.Position = null;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    break;
-                case Effet.type.envoutement:
-                    foreach (EntiteInconnu entiteInconnu in ListEntites)
-                    {
-                        if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
-                        {
-                            entiteInconnu.ListEnvoutements.Add(new Envoutement(effet.Stat, (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax), effet.NbTour.GetValueOrDefault(), IdEntite));
-                        }
-                    }
-                    break;
-                case Effet.type.pose_piege:
-                    break;
-                case Effet.type.pose_glyphe:
-                    break;
-                case Effet.type.invocation:
-                    //ListEntites.Add(new EntiteInconnu(effet.ValeurMax, new Classe(48,), "bouftou", 1000, source, Equipe, IdEntite));
-                    break;
-                case Effet.type.soin:
-                    foreach (EntiteInconnu entiteInconnu in ListEntites)
-                    {
-                        if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
-                        {
-                            int intelligence = 0;
-                            int soin = 0;
-                            foreach (Statistique stat in ListStatistiques)
-                            {
-                                if (stat.Nom == Statistique.type.intelligence)
-                                    intelligence = stat.Valeur;
-                                if (stat.Nom == Statistique.type.soin)
-                                    soin = stat.Valeur;
-                            }
-                            foreach (Envoutement envoutement in ListEnvoutements)
-                            {
-                                if (envoutement.Stat == Statistique.type.intelligence)
-                                    intelligence = envoutement.Valeur;
-                                if (envoutement.Stat == Statistique.type.soin)
-                                    soin = envoutement.Valeur;
-                            }
-                            entiteInconnu.PV += (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) * (100 + intelligence) / 100 + soin;
-                        }
-                    }
-                    break;
-                default:
-                    break;
+                }
+                catch (System.Exception)
+                {
+                    continue;
+                }
             }
             return 0;
         }
@@ -928,8 +902,8 @@ namespace GofusSharp
             double pente_min = Pente(px, py, x, y);
             double pente_max = Pente(px, py, x, y);
 
-            for (int i = x; i < x+2; i++)
-                for (int j = y; j < y+2; j++)
+            for (int i = x; i < x + 2; i++)
+                for (int j = y; j < y + 2; j++)
                     if (pente_max < Pente(px, py, i, j))
                         pente_max = Pente(px, py, i, j);
                     else if (pente_min > Pente(px, py, i, j))
@@ -944,7 +918,7 @@ namespace GofusSharp
                     if (cx != x || cy != y)
                     {
                         double pente = Pente(px, py, cx, cy);
-                        if (((pente > pente_min) && (pente < pente_max)) || (pente == 999999 && ((source.Y < y && y < cy)||(source.Y > y && y > cy)) && Pente(source.X,source.Y,x,y) == 999999))
+                        if (((pente > pente_min) && (pente < pente_max)) || (pente == 999999 && ((source.Y < y && y < cy) || (source.Y > y && y > cy)) && Pente(source.X, source.Y, x, y) == 999999))
                         {
                             tabCase[cx][cy] = -1;
                         }
@@ -1028,7 +1002,7 @@ namespace GofusSharp
                         }
                         break;
                     case Zone.type.carre:
-                        if (Math.Abs(cible.Y - source.Y) >= porteeMin && Math.Abs(cible.Y - source.Y) <= porteeMax && Math.Abs(cible.X - source.X) >= porteeMin && Math.Abs(cible.X - source.X) <= porteeMax)
+                        if ((Math.Abs(cible.Y - source.Y) >= porteeMin && Math.Abs(cible.Y - source.Y) <= porteeMax &&  Math.Abs(cible.X - source.X) <= porteeMax) || (Math.Abs(cible.X - source.X) >= porteeMin && Math.Abs(cible.X - source.X) <= porteeMax && Math.Abs(cible.Y - source.Y) <= porteeMax))
                         {
                             return true;
                         }
@@ -1065,7 +1039,7 @@ namespace GofusSharp
             }
             catch (System.Exception e)
             {
-                System.Windows.Forms.MessageBox.Show(string.Format("Érreur : {0}", e));
+                //System.Windows.Forms.MessageBox.Show(string.Format("Érreur : {0}", e));
                 return false;
             }
         }
@@ -1252,38 +1226,312 @@ namespace GofusSharp
             }
             return PM_Debut - PM;
         }
-        
+
         public int SEloignerDe(Case cible)
         {
-            Case Rcible = new Case(0, 0, Case.type.vide);
+            Combat FC = (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat);
             int PM_Debut = PM;
-            while (PM > 0)
+            try
             {
-                Rcible.X = Position.X - (cible.X - Position.X);
-                Rcible.Y = Position.Y - (cible.Y - Position.Y);
-                if (Math.Abs(Position.X - Rcible.X) >= Math.Abs(Position.Y - Rcible.Y))
+                Case Rcible = new Case(0, 0, Case.type.vide);
+                while (PM > 0)
                 {
-                    if (Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) < 0 || TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
+                    Rcible.X = Position.X - (cible.X - Position.X);
+                    Rcible.Y = Position.Y - (cible.Y - Position.Y);
+
+                    if (Position.X - Rcible.X == 0)
                     {
-                        if (Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) < 0 || TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)]))
+                        int direction = FC.CombatCourant.Seed.Next(-1, 1);
+                        while (direction == 0)
+                            direction = FC.CombatCourant.Seed.Next(-1, 1);
+                        if (Position.X + direction < 0 || Position.X + direction >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + direction][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + direction][Position.Y]))
                         {
-                            return PM_Debut - PM;
+                            direction *= -1;
+                            if (Position.X + direction < 0 || Position.X + direction >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + direction][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + direction][Position.Y]))
+                            {
+                                if (Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) < 0 || Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)]))
+                                {
+                                    return PM_Debut - PM;
+                                }
+                            }
                         }
                     }
-                }
-                else
-                {
-                    if (Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) < 0 || TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)]))
+                    else if (Position.Y - Rcible.Y == 0)
                     {
-                        if (Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) < 0 || TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
+                        int direction = FC.CombatCourant.Seed.Next(-1, 1);
+                        while (direction == 0)
+                            direction = FC.CombatCourant.Seed.Next(-1, 1);
+                        if (Position.Y + direction < 0 || Position.Y + direction >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + direction] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + direction]))
                         {
-                            return PM_Debut - PM;
+                            direction *= -1;
+                            if (Position.Y + direction < 0 || Position.Y + direction >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + direction] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + direction]))
+                            {
+                                if (Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) < 0 || Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
+                                {
+                                    return PM_Debut - PM;
+                                }
+                            }
                         }
                     }
+                    else if (Math.Abs(Position.X - Rcible.X) < Math.Abs(Position.Y - Rcible.Y))
+                    {
+                        if (Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) < 0 || Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
+                        {
+                            if (Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) < 0 || Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)]))
+                            {
+                                return PM_Debut - PM;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) < 0 || Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)]))
+                        {
+                            if (Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) < 0 || Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
+                            {
+                                return PM_Debut - PM;
+                            }
+                        }
+                    }
+                    PM--;
                 }
-                PM--;
+                return PM_Debut - PM;
             }
-            return PM_Debut - PM;
+            catch (System.Exception e)
+            {
+                System.Windows.Forms.MessageBox.Show(string.Format("Érreur : {0}", e));
+                return PM_Debut - PM;
+            }
+        }
+        public int SEloignerDe(Case cible, int PM_Alouer)
+        {
+            Combat FC = (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat);
+            int PM_Debut = PM;
+            try
+            {
+                Case Rcible = new Case(0, 0, Case.type.vide);
+                while (PM > 0 && PM_Alouer > 0)
+                {
+                    Rcible.X = Position.X - (cible.X - Position.X);
+                    Rcible.Y = Position.Y - (cible.Y - Position.Y);
+
+                    if (Position.X - Rcible.X == 0)
+                    {
+                        int direction = FC.CombatCourant.Seed.Next(-1, 1);
+                        while (direction == 0)
+                            direction = FC.CombatCourant.Seed.Next(-1, 1);
+                        if (Position.X + direction < 0 || Position.X + direction >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + direction][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + direction][Position.Y]))
+                        {
+                            direction *= -1;
+                            if (Position.X + direction < 0 || Position.X + direction >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + direction][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + direction][Position.Y]))
+                            {
+                                if (Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) < 0 || Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)]))
+                                {
+                                    return PM_Debut - PM;
+                                }
+                            }
+                        }
+                    }
+                    else if (Position.Y - Rcible.Y == 0)
+                    {
+                        int direction = FC.CombatCourant.Seed.Next(-1, 1);
+                        while (direction == 0)
+                            direction = FC.CombatCourant.Seed.Next(-1, 1);
+                        if (Position.Y + direction < 0 || Position.Y + direction >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + direction] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + direction]))
+                        {
+                            direction *= -1;
+                            if (Position.Y + direction < 0 || Position.Y + direction >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + direction] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + direction]))
+                            {
+                                if (Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) < 0 || Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
+                                {
+                                    return PM_Debut - PM;
+                                }
+                            }
+                        }
+                    }
+                    else if (Math.Abs(Position.X - Rcible.X) < Math.Abs(Position.Y - Rcible.Y))
+                    {
+                        if (Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) < 0 || Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
+                        {
+                            if (Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) < 0 || Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)]))
+                            {
+                                return PM_Debut - PM;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) < 0 || Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)]))
+                        {
+                            if (Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) < 0 || Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
+                            {
+                                return PM_Debut - PM;
+                            }
+                        }
+                    }
+                    PM--;
+                    PM_Alouer--;
+                }
+                return PM_Debut - PM;
+            }
+            catch (System.Exception e)
+            {
+                System.Windows.Forms.MessageBox.Show(string.Format("Érreur : {0}", e));
+                return PM_Debut - PM;
+            }
+        }
+        public int SEloignerDe(EntiteInconnu cible)
+        {
+            Combat FC = (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat);
+            int PM_Debut = PM;
+            try
+            {
+                Case Rcible = new Case(0, 0, Case.type.vide);
+                while (PM > 0)
+                {
+                    Rcible.X = Position.X - (cible.Position.X - Position.X);
+                    Rcible.Y = Position.Y - (cible.Position.Y - Position.Y);
+
+                    if (Position.X - Rcible.X == 0)
+                    {
+                        int direction = FC.CombatCourant.Seed.Next(-1, 1);
+                        while (direction == 0)
+                            direction = FC.CombatCourant.Seed.Next(-1, 1);
+                        if (Position.X + direction < 0 || Position.X + direction >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + direction][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + direction][Position.Y]))
+                        {
+                            direction *= -1;
+                            if (Position.X + direction < 0 || Position.X + direction >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + direction][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + direction][Position.Y]))
+                            {
+                                if (Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) < 0 || Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)]))
+                                {
+                                    return PM_Debut - PM;
+                                }
+                            }
+                        }
+                    }
+                    else if (Position.Y - Rcible.Y == 0)
+                    {
+                        int direction = FC.CombatCourant.Seed.Next(-1, 1);
+                        while (direction == 0)
+                            direction = FC.CombatCourant.Seed.Next(-1, 1);
+                        if (Position.Y + direction < 0 || Position.Y + direction >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + direction] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + direction]))
+                        {
+                            direction *= -1;
+                            if (Position.Y + direction < 0 || Position.Y + direction >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + direction] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + direction]))
+                            {
+                                if (Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) < 0 || Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
+                                {
+                                    return PM_Debut - PM;
+                                }
+                            }
+                        }
+                    }
+                    else if (Math.Abs(Position.X - Rcible.X) < Math.Abs(Position.Y - Rcible.Y))
+                    {
+                        if (Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) < 0 || Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
+                        {
+                            if (Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) < 0 || Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)]))
+                            {
+                                return PM_Debut - PM;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) < 0 || Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)]))
+                        {
+                            if (Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) < 0 || Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
+                            {
+                                return PM_Debut - PM;
+                            }
+                        }
+                    }
+                    PM--;
+                }
+                return PM_Debut - PM;
+            }
+            catch (System.Exception e)
+            {
+                System.Windows.Forms.MessageBox.Show(string.Format("Érreur : {0}", e));
+                return PM_Debut - PM;
+            }
+        }
+        public int SEloignerDe(EntiteInconnu cible, int PM_Alouer)
+        {
+            Combat FC = (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat);
+            int PM_Debut = PM;
+            try
+            {
+                Case Rcible = new Case(0, 0, Case.type.vide);
+                while (PM > 0 && PM_Alouer > 0)
+                {
+                    Rcible.X = Position.X - (cible.Position.X - Position.X);
+                    Rcible.Y = Position.Y - (cible.Position.Y - Position.Y);
+
+                    if (Position.X - Rcible.X == 0)
+                    {
+                        int direction = FC.CombatCourant.Seed.Next(-1, 1);
+                        while (direction == 0)
+                            direction = FC.CombatCourant.Seed.Next(-1, 1);
+                        if (Position.X + direction < 0 || Position.X + direction >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + direction][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + direction][Position.Y]))
+                        {
+                            direction *= -1;
+                            if (Position.X + direction < 0 || Position.X + direction >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + direction][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + direction][Position.Y]))
+                            {
+                                if (Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) < 0 || Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)]))
+                                {
+                                    return PM_Debut - PM;
+                                }
+                            }
+                        }
+                    }
+                    else if (Position.Y - Rcible.Y == 0)
+                    {
+                        int direction = FC.CombatCourant.Seed.Next(-1, 1);
+                        while (direction == 0)
+                            direction = FC.CombatCourant.Seed.Next(-1, 1);
+                        if (Position.Y + direction < 0 || Position.Y + direction >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + direction] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + direction]))
+                        {
+                            direction *= -1;
+                            if (Position.Y + direction < 0 || Position.Y + direction >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + direction] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + direction]))
+                            {
+                                if (Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) < 0 || Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
+                                {
+                                    return PM_Debut - PM;
+                                }
+                            }
+                        }
+                    }
+                    else if (Math.Abs(Position.X - Rcible.X) < Math.Abs(Position.Y - Rcible.Y))
+                    {
+                        if (Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) < 0 || Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
+                        {
+                            if (Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) < 0 || Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)]))
+                            {
+                                return PM_Debut - PM;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) < 0 || Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)]))
+                        {
+                            if (Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) < 0 || Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
+                            {
+                                return PM_Debut - PM;
+                            }
+                        }
+                    }
+                    PM--;
+                    PM_Alouer--;
+                }
+                return PM_Debut - PM;
+            }
+            catch (System.Exception e)
+            {
+                System.Windows.Forms.MessageBox.Show(string.Format("Érreur : {0}", e));
+                return PM_Debut - PM;
+            }
         }
 
         internal bool ChangerPosition(Case nextPosition)
