@@ -24,7 +24,7 @@ namespace Gofus
         public Joueur Player { get; set; }
         private BDService bd = new BDService();
         private MainWindow w;
-        
+
 
         public Inventaire(Joueur Player)
         {
@@ -322,20 +322,24 @@ namespace Gofus
         {
             Image item = ((sender as MenuItem).Parent as ContextMenu).DataContext as Image;
             Equipement equiper = Player.Inventaire.First(x => x.NoImg == convertPathToNoItem(item.Source.ToString()));
-            Player.Inventaire.First(x => x.Nom == equiper.Nom).Quantite--;
-            if (Player.Inventaire.First(x => x.Nom == equiper.Nom).Quantite == 0)
-                bd.delete("DELETE FROM JoueursEquipements WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "')AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + equiper.Nom + "')");
-            else
-                bd.Update("UPDATE JoueursEquipements SET quantite= " + Player.Inventaire.First(x => x.Nom == equiper.Nom).Quantite.ToString() + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + equiper.Nom + "');COMMIT;");
-
             float k = equiper.Prix * (float)0.8;
-            Player.Kamas += (int)k;
+            MessageBoxResult m = System.Windows.MessageBox.Show("Voulez vous vraiment vendre l'objet : " + equiper.Nom + ". Au cout de " + (int)k + " Kamas ?", "Achat", MessageBoxButton.YesNo, MessageBoxImage.Information);// affichage d'un message box te demandant situ veut vendre ceci
+            if (m == MessageBoxResult.Yes)
+            {
 
-            bd.Update("UPDATE  Joueurs SET  argent =  " + Player.Kamas.ToString() + " WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "';COMMIT;");
-            refreshInv();
-            lblArgent.Content = Player.Kamas;
-            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow).lblKamas.Content = Player.Kamas;
+                Player.Inventaire.First(x => x.Nom == equiper.Nom).Quantite--;
+                if (Player.Inventaire.First(x => x.Nom == equiper.Nom).Quantite == 0)
+                    bd.delete("DELETE FROM JoueursEquipements WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "')AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + equiper.Nom + "')");
+                else
+                    bd.Update("UPDATE JoueursEquipements SET quantite= " + Player.Inventaire.First(x => x.Nom == equiper.Nom).Quantite.ToString() + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + equiper.Nom + "');COMMIT;");
 
+                Player.Kamas += (int)k;
+
+                bd.Update("UPDATE  Joueurs SET  argent =  " + Player.Kamas.ToString() + " WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "';COMMIT;");
+                refreshInv();
+                lblArgent.Content = Player.Kamas;
+                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow).lblKamas.Content = Player.Kamas;
+            }
         }
     }
 }
