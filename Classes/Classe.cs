@@ -4,6 +4,7 @@ using System.Collections.Generic;
 namespace Gofus
 {
 
+
     public class Classe
     {
         public List<Sort> LstSorts { get; set; }

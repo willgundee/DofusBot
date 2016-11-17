@@ -47,7 +47,7 @@ namespace Gofus
             {
                 pgbExp.Maximum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur;
                 pgbExp.Minimum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur;
-                pgbExp.ToolTip = "Over 9000!";
+                pgbExp.ToolTip = "IT'S OVER 9000!!!";
             }
 
             pgbExp.Value = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur;

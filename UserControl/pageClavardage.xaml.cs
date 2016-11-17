@@ -10,6 +10,7 @@ using System.Windows.Threading;
 namespace Gofus
 {
     /// <summary>
+    /// Auteur : Marc-Antoine Lemieux
     /// Fonctions de la page clavardage.
     /// </summary>
 
@@ -35,14 +36,14 @@ namespace Gofus
             InitializeComponent();
 
 
-
+            // Initialisation des informations requises pour le chat.
             this.chat = new Chat();
             chat.nomUtilisateur = NomUtilisateur;
             chat.getId();
 
 
 
-
+            // Initialisation du DispatcherTimer
             aTimer = new DispatcherTimer();
             aTimer.Tick += new EventHandler(Timer_Tick);
             aTimer.Interval = new TimeSpan(0, 0, 2);
@@ -52,10 +53,12 @@ namespace Gofus
         }
         private void Timer_Tick(object sender, EventArgs e)
         {
-            // Updating the Label which displays the current second
+            
             if (this != null)
             {
                 bool afficheTemps;
+
+                // Vérification : faut-il afficher le temps.
                 if (ckBox.IsChecked == false)
                 {
                      afficheTemps = false; 
@@ -64,19 +67,33 @@ namespace Gofus
                 {
                     afficheTemps = true;
                 }
+
+                // Reset des messages du chat.
                 ObservableCollection<string> messages = new ObservableCollection<string>();
+
+                // Création d'un Thread pour refresh le chat en background.
                 Thread trdRefresh = new Thread(() =>
                 {
+                    // Selection des messages
                     messages = chat.refreshChat(afficheTemps);
+                    //Dispatcher pour modifier les controls de façon async.
                     Application.Current.Dispatcher.Invoke(new Action(() =>
                     {
+
+
+                        // Modfication de la txtboxHistorique
                         txtboxHistorique.Text = "";
+
                         foreach (string m in messages)
                         {
                             txtboxHistorique.Text += m;
                         }
+
+
                     }));
                 });
+
+                // Démarrage du Thread.
                 trdRefresh.Start();
                 Thread.Yield();
 
@@ -87,7 +104,12 @@ namespace Gofus
                 aTimer.Stop();
             }
         }
-
+        /// <summary>
+        /// Fonction du BtnEnvoyer click.
+        /// Envois un message à la BD.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnEnvoyer_Click(object sender, RoutedEventArgs e)
         {
             string text = txtMessage.Text;
