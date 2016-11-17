@@ -10,25 +10,30 @@
         
         Title="Authentification" Height="400" Width="525">
     <Grid x:Name="grdAuthetification" Background="Gray"  KeyDown="OnKeyDowntxtMessage" FocusManager.FocusedElement="{Binding ElementName=txtNomU}" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="124*"/>
+            <ColumnDefinition Width="270*"/>
+            <ColumnDefinition Width="125*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" ></RowDefinition>
             <RowDefinition Height="*" ></RowDefinition>
             <RowDefinition Height="*" ></RowDefinition>
             <RowDefinition Height="*" ></RowDefinition>
         </Grid.RowDefinitions>
-        <Image x:Name="imgLogo" Source="resources/Gofus.png" VerticalAlignment="Top" Height="175" Grid.RowSpan="2" Margin="0,-35,0,0" />
-        <Label x:Name="lblNomU" Content="Nom d'utilisateur" Grid.Row="1" HorizontalAlignment="Center"  Height="30" Margin="0,0,0,20" FontSize="16"/>
-        <TextBox x:Name="txtNomU" Height="20"  Width="200" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,20" Text="francis"></TextBox>
+        <Image Name="imgLogo" Source="resources/Gofus.png" VerticalAlignment="Top" Height="175" Grid.RowSpan="2" Margin="0,-35,0,0" Grid.ColumnSpan="3" />
+        <Label Name="lblNomU" Content="Nom d'utilisateur" HorizontalContentAlignment="Center" Grid.Row="1" HorizontalAlignment="Center"  Height="30" Margin="40,21,40,42" FontSize="16" Grid.Column="1" Width="190"/>
+        <TextBox Name="txtNomU" Height="20"  Width="200" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="36,0,33.612,20" Text="francis" Grid.Column="1"></TextBox>
 
-        <Label x:Name="lblMDP" Content="Mot de passe" Height="30"  Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="16" Margin="0,75,0,0" Grid.RowSpan="2" />
-        <PasswordBox x:Name="txtMDP"  Height="20" Width="200" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,50" Password="mountaindew" ></PasswordBox>
-        <Button x:Name="btnConnexion"  Content="Connexion" HorizontalAlignment="Center"  Grid.Row="2" VerticalAlignment="Bottom" Margin="30" Width="75" Click="btnConnexion_Click"/>
-        <Label VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Row="2" Margin="0,77,0,0" Grid.RowSpan="2">Pas encore inscrit?</Label>
-        <Button x:Name="btnInscription" Content="Cliquer ici" HorizontalAlignment="Center" Margin="10" Grid.Row="3" VerticalAlignment="Top" Width="75" Click="btnInscription_Click"/>
+        <Label Name="lblMDP" Content="Mot de passe" HorizontalContentAlignment="Center" Height="30"  Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="16" Margin="36,75,40,0" Grid.RowSpan="2" Grid.Column="1" Width="194" />
+        <PasswordBox Name="txtMDP"  Height="20" Width="200" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="36,12,33.612,61" Password="mountaindew" Grid.Column="1" ></PasswordBox>
+        <Button Name="btnConnexion"  Content="Connexion" HorizontalAlignment="Center"  Grid.Row="2" VerticalAlignment="Bottom" Margin="98,0,96.612,30" Width="75" Click="btnConnexion_Click" Grid.Column="1"/>
+        <Label VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Row="2" Margin="82,77,80.612,0" Grid.RowSpan="2" Grid.Column="1">Pas encore inscrit?</Label>
+        <Button x:Name="btnInscription" Content="Cliquer ici" HorizontalAlignment="Center" Margin="98,10,96.612,0" Grid.Row="3" VerticalAlignment="Top" Width="75" Click="btnInscription_Click" Grid.Column="1"/>
 
-        <Label VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="30" Grid.Row="3" >Pour visionner les parties récentes</Label>
-        <Button x:Name="btnVisionner" Content="Cliquer ici" HorizontalAlignment="Center"  Grid.Row="3" VerticalAlignment="Bottom" Width="75" Margin="8" Click="btnVisionner_Click"/>
-        <Rectangle Fill="#ff7cb500" HorizontalAlignment="Left" Height="370" Grid.RowSpan="4" Stroke="Black" VerticalAlignment="Top" Width="125"/>
-        <Rectangle Fill="#ff7cb500" HorizontalAlignment="Right" Height="370" Grid.RowSpan="4" Stroke="Black" VerticalAlignment="Top" Width="125"/>
+        <Label VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="40,0,39.612,30" Grid.Row="3" Grid.Column="1" >Pour visionner les parties récentes</Label>
+        <Button x:Name="btnVisionner" Content="Cliquer ici" HorizontalAlignment="Center"  Grid.Row="3" VerticalAlignment="Bottom" Width="75" Margin="98,0,96.612,8" Click="btnVisionner_Click" Grid.Column="1"/>
+        <Rectangle Fill="#ff7cb500" HorizontalAlignment="Left" Height="370" Grid.RowSpan="4" Stroke="Black" VerticalAlignment="Top" Width="125" Grid.ColumnSpan="2"/>
+        <Rectangle Fill="#ff7cb500" HorizontalAlignment="Right" Height="370" Grid.RowSpan="4" Stroke="Black" VerticalAlignment="Top" Width="125" Grid.Column="2"/>
     </Grid>
 </Window>
