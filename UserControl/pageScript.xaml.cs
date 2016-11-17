@@ -1315,7 +1315,7 @@ namespace Gofus
             TreeNode treeNode_1 = new TreeNode("Math", treeNodeTab_math);
             TreeNode treeNode_2 = new TreeNode("Debug", treeNodeTab_Debug);
             TreeNode treeNode_3 = new TreeNode("Perso", treeNode_template.First(x => x.Name == "Personnage").Nodes.Cast<TreeNode>().ToArray());
-            TreeNode treeNode_4 = new TreeNode("ListeEntite", treeNode_template.First(x => x.Name == "Liste").Nodes.Cast<TreeNode>().ToArray());
+            TreeNode treeNode_4 = new TreeNode("ListEntites", treeNode_template.First(x => x.Name == "Liste").Nodes.Cast<TreeNode>().ToArray());
             TreeNode treeNode_5 = new TreeNode("terrain", treeNode_template.First(x => x.Name == "Terrain").Nodes.Cast<TreeNode>().ToArray());
 
             treeNode_1.Name = "Math";
