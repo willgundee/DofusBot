@@ -20,8 +20,8 @@ namespace Gofus
         public BDService bd = new BDService();
         public Entite persoActuel;
         public ObservableCollection<Statistique> lstStat = new ObservableCollection<Statistique>();
-      
-      
+
+
 
         public PagePerso(Entite ent, Joueur Player)
         {// refaire le min/max
@@ -58,7 +58,7 @@ namespace Gofus
             for (int i = 0; i < nbScript; i++)
                 cbScript.Items.Add(Player.LstScripts[i].Nom);
 
-            
+
 
             //todo création de plusieurs onglets personnage
             lblNomClasse.Content = ent.ClasseEntite.Nom;
@@ -584,37 +584,44 @@ namespace Gofus
         private void ClickVendre(object sender, RoutedEventArgs e)
         {
             Image item = ((sender as MenuItem).Parent as ContextMenu).DataContext as Image;
+
+            Equipement equiper = null;
             if (convertPathToNoItem(item.Source.ToString()) != "vide")
             {
-                Equipement equiper = Player.LstEntites.First(x => x.Nom == persoActuel.Nom).LstEquipements.First(x => x.NoImg == convertPathToNoItem(item.Source.ToString()));
-                string emplacement = TrouveEmplacement(item);
-                item.Source = new BitmapImage(new Uri("../resources/vide.png", UriKind.Relative));
-                Player.LstEntites.First(x => x.Nom == persoActuel.Nom).enleverItem(equiper);
-                Player.Inventaire.First(x => x.Nom == equiper.Nom).QuantiteEquipe--;
-                Player.Inventaire.First(x => x.Nom == equiper.Nom).Quantite--;
-                if (Player.Inventaire.First(x => x.Nom == equiper.Nom).Quantite == 0)
-                    bd.delete("DELETE FROM JoueursEquipements WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "')AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + equiper.Nom + "')");
-                else
-                    bd.Update("UPDATE JoueursEquipements SET quantiteEquipe= " + Player.Inventaire.First(x => x.Nom == equiper.Nom).QuantiteEquipe.ToString() + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + equiper.Nom + "');COMMIT;");
-
-                bd.delete("DELETE FROM EquipementsEntites WHERE idEntite = (SELECT idEntite FROM Entites WHERE nom ='" + persoActuel.Nom + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + equiper.Nom + "') AND emplacement ='" + emplacement + "'");
                 float k = equiper.Prix * (float)0.8;
-                Player.Kamas += (int)k;
-
-                bd.Update("UPDATE  Joueurs SET  argent =  " + Player.Kamas.ToString() + " WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "';COMMIT;");
-
-                if ((Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(Inventaire)) as Inventaire) != null)
+                equiper = Player.LstEntites.First(x => x.Nom == persoActuel.Nom).LstEquipements.First(x => x.NoImg == convertPathToNoItem(item.Source.ToString()));
+                MessageBoxResult m = System.Windows.MessageBox.Show("Voulez vous vraiment vendre l'objet : " + equiper.Nom + ". Au cout de " + (int)k + " Kamas ?", "Achat", MessageBoxButton.YesNo, MessageBoxImage.Information);// affichage d'un message box te demandant situ veut vendre ceci
+                if (m == MessageBoxResult.Yes)
                 {
-                    (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Inventaire)) as Inventaire).refreshInv();
-                    (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Inventaire)) as Inventaire).lblArgent.Content = Player.Kamas;
+                    equiper = Player.LstEntites.First(x => x.Nom == persoActuel.Nom).LstEquipements.First(x => x.NoImg == convertPathToNoItem(item.Source.ToString()));
+                    string emplacement = TrouveEmplacement(item);
+                    item.Source = new BitmapImage(new Uri("../resources/vide.png", UriKind.Relative));
+                    Player.LstEntites.First(x => x.Nom == persoActuel.Nom).enleverItem(equiper);
+                    Player.Inventaire.First(x => x.Nom == equiper.Nom).QuantiteEquipe--;
+                    Player.Inventaire.First(x => x.Nom == equiper.Nom).Quantite--;
+                    if (Player.Inventaire.First(x => x.Nom == equiper.Nom).Quantite == 0)
+                        bd.delete("DELETE FROM JoueursEquipements WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "')AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + equiper.Nom + "')");
+                    else
+                        bd.Update("UPDATE JoueursEquipements SET quantiteEquipe= " + Player.Inventaire.First(x => x.Nom == equiper.Nom).QuantiteEquipe.ToString() + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + equiper.Nom + "');COMMIT;");
+
+                    bd.delete("DELETE FROM EquipementsEntites WHERE idEntite = (SELECT idEntite FROM Entites WHERE nom ='" + persoActuel.Nom + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + equiper.Nom + "') AND emplacement ='" + emplacement + "'");
+                    Player.Kamas += (int)k;
+
+                    bd.Update("UPDATE  Joueurs SET  argent =  " + Player.Kamas.ToString() + " WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "';COMMIT;");
+
+                    if ((Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(Inventaire)) as Inventaire) != null)
+                    {
+                        (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Inventaire)) as Inventaire).refreshInv();
+                        (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Inventaire)) as Inventaire).lblArgent.Content = Player.Kamas;
+                    }
+                        (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow).lblKamas.Content = Player.Kamas;
+
+                    initialiserLstStats(persoActuel.LstStats);
+                    dgStats.ItemsSource = lstStat;
+                    dgDommage.ItemsSource = initialiserLstDMG(persoActuel);
+
                 }
-                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow).lblKamas.Content = Player.Kamas;
-
-                initialiserLstStats(persoActuel.LstStats);
-                dgStats.ItemsSource = lstStat;
-                dgDommage.ItemsSource = initialiserLstDMG(persoActuel);
             }
-
         }
         private void btnSupprimer_Click(object sender, RoutedEventArgs e)
         {
@@ -627,27 +634,27 @@ namespace Gofus
                     for (int i = 0; i < idequip.Count(); i++)
                     {
                         List<string>[] nomE = bd.selection("SELECT nom FROM Equipements WHERE idEquipement =" + idequip[i][0]);
-                        info.Add(nomE[0][0] );
+                        info.Add(nomE[0][0]);
 
-                        if (i + 1 == idequip.Count())                        
+                        if (i + 1 == idequip.Count())
                             foreach (string item in info)
                             {
-                               
-                            MessageBox.Show(item + " a été replacé dans l'inventaire");
+
+                                MessageBox.Show(item + " a été replacé dans l'inventaire");
                             }
-                            
-                        
-                     Player.Inventaire.First(x => x.Nom == nomE[0][0].ToString()).QuantiteEquipe--;
-                     bd.Update("UPDATE JoueursEquipements SET quantiteEquipe= " + Player.Inventaire.First(x => x.Nom == nomE[0][0].ToString()).QuantiteEquipe.ToString() + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + nomE[0][0].ToString() + "');COMMIT;");
-                     bd.delete("DELETE FROM EquipementsEntites WHERE idEntite = (SELECT idEntite FROM Entites WHERE nom ='" + persoActuel.Nom + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + nomE[0][0].ToString() + "')");
-                        
+
+
+                        Player.Inventaire.First(x => x.Nom == nomE[0][0].ToString()).QuantiteEquipe--;
+                        bd.Update("UPDATE JoueursEquipements SET quantiteEquipe= " + Player.Inventaire.First(x => x.Nom == nomE[0][0].ToString()).QuantiteEquipe.ToString() + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + nomE[0][0].ToString() + "');COMMIT;");
+                        bd.delete("DELETE FROM EquipementsEntites WHERE idEntite = (SELECT idEntite FROM Entites WHERE nom ='" + persoActuel.Nom + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + nomE[0][0].ToString() + "')");
+
                     }
-                
-                 bd.delete("DELETE FROM StatistiquesEntites WHERE idEntite=( SELECT idEntite FROM Entites WHERE nom='" + persoActuel.Nom + "')");
-                 bd.delete("DELETE FROM Entites WHERE nom='" + persoActuel.Nom + "'");
-                 Player.LstEntites.Remove(Player.LstEntites.First(x=>x.Nom==persoActuel.Nom));
-                 MainWindow main =(System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow);
-                 main.tCPerso.Items.Remove(main.tCPerso.SelectedItem);
+
+                bd.delete("DELETE FROM StatistiquesEntites WHERE idEntite=( SELECT idEntite FROM Entites WHERE nom='" + persoActuel.Nom + "')");
+                bd.delete("DELETE FROM Entites WHERE nom='" + persoActuel.Nom + "'");
+                Player.LstEntites.Remove(Player.LstEntites.First(x => x.Nom == persoActuel.Nom));
+                MainWindow main = (System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow);
+                main.tCPerso.Items.Remove(main.tCPerso.SelectedItem);
 
                 foreach (Entite perso in Player.LstEntites)
                 {
@@ -665,7 +672,7 @@ namespace Gofus
                     main.tCPerso.Items.Add(onglet);
                 }
                 if (System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(Inventaire)) != null)
-                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Inventaire)) as Inventaire).refreshInv();              
+                    (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Inventaire)) as Inventaire).refreshInv();
             }
 
             return;
@@ -675,9 +682,9 @@ namespace Gofus
         {
             foreach (Script item in Player.LstScripts)
             {
-                if(item.Nom == cbScript.SelectedItem.ToString())
+                if (item.Nom == cbScript.SelectedItem.ToString())
                 {
-                bd.Update("UPDATE Entites SET idScript = (SELECT idScript FROM Scripts WHERE Uuid ='"+item.Uuid+"') WHERE nom ='"+ persoActuel.Nom + "'");
+                    bd.Update("UPDATE Entites SET idScript = (SELECT idScript FROM Scripts WHERE Uuid ='" + item.Uuid + "') WHERE nom ='" + persoActuel.Nom + "'");
                 }
             }
 
