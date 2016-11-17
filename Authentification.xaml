@@ -28,7 +28,7 @@
 
         <Label VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="30" Grid.Row="3" >Pour visionner les parties récentes</Label>
         <Button x:Name="btnVisionner" Content="Cliquer ici" HorizontalAlignment="Center"  Grid.Row="3" VerticalAlignment="Bottom" Width="75" Margin="8" Click="btnVisionner_Click"/>
-        <Rectangle Fill="DimGray" HorizontalAlignment="Left" Height="370" Grid.RowSpan="4" Stroke="Black" VerticalAlignment="Top" Width="125"/>
-        <Rectangle Fill="DimGray" HorizontalAlignment="Right" Height="370" Grid.RowSpan="4" Stroke="Black" VerticalAlignment="Top" Width="125"/>
+        <Rectangle Fill="#ff7cb500" HorizontalAlignment="Left" Height="370" Grid.RowSpan="4" Stroke="Black" VerticalAlignment="Top" Width="125"/>
+        <Rectangle Fill="#ff7cb500" HorizontalAlignment="Right" Height="370" Grid.RowSpan="4" Stroke="Black" VerticalAlignment="Top" Width="125"/>
     </Grid>
 </Window>

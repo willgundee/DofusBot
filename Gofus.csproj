@@ -101,6 +101,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Classes\Rapport.cs" />
+    <Compile Include="créationUser.xaml.cs">
+      <DependentUpon>créationUser.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PageVisionneuse.xaml.cs">
       <DependentUpon>PageVisionneuse.xaml</DependentUpon>
     </Compile>
@@ -229,6 +232,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="créationUser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PageVisionneuse.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
