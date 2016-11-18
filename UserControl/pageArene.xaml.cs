@@ -118,9 +118,9 @@ namespace Gofus
                 lstAtt.Add((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow).Player.LstEntites.First(x => x.IdEntite == ((KeyValuePair<int, string>)cboPerso.SelectedItem).Key));
                 lstDef.Add(def);
                 int seed = 65555;
-                object[] jsonObj = { lstAtt, lstDef, seed };
+                List<List<Entite>> jsonObj = new List<List<Entite>> { lstAtt, lstDef };
                 string test = JsonConvert.SerializeObject(jsonObj);
-                object testJson = JsonConvert.DeserializeObject(test);
+                List<List<Entite>> testJson = JsonConvert.DeserializeObject<List<List<Entite>>>(test);
                 GofusSharp.Combat combat = new GofusSharp.Combat(lstAtt, lstDef, seed);
             }
         }
