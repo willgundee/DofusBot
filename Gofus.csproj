@@ -100,6 +100,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Classes\DocumentClasse.cs" />
+    <Compile Include="Classes\DocumentMethod.cs" />
+    <Compile Include="Classes\DocumentParametre.cs" />
+    <Compile Include="Classes\DocumentPropriete.cs" />
     <Compile Include="Classes\Rapport.cs" />
     <Compile Include="créationUser.xaml.cs">
       <DependentUpon>créationUser.xaml</DependentUpon>
@@ -133,6 +137,9 @@
     </Compile>
     <Compile Include="UserControl\pageScript.xaml.cs">
       <DependentUpon>pageScript.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window\GestionAdminWindow.xaml.cs">
+      <DependentUpon>GestionAdminWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Window\Inventaire.xaml.cs">
       <DependentUpon>Inventaire.xaml</DependentUpon>
@@ -286,6 +293,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControl\pageScript.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window\GestionAdminWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
