@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -21,6 +22,20 @@ namespace Gofus
         public bool EstPersonnage { get; set; }
 
         private BDService bd = new BDService();
+
+        [JsonConstructor]
+        public Entite(ObservableCollection<Statistique> LstStats, ObservableCollection<Equipement> LstEquipements, Script ScriptEntite, Classe ClasseEntite, string Nom, int CapitalLibre, int Niveau, int IdEntite, bool EstPersonnage)
+        {
+            this.LstStats = LstStats;
+            this.LstEquipements = LstEquipements;
+            this.ScriptEntite = ScriptEntite;
+            this.ClasseEntite = ClasseEntite;
+            this.Nom = Nom;
+            this.CapitalLibre = CapitalLibre;
+            this.Niveau = Niveau;
+            this.IdEntite = IdEntite;
+            this.EstPersonnage = EstPersonnage;
+        }
 
         /// <summary>
         /// Constructeur d'un entité
@@ -51,8 +66,8 @@ namespace Gofus
         private void BalanceStatsMob()
         {
             //Round aussi Valeur = Convert.ToDouble(((max-min)/diff*lvl)+min);
-            double lvlMin = LstStats[0].toLevel(LstStats.First(x => x.Nom == Statistique.element.experience).ValeurMin);
-            double lvlMax = LstStats[0].toLevel(LstStats.First(x => x.Nom == Statistique.element.experience).ValeurMax);
+            double lvlMin = Statistique.toLevel(LstStats.First(x => x.Nom == Statistique.element.experience).ValeurMin);
+            double lvlMax = Statistique.toLevel(LstStats.First(x => x.Nom == Statistique.element.experience).ValeurMax);
             double diff = lvlMax - lvlMin;
 
 
