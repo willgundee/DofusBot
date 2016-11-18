@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace Gofus
@@ -9,6 +10,15 @@ namespace Gofus
         public type Nom { get; set; }
         public int PorteeMin { get; set; }
         public int PorteeMax { get; set; }
+
+        [JsonConstructor]
+        public Zone(type Nom, int PorteeMin, int PorteeMax)
+        {
+            this.Nom = Nom;
+            this.PorteeMin = PorteeMin;
+            this.PorteeMax = PorteeMax;
+        }
+
         /// <summary>
         /// Constructeur d'une Zone
         /// </summary>

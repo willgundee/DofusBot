@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace Gofus
@@ -34,6 +35,18 @@ namespace Gofus
         public int? NbTour { get; set; }
         public Statistique.element? Stat { get; set; }
         BDService bd = new BDService();
+        
+        [JsonConstructor]
+        public Effet(effet Nom, string NomSimplifier, int DmgMin, int DmgMax, int? NbTour, Statistique.element? Stat)
+        {
+            this.Nom = Nom;
+            this.NomSimplifier = NomSimplifier;
+            this.DmgMin = DmgMin;
+            this.DmgMax = DmgMax;
+            this.NbTour = NbTour;
+            this.Stat = Stat;
+        }
+
         /// <summary>
         /// Constructeur d'un effet
         /// </summary>

@@ -295,10 +295,10 @@ namespace Gofus
         {
             for (int i = 1; i < 200; i++)
             {
-                if (s.Exprience >= dictLvl[i] && s.Exprience < dictLvl[i + 1])
+                if (s.Experience >= dictLvl[i] && s.Experience < dictLvl[i + 1])
                     return i;
             }
-            if (s.Exprience >= dictLvl[200])
+            if (s.Experience >= dictLvl[200])
                 return 200;
 
             return 0;//si tout fucktop

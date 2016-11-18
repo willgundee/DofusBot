@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading;
 using System;
 using Newtonsoft.Json;
+using MySql.Data.MySqlClient;
 
 namespace Gofus
 {
@@ -77,17 +78,14 @@ namespace Gofus
 
                             if (index != 0)
                             {
-                                Statistique stat = new Statistique();
-
-                                int min = stat.toLevel((double.Parse(enti[1])));
-                                int max = stat.toLevel((double.Parse(enti[2])));
+                                int min = Statistique.toLevel((double.Parse(enti[1])));
+                                int max = Statistique.toLevel((double.Parse(enti[2])));
                                 string lvl = "Entre " + min + " et " + max;
                                 adversaires.Add(enti[0], lvl);
                             }
                             else
                             {
-                                Statistique stat = new Statistique();
-                                int niveau = stat.toLevel((double.Parse(enti[1])));
+                                int niveau = Statistique.toLevel((double.Parse(enti[1])));
                                 adversaires.Add(enti[0], niveau.ToString());
                             }
 
@@ -104,11 +102,8 @@ namespace Gofus
 
         private void btnAtt_Click(object sender, RoutedEventArgs e)
         {
-
-
             if (dataGrid.SelectedIndex != -1)
             {
-
                 string sele = "SELECT * FROM Entites WHERE nom = '" + ((KeyValuePair<string, string>)dataGrid.SelectedItem).Key + "'";
                 List<string>[] defen = bd.selection(sele);
                 Entite def = new Entite(defen[0]);
@@ -118,9 +113,14 @@ namespace Gofus
                 lstAtt.Add((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow).Player.LstEntites.First(x => x.IdEntite == ((KeyValuePair<int, string>)cboPerso.SelectedItem).Key));
                 lstDef.Add(def);
                 int seed = 65555;
-                List<List<Entite>> jsonObj = new List<List<Entite>> { lstAtt, lstDef };
-                string test = JsonConvert.SerializeObject(jsonObj);
-                List<List<Entite>> testJson = JsonConvert.DeserializeObject<List<List<Entite>>>(test);
+                List<List<Entite>> jsonObj = new List<List<Entite>> { lstAtt, lstDef};
+                string strJson = JsonConvert.SerializeObject(jsonObj);
+                bd.insertion("INSERT INTO Parties (seed, temps, infoEntites) VALUE(" + seed + ", NOW(), '" + MySqlHelper.EscapeString(strJson) + "');");
+                
+                //bd.insertion("INSERT INTO PartiesJoueurs (idPartie, idJoueur, estAttaquant) VALUE();");
+                //List<List<Entite>> infoJson = JsonConvert.DeserializeObject<List<List<Entite>>>(strJson);
+                //lstAtt = infoJson[0];
+                //lstDef = infoJson[1];
                 GofusSharp.Combat combat = new GofusSharp.Combat(lstAtt, lstDef, seed);
             }
         }

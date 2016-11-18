@@ -9,7 +9,6 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Newtonsoft.Json;
 using GofusSharp;
 
 
