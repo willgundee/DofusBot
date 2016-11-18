@@ -36,12 +36,12 @@ namespace Gofus
             #endregion
             if (ent.Niveau < 200)
             {
-                pgbExp.Maximum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.Niveau + 1];
-                pgbExp.Minimum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.Niveau];
+                pgbExp.Maximum = Statistique.dictLvl[ent.Niveau + 1];
+                pgbExp.Minimum = Statistique.dictLvl[ent.Niveau];
                 //1 950
                 // 2 657
                 // 5 000
-                pgbExp.ToolTip = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur.ToString() + " sur " + ent.LstStats.First(x => x.Nom == Statistique.element.experience).dictLvl[ent.LstStats.First(x => x.Nom == Statistique.element.experience).toLevel() + 1].ToString() + " exp";
+                pgbExp.ToolTip = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur.ToString() + " sur " + Statistique.dictLvl[ent.LstStats.First(x => x.Nom == Statistique.element.experience).toLevel() + 1].ToString() + " exp";
             }
             else
             {

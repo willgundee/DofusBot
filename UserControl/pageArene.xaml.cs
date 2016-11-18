@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Linq;
 using System.Threading;
 using System;
+using Newtonsoft.Json;
 
 namespace Gofus
 {
@@ -116,7 +117,11 @@ namespace Gofus
                 List<Entite> lstDef = new List<Entite>();
                 lstAtt.Add((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow).Player.LstEntites.First(x => x.IdEntite == ((KeyValuePair<int, string>)cboPerso.SelectedItem).Key));
                 lstDef.Add(def);
-                GofusSharp.Combat combat = new GofusSharp.Combat(lstAtt, lstDef, 65555);
+                int seed = 65555;
+                object[] jsonObj = { lstAtt, lstDef, seed };
+                string test = JsonConvert.SerializeObject(jsonObj);
+                object testJson = JsonConvert.DeserializeObject(test);
+                GofusSharp.Combat combat = new GofusSharp.Combat(lstAtt, lstDef, seed);
             }
         }
     }
