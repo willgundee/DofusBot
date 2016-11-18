@@ -105,6 +105,7 @@
     <Compile Include="Classes\DocumentParametre.cs" />
     <Compile Include="Classes\DocumentPropriete.cs" />
     <Compile Include="Classes\Rapport.cs" />
+    <Compile Include="Classes\Utilisateur.cs" />
     <Compile Include="créationUser.xaml.cs">
       <DependentUpon>créationUser.xaml</DependentUpon>
     </Compile>
