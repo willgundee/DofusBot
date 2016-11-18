@@ -21,8 +21,10 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="231*"/>
             <ColumnDefinition Width="284*"/>
-        </Grid.ColumnDefinitions>
-        <Label Name="lblLevelEntite" Margin="90,90,73.839,175.533" Content="Niv."/>
+        </Grid.ColumnDefinitions> 
+
+        <ProgressBar        Width="100" VerticalAlignment="Top" x:Name="pgbExp" Margin="94,76,0,0" Height="15" HorizontalAlignment="Left" Foreground="GreenYellow"/>
+        <Label x:Name="lblLevelEntite" Margin="90,90,73.839,175.533" Content="Niv."/>
         <Image x:Name="Imgfond"  Source="../resources/fondEquipement.jpg"  Height="260" Width="283" Grid.RowSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="16.573,43,12,0"  Grid.Column="1" />
         <Grid x:Name="grdEquip"  Grid.Column="1" Margin="16.573,43,12,1.435">
             <Grid.RowDefinitions>
@@ -53,29 +55,29 @@
                 <ColumnDefinition Width="8"/>
                 <ColumnDefinition Width="26*"/>
             </Grid.ColumnDefinitions>
-            <Border Name="borderCape" BorderThickness="3" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan ="2">
-                <Image Name="imgCapeInv" Source="../resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" PreviewMouseRightButtonDown="imgInv_PreviewMouseRightButtonDown" />
+            <Border x:Name="borderCape" BorderThickness="3" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan ="2">
+                <Image x:Name="imgCapeInv" Source="../resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" PreviewMouseRightButtonDown="imgInv_PreviewMouseRightButtonDown" />
             </Border>
-            <Border Name="borderAmu" BorderThickness="3" Grid.Column="6" Grid.Row="2" >
-                <Image Name="imgAmuletteInv" Source="../resources/vide.png"  Drop="imgInv_Drop" PreviewMouseDown="imgInv_MouseDown" PreviewMouseRightButtonDown="imgInv_PreviewMouseRightButtonDown" />
+            <Border x:Name="borderAmu" BorderThickness="3" Grid.Column="6" Grid.Row="2" >
+                <Image x:Name="imgAmuletteInv" Source="../resources/vide.png"  Drop="imgInv_Drop" PreviewMouseDown="imgInv_MouseDown" PreviewMouseRightButtonDown="imgInv_PreviewMouseRightButtonDown" />
             </Border>
-            <Border Name="borderCoiffe" BorderThickness="3" Grid.Column="9" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2">
-                <Image Name="imgChapeauInv"  Source="../resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" PreviewMouseRightButtonDown="imgInv_PreviewMouseRightButtonDown" />
+            <Border x:Name="borderCoiffe" BorderThickness="3" Grid.Column="9" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2">
+                <Image x:Name="imgChapeauInv"  Source="../resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" PreviewMouseRightButtonDown="imgInv_PreviewMouseRightButtonDown" />
             </Border>
-            <Border Name="borderAno1" BorderThickness="3" Grid.Column="2" Grid.Row="5"  Grid.RowSpan="2">
-                <Image Name="imgAnneau1Inv" Source="../resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" PreviewMouseRightButtonDown="imgInv_PreviewMouseRightButtonDown"/>
+            <Border x:Name="borderAno1" BorderThickness="3" Grid.Column="2" Grid.Row="5"  Grid.RowSpan="2">
+                <Image x:Name="imgAnneau1Inv" Source="../resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" PreviewMouseRightButtonDown="imgInv_PreviewMouseRightButtonDown"/>
             </Border>
-            <Border Name="borderAno2" BorderThickness="3" Grid.Column="10" Grid.Row="5" Grid.RowSpan="2">
-                <Image Name="imgAnneau2Inv" Source="../resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" PreviewMouseRightButtonDown="imgInv_PreviewMouseRightButtonDown"/>
+            <Border x:Name="borderAno2" BorderThickness="3" Grid.Column="10" Grid.Row="5" Grid.RowSpan="2">
+                <Image x:Name="imgAnneau2Inv" Source="../resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" PreviewMouseRightButtonDown="imgInv_PreviewMouseRightButtonDown"/>
             </Border>
-            <Border Name="borderCeinture" BorderThickness="3" Grid.Column="5" Grid.Row="4" Grid.ColumnSpan="3" Grid.RowSpan ="4" >
-                <Image Name="imgCeintureInv" Source="../resources/vide.png"  Drop="imgInv_Drop" PreviewMouseRightButtonDown="imgInv_PreviewMouseRightButtonDown" MouseDown="imgInv_MouseDown" />
+            <Border x:Name="borderCeinture" BorderThickness="3" Grid.Column="5" Grid.Row="4" Grid.ColumnSpan="3" Grid.RowSpan ="4" >
+                <Image x:Name="imgCeintureInv" Source="../resources/vide.png"  Drop="imgInv_Drop" PreviewMouseRightButtonDown="imgInv_PreviewMouseRightButtonDown" MouseDown="imgInv_MouseDown" />
             </Border>
-            <Border Name="borderBotte" BorderThickness="3" Grid.Column="5" Grid.Row="9" Grid.ColumnSpan="3">
-                <Image Name="imgBotteInv" Source="../resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" PreviewMouseRightButtonDown="imgInv_PreviewMouseRightButtonDown"/>
+            <Border x:Name="borderBotte" BorderThickness="3" Grid.Column="5" Grid.Row="9" Grid.ColumnSpan="3">
+                <Image x:Name="imgBotteInv" Source="../resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" PreviewMouseRightButtonDown="imgInv_PreviewMouseRightButtonDown"/>
             </Border>
-            <Border Name="borderCac" BorderThickness="3" Grid.Column="9" Grid.Row="9" Grid.ColumnSpan="3">
-                <Image Name="imgArmeInv"  Source="../resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" PreviewMouseRightButtonDown="imgInv_PreviewMouseRightButtonDown"/>
+            <Border x:Name="borderCac" BorderThickness="3" Grid.Column="9" Grid.Row="9" Grid.ColumnSpan="3">
+                <Image x:Name="imgArmeInv"  Source="../resources/vide.png"  Drop="imgInv_Drop" MouseDown="imgInv_MouseDown" PreviewMouseRightButtonDown="imgInv_PreviewMouseRightButtonDown"/>
             </Border>
 
             <Button x:Name="btnInventaire" Content="Inventaire" PreviewMouseLeftButtonDown="btnInventaire_MouseDown" VerticalAlignment="Center" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="9" Height="20" Margin="0,20"/>
@@ -83,15 +85,10 @@
         <Label Grid.Column="1" HorizontalAlignment="Right" FontSize="25" VerticalAlignment="Top" Margin="0,0,61,0" Content="Équipement" Width="178"/>
         <Rectangle x:Name="rect" Height="75" Width="75" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Margin="10,36,0,0" Fill="#FFF0E9E9"   />
         <Image x:Name="Imgclasse" Height="75" Width="75" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Margin="10,36,0,0"   />
-        <Label x:Name="lblClasse" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="94,34,0,0" Content="Classe : "/>
-        <Label x:Name="lblNomJoueur" VerticalAlignment="Top" FontSize="25" HorizontalAlignment="Left" Margin="10,-4,0,0" Height="47" Width="167"/>
-        <Label x:Name="lblNomClasse" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="144,34,0,0" Height="26" Width="102"/>
-        <Label x:Name="lblScript" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="40,12,0,181" FontSize="15" Height="33">Script :</Label>
         <ComboBox x:Name="cbScript" Grid.Column="1" Grid.Row="1" Margin="100,15,60,186" Height="25" SelectionChanged="cbScript_SelectionChanged"  />
-        <Label x:Name="lblPCap" Content="Point Capital:" Width="100" Grid.Column="0" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="13,0,0,8" />
         <Label x:Name="lblNbPointsC" Content="11" Width="70" Height="31" Grid.Row="1" HorizontalAlignment="Center" FontSize="14" VerticalAlignment="Bottom" Margin="90,0,90,5" Grid.Column="0" />
         <Label Content="Statistiques"  FontSize="16" Height="30" Width="150" Margin="10,106,90,158"  />
-        <ItemsControl Name="itmCtrlDesc" Margin="16,48,12,0" Grid.Column="1" Grid.Row="1" />
+        <ItemsControl x:Name="itmCtrlDesc" Margin="16,48,12,0" Grid.Column="1" Grid.Row="1" />
         <TabControl  Height="350" Background="Gray" BorderBrush="Gray" VerticalAlignment="Bottom" Margin="15,0,307,34" Grid.RowSpan="2" ScrollViewer.VerticalScrollBarVisibility="Disabled" Grid.ColumnSpan="2">
             <TabItem  Header="Base" HorizontalAlignment="Left">
                 <Grid>
@@ -105,12 +102,12 @@
                             <DataGridTextColumn Header="Valeur" Binding="{Binding Valeur}" FontSize="16" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Button Name="btnVitalite"     Content="+"  Width="25" Height="20" Visibility="Hidden" VerticalAlignment="Center" HorizontalAlignment="Left" Click="btnStatsPlus_Click" Grid.Column="1" Margin="0,40,0,0" />
-                    <Button Name="btnSagesse"      Content="+"  Width="25" Height="20" Visibility="Hidden" VerticalAlignment="Center" HorizontalAlignment="Left"  Click="btnStatsPlus_Click" Grid.Column="1" Margin="0,90,0,0" />
-                    <Button Name="btnForce"        Content="+"  Width="25" Height="20" Visibility="Hidden" VerticalAlignment="Center" HorizontalAlignment="Left" Click="btnStatsPlus_Click" Grid.Column="1" Margin="0,140,0,0" />
-                    <Button Name="btnIntelligence" Content="+"  Width="25" Height="20" Visibility="Hidden" VerticalAlignment="Bottom" HorizontalAlignment="Left" Click="btnStatsPlus_Click" Grid.Column="1" Margin="0,0,0,55" />
-                    <Button Name="btnChance"       Content="+"  Width="25" Height="20" Visibility="Hidden" VerticalAlignment="Bottom" HorizontalAlignment="Left" Click="btnStatsPlus_Click" Grid.Column="1" Margin="0,0,0,30" />
-                    <Button Name="btnAgilite"      Content="+"  Width="25" Height="20" Visibility="Hidden" VerticalAlignment="Bottom" HorizontalAlignment="Left" Click="btnStatsPlus_Click" Grid.Column="1" Margin="0,0,0,5" />
+                    <Button x:Name="btnVitalite"     Content="+"  Width="25" Height="20" Visibility="Hidden" VerticalAlignment="Center" HorizontalAlignment="Left" Click="btnStatsPlus_Click" Grid.Column="1" Margin="0,40,0,0" />
+                    <Button x:Name="btnSagesse"      Content="+"  Width="25" Height="20" Visibility="Hidden" VerticalAlignment="Center" HorizontalAlignment="Left"  Click="btnStatsPlus_Click" Grid.Column="1" Margin="0,90,0,0" />
+                    <Button x:Name="btnForce"        Content="+"  Width="25" Height="20" Visibility="Hidden" VerticalAlignment="Center" HorizontalAlignment="Left" Click="btnStatsPlus_Click" Grid.Column="1" Margin="0,140,0,0" />
+                    <Button x:Name="btnIntelligence" Content="+"  Width="25" Height="20" Visibility="Hidden" VerticalAlignment="Bottom" HorizontalAlignment="Left" Click="btnStatsPlus_Click" Grid.Column="1" Margin="0,0,0,55" />
+                    <Button x:Name="btnChance"       Content="+"  Width="25" Height="20" Visibility="Hidden" VerticalAlignment="Bottom" HorizontalAlignment="Left" Click="btnStatsPlus_Click" Grid.Column="1" Margin="0,0,0,30" />
+                    <Button x:Name="btnAgilite"      Content="+"  Width="25" Height="20" Visibility="Hidden" VerticalAlignment="Bottom" HorizontalAlignment="Left" Click="btnStatsPlus_Click" Grid.Column="1" Margin="0,0,0,5" />
                 </Grid>
             </TabItem>
             <TabItem Header="Avancé">
@@ -123,6 +120,13 @@
                 </DataGrid>
             </TabItem>
         </TabControl>
+        <Label x:Name="lblexp" Margin="94,51,0,0" Content="Experience :"/>
+        <Label x:Name="lblClasse" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="94,34,0,0" Content="Classe : "/>
+        <Label x:Name="lblNomJoueur" VerticalAlignment="Top" FontSize="25" HorizontalAlignment="Left" Margin="10,-4,0,0" Height="47" Width="167"/>
+        <Label x:Name="lblNomClasse" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="144,34,0,0" Height="26" Width="102"/>
+        <Label x:Name="lblScript" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Center" Margin="40,12,0,181" FontSize="15" Height="33" Content="Script :"/>
+        <Label x:Name="lblPCap" Content="Point Capital:" Width="100" Grid.Column="0" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="13,0,0,8" />
+        <Label Content="Statistiques"  FontSize="16" Height="30" Width="150" Margin="10,106,90,158"  />
         <!--Label x:Name="lblResistance" Grid.Row="1" Grid.Column="1" Content="Résistances" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="157,43,71,160" Height="23" Width="79"></>
 
         <DataGrid x:Name="dgResistance" IsReadOnly="True" CanUserAddRows="False" CanUserSortColumns="False"  HorizontalAlignment="Right"  Height="150" Width="150"  VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="1" AutoGenerateColumns="False" Margin="0,0,0,5">
@@ -132,8 +136,6 @@
             </DataGrid.Columns>
 
         </DataGrid-->
-        <Label Name="lblexp" Content="Experience :"  HorizontalAlignment="Left" Height="25" Margin="94,51,0,0" VerticalAlignment="Top" />
-        <ProgressBar Name="pgbExp" HorizontalAlignment="Left" Height="15" Margin="94,76,0,0" VerticalAlignment="Top" Width="100" Foreground="GreenYellow" />
         <Button x:Name="btnSupprimer" Content="X" BorderBrush="DarkRed" Foreground="DarkRed" Background="Black" HorizontalAlignment="Right" Margin="15" VerticalAlignment="Top" Width="25" Height="25" FontSize="18" FontFamily="Mongolian Baiti" Click="btnSupprimer_Click" Grid.Column="1" Grid.RowSpan="2"/>
         <!--Label Name="lblPourcentExp" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="136,53,77,216" Height="25" Width="37" /-->
     </Grid>

@@ -187,7 +187,7 @@
             </Grid>
 
         </TabItem>
-        <TabItem Header="Documentation" Height="30" Loaded="TabItem_Loaded">
+        <TabItem Header="Documentation" Height="30" Selector.Selected="PGDoc_Selected" >
             <ContentControl Name="PGDoc"/>
 
         </TabItem>

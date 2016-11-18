@@ -110,6 +110,12 @@
     <Compile Include="Résultat.xaml.cs">
       <DependentUpon>Résultat.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControl\BestaireDesc.xaml.cs">
+      <DependentUpon>BestaireDesc.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\BestaireList.xaml.cs">
+      <DependentUpon>BestaireList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControl\PageArme.xaml.cs">
       <DependentUpon>PageArme.xaml</DependentUpon>
     </Compile>
@@ -250,6 +256,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Résultat.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl\BestaireDesc.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl\BestaireList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

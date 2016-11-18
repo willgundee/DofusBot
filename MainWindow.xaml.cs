@@ -449,9 +449,9 @@ namespace Gofus
             }
         }
 
-        private void TabItem_Loaded(object sender, RoutedEventArgs e)
-        {
-            PGDoc.Content = new PageDoc();
-        }
+          private void PGDoc_Selected(object sender, RoutedEventArgs e)
+          {
+              PGDoc.Content = new PageDoc();
+          }
     }
 }
