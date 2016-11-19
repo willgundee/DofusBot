@@ -27,12 +27,13 @@ namespace Gofus
 
             Bestiaire = new Entite(bestiaire);
             int con = bestiaire.Count();
-
-            BitmapImage path = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/spells/55/sort_" + Bestiaire.Niveau + ".png"));
+            //Bestiaire.ClasseEntite.
+            BitmapImage path = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/monsters/200/134.w200h.png"));
 
             ImgBest.Source = path;
 
             lblNomBest.Content = Bestiaire.Nom;
+            
 
         }
     }

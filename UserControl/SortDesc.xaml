@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Gofus"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="250">
-    <Grid Background="LightGray" Height="500" Width="250" >
+    <Grid Background="WhiteSmoke" Height="500" Width="250" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
