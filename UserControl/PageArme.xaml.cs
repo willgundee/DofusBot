@@ -24,6 +24,33 @@ namespace Gofus
         public PageArme()
         {
             InitializeComponent();
+            txtZoneEEpe.Text = "Sur la case ciblée seulement";
+            txtZonePEpe.Text = "Portée de 1";
+
+            txtZonePArc.Text = "Une portée de plus d'une case variable";
+            txtZoneEArc.Text = "Sur la case ciblée seulement";
+
+            txtZoneEBaguette.Text = "Une portée de plus d'une case variable";
+            txtZonePBaguette.Text = "Sur la case ciblée";
+
+            txtZoneEBaton.Text = "Une portée sur les cases adjacentes du personnage";
+            txtZonePBaton.Text = "Sur une ligne horizontale";
+
+            txtZoneEDague.Text = "Une portée sur les cases adjacentes du personnage";
+            txtZonePDague.Text = "Sur la case ciblée";
+
+            txtZoneEFaux.Text = "Une portée sur les cases adjacentes du personnage";
+            txtZonePFaux.Text = "Sur la case ciblée";
+
+            txtZoneEHache.Text = "Une portée tous les cases adjacentes du personnage";
+            txtZonePHache.Text = "Sur la case ciblée";
+
+            txtZoneEMarteau.Text = "Une portée sur en X sur les cases adjacentes du personnage";
+            txtZonePMarteau.Text = "Sur la case en T ";
+
+            txtZoneEPelle.Text = "Une portée sur en X sur les cases adjacentes du personnage";
+            txtZonePPelle.Text = "Sur les cases en ligne ";
+
         }
     }
 }
