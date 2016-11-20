@@ -9,7 +9,7 @@
         Icon="resources/Gofus.png"
         
         Title="Authentification" Height="400" Width="525">
-    <Grid x:Name="grdAuthetification" Background="Gray"  KeyDown="OnKeyDowntxtMessage" FocusManager.FocusedElement="{Binding ElementName=txtNomU}" >
+    <Grid x:Name="grdAuthetification" Background="LightGray"  KeyDown="OnKeyDowntxtMessage" FocusManager.FocusedElement="{Binding ElementName=txtNomU}" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="124*"/>
             <ColumnDefinition Width="270*"/>
@@ -33,7 +33,7 @@
 
         <Label VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="40,0,39.612,30" Grid.Row="3" Grid.Column="1" >Pour visionner les parties récentes</Label>
         <Button x:Name="btnVisionner" Content="Cliquer ici" HorizontalAlignment="Center"  Grid.Row="3" VerticalAlignment="Bottom" Width="75" Margin="98,0,96.612,8" Click="btnVisionner_Click" Grid.Column="1"/>
-        <Rectangle Fill="#ff7cb500" HorizontalAlignment="Left" Height="370" Grid.RowSpan="4" Stroke="Black" VerticalAlignment="Top" Width="125" Grid.ColumnSpan="2"/>
-        <Rectangle Fill="#ff7cb500" HorizontalAlignment="Right" Height="370" Grid.RowSpan="4" Stroke="Black" VerticalAlignment="Top" Width="125" Grid.Column="2"/>
+        <Rectangle Fill="DarkCyan" HorizontalAlignment="Left" Height="370" Grid.RowSpan="4" Stroke="Black" VerticalAlignment="Top" Width="125" Grid.ColumnSpan="2"/>
+        <Rectangle Fill="DarkCyan" HorizontalAlignment="Right" Height="370" Grid.RowSpan="4" Stroke="Black" VerticalAlignment="Top" Width="125" Grid.Column="2"/>
     </Grid>
 </Window>
