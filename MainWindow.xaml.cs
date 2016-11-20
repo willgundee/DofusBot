@@ -63,10 +63,10 @@ namespace Gofus
             InitializeComponent();
             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
             idJoueur = id;
-
             pgchat = new pageClavardage(Player.NomUtilisateur);
             contentClavardage.Content = pgchat;
-
+            string n = " -" + Player.NomUtilisateur;
+            Title +=n;
             if (Player.estAdmin)
             {
                 PaneauAdmin.Visibility = Visibility.Visible;
