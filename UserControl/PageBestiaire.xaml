@@ -6,16 +6,16 @@
              xmlns:local="clr-namespace:Gofus"
              mc:Ignorable="d" 
              d:DesignHeight="560" d:DesignWidth="577">
-    <Grid Name="dgBestiaire" Background="Gray">
+    <Grid Name="dgBestiaire" Background="LightGray">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="288*"/>
             <ColumnDefinition Width="289*"/>
         </Grid.ColumnDefinitions>
 
         <Label Name="lblNomBestiaire" Content="Bestiaire :" FontSize="16" Margin="10,50,0,0"/>
-        <ListBox Name="lbxBestiaire" Background="LightGray" Grid.Column="0" Margin="10,80,81,80" ScrollViewer.HorizontalScrollBarVisibility="Disabled"  />
+        <ListBox Name="lbxBestiaire" Background="WhiteSmoke" Grid.Column="0" Margin="10,80,81,80" ScrollViewer.HorizontalScrollBarVisibility="Disabled"  />
         <Label Name="lblDescription" Content="Description" VerticalAlignment="Top" Height="30" Grid.Column="1" FontSize="16" Margin="40,10,40,0" />
-        <ItemsControl Name="lbxDescBestiaire" Background="LightGray" Grid.Column="1" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,40,15,20" Width="250" Height="500" ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
+        <ItemsControl Name="lbxDescBestiaire" Background="WhiteSmoke" Grid.Column="1" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,40,15,20" Width="250" Height="500" ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
 
     </Grid>
 </UserControl>

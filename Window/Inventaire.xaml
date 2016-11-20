@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gofus"
         mc:Ignorable="d"
-        Title="Inventaire" Height="570" Width="350" WindowStartupLocation="Manual"  Left="790" Top="40" ResizeMode="NoResize"
+        Title="Inventaire" Height="570" Width="350" WindowStartupLocation="Manual"  Left="790" Top="40" ResizeMode="NoResize" Background="LightGray"
         >
     <Window.Resources>
         <ContextMenu x:Key="cmClick">

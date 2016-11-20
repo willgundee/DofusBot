@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Gofus"
              mc:Ignorable="d" 
              d:DesignHeight="560" d:DesignWidth="570">
-    <Grid Background="#FF88C7C1">
+    <Grid Background="LightGray">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>

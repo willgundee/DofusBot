@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Gofus"
              mc:Ignorable="d" 
              d:DesignHeight="550" d:DesignWidth="550">
-    <Grid Background="#FFFFC8C8">
+    <Grid Background="LightGray">
         <Button x:Name="btnSupprimer" Content="Supprimer messages" HorizontalAlignment="Left" Margin="277,118,0,0" VerticalAlignment="Top" Width="234" Click="btnSupprimer_Click"/>
         <DatePicker Text="Sélectionnez une date" Name="datePick" HorizontalAlignment="Left" Margin="10,118,0,0" VerticalAlignment="Top" Width="234" FirstDayOfWeek="Monday"/>
         <Label x:Name="lblInformation" Content="Selectionnez une date pour supprimer des messages. &#xD;&#xA;Tous les message posté à une date antérieur seront supprimés!" HorizontalAlignment="Left" Margin="10,67,0,0" VerticalAlignment="Top" Height="46" Width="344"/>

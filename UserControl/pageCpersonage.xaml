@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Gofus"
              mc:Ignorable="d" 
              d:DesignHeight="535" d:DesignWidth="565">
-    <Grid Background="Gray">
+    <Grid Background="LightGray">
 
         <TextBox x:Name="txtNom" Height="30" Width="450" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="64,44,51,0" TextOptions.TextHintingMode="Animated" TextOptions.TextFormattingMode="Display" />
         <TextBlock x:Name="txtbDesc" FontSize="15" TextWrapping="Wrap" Background="WhiteSmoke" Margin="245,110,51,97"/>

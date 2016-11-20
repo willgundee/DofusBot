@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Gofus"
         mc:Ignorable="d"
         Title="Résultat" Height="200" Width="400">
-    <Grid Name="dgResultat" Background="WhiteSmoke" >
+    <Grid Name="dgResultat" Background="LightGray" >
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>

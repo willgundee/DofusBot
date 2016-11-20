@@ -7,6 +7,7 @@
              xmlns:local="clr-namespace:Gofus"
              xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="Gofus.pageScript"
              mc:Ignorable="d" 
+    Background="LightGray"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
@@ -18,10 +19,10 @@
             <ColumnDefinition Width="15*"/>
         </Grid.ColumnDefinitions>
 
-        <WindowsFormsHost Grid.Row="0" Grid.Column="0">
+        <WindowsFormsHost Grid.Row="0" Grid.Column="0" Background="LightGray">
             <wf:SSRichTextBox x:Name="rtb_lineNumber" ScrollBars="ForcedHorizontal"/>
         </WindowsFormsHost>
-        <WindowsFormsHost Grid.Row="0" Grid.Column="1">
+        <WindowsFormsHost Grid.Row="0" Grid.Column="1" Background="LightGray">
             <wf:CodeTextBox x:Name="ctb_main" CodeColor_Chaine="Crimson" CodeColor_Comment="Green" CodeColor_Function="CornflowerBlue" CodeColor_Keyword="Blue" CodeColor_PlainText="Black" CodeColor_Type="CornflowerBlue" AcceptsTab="True" KeyUp="ctb_KeyUp" VScroll="ctb_main_VScroll" ScrollBars="ForcedBoth">
                 <wf:CodeTextBox.CodeWords_Keywords>
                     <System:String>abstract</System:String>

@@ -198,7 +198,7 @@
 
         </TabItem>
         <TabItem Header="Archives" Height="30" Selector.Selected="PgArchive_Selected">
-            <Grid Background="Gray">
+            <Grid Background="LightGray">
                 <ContentControl Name="controlArchive"/>
             </Grid>
 

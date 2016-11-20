@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="520" d:DesignWidth="557">
     <Grid>
-        <TabControl Name="tabDoc" Background="Gray">
+        <TabControl Name="tabDoc" Background="LightGray">
             <TabItem Header="Gofus#">
                 <TextBlock Height="450" Width="500" VerticalAlignment="Bottom" Background="AliceBlue"/>
             </TabItem>

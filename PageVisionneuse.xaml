@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="PageVisionneuse" Height="630" Width="577
         ">
-    <Grid Background="Gray" >
+    <Grid Background="LightGray" >
         <Image x:Name="imgLogo" Source="resources/Gofus.png" VerticalAlignment="Top" HorizontalAlignment="Center" Height="175" Margin="197,-19,197,0"   />
         <ItemsControl Name="item" Width="577" Margin="-8,121,0,0" />
     </Grid>

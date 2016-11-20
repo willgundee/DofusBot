@@ -6,15 +6,15 @@
         xmlns:local="clr-namespace:Gofus"
         mc:Ignorable="d"
         Title="créationUser" Height="400" Width="310" ResizeMode="NoResize" >
-    <Grid Margin="0,0,0,-3.8" HorizontalAlignment="Left" Width="300" Background="Gray" >
+    <Grid Margin="0,0,0,-3.8" HorizontalAlignment="Left" Width="300" Background="LightGray" >
         <Grid.RowDefinitions>
             <RowDefinition Height="36*"/>
             <RowDefinition Height="277*"/>
             <RowDefinition Height="63*"/>
         </Grid.RowDefinitions>
 
-        <Rectangle Grid.Row="0" Fill="#ff7cb500" />
-        <Rectangle Grid.Row="2" Fill="#ff7cb500" />
+        <Rectangle Grid.Row="0" Fill="Gray" />
+        <Rectangle Grid.Row="2" Fill="Gray" />
         <Label Content="Création de compte" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="18" Margin="66,0" />
         <Button x:Name="btnValider" Content="Confirmer" HorizontalAlignment="Left" Margin="20,21,0,20" VerticalAlignment="Center" Width="75" Grid.Row="2" Height="22" Click="btnValider_Click"/>
         <Button x:Name="btnAnnuler" Content="Annuler" HorizontalAlignment="Right" Margin="0,21,10,20" VerticalAlignment="Center" Width="75" Click="btnAnnuler_Click" Grid.Row="2" Height="22"/>

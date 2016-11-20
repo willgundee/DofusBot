@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Gofus"
              mc:Ignorable="d" 
                d:DesignHeight="560" d:DesignWidth="577">
-    <Grid Background="Gray">
+    <Grid Background="LightGray">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="247*"/>
             <ColumnDefinition Width="330*"/>
@@ -14,9 +14,9 @@
         <Label Name="lblClasses" Content="Recherche par classes :" FontSize="16" Margin="5"/>
         <ComboBox Name="cmbType" SelectedIndex="0" Grid.Column="0" HorizontalAlignment="Left" Margin="10,32,0,0" VerticalAlignment="Top"  Width="120" SelectionChanged="cmbType_SelectionChanged" Height="22" />
         <Label Name="lblNomSorts" Content="Sorts :" FontSize="16" Margin="10,50,0,0"/>
-        <ListBox Name="lbxsort" Background="LightGray" Grid.Column="0" Margin="10,80,37,80" ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
+        <ListBox Name="lbxsort" Background="WhiteSmoke" Grid.Column="0" Margin="10,80,37,80" ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
         <Label Name="lblDescription" Content="Description du sort" VerticalAlignment="Top" Height="30" Grid.Column="1" FontSize="16" Margin="40,10,40,0" />
-        <ItemsControl Name="lbxDescript" Background="LightGray" Grid.Column="1" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="40,40,20,20" Width="290" Height="500" ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
+        <ItemsControl Name="lbxDescript" Background="WhiteSmoke" Grid.Column="1" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="40,40,20,20" Width="290" Height="500" ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
 
 
     </Grid>

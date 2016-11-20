@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Gofus"
         mc:Ignorable="d"
         Title="Chat" Height="579.066" Width="642.407" ResizeMode="NoResize" WindowStyle="None">
-    <Grid Background="#FF91DEF6">
+    <Grid Background="LightGray">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
