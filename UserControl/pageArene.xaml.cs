@@ -127,15 +127,15 @@ namespace Gofus
                 List<Entite> lstDef = new List<Entite>();
                 lstAtt.Add((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow).Player.LstEntites.First(x => x.IdEntite == ((KeyValuePair<int, string>)cboPerso.SelectedItem).Key));
                 lstDef.Add(def);
-                int seed = 65555;
-                List<List<Entite>> jsonObj = new List<List<Entite>> { lstAtt, lstDef};
+                List<List<Entite>> jsonObj = new List<List<Entite>> { lstAtt, lstDef };
                 string strJson = JsonConvert.SerializeObject(jsonObj);
+                lstAtt.Sum(x => x.idProprietaire);
+                int seed = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds + lstAtt.Sum(x => x.idProprietaire) + lstDef.Sum(x => x.idProprietaire);
                 long idPartie = bd.insertion("INSERT INTO Parties (seed, temps, infoEntites) VALUE(" + seed + ", NOW(), '" + MySqlHelper.EscapeString(strJson) + "');");
-                foreach (Entite idPropUnique in lstAtt.Distinct(x => x.))
-                {
-
-                }
-                bd.insertion("INSERT INTO PartiesJoueurs (idPartie, idJoueur, estAttaquant) VALUE(" + idPartie + ");");
+                foreach (int idPropUnique in lstAtt.Select(x => x.idProprietaire).Distinct())
+                    bd.insertion("INSERT INTO PartiesJoueurs (idPartie, idJoueur, estAttaquant) VALUE(" + idPartie + ", " + idPropUnique + ", true);");
+                foreach (int idPropUnique in lstDef.Select(x => x.idProprietaire).Distinct())
+                    bd.insertion("INSERT INTO PartiesJoueurs (idPartie, idJoueur, estAttaquant) VALUE(" + idPartie + ", " + idPropUnique + ", true);");
                 //List<List<Entite>> infoJson = JsonConvert.DeserializeObject<List<List<Entite>>>(strJson);
                 //lstAtt = infoJson[0];
                 //lstDef = infoJson[1];

@@ -20,11 +20,12 @@ namespace Gofus
         public int Niveau { get; set; }
         public int IdEntite { get; set; }
         public bool EstPersonnage { get; set; }
+        public int idProprietaire { get; set; }
 
         private BDService bd = new BDService();
 
         [JsonConstructor]
-        public Entite(ObservableCollection<Statistique> LstStats, ObservableCollection<Equipement> LstEquipements, Script ScriptEntite, Classe ClasseEntite, string Nom, int CapitalLibre, int Niveau, int IdEntite, bool EstPersonnage)
+        public Entite(ObservableCollection<Statistique> LstStats, ObservableCollection<Equipement> LstEquipements, Script ScriptEntite, Classe ClasseEntite, string Nom, int CapitalLibre, int Niveau, int IdEntite, bool EstPersonnage, int idProprietaire)
         {
             this.LstStats = LstStats;
             this.LstEquipements = LstEquipements;
@@ -35,6 +36,7 @@ namespace Gofus
             this.Niveau = Niveau;
             this.IdEntite = IdEntite;
             this.EstPersonnage = EstPersonnage;
+            this.idProprietaire = idProprietaire;
         }
 
         /// <summary>
@@ -57,7 +59,10 @@ namespace Gofus
                 EstPersonnage = false;
             }
             else
+            {
                 CapitalLibre = Convert.ToInt32(infoEntite[5]);
+                addProprietaire(Convert.ToInt16(infoEntite[0]));
+            }
 
 
             //addListStatsAllEquipement();
@@ -91,6 +96,14 @@ namespace Gofus
         private void addScript(int idEntite)
         {
             ScriptEntite = new Script(bd.selection("SELECT s.contenu,s.nom,s.uuid FROM Scripts s INNER JOIN Entites e ON e.idScript = s.idScript WHERE idEntite =" + idEntite)[0]);
+        }
+        /// <summary>
+        /// ajout du propriétaire de l'entité
+        /// </summary>
+        /// <param name="idEntite">l'entité</param>
+        private void addProprietaire(int idEntite)
+        {
+            idProprietaire = Convert.ToInt32(bd.selection("SELECT idJoueur FROM Entites WHERE idEntite =" + idEntite + ";")[0][0]);
         }
         /// <summary>
         /// ajout des stats de l'entités
