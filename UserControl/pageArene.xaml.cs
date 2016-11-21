@@ -19,7 +19,7 @@ namespace Gofus
         public Dictionary<int, string> lstPerso;
 
 
-        public Dictionary<string, string> adversaires;
+        public ObservableCollection<Adversaire> lstAdversaires;
 
         public int idJoueur;
 
@@ -28,71 +28,52 @@ namespace Gofus
         {
             InitializeComponent();
             lstScripts = new ObservableCollection<string>();
-
             lstPerso = new Dictionary<int, string>();
             lstTypeAdver = new ObservableCollection<string>();
-
             bd = new BDService();
             lstTypeAdver.Add("Personnage");
             lstTypeAdver.Add("Monstre");
-
             idJoueur = id;
             cboTypeAdversaire.ItemsSource = lstTypeAdver;
             foreach (Entite perso in lstPersonnages)
             {
                 lstPerso.Add(perso.IdEntite, perso.Nom);
             }
-
-
-
             cboPerso.ItemsSource = lstPerso;
             cboPerso.DisplayMemberPath = "Value";
-
             cboTypeAdversaire.SelectedIndex = 0;
-
             cboPerso.SelectedIndex = 0;
-
-
-            dataGrid.ItemsSource = adversaires;
-
-
-
+            lstAdversaires = new ObservableCollection<Adversaire>();
+            dataGrid.ItemsSource = lstAdversaires;
         }
 
         private void cboTypeAdversaire_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
-            adversaires = new Dictionary<string, string>();
+            lstAdversaires = new ObservableCollection<Adversaire>();
             int index = cboTypeAdversaire.SelectedIndex;
             dataGrid.Items.Refresh();
-            dataGrid.ItemsSource = adversaires;
-
+            dataGrid.ItemsSource = lstAdversaires;
             Thread trdRefresh = new Thread(() =>
                 {
-
-                    List<string>[] Result = bd.selection((index == 0) ? "SELECT nom,valeur FROM Entites INNER JOIN statistiquesentites ON Entites.idEntite = statistiquesentites.idEntite WHERE idTypeStatistique = 13 AND idJoueur IS NOT NULL AND idJoueur != " + idJoueur.ToString() : "SELECT nom,valeurMin,valeurMax FROM Entites INNER JOIN statistiquesentites ON Entites.idEntite = statistiquesentites.idEntite WHERE idTypeStatistique = 13 AND idJoueur IS NULL");
+                    List<string>[] Result = bd.selection((index == 0) ? "SELECT nom,valeur,nomUtilisateur FROM Entites INNER JOIN Joueurs ON Entites.idJoueur = Joueurs.idJoueur INNER JOIN statistiquesentites ON Entites.idEntite = statistiquesentites.idEntite WHERE idTypeStatistique = 13 AND idJoueur IS NOT NULL AND idJoueur != " + idJoueur.ToString() : "SELECT nom,valeurMin,valeurMax FROM Entites INNER JOIN statistiquesentites ON Entites.idEntite = statistiquesentites.idEntite WHERE idTypeStatistique = 13 AND idJoueur IS NULL");
                     System.Windows.Application.Current.Dispatcher.Invoke(new System.Action(() =>
                     {
                         foreach (List<string> enti in Result)
                         {
-
                             if (index != 0)
                             {
                                 int min = Statistique.toLevel((double.Parse(enti[1])));
                                 int max = Statistique.toLevel((double.Parse(enti[2])));
                                 string lvl = "Entre " + min + " et " + max;
-                                adversaires.Add(enti[0], lvl);
+                                lstAdversaires.Add( new Adversaire(enti[0], lvl));
                             }
                             else
                             {
                                 int niveau = Statistique.toLevel((double.Parse(enti[1])));
-                                adversaires.Add(enti[0], niveau.ToString());
+                                lstAdversaires.Add(new AdversaireHumain (enti[0], niveau.ToString(),enti[2]));
                             }
-
-
                         }
-
-                        dataGrid.ItemsSource = adversaires;
+                        dataGrid.ItemsSource = lstAdversaires;
                         dataGrid.Items.Refresh();
                     }));
                 });
