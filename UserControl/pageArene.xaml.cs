@@ -96,9 +96,12 @@ namespace Gofus
                 int seed = 65555;
                 List<List<Entite>> jsonObj = new List<List<Entite>> { lstAtt, lstDef};
                 string strJson = JsonConvert.SerializeObject(jsonObj);
-                bd.insertion("INSERT INTO Parties (seed, temps, infoEntites) VALUE(" + seed + ", NOW(), '" + MySqlHelper.EscapeString(strJson) + "');");
-                
-                //bd.insertion("INSERT INTO PartiesJoueurs (idPartie, idJoueur, estAttaquant) VALUE();");
+                long idPartie = bd.insertion("INSERT INTO Parties (seed, temps, infoEntites) VALUE(" + seed + ", NOW(), '" + MySqlHelper.EscapeString(strJson) + "');");
+                foreach (Entite idPropUnique in lstAtt.Distinct(x => x.))
+                {
+
+                }
+                bd.insertion("INSERT INTO PartiesJoueurs (idPartie, idJoueur, estAttaquant) VALUE(" + idPartie + ");");
                 //List<List<Entite>> infoJson = JsonConvert.DeserializeObject<List<List<Entite>>>(strJson);
                 //lstAtt = infoJson[0];
                 //lstDef = infoJson[1];
