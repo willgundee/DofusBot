@@ -7,6 +7,7 @@ using System.Threading;
 using System;
 using Newtonsoft.Json;
 using MySql.Data.MySqlClient;
+using System.Windows.Data;
 
 namespace Gofus
 {
@@ -52,10 +53,11 @@ namespace Gofus
             lstAdversaires = new ObservableCollection<Adversaire>();
             int index = cboTypeAdversaire.SelectedIndex;
             dataGrid.Items.Refresh();
+            dataGrid.Columns.Clear();
             dataGrid.ItemsSource = lstAdversaires;
             Thread trdRefresh = new Thread(() =>
                 {
-                    List<string>[] Result = bd.selection((index == 0) ? "SELECT nom,valeur,nomUtilisateur FROM Entites INNER JOIN Joueurs ON Entites.idJoueur = Joueurs.idJoueur INNER JOIN statistiquesentites ON Entites.idEntite = statistiquesentites.idEntite WHERE idTypeStatistique = 13 AND idJoueur IS NOT NULL AND idJoueur != " + idJoueur.ToString() : "SELECT nom,valeurMin,valeurMax FROM Entites INNER JOIN statistiquesentites ON Entites.idEntite = statistiquesentites.idEntite WHERE idTypeStatistique = 13 AND idJoueur IS NULL");
+                    List<string>[] Result = bd.selection((index == 0) ? "SELECT nom,valeur,nomUtilisateur FROM Entites e INNER JOIN Joueurs j ON e.idJoueur = j.idJoueur INNER JOIN statistiquesentites s ON e.idEntite = s.idEntite WHERE idTypeStatistique = 13 AND e.idJoueur IS NOT NULL AND e.idJoueur != " + idJoueur.ToString() : "SELECT nom,valeurMin,valeurMax FROM Entites INNER JOIN statistiquesentites ON Entites.idEntite = statistiquesentites.idEntite WHERE idTypeStatistique = 13 AND idJoueur IS NULL");
                     System.Windows.Application.Current.Dispatcher.Invoke(new System.Action(() =>
                     {
                         foreach (List<string> enti in Result)
@@ -74,7 +76,39 @@ namespace Gofus
                             }
                         }
                         dataGrid.ItemsSource = lstAdversaires;
+                        if (index == 0)
+                        {
+                            DataGridTextColumn textColumn = new DataGridTextColumn();
+                            textColumn.Header = "Propriétaire";
+                            textColumn.Binding = new Binding("proprietaire");
+                            dataGrid.Columns.Add(textColumn);
+                            textColumn = new DataGridTextColumn();
+                            textColumn.Header = "Niveau";
+                            textColumn.Binding = new Binding("level");
+                            dataGrid.Columns.Add(textColumn);
+                            textColumn = new DataGridTextColumn();
+                            textColumn.Header = "Nom";
+                            textColumn.Binding = new Binding("nom");
+                            dataGrid.Columns.Add(textColumn);
+                            dataGrid.FrozenColumnCount = 3;
+                        }
+                        else
+                        {
+                            DataGridTextColumn textColumn = new DataGridTextColumn();
+                            textColumn.Header = "Niveau";
+                            textColumn.Binding = new Binding("level");
+                            dataGrid.Columns.Add(textColumn);
+                            textColumn = new DataGridTextColumn();
+                            textColumn.Header = "Nom";
+                            textColumn.Binding = new Binding("nom");
+                            dataGrid.Columns.Add(textColumn);
+                            dataGrid.FrozenColumnCount = 2;
+                        }
+                       
+
+
                         dataGrid.Items.Refresh();
+
                     }));
                 });
             trdRefresh.Start();
