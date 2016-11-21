@@ -9,6 +9,7 @@ namespace Gofus
 {
     /// <summary>
     /// Logique d'interaction pour pageArchive.xaml
+    /// Affichage dans une datagrid des parties.
     /// </summary>
     /// 
 
@@ -25,12 +26,8 @@ namespace Gofus
         {
             InitializeComponent();
             idJoueur = id;
-
             lstpartie = new List<Partie>();
-            //lstNomPerso = new List<string>();
-
             dgHistorique.ItemsSource = lstpartie;
-
             cboTypePartie.Items.Add("Mes Parties");
             cboTypePartie.Items.Add("Les partie de tout le monde");
         }
@@ -52,72 +49,51 @@ namespace Gofus
         private void loadParties(string type)
         {
 
-                string selectid = "Select  idPartie,temps,seed From Parties";
-                List<string>[] lstPartieBd = bd.selection(selectid);
+            string selectid = "Select  idPartie,temps,seed From Parties";
+            List<string>[] lstPartieBd = bd.selection(selectid);
 
-
-
-               
-                    lstpartie.Clear();
-                    foreach (List<string> p in lstPartieBd)
+            lstpartie.Clear();
+            foreach (List<string> p in lstPartieBd)
+            {
+                string selectPartici = "SELECT estAttaquant,nomEntite,idJoueur FROM PartiesEntites WHERE idPartie = " + p[0];
+                List<string>[] result = bd.selection(selectPartici);
+                if (result[0][0] != "rien")
+                {
+                    int seed = Int32.Parse(p[2]);
+                    string att = "";
+                    string def = "";
+                    string jrAtt = "";
+                    string jrDef = "";
+                    foreach (List<string> particip in result)
                     {
-                        string selectPartici = "SELECT estAttaquant,idEntite FROM PartiesEntites WHERE idPartie = " + p[0];
-                        List<string>[] result = bd.selection(selectPartici);
-                        if (result[0][0] != "rien")
+                        if (particip[0] == "False")
                         {
-                            int seed = Int32.Parse(p[2]);
-                            string att = "";
-                            string def = "";
-                            string jrAtt = "";
-                            string jrDef = "";
-                            int idatt = -1;
-                            int iddef = -1;
-
-                            foreach (List<string> particip in result)
-                            {
-
-                                if (particip[0] == "False")
-                                {
-                                    string selectN = "SELECT nom,idJoueur FROM Entites WHERE idEntite=" + particip[1].ToString();
-                                    List<string>[] selectNom = bd.selection(selectN);
-                                    def = selectNom[0][0];
-                                    jrDef = selectNom[0][1];
-                                    iddef = Int32.Parse(particip[1]);
-                                }
-                                else
-                                {
-                                    string selectN = "SELECT nom,idJoueur FROM Entites  WHERE idEntite=" + particip[1].ToString();
-                                    List<string>[] selectNom = bd.selection(selectN);
-                                    att = selectNom[0][0];
-                                    jrAtt = selectNom[0][1];
-                                    idatt = Int32.Parse(particip[1]);
-                                }
-
-                            }
-
-
-                            if (type == "all")
-                            {
-                                lstpartie.Add(new Partie(att, def, p[1], seed));
-                            }
-                            else
-                            {
-                                if (jrDef == idJoueur.ToString() || jrAtt == idJoueur.ToString())
-                                {
-                                    lstpartie.Add(new Partie(att, def, p[1], seed));
-                                }
-                            }
-
+                            def = particip[1];
+                            jrDef = particip[2];
                         }
+                        else
+                        {
 
+                            att = particip[1];
+                            jrAtt = particip[2];
+                        }
                     }
-              
-    
 
-
+                    if (type == "all")
+                    {
+                        lstpartie.Add(new Partie(att, def, p[1], seed));
+                    }
+                    else
+                    {
+                        if (jrDef == idJoueur.ToString() || jrAtt == idJoueur.ToString())
+                        {
+                            lstpartie.Add(new Partie(att, def, p[1], seed));
+                        }
+                    }
+                }
+            }
 
         }
-
 
         private void cboTypePartie_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
