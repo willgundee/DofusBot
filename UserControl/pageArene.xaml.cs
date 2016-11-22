@@ -50,6 +50,7 @@ namespace Gofus
 
         private void cboTypeAdversaire_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            btnAtt.IsEnabled = false;
             lstAdversaires = new ObservableCollection<Adversaire>();
             int index = cboTypeAdversaire.SelectedIndex;
             dataGrid.Items.Refresh();
@@ -115,6 +116,8 @@ namespace Gofus
             Thread.Yield();
         }
 
+
+
         private void btnAtt_Click(object sender, RoutedEventArgs e)
         {
             if (dataGrid.SelectedIndex != -1)
@@ -140,6 +143,18 @@ namespace Gofus
                 //lstAtt = infoJson[0];
                 //lstDef = infoJson[1];
                 GofusSharp.Combat combat = new GofusSharp.Combat(lstAtt, lstDef, seed);
+            }
+        }
+
+        private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dataGrid.SelectedIndex < 0)
+            {
+                btnAtt.IsEnabled = false;
+            }
+            else
+            {
+                btnAtt.IsEnabled = true;
             }
         }
     }

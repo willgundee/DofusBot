@@ -20,7 +20,7 @@
         </Grid.ColumnDefinitions>
         <Label x:Name="TypeAdversaire" Content="Type d'adversaire:" Grid.Column="0" Grid.Row="0" VerticalAlignment="Bottom" Width="126"/>
         <ComboBox x:Name="cboTypeAdversaire" Grid.Column="0" Grid.Row="1" VerticalAlignment="top" Width="202" SelectionChanged="cboTypeAdversaire_SelectionChanged"/>
-        <DataGrid x:Name="dataGrid" SelectionMode="Single" MaxWidth="700" MaxHeight="700" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"  Width="557" AutoGenerateColumns="False" IsReadOnly="True" VirtualizingStackPanel.VirtualizationMode="Recycling" VirtualizingStackPanel.IsVirtualizing="true" ItemsSource="{Binding lstAdversaires}"/>
+        <DataGrid x:Name="dataGrid" ColumnWidth="*" SelectionMode="Single" MaxWidth="700" MaxHeight="700" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"  Width="557" AutoGenerateColumns="False" IsReadOnly="True" VirtualizingStackPanel.VirtualizationMode="Recycling" VirtualizingStackPanel.IsVirtualizing="true" ItemsSource="{Binding lstAdversaires}" SelectionChanged="dataGrid_SelectionChanged"/>
 
         <Label x:Name="lblChoixPerso" Content="Personnage :" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
         <ComboBox x:Name="cboPerso" Grid.Column="0" Grid.Row="4" VerticalAlignment="Top" Width="177"/>
