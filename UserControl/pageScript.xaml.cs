@@ -91,7 +91,7 @@ namespace Gofus
                 }
             }
             Perso.UtiliserSort(Perso.ClasseEntite.TabSorts[1], ennemi);";
-            Combat combat = new Combat(ctb_main.Text, codeAI);
+            //Combat combat = new Combat(ctb_main.Text, codeAI);
         }
 
         //**************************************************************************************************

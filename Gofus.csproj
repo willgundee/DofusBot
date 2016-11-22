@@ -375,6 +375,18 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\GofusSharp\cra.png" />
+    <Resource Include="Resources\GofusSharp\enutrof.png" />
+    <Resource Include="Resources\GofusSharp\feca.png" />
+    <Resource Include="Resources\GofusSharp\iop.png" />
+    <Resource Include="Resources\GofusSharp\osamodas.png" />
+    <Resource Include="Resources\GofusSharp\pandawa.png" />
+    <Resource Include="Resources\GofusSharp\Roche0.png" />
+    <Resource Include="Resources\GofusSharp\Roche1.png" />
+    <Resource Include="Resources\GofusSharp\sacrieur.png" />
+    <Resource Include="Resources\GofusSharp\sadida.png" />
+    <Resource Include="Resources\GofusSharp\sram.png" />
+    <Resource Include="Resources\GofusSharp\xelor.png" />
     <Resource Include="Resources\Music.mp3" />
     <Resource Include="Resources\Ecaflip.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
