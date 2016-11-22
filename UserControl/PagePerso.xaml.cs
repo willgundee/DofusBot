@@ -22,15 +22,13 @@ namespace Gofus
         public Entite persoActuel;
         public ObservableCollection<Statistique> lstStat = new ObservableCollection<Statistique>();
 
-
-
         public PagePerso(Entite ent, Joueur Player)
         {// refaire le min/max
             InitializeComponent();
             this.Player = Player;
 
             DispatcherTimer timer = new DispatcherTimer();
-           timer.Interval = TimeSpan.FromSeconds(10);
+           timer.Interval = TimeSpan.FromSeconds(5);
             timer.Tick += timer_Tick;
             timer.Start();
 
@@ -39,9 +37,7 @@ namespace Gofus
         }
 
           void timer_Tick(object sender, EventArgs e)
-          {
-
-            lblTime.Content = DateTime.Now.ToLongTimeString();
+          {       
             persoActuel = new Entite(bd.selection("SELECT * FROM Entites WHERE nom='"+persoActuel.Nom+"'")[0]);
 
             starter(Player,persoActuel); 
@@ -472,13 +468,17 @@ namespace Gofus
 
             if (Convert.ToInt32(lblNbPointsC.Content) < 1)
             {
+                return;
+            }
+
+            if(Convert.ToInt32(lblNbPointsC.Content) <= 1)
+            {
                 btnAgilite.Visibility = Visibility.Hidden;
                 btnChance.Visibility = Visibility.Hidden;
                 btnForce.Visibility = Visibility.Hidden;
                 btnIntelligence.Visibility = Visibility.Hidden;
                 btnSagesse.Visibility = Visibility.Hidden;
                 btnVitalite.Visibility = Visibility.Hidden;
-                return;
             }
 
             string choix = (sender as Button).Name;
