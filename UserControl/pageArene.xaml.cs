@@ -48,8 +48,67 @@ namespace Gofus
             dataGrid.ItemsSource = lstAdversaires;
         }
 
+        private void RefreshAdversaires(int index)
+        {
+            List<string>[] Result = bd.selection((index == 0) ? "SELECT nom,valeur,nomUtilisateur FROM Entites e INNER JOIN Joueurs j ON e.idJoueur = j.idJoueur INNER JOIN statistiquesentites s ON e.idEntite = s.idEntite WHERE idTypeStatistique = 13 AND e.idJoueur IS NOT NULL AND e.idJoueur != " + idJoueur.ToString() : "SELECT nom,valeurMin,valeurMax FROM Entites INNER JOIN statistiquesentites ON Entites.idEntite = statistiquesentites.idEntite WHERE idTypeStatistique = 13 AND idJoueur IS NULL");
+            System.Windows.Application.Current.Dispatcher.Invoke(new System.Action(() =>
+            {
+                foreach (List<string> enti in Result)
+                {
+                    if (index != 0)
+                    {
+                        int min = Statistique.toLevel((double.Parse(enti[1])));
+                        int max = Statistique.toLevel((double.Parse(enti[2])));
+                        string lvl = "Entre " + min + " et " + max;
+                        lstAdversaires.Add(new Adversaire(enti[0], lvl));
+                    }
+                    else
+                    {
+                        int niveau = Statistique.toLevel((double.Parse(enti[1])));
+                        lstAdversaires.Add(new AdversaireHumain(enti[0], niveau.ToString(), enti[2]));
+                    }
+                }
+                dataGrid.ItemsSource = lstAdversaires;
+                if (index == 0)
+                {
+                    DataGridTextColumn textColumn = new DataGridTextColumn();
+                    textColumn.Header = "Propriétaire";
+                    textColumn.Binding = new Binding("proprietaire");
+                    dataGrid.Columns.Add(textColumn);
+                    textColumn = new DataGridTextColumn();
+                    textColumn.Header = "Niveau";
+                    textColumn.Binding = new Binding("level");
+                    dataGrid.Columns.Add(textColumn);
+                    textColumn = new DataGridTextColumn();
+                    textColumn.Header = "Nom";
+                    textColumn.Binding = new Binding("nom");
+                    dataGrid.Columns.Add(textColumn);
+                    dataGrid.FrozenColumnCount = 3;
+                }
+                else
+                {
+                    DataGridTextColumn textColumn = new DataGridTextColumn();
+                    textColumn.Header = "Niveau";
+                    textColumn.Binding = new Binding("level");
+                    dataGrid.Columns.Add(textColumn);
+                    textColumn = new DataGridTextColumn();
+                    textColumn.Header = "Nom";
+                    textColumn.Binding = new Binding("nom");
+                    dataGrid.Columns.Add(textColumn);
+                    dataGrid.FrozenColumnCount = 2;
+                }
+
+
+
+                dataGrid.Items.Refresh();
+
+            }));
+        }
+
+
         private void cboTypeAdversaire_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+
             btnAtt.IsEnabled = false;
             lstAdversaires = new ObservableCollection<Adversaire>();
             int index = cboTypeAdversaire.SelectedIndex;
@@ -58,59 +117,7 @@ namespace Gofus
             dataGrid.ItemsSource = lstAdversaires;
             Thread trdRefresh = new Thread(() =>
                 {
-                    List<string>[] Result = bd.selection((index == 0) ? "SELECT nom,valeur,nomUtilisateur FROM Entites e INNER JOIN Joueurs j ON e.idJoueur = j.idJoueur INNER JOIN statistiquesentites s ON e.idEntite = s.idEntite WHERE idTypeStatistique = 13 AND e.idJoueur IS NOT NULL AND e.idJoueur != " + idJoueur.ToString() : "SELECT nom,valeurMin,valeurMax FROM Entites INNER JOIN statistiquesentites ON Entites.idEntite = statistiquesentites.idEntite WHERE idTypeStatistique = 13 AND idJoueur IS NULL");
-                    System.Windows.Application.Current.Dispatcher.Invoke(new System.Action(() =>
-                    {
-                        foreach (List<string> enti in Result)
-                        {
-                            if (index != 0)
-                            {
-                                int min = Statistique.toLevel((double.Parse(enti[1])));
-                                int max = Statistique.toLevel((double.Parse(enti[2])));
-                                string lvl = "Entre " + min + " et " + max;
-                                lstAdversaires.Add( new Adversaire(enti[0], lvl));
-                            }
-                            else
-                            {
-                                int niveau = Statistique.toLevel((double.Parse(enti[1])));
-                                lstAdversaires.Add(new AdversaireHumain (enti[0], niveau.ToString(),enti[2]));
-                            }
-                        }
-                        dataGrid.ItemsSource = lstAdversaires;
-                        if (index == 0)
-                        {
-                            DataGridTextColumn textColumn = new DataGridTextColumn();
-                            textColumn.Header = "Propriétaire";
-                            textColumn.Binding = new Binding("proprietaire");
-                            dataGrid.Columns.Add(textColumn);
-                            textColumn = new DataGridTextColumn();
-                            textColumn.Header = "Niveau";
-                            textColumn.Binding = new Binding("level");
-                            dataGrid.Columns.Add(textColumn);
-                            textColumn = new DataGridTextColumn();
-                            textColumn.Header = "Nom";
-                            textColumn.Binding = new Binding("nom");
-                            dataGrid.Columns.Add(textColumn);
-                            dataGrid.FrozenColumnCount = 3;
-                        }
-                        else
-                        {
-                            DataGridTextColumn textColumn = new DataGridTextColumn();
-                            textColumn.Header = "Niveau";
-                            textColumn.Binding = new Binding("level");
-                            dataGrid.Columns.Add(textColumn);
-                            textColumn = new DataGridTextColumn();
-                            textColumn.Header = "Nom";
-                            textColumn.Binding = new Binding("nom");
-                            dataGrid.Columns.Add(textColumn);
-                            dataGrid.FrozenColumnCount = 2;
-                        }
-                       
-
-
-                        dataGrid.Items.Refresh();
-
-                    }));
+                    RefreshAdversaires(index);
                 });
             trdRefresh.Start();
             Thread.Yield();
@@ -120,7 +127,7 @@ namespace Gofus
 
         private void btnAtt_Click(object sender, RoutedEventArgs e)
         {
-            if (dataGrid.SelectedIndex != -1)
+            if (dataGrid.SelectedIndex != -1 || cboPerso.SelectedIndex != -1)
             {
                 string sele = "SELECT * FROM Entites WHERE nom = '" + ((Adversaire)dataGrid.SelectedItem).nom + "'";
                 List<string>[] defen = bd.selection(sele);
@@ -138,7 +145,7 @@ namespace Gofus
                 foreach (int idPropUnique in lstAtt.Select(x => x.idProprietaire).Distinct())
                     bd.insertion("INSERT INTO PartiesJoueurs (idPartie, idJoueur, estAttaquant) VALUE(" + idPartie + ", " + idPropUnique + ", true);");
                 foreach (int idPropUnique in lstDef.Select(x => x.idProprietaire).Distinct())
-                    bd.insertion("INSERT INTO PartiesJoueurs (idPartie, idJoueur, estAttaquant) VALUE(" + idPartie + ", " + idPropUnique + ", true);");
+                    bd.insertion("INSERT INTO PartiesJoueurs (idPartie, idJoueur, estAttaquant) VALUE(" + idPartie + ", " + idPropUnique + ", false);");
                 //List<List<Entite>> infoJson = JsonConvert.DeserializeObject<List<List<Entite>>>(strJson);
                 //lstAtt = infoJson[0];
                 //lstDef = infoJson[1];
@@ -148,7 +155,7 @@ namespace Gofus
 
         private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (dataGrid.SelectedIndex < 0)
+            if (dataGrid.SelectedIndex != -1 || cboPerso.SelectedIndex != -1)
             {
                 btnAtt.IsEnabled = false;
             }
@@ -156,6 +163,46 @@ namespace Gofus
             {
                 btnAtt.IsEnabled = true;
             }
+        }
+
+        public void RefreshPersos(ObservableCollection<Entite> lstPersonnages)
+        {
+            lstPerso.Clear();
+            foreach (Entite perso in lstPersonnages)
+            {
+                lstPerso.Add(perso.IdEntite, perso.Nom);
+            }
+            cboPerso.ItemsSource = lstPerso;
+            cboPerso.DisplayMemberPath = "Value";
+            cboPerso.SelectedIndex = 0;
+        }
+
+        private void cboPerso_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dataGrid.SelectedIndex != -1 || cboPerso.SelectedIndex != -1)
+            {
+                btnAtt.IsEnabled = false;
+            }
+            else
+            {
+                btnAtt.IsEnabled = true;
+            }
+        }
+
+        private void btnRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            btnAtt.IsEnabled = false;
+            lstAdversaires = new ObservableCollection<Adversaire>();
+            int index = cboTypeAdversaire.SelectedIndex;
+            dataGrid.Items.Refresh();
+            dataGrid.Columns.Clear();
+            dataGrid.ItemsSource = lstAdversaires;
+            Thread trdRefresh = new Thread(() =>
+            {
+                RefreshAdversaires(index);
+            });
+            trdRefresh.Start();
+            Thread.Yield();
         }
     }
 }

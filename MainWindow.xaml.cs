@@ -380,6 +380,8 @@ namespace Gofus
         {
             if (!controlArene.HasContent)
                 controlArene.Content = new pageArene(idJoueur, Player.LstEntites);
+            else
+                ((pageArene)controlArene.Content).RefreshPersos(Player.LstEntites);
         }
 
         private void PgGestion_Selected(object sender, RoutedEventArgs e)
