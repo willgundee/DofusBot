@@ -369,6 +369,8 @@ namespace Gofus
         {
             if (!controlArchive.HasContent)
                 controlArchive.Content = new pageArchive(idJoueur);
+            else
+                ((pageArchive)controlArchive.Content).RefreshListe();
         }
 
         private void PgArene_Selected(object sender, RoutedEventArgs e)
