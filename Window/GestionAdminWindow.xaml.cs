@@ -70,5 +70,10 @@ namespace Gofus
         {
             System.Windows.Forms.MessageBox.Show("Test");
         }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.MessageBox.Show(((Utilisateur)dataGrid.SelectedItem).estAdmin.ToString());
+        }
     }
 }
