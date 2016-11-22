@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gofus"
         mc:Ignorable="d"
-        Title="Gérer les comptes" Height="450" Width="450" ResizeMode="NoResize" Icon="/Gofus;component/Resources/Gofus.png">
+        Title="Gérer les comptes" Height="498.214" Width="450" ResizeMode="NoResize" Icon="/Gofus;component/Resources/Gofus.png">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Margin="10,0,0,228" VerticalAlignment="Bottom" Height="184" Width="424"/>
-        <Button x:Name="btnDonner" Content="Donner les droits d'administration&#xD;&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Width="206" Margin="10,338,0,0" Height="25"/>
-        <Button x:Name="btnRetirer" Content="Retirer les droits&#xD;&#xA;" HorizontalAlignment="Left" Margin="250,338,0,0" VerticalAlignment="Top" Width="184" Click="button1_Click" Height="25"/>
+        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" ItemsSource="{Binding lstUtilisateurs}"  Margin="10,0,0,22" VerticalAlignment="Bottom" Height="390" Width="424" ColumnWidth="*" AutoGenerateColumns="False" >
+        </DataGrid>
+        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="133,27,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
     </Grid>
 </Window>

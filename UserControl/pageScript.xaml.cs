@@ -1447,7 +1447,9 @@ namespace Gofus
 
         private void btn_documentation_Click(object sender, RoutedEventArgs e)
         {
-
+            PageDocumentation pd = null;
+                pd=new PageDocumentation();
+               pd.Show();
         }
     }
 }
