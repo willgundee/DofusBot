@@ -95,10 +95,12 @@ namespace GofusSharp
         #region UtiliserSort
         public bool UtiliserSort(Sort sort, EntiteInconnu cible)
         {
-            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " lance " + sort.Nom + " sur " + cible.Nom;
+            if (!FCombat.Generation)
+                FCombat.tb_Log.Text += "\n" + Nom + " lance " + sort.Nom + " sur " + cible.Nom;
             if (PA < sort.CoutPA)
             {
-                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " n'a pas assez de PA pour lancer " + sort.Nom;
+                if (!FCombat.Generation)
+                    FCombat.tb_Log.Text += "\n" + Nom + " n'a pas assez de PA pour lancer " + sort.Nom;
                 return false;
             }
             if (CaseEstDansZone(sort.ZonePortee.Type, sort.ZonePortee.PorteeMin, sort.ZonePortee.PorteeMax, Position, cible.Position))
@@ -110,15 +112,18 @@ namespace GofusSharp
                 }
                 return true;
             }
-            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + cible.Nom + " est hors de portée du sort " + sort.Nom;
+            if (!FCombat.Generation)
+                FCombat.tb_Log.Text += "\n" + cible.Nom + " est hors de portée du sort " + sort.Nom;
             return false;
         }
         public bool UtiliserSort(Sort sort, Case cible)
         {
-            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " lance " + sort.Nom + " à X: " + cible.X.ToString() + " Y: " + cible.Y.ToString();
+            if (!FCombat.Generation)
+                FCombat.tb_Log.Text += "\n" + Nom + " lance " + sort.Nom + " à X: " + cible.X.ToString() + " Y: " + cible.Y.ToString();
             if (PA < sort.CoutPA)
             {
-                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " n'a pas assez de PA pour lancer " + sort.Nom;
+                if (!FCombat.Generation)
+                    FCombat.tb_Log.Text += "\n" + Nom + " n'a pas assez de PA pour lancer " + sort.Nom;
                 return false;
             }
             if (CaseEstDansZone(sort.ZonePortee.Type, sort.ZonePortee.PorteeMin, sort.ZonePortee.PorteeMax, Position, cible))
@@ -130,7 +135,8 @@ namespace GofusSharp
                 }
                 return true;
             }
-            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + cible.X + " Y: " + cible.Y + " est hors de portée du sort " + sort.Nom;
+            if (!FCombat.Generation)
+                FCombat.tb_Log.Text += "\n" + cible.X + " Y: " + cible.Y + " est hors de portée du sort " + sort.Nom;
             return false;
         }
         public bool UtiliserSort(Sort.nom_sort vraiNom, EntiteInconnu cible)
@@ -142,13 +148,16 @@ namespace GofusSharp
             }
             catch (System.Exception)
             {
-                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\nle sort " + vraiNom.ToString() + " n'est pas à votre disposition";
+                if (!FCombat.Generation)
+                    FCombat.tb_Log.Text += "\nle sort " + vraiNom.ToString() + " n'est pas à votre disposition";
                 return false;
             }
-            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " lance " + sort.Nom + " sur " + cible.Nom;
+            if (!FCombat.Generation)
+                FCombat.tb_Log.Text += "\n" + Nom + " lance " + sort.Nom + " sur " + cible.Nom;
             if (PA < sort.CoutPA)
             {
-                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " n'a pas assez de PA pour lancer " + sort.Nom;
+                if (!FCombat.Generation)
+                    FCombat.tb_Log.Text += "\n" + Nom + " n'a pas assez de PA pour lancer " + sort.Nom;
                 return false;
             }
             if (CaseEstDansZone(sort.ZonePortee.Type, sort.ZonePortee.PorteeMin, sort.ZonePortee.PorteeMax, Position, cible.Position))
@@ -160,7 +169,8 @@ namespace GofusSharp
                 }
                 return true;
             }
-            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + cible.Nom + " est hors de portée du sort " + sort.Nom;
+            if (!FCombat.Generation)
+                FCombat.tb_Log.Text += "\n" + cible.Nom + " est hors de portée du sort " + sort.Nom;
             return false;
         }
         public bool UtiliserSort(Sort.nom_sort vraiNom, Case cible)
@@ -172,13 +182,16 @@ namespace GofusSharp
             }
             catch (System.Exception)
             {
-                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\nle sort " + vraiNom.ToString() + " n'est pas à votre disposition";
+                if (!FCombat.Generation)
+                    FCombat.tb_Log.Text += "\nle sort " + vraiNom.ToString() + " n'est pas à votre disposition";
                 return false;
             }
-            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " lance " + sort.Nom + " à X: " + cible.X.ToString() + " Y: " + cible.Y.ToString();
+            if (!FCombat.Generation)
+                FCombat.tb_Log.Text += "\n" + Nom + " lance " + sort.Nom + " à X: " + cible.X.ToString() + " Y: " + cible.Y.ToString();
             if (PA < sort.CoutPA)
             {
-                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " n'a pas assez de PA pour lancer " + sort.Nom;
+                if (!FCombat.Generation)
+                    FCombat.tb_Log.Text += "\n" + Nom + " n'a pas assez de PA pour lancer " + sort.Nom;
                 return false;
             }
             if (CaseEstDansZone(sort.ZonePortee.Type, sort.ZonePortee.PorteeMin, sort.ZonePortee.PorteeMax, Position, cible))
@@ -190,7 +203,8 @@ namespace GofusSharp
                 }
                 return true;
             }
-            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + cible.X + " Y: " + cible.Y + " est hors de portée du sort " + sort.Nom;
+            if (!FCombat.Generation)
+                FCombat.tb_Log.Text += "\n" + cible.X + " Y: " + cible.Y + " est hors de portée du sort " + sort.Nom;
             return false;
         }
         #endregion
@@ -348,7 +362,8 @@ namespace GofusSharp
                         case Effet.type.pousse:
                             if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
                             {
-                                int magnitude = (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax);
+
+                                int magnitude = (!FCombat.Generation? FCombat.CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) : FCombat.CombatGeneration.Seed.Next(effet.ValeurMin, effet.ValeurMax));
                                 int direction = 0;
                                 string axe = "";
                                 if (Position.X - entiteInconnu.Position.X != 0)
@@ -384,10 +399,12 @@ namespace GofusSharp
                                 }
                                 if (magnitude - caseTraversee == 0)
                                 {
-                                    (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + entiteInconnu.Nom + " recule de " + caseTraversee + " cases ";
+                                    if (!FCombat.Generation)
+                                        FCombat.tb_Log.Text += "\n" + entiteInconnu.Nom + " recule de " + caseTraversee + " cases ";
                                     continue;
                                 }
-                                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + entiteInconnu.Nom + " recule de " + caseTraversee + " cases et se cogne contre un obstacle";
+                                if (!FCombat.Generation)
+                                    FCombat.tb_Log.Text += "\n" + entiteInconnu.Nom + " recule de " + caseTraversee + " cases et se cogne contre un obstacle";
                                 int DMG_poussee = 0;
                                 foreach (Statistique stat in ListStatistiques)
                                 {
@@ -410,7 +427,7 @@ namespace GofusSharp
                                     if (envoutement.Stat == Statistique.type.RES_poussee)
                                         RES_poussee = envoutement.Valeur;
                                 }
-                                if (entiteInconnu.recevoirDommages((8 + (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(1, 8) * RetourneNiveau() / 50) * (magnitude - caseTraversee) + DMG_poussee - RES_poussee))
+                                if (entiteInconnu.recevoirDommages((8 + (!FCombat.Generation? FCombat.CombatCourant.Seed.Next(1, 8) : FCombat.CombatGeneration.Seed.Next(1, 8)) * RetourneNiveau() / 50) * (magnitude - caseTraversee) + DMG_poussee - RES_poussee))
                                 {
                                     foreach (EntiteInconnu invoc in ListEntites)
                                     {
@@ -431,7 +448,7 @@ namespace GofusSharp
                         case Effet.type.tire:
                             if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
                             {
-                                int magnitude = (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax);
+                                int magnitude = (!FCombat.Generation ? FCombat.CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) : FCombat.CombatGeneration.Seed.Next(effet.ValeurMin, effet.ValeurMax));
                                 int caseTraversee;
                                 for (caseTraversee = 0; caseTraversee < magnitude; caseTraversee++)
                                 {
@@ -453,13 +470,14 @@ namespace GofusSharp
                                         break;
                                     }
                                 }
-                                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + entiteInconnu.Nom + " est attiré de " + caseTraversee + " cases vers " + Nom;
+                                if (!FCombat.Generation)
+                                    FCombat.tb_Log.Text += "\n" + entiteInconnu.Nom + " est attiré de " + caseTraversee + " cases vers " + Nom;
                             }
                             break;
                         case Effet.type.tire_lanceur:
                             if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
                             {
-                                int magnitude = (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax);
+                                int magnitude = (!FCombat.Generation ? FCombat.CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) : FCombat.CombatGeneration.Seed.Next(effet.ValeurMin, effet.ValeurMax));
                                 int caseTraversee;
                                 for (caseTraversee = 0; caseTraversee < magnitude; caseTraversee++)
                                 {
@@ -481,14 +499,16 @@ namespace GofusSharp
                                         break;
                                     }
                                 }
-                                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + entiteInconnu.Nom + " est attiré de " + caseTraversee + " cases vers " + Nom;
+                                if (!FCombat.Generation)
+                                    FCombat.tb_Log.Text += "\n" + entiteInconnu.Nom + " est attiré de " + caseTraversee + " cases vers " + Nom;
                             }
                             break;
                         case Effet.type.teleportation:
                             bool result = ChangerPosition(source);
                             if (result)
                             {
-                                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " s'est téléporté a X: " + source.X + " Y: " + source.Y;
+                                if (!FCombat.Generation)
+                                    FCombat.tb_Log.Text += "\n" + Nom + " s'est téléporté a X: " + source.X + " Y: " + source.Y;
                             }
                             return (result ? 1 : 0);
                         case Effet.type.ATT_neutre:
@@ -548,7 +568,7 @@ namespace GofusSharp
                                     RES_Pourcent_neutre = 0;
                                 if (reduction_physique < 0)
                                     reduction_physique = 0;
-                                if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_neutre / 100)) * (((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) * (100 + force + puissance) / 100 + DMG_neutre) - RES_neutre - reduction_physique)))
+                                if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_neutre / 100)) * (((!FCombat.Generation ? FCombat.CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) : FCombat.CombatGeneration.Seed.Next(effet.ValeurMin, effet.ValeurMax)) * (100 + force + puissance) / 100 + DMG_neutre) - RES_neutre - reduction_physique)))
                                 {
                                     foreach (EntiteInconnu invoc in ListEntites)
                                     {
@@ -619,7 +639,7 @@ namespace GofusSharp
                                     RES_Pourcent_air = 0;
                                 if (reduction_magique < 0)
                                     reduction_magique = 0;
-                                if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_air / 100)) * (((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) * (100 + agilite + puissance) / 100 + DMG_air) - RES_air - reduction_magique)))
+                                if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_air / 100)) * (((!FCombat.Generation ? FCombat.CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) : FCombat.CombatGeneration.Seed.Next(effet.ValeurMin, effet.ValeurMax)) * (100 + agilite + puissance) / 100 + DMG_air) - RES_air - reduction_magique)))
                                 {
                                     foreach (EntiteInconnu invoc in ListEntites)
                                     {
@@ -690,7 +710,7 @@ namespace GofusSharp
                                     RES_Pourcent_feu = 0;
                                 if (reduction_magique < 0)
                                     reduction_magique = 0;
-                                if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_feu / 100)) * (((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) * (100 + intelligence + puissance) / 100 + DMG_feu) - RES_feu - reduction_magique)))
+                                if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_feu / 100)) * (((!FCombat.Generation ? FCombat.CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) : FCombat.CombatGeneration.Seed.Next(effet.ValeurMin, effet.ValeurMax)) * (100 + intelligence + puissance) / 100 + DMG_feu) - RES_feu - reduction_magique)))
                                 {
                                     foreach (EntiteInconnu invoc in ListEntites)
                                     {
@@ -761,7 +781,7 @@ namespace GofusSharp
                                     RES_Pourcent_terre = 0;
                                 if (reduction_physique < 0)
                                     reduction_physique = 0;
-                                if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_terre / 100)) * (((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) * (100 + force + puissance) / 100 + DMG_terre) - RES_terre - reduction_physique)))
+                                if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_terre / 100)) * (((!FCombat.Generation ? FCombat.CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) : FCombat.CombatGeneration.Seed.Next(effet.ValeurMin, effet.ValeurMax)) * (100 + force + puissance) / 100 + DMG_terre) - RES_terre - reduction_physique)))
                                 {
                                     foreach (EntiteInconnu invoc in ListEntites)
                                     {
@@ -832,7 +852,7 @@ namespace GofusSharp
                                     RES_Pourcent_eau = 0;
                                 if (reduction_magique < 0)
                                     reduction_magique = 0;
-                                if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_eau / 100)) * (((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) * (100 + chance + puissance) / 100 + DMG_eau) - RES_eau - reduction_magique)))
+                                if (entiteInconnu.recevoirDommages((1 - (RES_Pourcent_eau / 100)) * (((!FCombat.Generation ? FCombat.CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) : FCombat.CombatGeneration.Seed.Next(effet.ValeurMin, effet.ValeurMax)) * (100 + chance + puissance) / 100 + DMG_eau) - RES_eau - reduction_magique)))
                                 {
                                     foreach (EntiteInconnu invoc in ListEntites)
                                     {
@@ -849,7 +869,7 @@ namespace GofusSharp
                         case Effet.type.envoutement:
                             if (CaseEstDansZone(zoneEffet.Type, zoneEffet.PorteeMin, zoneEffet.PorteeMax, source, entiteInconnu.Position))
                             {
-                                entiteInconnu.ListEnvoutements.Add(new Envoutement(effet.Stat, (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax), effet.NbTour.GetValueOrDefault(), IdEntite));
+                                entiteInconnu.ListEnvoutements.Add(new Envoutement(effet.Stat, (!FCombat.Generation ? FCombat.CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) : FCombat.CombatGeneration.Seed.Next(effet.ValeurMin, effet.ValeurMax)), effet.NbTour.GetValueOrDefault(), IdEntite));
                             }
                             break;
                         case Effet.type.pose_piege:
@@ -878,7 +898,7 @@ namespace GofusSharp
                                     if (envoutement.Stat == Statistique.type.soin)
                                         soin = envoutement.Valeur;
                                 }
-                                entiteInconnu.PV += (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) * (100 + intelligence) / 100 + soin;
+                                entiteInconnu.PV += (!FCombat.Generation ? FCombat.CombatCourant.Seed.Next(effet.ValeurMin, effet.ValeurMax) : FCombat.CombatGeneration.Seed.Next(effet.ValeurMin, effet.ValeurMax)) * (100 + intelligence) / 100 + soin;
                             }
                             break;
                         default:
@@ -1229,7 +1249,6 @@ namespace GofusSharp
 
         public int SEloignerDe(Case cible)
         {
-            Combat FC = (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat);
             int PM_Debut = PM;
             try
             {
@@ -1241,9 +1260,9 @@ namespace GofusSharp
 
                     if (Position.X - Rcible.X == 0)
                     {
-                        int direction = FC.CombatCourant.Seed.Next(-1, 1);
+                        int direction = (!FCombat.Generation ? FCombat.CombatCourant.Seed.Next(-1, 1) : FCombat.CombatGeneration.Seed.Next(-1, 1));
                         while (direction == 0)
-                            direction = FC.CombatCourant.Seed.Next(-1, 1);
+                            direction = (!FCombat.Generation ? FCombat.CombatCourant.Seed.Next(-1, 1) : FCombat.CombatGeneration.Seed.Next(-1, 1));
                         if (Position.X + direction < 0 || Position.X + direction >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + direction][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + direction][Position.Y]))
                         {
                             direction *= -1;
@@ -1258,9 +1277,9 @@ namespace GofusSharp
                     }
                     else if (Position.Y - Rcible.Y == 0)
                     {
-                        int direction = FC.CombatCourant.Seed.Next(-1, 1);
+                        int direction = (!FCombat.Generation ? FCombat.CombatCourant.Seed.Next(-1, 1) : FCombat.CombatGeneration.Seed.Next(-1, 1));
                         while (direction == 0)
-                            direction = FC.CombatCourant.Seed.Next(-1, 1);
+                            direction = (!FCombat.Generation ? FCombat.CombatCourant.Seed.Next(-1, 1) : FCombat.CombatGeneration.Seed.Next(-1, 1));
                         if (Position.Y + direction < 0 || Position.Y + direction >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + direction] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + direction]))
                         {
                             direction *= -1;
@@ -1299,13 +1318,13 @@ namespace GofusSharp
             }
             catch (System.Exception e)
             {
-                System.Windows.Forms.MessageBox.Show(string.Format("Érreur : {0}", e));
+                if (!FCombat.Generation)
+                    System.Windows.Forms.MessageBox.Show(string.Format("Érreur : {0}", e));
                 return PM_Debut - PM;
             }
         }
         public int SEloignerDe(Case cible, int PM_Alouer)
         {
-            Combat FC = (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat);
             int PM_Debut = PM;
             try
             {
@@ -1317,9 +1336,9 @@ namespace GofusSharp
 
                     if (Position.X - Rcible.X == 0)
                     {
-                        int direction = FC.CombatCourant.Seed.Next(-1, 1);
+                        int direction = (!FCombat.Generation ? FCombat.CombatCourant.Seed.Next(-1, 1) : FCombat.CombatGeneration.Seed.Next(-1, 1));
                         while (direction == 0)
-                            direction = FC.CombatCourant.Seed.Next(-1, 1);
+                            direction = (!FCombat.Generation ? FCombat.CombatCourant.Seed.Next(-1, 1) : FCombat.CombatGeneration.Seed.Next(-1, 1));
                         if (Position.X + direction < 0 || Position.X + direction >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + direction][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + direction][Position.Y]))
                         {
                             direction *= -1;
@@ -1334,9 +1353,9 @@ namespace GofusSharp
                     }
                     else if (Position.Y - Rcible.Y == 0)
                     {
-                        int direction = FC.CombatCourant.Seed.Next(-1, 1);
+                        int direction = (!FCombat.Generation ? FCombat.CombatCourant.Seed.Next(-1, 1) : FCombat.CombatGeneration.Seed.Next(-1, 1));
                         while (direction == 0)
-                            direction = FC.CombatCourant.Seed.Next(-1, 1);
+                            direction = (!FCombat.Generation ? FCombat.CombatCourant.Seed.Next(-1, 1) : FCombat.CombatGeneration.Seed.Next(-1, 1));
                         if (Position.Y + direction < 0 || Position.Y + direction >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + direction] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + direction]))
                         {
                             direction *= -1;
@@ -1376,13 +1395,13 @@ namespace GofusSharp
             }
             catch (System.Exception e)
             {
-                System.Windows.Forms.MessageBox.Show(string.Format("Érreur : {0}", e));
+                if (!FCombat.Generation)
+                    System.Windows.Forms.MessageBox.Show(string.Format("Érreur : {0}", e));
                 return PM_Debut - PM;
             }
         }
         public int SEloignerDe(EntiteInconnu cible)
         {
-            Combat FC = (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat);
             int PM_Debut = PM;
             try
             {
@@ -1394,9 +1413,9 @@ namespace GofusSharp
 
                     if (Position.X - Rcible.X == 0)
                     {
-                        int direction = FC.CombatCourant.Seed.Next(-1, 1);
+                        int direction = (!FCombat.Generation ? FCombat.CombatCourant.Seed.Next(-1, 1) : FCombat.CombatGeneration.Seed.Next(-1, 1));
                         while (direction == 0)
-                            direction = FC.CombatCourant.Seed.Next(-1, 1);
+                            direction = (!FCombat.Generation ? FCombat.CombatCourant.Seed.Next(-1, 1) : FCombat.CombatGeneration.Seed.Next(-1, 1));
                         if (Position.X + direction < 0 || Position.X + direction >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + direction][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + direction][Position.Y]))
                         {
                             direction *= -1;
@@ -1411,9 +1430,9 @@ namespace GofusSharp
                     }
                     else if (Position.Y - Rcible.Y == 0)
                     {
-                        int direction = FC.CombatCourant.Seed.Next(-1, 1);
+                        int direction = (!FCombat.Generation ? FCombat.CombatCourant.Seed.Next(-1, 1) : FCombat.CombatGeneration.Seed.Next(-1, 1));
                         while (direction == 0)
-                            direction = FC.CombatCourant.Seed.Next(-1, 1);
+                            direction = (!FCombat.Generation ? FCombat.CombatCourant.Seed.Next(-1, 1) : FCombat.CombatGeneration.Seed.Next(-1, 1));
                         if (Position.Y + direction < 0 || Position.Y + direction >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + direction] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + direction]))
                         {
                             direction *= -1;
@@ -1452,13 +1471,13 @@ namespace GofusSharp
             }
             catch (System.Exception e)
             {
-                System.Windows.Forms.MessageBox.Show(string.Format("Érreur : {0}", e));
+                if (!FCombat.Generation)
+                    System.Windows.Forms.MessageBox.Show(string.Format("Érreur : {0}", e));
                 return PM_Debut - PM;
             }
         }
         public int SEloignerDe(EntiteInconnu cible, int PM_Alouer)
         {
-            Combat FC = (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat);
             int PM_Debut = PM;
             try
             {
@@ -1470,9 +1489,9 @@ namespace GofusSharp
 
                     if (Position.X - Rcible.X == 0)
                     {
-                        int direction = FC.CombatCourant.Seed.Next(-1, 1);
+                        int direction = (!FCombat.Generation ? FCombat.CombatCourant.Seed.Next(-1, 1) : FCombat.CombatGeneration.Seed.Next(-1, 1));
                         while (direction == 0)
-                            direction = FC.CombatCourant.Seed.Next(-1, 1);
+                            direction = (!FCombat.Generation ? FCombat.CombatCourant.Seed.Next(-1, 1) : FCombat.CombatGeneration.Seed.Next(-1, 1));
                         if (Position.X + direction < 0 || Position.X + direction >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + direction][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + direction][Position.Y]))
                         {
                             direction *= -1;
@@ -1487,9 +1506,9 @@ namespace GofusSharp
                     }
                     else if (Position.Y - Rcible.Y == 0)
                     {
-                        int direction = FC.CombatCourant.Seed.Next(-1, 1);
+                        int direction = (!FCombat.Generation ? FCombat.CombatCourant.Seed.Next(-1, 1) : FCombat.CombatGeneration.Seed.Next(-1, 1));
                         while (direction == 0)
-                            direction = FC.CombatCourant.Seed.Next(-1, 1);
+                            direction = (!FCombat.Generation ? FCombat.CombatCourant.Seed.Next(-1, 1) : FCombat.CombatGeneration.Seed.Next(-1, 1));
                         if (Position.Y + direction < 0 || Position.Y + direction >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + direction] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + direction]))
                         {
                             direction *= -1;
@@ -1529,12 +1548,13 @@ namespace GofusSharp
             }
             catch (System.Exception e)
             {
-                System.Windows.Forms.MessageBox.Show(string.Format("Érreur : {0}", e));
+                if (!FCombat.Generation)
+                    System.Windows.Forms.MessageBox.Show(string.Format("Érreur : {0}", e));
                 return PM_Debut - PM;
             }
         }
 
-        internal bool ChangerPosition(Case nextPosition)
+        internal new bool ChangerPosition(Case nextPosition)
         {
             if (nextPosition.Contenu == Case.type.vide)
             {
