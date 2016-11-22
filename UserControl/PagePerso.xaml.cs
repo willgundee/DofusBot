@@ -21,7 +21,8 @@ namespace Gofus
         public BDService bd = new BDService();
         public Entite persoActuel;
         public ObservableCollection<Statistique> lstStat = new ObservableCollection<Statistique>();
-
+        public int nbScript =0;
+        public int refresh = 0;
         public PagePerso(Entite ent, Joueur Player)
         {// refaire le min/max
             InitializeComponent();
@@ -31,6 +32,7 @@ namespace Gofus
            timer.Interval = TimeSpan.FromSeconds(5);
             timer.Tick += timer_Tick;
             timer.Start();
+            
             starter(Player,ent);
             
         }
@@ -51,7 +53,8 @@ namespace Gofus
 
         private void starter(Joueur player, Entite ent)
         {
-           
+           // cbScript.Items.Clear();
+
             persoActuel = ent;
             lblLevelEntite.Content = "Niv. " + ent.Niveau;
             lblNomJoueur.Content = Player.NomUtilisateur;
@@ -78,10 +81,20 @@ namespace Gofus
             pgbExp.Value = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur;
 
             //lblPourcentExp.Content = Math.Round(pgbExp.Value / (pgbExp.Maximum-pgbExp.Minimum)) + " %";
-
-            int nbScript = Player.LstScripts.Count;
+            
+            nbScript = Player.LstScripts.Count();
+            //TODO Meilleur solution 
             for (int i = 0; i < nbScript; i++)
-                cbScript.Items.Add(Player.LstScripts[i].Nom);
+            {
+                if (refresh<1)
+                {
+                    cbScript.Items.Add(Player.LstScripts[i].Nom);
+                }
+               else if (refresh>3)
+                {
+                    refresh = 2;
+                }     
+            }
 
 
 
@@ -124,7 +137,7 @@ namespace Gofus
             dgStats.ItemsSource = lstStat;
             dgDommage.ItemsSource = initialiserLstDMG(ent);
 
-
+            refresh++;
 
         }
 
