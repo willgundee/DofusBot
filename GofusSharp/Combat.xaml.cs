@@ -10,7 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using GofusSharp;
-
+using System.Windows.Media.Imaging;
 
 [assembly: InternalsVisibleTo("Gofus")]
 namespace GofusSharp
@@ -23,25 +23,7 @@ namespace GofusSharp
         internal Partie CombatCourant { get; set; }
 
         private bool AutoScroll = true;
-        public Combat(string script1, string script2)
-        {
-            InitializeComponent();
-            this.Show();
-            fakePartie(script1, script2);
-            for (int i = 0; i < 10; i++)
-            {
-                for (int j = 0; j < 10; j++)
-                {
-                    Label lbl = new Label();
-                    lbl.HorizontalAlignment = HorizontalAlignment.Center;
-                    lbl.VerticalAlignment = VerticalAlignment.Center;
-                    Grid.SetRow(lbl, i);
-                    Grid.SetColumn(lbl, j);
-                    grd_Terrain.Children.Add(lbl);
-                }
-            }
-            UpdateInfo();
-        }
+
         public Combat(List<Gofus.Entite> lstJoueurAtt, List<Gofus.Entite> lstJoueurDef, int seed)
         {
             InitializeComponent();
@@ -52,12 +34,18 @@ namespace GofusSharp
             {
                 for (int j = 0; j < 10; j++)
                 {
-                    Label lbl = new Label();
-                    lbl.HorizontalAlignment = HorizontalAlignment.Center;
-                    lbl.VerticalAlignment = VerticalAlignment.Center;
-                    Grid.SetRow(lbl, i);
-                    Grid.SetColumn(lbl, j);
-                    grd_Terrain.Children.Add(lbl);
+                    StackPanel sPnl = new StackPanel();
+                    sPnl.HorizontalAlignment = HorizontalAlignment.Center;
+                    sPnl.VerticalAlignment = VerticalAlignment.Center;
+                    Border border = new Border();
+                    border.BorderBrush = Brushes.Black;
+                    border.BorderThickness = new Thickness(2);
+                    Grid.SetRow(sPnl, i);
+                    Grid.SetColumn(sPnl, j);
+                    Grid.SetRow(border, i);
+                    Grid.SetColumn(border, j);
+                    grd_Terrain.Children.Add(border);
+                    grd_Terrain.Children.Add(sPnl);
                 }
             }
             UpdateInfo();
@@ -180,57 +168,6 @@ namespace GofusSharp
             mi.Invoke(null, new object[] { terrain, joueur, ListEntites });
         }
 
-
-        private void fakePartie(string script1, string script2)
-        {
-            Liste<Statistique> listStatistiqueAtt = new Liste<Statistique>();
-            listStatistiqueAtt.Add(new Statistique(Statistique.type.PA, 6));
-            listStatistiqueAtt.Add(new Statistique(Statistique.type.PM, 3));
-            listStatistiqueAtt.Add(new Statistique(Statistique.type.vie, 100));
-            listStatistiqueAtt.Add(new Statistique(Statistique.type.initiative, 101));
-            listStatistiqueAtt.Add(new Statistique(Statistique.type.force, 30));
-            listStatistiqueAtt.Add(new Statistique(Statistique.type.sagesse, 40));
-            listStatistiqueAtt.Add(new Statistique(Statistique.type.intelligence, 20));
-            listStatistiqueAtt.Add(new Statistique(Statistique.type.agilite, 10));
-            listStatistiqueAtt.Add(new Statistique(Statistique.type.chance, 50));
-            Liste<Effet> tabEffetAtt1 = new Liste<Effet> { new Effet(Effet.type.teleportation, 0, 0) };
-            Zone zoneEffetAtt1 = new Zone(Zone.type.carre, 0, 0);
-            Zone zonePorteeAtt1 = new Zone(Zone.type.cercle, 1, 5);
-            Liste<Effet> tabEffetAtt2 = new Liste<Effet> { new Effet(Effet.type.ATT_neutre, 10, 15), new Effet(Effet.type.pousse, 4, 4) };
-            Zone zoneEffetAtt2 = new Zone(Zone.type.carre, 0, 0);
-            Zone zonePorteeAtt2 = new Zone(Zone.type.croix, 1, 1);
-            Liste<Sort> tabSortAtt = new Liste<Sort> { new Sort(tabEffetAtt1, "bond", false, true, true, zonePorteeAtt1, zoneEffetAtt1, 3, 5, Sort.nom_sort.bond), new Sort(tabEffetAtt2, "intimidation", true, false, false, zonePorteeAtt2, zoneEffetAtt2, -2, 2, Sort.nom_sort.intimidation) };
-            Classe classeAtt = new Classe(tabSortAtt, "iop");
-            Liste<Statistique> statItemAtt = new Liste<Statistique> { new Statistique(Statistique.type.force, 70) };
-            Liste<Equipement> tabEquipAtt = new Liste<Equipement> { new Equipement(statItemAtt, "Coiffe bouftou", Equipement.type.chapeau) };
-            Liste<Statistique> listStatistiqueDef = new Liste<Statistique>();
-            listStatistiqueDef.Add(new Statistique(Statistique.type.PA, 6));
-            listStatistiqueDef.Add(new Statistique(Statistique.type.PM, 3));
-            listStatistiqueDef.Add(new Statistique(Statistique.type.vie, 100));
-            listStatistiqueDef.Add(new Statistique(Statistique.type.initiative, 101));
-            listStatistiqueDef.Add(new Statistique(Statistique.type.force, 30));
-            listStatistiqueDef.Add(new Statistique(Statistique.type.sagesse, 40));
-            listStatistiqueDef.Add(new Statistique(Statistique.type.intelligence, 20));
-            listStatistiqueDef.Add(new Statistique(Statistique.type.agilite, 10));
-            listStatistiqueDef.Add(new Statistique(Statistique.type.chance, 50));
-            Liste<Effet> tabEffetDef1 = new Liste<Effet> { new Effet(Effet.type.teleportation, 0, 0) };
-            Zone zoneEffetDef1 = new Zone(Zone.type.carre, 0, 0);
-            Zone zonePorteeDef1 = new Zone(Zone.type.cercle, 1, 5);
-            Liste<Effet> tabEffetDef2 = new Liste<Effet> { new Effet(Effet.type.ATT_neutre, 10, 15), new Effet(Effet.type.pousse, 4, 4) };
-            Zone zoneEffetDef2 = new Zone(Zone.type.carre, 0, 0);
-            Zone zonePorteeDef2 = new Zone(Zone.type.croix, 1, 1);
-            Liste<Sort> tabSortDef = new Liste<Sort> { new Sort(tabEffetDef1, "bond", false, true, true, zonePorteeDef1, zoneEffetDef1, 3, 5, Sort.nom_sort.bond), new Sort(tabEffetDef2, "intimidation", true, false, false, zonePorteeDef2, zoneEffetDef2, -2, 2, Sort.nom_sort.intimidation) };
-            Classe classeDef = new Classe(tabSortDef, "iop");
-            Liste<Statistique> statItemDef = new Liste<Statistique> { new Statistique(Statistique.type.force, 70) };
-            Liste<Equipement> tabEquipDef = new Liste<Equipement> { new Equipement(statItemDef, "Coiffe bouftou", Equipement.type.chapeau), new Arme(statItemAtt, "Marteau bouftous", Equipement.type.arme, tabEffetAtt2, zonePorteeAtt2, zoneEffetAtt2, Arme.typeArme.marteau, 5) };
-            Terrain terrain = new Terrain(10, 10);
-            Liste<Entite> ListAttaquants = new Liste<Entite>();
-            ListAttaquants.Add(new Personnage(10, classeAtt, "Trebor", 10000, EntiteInconnu.type.attaquant, listStatistiqueAtt, script1, tabEquipAtt, terrain));
-            Liste<Entite> ListDefendants = new Liste<Entite>();
-            ListDefendants.Add(new Personnage(11, classeDef, "Robert", 9000, EntiteInconnu.type.defendant, listStatistiqueDef, script2, tabEquipDef, terrain));
-            CombatCourant = new Partie(ListAttaquants, ListDefendants);
-        }
-
         private void btn_Next_Click(object sender, RoutedEventArgs e)
         {
             foreach (Entite entite in Liste<Entite>.ConcatAlternate(CombatCourant.ListAttaquants, CombatCourant.ListDefendants))
@@ -239,9 +176,9 @@ namespace GofusSharp
                     continue;
                 CombatCourant.DebuterAction(entite);
                 if (entite is Personnage)
-                    Action(CombatCourant.TerrainPartie, entite as Personnage, CombatCourant.ListEntites/*.AsReadOnly()*/);
+                    Action(CombatCourant.TerrainPartie, entite as Personnage, CombatCourant.ListEntites);
                 else
-                    Action(CombatCourant.TerrainPartie, entite as Entite, CombatCourant.ListEntites/*.AsReadOnly()*/);
+                    Action(CombatCourant.TerrainPartie, entite as Entite, CombatCourant.ListEntites);
                 CombatCourant.SyncroniserJoueur();
                 UpdateInfo();
                 bool vivante = false;
@@ -276,20 +213,25 @@ namespace GofusSharp
         }
         private void UpdateInfo()
         {
-            foreach (Label lbl in grd_Terrain.Children)
+            foreach (StackPanel sPnl in grd_Terrain.Children.Cast<FrameworkElement>().Where(x => x is StackPanel))
             {
-                lbl.Content = CombatCourant.TerrainPartie.TabCases[Grid.GetRow(lbl)][Grid.GetColumn(lbl)].Contenu.ToString().First().ToString();
+                //sPnl.Content = CombatCourant.TerrainPartie.TabCases[Grid.GetRow(sPnl)][Grid.GetColumn(sPnl)].Contenu.ToString().First().ToString();
 
-                switch (CombatCourant.TerrainPartie.TabCases[Grid.GetRow(lbl)][Grid.GetColumn(lbl)].Contenu)
+                Image ImageSprite = new Image();
+                switch (CombatCourant.TerrainPartie.TabCases[Grid.GetRow(sPnl)][Grid.GetColumn(sPnl)].Contenu)
                 {
                     case Case.type.vide:
-                        lbl.Background = Brushes.White;
+                        sPnl.Children.Clear();
                         break;
                     case Case.type.joueur:
-                        lbl.Background = Brushes.Chartreuse;
+                        ImageSource SourceImageClasse = new BitmapImage(new Uri(@"..\..\Resources\GofusSharp\cra.png", UriKind.Relative));
+                        ImageSprite.Source = SourceImageClasse;
+                        sPnl.Children.Add(ImageSprite);
                         break;
                     case Case.type.obstacle:
-                        lbl.Background = Brushes.Red;
+                        ImageSource SourceImageObstacle = new BitmapImage(new Uri(@"..\..\Resources\GofusSharp\Roche0.png", UriKind.Relative));
+                        ImageSprite.Source = SourceImageObstacle;
+                        sPnl.Children.Add(ImageSprite);
                         break;
                 }
             }
