@@ -33,7 +33,7 @@ namespace Gofus
             InitializeComponent();
 
 
-
+            dataGrid.AutoGenerateColumns = false;
             lstUpdate = new List<string>();
             lstUtilisateurs = new ObservableCollection<Utilisateur>();
             bdAdmin = new BDService();
@@ -44,12 +44,13 @@ namespace Gofus
                 lstUtilisateurs.Add(new Utilisateur(item[0], ((item[1] == "True") ? true : false)));
             }
 
-            
-
+            dataGrid.ItemsSource = lstUtilisateurs;
             DataGridTextColumn textColumn = new DataGridTextColumn();
             textColumn.Header = "Nom Utilisateur";
             textColumn.Binding = new Binding("nom");
+            textColumn.IsReadOnly = true;
             dataGrid.Columns.Add(textColumn);
+
 
             DataGridCheckBoxColumn boolColumn = new DataGridCheckBoxColumn();
             boolColumn.Header = "Administrateur";
