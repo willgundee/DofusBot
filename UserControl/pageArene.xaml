@@ -23,7 +23,8 @@
         <DataGrid x:Name="dataGrid" ColumnWidth="*" SelectionMode="Single" MaxWidth="700" MaxHeight="700" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"  Width="557" AutoGenerateColumns="False" IsReadOnly="True" VirtualizingStackPanel.VirtualizationMode="Recycling" VirtualizingStackPanel.IsVirtualizing="true" ItemsSource="{Binding lstAdversaires}" SelectionChanged="dataGrid_SelectionChanged"/>
 
         <Label x:Name="lblChoixPerso" Content="Personnage :" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-        <ComboBox x:Name="cboPerso" Grid.Column="0" Grid.Row="4" VerticalAlignment="Top" Width="177"/>
+        <ComboBox x:Name="cboPerso" Grid.Column="0" Grid.Row="4" VerticalAlignment="Top" Width="177" SelectionChanged="cboPerso_SelectionChanged"/>
         <Button x:Name="btnAtt" Content="Attaquer" Grid.Column="1" Grid.Row="3" Grid.RowSpan="2" Width="178" Height="39" Click="btnAtt_Click"/>
+        <Button x:Name="btnRefresh" Content="Rafraichir la liste" Grid.Column="1" HorizontalAlignment="Left" Margin="152,27,0,0" VerticalAlignment="Top" Width="116" RenderTransformOrigin="0.603,0.591" Click="btnRefresh_Click" Grid.RowSpan="2"/>
     </Grid>
 </UserControl>

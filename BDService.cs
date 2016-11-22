@@ -8,21 +8,13 @@ using System.Configuration;
 namespace Gofus
 {
     public class BDService
-    {   /*
-        User: gofusprog
-        Pass: GP994433
-         */
+    {  
 
         // Pour éviter les problèmes causé par Reader qui met la connection en mode readonly.
         private MySqlConnection BDChat;
         private MySqlConnection BDSelect;
         private MySqlConnection BDInsert;
         private MySqlConnection BDChatWindow;
-
-        /* private string serveur = "420.cstj.qc.ca";
-         private string baseDonnee = "420.5a5.a16_gofusprog";
-         private string utilisateur = "gofusprog";
-         private string motPasse = "GP994433";*/
 
         private MySqlConnection connexion;
         public BDService()
