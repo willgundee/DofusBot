@@ -441,7 +441,7 @@ namespace Gofus
                 bd.Update("UPDATE JoueursEquipements SET quantiteEquipe= " + Player.Inventaire.First(x => x.Nom == itemVoulantEtreEquiper.Nom).QuantiteEquipe.ToString() + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + itemVoulantEtreEquiper.Nom + "')");
 
             }
-            Inventaire i = (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Inventaire)) as Inventaire);
+            PageInventaire i = (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(PageInventaire)) as PageInventaire);
 
 
             if (i._dragdropWindow != null)
@@ -531,10 +531,10 @@ namespace Gofus
 
         private void btnInventaire_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Inventaire inv = null;
-            if (Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(Inventaire)) == null)
+            PageInventaire inv = null;
+            if (Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(PageInventaire)) == null)
             {
-                inv = new Inventaire(Player);
+                inv = new PageInventaire(Player);
                 inv.Show();
             }
 
@@ -562,8 +562,8 @@ namespace Gofus
                 bd.Update("UPDATE JoueursEquipements SET quantiteEquipe= " + Player.Inventaire.First(x => x.Nom == equiper.Nom).QuantiteEquipe.ToString() + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + equiper.Nom + "');COMMIT;");
                 bd.delete("DELETE FROM EquipementsEntites WHERE idEntite = (SELECT idEntite FROM Entites WHERE nom ='" + persoActuel.Nom + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + equiper.Nom + "') AND emplacement ='" + emplacement + "'");
 
-                if ((Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(Inventaire)) as Inventaire) != null)
-                    (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Inventaire)) as Inventaire).refreshInv();
+                if ((Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(PageInventaire)) as PageInventaire) != null)
+                    (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(PageInventaire)) as PageInventaire).refreshInv();
                 initialiserLstStats(persoActuel.LstStats);
                 dgStats.ItemsSource = lstStat;
                 dgDommage.ItemsSource = initialiserLstDMG(persoActuel);
@@ -632,10 +632,10 @@ namespace Gofus
 
                     bd.Update("UPDATE  Joueurs SET  argent =  " + Player.Kamas.ToString() + " WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "';COMMIT;");
 
-                    if ((Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(Inventaire)) as Inventaire) != null)
+                    if ((Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(PageInventaire)) as PageInventaire) != null)
                     {
-                        (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Inventaire)) as Inventaire).refreshInv();
-                        (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Inventaire)) as Inventaire).lblArgent.Content = Player.Kamas;
+                        (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(PageInventaire)) as PageInventaire).refreshInv();
+                        (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(PageInventaire)) as PageInventaire).lblArgent.Content = Player.Kamas;
                     }
                         (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow).lblKamas.Content = Player.Kamas;
 
@@ -695,8 +695,8 @@ namespace Gofus
                     onglet.Content = new pageCpersonage(Player);
                     main.tCPerso.Items.Add(onglet);
                 }
-                if (System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(Inventaire)) != null)
-                    (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Inventaire)) as Inventaire).refreshInv();
+                if (System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(PageInventaire)) != null)
+                    (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(PageInventaire)) as PageInventaire).refreshInv();
             }
 
             return;
