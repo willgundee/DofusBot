@@ -357,13 +357,7 @@ namespace Gofus
         }
 
 
-        private void PGSort_Selected(object sender, RoutedEventArgs e)
-        {
-
-            if(!PGSort.HasContent)
-            PGSort.Content = new pageSort();
-
-        }
+   
 
         private void PgArchive_Selected(object sender, RoutedEventArgs e)
         {
