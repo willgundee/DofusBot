@@ -21,14 +21,15 @@ namespace GofusSharp
     internal partial class Combat : Window
     {
         internal Partie CombatCourant { get; set; }
+        internal bool Generation { get; set; }
 
         private bool AutoScroll = true;
 
         public Combat(List<Gofus.Entite> lstJoueurAtt, List<Gofus.Entite> lstJoueurDef, int seed)
         {
             InitializeComponent();
-            this.Show();
-            
+            Show();
+            Generation = true;
             CreerPartie(lstJoueurAtt, lstJoueurDef, seed);
             //System.Windows.Forms.MessageBox.Show(JsonConvert.SerializeObject(CombatCourant));
             for (int i = 0; i < 10; i++)
