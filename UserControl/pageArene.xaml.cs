@@ -155,7 +155,7 @@ namespace Gofus
 
         private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (dataGrid.SelectedIndex != -1 || cboPerso.SelectedIndex != -1)
+            if (dataGrid.SelectedIndex == -1 || cboPerso.SelectedIndex < 0 )
             {
                 btnAtt.IsEnabled = false;
             }
@@ -179,7 +179,7 @@ namespace Gofus
 
         private void cboPerso_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (dataGrid.SelectedIndex != -1 || cboPerso.SelectedIndex != -1)
+            if (dataGrid.SelectedIndex == -1 || cboPerso.SelectedIndex == -1)
             {
                 btnAtt.IsEnabled = false;
             }
