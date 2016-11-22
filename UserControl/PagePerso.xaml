@@ -120,7 +120,8 @@
                 </DataGrid>
             </TabItem>
         </TabControl>
-        <Label x:Name="lblexp" Margin="94,51,0,0" Content="Experience :"/>
+        <Label x:Name="lblexp" Margin="94,51,6,218" Content="Experience : " Width="150" Height="25"/>
+        <Label Name="lblTime" Height="20" Width="150" Grid.ColumnSpan="2" Margin="163,10,244,264"/>
         <Label x:Name="lblClasse" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="94,34,0,0" Content="Classe : "/>
         <Label x:Name="lblNomJoueur" VerticalAlignment="Top" FontSize="25" HorizontalAlignment="Left" Margin="10,-4,0,0" Height="47" Width="167"/>
         <Label x:Name="lblNomClasse" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="144,34,0,0" Height="26" Width="102"/>
@@ -136,6 +137,7 @@
             </DataGrid.Columns>
 
         </DataGrid-->
+        
         <Button x:Name="btnSupprimer" Content="X" BorderBrush="DarkRed" Foreground="DarkRed" Background="Black" HorizontalAlignment="Right" Margin="15" VerticalAlignment="Top" Width="25" Height="25" FontSize="18" FontFamily="Mongolian Baiti" Click="btnSupprimer_Click" Grid.Column="1" Grid.RowSpan="2"/>
         <!--Label Name="lblPourcentExp" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="136,53,77,216" Height="25" Width="37" /-->
     </Grid>
