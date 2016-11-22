@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,20 +20,27 @@ namespace Gofus
     /// </summary>
     public partial class GestionAdminWindow : Window
     {
+
+        BDService bdAdmin;
+
+        public List<string> lstUpdate;
+
+        public ObservableCollection<Utilisateur> lstUtilisateurs;
+
+
         public GestionAdminWindow()
         {
             InitializeComponent();
 
-        
+            lstUpdate = new List<string>();
+            lstUtilisateurs = new ObservableCollection<Utilisateur>();
+            bdAdmin = new BDService();
 
-
-        }
-
-       
-
-        private void button1_Click(object sender, RoutedEventArgs e)
-        {
-
+            List<string>[] result = bdAdmin.selection("SELECT nom,estAdmin FROM Joueurs");
+            foreach (List<string> item in result)
+            {
+                lstUtilisateurs.Add(new Utilisateur(item[0], ((item[1] == "True") ? true : false)));
+            }
         }
     }
 }
