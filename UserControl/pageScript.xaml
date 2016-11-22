@@ -138,12 +138,14 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Button x:Name="btn_run" Content="Tester" Grid.Column="0" Click="btn_run_Click"/>
             <Button x:Name="btn_debug" Content="Générer" Grid.Column="1" Click="btn_debug_Click"/>
             <Button x:Name="btn_sauvegarder" Content="Sauvegarder" Grid.Column="2" Click="btn_sauvegarder_Click"/>
             <Button x:Name="btn_renommer" Content="Renommer" Grid.Column="3" Click="btn_renommer_Click"/>
             <Button x:Name="btn_supprimer" Content="Supprimer" Grid.Column="4" Click="btn_supprimer_Click"/>
+            <Button x:Name="btn_documentation" Content="Documentation" Grid.Column="5" Click="btn_documentation_Click"/>
         </Grid>
     </Grid>
 </UserControl>
