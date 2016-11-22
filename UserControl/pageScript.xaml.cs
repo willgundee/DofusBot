@@ -1444,5 +1444,10 @@ namespace Gofus
             //    if (System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(MainWindow)) != null)
             //        (System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow).Player.LstScripts.First(x => x.Uuid == UUID).Code = ctb_main.Text;
         }
+
+        private void btn_documentation_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
