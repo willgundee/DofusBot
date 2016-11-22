@@ -25,7 +25,6 @@ namespace Gofus
             bd = new BDService();
             lstRapport = new ObservableCollection<Rapport>();
             SelectRaports();
-
             dataGrid.ItemsSource = lstRapport;
             datePick.SelectedDate = DateTime.Now;
             datePick.IsEnabled = true;
@@ -39,30 +38,13 @@ namespace Gofus
                 if (result == MessageBoxResult.Yes)
                 {
                     string delete = "DELETE FROM Messages WHERE temps < '" + datePick.SelectedDate.ToString() + "'";
-
                     bool test = bd.delete(delete);
                 }
-
             }
-
-
-
         }
-
-
-        private void supprimerRap(Rapport r)
-        {
-
-            lstRapport.Remove(r);
-
-        }
-
         private void SelectRaports()
         {
             string sel = "SELECT contenu,temps,titre,nom,Rapports.idRapport FROM Rapports INNER JOIN  typerapport ON Rapports.idTypeRapport =  typerapport.idTypeRapport ORDER by temps";
-
-
-
             List<string>[] result = bd.selection(sel);
             if (result[0][0] != "rien")
                 foreach (List<string> l in result)
@@ -73,8 +55,8 @@ namespace Gofus
 
         private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
-            tblContenu.Text = (dataGrid.SelectedItem != null) ? ((Rapport)dataGrid.SelectedItem).msg : "";
+            tblContenu.Text = (dataGrid.SelectedIndex != -1) ? ((Rapport)dataGrid.SelectedItem).msg : "";
+            btnSupprimer.IsEnabled = (dataGrid.SelectedIndex != -1) ? false : true;
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
@@ -83,8 +65,12 @@ namespace Gofus
             Rapport del = (Rapport)dataGrid.SelectedItem;
             bool test = bd.delete("DELETE FROM Rapports WHERE idRapport = " + del.id);
             lstRapport.Remove(del);
-            
+        }
 
+        private void btnFenetre_Click(object sender, RoutedEventArgs e)
+        {
+            GestionAdminWindow GAW = new GestionAdminWindow();
+            GAW.ShowDialog();
         }
     }
 }

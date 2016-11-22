@@ -17,13 +17,9 @@ namespace Gofus
     {
 
         private List<string> lstAvatars;
-
         private BDService bd;
-
         private Joueur Player;
-
         public FenetreRapport rapport;
-
         public int idJoueur { get; set; }
 
         public pageGestion(Joueur joueur, int id)
@@ -32,17 +28,12 @@ namespace Gofus
             InitializeComponent();
             lstAvatars = new List<string>();
             GenererAvatars();
-
             Player = joueur;
             idJoueur = id;
-
             string URI = lstAvatars[Player.Avatar];
             iAvatar.Source = new BitmapImage(new Uri(URI));
-
-
             txt_AncienCourriel.Text = Player.Courriel;
             txt_nomUtilisateur.Text = Player.NomUtilisateur;
-
         }
         #region Marc_OngletGestionCompte
 

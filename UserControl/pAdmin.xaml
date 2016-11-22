@@ -19,9 +19,10 @@
             </DataGrid.Columns>
         </DataGrid>
         <TextBlock x:Name="tblContenu" HorizontalAlignment="Left" Margin="10,438,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="102" Width="530" Background="WhiteSmoke"/>
-        <Label x:Name="label" Content="Message&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,406,0,0" VerticalAlignment="Top" Width="119" Height="27"/>
-        <Label x:Name="label1" Content="Paneau Administration&#xD;&#xA;" HorizontalAlignment="Left" Margin="147,10,0,0" VerticalAlignment="Top" FontSize="24" Height="52"/>
-        <Button x:Name="btnSupprimerRapport" Content="Supprimer rapport" HorizontalAlignment="Left" Margin="360,411,0,0" VerticalAlignment="Top" Width="180" Click="button_Click"/>
+        <Label x:Name="label" Content="Message" HorizontalAlignment="Left" Margin="10,406,0,0" VerticalAlignment="Top" Width="119" Height="27"/>
+        <Label x:Name="label1" Content="Paneau Administration" HorizontalAlignment="Left" Margin="147,10,0,0" VerticalAlignment="Top" FontSize="24" Height="52"/>
+        <Button x:Name="btnSupprimerRapport" Content="Supprimer le rapport sélectionner" HorizontalAlignment="Left" Margin="277,411,0,0" VerticalAlignment="Top" Width="263" Click="button_Click"/>
+        <Button x:Name="btnFenetre" Content="Gèrer les droits d'administrateurs" HorizontalAlignment="Left" Margin="277,155,0,0" VerticalAlignment="Top" Width="234" Click="btnFenetre_Click"/>
 
     </Grid>
 </UserControl>
