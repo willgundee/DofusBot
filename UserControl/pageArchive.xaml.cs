@@ -29,8 +29,9 @@ namespace Gofus
             idJoueur = id;
             lstpartie = new List<Partie>();
             dgHistorique.ItemsSource = lstpartie;
-            cboTypePartie.Items.Add("Mes Parties");
             cboTypePartie.Items.Add("Les partie de tout le monde");
+            cboTypePartie.Items.Add("Mes Parties");
+            btnVisionner.IsEnabled = false;
         }
 
         public pageArchive()
@@ -44,6 +45,7 @@ namespace Gofus
             dgHistorique.ItemsSource = lstpartie;
             cboTypePartie.Visibility = Visibility.Hidden;
             loadParties("all");
+            btnVisionner.IsEnabled = false;
             dgHistorique.Items.Refresh();
         }
 
@@ -133,19 +135,25 @@ namespace Gofus
 
         private void cboTypePartie_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            RefreshListe();
+        }
+
+        public void RefreshListe()
+        {
             if (cboTypePartie.SelectedIndex == 0)
             {
-
-                loadParties("joueur");
+                loadParties("all");
                 dgHistorique.Items.Refresh();
+
 
             }
             else
             {
-                loadParties("all");
+                loadParties("joueur");
                 dgHistorique.Items.Refresh();
             }
         }
+
 
         private void btnQuitter_Click(object sender, RoutedEventArgs e)
         {
@@ -164,6 +172,16 @@ namespace Gofus
         private void btnVisionner_Click(object sender, RoutedEventArgs e)
         {
             ///TODO : Regarder une partie.
+        }
+
+        private void btn_Refresh_Click(object sender, RoutedEventArgs e)
+        {
+            RefreshListe();
+        }
+
+        private void dgHistorique_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            btnVisionner.IsEnabled = (dgHistorique.SelectedIndex != -1) ? true : false;
         }
     }
 }

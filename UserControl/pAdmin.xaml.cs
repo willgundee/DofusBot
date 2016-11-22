@@ -73,8 +73,8 @@ namespace Gofus
 
         private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(dataGrid.SelectedItem != null)
-            tblContenu.Text = ((Rapport)dataGrid.SelectedItem).msg;
+
+            tblContenu.Text = (dataGrid.SelectedItem != null) ? ((Rapport)dataGrid.SelectedItem).msg : "";
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
