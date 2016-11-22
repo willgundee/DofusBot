@@ -48,7 +48,9 @@ namespace Gofus
             DataGridTextColumn textColumn = new DataGridTextColumn();
             textColumn.Header = "Nom Utilisateur";
             textColumn.Binding = new Binding("nom");
+            textColumn.IsReadOnly = true;
             dataGrid.Columns.Add(textColumn);
+
 
             DataGridCheckBoxColumn boolColumn = new DataGridCheckBoxColumn();
             boolColumn.Header = "Administrateur";

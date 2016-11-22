@@ -10,7 +10,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Margin="10,0,0,22" VerticalAlignment="Bottom" Height="390" Width="424" ColumnWidth="*">
+        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Margin="10,0,0,22" VerticalAlignment="Bottom" Height="390" Width="424" ColumnWidth="*" AutoGenerateColumns="False">
         </DataGrid>
     </Grid>
 </Window>
