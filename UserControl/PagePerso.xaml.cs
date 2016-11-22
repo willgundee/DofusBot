@@ -36,10 +36,16 @@ namespace Gofus
         }
 
           void timer_Tick(object sender, EventArgs e)
-          {       
-            persoActuel = new Entite(bd.selection("SELECT * FROM Entites WHERE nom='"+persoActuel.Nom+"'")[0]);
+          {
+            List<string> bobRoss = bd.selection("SELECT * FROM Entites WHERE nom='" + persoActuel.Nom + "'")[0];
+            if (bobRoss[0]!="rien")
+            {
+            persoActuel = new Entite(bobRoss);
 
             starter(Player,persoActuel); 
+            }
+            
+         
         }
 
 
