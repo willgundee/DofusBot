@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace Gofus
 {
@@ -27,6 +28,29 @@ namespace Gofus
         {// refaire le min/max
             InitializeComponent();
             this.Player = Player;
+
+            DispatcherTimer timer = new DispatcherTimer();
+           timer.Interval = TimeSpan.FromSeconds(10);
+            timer.Tick += timer_Tick;
+            timer.Start();
+
+            starter(Player,ent);
+            
+        }
+
+          void timer_Tick(object sender, EventArgs e)
+          {
+
+            lblTime.Content = DateTime.Now.ToLongTimeString();
+            persoActuel = new Entite(bd.selection("SELECT * FROM Entites WHERE nom='"+persoActuel.Nom+"'")[0]);
+
+            starter(Player,persoActuel); 
+        }
+
+
+        private void starter(Joueur player, Entite ent)
+        {
+           
             persoActuel = ent;
             lblLevelEntite.Content = "Niv. " + ent.Niveau;
             lblNomJoueur.Content = Player.NomUtilisateur;
@@ -621,6 +645,7 @@ namespace Gofus
                     dgDommage.ItemsSource = initialiserLstDMG(persoActuel);
 
                 }
+                
             }
         }
         private void btnSupprimer_Click(object sender, RoutedEventArgs e)
