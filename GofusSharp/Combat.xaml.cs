@@ -21,17 +21,23 @@ namespace GofusSharp
     internal partial class Combat : Window
     {
         internal Partie CombatCourant { get; set; }
+        internal Partie CombatGeneration { get; set; }
         internal bool Generation { get; set; }
 
         private bool AutoScroll = true;
 
-        public Combat(List<Gofus.Entite> lstJoueurAtt, List<Gofus.Entite> lstJoueurDef, int seed)
+        public Combat(List<Gofus.Entite> lstJoueurAtt, List<Gofus.Entite> lstJoueurDef, int seed, long idPartie, bool premiereGeneration = true)
         {
             InitializeComponent();
+            Generation = premiereGeneration;
+            if (Generation)
+            {
+                Gofus.BDService BD = new Gofus.BDService();
+                bool? resultat = GenererPartie(lstJoueurAtt, lstJoueurDef, seed);
+                BD.Update("UPDATE Parties SET attaquantAGagne = " + (resultat == null?"null":(resultat == true?"true":"false")) + " WHERE idPartie = " + idPartie + ";");
+            }
             Show();
-            Generation = true;
             CreerPartie(lstJoueurAtt, lstJoueurDef, seed);
-            //System.Windows.Forms.MessageBox.Show(JsonConvert.SerializeObject(CombatCourant));
             for (int i = 0; i < 10; i++)
             {
                 for (int j = 0; j < 10; j++)
@@ -52,7 +58,6 @@ namespace GofusSharp
             }
             UpdateInfo();
         }
-
         private void CreerPartie(List<Gofus.Entite> lstJoueurAtt, List<Gofus.Entite> lstJoueurDef, int seed)
         {
             Liste<Entite> ListEntiteAtt = new Liste<Entite>();
@@ -64,7 +69,6 @@ namespace GofusSharp
                     ListEntiteAtt.Add(new Personnage(entite, EntiteInconnu.type.attaquant, terrain));
                 else
                     ListEntiteAtt.Add(new Entite(entite, EntiteInconnu.type.attaquant, terrain));
-
             }
             foreach (Gofus.Entite entite in lstJoueurDef)
             {
@@ -75,6 +79,70 @@ namespace GofusSharp
             }
 
             CombatCourant = new Partie(terrain, ListEntiteAtt, ListEntiteDef, seed);
+        }
+
+        private bool? GenererPartie(List<Gofus.Entite> lstJoueurAtt, List<Gofus.Entite> lstJoueurDef, int seed)
+        {
+            Liste<Entite> ListEntiteAtt = new Liste<Entite>();
+            Liste<Entite> ListEntiteDef = new Liste<Entite>();
+            Terrain terrain = new Terrain(10, 10);
+            foreach (Gofus.Entite entite in lstJoueurAtt)
+            {
+                if (entite.EstPersonnage)
+                    ListEntiteAtt.Add(new Personnage(entite, EntiteInconnu.type.attaquant, terrain));
+                else
+                    ListEntiteAtt.Add(new Entite(entite, EntiteInconnu.type.attaquant, terrain));
+            }
+            foreach (Gofus.Entite entite in lstJoueurDef)
+            {
+                if (entite.EstPersonnage)
+                    ListEntiteDef.Add(new Personnage(entite, EntiteInconnu.type.defendant, terrain));
+                else
+                    ListEntiteDef.Add(new Entite(entite, EntiteInconnu.type.defendant, terrain));
+            }
+
+            CombatGeneration = new Partie(terrain, ListEntiteAtt, ListEntiteDef, seed);
+            for (int i = 0; i < 64; i++)
+            {
+                foreach (Entite entite in Liste<Entite>.ConcatAlternate(CombatGeneration.ListAttaquants, CombatGeneration.ListDefendants))
+                {
+                    if (entite.Etat == EntiteInconnu.typeEtat.mort)
+                        continue;
+                    CombatGeneration.DebuterAction(entite);
+                    if (entite is Personnage)
+                        Action(CombatGeneration.TerrainPartie, entite as Personnage, CombatGeneration.ListEntites);
+                    else
+                        Action(CombatGeneration.TerrainPartie, entite as Entite, CombatGeneration.ListEntites);
+                    CombatGeneration.SyncroniserJoueur();
+                    bool vivante = false;
+                    foreach (Entite entiteAtt in CombatGeneration.ListAttaquants)
+                    {
+                        if (entiteAtt.Etat == EntiteInconnu.typeEtat.vivant)
+                        {
+                            vivante = true;
+                            break;
+                        }
+                    }
+                    if (!vivante)
+                    {
+                        return false;
+                    }
+                    vivante = false;
+                    foreach (Entite entiteDef in CombatGeneration.ListDefendants)
+                    {
+                        if (entiteDef.Etat == EntiteInconnu.typeEtat.vivant)
+                        {
+                            vivante = true;
+                            break;
+                        }
+                    }
+                    if (!vivante)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return null;
         }
 
         private void Action(Terrain terrain, Personnage joueur, Liste<EntiteInconnu> ListEntites)
@@ -212,6 +280,7 @@ namespace GofusSharp
                 }
             }
         }
+
         private void UpdateInfo()
         {
             foreach (StackPanel sPnl in grd_Terrain.Children.Cast<FrameworkElement>().Where(x => x is StackPanel))
@@ -255,7 +324,6 @@ namespace GofusSharp
             info.Append("\nEtat: " + CombatCourant.ListDefendants.First().Etat);
             tb_perso1.Text = info.ToString();
         }
-
 
         private void srv_Log_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {

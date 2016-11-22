@@ -145,7 +145,7 @@ namespace Gofus
                 //List<List<Entite>> infoJson = JsonConvert.DeserializeObject<List<List<Entite>>>(strJson);
                 //lstAtt = infoJson[0];
                 //lstDef = infoJson[1];
-                GofusSharp.Combat combat = new GofusSharp.Combat(lstAtt, lstDef, seed);
+                GofusSharp.Combat combat = new GofusSharp.Combat(lstAtt, lstDef, seed, idPartie);
             }
         }
 

@@ -54,10 +54,12 @@ namespace GofusSharp
                     break;
                 }
             }
-            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " attaque " + cible.Nom + " avec " + arme.Nom;
+            if (!FCombat.Generation)
+                FCombat.tb_Log.Text += "\n" + Nom + " attaque " + cible.Nom + " avec " + arme.Nom;
             if (PA < arme.CoutPA)
             {
-                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " n'a pas assez de PA pour utiliser " + arme.Nom;
+                if (!FCombat.Generation)
+                    FCombat.tb_Log.Text += "\n" + Nom + " n'a pas assez de PA pour utiliser " + arme.Nom;
                 return false;
             }
             if (CaseEstDansZone(arme.ZonePortee.Type, arme.ZonePortee.PorteeMin, arme.ZonePortee.PorteeMax, Position, cible.Position))
@@ -69,7 +71,8 @@ namespace GofusSharp
                 }
                 return true;
             }
-            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + cible.Nom + " est hors de portée de l'arme " + arme.Nom;
+            if (!FCombat.Generation)
+                FCombat.tb_Log.Text += "\n" + cible.Nom + " est hors de portée de l'arme " + arme.Nom;
             return false;
         }
         public bool Attaquer(Case cible)
@@ -85,10 +88,12 @@ namespace GofusSharp
             }
             if (PA < arme.CoutPA)
             {
-                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " n'a pas assez de PA pour utiliser " + arme.Nom;
+                if (!FCombat.Generation)
+                    FCombat.tb_Log.Text += "\n" + Nom + " n'a pas assez de PA pour utiliser " + arme.Nom;
                 return false;
             }
-            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " attaque à X: " + cible.X + " Y: " + cible.Y + " avec " + arme.Nom;
+            if (!FCombat.Generation)
+                FCombat.tb_Log.Text += "\n" + Nom + " attaque à X: " + cible.X + " Y: " + cible.Y + " avec " + arme.Nom;
             if (CaseEstDansZone(arme.ZonePortee.Type, arme.ZonePortee.PorteeMin, arme.ZonePortee.PorteeMax, Position, cible))
             {
                 PA -= arme.CoutPA;
@@ -98,7 +103,8 @@ namespace GofusSharp
                 }
                 return true;
             }
-            (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + cible.X + " Y: " + cible.Y + " est hors de portée de l'arme " + arme.Nom;
+            if (!FCombat.Generation)
+                FCombat.tb_Log.Text += "\n" + cible.X + " Y: " + cible.Y + " est hors de portée de l'arme " + arme.Nom;
             return false;
         }
 

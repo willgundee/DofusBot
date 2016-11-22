@@ -53,6 +53,22 @@
             <TextBlock Name="tb_perso0" Grid.Row="0"></TextBlock>
             <TextBlock Name="tb_perso1" Grid.Row="1"></TextBlock>
         </Grid>
-        <Button Name="btn_Next" Content="Prochain tour" Grid.Column="1" Grid.Row="1" Click="btn_Next_Click"></Button>
+        <Grid Name="grd_controle" Grid.Column="1" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0">
+                <TextBox x:Name="txtNum" Text="0" TextChanged="txtNum_TextChanged" />
+                <Button x:Name="cmdUp" Content="˄" Width="20" Click="cmdUp_Click" />
+                <Button x:Name="cmdDown" Content="˅" Width="20" Click="cmdDown_Click" />
+            </StackPanel>
+            <Button Name="btn_Next" Content="Prochain tour" Grid.Column="1" Grid.Row="1" Click="btn_Next_Click"></Button>
+        </Grid>
+        
     </Grid>
 </Window>
