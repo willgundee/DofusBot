@@ -31,7 +31,7 @@ namespace Gofus
             dgHistorique.ItemsSource = lstpartie;
             cboTypePartie.Items.Add("Les partie de tout le monde");
             cboTypePartie.Items.Add("Mes Parties");
-
+            btnVisionner.IsEnabled = false;
         }
 
         public pageArchive()
@@ -45,6 +45,7 @@ namespace Gofus
             dgHistorique.ItemsSource = lstpartie;
             cboTypePartie.Visibility = Visibility.Hidden;
             loadParties("all");
+            btnVisionner.IsEnabled = false;
             dgHistorique.Items.Refresh();
         }
 
@@ -176,6 +177,11 @@ namespace Gofus
         private void btn_Refresh_Click(object sender, RoutedEventArgs e)
         {
             RefreshListe();
+        }
+
+        private void dgHistorique_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            btnVisionner.IsEnabled = (dgHistorique.SelectedIndex != -1) ? true : false;
         }
     }
 }

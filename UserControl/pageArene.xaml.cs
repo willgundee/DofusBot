@@ -97,11 +97,7 @@ namespace Gofus
                     dataGrid.Columns.Add(textColumn);
                     dataGrid.FrozenColumnCount = 2;
                 }
-
-
-
                 dataGrid.Items.Refresh();
-
             }));
         }
 
@@ -155,14 +151,7 @@ namespace Gofus
 
         private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (dataGrid.SelectedIndex == -1 || cboPerso.SelectedIndex < 0 )
-            {
-                btnAtt.IsEnabled = false;
-            }
-            else
-            {
-                btnAtt.IsEnabled = true;
-            }
+            btnAtt.IsEnabled = (dataGrid.SelectedIndex == -1 || cboPerso.SelectedIndex == -1) ? false : true;
         }
 
         public void RefreshPersos(ObservableCollection<Entite> lstPersonnages)
@@ -179,14 +168,8 @@ namespace Gofus
 
         private void cboPerso_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (dataGrid.SelectedIndex == -1 || cboPerso.SelectedIndex == -1)
-            {
-                btnAtt.IsEnabled = false;
-            }
-            else
-            {
-                btnAtt.IsEnabled = true;
-            }
+
+            btnAtt.IsEnabled = (dataGrid.SelectedIndex == -1 || cboPerso.SelectedIndex == -1) ? false : true;        
         }
 
         private void btnRefresh_Click(object sender, RoutedEventArgs e)
