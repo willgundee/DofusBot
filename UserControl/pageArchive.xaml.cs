@@ -29,8 +29,9 @@ namespace Gofus
             idJoueur = id;
             lstpartie = new List<Partie>();
             dgHistorique.ItemsSource = lstpartie;
-            cboTypePartie.Items.Add("Mes Parties");
             cboTypePartie.Items.Add("Les partie de tout le monde");
+            cboTypePartie.Items.Add("Mes Parties");
+
         }
 
         public pageArchive()
@@ -133,19 +134,25 @@ namespace Gofus
 
         private void cboTypePartie_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            RefreshListe();
+        }
+
+        public void RefreshListe()
+        {
             if (cboTypePartie.SelectedIndex == 0)
             {
-
-                loadParties("joueur");
+                loadParties("all");
                 dgHistorique.Items.Refresh();
+
 
             }
             else
             {
-                loadParties("all");
+                loadParties("joueur");
                 dgHistorique.Items.Refresh();
             }
         }
+
 
         private void btnQuitter_Click(object sender, RoutedEventArgs e)
         {
@@ -166,6 +173,9 @@ namespace Gofus
             ///TODO : Regarder une partie.
         }
 
-      
+        private void btn_Refresh_Click(object sender, RoutedEventArgs e)
+        {
+            RefreshListe();
+        }
     }
 }
