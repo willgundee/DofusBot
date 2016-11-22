@@ -15,7 +15,7 @@ namespace Gofus
     /// <summary>
     /// Logique d'interaction pour Inventaire.xaml
     /// </summary>
-    public partial class Inventaire : Window
+    public partial class PageInventaire : Window
     {
         public Window _dragdropWindow = null;
         ObservableCollection<ImageItem> LstInventaire;
@@ -25,7 +25,7 @@ namespace Gofus
         private BDService bd = new BDService();
         private MainWindow w;
 
-        public Inventaire(Joueur Player)
+        public PageInventaire(Joueur Player)
         {
 
             InitializeComponent();

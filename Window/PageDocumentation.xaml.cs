@@ -25,6 +25,7 @@ namespace Gofus
         {
             InitializeComponent();
             pgDocu.Children.Add(new PageDoc());
+
             //tabDoc.Content = new PageDoc(); 
         }
     }

@@ -53,6 +53,8 @@ namespace Gofus
         public int idJoueur { get; set; }
 
         private pageClavardage pgchat;
+        private PageDocumentation pgDoc;
+        private PageInventaire pgInv;
 
 
         public MainWindow(int id)
@@ -87,16 +89,26 @@ namespace Gofus
             lbxCara.ItemsSource = LstCaras;
 
             fillSortCbo();
+
+          
             #endregion
         }
 
 
           protected override void OnClosed(EventArgs e)
            {
-               base.OnClosed(e);
             if(pgchat.fenetreChat != null)
             pgchat.fenetreChat.Close();
-           }
+
+
+            System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(PageInventaire)).Close();
+            System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(PageDocumentation)).Close();
+            base.OnClosed(e);
+
+
+
+
+        }
 
             
 
@@ -388,8 +400,8 @@ namespace Gofus
 
         private void TabItem_Unselected(object sender, RoutedEventArgs e)
         {
-            if (System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(Inventaire)) != null)
-                System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Inventaire)).Close();
+            if (System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(PageInventaire)) != null)
+                System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(PageInventaire)).Close();
 
         }
 
