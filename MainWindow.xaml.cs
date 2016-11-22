@@ -20,7 +20,7 @@ namespace Gofus
     {
         SbHorz = 0,
         SbVert = 1,
-        SbCtl = 2,
+        SbCtl  = 2,
         SbBoth = 3
     }
     public enum Message : uint

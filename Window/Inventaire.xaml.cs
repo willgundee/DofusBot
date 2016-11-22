@@ -25,7 +25,6 @@ namespace Gofus
         private BDService bd = new BDService();
         private MainWindow w;
 
-
         public Inventaire(Joueur Player)
         {
 
