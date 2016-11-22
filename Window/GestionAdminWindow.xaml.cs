@@ -25,9 +25,12 @@ namespace Gofus
 
         BDService bdAdmin;
 
-        public List<string> lstUpdate;
+        public ObservableCollection<Utilisateur> lstBackUp;
 
         public ObservableCollection<Utilisateur> lstUtilisateurs;
+
+
+
 
 
         public GestionAdminWindow()
@@ -36,7 +39,7 @@ namespace Gofus
 
 
             dataGrid.AutoGenerateColumns = false;
-            lstUpdate = new List<string>();
+            lstBackUp = new ObservableCollection<Utilisateur>();
             lstUtilisateurs = new ObservableCollection<Utilisateur>();
             bdAdmin = new BDService();
 
@@ -60,20 +63,23 @@ namespace Gofus
             dataGrid.Columns.Add(boolColumn);
             dataGrid.FrozenColumnCount = 2;
 
-
-
+            foreach (Utilisateur u in lstUtilisateurs)
+                lstBackUp.Add(new Utilisateur(u.nom,u.estAdmin));
             dataGrid.Items.Refresh();
 
         }
-
-        private void dataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
-        {
-            System.Windows.Forms.MessageBox.Show("Test");
-        }
-
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.MessageBox.Show(((Utilisateur)dataGrid.SelectedItem).estAdmin.ToString());
+            int i = 0;
+            foreach (Utilisateur u in lstUtilisateurs)
+            {
+                if (u.estAdmin != lstBackUp[i].estAdmin)
+                {
+                    string upt = "UPDATE Joueurs set estAdmin = " + ((u.estAdmin == true) ? "true" : "false") + " WHERE nomUtilisateur = '" + u.nom + "';";
+                    bool test = bdAdmin.Update(upt);
+                }
+                i++;
+            }
         }
     }
 }
