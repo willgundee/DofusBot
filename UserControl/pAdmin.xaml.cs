@@ -69,7 +69,8 @@ namespace Gofus
 
         private void btnFenetre_Click(object sender, RoutedEventArgs e)
         {
-
+            GestionAdminWindow GAW = new GestionAdminWindow();
+            GAW.ShowDialog();
         }
     }
 }

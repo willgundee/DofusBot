@@ -32,15 +32,34 @@ namespace Gofus
         {
             InitializeComponent();
 
+
+
             lstUpdate = new List<string>();
             lstUtilisateurs = new ObservableCollection<Utilisateur>();
             bdAdmin = new BDService();
 
-            List<string>[] result = bdAdmin.selection("SELECT nom,estAdmin FROM Joueurs");
+            List<string>[] result = bdAdmin.selection("SELECT nomUtilisateur,estAdmin FROM Joueurs");
             foreach (List<string> item in result)
             {
                 lstUtilisateurs.Add(new Utilisateur(item[0], ((item[1] == "True") ? true : false)));
             }
+
+            
+
+            DataGridTextColumn textColumn = new DataGridTextColumn();
+            textColumn.Header = "Nom Utilisateur";
+            textColumn.Binding = new Binding("nom");
+            dataGrid.Columns.Add(textColumn);
+
+            DataGridCheckBoxColumn boolColumn = new DataGridCheckBoxColumn();
+            boolColumn.Header = "Administrateur";
+            boolColumn.Binding = new Binding("estAdmin");
+            dataGrid.Columns.Add(boolColumn);
+            dataGrid.FrozenColumnCount = 2;
+
+
+            dataGrid.Items.Refresh();
+
         }
     }
 }
