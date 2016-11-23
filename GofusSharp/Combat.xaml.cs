@@ -11,6 +11,8 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using GofusSharp;
 using System.Windows.Media.Imaging;
+using System.Threading;
+using System.ComponentModel;
 
 [assembly: InternalsVisibleTo("Gofus")]
 namespace GofusSharp
@@ -23,6 +25,10 @@ namespace GofusSharp
         internal Partie CombatCourant { get; set; }
         internal Partie CombatGeneration { get; set; }
         internal bool Generation { get; set; }
+        internal double Speed { get; set; }
+
+        internal BackgroundWorker bw = new BackgroundWorker();
+
 
         private bool AutoScroll = true;
 
@@ -35,7 +41,10 @@ namespace GofusSharp
                 Gofus.BDService BD = new Gofus.BDService();
                 bool? resultat = GenererPartie(lstJoueurAtt, lstJoueurDef, seed);
                 BD.Update("UPDATE Parties SET attaquantAGagne = " + (resultat == null?"null":(resultat == true?"true":"false")) + " WHERE idPartie = " + idPartie + ";");
+                Generation = false;
             }
+            Speed = 1.5;
+            txtNum.Text = Speed.ToString();
             Show();
             CreerPartie(lstJoueurAtt, lstJoueurDef, seed);
             for (int i = 0; i < 10; i++)
@@ -175,20 +184,28 @@ namespace GofusSharp
             //recherche d'érreurs de compilation
             if (results.Errors.HasErrors)
             {
-                StringBuilder sb = new StringBuilder();
-
-                foreach (CompilerError error in results.Errors)
-                {
-                    sb.AppendLine(string.Format("Erreur (Ligne {0}): {1}", (error.Line - 8).ToString(), error.ErrorText));
-                }
-                System.Windows.Forms.MessageBox.Show(sb.ToString());
+                //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
                 return;
             }
             //mettre la fonction compilé dans une variable
 
             MethodInfo mi = results.CompiledAssembly.GetType("Arene.Action").GetMethod("Execution");
-
-            mi.Invoke(null, new object[] { terrain, joueur, ListEntites });
+            Thread TAction;
+            if (!Generation)
+            {
+                //bw.WorkerSupportsCancellation = true;
+                //bw.WorkerReportsProgress = true;
+                //bw.DoWork += new DoWorkEventHandler(bw_DoWork);
+                //bw.ProgressChanged += new ProgressChangedEventHandler(bw_ProgressChanged);
+                //bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
+                //bw.RunWorkerAsync(new object[] { mi, terrain, joueur, ListEntites });
+                mi.Invoke(null, new object[] { terrain, joueur, ListEntites });
+                //btn_Next.IsEnabled = false;
+                //TAction = new Thread(new ThreadStart(() => mi.Invoke(null, new object[] { terrain, joueur, ListEntites })));
+                //TAction.Start();
+            }
+            else
+                mi.Invoke(null, new object[] { terrain, joueur, ListEntites });
         }
         
         private void Action(Terrain terrain, Entite joueur, Liste<EntiteInconnu> ListEntites)
@@ -239,46 +256,53 @@ namespace GofusSharp
 
         private void btn_Next_Click(object sender, RoutedEventArgs e)
         {
-            foreach (Entite entite in Liste<Entite>.ConcatAlternate(CombatCourant.ListAttaquants, CombatCourant.ListDefendants))
-            {
-                if (entite.Etat == EntiteInconnu.typeEtat.mort)
-                    continue;
-                CombatCourant.DebuterAction(entite);
-                if (entite is Personnage)
-                    Action(CombatCourant.TerrainPartie, entite as Personnage, CombatCourant.ListEntites);
-                else
-                    Action(CombatCourant.TerrainPartie, entite as Entite, CombatCourant.ListEntites);
-                CombatCourant.SyncroniserJoueur();
-                UpdateInfo();
-                bool vivante = false;
-                foreach (Entite entiteAtt in CombatCourant.ListAttaquants)
-                {
-                    if (entiteAtt.Etat == EntiteInconnu.typeEtat.vivant)
-                    {
-                        vivante = true;
-                        break;
-                    }
-                }
-                if (!vivante)
-                {
-                    System.Windows.Forms.MessageBox.Show("L'équipe defendante a gagnée");
-                    Close();
-                }
-                vivante = false;
-                foreach (Entite entiteDef in CombatCourant.ListDefendants)
-                {
-                    if (entiteDef.Etat == EntiteInconnu.typeEtat.vivant)
-                    {
-                        vivante = true;
-                        break;
-                    }
-                }
-                if (!vivante)
-                {
-                    System.Windows.Forms.MessageBox.Show("L'équipe attaquante a gagnée");
-                    Close();
-                }
-            }
+            bw.WorkerSupportsCancellation = true;
+            bw.WorkerReportsProgress = true;
+            bw.DoWork += new DoWorkEventHandler(bw_DoWork);
+            bw.ProgressChanged += new ProgressChangedEventHandler(bw_ProgressChanged);
+            bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
+            btn_Next.IsEnabled = false;
+            bw.RunWorkerAsync();
+            //foreach (Entite entite in Liste<Entite>.ConcatAlternate(CombatCourant.ListAttaquants, CombatCourant.ListDefendants))
+            //{
+            //    if (entite.Etat == EntiteInconnu.typeEtat.mort)
+            //        continue;
+            //    CombatCourant.DebuterAction(entite);
+            //    if (entite is Personnage)
+            //        Action(CombatCourant.TerrainPartie, entite as Personnage, CombatCourant.ListEntites);
+            //    else
+            //        Action(CombatCourant.TerrainPartie, entite as Entite, CombatCourant.ListEntites);
+            //    CombatCourant.SyncroniserJoueur();
+            //    UpdateInfo();
+            //    bool vivante = false;
+            //    foreach (Entite entiteAtt in CombatCourant.ListAttaquants)
+            //    {
+            //        if (entiteAtt.Etat == EntiteInconnu.typeEtat.vivant)
+            //        {
+            //            vivante = true;
+            //            break;
+            //        }
+            //    }
+            //    if (!vivante)
+            //    {
+            //        System.Windows.Forms.MessageBox.Show("L'équipe defendante a gagnée");
+            //        Close();
+            //    }
+            //    vivante = false;
+            //    foreach (Entite entiteDef in CombatCourant.ListDefendants)
+            //    {
+            //        if (entiteDef.Etat == EntiteInconnu.typeEtat.vivant)
+            //        {
+            //            vivante = true;
+            //            break;
+            //        }
+            //    }
+            //    if (!vivante)
+            //    {
+            //        System.Windows.Forms.MessageBox.Show("L'équipe attaquante a gagnée");
+            //        Close();
+            //    }
+            //}
         }
 
         private void UpdateInfo()
@@ -351,5 +375,88 @@ namespace GofusSharp
             }
         }
 
+        private void txtNum_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void cmdUp_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void cmdDown_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void bw_DoWork(object sender, DoWorkEventArgs e)
+        {
+            foreach (Entite entite in Liste<Entite>.ConcatAlternate(CombatCourant.ListAttaquants, CombatCourant.ListDefendants))
+            {
+                if (entite.Etat == EntiteInconnu.typeEtat.mort)
+                    continue;
+                CombatCourant.DebuterAction(entite);
+                if (entite is Personnage)
+                    Action(CombatCourant.TerrainPartie, entite as Personnage, CombatCourant.ListEntites);
+                else
+                    Action(CombatCourant.TerrainPartie, entite as Entite, CombatCourant.ListEntites);
+                CombatCourant.SyncroniserJoueur();
+                bw.ReportProgress(0, new object[] { "update" });
+                bool vivante = false;
+                foreach (Entite entiteAtt in CombatCourant.ListAttaquants)
+                {
+                    if (entiteAtt.Etat == EntiteInconnu.typeEtat.vivant)
+                    {
+                        vivante = true;
+                        break;
+                    }
+                }
+                if (!vivante)
+                {
+                    System.Windows.Forms.MessageBox.Show("L'équipe defendante a gagnée");
+                    bw.ReportProgress(0, "end");
+                }
+                vivante = false;
+                foreach (Entite entiteDef in CombatCourant.ListDefendants)
+                {
+                    if (entiteDef.Etat == EntiteInconnu.typeEtat.vivant)
+                    {
+                        vivante = true;
+                        break;
+                    }
+                }
+                if (!vivante)
+                {
+                    System.Windows.Forms.MessageBox.Show("L'équipe attaquante a gagnée");
+                    bw.ReportProgress(0, "end");
+                }
+            }
+        }
+
+        private void bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            dynamic info = e.UserState;
+            switch (info[0] as string)
+            {
+                case "update":
+                    UpdateInfo();
+                    break;
+                case "end":
+                    bw.CancelAsync();
+                    Close();
+                    break;
+                case "log":
+                    tb_Log.Text += info[1];
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            btn_Next.IsEnabled = true;
+        }
     }
 }

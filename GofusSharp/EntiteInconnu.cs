@@ -109,7 +109,8 @@ namespace GofusSharp
             if (dommageRecu < 0)
                 dommageRecu = 0;
             if (!FCombat.Generation)
-                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat).tb_Log.Text += "\n" + Nom + " à perdu " + dommageRecu.ToString() + " point de vie";
+                FCombat.bw.ReportProgress(0, new object[] { "log", "\n" + Nom + " à perdu " + dommageRecu.ToString() + " point de vie" });
+            //FCombat.tb_Log.Text += "\n" + Nom + " à perdu " + dommageRecu.ToString() + " point de vie";
             PV -= dommageRecu;
             if (PV <= 0)
             {

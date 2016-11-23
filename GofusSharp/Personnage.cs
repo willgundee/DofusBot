@@ -55,7 +55,8 @@ namespace GofusSharp
                 }
             }
             if (!FCombat.Generation)
-                FCombat.tb_Log.Text += "\n" + Nom + " attaque " + cible.Nom + " avec " + arme.Nom;
+                FCombat.bw.ReportProgress(0, new object[] { "log", "\n" + Nom + " attaque " + cible.Nom + " avec " + arme.Nom });
+                //FCombat.tb_Log.Text += "\n" + Nom + " attaque " + cible.Nom + " avec " + arme.Nom;
             if (PA < arme.CoutPA)
             {
                 if (!FCombat.Generation)
@@ -69,6 +70,7 @@ namespace GofusSharp
                 {
                     InfligerEffet(effet, arme.ZoneEffet, cible.Position);
                 }
+                System.Threading.Thread.Sleep(500);
                 return true;
             }
             if (!FCombat.Generation)
