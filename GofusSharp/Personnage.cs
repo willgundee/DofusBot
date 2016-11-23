@@ -70,7 +70,7 @@ namespace GofusSharp
                 {
                     InfligerEffet(effet, arme.ZoneEffet, cible.Position);
                 }
-                System.Threading.Thread.Sleep(500);
+                //System.Threading.Thread.Sleep(500);
                 return true;
             }
             if (!FCombat.Generation)
