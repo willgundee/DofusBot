@@ -97,16 +97,15 @@ namespace Gofus
 
           protected override void OnClosed(EventArgs e)
            {
-            if(pgchat.fenetreChat != null)
-            pgchat.fenetreChat.Close();
 
+            bd.Update("UPDATE  Joueurs SET  estConnecte =  0 WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "'");
+
+            if (pgchat.fenetreChat != null)
+            pgchat.fenetreChat.Close();
 
             System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(PageInventaire)).Close();
             System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(PageDocumentation)).Close();
             base.OnClosed(e);
-
-
-
 
         }
 

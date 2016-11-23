@@ -630,8 +630,8 @@ namespace Gofus
             Equipement equiper = null;
             if (convertPathToNoItem(item.Source.ToString()) != "vide")
             {
-                float k = equiper.Prix * (float)0.8;
                 equiper = Player.LstEntites.First(x => x.Nom == persoActuel.Nom).LstEquipements.First(x => x.NoImg == convertPathToNoItem(item.Source.ToString()));
+                float k = equiper.Prix * (float)0.8;
                 MessageBoxResult m = System.Windows.MessageBox.Show("Voulez vous vraiment vendre l'objet : " + equiper.Nom + ". Au cout de " + (int)k + " Kamas ?", "Achat", MessageBoxButton.YesNo, MessageBoxImage.Information);// affichage d'un message box te demandant situ veut vendre ceci
                 if (m == MessageBoxResult.Yes)
                 {
