@@ -30,7 +30,7 @@ namespace GofusSharp
 
         private delegate void DelUpdate();
 
-        private Gofus.BDService bd = new Gofus.BDService();
+        
 
         internal delegate void Log(string text);
 
