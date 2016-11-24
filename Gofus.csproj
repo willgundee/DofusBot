@@ -389,6 +389,7 @@
     <Resource Include="Resources\Pissenlit diabolique.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\GofusSharp\monstre.png" />
     <Content Include="Resources\Sanglier.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

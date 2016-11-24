@@ -18,7 +18,7 @@ namespace Gofus
         {
             InitializeComponent();
             music = new MediaPlayer();
-            PlaySound();
+            //PlaySound();
         }
 
         private void PlaySound()

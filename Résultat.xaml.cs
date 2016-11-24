@@ -17,15 +17,13 @@ namespace Gofus
     /// <summary>
     /// Logique d'interaction pour Résultat.xaml
     /// </summary>
-    
-        
     public partial class Résultat : Window
     {
         BDService bd = new BDService();
-        public Résultat(double seed)
+        public Résultat(long idPartie)
         {
             InitializeComponent();
-            bd.selection("SELECT * FROM Parties WHERE Seed="+seed);
+            bd.selection("SELECT * FROM Parties WHERE idPartie = " + idPartie);
             
         }
     }

@@ -50,6 +50,8 @@ namespace GofusSharp
                 {
                     InfligerEffet(effet, arme.ZoneEffet, cible.Position);
                 }
+                if (!Debug.FCombat.Generation)
+                    System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
                 return true;
             }
             if (!Debug.FCombat.Generation)
@@ -82,6 +84,8 @@ namespace GofusSharp
                 {
                     InfligerEffet(effet, arme.ZoneEffet, cible);
                 }
+                if (!Debug.FCombat.Generation)
+                    System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
                 return true;
             }
             if (!Debug.FCombat.Generation)

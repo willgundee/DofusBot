@@ -30,7 +30,9 @@ namespace GofusSharp
 
         private delegate void DelUpdate();
 
-        
+        private delegate void DelAfficheRes(long idPartie);
+
+        private Gofus.BDService bd = new Gofus.BDService();
 
         internal delegate void Log(string text);
 
@@ -48,7 +50,7 @@ namespace GofusSharp
             {
                 Gofus.BDService BD = new Gofus.BDService();
                 bool? resultat = GenererPartie(lstJoueurAtt, lstJoueurDef, seed);
-                BD.Update("UPDATE Parties SET attaquantAGagne = " + (resultat == null?"null":(resultat == true?"true":"false")) + " WHERE idPartie = " + idPartie + ";");
+                BD.Update("UPDATE Parties SET attaquantAGagne = " + (resultat == null ? "null" : (resultat == true ? "true" : "false")) + " WHERE idPartie = " + idPartie + ";");
                 //TODO: LVL UP !
                 Generation = false;
             }
@@ -80,7 +82,7 @@ namespace GofusSharp
                 if (CombatCourant.TerrainPartie.TabCases[Grid.GetRow(sPnl)][Grid.GetColumn(sPnl)].Contenu == Case.type.obstacle)
                 {
                     Image ImageSprite = new Image();
-                    ImageSource SourceImageObstacle = new BitmapImage(new Uri(@"..\..\Resources\GofusSharp\Roche" + RandRock.Next(1,3) + ".png", UriKind.Relative));
+                    ImageSource SourceImageObstacle = new BitmapImage(new Uri(@"..\..\Resources\GofusSharp\Roche" + RandRock.Next(1, 3) + ".png", UriKind.Relative));
                     ImageSprite.Source = SourceImageObstacle;
                     sPnl.Children.Add(ImageSprite);
                 }
@@ -265,8 +267,10 @@ namespace GofusSharp
 
         private void btn_Next_Click(object sender, RoutedEventArgs e)
         {
+            btn_Next.IsEnabled = false;
             TAction = new Thread(new ThreadStart(() => AsyncWork()));
             TAction.Start();
+            btn_Next.IsEnabled = true;
         }
 
         private void UpdateInfo()
@@ -279,37 +283,49 @@ namespace GofusSharp
                         sPnl.Children.Clear();
                         break;
                     case Case.type.joueur:
+                        sPnl.Children.Clear();
                         if (CombatCourant.ListAttaquants.Concat(CombatCourant.ListDefendants).Where(x => x.Etat == EntiteInconnu.typeEtat.mort).Count() != 0)
                             break;
                         Image ImageSprite = new Image();
                         Entite perso = CombatCourant.ListAttaquants.Concat(CombatCourant.ListDefendants).Where(x => x.Position.X == Grid.GetRow(sPnl) && x.Position.Y == Grid.GetColumn(sPnl)).First();
                         ImageSource SourceImageClasse = new BitmapImage(new Uri(@"..\..\Resources\GofusSharp\" + perso.ClasseEntite.Nom + @".png", UriKind.Relative));
+                        try
+                        {
+                            SourceImageClasse.Height.ToString();
+                        }
+                        catch (Exception)
+                        {
+                            SourceImageClasse = new BitmapImage(new Uri(@"..\..\Resources\GofusSharp\monstre.png", UriKind.Relative));
+                        }
                         ImageSprite.Source = SourceImageClasse;
+                        ImageSprite.ToolTip = CreerToolTip(perso);
+                        ToolTipService.SetShowDuration(ImageSprite, int.MaxValue);
                         sPnl.Children.Add(ImageSprite);
                         break;
                 }
             }
-            StringBuilder info = new StringBuilder();
-            info.Append("Attaquant");
-            info.Append("\nPoint de vie: " + CombatCourant.ListAttaquants.First().PV);
-            if (CombatCourant.ListAttaquants.First().Etat == EntiteInconnu.typeEtat.vivant)
-                info.Append("\nPosition: X: " + CombatCourant.ListAttaquants.First().Position.X + " Y: " + CombatCourant.ListAttaquants.First().Position.Y);
-            else
-                info.Append("\nPosition: X: 0 Y: 0");
-            info.Append("\nEtat: " + CombatCourant.ListAttaquants.First().Etat);
-            tb_perso0.Text = info.ToString();
-            info.Clear();
-            info.Append("Deffendant");
-            info.Append("\nPoint de vie: " + CombatCourant.ListDefendants.First().PV);
-            if (CombatCourant.ListDefendants.First().Etat == EntiteInconnu.typeEtat.vivant)
-                info.Append("\nPosition: X: " + CombatCourant.ListDefendants.First().Position.X + " Y: " + CombatCourant.ListDefendants.First().Position.Y);
-            else
-                info.Append("\nPosition: X: 0 Y: 0");
-            info.Append("\nEtat: " + CombatCourant.ListDefendants.First().Etat);
-            tb_perso1.Text = info.ToString();
+
+            //StringBuilder info = new StringBuilder();
+            //info.Append("Attaquant");
+            //info.Append("\nPoint de vie: " + CombatCourant.ListAttaquants.First().PV);
+            //if (CombatCourant.ListAttaquants.First().Etat == EntiteInconnu.typeEtat.vivant)
+            //    info.Append("\nPosition: X: " + CombatCourant.ListAttaquants.First().Position.X + " Y: " + CombatCourant.ListAttaquants.First().Position.Y);
+            //else
+            //    info.Append("\nPosition: X: 0 Y: 0");
+            //info.Append("\nEtat: " + CombatCourant.ListAttaquants.First().Etat);
+            //tb_perso0.Text = info.ToString();
+            //info.Clear();
+            //info.Append("Deffendant");
+            //info.Append("\nPoint de vie: " + CombatCourant.ListDefendants.First().PV);
+            //if (CombatCourant.ListDefendants.First().Etat == EntiteInconnu.typeEtat.vivant)
+            //    info.Append("\nPosition: X: " + CombatCourant.ListDefendants.First().Position.X + " Y: " + CombatCourant.ListDefendants.First().Position.Y);
+            //else
+            //    info.Append("\nPosition: X: 0 Y: 0");
+            //info.Append("\nEtat: " + CombatCourant.ListDefendants.First().Etat);
+            //tb_perso1.Text = info.ToString();
         }
 
-        private void AjouterToolTip(Image img, Entite perso)
+        private StackPanel CreerToolTip(Entite perso)
         {
             StackPanel infoPerso = new StackPanel();
 
@@ -336,6 +352,7 @@ namespace GofusSharp
             TextBlock Stat = new TextBlock();
             Stat.Text = "Résistance";
             Stat.FontWeight = FontWeights.Bold;
+            infoPerso.Children.Add(Stat);
 
             foreach (Statistique resis in perso.ListStatistiques)
             {
@@ -385,19 +402,22 @@ namespace GofusSharp
                 }
             }
 
+            if (perso.ListEnvoutements.Count() != 0)
+            {
 
             TextBlock Envout = new TextBlock();
             Envout.Text = "Envoutement";
             Envout.FontWeight = FontWeights.Bold;
+                infoPerso.Children.Add(Envout);
 
             foreach (Envoutement e in perso.ListEnvoutements)
             {
                 TextBlock Env = new TextBlock();
-                Env.Text = e.Stat.ToString() + ": " + e.Valeur + " pour " + e.TourRestants + " tour" + (e.TourRestants == 1?"":"s");
+                    Env.Text = e.Stat.ToString() + ": " + e.Valeur + " pour " + e.TourRestants + " tour" + (e.TourRestants == 1 ? "" : "s");
                 infoPerso.Children.Add(Env);
             }
-
-            img.ToolTip = infoPerso;
+            }
+            return infoPerso;
         }
 
         private void srv_Log_ScrollChanged(object sender, ScrollChangedEventArgs e)
@@ -496,12 +516,9 @@ namespace GofusSharp
                 if (!vivante)
                 {
                     System.Windows.Forms.MessageBox.Show("L'équipe defendante a gagnée");
-                    /*TODO ouvrir la fenetre resultat avec le param IdPartie
-                    
-                    Gofus.Résultat resultat = new Gofus.Résultat();
-                    resultat.Show();*/
-
-                    
+                    //TODO ouvrir la fenetre resultat avec le param IdPartie
+                    DelAfficheRes FenRes = OuvrirResultat;
+                    Dispatcher.Invoke(FenRes, new object[] { IdPartie });
                 }
                 vivante = false;
                 foreach (Entite entiteDef in CombatCourant.ListDefendants)
@@ -515,14 +532,8 @@ namespace GofusSharp
                 if (!vivante)
                 {
                     System.Windows.Forms.MessageBox.Show("L'équipe attaquante a gagnée");
-                    /*
-                     Gofus.Résultat resultat = new Gofus.Résultat();
-                     double i = Convert.ToInt32(CombatCourant.Seed);
-                     resultat.Show(i);*/
-
-
-
-
+                    DelAfficheRes FenRes = OuvrirResultat;
+                    Dispatcher.Invoke(FenRes, new object[] { IdPartie });
                 }
             }
         }
@@ -530,6 +541,12 @@ namespace GofusSharp
         internal void UpdateLog(string text)
         {
             tb_Log.Text += text;
+        }
+
+        internal void OuvrirResultat(long idPartie)
+        {
+            Gofus.Résultat resultat = new Gofus.Résultat(IdPartie);
+            resultat.Show();
         }
 
         private void chb_AutoPlay_Checked(object sender, RoutedEventArgs e)
