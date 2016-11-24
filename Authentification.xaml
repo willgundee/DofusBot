@@ -23,10 +23,10 @@
         </Grid.RowDefinitions>
         <Image Name="imgLogo" Source="resources/Gofus.png" VerticalAlignment="Top" Height="175" Grid.RowSpan="2" Margin="0,-35,0,0" Grid.ColumnSpan="3" />
         <Label Name="lblNomU" Content="Nom d'utilisateur" HorizontalContentAlignment="Center" Grid.Row="1" HorizontalAlignment="Center"  Height="30" Margin="40,21,40,42" FontSize="16" Grid.Column="1" Width="190"/>
-        <TextBox Name="txtNomU" Height="20"  Width="200" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="36,0,33.612,20" Text="francis" Grid.Column="1"></TextBox>
+        <TextBox Name="txtNomU" Height="20"  Width="200" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="36,0,33.612,20" Text="Mickbeaube" Grid.Column="1"></TextBox>
 
         <Label Name="lblMDP" Content="Mot de passe" HorizontalContentAlignment="Center" Height="30"  Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="16" Margin="36,75,40,0" Grid.RowSpan="2" Grid.Column="1" Width="194" />
-        <PasswordBox Name="txtMDP"  Height="20" Width="200" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="36,12,33.612,61" Password="mountaindew" Grid.Column="1" ></PasswordBox>
+        <PasswordBox Name="txtMDP"  Height="20" Width="200" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="36,12,33.612,61" Password="Mickbeaube" Grid.Column="1" ></PasswordBox>
         <Button Name="btnConnexion"  Content="Connexion" HorizontalAlignment="Center"  Grid.Row="2" VerticalAlignment="Bottom" Margin="0,0,0,30" Width="80" Click="btnConnexion_Click" Grid.Column="1"/>
     
         <Button x:Name="btnInscription" Content="Pas encore inscrit?" HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Top" Width="125" Click="btnInscription_Click" Grid.Column="1"/>
