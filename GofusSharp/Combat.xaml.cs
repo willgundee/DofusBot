@@ -54,7 +54,7 @@ namespace GofusSharp
                 //TODO: LVL UP !
                 Generation = false;
             }
-            Speed = 1.5;
+            Speed = 20;
             txtNum.Text = Speed.ToString();
             Show();
             CreerPartie(lstJoueurAtt, lstJoueurDef, seed);
