@@ -61,7 +61,7 @@ namespace Gofus
                 lblNomU.Foreground = new SolidColorBrush(Colors.Red);
                 lblMDP.Foreground = new SolidColorBrush(Colors.Red);
             }
-            if(hh[0][7] == "True")
+            else if(hh[0][7] == "True")
             {
                 MessageBox.Show("Vous êtes Déjà Connecté !");
             }
