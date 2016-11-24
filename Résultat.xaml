@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gofus"
         mc:Ignorable="d"
+          ResizeMode="NoResize"
         Title="Résultat" Height="200" Width="400">
-    <Grid Name="dgResultat" Background="LightGray" >
+    <Grid Name="dgResultat" Background="LightGray" 
+          >
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>

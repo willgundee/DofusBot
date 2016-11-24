@@ -30,6 +30,8 @@ namespace GofusSharp
 
         private delegate void DelUpdate();
 
+        private Gofus.BDService bd = new Gofus.BDService();
+
         internal delegate void Log(string text);
 
         internal Thread TAction;
@@ -494,8 +496,12 @@ namespace GofusSharp
                 if (!vivante)
                 {
                     System.Windows.Forms.MessageBox.Show("L'équipe defendante a gagnée");
-                    //TODO ouvrir la fenetre resultat avec le param IdPartie
-                    Close();
+                    /*TODO ouvrir la fenetre resultat avec le param IdPartie
+                    
+                    Gofus.Résultat resultat = new Gofus.Résultat();
+                    resultat.Show();*/
+
+                    
                 }
                 vivante = false;
                 foreach (Entite entiteDef in CombatCourant.ListDefendants)
@@ -509,8 +515,14 @@ namespace GofusSharp
                 if (!vivante)
                 {
                     System.Windows.Forms.MessageBox.Show("L'équipe attaquante a gagnée");
-                    //TODO ouvrir la fenetre resultat avec le param IdPartie
-                    Close();
+                    /*
+                     Gofus.Résultat resultat = new Gofus.Résultat();
+                     double i = Convert.ToInt32(CombatCourant.Seed);
+                     resultat.Show(i);*/
+
+
+
+
                 }
             }
         }
