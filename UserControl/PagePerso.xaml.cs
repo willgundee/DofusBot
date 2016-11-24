@@ -135,7 +135,7 @@ namespace Gofus
             initialiserLstStats(ent.LstStats);
             dgStats.ItemsSource = lstStat;
             dgDommage.ItemsSource = initialiserLstDMG(ent);
-
+           
             refresh++;
 
         }
