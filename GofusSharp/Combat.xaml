@@ -62,6 +62,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
+            <CheckBox Name="chb_AutoPlay" Content="Tour automatique" Grid.Column="0" Grid.Row="0" Checked="chb_AutoPlay_Checked" Unchecked="chb_AutoPlay_Unchecked"/>
             <Label Content="Vitesse" Grid.Column="1" Grid.Row="0"/>
             <Grid Name="grd_numUpDown" Grid.Column="1" Grid.Row="0" Height="50">
                 <Grid.RowDefinitions>
@@ -72,10 +73,11 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBox x:Name="txtNum" Text="2" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" TextChanged="txtNum_TextChanged" />
+                <TextBox x:Name="txtNum" Text="2" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" LostFocus="txtNum_LostFocus" />
                 <Button x:Name="cmdUp" Content="˄" Grid.Column="1" Grid.Row="0" Click="cmdUp_Click" />
                 <Button x:Name="cmdDown" Content="˅" Grid.Column="1" Grid.Row="1" Click="cmdDown_Click" />
             </Grid>
+            <Button Name="btn_StartStop" Content="Pause" Grid.Column="0" Grid.Row="1" Click="btn_StartStop_Click"></Button>
             <Button Name="btn_Next" Content="Prochain tour" Grid.Column="1" Grid.Row="1" Click="btn_Next_Click"></Button>
         </Grid>
         

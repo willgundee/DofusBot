@@ -6,12 +6,13 @@
         xmlns:local="clr-namespace:Gofus"
         mc:Ignorable="d"
         Title="Gérer les comptes" Height="498.214" Width="450" ResizeMode="NoResize" Icon="/Gofus;component/Resources/Gofus.png">
-    <Grid>
+    <Grid Margin="0,10,0,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" ItemsSource="{Binding lstUtilisateurs}"  Margin="10,0,0,22" VerticalAlignment="Bottom" Height="390" Width="424" ColumnWidth="*" AutoGenerateColumns="False" >
+        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" ItemsSource="{Binding lstUtilisateurs}"  Margin="10,0,0,80" VerticalAlignment="Bottom" Height="390" Width="424" ColumnWidth="*" AutoGenerateColumns="False" SelectionChanged="dataGrid_SelectionChanged" >
         </DataGrid>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="133,27,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
+        <Button x:Name="btnSauvegarder" Content="Sauvegarder" HorizontalAlignment="Left" Margin="10,407,0,0" VerticalAlignment="Top" Width="134" Click="button_Click" Height="43" RenderTransformOrigin="0.52,8.945"/>
+        <Button x:Name="btnAnnuler" Content="Annuler" HorizontalAlignment="Left" Margin="300,407,0,0" VerticalAlignment="Top" Width="134" Height="43" Click="button1_Click"/>
     </Grid>
 </Window>
