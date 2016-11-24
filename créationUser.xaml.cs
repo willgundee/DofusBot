@@ -147,7 +147,7 @@ namespace Gofus
         private void btnValider_Click(object sender, RoutedEventArgs e)
         {
 
-            if (Valider() == true)
+            if (Valider())
             {
 
                 var result = System.Windows.MessageBox.Show("Souhaitez-vous créer votre compte avec ces informations?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -159,15 +159,10 @@ namespace Gofus
 
                     MainWindow Main = new MainWindow(id);
 
-
+                    bd.Update("UPDATE  Joueurs SET  estConnecte =  1 WHERE  nomUtilisateur  ='" + txt_nom.Text.ToString() + "'");
                     System.Windows.Forms.MessageBox.Show("Vous êtes connecté ! ", "Information");
                     Main.Show();
                     this.Close();
-
-                }
-                else
-                {
-
                 }
 
             }

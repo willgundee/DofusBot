@@ -51,7 +51,7 @@ namespace Gofus
 
         private void loadParties(string type)
         {
-            string selectid = "Select idPartie,temps,seed,infoEntites From Parties";
+            string selectid = "Select idPartie,temps,seed,infoEntites,attaquantAGagne From Parties";
             List<string>[] lstPartieBd = bd.selection(selectid);
 
             lstpartie.Clear();
@@ -70,13 +70,13 @@ namespace Gofus
 
                         if (type == "all")
                         {
-                            lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1], Int32.Parse(p[2])));
+                            lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1].Substring(0, 10), Int32.Parse(p[2]), (p[4] == "True") ? lstAtt[0].Nom: lstDef[0].Nom));
                         }
                         else
                         {
                             if (lstAtt[0].idProprietaire == idJoueur || lstDef[0].idProprietaire == idJoueur)
                             {
-                                lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1], Int32.Parse(p[2])));
+                                lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1].Substring(0, 10), Int32.Parse(p[2]), (p[4] == "True") ? lstAtt[0].Nom : lstDef[0].Nom));
                             }
                         }
 

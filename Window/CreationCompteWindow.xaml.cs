@@ -136,28 +136,23 @@ namespace Gofus
         private void btnValider_Click(object sender, RoutedEventArgs e)
         {
 
-            if (Valider() == true)
+            if (Valider())
             {
-
                 var result = System.Windows.MessageBox.Show("Souhaitez-vous créer votre compte avec ces informations?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
                     int id = (int)bd.insertion("INSERT INTO Joueurs(nomUtilisateur, courriel, motDePasse, argent, avatar) VALUES('" + txt_nom.Text.ToString() + "', '" + txt_Courriel.Text.ToString() + "', '" + txt_mdp.Password + "', 3000, 0);");
                     int ascript = (int)bd.insertion("INSERT INTO Scripts(contenu,nom, uuid) VALUES('','Script1',UUID())");
                     int joueurscript = (int)bd.insertion("INSERT INTO JoueursScripts(idJoueur,idScript) VALUES("+ id.ToString() + ","+ ascript.ToString() +")");
+                    bd.Update("UPDATE  Joueurs SET  estConnecte =  1 WHERE  nomUtilisateur  ='" + txt_nom.Text.ToString() + "'");
 
                     MainWindow Main = new MainWindow(id);
-
 
                     System.Windows.Forms.MessageBox.Show("Vous êtes connecté ! ","Information");
                     Main.Show();
                     this.Close();
-
                 }
-                else
-                {
-
-                }
+            
 
             }
 

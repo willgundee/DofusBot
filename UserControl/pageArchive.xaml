@@ -14,7 +14,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Label HorizontalAlignment="Center" FontSize="25" Content="Archives" Margin="287,-26,283,26"/>
-        <DataGrid x:Name="dgHistorique" ItemsSource="{Binding lstpartie}"  HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="423" Width="502" Margin="29,0,0,68" IsReadOnly="True" FrozenColumnCount="3" CanUserResizeColumns="False" CanUserReorderColumns="False" ColumnWidth="*" SelectionChanged="dgHistorique_SelectionChanged"/>
+        <DataGrid x:Name="dgHistorique" SelectionMode="Single" ItemsSource="{Binding lstpartie}"  HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="423" Width="502" Margin="29,0,0,68" IsReadOnly="True" FrozenColumnCount="3" CanUserResizeColumns="False" CanUserReorderColumns="False" ColumnWidth="*" SelectionChanged="dgHistorique_SelectionChanged"/>
         <Button x:Name="btnVisionner" Content="Visionner" HorizontalAlignment="Left" Margin="345,0,0,26" VerticalAlignment="Bottom" Width="198" IsCancel="True" Click="btnVisionner_Click"/>
         <Label Name="lblCreer"    Visibility="Hidden" FontSize="16" Content="Voulez vous jouer ? inscrivez vous" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="80,0,0,121" />
         <Button Name="btnCreer"   Visibility="Hidden" Content="Créer compte" Height="30" Width="120" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="345,0,105,121" Click="btnCreer_Click"  />

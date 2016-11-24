@@ -18,7 +18,7 @@
             <ColumnDefinition Width="31*"/>
         </Grid.ColumnDefinitions>
         <Image Name="Imgbestai" Height="75" Width="74" Source="../resources/vide.png" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="10,24,11,0"/>
-        <TextBlock Name="lblNomBes" Text="Boufton" Height="30" FontSize="16" Grid.Column="1" Margin="10,42,10,0" VerticalAlignment="Top" TextWrapping="WrapWithOverflow"/>
+        <TextBlock Name="lblNomBes" Text="Boufton" Height="52" FontSize="16" Grid.Column="1" Margin="10,42,10,0" VerticalAlignment="Top" TextWrapping="WrapWithOverflow"/>
 
 
         <TextBlock Name="lstCar" TextWrapping="WrapWithOverflow" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="10,0,10,0" Height="130" FontSize="16"/>
