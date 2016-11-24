@@ -43,10 +43,15 @@ namespace Gofus
             List<string>[] hh = bdService.selection("SELECT * FROM Joueurs WHERE nomUtilisateur ='" + txtNomU.Text + "'");
             lblMDP.Foreground = new SolidColorBrush(Colors.Black);
             lblNomU.Foreground = new SolidColorBrush(Colors.Black);
-            if (hh[0][0] != "rien" && valide(hh) == true)
+
+
+
+            if (hh[0][0] != "rien" && valide(hh) == true && hh[0][7]=="False")
             {
                 Mouse.SetCursor(Cursors.AppStarting);
                 music.Stop();
+
+                bdService.Update("UPDATE  Joueurs SET  estConnecte =  1 WHERE  nomUtilisateur  ='" +hh[0][1] + "'");
                 MainWindow perso = new MainWindow(Convert.ToInt32(hh[0][0]));
                 perso.Show();
                 this.Close();
@@ -54,7 +59,13 @@ namespace Gofus
             if (hh[0][0] == "rien")
             {
                 lblNomU.Foreground = new SolidColorBrush(Colors.Red);
+                lblMDP.Foreground = new SolidColorBrush(Colors.Red);
             }
+            if(hh[0][7] == "True")
+            {
+                MessageBox.Show("Vous êtes Déjà Connecté !");
+            }
+            
         }
 
         private void btnVisionner_Click(object sender, RoutedEventArgs e)

@@ -147,6 +147,7 @@
     <Compile Include="UserControl\pageScript.xaml.cs">
       <DependentUpon>pageScript.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utility\ActionsAsync.cs" />
     <Compile Include="Window\GestionAdminWindow.xaml.cs">
       <DependentUpon>GestionAdminWindow.xaml</DependentUpon>
     </Compile>

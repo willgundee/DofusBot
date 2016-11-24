@@ -21,39 +21,38 @@ namespace Gofus
         public BDService bd = new BDService();
         public Entite persoActuel;
         public ObservableCollection<Statistique> lstStat = new ObservableCollection<Statistique>();
-        public int nbScript =0;
+        public int nbScript = 0;
         public int refresh = 0;
+        public DispatcherTimer timer = new DispatcherTimer();
         public PagePerso(Entite ent, Joueur Player)
         {// refaire le min/max
             InitializeComponent();
             this.Player = Player;
 
-            DispatcherTimer timer = new DispatcherTimer();
-           timer.Interval = TimeSpan.FromSeconds(5);
+            timer.Interval = TimeSpan.FromSeconds(5);
             timer.Tick += timer_Tick;
             timer.Start();
-            
-            starter(Player,ent);
-            
+
+            starter(Player, ent);
+
         }
 
-          void timer_Tick(object sender, EventArgs e)
-          {
+        void timer_Tick(object sender, EventArgs e)
+        {
             List<string> bobRoss = bd.selection("SELECT * FROM Entites WHERE nom='" + persoActuel.Nom + "'")[0];
-            if (bobRoss[0]!="rien")
+            if (bobRoss[0] != "rien")
             {
-            persoActuel = new Entite(bobRoss);
+                persoActuel = new Entite(bobRoss);
 
-            starter(Player,persoActuel); 
+                starter(Player, persoActuel);
             }
-            
-         
         }
+
 
 
         private void starter(Joueur player, Entite ent)
         {
-           // cbScript.Items.Clear();
+            // cbScript.Items.Clear();
 
             persoActuel = ent;
             lblLevelEntite.Content = "Niv. " + ent.Niveau;
@@ -81,19 +80,19 @@ namespace Gofus
             pgbExp.Value = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur;
 
             //lblPourcentExp.Content = Math.Round(pgbExp.Value / (pgbExp.Maximum-pgbExp.Minimum)) + " %";
-            
+
             nbScript = Player.LstScripts.Count();
             //TODO Meilleur solution 
             for (int i = 0; i < nbScript; i++)
             {
-                if (refresh<1)
+                if (refresh < 1)
                 {
                     cbScript.Items.Add(Player.LstScripts[i].Nom);
                 }
-               else if (refresh>3)
+                else if (refresh > 3)
                 {
                     refresh = 2;
-                }     
+                }
             }
 
 
@@ -489,7 +488,7 @@ namespace Gofus
                 return;
             }
 
-            if(Convert.ToInt32(lblNbPointsC.Content) <= 1)
+            if (Convert.ToInt32(lblNbPointsC.Content) <= 1)
             {
                 btnAgilite.Visibility = Visibility.Hidden;
                 btnChance.Visibility = Visibility.Hidden;
@@ -630,8 +629,8 @@ namespace Gofus
             Equipement equiper = null;
             if (convertPathToNoItem(item.Source.ToString()) != "vide")
             {
-                float k = equiper.Prix * (float)0.8;
                 equiper = Player.LstEntites.First(x => x.Nom == persoActuel.Nom).LstEquipements.First(x => x.NoImg == convertPathToNoItem(item.Source.ToString()));
+                float k = equiper.Prix * (float)0.8;
                 MessageBoxResult m = System.Windows.MessageBox.Show("Voulez vous vraiment vendre l'objet : " + equiper.Nom + ". Au cout de " + (int)k + " Kamas ?", "Achat", MessageBoxButton.YesNo, MessageBoxImage.Information);// affichage d'un message box te demandant situ veut vendre ceci
                 if (m == MessageBoxResult.Yes)
                 {
@@ -663,7 +662,7 @@ namespace Gofus
                     dgDommage.ItemsSource = initialiserLstDMG(persoActuel);
 
                 }
-                
+
             }
         }
         private void btnSupprimer_Click(object sender, RoutedEventArgs e)
