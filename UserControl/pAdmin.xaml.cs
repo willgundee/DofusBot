@@ -28,13 +28,14 @@ namespace Gofus
             dataGrid.ItemsSource = lstRapport;
             datePick.SelectedDate = DateTime.Now;
             datePick.IsEnabled = true;
+            btnSupprimerRapport.IsEnabled = false;
         }
 
         private void btnSupprimer_Click(object sender, RoutedEventArgs e)
         {
             if (datePick.SelectedDate != null)
             {
-                var result = System.Windows.MessageBox.Show("Souhaitez-vous supprimer les messages qui ont étés envoyés avant le " + datePick.SelectedDate.ToString(), "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var result = System.Windows.MessageBox.Show("Souhaitez-vous supprimer les messages qui ont étés envoyés avant le " + datePick.SelectedDate.ToString().Substring(0, 10), "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
                     string delete = "DELETE FROM Messages WHERE temps < '" + datePick.SelectedDate.ToString() + "'";
@@ -56,7 +57,7 @@ namespace Gofus
         private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             tblContenu.Text = (dataGrid.SelectedIndex != -1) ? ((Rapport)dataGrid.SelectedItem).msg : "";
-            btnSupprimer.IsEnabled = (dataGrid.SelectedIndex != -1) ? false : true;
+            btnSupprimerRapport.IsEnabled = (dataGrid.SelectedIndex >= 0) ? true : false;
         }
 
         private void button_Click(object sender, RoutedEventArgs e)

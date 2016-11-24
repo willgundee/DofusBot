@@ -11,7 +11,7 @@
         <DatePicker Text="Sélectionnez une date" Name="datePick" HorizontalAlignment="Left" Margin="10,118,0,0" VerticalAlignment="Top" Width="234" FirstDayOfWeek="Monday"/>
         <Label x:Name="lblInformation" Content="Selectionnez une date pour supprimer des messages. &#xD;&#xA;Tous les message posté à une date antérieur seront supprimés!" HorizontalAlignment="Left" Margin="10,67,0,0" VerticalAlignment="Top" Height="46" Width="344"/>
         <Label x:Name="lblRapport" Content="Liste des rapports" HorizontalAlignment="Left" Margin="10,171,0,0" VerticalAlignment="Top" FontSize="16" FontFamily="Sitka Text"/>
-        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Margin="10,206,0,0" VerticalAlignment="Top" Height="200" Width="530" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="dataGrid_SelectionChanged">
+        <DataGrid x:Name="dataGrid" SelectionMode="Single" HorizontalAlignment="Left" Margin="10,206,0,0" VerticalAlignment="Top" Height="200" Width="530" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="dataGrid_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Date"  Binding="{Binding temps}" FontSize="15" Width="*" />
                 <DataGridTextColumn Header="Titre" Binding="{Binding titre}" FontSize="15" Width="*"/>
