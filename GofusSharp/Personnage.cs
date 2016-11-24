@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace GofusSharp
 {
@@ -7,6 +8,7 @@ namespace GofusSharp
     {
         public Liste<Equipement> ListEquipements { get; internal set; }
 
+        internal Personnage() : base() { }
         internal Personnage(Gofus.Entite entite, type Equipe, Terrain TerrainEntite) :base(entite, Equipe, TerrainEntite)
         {
             ListEquipements = new Liste<Equipement>();
@@ -16,29 +18,6 @@ namespace GofusSharp
                     ListEquipements.Add(new Arme(equip));
                 else
                     ListEquipements.Add(new Equipement(equip));
-            }
-        }
-        internal Personnage(int IdEntite, Classe ClasseEntite, string Nom, float Experience, type Equipe, Liste<Statistique> ListStatistiques, string ScriptEntite, Liste<Equipement> ListEquipements, Terrain TerrainEntite) : base(IdEntite, ClasseEntite, Nom, Experience, Equipe, ListStatistiques, ScriptEntite, TerrainEntite, 0)
-        {
-            this.ListEquipements = ListEquipements;
-            foreach (Equipement item in ListEquipements)
-            {
-                foreach (Statistique stat_item in item.ListStatistiques)
-                {
-                    bool existe = false;
-                    foreach (Statistique stat in this.ListStatistiques)
-                    {
-                        if (stat.Nom == stat_item.Nom)
-                        {
-                            stat.Valeur += stat_item.Valeur;
-                            existe = true;
-                        }
-                    }
-                    if (!existe)
-                    {
-                        this.ListStatistiques.Add(stat_item);
-                    }
-                }
             }
         }
 
@@ -54,13 +33,14 @@ namespace GofusSharp
                     break;
                 }
             }
-            if (!FCombat.Generation)
-                FCombat.bw.ReportProgress(0, new object[] { "log", "\n" + Nom + " attaque " + cible.Nom + " avec " + arme.Nom });
-                //FCombat.tb_Log.Text += "\n" + Nom + " attaque " + cible.Nom + " avec " + arme.Nom;
+            if (!Debug.FCombat.Generation)
+            {
+                Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " attaque " + cible.Nom + " avec " + arme.Nom });
+            }
             if (PA < arme.CoutPA)
             {
-                if (!FCombat.Generation)
-                    FCombat.tb_Log.Text += "\n" + Nom + " n'a pas assez de PA pour utiliser " + arme.Nom;
+                if (!Debug.FCombat.Generation)
+                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " n'a pas assez de PA pour utiliser " + arme.Nom });
                 return false;
             }
             if (CaseEstDansZone(arme.ZonePortee.Type, arme.ZonePortee.PorteeMin, arme.ZonePortee.PorteeMax, Position, cible.Position))
@@ -70,11 +50,10 @@ namespace GofusSharp
                 {
                     InfligerEffet(effet, arme.ZoneEffet, cible.Position);
                 }
-                //System.Threading.Thread.Sleep(500);
                 return true;
             }
-            if (!FCombat.Generation)
-                FCombat.tb_Log.Text += "\n" + cible.Nom + " est hors de portée de l'arme " + arme.Nom;
+            if (!Debug.FCombat.Generation)
+                Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + cible.Nom + " est hors de portée de l'arme " + arme.Nom });
             return false;
         }
         public bool Attaquer(Case cible)
@@ -90,12 +69,12 @@ namespace GofusSharp
             }
             if (PA < arme.CoutPA)
             {
-                if (!FCombat.Generation)
-                    FCombat.tb_Log.Text += "\n" + Nom + " n'a pas assez de PA pour utiliser " + arme.Nom;
+                if (!Debug.FCombat.Generation)
+                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " n'a pas assez de PA pour utiliser " + arme.Nom });
                 return false;
             }
-            if (!FCombat.Generation)
-                FCombat.tb_Log.Text += "\n" + Nom + " attaque à X: " + cible.X + " Y: " + cible.Y + " avec " + arme.Nom;
+            if (!Debug.FCombat.Generation)
+                Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " attaque à X: " + cible.X + " Y: " + cible.Y + " avec " + arme.Nom });
             if (CaseEstDansZone(arme.ZonePortee.Type, arme.ZonePortee.PorteeMin, arme.ZonePortee.PorteeMax, Position, cible))
             {
                 PA -= arme.CoutPA;
@@ -105,8 +84,8 @@ namespace GofusSharp
                 }
                 return true;
             }
-            if (!FCombat.Generation)
-                FCombat.tb_Log.Text += "\n" + cible.X + " Y: " + cible.Y + " est hors de portée de l'arme " + arme.Nom;
+            if (!Debug.FCombat.Generation)
+                Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + cible.X + " Y: " + cible.Y + " est hors de portée de l'arme " + arme.Nom });
             return false;
         }
 

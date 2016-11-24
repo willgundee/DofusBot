@@ -23,12 +23,15 @@ namespace GofusSharp
     internal partial class Combat : Window
     {
         internal Partie CombatCourant { get; set; }
-        internal Partie CombatGeneration { get; set; }
         internal bool Generation { get; set; }
         internal double Speed { get; set; }
+        internal Log DelLog { get; set; }
 
-        internal BackgroundWorker bw = new BackgroundWorker();
+        private delegate void DelUpdate();
 
+        internal delegate void Log(string text);
+
+        internal Thread TAction;
 
         private bool AutoScroll = true;
 
@@ -36,6 +39,7 @@ namespace GofusSharp
         {
             InitializeComponent();
             Generation = premiereGeneration;
+            DelLog = UpdateLog;
             if (Generation)
             {
                 Gofus.BDService BD = new Gofus.BDService();
@@ -65,8 +69,20 @@ namespace GofusSharp
                     grd_Terrain.Children.Add(sPnl);
                 }
             }
+            Random RandRock = new Random(CombatCourant.TerrainPartie.TabCases.First().First().X);
+            foreach (StackPanel sPnl in grd_Terrain.Children.Cast<FrameworkElement>().Where(x => x is StackPanel))
+            {
+                if (CombatCourant.TerrainPartie.TabCases[Grid.GetRow(sPnl)][Grid.GetColumn(sPnl)].Contenu == Case.type.obstacle)
+                {
+                    Image ImageSprite = new Image();
+                    ImageSource SourceImageObstacle = new BitmapImage(new Uri(@"..\..\Resources\GofusSharp\Roche" + RandRock.Next(1,3) + ".png", UriKind.Relative));
+                    ImageSprite.Source = SourceImageObstacle;
+                    sPnl.Children.Add(ImageSprite);
+                }
+            }
             UpdateInfo();
         }
+
         private void CreerPartie(List<Gofus.Entite> lstJoueurAtt, List<Gofus.Entite> lstJoueurDef, int seed)
         {
             Liste<Entite> ListEntiteAtt = new Liste<Entite>();
@@ -110,21 +126,24 @@ namespace GofusSharp
                     ListEntiteDef.Add(new Entite(entite, EntiteInconnu.type.defendant, terrain));
             }
 
-            CombatGeneration = new Partie(terrain, ListEntiteAtt, ListEntiteDef, seed);
+            CombatCourant = new Partie(terrain, ListEntiteAtt, ListEntiteDef, seed);
             for (int i = 0; i < 64; i++)
             {
-                foreach (Entite entite in Liste<Entite>.ConcatAlternate(CombatGeneration.ListAttaquants, CombatGeneration.ListDefendants))
+                foreach (Entite entite in Liste<Entite>.ConcatAlternate(CombatCourant.ListAttaquants, CombatCourant.ListDefendants))
                 {
                     if (entite.Etat == EntiteInconnu.typeEtat.mort)
                         continue;
-                    CombatGeneration.DebuterAction(entite);
+                    CombatCourant.DebuterAction(entite);
+                    Liste<EntiteInconnu> ListEntites = new Liste<EntiteInconnu>();
+                    foreach (Entite entiteI in CombatCourant.ListAttaquants.Concat(CombatCourant.ListDefendants))
+                        ListEntites.Add(new EntiteInconnu(entiteI));
                     if (entite is Personnage)
-                        Action(CombatGeneration.TerrainPartie, entite as Personnage, CombatGeneration.ListEntites);
+                        Action(CombatCourant.TerrainPartie, entite as Personnage, ListEntites);
                     else
-                        Action(CombatGeneration.TerrainPartie, entite as Entite, CombatGeneration.ListEntites);
-                    CombatGeneration.SyncroniserJoueur();
+                        Action(CombatCourant.TerrainPartie, entite as Entite, ListEntites);
+                    CombatCourant.FinirAction(entite);
                     bool vivante = false;
-                    foreach (Entite entiteAtt in CombatGeneration.ListAttaquants)
+                    foreach (Entite entiteAtt in CombatCourant.ListAttaquants)
                     {
                         if (entiteAtt.Etat == EntiteInconnu.typeEtat.vivant)
                         {
@@ -137,7 +156,7 @@ namespace GofusSharp
                         return false;
                     }
                     vivante = false;
-                    foreach (Entite entiteDef in CombatGeneration.ListDefendants)
+                    foreach (Entite entiteDef in CombatCourant.ListDefendants)
                     {
                         if (entiteDef.Etat == EntiteInconnu.typeEtat.vivant)
                         {
@@ -190,22 +209,7 @@ namespace GofusSharp
             //mettre la fonction compilé dans une variable
 
             MethodInfo mi = results.CompiledAssembly.GetType("Arene.Action").GetMethod("Execution");
-            Thread TAction;
-            if (!Generation)
-            {
-                //bw.WorkerSupportsCancellation = true;
-                //bw.WorkerReportsProgress = true;
-                //bw.DoWork += new DoWorkEventHandler(bw_DoWork);
-                //bw.ProgressChanged += new ProgressChangedEventHandler(bw_ProgressChanged);
-                //bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
-                //bw.RunWorkerAsync(new object[] { mi, terrain, joueur, ListEntites });
-                mi.Invoke(null, new object[] { terrain, joueur, ListEntites });
-                //btn_Next.IsEnabled = false;
-                //TAction = new Thread(new ThreadStart(() => mi.Invoke(null, new object[] { terrain, joueur, ListEntites })));
-                //TAction.Start();
-            }
-            else
-                mi.Invoke(null, new object[] { terrain, joueur, ListEntites });
+            mi.Invoke(null, new object[] { terrain, joueur, ListEntites });
         }
         
         private void Action(Terrain terrain, Entite joueur, Liste<EntiteInconnu> ListEntites)
@@ -256,75 +260,41 @@ namespace GofusSharp
 
         private void btn_Next_Click(object sender, RoutedEventArgs e)
         {
-            bw.WorkerSupportsCancellation = true;
-            bw.WorkerReportsProgress = true;
-            bw.DoWork += new DoWorkEventHandler(bw_DoWork);
-            bw.ProgressChanged += new ProgressChangedEventHandler(bw_ProgressChanged);
-            bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
-            btn_Next.IsEnabled = false;
-            bw.RunWorkerAsync();
-            //foreach (Entite entite in Liste<Entite>.ConcatAlternate(CombatCourant.ListAttaquants, CombatCourant.ListDefendants))
-            //{
-            //    if (entite.Etat == EntiteInconnu.typeEtat.mort)
-            //        continue;
-            //    CombatCourant.DebuterAction(entite);
-            //    if (entite is Personnage)
-            //        Action(CombatCourant.TerrainPartie, entite as Personnage, CombatCourant.ListEntites);
-            //    else
-            //        Action(CombatCourant.TerrainPartie, entite as Entite, CombatCourant.ListEntites);
-            //    CombatCourant.SyncroniserJoueur();
-            //    UpdateInfo();
-            //    bool vivante = false;
-            //    foreach (Entite entiteAtt in CombatCourant.ListAttaquants)
-            //    {
-            //        if (entiteAtt.Etat == EntiteInconnu.typeEtat.vivant)
-            //        {
-            //            vivante = true;
-            //            break;
-            //        }
-            //    }
-            //    if (!vivante)
-            //    {
-            //        System.Windows.Forms.MessageBox.Show("L'équipe defendante a gagnée");
-            //        Close();
-            //    }
-            //    vivante = false;
-            //    foreach (Entite entiteDef in CombatCourant.ListDefendants)
-            //    {
-            //        if (entiteDef.Etat == EntiteInconnu.typeEtat.vivant)
-            //        {
-            //            vivante = true;
-            //            break;
-            //        }
-            //    }
-            //    if (!vivante)
-            //    {
-            //        System.Windows.Forms.MessageBox.Show("L'équipe attaquante a gagnée");
-            //        Close();
-            //    }
-            //}
+            TAction = new Thread(new ThreadStart(() => AsyncWork()));
+            TAction.Start();
         }
 
         private void UpdateInfo()
         {
             foreach (StackPanel sPnl in grd_Terrain.Children.Cast<FrameworkElement>().Where(x => x is StackPanel))
             {
-                //sPnl.Content = CombatCourant.TerrainPartie.TabCases[Grid.GetRow(sPnl)][Grid.GetColumn(sPnl)].Contenu.ToString().First().ToString();
-
-                Image ImageSprite = new Image();
                 switch (CombatCourant.TerrainPartie.TabCases[Grid.GetRow(sPnl)][Grid.GetColumn(sPnl)].Contenu)
                 {
                     case Case.type.vide:
                         sPnl.Children.Clear();
                         break;
                     case Case.type.joueur:
-                        ImageSource SourceImageClasse = new BitmapImage(new Uri(@"..\..\Resources\GofusSharp\cra.png", UriKind.Relative));
+                        if (CombatCourant.ListAttaquants.Concat(CombatCourant.ListDefendants).Where(x => x.Etat == EntiteInconnu.typeEtat.mort).Count() != 0)
+                            break;
+                        Image ImageSprite = new Image();
+                        Entite perso = CombatCourant.ListAttaquants.Concat(CombatCourant.ListDefendants).Where(x => x.Position.X == Grid.GetRow(sPnl) && x.Position.Y == Grid.GetColumn(sPnl)).First();
+                        ImageSource SourceImageClasse = new BitmapImage(new Uri(@"..\..\Resources\GofusSharp\" + perso.ClasseEntite.Nom + @".png", UriKind.Relative));
                         ImageSprite.Source = SourceImageClasse;
-                        sPnl.Children.Add(ImageSprite);
-                        break;
-                    case Case.type.obstacle:
-                        ImageSource SourceImageObstacle = new BitmapImage(new Uri(@"..\..\Resources\GofusSharp\Roche0.png", UriKind.Relative));
-                        ImageSprite.Source = SourceImageObstacle;
+                        StackPanel infoPerso = new StackPanel();
+                        TextBlock Nom = new TextBlock();
+                        Nom.Text = perso.Nom;
+                        Nom.FontWeight = FontWeights.Bold;
+                        TextBlock PV = new TextBlock();
+                        PV.Text = "PV: " + perso.PV;
+                        TextBlock PA = new TextBlock();
+                        PA.Text = "PA: " + perso.PA;
+                        TextBlock PM = new TextBlock();
+                        PM.Text = "PM: " + perso.PM;
+                        infoPerso.Children.Add(Nom);
+                        infoPerso.Children.Add(PV);
+                        infoPerso.Children.Add(PA);
+                        infoPerso.Children.Add(PM);
+                        ImageSprite.ToolTip = infoPerso;
                         sPnl.Children.Add(ImageSprite);
                         break;
                 }
@@ -390,19 +360,23 @@ namespace GofusSharp
 
         }
 
-        private void bw_DoWork(object sender, DoWorkEventArgs e)
+        private void AsyncWork()
         {
             foreach (Entite entite in Liste<Entite>.ConcatAlternate(CombatCourant.ListAttaquants, CombatCourant.ListDefendants))
             {
                 if (entite.Etat == EntiteInconnu.typeEtat.mort)
                     continue;
                 CombatCourant.DebuterAction(entite);
+                Liste<EntiteInconnu> ListEntites = new Liste<EntiteInconnu>();
+                foreach (Entite entiteI in CombatCourant.ListAttaquants.Concat(CombatCourant.ListDefendants))
+                    ListEntites.Add(new EntiteInconnu(entiteI));
                 if (entite is Personnage)
-                    Action(CombatCourant.TerrainPartie, entite as Personnage, CombatCourant.ListEntites);
+                    Action(CombatCourant.TerrainPartie, entite as Personnage, ListEntites);
                 else
-                    Action(CombatCourant.TerrainPartie, entite as Entite, CombatCourant.ListEntites);
-                CombatCourant.SyncroniserJoueur();
-                bw.ReportProgress(0, new object[] { "update" });
+                    Action(CombatCourant.TerrainPartie, entite as Entite, ListEntites);
+                //CombatCourant.SyncroniserJoueur();
+                DelUpdate du = UpdateInfo;
+                Dispatcher.Invoke(du);
                 bool vivante = false;
                 foreach (Entite entiteAtt in CombatCourant.ListAttaquants)
                 {
@@ -415,7 +389,6 @@ namespace GofusSharp
                 if (!vivante)
                 {
                     System.Windows.Forms.MessageBox.Show("L'équipe defendante a gagnée");
-                    bw.ReportProgress(0, "end");
                 }
                 vivante = false;
                 foreach (Entite entiteDef in CombatCourant.ListDefendants)
@@ -429,34 +402,13 @@ namespace GofusSharp
                 if (!vivante)
                 {
                     System.Windows.Forms.MessageBox.Show("L'équipe attaquante a gagnée");
-                    bw.ReportProgress(0, "end");
                 }
             }
         }
 
-        private void bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        internal void UpdateLog(string text)
         {
-            dynamic info = e.UserState;
-            switch (info[0] as string)
-            {
-                case "update":
-                    UpdateInfo();
-                    break;
-                case "end":
-                    bw.CancelAsync();
-                    Close();
-                    break;
-                case "log":
-                    tb_Log.Text += info[1];
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            btn_Next.IsEnabled = true;
+            tb_Log.Text += text;
         }
     }
 }

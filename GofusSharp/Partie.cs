@@ -24,17 +24,6 @@ namespace GofusSharp
             ListEntites = new Liste<EntiteInconnu>();
             DebuterPartie();
         }
-        internal Partie(Liste<Entite> ListAttaquants, Liste<Entite> ListDefendants)
-        {
-            this.ListAttaquants = ListAttaquants;
-            this.ListDefendants = ListDefendants;
-            Seed = new System.Random(valeurSeed);
-            GenererTerrain(10, 10);
-            PlacerJoueurs();
-            PlacerObstacles();
-            ListEntites = new Liste<EntiteInconnu>();
-            DebuterPartie();
-        }
 
         private void GenererTerrain(int Largeur, int Hauteur)
         {
@@ -143,14 +132,12 @@ namespace GofusSharp
                 }
                 entite.PV_MAX = vie + (vitalite * (entite.ClasseEntite.Nom != "sacrieur" ? 1 : 2));
                 entite.PV = entite.PV_MAX;
-                ListEntites.Add(new EntiteInconnu(entite));
+                //ListEntites.Add(new EntiteInconnu(entite));
             }
         }
 
         internal void DebuterAction(Entite entite)
         {
-            entite.PM = entite.PM_MAX;
-            entite.PA = entite.PA_MAX;
             foreach (Envoutement buff in entite.ListEnvoutements)
             {
                 switch (buff.Stat)
@@ -164,65 +151,71 @@ namespace GofusSharp
                 }
             }
             entite.ListEntites = ListEntites;
-            foreach (EntiteInconnu entiteInconnu in ListEntites)
+            foreach (Entite entiteCour in ListAttaquants.Concat(ListDefendants))
             {
-                foreach (Envoutement buff in entiteInconnu.ListEnvoutements)
+                foreach (Envoutement buff in entiteCour.ListEnvoutements)
                 {
                     if (buff.IdLanceur == entite.IdEntite)
                     {
                         buff.PasserTour();
                     }
                 }
-                entiteInconnu.ListEnvoutements.RemoveAll(x => x.TourRestants <= 0);
+                entiteCour.ListEnvoutements.RemoveAll(x => x.TourRestants <= 0);
             }
+        }
+
+        internal void FinirAction(Entite entite)
+        {
+            entite.PM = entite.PM_MAX;
+            entite.PA = entite.PA_MAX;
         }
 
         internal void SyncroniserJoueur()
         {
-            foreach (EntiteInconnu entiteInconnu in ListEntites)
-            {
-                bool existe = false;
-                foreach (Entite entite in ListAttaquants.Concat(ListDefendants))
-                {
-                    if (entite.IdEntite == entiteInconnu.IdEntite)
-                    {
-                        entite.TerrainEntite = TerrainPartie;
-                        entite.Position = entiteInconnu.Position;
-                        entite.PV = entiteInconnu.PV;
-                        entite.PV_MAX = entiteInconnu.PV_MAX;
-                        entite.ListEnvoutements = entiteInconnu.ListEnvoutements;
-                        entite.Etat = entiteInconnu.Etat;
-                        existe = true;
-                        break;
-                    }
-                }
-                if (!existe)
-                {
-                    Entite newInvoc = new Entite(entiteInconnu, "//Placeholder", TerrainPartie, entiteInconnu.Proprietaire);
-                    if (newInvoc.Equipe == EntiteInconnu.type.attaquant)
-                    {
-                        foreach (Entite entiteProp in ListAttaquants)
-                        {
-                            if (entiteProp.IdEntite == newInvoc.Proprietaire)
-                            {
-                                ListAttaquants.Insert(ListAttaquants.FindIndex(x => x == entiteProp), newInvoc);
-                                break;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        foreach (Entite entiteProp in ListDefendants)
-                        {
-                            if (entiteProp.IdEntite == newInvoc.Proprietaire)
-                            {
-                                ListDefendants.Insert(ListDefendants.FindIndex(x => x == entiteProp), newInvoc);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
+            //foreach (EntiteInconnu entiteInconnu in ListEntites)
+            //{
+            //    bool existe = false;
+            //    foreach (Entite entite in ListAttaquants.Concat(ListDefendants))
+            //    {
+            //        if (entite.IdEntite == entiteInconnu.IdEntite)
+            //        {
+            //            entite.TerrainEntite = TerrainPartie;
+            //            entite.Position = entiteInconnu.Position;
+            //            entite.PV = entiteInconnu.PV;
+            //            entite.PV_MAX = entiteInconnu.PV_MAX;
+            //            entite.ListEnvoutements = entiteInconnu.ListEnvoutements;
+            //            entite.Etat = entiteInconnu.Etat;
+            //            existe = true;
+            //            break;
+            //        }
+            //    }
+            //    if (!existe)
+            //    {
+            //        Entite newInvoc = new Entite(entiteInconnu, "//Placeholder", TerrainPartie, entiteInconnu.Proprietaire);
+            //        if (newInvoc.Equipe == EntiteInconnu.type.attaquant)
+            //        {
+            //            foreach (Entite entiteProp in ListAttaquants)
+            //            {
+            //                if (entiteProp.IdEntite == newInvoc.Proprietaire)
+            //                {
+            //                    ListAttaquants.Insert(ListAttaquants.FindIndex(x => x == entiteProp), newInvoc);
+            //                    break;
+            //                }
+            //            }
+            //        }
+            //        else
+            //        {
+            //            foreach (Entite entiteProp in ListDefendants)
+            //            {
+            //                if (entiteProp.IdEntite == newInvoc.Proprietaire)
+            //                {
+            //                    ListDefendants.Insert(ListDefendants.FindIndex(x => x == entiteProp), newInvoc);
+            //                    break;
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
         }
     }
 }

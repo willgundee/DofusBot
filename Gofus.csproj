@@ -387,9 +387,9 @@
     <Resource Include="Resources\GofusSharp\feca.png" />
     <Resource Include="Resources\GofusSharp\iop.png" />
     <Resource Include="Resources\GofusSharp\osamodas.png" />
-    <Resource Include="Resources\GofusSharp\pandawa.png" />
-    <Resource Include="Resources\GofusSharp\Roche0.png" />
+    <Resource Include="Resources\GofusSharp\ecaflip.png" />
     <Resource Include="Resources\GofusSharp\Roche1.png" />
+    <Resource Include="Resources\GofusSharp\Roche2.png" />
     <Resource Include="Resources\GofusSharp\sacrieur.png" />
     <Resource Include="Resources\GofusSharp\sadida.png" />
     <Resource Include="Resources\GofusSharp\sram.png" />
