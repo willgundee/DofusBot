@@ -11,15 +11,17 @@
 
         public string Date { get; set; }
 
+        public string Gagnant { get; set; }
+
 
         private int seed { get; set; }
-        public Partie(string a , string d ,string dt,int sd)
+        public Partie(string a , string d ,string dt,int sd,string ga)
         {
             Attaquant = a;
             Defendant = d;
             seed = sd;
             Date = dt;
-
+            Gagnant = ga;
         }
 
 
