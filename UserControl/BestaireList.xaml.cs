@@ -28,7 +28,7 @@ namespace Gofus
             Bestiaire = new Entite(bestiaire);
             int con = bestiaire.Count();
             //Bestiaire.ClasseEntite.
-            BitmapImage path = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/monsters/200/134.w200h.png"));
+            BitmapImage path = new BitmapImage(new Uri("../resources/" + Bestiaire.Nom + ".jpg", UriKind.Relative));
 
             ImgBest.Source = path;
 

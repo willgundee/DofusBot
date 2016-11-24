@@ -38,15 +38,19 @@ namespace Gofus
                     vieMax = item.ValeurMax.ToString();
                 }
                 if (item.Nom == Statistique.element.PM)
-                    PM = item.Valeur.ToString();
+                    PM = item.ValeurMin.ToString();
                 if (item.Nom == Statistique.element.PA)
-                    PA = item.Valeur.ToString();
+                    PA = item.ValeurMin.ToString();
 
 
             }
+
             InitializeComponent();
+            if (e.Nom==e.Nom)
+            {
+           
             lblNomBes.Text = e.Nom.ToString();
-            BitmapImage path = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/monsters/200/134.w200h.png"));
+            BitmapImage path = new BitmapImage(new Uri("../resources/" + e.Nom + ".jpg",UriKind.Relative));
 
             Imgbestai.Source = path;
             lstCar.Text += "CARACTÉRISTIQUES : " + Environment.NewLine + Environment.NewLine;
@@ -62,6 +66,7 @@ namespace Gofus
                 {
                     lstRes.Text += item.Nom.ToString() +" : "+ Environment.NewLine + " Entre "+ item.ValeurMin+" et "+ item.ValeurMax+Environment.NewLine + Environment.NewLine;
                 }
+            }
             }
         }
     }
