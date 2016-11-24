@@ -25,6 +25,7 @@ namespace GofusSharp
         internal Partie CombatCourant { get; set; }
         internal bool Generation { get; set; }
         internal double Speed { get; set; }
+        internal long IdPartie { get; set; }
         internal Log DelLog { get; set; }
 
         private delegate void DelUpdate();
@@ -40,11 +41,13 @@ namespace GofusSharp
             InitializeComponent();
             Generation = premiereGeneration;
             DelLog = UpdateLog;
+            IdPartie = idPartie;
             if (Generation)
             {
                 Gofus.BDService BD = new Gofus.BDService();
                 bool? resultat = GenererPartie(lstJoueurAtt, lstJoueurDef, seed);
                 BD.Update("UPDATE Parties SET attaquantAGagne = " + (resultat == null?"null":(resultat == true?"true":"false")) + " WHERE idPartie = " + idPartie + ";");
+                //TODO: LVL UP !
                 Generation = false;
             }
             Speed = 1.5;
@@ -491,6 +494,8 @@ namespace GofusSharp
                 if (!vivante)
                 {
                     System.Windows.Forms.MessageBox.Show("L'équipe defendante a gagnée");
+                    //TODO ouvrir la fenetre resultat avec le param IdPartie
+                    Close();
                 }
                 vivante = false;
                 foreach (Entite entiteDef in CombatCourant.ListDefendants)
@@ -504,6 +509,8 @@ namespace GofusSharp
                 if (!vivante)
                 {
                     System.Windows.Forms.MessageBox.Show("L'équipe attaquante a gagnée");
+                    //TODO ouvrir la fenetre resultat avec le param IdPartie
+                    Close();
                 }
             }
         }
