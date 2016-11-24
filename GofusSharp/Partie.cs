@@ -132,6 +132,8 @@ namespace GofusSharp
                 }
                 entite.PV_MAX = vie + (vitalite * (entite.ClasseEntite.Nom != "sacrieur" ? 1 : 2));
                 entite.PV = entite.PV_MAX;
+                entite.PA = entite.PA_MAX;
+                entite.PM = entite.PM_MAX;
                 //ListEntites.Add(new EntiteInconnu(entite));
             }
         }
@@ -150,7 +152,9 @@ namespace GofusSharp
                         break;
                 }
             }
-            entite.ListEntites = ListEntites;
+            entite.ListEntites = new Liste<EntiteInconnu>();
+            foreach (Entite entiteCour in ListAttaquants.Concat(ListDefendants))
+                entite.ListEntites.Add(new EntiteInconnu(entiteCour));
             foreach (Entite entiteCour in ListAttaquants.Concat(ListDefendants))
             {
                 foreach (Envoutement buff in entiteCour.ListEnvoutements)

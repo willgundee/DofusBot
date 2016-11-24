@@ -280,21 +280,6 @@ namespace GofusSharp
                         Entite perso = CombatCourant.ListAttaquants.Concat(CombatCourant.ListDefendants).Where(x => x.Position.X == Grid.GetRow(sPnl) && x.Position.Y == Grid.GetColumn(sPnl)).First();
                         ImageSource SourceImageClasse = new BitmapImage(new Uri(@"..\..\Resources\GofusSharp\" + perso.ClasseEntite.Nom + @".png", UriKind.Relative));
                         ImageSprite.Source = SourceImageClasse;
-                        StackPanel infoPerso = new StackPanel();
-                        TextBlock Nom = new TextBlock();
-                        Nom.Text = perso.Nom;
-                        Nom.FontWeight = FontWeights.Bold;
-                        TextBlock PV = new TextBlock();
-                        PV.Text = "PV: " + perso.PV;
-                        TextBlock PA = new TextBlock();
-                        PA.Text = "PA: " + perso.PA;
-                        TextBlock PM = new TextBlock();
-                        PM.Text = "PM: " + perso.PM;
-                        infoPerso.Children.Add(Nom);
-                        infoPerso.Children.Add(PV);
-                        infoPerso.Children.Add(PA);
-                        infoPerso.Children.Add(PM);
-                        ImageSprite.ToolTip = infoPerso;
                         sPnl.Children.Add(ImageSprite);
                         break;
                 }
@@ -317,6 +302,97 @@ namespace GofusSharp
                 info.Append("\nPosition: X: 0 Y: 0");
             info.Append("\nEtat: " + CombatCourant.ListDefendants.First().Etat);
             tb_perso1.Text = info.ToString();
+        }
+
+        private void AjouterToolTip(Image img, Entite perso)
+        {
+            StackPanel infoPerso = new StackPanel();
+
+
+            TextBlock Nom = new TextBlock();
+            Nom.Text = perso.Nom;
+            Nom.FontWeight = FontWeights.Bold;
+
+            TextBlock PV = new TextBlock();
+            PV.Text = "PV: " + perso.PV + "/" + perso.PV_MAX;
+
+            TextBlock PA = new TextBlock();
+            PA.Text = "PA: " + perso.PA + "/" + perso.PA_MAX;
+
+            TextBlock PM = new TextBlock();
+            PM.Text = "PM: " + perso.PM + "/" + perso.PM_MAX;
+
+            infoPerso.Children.Add(Nom);
+            infoPerso.Children.Add(PV);
+            infoPerso.Children.Add(PA);
+            infoPerso.Children.Add(PM);
+
+
+            TextBlock Stat = new TextBlock();
+            Stat.Text = "Résistance";
+            Stat.FontWeight = FontWeights.Bold;
+
+            foreach (Statistique resis in perso.ListStatistiques)
+            {
+                TextBlock res = new TextBlock();
+                switch (resis.Nom)
+                {
+                    case Statistique.type.RES_neutre:
+                        res.Text = "Neutre: " + resis.Valeur;
+                        infoPerso.Children.Add(res);
+                        break;
+                    case Statistique.type.RES_feu:
+                        res.Text = "Feu: " + resis.Valeur;
+                        infoPerso.Children.Add(res);
+                        break;
+                    case Statistique.type.RES_air:
+                        res.Text = "Air: " + resis.Valeur;
+                        infoPerso.Children.Add(res);
+                        break;
+                    case Statistique.type.RES_terre:
+                        res.Text = "Terre: " + resis.Valeur;
+                        infoPerso.Children.Add(res);
+                        break;
+                    case Statistique.type.RES_eau:
+                        res.Text = "Eau: " + resis.Valeur;
+                        infoPerso.Children.Add(res);
+                        break;
+                    case Statistique.type.RES_Pourcent_neutre:
+                        res.Text = "%Neutre: " + resis.Valeur;
+                        infoPerso.Children.Add(res);
+                        break;
+                    case Statistique.type.RES_Pourcent_feu:
+                        res.Text = "%Feu: " + resis.Valeur;
+                        infoPerso.Children.Add(res);
+                        break;
+                    case Statistique.type.RES_Pourcent_air:
+                        res.Text = "%Air: " + resis.Valeur;
+                        infoPerso.Children.Add(res);
+                        break;
+                    case Statistique.type.RES_Pourcent_terre:
+                        res.Text = "%Terre: " + resis.Valeur;
+                        infoPerso.Children.Add(res);
+                        break;
+                    case Statistique.type.RES_Pourcent_eau:
+                        res.Text = "%Eau: " + resis.Valeur;
+                        infoPerso.Children.Add(res);
+                        break;
+                }
+            }
+
+
+            TextBlock Envout = new TextBlock();
+            Envout.Text = "Envoutement";
+            Envout.FontWeight = FontWeights.Bold;
+
+            foreach (Envoutement e in perso.ListEnvoutements)
+            {
+                TextBlock Env = new TextBlock();
+                Env.Text = e.Stat.ToString() + ": " + e.Valeur + " pour " + e.TourRestants + " tour" + (e.TourRestants == 1?"":"s");
+                infoPerso.Children.Add(Env);
+            }
+
+            img.ToolTip = infoPerso;
         }
 
         private void srv_Log_ScrollChanged(object sender, ScrollChangedEventArgs e)
@@ -362,6 +438,7 @@ namespace GofusSharp
 
         private void AsyncWork()
         {
+            //les stats des liste entite sont vide a partir d'ici
             foreach (Entite entite in Liste<Entite>.ConcatAlternate(CombatCourant.ListAttaquants, CombatCourant.ListDefendants))
             {
                 if (entite.Etat == EntiteInconnu.typeEtat.mort)
@@ -374,7 +451,7 @@ namespace GofusSharp
                     Action(CombatCourant.TerrainPartie, entite as Personnage, ListEntites);
                 else
                     Action(CombatCourant.TerrainPartie, entite as Entite, ListEntites);
-                //CombatCourant.SyncroniserJoueur();
+                CombatCourant.FinirAction(entite);
                 DelUpdate du = UpdateInfo;
                 Dispatcher.Invoke(du);
                 bool vivante = false;
