@@ -421,19 +421,44 @@ namespace GofusSharp
             }
         }
 
-        private void txtNum_TextChanged(object sender, TextChangedEventArgs e)
+        private void txtNum_LostFocus(object sender, RoutedEventArgs e)
         {
-
+            TextBox tb_num = sender as TextBox;
+            try
+            {
+                Speed = Convert.ToDouble(tb_num.Text);
+                Speed = Math.Round(Speed, 1);
+                if (Speed < 0.1)
+                    Speed = 0.1;
+                if (Speed > 20)
+                    Speed = 20;
+                tb_num.Text = Speed.ToString();
+            }
+            catch (Exception)
+            {
+                tb_num.Text = Speed.ToString();
+            }
+            
         }
 
         private void cmdUp_Click(object sender, RoutedEventArgs e)
         {
-
+            Speed += 0.5;
+            if (Speed < 0.1)
+                Speed = 0.1;
+            if (Speed > 20)
+                Speed = 20;
+            txtNum.Text = Speed.ToString();
         }
 
         private void cmdDown_Click(object sender, RoutedEventArgs e)
         {
-
+            Speed -= 0.5;
+            if (Speed < 0.1)
+                Speed = 0.1;
+            if (Speed > 20)
+                Speed = 20;
+            txtNum.Text = Speed.ToString();
         }
 
         private void AsyncWork()
@@ -486,6 +511,34 @@ namespace GofusSharp
         internal void UpdateLog(string text)
         {
             tb_Log.Text += text;
+        }
+
+        private void chb_AutoPlay_Checked(object sender, RoutedEventArgs e)
+        {
+            btn_Next.IsEnabled = false;
+        }
+
+        private void chb_AutoPlay_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (btn_StartStop.Content.ToString() == "Pause")
+                btn_Next.IsEnabled = true;
+        }
+
+        private void btn_StartStop_Click(object sender, RoutedEventArgs e)
+        {
+            Button StartStop = sender as Button;
+            switch (StartStop.Content.ToString())
+            {
+                case "Pause":
+                    StartStop.Content = "Jouer";
+                    btn_Next.IsEnabled = false;
+                    break;
+                case "Jouer":
+                    StartStop.Content = "Pause";
+                    if (chb_AutoPlay.IsChecked == false)
+                        btn_Next.IsEnabled = true;
+                    break;
+            }
         }
     }
 }

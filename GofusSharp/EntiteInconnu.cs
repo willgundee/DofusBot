@@ -261,24 +261,7 @@ namespace GofusSharp
             }
         }
         private int proprietaire;
-        public Liste<Statistique> ListStatistiques
-        {
-            get
-            {
-                if (this is Entite)
-                    return listStatistiques;
-                else
-                    return VraiEnti.ListStatistiques;
-            }
-            internal set
-            {
-                if (this is Entite)
-                    listStatistiques = value;
-                else
-                    VraiEnti.ListStatistiques = value;
-            }
-        }
-        private Liste<Statistique> listStatistiques;
+        public Liste<Statistique> ListStatistiques { get; internal set; }
         public Liste<Envoutement> ListEnvoutements
         {
             get
