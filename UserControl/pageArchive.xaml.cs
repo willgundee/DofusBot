@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
@@ -21,7 +22,7 @@ namespace Gofus
     {
 
         public BDService bd = new BDService();
-        public List<Partie> lstpartie;
+        public ObservableCollection<Partie> lstpartie;
         public List<String> lstNomPerso;
 
         public int idJoueur { get; set; }
@@ -29,7 +30,7 @@ namespace Gofus
         {
             InitializeComponent();
             idJoueur = id;
-            lstpartie = new List<Partie>();
+            lstpartie = new ObservableCollection<Partie>();
             dgHistorique.ItemsSource = lstpartie;
             cboTypePartie.Items.Add("Les partie de tout le monde");
             cboTypePartie.Items.Add("Mes Parties");
@@ -39,7 +40,7 @@ namespace Gofus
         public pageArchive()
         {
             InitializeComponent();
-            lstpartie = new List<Partie>();
+            lstpartie = new ObservableCollection<Partie>();
             btnQuitter.Visibility = Visibility.Visible;
             btnCreer.Visibility = Visibility.Visible;
             btn_Refresh.Visibility = Visibility.Hidden;
@@ -71,20 +72,28 @@ namespace Gofus
                             lstDef = infoJson[1];
                             if (type == "all")
                             {
-                                lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1].Substring(0, 10), Int32.Parse(p[2]), (p[4] == "True") ? lstAtt[0].Nom : lstDef[0].Nom));
+                                Dispatcher.Invoke(new Action(() =>
+                                {
+                                    lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1].Substring(0, 10), Int32.Parse(p[2]), (p[4] == "True") ? lstAtt[0].Nom : lstDef[0].Nom));
+                                }));
+
                             }
                             else
                             {
                                 if (lstAtt[0].idProprietaire == idJoueur || lstDef[0].idProprietaire == idJoueur)
                                 {
-                                    lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1].Substring(0, 10), Int32.Parse(p[2]), (p[4] == "True") ? lstAtt[0].Nom : lstDef[0].Nom));
+                                    Dispatcher.Invoke(new Action(() =>
+                                    {
+                                        lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1].Substring(0, 10), Int32.Parse(p[2]), (p[4] == "True") ? lstAtt[0].Nom : lstDef[0].Nom));
+                                    }));
                                 }
                             }
                         }
                     }
                 }
             };
-            Refresh.RunWorkerCompleted += (s, e) => {
+            Refresh.RunWorkerCompleted += (s, e) =>
+            {
                 dgHistorique.Items.Refresh();
             };
             Refresh.RunWorkerAsync();
