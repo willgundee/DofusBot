@@ -56,6 +56,7 @@ namespace Gofus
         private PageDocumentation pgDoc;
         private PageInventaire pgInv;
         private PagePerso pgperso;
+        private pAdmin pgAdmin;
 
         public MainWindow(int id)
         {
@@ -63,14 +64,15 @@ namespace Gofus
             InitializeComponent();
             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
             idJoueur = id;
-            pgchat = new pageClavardage(Player.NomUtilisateur,false,id.ToString());
+            pgchat = new pageClavardage(Player.NomUtilisateur, false, id.ToString());
             contentClavardage.Content = pgchat;
             string n = " -" + Player.NomUtilisateur;
             Title += n;
             if (Player.estAdmin)
             {
+                pgAdmin = new pAdmin();
                 PaneauAdmin.Visibility = Visibility.Visible;
-                controlAdmin.Content = new pAdmin();
+                controlAdmin.Content = pgAdmin;
             }
             else
             {
@@ -88,28 +90,30 @@ namespace Gofus
             lbxCara.ItemsSource = LstCaras;
 
             fillSortCbo();
-
-
             #endregion
         }
 
 
         protected override void OnClosed(EventArgs e)
         {
-
-
             System.Threading.Thread ThreadBD = new System.Threading.Thread(new System.Threading.ThreadStart(() => bd.Update("UPDATE  Joueurs SET  estConnecte =  0 WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "'")));
             ThreadBD.Start();
             bool test = bd.Update("UPDATE  Joueurs SET  estConnecte =  0 WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "'");
 
             System.Threading.Thread.Sleep(1000);
-            if(pgchat != null)
+            if (pgchat != null)
+            {
                 pgchat.aTimer.Stop();
+                pgchat.chat.CloseConnection();
+            }
+
             if (pgchat.fenetreChat != null)
             {
+                pgchat.fenetreChat.pgCht.aTimer.Stop();
+                pgchat.fenetreChat.pgCht.chat.CloseConnection();
                 pgchat.fenetreChat.Close();
             }
-                
+
             //  pgperso.timer.Stop();
             if (System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(PageInventaire)) != null)
                 System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(PageInventaire)).Close();
@@ -373,8 +377,8 @@ namespace Gofus
 
         private void PgAdmin_Selected(object sender, RoutedEventArgs e)
         {
-            if (!controlAdmin.HasContent)
-                controlAdmin.Content = new pAdmin();
+         
+                
         }
 
 
@@ -440,18 +444,19 @@ namespace Gofus
                 return;
             if (ti_selected.Header.ToString() == "+")
             {
+                string codeBase = "EntiteInconnu ennemi = Perso.EnnemiLePlusProche(ListEntites);\nPerso.AvancerVers(ennemi);\nPerso.Attaquer(ennemi);";
                 object f = e.Source;
                 string nom = "Script" + tc_Edit.Items.Count;
-                long id = bd.insertion("INSERT INTO Scripts (contenu, nom, uuid) VALUES ('', '" + nom + "', uuid());");
+                long id = bd.insertion("INSERT INTO Scripts (contenu, nom, uuid) VALUES ('"+codeBase+"', '" + nom + "', uuid());");
                 if (id != 0)
                 {
                     if (bd.insertion("INSERT INTO JoueursScripts (idJoueur, idScript) VALUES ((SELECT idJoueur FROM Joueurs WHERE nomUtilisateur ='" + Player.NomUtilisateur + "'), " + id + ");") != 0)
                     {
                         TabItem onglet = ti_selected;
                         string uuid = bd.selection("SELECT uuid FROM Scripts WHERE idScript = " + id + ";").First().First();
-                        Player.LstScripts.Add(new Script(new List<string>() { "", nom, uuid }));
+                        Player.LstScripts.Add(new Script(new List<string>() { codeBase, nom, uuid }));
                         onglet.Header = nom;
-                        onglet.Content = new pageScript(uuid);
+                        onglet.Content = new pageScript(uuid,codeBase);
                         if (tc_Edit.Items.Count < 10)
                         {
                             TabItem ongletPlus = new TabItem();

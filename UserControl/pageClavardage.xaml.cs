@@ -63,12 +63,12 @@ namespace Gofus
                     {
                         // Modfication de la txtboxHistorique
                         txtboxHistorique.Text = "";
-                        StringBuilder Content = new StringBuilder();
+                        StringBuilder Contenu = new StringBuilder();
                         foreach (string m in messages)
                         {
-                            Content.Append(m);
+                            Contenu.Append(m);
                         }
-                        txtboxHistorique.Text = Content.ToString();
+                        txtboxHistorique.Text = Contenu.ToString();
                     }));
                 });
                 // Démarrage du Thread.
@@ -106,6 +106,7 @@ namespace Gofus
                 Scroll.ScrollToEnd();
                 txtMessage.Text = "";
             }));
+          
         }
         private void OnKeyDowntxtMessage(object sender, System.Windows.Input.KeyEventArgs e)
         {

@@ -1,4 +1,6 @@
-﻿namespace Gofus
+﻿using System;
+
+namespace Gofus
 {
     public class Partie
     {
@@ -11,6 +13,8 @@
 
         public string Date { get; set; }
 
+        public DateTime trueDate { get; set; }
+
         public string Gagnant { get; set; }
 
 
@@ -22,6 +26,9 @@
             Defendant = d;
             seed = sd;
             Date = dt;
+            trueDate = new DateTime();
+            trueDate = DateTime.ParseExact(dt, "yyyy-MM-dd HH:mm:ss,fff",System.Globalization.CultureInfo.InvariantCulture);
+           
             Gagnant = ga;
             IdPartie = id;
         }

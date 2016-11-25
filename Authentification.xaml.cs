@@ -78,7 +78,7 @@ namespace Gofus
         private void btnInscription_Click(object sender, RoutedEventArgs e)
         {
             // System.Windows.Forms.MessageBox.Show("Bientôt disponible !");
-            créationUser creation = new créationUser();
+            CreationUser creation = new CreationUser();
             creation.Show();
             this.Close();
         }

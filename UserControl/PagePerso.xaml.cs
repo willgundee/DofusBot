@@ -25,6 +25,8 @@ namespace Gofus
         public int nbScript = 0;
         public int refresh = 0;
         public DispatcherTimer timer = new DispatcherTimer();
+
+        
         public PagePerso(Entite ent, Joueur Player)
         {// refaire le min/max
             InitializeComponent();
@@ -49,10 +51,7 @@ namespace Gofus
                 if (bobRoss[0] != "rien")
                 {
                     persoActuel = new Entite(bobRoss);
-
                     starter(Player, persoActuel);
-
-
                 }
             };
 
@@ -74,10 +73,6 @@ namespace Gofus
 
             }));
 
-            #region .
-            /* pgbExp.Foreground = new SolidColorBrush(Colors.CornflowerBlue);
-             pgbExp.Background = new SolidColorBrush(Colors.Chartreuse);*/
-            #endregion
             if (ent.Niveau < 200)
             {
                 Dispatcher.Invoke(new Action(() =>
@@ -86,9 +81,6 @@ namespace Gofus
                     pgbExp.Minimum = Statistique.dictLvl[ent.Niveau];
                     pgbExp.ToolTip = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur.ToString() + " sur " + Statistique.dictLvl[ent.LstStats.First(x => x.Nom == Statistique.element.experience).toLevel() + 1].ToString() + " exp";
                 }));
-                //1 950
-                // 2 657
-                // 5 000
 
             }
             else
@@ -142,6 +134,13 @@ namespace Gofus
                 Imgclasse.Source = new BitmapImage(new Uri(SourceImgClasse + ".png", UriKind.Relative));
             });
 
+
+            Dispatcher.BeginInvoke((Action)delegate
+            {
+                BitmapImage path = new BitmapImage(new Uri("../resources/fondEquipement.jpg", UriKind.Relative));
+
+            Imgfond.Source = path;
+            });
             //itmCtrlDesc.ItemsSource = LstDesc;
             foreach (Equipement item in ent.LstEquipements)
             {

@@ -74,7 +74,7 @@ namespace Gofus
                             {
                                 Dispatcher.Invoke(new Action(() =>
                                 {
-                                    lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1].Substring(0, 10), Int32.Parse(p[2]), (p[4] == "True" ? lstAtt[0].Nom : lstDef[0].Nom), Convert.ToInt32(p[0])));
+                                    lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1], Int32.Parse(p[2]), (p[4] == "True" ? lstAtt[0].Nom : lstDef[0].Nom), Convert.ToInt32(p[0])));
                                 }));
 
                             }
@@ -84,7 +84,7 @@ namespace Gofus
                                 {
                                     Dispatcher.Invoke(new Action(() =>
                                     {
-                                        lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1].Substring(0, 10), Int32.Parse(p[2]), (p[4] == "True" ? lstAtt[0].Nom : lstDef[0].Nom), Convert.ToInt32(p[0])));
+                                        lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1].Substring(0, 10), Int32.Parse(p[2]), (p[4] == "True") ? lstAtt[0].Nom : lstDef[0].Nom));
                                     }));
                                 }
                             }
@@ -125,7 +125,7 @@ namespace Gofus
 
         private void btnCreer_Click(object sender, RoutedEventArgs e)
         {
-            CreationCompteWindow creation = new CreationCompteWindow();
+            CreationUser creation = new CreationUser();
             creation.Show();
             System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(PageVisionneuse)).Close();
         }

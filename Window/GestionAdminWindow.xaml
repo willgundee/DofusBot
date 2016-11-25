@@ -12,7 +12,7 @@
         </Grid.ColumnDefinitions>
         <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" ItemsSource="{Binding lstUtilisateurs}"  Margin="10,0,0,80" VerticalAlignment="Bottom" Height="390" Width="424" ColumnWidth="*" AutoGenerateColumns="False" SelectionChanged="dataGrid_SelectionChanged" >
         </DataGrid>
-        <Button x:Name="btnSauvegarder" Content="Sauvegarder" HorizontalAlignment="Left" Margin="10,407,0,0" VerticalAlignment="Top" Width="134" Click="button_Click" Height="43" RenderTransformOrigin="0.52,8.945"/>
-        <Button x:Name="btnAnnuler" Content="Annuler" HorizontalAlignment="Left" Margin="300,407,0,0" VerticalAlignment="Top" Width="134" Height="43" Click="button1_Click"/>
+        <Button x:Name="btnSauvegarder" Content="Sauvegarder" HorizontalAlignment="Left" Margin="10,407,0,0" VerticalAlignment="Top" Width="134" Click="btnSauvegarder_Click" Height="43" RenderTransformOrigin="0.52,8.945"/>
+        <Button x:Name="btnAnnuler" Content="Annuler" HorizontalAlignment="Left" Margin="300,407,0,0" VerticalAlignment="Top" Width="134" Height="43" Click="btnAnnuler_Click"/>
     </Grid>
 </Window>

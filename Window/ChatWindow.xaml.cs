@@ -15,13 +15,19 @@ namespace Gofus
     /// </summary>
     /// 
 
+
+
     public partial class ChatWindow : Window
     {
-        public ChatWindow(string user,string id)
+        public pageClavardage pgCht;
+        public ChatWindow(string user, string id)
         {
             InitializeComponent();
-            Dispatcher.Invoke(new Action(() => Contenu.Content = new pageClavardage(user, true,id)));
+            pgCht = new pageClavardage(user, true, id);
+            Dispatcher.Invoke(new Action(() => Contenu.Content = pgCht));
         }
+
+
     }
 }
 

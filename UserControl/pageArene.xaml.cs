@@ -54,7 +54,7 @@ namespace Gofus
                      {
                          int min = Statistique.toLevel((double.Parse(enti[1])));
                          int max = Statistique.toLevel((double.Parse(enti[2])));
-                         string lvl = "Entre " + min + " et " + max;
+                         string lvl = (min == max)? max.ToString() : "Entre " + min.ToString() + " et " + max.ToString();
                          lstAdversaires.Add(new Adversaire(enti[0], lvl));
                      }
                      else
@@ -73,6 +73,7 @@ namespace Gofus
                      textColumn = new DataGridTextColumn();
                      textColumn.Header = "Niveau";
                      textColumn.Binding = new Binding("level");
+                     
                      dataGrid.Columns.Add(textColumn);
                      textColumn = new DataGridTextColumn();
                      textColumn.Header = "Nom";
@@ -139,7 +140,7 @@ namespace Gofus
                 int seed = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds + lstAtt.Sum(x => x.idProprietaire) + lstDef.Sum(x => x.idProprietaire);
                 long idPartie = bd.insertion("INSERT INTO Parties (seed, temps, infoEntites) VALUE(" + seed + ", NOW(), '" + MySqlHelper.EscapeString(strJson) + "');");
                 foreach (int idPropUnique in lstAtt.Select(x => x.idProprietaire).Distinct())
-                    bd.insertion("INSERT INTO PartiesJoueurs (idPartie, idJoueur, estAttaquant) VALUE(" + idPartie + ", " + idPropUnique + ", true);");
+                    bd.insertion("INSERT INTO PartiesJoueurs (idPartie, idJoueur, estAttaquant) VALUE(" + idPartie + ", " + (idPropUnique == 0 ? 103 : idPropUnique) + ", true);");
                 foreach (int idPropUnique in lstDef.Select(x => x.idProprietaire).Distinct())
                     bd.insertion("INSERT INTO PartiesJoueurs (idPartie, idJoueur, estAttaquant) VALUE(" + idPartie + ", " + idPropUnique + ", false);");
                 GofusSharp.Combat combat = new GofusSharp.Combat(lstAtt, lstDef, seed, idPartie);

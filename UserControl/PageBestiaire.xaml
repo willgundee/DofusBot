@@ -14,7 +14,7 @@
 
         <Label Name="lblNomBestiaire" Content="Bestiaire :" FontSize="16" Margin="10,50,0,0"/>
         <ListBox Name="lbxBestiaire" Background="WhiteSmoke" Grid.Column="0" Margin="10,80,81,80" ScrollViewer.HorizontalScrollBarVisibility="Disabled"  />
-        <Label Name="lblDescription" Content="Description" VerticalAlignment="Top" Height="30" Grid.Column="1" FontSize="16" Margin="40,10,40,0" />
+        <Label Name="lblDescription" Content="Description" VerticalAlignment="Top" Height="30" Grid.Column="1" FontSize="16" Margin="12,10,68,0" />
         <ItemsControl Name="lbxDescBestiaire" Background="WhiteSmoke" Grid.Column="1" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,40,15,20" Width="250" Height="500" ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
 
     </Grid>

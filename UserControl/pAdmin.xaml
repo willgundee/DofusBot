@@ -23,6 +23,7 @@
         <Label x:Name="label1" Content="Paneau Administration" HorizontalAlignment="Left" Margin="147,10,0,0" VerticalAlignment="Top" FontSize="24" Height="52"/>
         <Button x:Name="btnSupprimerRapport" Content="Supprimer le rapport sélectionner" HorizontalAlignment="Left" Margin="277,411,0,0" VerticalAlignment="Top" Width="263" Click="button_Click"/>
         <Button x:Name="btnFenetre" Content="Gèrer les droits d'administrateurs" HorizontalAlignment="Left" Margin="277,155,0,0" VerticalAlignment="Top" Width="234" Click="btnFenetre_Click"/>
+        <Button x:Name="btnRefresh" Content="Rafraichir la liste" HorizontalAlignment="Left" Margin="87,411,0,0" VerticalAlignment="Top" Width="185" Click="btnRefresh_Click"/>
 
     </Grid>
 </UserControl>

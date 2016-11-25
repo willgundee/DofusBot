@@ -46,10 +46,16 @@ namespace Gofus
             // Initialisation des propriétés
             contenuChat = new ObservableCollection<string>();
             messages = new ObservableCollection<MessageText>();
-
             bdSelect = new BDService();
             bdInsert = new BDService();
         }
+
+        public void CloseConnection()
+        {
+            bdSelect.StopChat();
+        }
+
+
 
         /// <summary>
         /// Permet de refresh le contenu du chat.

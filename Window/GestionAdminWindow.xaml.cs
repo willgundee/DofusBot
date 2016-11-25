@@ -23,44 +23,51 @@ namespace Gofus
     public partial class GestionAdminWindow : Window
     {
         BDService bdAdmin;
+
+        /// <summary>
+        /// Liste qui contient la copie originel de la liste des utilisateurs
+        /// </summary>
         public ObservableCollection<Utilisateur> lstBackUp;
+
+        /// <summary>
+        /// Liste qui contient les utilisateurs, Elle est liée à la datagrid.
+        /// C'est cette liste qui subira les modifications
+        /// </summary>
         public ObservableCollection<Utilisateur> lstUtilisateurs;
+
+        /// <summary>
+        /// Gestion d'admin,
+        /// Contient la liste des utilisateurs dans la bd.
+        ///  st
+        /// </summary>
         public GestionAdminWindow()
         {
             InitializeComponent();
-
-
             dataGrid.AutoGenerateColumns = false;
             lstBackUp = new ObservableCollection<Utilisateur>();
             lstUtilisateurs = new ObservableCollection<Utilisateur>();
             bdAdmin = new BDService();
-
             List<string>[] result = bdAdmin.selection("SELECT nomUtilisateur,estAdmin FROM Joueurs");
             foreach (List<string> item in result)
             {
                 lstUtilisateurs.Add(new Utilisateur(item[0], ((item[1] == "True") ? true : false)));
             }
-
             dataGrid.ItemsSource = lstUtilisateurs;
             DataGridTextColumn textColumn = new DataGridTextColumn();
             textColumn.Header = "Nom Utilisateur";
             textColumn.Binding = new System.Windows.Data.Binding("nom");
             textColumn.IsReadOnly = true;
             dataGrid.Columns.Add(textColumn);
-
-
             DataGridCheckBoxColumn boolColumn = new DataGridCheckBoxColumn();
             boolColumn.Header = "Administrateur";
             boolColumn.Binding = new System.Windows.Data.Binding("estAdmin");
             dataGrid.Columns.Add(boolColumn);
             dataGrid.FrozenColumnCount = 2;
-
             foreach (Utilisateur u in lstUtilisateurs)
                 lstBackUp.Add(new Utilisateur(u.nom,u.estAdmin));
             dataGrid.Items.Refresh();
-
         }
-        private void button_Click(object sender, RoutedEventArgs e)
+        private void btnSauvegarder_Click(object sender, RoutedEventArgs e)
         {
             int i = 0;
             foreach (Utilisateur u in lstUtilisateurs)
@@ -73,7 +80,6 @@ namespace Gofus
                 i++;
             }
         }
-
         public void BackUpComptes()
         {
             lstBackUp.Clear();
@@ -83,24 +89,29 @@ namespace Gofus
             }
         }
 
+        /// <summary>
+        ///  Permet de reset la datagrid et de réafficher la lste originel.
+        /// </summary>
         public void Reset()
         {
-            lstUtilisateurs.Clear();
+            dataGrid.ItemsSource = null;
+            lstUtilisateurs = new ObservableCollection<Utilisateur>();
             foreach (Utilisateur u in lstBackUp)
             {
                 lstUtilisateurs.Add(new Utilisateur (u.nom,u.estAdmin));
             }
+
+            dataGrid.ItemsSource = lstUtilisateurs;
         }
 
-
-        private void button1_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnAnnuler_Click(object sender, RoutedEventArgs e)
         {
             Dispatcher.Invoke(new Action(() => Reset()));
-        }
-
-        private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
     }
 }

@@ -28,7 +28,17 @@ namespace Gofus
             ctb_main.UpdateSyntaxHightlight();
             ctb_main.UpdateTreeView();
         }
-        
+        public pageScript(string UUID, string code)
+        {
+            InitializeComponent();
+            this.UUID = UUID;
+            TreeNode[] template = generateTreeTemplate();
+            ctb_main.Text = code;
+            ctb_main.CreateTreeView(generateTree(template), template);
+            ctb_main.UpdateSyntaxHightlight();
+            ctb_main.UpdateTreeView();
+        }
+
         #region truc trop long de ced
         //**************************************************************************************************
         private void btn_run_Click(object sender, RoutedEventArgs e)
@@ -1380,7 +1390,7 @@ namespace Gofus
                 {
                     public class Combat
                     {
-                        public static void Action(Terrain terrain, Entite Perso, Liste<EntiteInconnu> ListEntites)
+                        public static void Action(Terrain terrain, Personnage Perso, Liste<EntiteInconnu> ListEntites)
                         {
                             user_code
                         }
