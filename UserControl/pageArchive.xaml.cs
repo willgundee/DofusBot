@@ -39,9 +39,8 @@ namespace Gofus
             InitializeComponent();
             lstpartie = new List<Partie>();
             btnQuitter.Visibility = Visibility.Visible;
-            lblQuitter.Visibility = Visibility.Visible;
-            lblCreer.Visibility = Visibility.Visible;
             btnCreer.Visibility = Visibility.Visible;
+            btn_Refresh.Visibility = Visibility.Hidden;
             dgHistorique.ItemsSource = lstpartie;
             cboTypePartie.Visibility = Visibility.Hidden;
             loadParties("all");
@@ -70,7 +69,7 @@ namespace Gofus
 
                         if (type == "all")
                         {
-                            lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1].Substring(0, 10), Int32.Parse(p[2]), (p[4] == "True") ? lstAtt[0].Nom: lstDef[0].Nom));
+                            lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1].Substring(0, 10), Int32.Parse(p[2]), (p[4] == "True") ? lstAtt[0].Nom : lstDef[0].Nom));
                         }
                         else
                         {
