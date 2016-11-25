@@ -56,6 +56,7 @@ namespace Gofus
         private PageDocumentation pgDoc;
         private PageInventaire pgInv;
         private PagePerso pgperso;
+        private pAdmin pgAdmin;
 
         public MainWindow(int id)
         {
@@ -63,14 +64,15 @@ namespace Gofus
             InitializeComponent();
             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
             idJoueur = id;
-            pgchat = new pageClavardage(Player.NomUtilisateur,false,id.ToString());
+            pgchat = new pageClavardage(Player.NomUtilisateur, false, id.ToString());
             contentClavardage.Content = pgchat;
             string n = " -" + Player.NomUtilisateur;
             Title += n;
             if (Player.estAdmin)
             {
+                pgAdmin = new pAdmin();
                 PaneauAdmin.Visibility = Visibility.Visible;
-                controlAdmin.Content = new pAdmin();
+                controlAdmin.Content = pgAdmin;
             }
             else
             {
@@ -94,20 +96,24 @@ namespace Gofus
 
         protected override void OnClosed(EventArgs e)
         {
-
-
             System.Threading.Thread ThreadBD = new System.Threading.Thread(new System.Threading.ThreadStart(() => bd.Update("UPDATE  Joueurs SET  estConnecte =  0 WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "'")));
             ThreadBD.Start();
             bool test = bd.Update("UPDATE  Joueurs SET  estConnecte =  0 WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "'");
 
             System.Threading.Thread.Sleep(1000);
-            if(pgchat != null)
+            if (pgchat != null)
+            {
                 pgchat.aTimer.Stop();
+                pgchat.chat.CloseConnection();
+            }
+
             if (pgchat.fenetreChat != null)
             {
+                pgchat.fenetreChat.pgCht.aTimer.Stop();
+                pgchat.fenetreChat.pgCht.chat.CloseConnection();
                 pgchat.fenetreChat.Close();
             }
-                
+
             //  pgperso.timer.Stop();
             if (System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(PageInventaire)) != null)
                 System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(PageInventaire)).Close();
@@ -371,8 +377,8 @@ namespace Gofus
 
         private void PgAdmin_Selected(object sender, RoutedEventArgs e)
         {
-            if (!controlAdmin.HasContent)
-                controlAdmin.Content = new pAdmin();
+         
+                
         }
 
 

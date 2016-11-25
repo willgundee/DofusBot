@@ -7,6 +7,7 @@ using System.Configuration;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 
 namespace Gofus
 {
@@ -25,14 +26,15 @@ namespace Gofus
             bd = new BDService();
             lstRapport = new ObservableCollection<Rapport>();
             SelectRaports();
-            dataGrid.ItemsSource = lstRapport;
-            datePick.SelectedDate = DateTime.Now;
-            datePick.IsEnabled = true;
-            btnSupprimerRapport.IsEnabled = false;
+            Dispatcher.Invoke(new Action(() =>
+            {
+                dataGrid.ItemsSource = lstRapport;
+                datePick.SelectedDate = DateTime.Now;
+                datePick.IsEnabled = true;
+                btnSupprimerRapport.IsEnabled = false;
+            }));
+
         }
-
-
-
         private void btnSupprimer_Click(object sender, RoutedEventArgs e)
         {
             if (datePick.SelectedDate != null)
@@ -47,13 +49,14 @@ namespace Gofus
         }
         private void SelectRaports()
         {
-            string sel = "SELECT contenu,temps,titre,nom,Rapports.idRapport FROM Rapports INNER JOIN  typerapport ON Rapports.idTypeRapport =  typerapport.idTypeRapport ORDER by temps";
-            List<string>[] result = bd.selection(sel);
-            if (result[0][0] != "rien")
-                foreach (List<string> l in result)
+                string sel = "SELECT contenu,temps,titre,nom,Rapports.idRapport FROM Rapports INNER JOIN  typerapport ON Rapports.idTypeRapport =  typerapport.idTypeRapport ORDER by temps";
+                List<string>[] result = bd.selection(sel);
+                Dispatcher.Invoke(new Action(() =>
                 {
-                    lstRapport.Add(new Rapport(l[0], l[1], l[2], l[3],l[4]));
-                }
+                    if (result[0][0] != "rien")
+                        foreach (List<string> l in result)
+                            lstRapport.Add(new Rapport(l[0], l[1], l[2], l[3], l[4]));
+                }));
         }
 
         private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -64,16 +67,44 @@ namespace Gofus
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
+            Dispatcher.Invoke(new Action(() => SupprimerRapport()));
+        }
+
+        public void SupprimerRapport()
+        {
             tblContenu.Text = "";
             Rapport del = (Rapport)dataGrid.SelectedItem;
             bool test = bd.delete("DELETE FROM Rapports WHERE idRapport = " + del.id);
             lstRapport.Remove(del);
         }
 
+        public void RefreshRapports()
+        {
+            dataGrid.ItemsSource = null;
+            lstRapport = new ObservableCollection<Rapport>();
+            string sel = "SELECT contenu,temps,titre,nom,Rapports.idRapport FROM Rapports INNER JOIN  typerapport ON Rapports.idTypeRapport =  typerapport.idTypeRapport ORDER by temps";
+            List<string>[] result = bd.selection(sel);
+            Dispatcher.Invoke(new Action(() =>
+            {
+                if (result[0][0] != "rien")
+                    foreach (List<string> l in result)
+                        lstRapport.Add(new Rapport(l[0], l[1], l[2], l[3], l[4]));
+
+                dataGrid.ItemsSource = lstRapport;
+            }));
+        }
+
+
+
         private void btnFenetre_Click(object sender, RoutedEventArgs e)
         {
             GestionAdminWindow GAW = new GestionAdminWindow();
             GAW.ShowDialog();
+        }
+
+        private void btnRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            RefreshRapports();
         }
     }
 }
