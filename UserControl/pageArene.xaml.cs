@@ -54,7 +54,7 @@ namespace Gofus
                      {
                          int min = Statistique.toLevel((double.Parse(enti[1])));
                          int max = Statistique.toLevel((double.Parse(enti[2])));
-                         string lvl = "Entre " + min + " et " + max;
+                         string lvl = (min == max)? max.ToString() : "Entre " + min.ToString() + " et " + max.ToString();
                          lstAdversaires.Add(new Adversaire(enti[0], lvl));
                      }
                      else
@@ -73,6 +73,7 @@ namespace Gofus
                      textColumn = new DataGridTextColumn();
                      textColumn.Header = "Niveau";
                      textColumn.Binding = new Binding("level");
+                     
                      dataGrid.Columns.Add(textColumn);
                      textColumn = new DataGridTextColumn();
                      textColumn.Header = "Nom";

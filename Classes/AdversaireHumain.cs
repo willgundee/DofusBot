@@ -10,6 +10,8 @@ namespace Gofus
     {
         public string proprietaire { get; set; }
 
+        public int trueLevel { get; set; }
+
         public AdversaireHumain(string n, string l,string p) : base(n,l)
         {
             proprietaire = p;
