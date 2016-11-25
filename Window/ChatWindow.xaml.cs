@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -83,10 +84,13 @@ namespace Gofus
                     System.Windows.Application.Current.Dispatcher.Invoke(new System.Action(() =>
                     {
                         txtboxHistorique.Text = "";
+                        StringBuilder Content = new StringBuilder();
                         foreach (string m in messages)
                         {
-                            txtboxHistorique.Text += m;
+                            Content.Append(m);
+                          
                         }
+                        txtboxHistorique.Text = Content.ToString();
                     }));
                 });
                 trdRefresh.Start();
