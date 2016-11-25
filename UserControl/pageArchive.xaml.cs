@@ -41,9 +41,8 @@ namespace Gofus
             InitializeComponent();
             lstpartie = new List<Partie>();
             btnQuitter.Visibility = Visibility.Visible;
-            lblQuitter.Visibility = Visibility.Visible;
-            lblCreer.Visibility = Visibility.Visible;
             btnCreer.Visibility = Visibility.Visible;
+            btn_Refresh.Visibility = Visibility.Hidden;
             dgHistorique.ItemsSource = lstpartie;
             cboTypePartie.Visibility = Visibility.Hidden;
             loadParties("all");
