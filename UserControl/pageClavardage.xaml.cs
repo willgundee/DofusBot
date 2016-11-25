@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,42 +19,30 @@ namespace Gofus
 
     public partial class pageClavardage : UserControl
     {
-
         // Classe Chat
         public Chat chat;
-
         // Timer async
         DispatcherTimer aTimer;
-
         // Fenêtre de chat modless
         public ChatWindow fenetreChat;
-
-
-
         public Thread trdEnvoie { get; private set; }
         public pageClavardage(string NomUtilisateur)
         {
             InitializeComponent();
-
-
             // Initialisation des informations requises pour le chat.
             this.chat = new Chat();
             chat.nomUtilisateur = NomUtilisateur;
             chat.getId();
-
-
-
             // Initialisation du DispatcherTimer
             aTimer = new DispatcherTimer();
             aTimer.Tick += new EventHandler(Timer_Tick);
             aTimer.Interval = new TimeSpan(0, 0, 2);
-
             aTimer.Start();
             Scroll.ScrollToEnd();
         }
         private void Timer_Tick(object sender, EventArgs e)
         {
-            
+
             if (this != null)
             {
                 bool afficheTemps;
@@ -61,7 +50,7 @@ namespace Gofus
                 // Vérification : faut-il afficher le temps.
                 if (ckBox.IsChecked == false)
                 {
-                     afficheTemps = false; 
+                    afficheTemps = false;
                 }
                 else
                 {
@@ -70,7 +59,6 @@ namespace Gofus
 
                 // Reset des messages du chat.
                 ObservableCollection<string> messages = new ObservableCollection<string>();
-
                 // Création d'un Thread pour refresh le chat en background.
                 Thread trdRefresh = new Thread(() =>
                 {
@@ -79,17 +67,14 @@ namespace Gofus
                     //Dispatcher pour modifier les controls de façon async.
                     Application.Current.Dispatcher.Invoke(new Action(() =>
                     {
-
-
                         // Modfication de la txtboxHistorique
                         txtboxHistorique.Text = "";
-
+                        StringBuilder Content = new StringBuilder();
                         foreach (string m in messages)
                         {
-                            txtboxHistorique.Text += m;
+                            Content.Append(m);
                         }
-
-
+                        txtboxHistorique.Text = Content.ToString();
                     }));
                 });
 
@@ -113,15 +98,18 @@ namespace Gofus
         private void BtnEnvoyer_Click(object sender, RoutedEventArgs e)
         {
             string text = txtMessage.Text;
-            text =text.Replace("'", "\\'");
+            text = text.Replace("'", "\\'");
             trdEnvoie = new Thread(() =>
             {
                 chat.envoyerMessage(text);
             });
             trdEnvoie.Start();
             Thread.Yield();
-            Scroll.ScrollToEnd(); txtMessage.Text = "";
-
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                Scroll.ScrollToEnd();
+                txtMessage.Text = "";
+            }));
         }
         private void OnKeyDowntxtMessage(object sender, System.Windows.Input.KeyEventArgs e)
         {
@@ -130,7 +118,7 @@ namespace Gofus
                 if (txtMessage.Text != "")
                 {
                     string text = txtMessage.Text;
-                   text = text.Replace("'", @"\'");
+                    text = text.Replace("'", @"\'");
                     trdEnvoie = new Thread(() => { chat.envoyerMessage(text); });
                     trdEnvoie.Start();
                     Thread.Yield();
@@ -139,10 +127,6 @@ namespace Gofus
 
             }
         }
-
-
-
-
         private void txtMessage_TextChange(object sender, TextChangedEventArgs e)
         {
             if (txtMessage.Text.ToString() == "")
@@ -157,10 +141,6 @@ namespace Gofus
                     btnEnvoyerMessage.IsEnabled = true;
             }
         }
-
-
-
-
         public void MainWindow_ChatWindowClosing(object sender, System.EventArgs e)
         {
             fenetreChat = null;
@@ -180,7 +160,5 @@ namespace Gofus
                 fenetreChat.Show();
             }
         }
-
-     
     }
 }
