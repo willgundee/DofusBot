@@ -71,7 +71,6 @@ namespace Gofus
                         txtboxHistorique.Text = Content.ToString();
                     }));
                 });
-
                 // Démarrage du Thread.
                 trdRefresh.Start();
                 Thread.Yield();

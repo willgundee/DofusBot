@@ -82,9 +82,28 @@ namespace Gofus
             }
         }
 
+        public void BackUpComptes()
+        {
+            lstBackUp.Clear();
+            foreach (Utilisateur u in lstUtilisateurs)
+            {
+                lstBackUp.Add(new Utilisateur (u.nom,u.estAdmin));
+            }
+        }
+
+        public void Reset()
+        {
+            lstUtilisateurs.Clear();
+            foreach (Utilisateur u in lstBackUp)
+            {
+                lstUtilisateurs.Add(new Utilisateur (u.nom,u.estAdmin));
+            }
+        }
+
+
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-
+            Dispatcher.Invoke(new Action(() => Reset()));
         }
 
         private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)

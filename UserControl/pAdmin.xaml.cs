@@ -31,6 +31,8 @@ namespace Gofus
             btnSupprimerRapport.IsEnabled = false;
         }
 
+
+
         private void btnSupprimer_Click(object sender, RoutedEventArgs e)
         {
             if (datePick.SelectedDate != null)
