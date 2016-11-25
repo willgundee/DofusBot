@@ -8,7 +8,7 @@ using System.Configuration;
 namespace Gofus
 {
     public class BDService
-    {  
+    {
 
         // Pour éviter les problèmes causé par Reader qui met la connection en mode readonly.
         private MySqlConnection BDChat;
@@ -118,10 +118,10 @@ namespace Gofus
                     }
                     else
                     {
-                         fermerConnexionINSERT();
-                    return false;
+                        fermerConnexionINSERT();
+                        return false;
                     }
-                  
+
                 }
 
             }
@@ -316,7 +316,18 @@ namespace Gofus
 
 
 
-
+        public bool StopChat()
+        {
+            try
+            {
+                BDChat.Close();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
 
 

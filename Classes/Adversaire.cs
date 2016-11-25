@@ -9,11 +9,11 @@ namespace Gofus
     public class Adversaire
     {
         public string nom { get; set; }
-        public string level { get; set; }
+        public int level { get; set; }
         public Adversaire (string n , string l)
         {
             nom = n;
-            level = l;
+            level = int.Parse(l);
         }
     }
 }

@@ -96,15 +96,17 @@ namespace Gofus
 
         protected override void OnClosed(EventArgs e)
         {
-
-
             System.Threading.Thread ThreadBD = new System.Threading.Thread(new System.Threading.ThreadStart(() => bd.Update("UPDATE  Joueurs SET  estConnecte =  0 WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "'")));
             ThreadBD.Start();
             bool test = bd.Update("UPDATE  Joueurs SET  estConnecte =  0 WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "'");
 
             System.Threading.Thread.Sleep(1000);
-            if(pgchat != null)
+            if (pgchat != null)
+            {
                 pgchat.aTimer.Stop();
+                pgchat.chat.CloseConnection();
+            }
+                
             if (pgchat.fenetreChat != null)
             {
                 pgchat.fenetreChat.Close();
