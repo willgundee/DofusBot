@@ -63,7 +63,7 @@ namespace Gofus
             InitializeComponent();
             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
             idJoueur = id;
-            pgchat = new pageClavardage(Player.NomUtilisateur,false,id.ToString());
+            pgchat = new pageClavardage(Player.NomUtilisateur, false, id.ToString());
             contentClavardage.Content = pgchat;
             string n = " -" + Player.NomUtilisateur;
             Title += n;
@@ -106,12 +106,14 @@ namespace Gofus
                 pgchat.aTimer.Stop();
                 pgchat.chat.CloseConnection();
             }
-                
+
             if (pgchat.fenetreChat != null)
             {
+                pgchat.fenetreChat.pgCht.aTimer.Stop();
+                pgchat.fenetreChat.pgCht.chat.CloseConnection();
                 pgchat.fenetreChat.Close();
             }
-                
+
             //  pgperso.timer.Stop();
             if (System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(PageInventaire)) != null)
                 System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(PageInventaire)).Close();
