@@ -22,17 +22,9 @@ namespace Gofus
     /// </summary>
     public partial class GestionAdminWindow : Window
     {
-
         BDService bdAdmin;
-
         public ObservableCollection<Utilisateur> lstBackUp;
-
         public ObservableCollection<Utilisateur> lstUtilisateurs;
-
-
-
-
-
         public GestionAdminWindow()
         {
             InitializeComponent();
