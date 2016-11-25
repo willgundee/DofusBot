@@ -100,7 +100,6 @@ namespace Gofus
 
         private void cboTypeAdversaire_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
             btnAtt.IsEnabled = false;
             lstAdversaires = new ObservableCollection<Adversaire>();
             int index = cboTypeAdversaire.SelectedIndex;
@@ -119,7 +118,7 @@ namespace Gofus
 
         private void btnAtt_Click(object sender, RoutedEventArgs e)
         {
-            Attaquer();
+                Attaquer();
         }
 
         public void Attaquer()
@@ -129,7 +128,6 @@ namespace Gofus
                 string sele = "SELECT * FROM Entites WHERE nom = '" + ((Adversaire)dataGrid.SelectedItem).nom + "'";
                 List<string>[] defen = bd.selection(sele);
                 Entite def = new Entite(defen[0]);
-
                 List<Entite> lstAtt = new List<Entite>();
                 List<Entite> lstDef = new List<Entite>();
                 Dispatcher.Invoke(new Action(() => lstAtt.Add((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow).Player.LstEntites.First(x => x.IdEntite == ((KeyValuePair<int, string>)cboPerso.SelectedItem).Key))));

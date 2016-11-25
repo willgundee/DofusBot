@@ -43,6 +43,7 @@ namespace Gofus
         public GestionAdminWindow()
         {
             InitializeComponent();
+            // Initialisation des objets requis.
             dataGrid.AutoGenerateColumns = false;
             lstBackUp = new ObservableCollection<Utilisateur>();
             lstUtilisateurs = new ObservableCollection<Utilisateur>();
@@ -64,7 +65,7 @@ namespace Gofus
             dataGrid.Columns.Add(boolColumn);
             dataGrid.FrozenColumnCount = 2;
             foreach (Utilisateur u in lstUtilisateurs)
-                lstBackUp.Add(new Utilisateur(u.nom,u.estAdmin));
+                lstBackUp.Add(new Utilisateur(u.nom, u.estAdmin));
             dataGrid.Items.Refresh();
         }
         private void btnSauvegarder_Click(object sender, RoutedEventArgs e)
@@ -85,7 +86,7 @@ namespace Gofus
             lstBackUp.Clear();
             foreach (Utilisateur u in lstUtilisateurs)
             {
-                lstBackUp.Add(new Utilisateur (u.nom,u.estAdmin));
+                lstBackUp.Add(new Utilisateur(u.nom, u.estAdmin));
             }
         }
 
@@ -98,9 +99,8 @@ namespace Gofus
             lstUtilisateurs = new ObservableCollection<Utilisateur>();
             foreach (Utilisateur u in lstBackUp)
             {
-                lstUtilisateurs.Add(new Utilisateur (u.nom,u.estAdmin));
+                lstUtilisateurs.Add(new Utilisateur(u.nom, u.estAdmin));
             }
-
             dataGrid.ItemsSource = lstUtilisateurs;
         }
 

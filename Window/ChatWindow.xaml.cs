@@ -26,8 +26,6 @@ namespace Gofus
             pgCht = new pageClavardage(user, true, id);
             Dispatcher.Invoke(new Action(() => Contenu.Content = pgCht));
         }
-
-
     }
 }
 

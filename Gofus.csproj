@@ -192,9 +192,6 @@
     <Compile Include="Authentification.xaml.cs">
       <DependentUpon>Authentification.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Window\CreationCompteWindow.xaml.cs">
-      <DependentUpon>CreationCompteWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControl\pageCpersonage.xaml.cs">
       <DependentUpon>pageCpersonage.xaml</DependentUpon>
     </Compile>
@@ -354,10 +351,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Authentification.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Window\CreationCompteWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
