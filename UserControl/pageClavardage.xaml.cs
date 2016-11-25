@@ -5,7 +5,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
+
 using System.Windows.Threading;
 
 namespace Gofus
@@ -14,9 +14,6 @@ namespace Gofus
     /// Auteur : Marc-Antoine Lemieux
     /// Fonctions de la page clavardage.
     /// </summary>
-
-
-
     public partial class pageClavardage : UserControl
     {
         // Classe Chat
@@ -38,7 +35,7 @@ namespace Gofus
             aTimer.Tick += new EventHandler(Timer_Tick);
             aTimer.Interval = new TimeSpan(0, 0, 2);
             aTimer.Start();
-            Scroll.ScrollToEnd();
+            Dispatcher.Invoke(new Action(() => Scroll.ScrollToEnd()));
         }
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -65,7 +62,7 @@ namespace Gofus
                     // Selection des messages
                     messages = chat.refreshChat(afficheTemps);
                     //Dispatcher pour modifier les controls de façon async.
-                    Application.Current.Dispatcher.Invoke(new Action(() =>
+                    Dispatcher.Invoke(new Action(() =>
                     {
                         // Modfication de la txtboxHistorique
                         txtboxHistorique.Text = "";
@@ -81,7 +78,6 @@ namespace Gofus
                 // Démarrage du Thread.
                 trdRefresh.Start();
                 Thread.Yield();
-
                 CommandManager.InvalidateRequerySuggested();
             }
             else
@@ -105,7 +101,7 @@ namespace Gofus
             });
             trdEnvoie.Start();
             Thread.Yield();
-            Application.Current.Dispatcher.Invoke(new Action(() =>
+            Dispatcher.Invoke(new Action(() =>
             {
                 Scroll.ScrollToEnd();
                 txtMessage.Text = "";
@@ -131,14 +127,12 @@ namespace Gofus
         {
             if (txtMessage.Text.ToString() == "")
             {
-
-                btnEnvoyerMessage.IsEnabled = false;
-
+                Dispatcher.Invoke(new Action(() => btnEnvoyerMessage.IsEnabled = false)); 
             }
             else
             {
                 if (aTimer.IsEnabled)
-                    btnEnvoyerMessage.IsEnabled = true;
+                    Dispatcher.Invoke(new Action(() => btnEnvoyerMessage.IsEnabled = true));
             }
         }
         public void MainWindow_ChatWindowClosing(object sender, System.EventArgs e)
