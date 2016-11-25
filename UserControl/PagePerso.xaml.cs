@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -39,13 +40,22 @@ namespace Gofus
 
         void timer_Tick(object sender, EventArgs e)
         {
-            List<string> bobRoss = bd.selection("SELECT * FROM Entites WHERE nom='" + persoActuel.Nom + "'")[0];
-            if (bobRoss[0] != "rien")
+            BackgroundWorker bgWorker = new BackgroundWorker() { WorkerReportsProgress = true };
+            bgWorker.DoWork += (s, z) =>
             {
-                persoActuel = new Entite(bobRoss);
+                List<string> bobRoss = bd.selection("SELECT * FROM Entites WHERE nom='" + persoActuel.Nom + "'")[0];
+                if (bobRoss[0] != "rien")
+                {
+                    persoActuel = new Entite(bobRoss);
 
-                starter(Player, persoActuel);
-            }
+                    starter(Player, persoActuel);
+
+
+                }
+            };
+
+            bgWorker.RunWorkerAsync();
+
         }
 
 
@@ -55,91 +65,122 @@ namespace Gofus
             // cbScript.Items.Clear();
 
             persoActuel = ent;
-            lblLevelEntite.Content = "Niv. " + ent.Niveau;
-            lblNomJoueur.Content = Player.NomUtilisateur;
+            Dispatcher.Invoke(new Action(() =>
+            {
+                lblLevelEntite.Content = "Niv. " + ent.Niveau;
+                lblNomJoueur.Content = Player.NomUtilisateur;
+
+            }));
+
             #region .
             /* pgbExp.Foreground = new SolidColorBrush(Colors.CornflowerBlue);
              pgbExp.Background = new SolidColorBrush(Colors.Chartreuse);*/
             #endregion
             if (ent.Niveau < 200)
             {
-                pgbExp.Maximum = Statistique.dictLvl[ent.Niveau + 1];
-                pgbExp.Minimum = Statistique.dictLvl[ent.Niveau];
+                Dispatcher.Invoke(new Action(() =>
+                {
+                    pgbExp.Maximum = Statistique.dictLvl[ent.Niveau + 1];
+                    pgbExp.Minimum = Statistique.dictLvl[ent.Niveau];
+                    pgbExp.ToolTip = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur.ToString() + " sur " + Statistique.dictLvl[ent.LstStats.First(x => x.Nom == Statistique.element.experience).toLevel() + 1].ToString() + " exp";
+                }));
                 //1 950
                 // 2 657
                 // 5 000
-                pgbExp.ToolTip = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur.ToString() + " sur " + Statistique.dictLvl[ent.LstStats.First(x => x.Nom == Statistique.element.experience).toLevel() + 1].ToString() + " exp";
+
             }
             else
             {
-                pgbExp.Maximum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur;
-                pgbExp.Minimum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur;
-                pgbExp.ToolTip = "IT'S OVER 9000!!!";
+                Dispatcher.Invoke(new Action(() =>
+                {
+                    pgbExp.Maximum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur;
+                    pgbExp.Minimum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur;
+                    pgbExp.ToolTip = "IT'S OVER 9000!!!";
+                }));
             }
-
-            pgbExp.Value = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur;
-
+            Dispatcher.Invoke(new Action(() =>
+            {
+                pgbExp.Value = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur;
+            }));
             //lblPourcentExp.Content = Math.Round(pgbExp.Value / (pgbExp.Maximum-pgbExp.Minimum)) + " %";
 
             nbScript = Player.LstScripts.Count();
             //TODO Meilleur solution 
-            for (int i = 0; i < nbScript; i++)
+            Dispatcher.Invoke(new Action(() =>
             {
-                if (refresh < 1)
+                for (int i = 0; i < nbScript; i++)
                 {
-                    cbScript.Items.Add(Player.LstScripts[i].Nom);
+                    if (refresh < 1)
+                    {
+                        cbScript.Items.Add(Player.LstScripts[i].Nom);
+                    }
+                    else if (refresh > 3)
+                    {
+                        refresh = 2;
+                    }
                 }
-                else if (refresh > 3)
-                {
-                    refresh = 2;
-                }
-            }
 
-
+            }));
 
             //todo création de plusieurs onglets personnage
-            lblNomClasse.Content = ent.ClasseEntite.Nom;
-            lblNbPointsC.Content = ent.CapitalLibre;
+            Dispatcher.Invoke(new Action(() =>
+            {
+                lblNomClasse.Content = ent.ClasseEntite.Nom;
+                lblNbPointsC.Content = ent.CapitalLibre;
+            }));
             double Exp;
             string SourceImgClasse = "../resources/" + ent.ClasseEntite.Nom;
-            BitmapImage path = new BitmapImage();
+            /*BitmapImage path = new BitmapImage();
             path.BeginInit();
             path.UriSource = new Uri(SourceImgClasse + ".png", UriKind.Relative);
-            path.EndInit();
-            Imgclasse.Source = path;
+            path.EndInit();*/
+
+            Dispatcher.BeginInvoke((Action)delegate
+            {
+                Imgclasse.Source = new BitmapImage(new Uri(SourceImgClasse + ".png", UriKind.Relative));
+            });
+
             //itmCtrlDesc.ItemsSource = LstDesc;
             foreach (Equipement item in ent.LstEquipements)
             {
                 List<string> emplacement = bd.selection("SELECT emplacement FROM Equipementsentites WHERE idEquipement = (SELECT idEquipement FROM Equipements WHERE nom='" + item.Nom + "' )AND idEntite =(SELECT idEntite FROM Entites WHERE nom='" + ent.Nom + "')")[0];
 
                 if (emplacement != null)
-                    AfficherElementEquipe(item, emplacement[0].ToString());
+                    Dispatcher.Invoke(new Action(() => AfficherElementEquipe(item, emplacement[0].ToString())));
             }
-            cbScript.SelectedValue = ent.ScriptEntite.Nom;
-            #region btnStats
-            if (ent.CapitalLibre > 0)
+            Dispatcher.Invoke(new Action(() =>
             {
-                btnAgilite.Visibility = Visibility.Visible;
-                btnChance.Visibility = Visibility.Visible;
-                btnForce.Visibility = Visibility.Visible;
-                btnIntelligence.Visibility = Visibility.Visible;
-                btnSagesse.Visibility = Visibility.Visible;
-                btnVitalite.Visibility = Visibility.Visible;
-            }
+                cbScript.SelectedValue = ent.ScriptEntite.Nom;
+            }));
+            #region btnStats
+            Dispatcher.Invoke(new Action(() =>
+            {
+                if (ent.CapitalLibre > 0)
+                {
+                    btnAgilite.Visibility = Visibility.Visible;
+                    btnChance.Visibility = Visibility.Visible;
+                    btnForce.Visibility = Visibility.Visible;
+                    btnIntelligence.Visibility = Visibility.Visible;
+                    btnSagesse.Visibility = Visibility.Visible;
+                    btnVitalite.Visibility = Visibility.Visible;
+                }
+            }));
             #endregion
             foreach (Statistique st in ent.LstStats)
             {
                 if (st.Nom == Statistique.element.experience)
                     Exp = st.Valeur;
             }
-            initialiserLstStats(ent.LstStats);
-            dgStats.ItemsSource = lstStat;
-            dgDommage.ItemsSource = initialiserLstDMG(ent);
-           
+
+            Dispatcher.Invoke(new Action(() =>
+            {
+                initialiserLstStats(ent.LstStats);
+                dgStats.ItemsSource = lstStat;
+                dgDommage.ItemsSource = initialiserLstDMG(ent);
+            }));
             refresh++;
 
         }
-
         #region grid_listes
         private void initialiserLstStats(ObservableCollection<Statistique> lstStats)
         {

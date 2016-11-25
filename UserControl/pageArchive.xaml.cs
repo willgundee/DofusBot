@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -51,106 +53,57 @@ namespace Gofus
 
         private void loadParties(string type)
         {
-            string selectid = "Select idPartie,temps,seed,infoEntites,attaquantAGagne From Parties";
-            List<string>[] lstPartieBd = bd.selection(selectid);
-
+            List<Entite> lstAtt = new List<Entite>();
+            List<Entite> lstDef = new List<Entite>();
             lstpartie.Clear();
-            if (lstPartieBd[0][0] != "rien")
+            string selectid = "Select idPartie,temps,seed,infoEntites,attaquantAGagne From Parties";
+            BackgroundWorker Refresh = new BackgroundWorker() { WorkerReportsProgress = true };
+            Refresh.DoWork += (s, e) =>
             {
-                foreach (List<string> p in lstPartieBd)
+                List<string>[] lstPartieBd = bd.selection(selectid);
+                if (lstPartieBd[0][0] != "rien")
                 {
-
-                    List<Entite> lstAtt = new List<Entite>();
-                    List<Entite> lstDef = new List<Entite>();
-                    if (p[3] != "infoEntites")
+                    foreach (List<string> p in lstPartieBd)
                     {
-                        List<List<Entite>> infoJson = JsonConvert.DeserializeObject<List<List<Entite>>>(p[3]);
-                        lstAtt = infoJson[0];
-                        lstDef = infoJson[1];
-
-                        if (type == "all")
+                        if (p[3] != "infoEntites")
                         {
-                            lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1].Substring(0, 10), Int32.Parse(p[2]), (p[4] == "True") ? lstAtt[0].Nom: lstDef[0].Nom));
-                        }
-                        else
-                        {
-                            if (lstAtt[0].idProprietaire == idJoueur || lstDef[0].idProprietaire == idJoueur)
+                            List<List<Entite>> infoJson = JsonConvert.DeserializeObject<List<List<Entite>>>(p[3]);
+                            lstAtt = infoJson[0];
+                            lstDef = infoJson[1];
+                            if (type == "all")
                             {
                                 lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1].Substring(0, 10), Int32.Parse(p[2]), (p[4] == "True") ? lstAtt[0].Nom : lstDef[0].Nom));
                             }
+                            else
+                            {
+                                if (lstAtt[0].idProprietaire == idJoueur || lstDef[0].idProprietaire == idJoueur)
+                                {
+                                    lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1].Substring(0, 10), Int32.Parse(p[2]), (p[4] == "True") ? lstAtt[0].Nom : lstDef[0].Nom));
+                                }
+                            }
                         }
-
                     }
-
-
-
-
-
-                    //List<List<Entite>> infoJson = JsonConvert.DeserializeObject<List<List<Entite>>>(strJson);
-                    //lstAtt = infoJson[0];
-                    //lstDef = infoJson[1];
-
-
-                    /*  string selectPartici = "SELECT estAttaquant,nomEntite,idJoueur FROM PartiesJoueurs WHERE idPartie = " + p[0];
-                      List<string>[] result = bd.selection(selectPartici);
-                      if (result[0][0] != "rien")
-                      {
-                          int seed = Int32.Parse(p[2]);
-                          string att = "";
-                          string def = "";
-                          string jrAtt = "";
-                          string jrDef = "";
-                          foreach (List<string> particip in result)
-                          {
-                              if (particip[0] == "False")
-                              {
-                                  def = particip[1];
-                                  jrDef = particip[2];
-                              }
-                              else
-                              {
-
-                                  att = particip[1];
-                                  jrAtt = particip[2];
-                              }
-                          }
-
-                          if (type == "all")
-                          {
-                              lstpartie.Add(new Partie(att, def, p[1], seed));
-                          }
-                          else
-                          {
-                              if (jrDef == idJoueur.ToString() || jrAtt == idJoueur.ToString())
-                              {
-                                  lstpartie.Add(new Partie(att, def, p[1], seed));
-                              }
-                          }
-                      }*/
                 }
-            }
-
+            };
+            Refresh.RunWorkerCompleted += (s, e) => {
+                dgHistorique.Items.Refresh();
+            };
+            Refresh.RunWorkerAsync();
 
         }
-
         private void cboTypePartie_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             RefreshListe();
         }
-
         public void RefreshListe()
         {
             if (cboTypePartie.SelectedIndex == 0)
             {
                 loadParties("all");
-                dgHistorique.Items.Refresh();
-
-
             }
             else
             {
                 loadParties("joueur");
-                dgHistorique.Items.Refresh();
             }
         }
 
@@ -176,12 +129,13 @@ namespace Gofus
 
         private void btn_Refresh_Click(object sender, RoutedEventArgs e)
         {
+
             RefreshListe();
         }
 
         private void dgHistorique_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            btnVisionner.IsEnabled = (dgHistorique.SelectedIndex != -1) ? true : false;
+            Dispatcher.Invoke(new Action(() => btnVisionner.IsEnabled = (dgHistorique.SelectedIndex != -1) ? true : false));
         }
     }
 }

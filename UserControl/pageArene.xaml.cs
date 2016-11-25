@@ -51,54 +51,54 @@ namespace Gofus
         private void RefreshAdversaires(int index)
         {
             List<string>[] Result = bd.selection((index == 0) ? "SELECT nom,valeur,nomUtilisateur FROM Entites e INNER JOIN Joueurs j ON e.idJoueur = j.idJoueur INNER JOIN statistiquesentites s ON e.idEntite = s.idEntite WHERE idTypeStatistique = 13 AND e.idJoueur IS NOT NULL AND e.idJoueur != " + idJoueur.ToString() : "SELECT nom,valeurMin,valeurMax FROM Entites INNER JOIN statistiquesentites ON Entites.idEntite = statistiquesentites.idEntite WHERE idTypeStatistique = 13 AND idJoueur IS NULL");
-           Dispatcher.Invoke(new System.Action(() =>
-            {
-                foreach (List<string> enti in Result)
-                {
-                    if (index != 0)
-                    {
-                        int min = Statistique.toLevel((double.Parse(enti[1])));
-                        int max = Statistique.toLevel((double.Parse(enti[2])));
-                        string lvl = "Entre " + min + " et " + max;
-                        lstAdversaires.Add(new Adversaire(enti[0], lvl));
-                    }
-                    else
-                    {
-                        int niveau = Statistique.toLevel((double.Parse(enti[1])));
-                        lstAdversaires.Add(new AdversaireHumain(enti[0], niveau.ToString(), enti[2]));
-                    }
-                }
-                dataGrid.ItemsSource = lstAdversaires;
-                if (index == 0)
-                {
-                    DataGridTextColumn textColumn = new DataGridTextColumn();
-                    textColumn.Header = "Propriétaire";
-                    textColumn.Binding = new Binding("proprietaire");
-                    dataGrid.Columns.Add(textColumn);
-                    textColumn = new DataGridTextColumn();
-                    textColumn.Header = "Niveau";
-                    textColumn.Binding = new Binding("level");
-                    dataGrid.Columns.Add(textColumn);
-                    textColumn = new DataGridTextColumn();
-                    textColumn.Header = "Nom";
-                    textColumn.Binding = new Binding("nom");
-                    dataGrid.Columns.Add(textColumn);
-                    dataGrid.FrozenColumnCount = 3;
-                }
-                else
-                {
-                    DataGridTextColumn textColumn = new DataGridTextColumn();
-                    textColumn.Header = "Niveau";
-                    textColumn.Binding = new Binding("level");
-                    dataGrid.Columns.Add(textColumn);
-                    textColumn = new DataGridTextColumn();
-                    textColumn.Header = "Nom";
-                    textColumn.Binding = new Binding("nom");
-                    dataGrid.Columns.Add(textColumn);
-                    dataGrid.FrozenColumnCount = 2;
-                }
-                dataGrid.Items.Refresh();
-            }));
+            Dispatcher.Invoke(new Action(() =>
+             {
+                 foreach (List<string> enti in Result)
+                 {
+                     if (index != 0)
+                     {
+                         int min = Statistique.toLevel((double.Parse(enti[1])));
+                         int max = Statistique.toLevel((double.Parse(enti[2])));
+                         string lvl = "Entre " + min + " et " + max;
+                         lstAdversaires.Add(new Adversaire(enti[0], lvl));
+                     }
+                     else
+                     {
+                         int niveau = Statistique.toLevel((double.Parse(enti[1])));
+                         lstAdversaires.Add(new AdversaireHumain(enti[0], niveau.ToString(), enti[2]));
+                     }
+                 }
+                 dataGrid.ItemsSource = lstAdversaires;
+                 if (index == 0)
+                 {
+                     DataGridTextColumn textColumn = new DataGridTextColumn();
+                     textColumn.Header = "Propriétaire";
+                     textColumn.Binding = new Binding("proprietaire");
+                     dataGrid.Columns.Add(textColumn);
+                     textColumn = new DataGridTextColumn();
+                     textColumn.Header = "Niveau";
+                     textColumn.Binding = new Binding("level");
+                     dataGrid.Columns.Add(textColumn);
+                     textColumn = new DataGridTextColumn();
+                     textColumn.Header = "Nom";
+                     textColumn.Binding = new Binding("nom");
+                     dataGrid.Columns.Add(textColumn);
+                     dataGrid.FrozenColumnCount = 3;
+                 }
+                 else
+                 {
+                     DataGridTextColumn textColumn = new DataGridTextColumn();
+                     textColumn.Header = "Niveau";
+                     textColumn.Binding = new Binding("level");
+                     dataGrid.Columns.Add(textColumn);
+                     textColumn = new DataGridTextColumn();
+                     textColumn.Header = "Nom";
+                     textColumn.Binding = new Binding("nom");
+                     dataGrid.Columns.Add(textColumn);
+                     dataGrid.FrozenColumnCount = 2;
+                 }
+                 dataGrid.Items.Refresh();
+             }));
         }
 
 
@@ -128,7 +128,7 @@ namespace Gofus
                 string sele = "SELECT * FROM Entites WHERE nom = '" + ((Adversaire)dataGrid.SelectedItem).nom + "'";
                 List<string>[] defen = bd.selection(sele);
                 Entite def = new Entite(defen[0]);
-                
+
                 List<Entite> lstAtt = new List<Entite>();
                 List<Entite> lstDef = new List<Entite>();
                 lstAtt.Add((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow).Player.LstEntites.First(x => x.IdEntite == ((KeyValuePair<int, string>)cboPerso.SelectedItem).Key));
@@ -169,7 +169,7 @@ namespace Gofus
         private void cboPerso_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
-            btnAtt.IsEnabled = (dataGrid.SelectedIndex == -1 || cboPerso.SelectedIndex == -1) ? false : true;        
+            btnAtt.IsEnabled = (dataGrid.SelectedIndex == -1 || cboPerso.SelectedIndex == -1) ? false : true;
         }
 
         private void btnRefresh_Click(object sender, RoutedEventArgs e)
