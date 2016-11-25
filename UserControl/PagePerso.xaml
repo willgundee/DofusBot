@@ -25,7 +25,7 @@
 
         <ProgressBar        Width="100" VerticalAlignment="Top" x:Name="pgbExp" Margin="94,76,0,0" Height="15" HorizontalAlignment="Left" Foreground="GreenYellow"/>
         <Label x:Name="lblLevelEntite" Margin="90,90,73.839,175.533" Content="Niv."/>
-        <Image x:Name="Imgfond"  Source="../resources/fondEquipement.jpg"  Height="260" Width="283" Grid.RowSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="16.573,43,12,0"  Grid.Column="1" />
+        <Image x:Name="Imgfond"  Source="../resources/vide.png"  Height="260" Width="283" Grid.RowSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="16.573,43,12,0"  Grid.Column="1" />
         <Grid x:Name="grdEquip"  Grid.Column="1" Margin="16.573,43,12,1.435">
             <Grid.RowDefinitions>
                 <RowDefinition Height="16*"/>

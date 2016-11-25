@@ -118,12 +118,12 @@ namespace Gofus
 
         private void btnAtt_Click(object sender, RoutedEventArgs e)
         {
-            Thread trdRefresh = new Thread(() =>
-            {
+            //Thread trdRefresh = new Thread(() =>
+            //{
                 Attaquer();
-            });
-            trdRefresh.Start();
-            Thread.Yield();
+            //});
+            //trdRefresh.Start();
+            //Thread.Yield();
         }
 
         public void Attaquer()
