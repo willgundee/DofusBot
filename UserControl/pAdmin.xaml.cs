@@ -49,7 +49,6 @@ namespace Gofus
         }
         private void SelectRaports()
         {
-       
                 string sel = "SELECT contenu,temps,titre,nom,Rapports.idRapport FROM Rapports INNER JOIN  typerapport ON Rapports.idTypeRapport =  typerapport.idTypeRapport ORDER by temps";
                 List<string>[] result = bd.selection(sel);
                 Dispatcher.Invoke(new Action(() =>
@@ -81,7 +80,18 @@ namespace Gofus
 
         public void RefreshRapports()
         {
+            dataGrid.ItemsSource = null;
+            lstRapport = new ObservableCollection<Rapport>();
+            string sel = "SELECT contenu,temps,titre,nom,Rapports.idRapport FROM Rapports INNER JOIN  typerapport ON Rapports.idTypeRapport =  typerapport.idTypeRapport ORDER by temps";
+            List<string>[] result = bd.selection(sel);
+            Dispatcher.Invoke(new Action(() =>
+            {
+                if (result[0][0] != "rien")
+                    foreach (List<string> l in result)
+                        lstRapport.Add(new Rapport(l[0], l[1], l[2], l[3], l[4]));
 
+                dataGrid.ItemsSource = lstRapport;
+            }));
         }
 
 
@@ -90,6 +100,11 @@ namespace Gofus
         {
             GestionAdminWindow GAW = new GestionAdminWindow();
             GAW.ShowDialog();
+        }
+
+        private void btnRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            RefreshRapports();
         }
     }
 }
