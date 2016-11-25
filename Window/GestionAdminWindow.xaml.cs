@@ -85,11 +85,14 @@ namespace Gofus
 
         public void Reset()
         {
+            dataGrid.Items.Clear();
             lstUtilisateurs.Clear();
             foreach (Utilisateur u in lstBackUp)
             {
                 lstUtilisateurs.Add(new Utilisateur (u.nom,u.estAdmin));
             }
+
+            dataGrid.ItemsSource = lstUtilisateurs;
         }
 
 
