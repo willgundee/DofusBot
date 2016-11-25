@@ -113,5 +113,10 @@ namespace Gofus
         {
             Dispatcher.Invoke(new Action(() => Reset()));
         }
+
+        private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

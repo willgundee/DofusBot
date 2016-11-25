@@ -27,7 +27,7 @@ namespace Gofus
             seed = sd;
             Date = dt;
             trueDate = new DateTime();
-            trueDate = DateTime.ParseExact(dt, "yyyy-MM-dd HH:mm:ss,fff",System.Globalization.CultureInfo.InvariantCulture);
+            trueDate = DateTime.ParseExact(dt, "yyyy-MM-dd HH:mm:ss",System.Globalization.CultureInfo.InvariantCulture);
            
             Gagnant = ga;
             IdPartie = id;
