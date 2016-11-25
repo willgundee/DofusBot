@@ -5,7 +5,11 @@ namespace GofusSharp
 {
     public class Debug
     {
-        internal static Combat FCombat = (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Combat)) as Combat);
+        internal static Combat FCombat;
+        public Debug()
+        {
+
+        }
         public static void Log(object Value)
         {
             if (!FCombat.Generation)

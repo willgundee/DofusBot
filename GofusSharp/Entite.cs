@@ -1053,7 +1053,11 @@ namespace GofusSharp
                     if (!ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (cible.Position.Y - Position.Y > 0 ? 1 : -1)]))
                     {
                         if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                        {
+                            Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                             System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                            Debug.FCombat.mrse.WaitOne();
+                        }
                         return PM_Debut - PM;
                     }
                 }
@@ -1062,7 +1066,11 @@ namespace GofusSharp
                     if (!ChangerPosition(TerrainEntite.TabCases[Position.X + (cible.Position.X - Position.X > 0 ? 1 : -1)][Position.Y]))
                     {
                         if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                        {
+                            Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                             System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                            Debug.FCombat.mrse.WaitOne();
+                        }
                         return PM_Debut - PM;
                     }
                 }
@@ -1073,7 +1081,11 @@ namespace GofusSharp
                         if (!ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (cible.Position.Y - Position.Y >= 0 ? 1 : -1)]))
                         {
                             if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                            {
+                                Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                                 System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                                Debug.FCombat.mrse.WaitOne();
+                            }
                             return PM_Debut - PM;
                         }
                     }
@@ -1085,7 +1097,11 @@ namespace GofusSharp
                         if (!ChangerPosition(TerrainEntite.TabCases[Position.X + (cible.Position.X - Position.X >= 0 ? 1 : -1)][Position.Y]))
                         {
                             if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                            {
+                                Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                                 System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                                Debug.FCombat.mrse.WaitOne();
+                            }
                             return PM_Debut - PM;
                         }
                     }
@@ -1093,7 +1109,11 @@ namespace GofusSharp
                 PM--;
             }
             if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+            {
+                Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                 System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                Debug.FCombat.mrse.WaitOne();
+            }
             return PM_Debut - PM;
         }
         public int AvancerVers(EntiteInconnu cible, int PM_Alouer)
@@ -1106,7 +1126,11 @@ namespace GofusSharp
                     if (!ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (cible.Position.Y - Position.Y > 0 ? 1 : -1)]))
                     {
                         if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                        {
+                            Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                             System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                            Debug.FCombat.mrse.WaitOne();
+                        }
                         return PM_Debut - PM;
                     }
                 }
@@ -1115,7 +1139,11 @@ namespace GofusSharp
                     if (!ChangerPosition(TerrainEntite.TabCases[Position.X + (cible.Position.X - Position.X > 0 ? 1 : -1)][Position.Y]))
                     {
                         if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                        {
+                            Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                             System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                            Debug.FCombat.mrse.WaitOne();
+                        }
                         return PM_Debut - PM;
                     }
                 }
@@ -1126,7 +1154,11 @@ namespace GofusSharp
                         if (!ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (cible.Position.Y - Position.Y > 0 ? 1 : -1)]))
                         {
                             if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                            {
+                                Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                                 System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                                Debug.FCombat.mrse.WaitOne();
+                            }
                             return PM_Debut - PM;
                         }
                     }
@@ -1138,7 +1170,11 @@ namespace GofusSharp
                         if (!ChangerPosition(TerrainEntite.TabCases[Position.X + (cible.Position.X - Position.X > 0 ? 1 : -1)][Position.Y]))
                         {
                             if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                            {
+                                Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                                 System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                                Debug.FCombat.mrse.WaitOne();
+                            }
                             return PM_Debut - PM;
                         }
                     }
@@ -1147,7 +1183,11 @@ namespace GofusSharp
                 PM_Alouer--;
             }
             if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+            {
+                Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                 System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                Debug.FCombat.mrse.WaitOne();
+            }
             return PM_Debut - PM;
         }
         public int AvancerVers(Case cible)
@@ -1160,7 +1200,11 @@ namespace GofusSharp
                     if (!ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (cible.Y - Position.Y > 0 ? 1 : -1)]))
                     {
                         if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                        {
+                            Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                             System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                            Debug.FCombat.mrse.WaitOne();
+                        }
                         return PM_Debut - PM;
                     }
                 }
@@ -1169,7 +1213,11 @@ namespace GofusSharp
                     if (!ChangerPosition(TerrainEntite.TabCases[Position.X + (cible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
                     {
                         if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                        {
+                            Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                             System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                            Debug.FCombat.mrse.WaitOne();
+                        }
                         return PM_Debut - PM;
                     }
                 }
@@ -1180,7 +1228,11 @@ namespace GofusSharp
                         if (!ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (cible.Y - Position.Y > 0 ? 1 : -1)]))
                         {
                             if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                            {
+                                Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                                 System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                                Debug.FCombat.mrse.WaitOne();
+                            }
                             return PM_Debut - PM;
                         }
                     }
@@ -1192,7 +1244,11 @@ namespace GofusSharp
                         if (!ChangerPosition(TerrainEntite.TabCases[Position.X + (cible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
                         {
                             if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                            {
+                                Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                                 System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                                Debug.FCombat.mrse.WaitOne();
+                            }
                             return PM_Debut - PM;
                         }
                     }
@@ -1201,11 +1257,21 @@ namespace GofusSharp
                 if (Position == cible)
                 {
                     if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                    {
+                        Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                         System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                        Debug.FCombat.mrse.WaitOne();
+                    }
                     return PM_Debut - PM;
                 }
             }
-            if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));return PM_Debut - PM;
+            if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+            {
+                Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
+                System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                Debug.FCombat.mrse.WaitOne();
+            }
+            return PM_Debut - PM;
         }
         public int AvancerVers(Case cible, int PM_Alouer)
         {
@@ -1217,7 +1283,11 @@ namespace GofusSharp
                     if (!ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (cible.Y - Position.Y > 0 ? 1 : -1)]))
                     {
                         if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                        {
+                            Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                             System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                            Debug.FCombat.mrse.WaitOne();
+                        }
                         return PM_Debut - PM;
                     }
                 }
@@ -1226,7 +1296,11 @@ namespace GofusSharp
                     if (!ChangerPosition(TerrainEntite.TabCases[Position.X + (cible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
                     {
                         if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                        {
+                            Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                             System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                            Debug.FCombat.mrse.WaitOne();
+                        }
                         return PM_Debut - PM;
                     }
                 }
@@ -1237,7 +1311,11 @@ namespace GofusSharp
                         if (!ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (cible.Y - Position.Y > 0 ? 1 : -1)]))
                         {
                             if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                            {
+                                Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                                 System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                                Debug.FCombat.mrse.WaitOne();
+                            }
                             return PM_Debut - PM;
                         }
                     }
@@ -1249,7 +1327,11 @@ namespace GofusSharp
                         if (!ChangerPosition(TerrainEntite.TabCases[Position.X + (cible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
                         {
                             if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                            {
+                                Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                                 System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                                Debug.FCombat.mrse.WaitOne();
+                            }
                             return PM_Debut - PM;
                         }
                     }
@@ -1259,11 +1341,21 @@ namespace GofusSharp
                 if (Position == cible)
                 {
                     if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                    {
+                        Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                         System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                        Debug.FCombat.mrse.WaitOne();
+                    }
                     return PM_Debut - PM;
                 }
             }
-            if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));return PM_Debut - PM;
+            if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+            {
+                Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
+                System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                Debug.FCombat.mrse.WaitOne();
+            }
+            return PM_Debut - PM;
         }
 
         public int SEloignerDe(Case cible)
@@ -1290,7 +1382,11 @@ namespace GofusSharp
                                 if (Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) < 0 || Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)]))
                                 {
                                     if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                                    {
+                                        Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                                         System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                                        Debug.FCombat.mrse.WaitOne();
+                                    }
                                     return PM_Debut - PM;
                                 }
                             }
@@ -1309,7 +1405,11 @@ namespace GofusSharp
                                 if (Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) < 0 || Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
                                 {
                                     if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                                    {
+                                        Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                                         System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                                        Debug.FCombat.mrse.WaitOne();
+                                    }
                                     return PM_Debut - PM;
                                 }
                             }
@@ -1322,7 +1422,11 @@ namespace GofusSharp
                             if (Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) < 0 || Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)]))
                             {
                                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                                {
+                                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                                     System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                                    Debug.FCombat.mrse.WaitOne();
+                                }
                                 return PM_Debut - PM;
                             }
                         }
@@ -1334,7 +1438,11 @@ namespace GofusSharp
                             if (Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) < 0 || Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
                             {
                                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                                {
+                                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                                     System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                                    Debug.FCombat.mrse.WaitOne();
+                                }
                                 return PM_Debut - PM;
                             }
                         }
@@ -1342,7 +1450,11 @@ namespace GofusSharp
                     PM--;
                 }
                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                {
+                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                     System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                    Debug.FCombat.mrse.WaitOne();
+                }
                 return PM_Debut - PM;
             }
             catch (System.Exception e)
@@ -1350,7 +1462,11 @@ namespace GofusSharp
                 if (!Debug.FCombat.Generation)
                     System.Windows.Forms.MessageBox.Show(string.Format("Érreur : {0}", e));
                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                {
+                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                     System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                    Debug.FCombat.mrse.WaitOne();
+                }
                 return PM_Debut - PM;
             }
         }
@@ -1378,7 +1494,11 @@ namespace GofusSharp
                                 if (Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) < 0 || Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)]))
                                 {
                                     if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                                    {
+                                        Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                                         System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                                        Debug.FCombat.mrse.WaitOne();
+                                    }
                                     return PM_Debut - PM;
                                 }
                             }
@@ -1397,7 +1517,11 @@ namespace GofusSharp
                                 if (Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) < 0 || Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
                                 {
                                     if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                                    {
+                                        Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                                         System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                                        Debug.FCombat.mrse.WaitOne();
+                                    }
                                     return PM_Debut - PM;
                                 }
                             }
@@ -1410,7 +1534,11 @@ namespace GofusSharp
                             if (Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) < 0 || Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)]))
                             {
                                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                                {
+                                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                                     System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                                    Debug.FCombat.mrse.WaitOne();
+                                }
                                 return PM_Debut - PM;
                             }
                         }
@@ -1422,7 +1550,11 @@ namespace GofusSharp
                             if (Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) < 0 || Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
                             {
                                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                                {
+                                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                                     System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                                    Debug.FCombat.mrse.WaitOne();
+                                }
                                 return PM_Debut - PM;
                             }
                         }
@@ -1431,7 +1563,11 @@ namespace GofusSharp
                     PM_Alouer--;
                 }
                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                {
+                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                     System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                    Debug.FCombat.mrse.WaitOne();
+                }
                 return PM_Debut - PM;
             }
             catch (System.Exception e)
@@ -1439,7 +1575,11 @@ namespace GofusSharp
                 if (!Debug.FCombat.Generation)
                     System.Windows.Forms.MessageBox.Show(string.Format("Érreur : {0}", e));
                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                {
+                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                     System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                    Debug.FCombat.mrse.WaitOne();
+                }
                 return PM_Debut - PM;
             }
         }
@@ -1467,7 +1607,11 @@ namespace GofusSharp
                                 if (Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) < 0 || Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)]))
                                 {
                                     if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                                    {
+                                        Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                                         System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                                        Debug.FCombat.mrse.WaitOne();
+                                    }
                                     return PM_Debut - PM;
                                 }
                             }
@@ -1486,7 +1630,11 @@ namespace GofusSharp
                                 if (Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) < 0 || Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
                                 {
                                     if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                                    {
+                                        Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                                         System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                                        Debug.FCombat.mrse.WaitOne();
+                                    }
                                     return PM_Debut - PM;
                                 }
                             }
@@ -1499,7 +1647,11 @@ namespace GofusSharp
                             if (Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) < 0 || Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)]))
                             {
                                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                                {
+                                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                                     System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                                    Debug.FCombat.mrse.WaitOne();
+                                }
                                 return PM_Debut - PM;
                             }
                         }
@@ -1511,7 +1663,11 @@ namespace GofusSharp
                             if (Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) < 0 || Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
                             {
                                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                                {
+                                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                                     System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                                    Debug.FCombat.mrse.WaitOne();
+                                }
                                 return PM_Debut - PM;
                             }
                         }
@@ -1519,7 +1675,11 @@ namespace GofusSharp
                     PM--;
                 }
                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                {
+                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                     System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                    Debug.FCombat.mrse.WaitOne();
+                }
                 return PM_Debut - PM;
             }
             catch (System.Exception e)
@@ -1527,7 +1687,11 @@ namespace GofusSharp
                 if (!Debug.FCombat.Generation)
                     System.Windows.Forms.MessageBox.Show(string.Format("Érreur : {0}", e));
                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                {
+                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                     System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                    Debug.FCombat.mrse.WaitOne();
+                }
                 return PM_Debut - PM;
             }
         }
@@ -1555,7 +1719,11 @@ namespace GofusSharp
                                 if (Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) < 0 || Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)]))
                                 {
                                     if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                                    {
+                                        Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                                         System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                                        Debug.FCombat.mrse.WaitOne();
+                                    }
                                     return PM_Debut - PM;
                                 }
                             }
@@ -1574,7 +1742,11 @@ namespace GofusSharp
                                 if (Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) < 0 || Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
                                 {
                                     if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                                    {
+                                        Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                                         System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                                        Debug.FCombat.mrse.WaitOne();
+                                    }
                                     return PM_Debut - PM;
                                 }
                             }
@@ -1587,7 +1759,11 @@ namespace GofusSharp
                             if (Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) < 0 || Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1) >= TerrainEntite.TabCases[0].Length || TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X][Position.Y + (Rcible.Y - Position.Y > 0 ? 1 : -1)]))
                             {
                                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                                {
+                                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                                     System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                                    Debug.FCombat.mrse.WaitOne();
+                                }
                                 return PM_Debut - PM;
                             }
                         }
@@ -1599,7 +1775,11 @@ namespace GofusSharp
                             if (Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) < 0 || Position.X + (Rcible.X - Position.X > 0 ? 1 : -1) >= TerrainEntite.TabCases.Length || TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y] == null || !ChangerPosition(TerrainEntite.TabCases[Position.X + (Rcible.X - Position.X > 0 ? 1 : -1)][Position.Y]))
                             {
                                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                                {
+                                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                                     System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                                    Debug.FCombat.mrse.WaitOne();
+                                }
                                 return PM_Debut - PM;
                             }
                         }
@@ -1608,7 +1788,11 @@ namespace GofusSharp
                     PM_Alouer--;
                 }
                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                {
+                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                     System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                    Debug.FCombat.mrse.WaitOne();
+                }
                 return PM_Debut - PM;
             }
             catch (System.Exception e)
@@ -1616,7 +1800,11 @@ namespace GofusSharp
                 if (!Debug.FCombat.Generation)
                     System.Windows.Forms.MessageBox.Show(string.Format("Érreur : {0}", e));
                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
+                {
+                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                     System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                    Debug.FCombat.mrse.WaitOne();
+                }
                 return PM_Debut - PM;
             }
         }
