@@ -133,11 +133,11 @@ namespace Gofus
         private void btnVisionner_Click(object sender, RoutedEventArgs e)
         {
             ///TODO : Regarder une partie.
+            
         }
 
         private void btn_Refresh_Click(object sender, RoutedEventArgs e)
         {
-
             RefreshListe();
         }
 

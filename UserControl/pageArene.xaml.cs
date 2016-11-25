@@ -18,13 +18,8 @@ namespace Gofus
         public ObservableCollection<string> lstScripts;
         public ObservableCollection<string> lstTypeAdver;
         public Dictionary<int, string> lstPerso;
-
-
         public ObservableCollection<Adversaire> lstAdversaires;
-
         public int idJoueur;
-
-
         public pageArene(int id, ObservableCollection<Entite> lstPersonnages)
         {
             InitializeComponent();
@@ -123,6 +118,16 @@ namespace Gofus
 
         private void btnAtt_Click(object sender, RoutedEventArgs e)
         {
+            Thread trdRefresh = new Thread(() =>
+            {
+                Attaquer();
+            });
+            trdRefresh.Start();
+            Thread.Yield();
+        }
+
+        public void Attaquer()
+        {
             if (dataGrid.SelectedIndex != -1 || cboPerso.SelectedIndex != -1)
             {
                 string sele = "SELECT * FROM Entites WHERE nom = '" + ((Adversaire)dataGrid.SelectedItem).nom + "'";
@@ -131,7 +136,7 @@ namespace Gofus
 
                 List<Entite> lstAtt = new List<Entite>();
                 List<Entite> lstDef = new List<Entite>();
-                lstAtt.Add((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow).Player.LstEntites.First(x => x.IdEntite == ((KeyValuePair<int, string>)cboPerso.SelectedItem).Key));
+                Dispatcher.Invoke(new Action(() => lstAtt.Add((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow).Player.LstEntites.First(x => x.IdEntite == ((KeyValuePair<int, string>)cboPerso.SelectedItem).Key))));
                 lstDef.Add(def);
                 List<List<Entite>> jsonObj = new List<List<Entite>> { lstAtt, lstDef };
                 string strJson = JsonConvert.SerializeObject(jsonObj);
