@@ -97,8 +97,7 @@ namespace Gofus
           protected override void OnClosed(EventArgs e)
            {
 
-            Dispatcher.Invoke(new Action(() =>
-            {
+            
             System.Threading.Thread ThreadBD = new System.Threading.Thread(new System.Threading.ThreadStart(() => bd.Update("UPDATE  Joueurs SET  estConnecte =  0 WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "'")));
             ThreadBD.Start();
             bool test = bd.Update("UPDATE  Joueurs SET  estConnecte =  0 WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "'");
@@ -110,7 +109,7 @@ namespace Gofus
             System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(PageInventaire)).Close();
             System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(PageDocumentation)).Close();
             base.OnClosed(e);
-            }));
+            
         }
 
             
