@@ -13,6 +13,8 @@ using GofusSharp;
 using System.Windows.Media.Imaging;
 using System.Threading;
 using System.ComponentModel;
+using System.Windows.Documents;
+using System.Windows.Controls.Primitives;
 
 [assembly: InternalsVisibleTo("Gofus")]
 namespace GofusSharp
@@ -58,7 +60,7 @@ namespace GofusSharp
             IdPartie = idPartie;
             if (Generation)
             {
-                bool? resultat = GenererPartie(lstJoueurAtt, lstJoueurDef, seed);
+                GenererPartie(lstJoueurAtt, lstJoueurDef, seed);
             }
             Speed = 20;
             txtNum.Text = Speed.ToString();
@@ -119,7 +121,7 @@ namespace GofusSharp
             CombatCourant = new Partie(terrain, ListEntiteAtt, ListEntiteDef, seed);
         }
 
-        private bool? GenererPartie(List<Gofus.Entite> lstJoueurAtt, List<Gofus.Entite> lstJoueurDef, int seed)
+        private void GenererPartie(List<Gofus.Entite> lstJoueurAtt, List<Gofus.Entite> lstJoueurDef, int seed)
         {
             Gofus.BDService BD = new Gofus.BDService();
             Liste<Entite> ListEntiteAtt = new Liste<Entite>();
@@ -170,7 +172,7 @@ namespace GofusSharp
                         BD.Update("UPDATE Parties SET attaquantAGagne = false WHERE idPartie = " + IdPartie + ";");
                         //TODO: LVL UP !
                         Generation = false;
-                        return false;
+                        return;
                     }
                     vivante = false;
                     foreach (Entite entiteDef in CombatCourant.ListDefendants)
@@ -186,14 +188,13 @@ namespace GofusSharp
                         BD.Update("UPDATE Parties SET attaquantAGagne = true WHERE idPartie = " + IdPartie + ";");
                         //TODO: LVL UP !
                         Generation = false;
-                        return true;
+                        return;
                     }
                 }
             }
             BD.Update("UPDATE Parties SET attaquantAGagne = null WHERE idPartie = " + IdPartie + ";");
             //TODO: LVL UP !
             Generation = false;
-            return null;
         }
 
         private void Action(Terrain terrain, Personnage joueur, Liste<EntiteInconnu> ListEntites)
@@ -316,6 +317,9 @@ namespace GofusSharp
                         ImageSprite.ToolTip = CreerToolTip(perso);
                         ToolTipService.SetShowDuration(ImageSprite, int.MaxValue);
                         sPnl.Children.Add(ImageSprite);
+                        Popup Name = new Popup();
+                        Name.Child = new TextBlock(new Run(perso.Nom));
+                        sPnl.Children.Add(Name);
                         break;
                 }
             }
@@ -478,7 +482,6 @@ namespace GofusSharp
             {
                 tb_num.Text = Speed.ToString();
             }
-            
         }
 
         private void cmdUp_Click(object sender, RoutedEventArgs e)
