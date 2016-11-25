@@ -70,29 +70,34 @@ namespace GofusSharp
             {
                 for (int j = 0; j < 10; j++)
                 {
+                    Canvas cnvs = new Canvas();
                     StackPanel sPnl = new StackPanel();
                     sPnl.HorizontalAlignment = HorizontalAlignment.Center;
                     sPnl.VerticalAlignment = VerticalAlignment.Center;
                     Border border = new Border();
                     border.BorderBrush = Brushes.Black;
-                    border.BorderThickness = new Thickness(2);
-                    Grid.SetRow(sPnl, i);
-                    Grid.SetColumn(sPnl, j);
+                    border.BorderThickness = new Thickness(1);
+                    Grid.SetRow(cnvs, i);
+                    Grid.SetColumn(cnvs, j);
                     Grid.SetRow(border, i);
                     Grid.SetColumn(border, j);
                     grd_Terrain.Children.Add(border);
-                    grd_Terrain.Children.Add(sPnl);
+                    grd_Terrain.Children.Add(cnvs);
+                    cnvs.Children.Add(sPnl);
                 }
             }
             Random RandRock = new Random(CombatCourant.TerrainPartie.TabCases.First().First().X);
-            foreach (StackPanel sPnl in grd_Terrain.Children.Cast<FrameworkElement>().Where(x => x is StackPanel))
+            foreach (Canvas cnvs in grd_Terrain.Children.Cast<FrameworkElement>().Where(x => x is Canvas))
             {
-                if (CombatCourant.TerrainPartie.TabCases[Grid.GetRow(sPnl)][Grid.GetColumn(sPnl)].Contenu == Case.type.obstacle)
+                StackPanel sPnl = cnvs.Children.Cast<StackPanel>().First();
+                if (CombatCourant.TerrainPartie.TabCases[Grid.GetRow(cnvs)][Grid.GetColumn(cnvs)].Contenu == Case.type.obstacle)
                 {
                     Image ImageSprite = new Image();
                     ImageSource SourceImageObstacle = new BitmapImage(new Uri(@"..\..\Resources\GofusSharp\Roche" + RandRock.Next(1, 3) + ".png", UriKind.Relative));
                     ImageSprite.Source = SourceImageObstacle;
                     sPnl.Children.Add(ImageSprite);
+                    ImageSprite.Height = grd_Terrain.RowDefinitions.First().ActualHeight;
+                    ImageSprite.Width = grd_Terrain.ColumnDefinitions.First().ActualWidth;
                 }
             }
             UpdateInfo();
@@ -266,13 +271,6 @@ namespace GofusSharp
             //recherche d'érreurs de compilation
             if (results.Errors.HasErrors)
             {
-                StringBuilder sb = new StringBuilder();
-
-                foreach (CompilerError error in results.Errors)
-                {
-                    sb.AppendLine(string.Format("Erreur (Ligne {0}): {1}", (error.Line - 8).ToString(), error.ErrorText));
-                }
-                System.Windows.Forms.MessageBox.Show(sb.ToString());
                 return;
             }
             //mettre la fonction compilé dans une variable
@@ -291,9 +289,10 @@ namespace GofusSharp
 
         private void UpdateInfo()
         {
-            foreach (StackPanel sPnl in grd_Terrain.Children.Cast<FrameworkElement>().Where(x => x is StackPanel))
+            foreach (Canvas cnvs in grd_Terrain.Children.Cast<FrameworkElement>().Where(x => x is Canvas))
             {
-                switch (CombatCourant.TerrainPartie.TabCases[Grid.GetRow(sPnl)][Grid.GetColumn(sPnl)].Contenu)
+                StackPanel sPnl = cnvs.Children.Cast<StackPanel>().First();
+                switch (CombatCourant.TerrainPartie.TabCases[Grid.GetRow(cnvs)][Grid.GetColumn(cnvs)].Contenu)
                 {
                     case Case.type.vide:
                         sPnl.Children.Clear();
@@ -303,7 +302,7 @@ namespace GofusSharp
                         if (CombatCourant.ListAttaquants.Concat(CombatCourant.ListDefendants).Where(x => x.Etat == EntiteInconnu.typeEtat.mort).Count() != 0)
                             break;
                         Image ImageSprite = new Image();
-                        Entite perso = CombatCourant.ListAttaquants.Concat(CombatCourant.ListDefendants).Where(x => x.Position.X == Grid.GetRow(sPnl) && x.Position.Y == Grid.GetColumn(sPnl)).First();
+                        Entite perso = CombatCourant.ListAttaquants.Concat(CombatCourant.ListDefendants).Where(x => x.Position.X == Grid.GetRow(cnvs) && x.Position.Y == Grid.GetColumn(cnvs)).First();
                         ImageSource SourceImageClasse = new BitmapImage(new Uri(@"..\..\Resources\GofusSharp\" + perso.ClasseEntite.Nom + @".png", UriKind.Relative));
                         try
                         {
@@ -317,31 +316,70 @@ namespace GofusSharp
                         ImageSprite.ToolTip = CreerToolTip(perso);
                         ToolTipService.SetShowDuration(ImageSprite, int.MaxValue);
                         sPnl.Children.Add(ImageSprite);
-                        Popup Name = new Popup();
-                        Name.Child = new TextBlock(new Run(perso.Nom));
-                        sPnl.Children.Add(Name);
+                        ImageSprite.Height = grd_Terrain.RowDefinitions.First().ActualHeight;
+                        ImageSprite.Width = grd_Terrain.ColumnDefinitions.First().ActualWidth;
+                        ImageSprite.MouseDown += ImageSprite_MouseDown;
+                        TextBlock TBName = new TextBlock();
+                        TBName.Text = perso.Nom;
+                        TBName.Foreground = Brushes.Red;
+                        sPnl.Children.Add(TBName);
                         break;
                 }
             }
+            if (spl_Info.Children.Count != 0)
+            {
+                int idPerso = (int)(spl_Info.Children.Cast<StackPanel>().First().Children.Cast<TextBlock>().First(x => x.Tag != null).Tag);
+                Entite perso = CombatCourant.ListAttaquants.Concat(CombatCourant.ListDefendants).Where(x => x.IdEntite == idPerso).First();
+                spl_Info.Children.Clear();
+                spl_Info.Children.Add(CreerInfo(perso));
+            }
+        }
 
-            //StringBuilder info = new StringBuilder();
-            //info.Append("Attaquant");
-            //info.Append("\nPoint de vie: " + CombatCourant.ListAttaquants.First().PV);
-            //if (CombatCourant.ListAttaquants.First().Etat == EntiteInconnu.typeEtat.vivant)
-            //    info.Append("\nPosition: X: " + CombatCourant.ListAttaquants.First().Position.X + " Y: " + CombatCourant.ListAttaquants.First().Position.Y);
-            //else
-            //    info.Append("\nPosition: X: 0 Y: 0");
-            //info.Append("\nEtat: " + CombatCourant.ListAttaquants.First().Etat);
-            //tb_perso0.Text = info.ToString();
-            //info.Clear();
-            //info.Append("Deffendant");
-            //info.Append("\nPoint de vie: " + CombatCourant.ListDefendants.First().PV);
-            //if (CombatCourant.ListDefendants.First().Etat == EntiteInconnu.typeEtat.vivant)
-            //    info.Append("\nPosition: X: " + CombatCourant.ListDefendants.First().Position.X + " Y: " + CombatCourant.ListDefendants.First().Position.Y);
-            //else
-            //    info.Append("\nPosition: X: 0 Y: 0");
-            //info.Append("\nEtat: " + CombatCourant.ListDefendants.First().Etat);
-            //tb_perso1.Text = info.ToString();
+        private void ImageSprite_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            Image img = sender as Image;
+            StackPanel sPnl = img.Parent as StackPanel;
+            Canvas cnvs = sPnl.Parent as Canvas;
+            Entite perso = CombatCourant.ListAttaquants.Concat(CombatCourant.ListDefendants).Where(x => x.Position.X == Grid.GetRow(cnvs) && x.Position.Y == Grid.GetColumn(cnvs)).First();
+            StackPanel info = CreerInfo(perso);
+
+            spl_Info.Children.Clear();
+            spl_Info.Children.Add(info);
+        }
+
+        private StackPanel CreerInfo(Entite perso)
+        {
+            StackPanel info = CreerToolTip(perso);
+
+            TextBlock Etat = new TextBlock();
+            Etat.Text = "Etat: " + perso.Etat;
+            info.Children.Insert(1, Etat);
+
+            TextBlock Equipe = new TextBlock();
+            Equipe.Text = "Equipe: " + perso.Equipe;
+            info.Children.Insert(1, Equipe);
+
+            TextBlock Position = new TextBlock();
+            try
+            {
+                Position.Text = "Position: X: " + perso.Position.X + " Y: " + perso.Position.Y;
+            }
+            catch (Exception)
+            {
+                Position.Text = "Position: Inexistant";
+            }
+            info.Children.Insert(1, Position);
+
+            TextBlock Niveau = new TextBlock();
+            Niveau.Text = "Niveau: " + perso.RetourneNiveau();
+            info.Children.Insert(1, Niveau);
+
+            TextBlock idPerso = new TextBlock();
+            idPerso.Text = "ID: " + perso.IdEntite;
+            idPerso.Tag = perso.IdEntite;
+            info.Children.Insert(1, idPerso);
+
+            return info;
         }
 
         private StackPanel CreerToolTip(Entite perso)
