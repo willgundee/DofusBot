@@ -775,10 +775,9 @@ namespace Gofus
         {
             foreach (Script item in Player.LstScripts)
             {
+                if(cbScript.SelectedItem != null)
                 if (item.Nom == cbScript.SelectedItem.ToString())
-                {
                     bd.Update("UPDATE Entites SET idScript = (SELECT idScript FROM Scripts WHERE Uuid ='" + item.Uuid + "') WHERE nom ='" + persoActuel.Nom + "'");
-                }
             }
 
         }

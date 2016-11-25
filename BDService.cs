@@ -14,7 +14,6 @@ namespace Gofus
         private MySqlConnection BDChat;
         private MySqlConnection BDSelect;
         private MySqlConnection BDInsert;
-        private MySqlConnection BDChatWindow;
 
         private MySqlConnection connexion;
         public BDService()
@@ -34,7 +33,6 @@ namespace Gofus
 
                 BDChat = new MySqlConnection(connexionString);
 
-                BDChatWindow = new MySqlConnection(connexionString);
             }
             catch (Exception e)
             {
@@ -153,32 +151,7 @@ namespace Gofus
             return ds;
         }
 
-        public DataSet selectionChatWindow(string req)
-        {
-            DataSet ds = new DataSet();
-
-            try
-            {
-                if (ouvrirConnexionCHAT())
-                {
-                    MySqlDataAdapter adapteur = new MySqlDataAdapter();
-                    adapteur.SelectCommand = new MySqlCommand(req, BDChatWindow);
-
-                    adapteur.Fill(ds);
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Erreur de récuperation : {0}", e.Message);
-                ds = null;
-            }
-            finally
-            {
-                fermerConnexionCHAT();
-            }
-            return ds;
-        }
-
+     
 
 
 
