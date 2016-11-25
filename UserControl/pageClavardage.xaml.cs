@@ -19,17 +19,17 @@ namespace Gofus
         // Classe Chat
         public Chat chat;
         // Timer async
-        DispatcherTimer aTimer;
+        public DispatcherTimer aTimer;
         // Fenêtre de chat modless
         public ChatWindow fenetreChat;
         public Thread trdEnvoie { get; private set; }
-        public pageClavardage(string NomUtilisateur)
+        public pageClavardage(string NomUtilisateur, bool IsWindow,string id)
         {
             InitializeComponent();
+            if (IsWindow)
+                Dispatcher.Invoke(new Action(() => btnModLess.Visibility = Visibility.Hidden));
             // Initialisation des informations requises pour le chat.
-            this.chat = new Chat();
-            chat.nomUtilisateur = NomUtilisateur;
-            chat.getId();
+            this.chat = new Chat(NomUtilisateur,id);
             // Initialisation du DispatcherTimer
             aTimer = new DispatcherTimer();
             aTimer.Tick += new EventHandler(Timer_Tick);
@@ -39,11 +39,9 @@ namespace Gofus
         }
         private void Timer_Tick(object sender, EventArgs e)
         {
-
             if (this != null)
             {
                 bool afficheTemps;
-
                 // Vérification : faut-il afficher le temps.
                 if (ckBox.IsChecked == false)
                 {
@@ -53,7 +51,6 @@ namespace Gofus
                 {
                     afficheTemps = true;
                 }
-
                 // Reset des messages du chat.
                 ObservableCollection<string> messages = new ObservableCollection<string>();
                 // Création d'un Thread pour refresh le chat en background.
@@ -93,7 +90,11 @@ namespace Gofus
         /// <param name="e"></param>
         private void BtnEnvoyer_Click(object sender, RoutedEventArgs e)
         {
-            string text = txtMessage.Text;
+            string text = "";
+            Dispatcher.Invoke(new Action(() =>
+            {
+                text = txtMessage.Text;
+            }));
             text = text.Replace("'", "\\'");
             trdEnvoie = new Thread(() =>
             {
@@ -118,16 +119,18 @@ namespace Gofus
                     trdEnvoie = new Thread(() => { chat.envoyerMessage(text); });
                     trdEnvoie.Start();
                     Thread.Yield();
-                    Scroll.ScrollToEnd(); txtMessage.Text = "";
+                    Dispatcher.Invoke(new Action(() =>
+                    {
+                        Scroll.ScrollToEnd(); txtMessage.Text = "";
+                    }));
                 }
-
             }
         }
         private void txtMessage_TextChange(object sender, TextChangedEventArgs e)
         {
             if (txtMessage.Text.ToString() == "")
             {
-                Dispatcher.Invoke(new Action(() => btnEnvoyerMessage.IsEnabled = false)); 
+                Dispatcher.Invoke(new Action(() => btnEnvoyerMessage.IsEnabled = false));
             }
             else
             {
@@ -139,17 +142,15 @@ namespace Gofus
         {
             fenetreChat = null;
         }
-
         private void BtnModLess_Click(object sender, RoutedEventArgs e)
         {
-
             if (fenetreChat != null)
             {
                 fenetreChat.Activate();
             }
             else
             {
-                fenetreChat = new ChatWindow(chat.nomUtilisateur);
+                fenetreChat = new ChatWindow(chat.nomUtilisateur,chat.id);
                 fenetreChat.Closed += MainWindow_ChatWindowClosing;
                 fenetreChat.Show();
             }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gofus"
         mc:Ignorable="d"
-        Title="Chat" Height="579.066" Width="642.407" ResizeMode="NoResize" WindowStyle="None">
+        Title="Clavardage" Height="560" Width="570" ResizeMode="NoResize" WindowStyle="ToolWindow">
     <Grid Background="LightGray">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -13,7 +13,7 @@
         <Grid.RowDefinitions>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <ContentControl Name="Contenu" Margin="0,0,0.4,10.2"/>
+        <ContentControl Name="Contenu"/>
 
     </Grid>
 </Window>

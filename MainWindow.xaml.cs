@@ -20,7 +20,7 @@ namespace Gofus
     {
         SbHorz = 0,
         SbVert = 1,
-        SbCtl  = 2,
+        SbCtl = 2,
         SbBoth = 3
     }
     public enum Message : uint
@@ -63,10 +63,10 @@ namespace Gofus
             InitializeComponent();
             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
             idJoueur = id;
-            pgchat = new pageClavardage(Player.NomUtilisateur);
+            pgchat = new pageClavardage(Player.NomUtilisateur,false,id.ToString());
             contentClavardage.Content = pgchat;
             string n = " -" + Player.NomUtilisateur;
-            Title +=n;
+            Title += n;
             if (Player.estAdmin)
             {
                 PaneauAdmin.Visibility = Visibility.Visible;
@@ -75,7 +75,7 @@ namespace Gofus
             else
             {
                 PaneauAdmin.Visibility = Visibility.Hidden;
-            }          
+            }
             #region Lou
             LstImgItems = new ObservableCollection<ImageItem>();
             LstStats = new ObservableCollection<string>();
@@ -89,30 +89,37 @@ namespace Gofus
 
             fillSortCbo();
 
-          
+
             #endregion
         }
 
 
-          protected override void OnClosed(EventArgs e)
-           {
+        protected override void OnClosed(EventArgs e)
+        {
 
-            
+
             System.Threading.Thread ThreadBD = new System.Threading.Thread(new System.Threading.ThreadStart(() => bd.Update("UPDATE  Joueurs SET  estConnecte =  0 WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "'")));
             ThreadBD.Start();
             bool test = bd.Update("UPDATE  Joueurs SET  estConnecte =  0 WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "'");
 
             System.Threading.Thread.Sleep(1000);
+            if(pgchat != null)
+                pgchat.aTimer.Stop();
             if (pgchat.fenetreChat != null)
-            pgchat.fenetreChat.Close();
-          //  pgperso.timer.Stop();
-            System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(PageInventaire)).Close();
-            System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(PageDocumentation)).Close();
+            {
+                pgchat.fenetreChat.Close();
+            }
+                
+            //  pgperso.timer.Stop();
+            if (System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(PageInventaire)) != null)
+                System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(PageInventaire)).Close();
+            if (System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(PageDocumentation)) != null)
+                System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(PageDocumentation)).Close();
             base.OnClosed(e);
-            
+
         }
 
-            
+
 
         #region Marché
         /// <summary>
@@ -366,12 +373,12 @@ namespace Gofus
 
         private void PgAdmin_Selected(object sender, RoutedEventArgs e)
         {
-           if (!controlAdmin.HasContent)
-            controlAdmin.Content = new pAdmin();
+            if (!controlAdmin.HasContent)
+                controlAdmin.Content = new pAdmin();
         }
 
 
-   
+
 
         private void PgArchive_Selected(object sender, RoutedEventArgs e)
         {
@@ -387,7 +394,7 @@ namespace Gofus
             {
                 ((pageArene)controlArene.Content).RefreshPersos(Player.LstEntites);
             }
-                
+
         }
 
         private void PgGestion_Selected(object sender, RoutedEventArgs e)
@@ -422,7 +429,7 @@ namespace Gofus
                 onglet.Header = "+";
                 tc_Edit.Items.Add(onglet);
             }
-          
+
         }
 
         private void tc_Edit_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -457,9 +464,9 @@ namespace Gofus
             }
         }
 
-          private void PGDoc_Selected(object sender, RoutedEventArgs e)
-          {
-              PGDoc.Content = new PageDoc();
-          }
+        private void PGDoc_Selected(object sender, RoutedEventArgs e)
+        {
+            PGDoc.Content = new PageDoc();
+        }
     }
 }

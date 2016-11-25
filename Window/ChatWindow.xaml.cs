@@ -17,19 +17,11 @@ namespace Gofus
 
     public partial class ChatWindow : Window
     {
-        public ChatWindow(string user)
+        public ChatWindow(string user,string id)
         {
             InitializeComponent();
-            Contenu.Content = new pageClavardage(user);
+            Dispatcher.Invoke(new Action(() => Contenu.Content = new pageClavardage(user, true,id)));
         }
-        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
-        {
-            base.OnMouseLeftButtonDown(e);
-
-            // Begin dragging the window
-            this.DragMove();
-        }
-
     }
 }
 

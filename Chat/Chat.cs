@@ -39,8 +39,10 @@ namespace Gofus
         /// </summary>
         BDService bdSelect;
 
-        public Chat()
+        public Chat(string u, string i)
         {
+            nomUtilisateur = u;
+            id = i;
             // Initialisation des propriétés
             contenuChat = new ObservableCollection<string>();
             messages = new ObservableCollection<MessageText>();
@@ -48,13 +50,7 @@ namespace Gofus
             bdSelect = new BDService();
             bdInsert = new BDService();
         }
-        // Premet de selectionner l'id du Joueur avec l'aide de son nomUtilisateur.
-        public void getId()
-        {
-            string reqid = "SELECT idJoueur from Joueurs WHERE NomUtilisateur = '" + nomUtilisateur + "';";
-            List<string>[] idResult = bdSelect.selection(reqid);
-            id = idResult[0][0];
-        }
+
         /// <summary>
         /// Permet de refresh le contenu du chat.
         /// </summary>
