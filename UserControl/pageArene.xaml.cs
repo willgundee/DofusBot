@@ -118,12 +118,7 @@ namespace Gofus
 
         private void btnAtt_Click(object sender, RoutedEventArgs e)
         {
-            Thread trdRefresh = new Thread(() =>
-            {
-                Attaquer();
-            });
-            trdRefresh.Start();
-            Thread.Yield();
+            Attaquer();
         }
 
         public void Attaquer()
@@ -147,9 +142,6 @@ namespace Gofus
                     bd.insertion("INSERT INTO PartiesJoueurs (idPartie, idJoueur, estAttaquant) VALUE(" + idPartie + ", " + idPropUnique + ", true);");
                 foreach (int idPropUnique in lstDef.Select(x => x.idProprietaire).Distinct())
                     bd.insertion("INSERT INTO PartiesJoueurs (idPartie, idJoueur, estAttaquant) VALUE(" + idPartie + ", " + idPropUnique + ", false);");
-                //List<List<Entite>> infoJson = JsonConvert.DeserializeObject<List<List<Entite>>>(strJson);
-                //lstAtt = infoJson[0];
-                //lstDef = infoJson[1];
                 GofusSharp.Combat combat = new GofusSharp.Combat(lstAtt, lstDef, seed, idPartie);
             }
         }
