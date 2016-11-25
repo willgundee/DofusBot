@@ -88,8 +88,6 @@ namespace Gofus
             lbxCara.ItemsSource = LstCaras;
 
             fillSortCbo();
-
-
             #endregion
         }
 
@@ -440,18 +438,19 @@ namespace Gofus
                 return;
             if (ti_selected.Header.ToString() == "+")
             {
+                string codeBase = "EntiteInconnu ennemi = Perso.EnnemiLePlusProche(ListEntites);\nPerso.AvancerVers(ennemi);\nPerso.Attaquer(ennemi);";
                 object f = e.Source;
                 string nom = "Script" + tc_Edit.Items.Count;
-                long id = bd.insertion("INSERT INTO Scripts (contenu, nom, uuid) VALUES ('', '" + nom + "', uuid());");
+                long id = bd.insertion("INSERT INTO Scripts (contenu, nom, uuid) VALUES ('"+codeBase+"', '" + nom + "', uuid());");
                 if (id != 0)
                 {
                     if (bd.insertion("INSERT INTO JoueursScripts (idJoueur, idScript) VALUES ((SELECT idJoueur FROM Joueurs WHERE nomUtilisateur ='" + Player.NomUtilisateur + "'), " + id + ");") != 0)
                     {
                         TabItem onglet = ti_selected;
                         string uuid = bd.selection("SELECT uuid FROM Scripts WHERE idScript = " + id + ";").First().First();
-                        Player.LstScripts.Add(new Script(new List<string>() { "", nom, uuid }));
+                        Player.LstScripts.Add(new Script(new List<string>() { codeBase, nom, uuid }));
                         onglet.Header = nom;
-                        onglet.Content = new pageScript(uuid);
+                        onglet.Content = new pageScript(uuid,codeBase);
                         if (tc_Edit.Items.Count < 10)
                         {
                             TabItem ongletPlus = new TabItem();

@@ -125,7 +125,7 @@ namespace Gofus
 
         private void btnCreer_Click(object sender, RoutedEventArgs e)
         {
-            CreationCompteWindow creation = new CreationCompteWindow();
+            CreationUser creation = new CreationUser();
             creation.Show();
             System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(PageVisionneuse)).Close();
         }

@@ -49,10 +49,7 @@ namespace Gofus
                 if (bobRoss[0] != "rien")
                 {
                     persoActuel = new Entite(bobRoss);
-
                     starter(Player, persoActuel);
-
-
                 }
             };
 
@@ -74,10 +71,6 @@ namespace Gofus
 
             }));
 
-            #region .
-            /* pgbExp.Foreground = new SolidColorBrush(Colors.CornflowerBlue);
-             pgbExp.Background = new SolidColorBrush(Colors.Chartreuse);*/
-            #endregion
             if (ent.Niveau < 200)
             {
                 Dispatcher.Invoke(new Action(() =>
@@ -86,9 +79,6 @@ namespace Gofus
                     pgbExp.Minimum = Statistique.dictLvl[ent.Niveau];
                     pgbExp.ToolTip = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur.ToString() + " sur " + Statistique.dictLvl[ent.LstStats.First(x => x.Nom == Statistique.element.experience).toLevel() + 1].ToString() + " exp";
                 }));
-                //1 950
-                // 2 657
-                // 5 000
 
             }
             else

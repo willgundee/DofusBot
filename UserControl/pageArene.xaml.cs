@@ -118,12 +118,9 @@ namespace Gofus
 
         private void btnAtt_Click(object sender, RoutedEventArgs e)
         {
-            Thread trdRefresh = new Thread(() =>
-            {
+          
                 Attaquer();
-            });
-            trdRefresh.Start();
-            Thread.Yield();
+   
         }
 
         public void Attaquer()
@@ -144,9 +141,9 @@ namespace Gofus
                 int seed = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds + lstAtt.Sum(x => x.idProprietaire) + lstDef.Sum(x => x.idProprietaire);
                 long idPartie = bd.insertion("INSERT INTO Parties (seed, temps, infoEntites) VALUE(" + seed + ", NOW(), '" + MySqlHelper.EscapeString(strJson) + "');");
                 foreach (int idPropUnique in lstAtt.Select(x => x.idProprietaire).Distinct())
-                    bd.insertion("INSERT INTO PartiesJoueurs (idPartie, idJoueur, estAttaquant) VALUE(" + idPartie + ", " + idPropUnique + ", true);");
+                    bd.insertion("INSERT INTO PartiesJoueurs (idPartie, idJoueur, estAttaquant) VALUE(" + idPartie + ", " + (idPropUnique == 0 ? 103 : idPropUnique) + ", true);");
                 foreach (int idPropUnique in lstDef.Select(x => x.idProprietaire).Distinct())
-                    bd.insertion("INSERT INTO PartiesJoueurs (idPartie, idJoueur, estAttaquant) VALUE(" + idPartie + ", " + idPropUnique + ", false);");
+                    bd.insertion("INSERT INTO PartiesJoueurs (idPartie, idJoueur, estAttaquant) VALUE(" + idPartie + ", " + (idPropUnique == 0 ? 103 : idPropUnique) + ", false);");
                 //List<List<Entite>> infoJson = JsonConvert.DeserializeObject<List<List<Entite>>>(strJson);
                 //lstAtt = infoJson[0];
                 //lstDef = infoJson[1];

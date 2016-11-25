@@ -77,7 +77,10 @@ namespace Gofus
 
 
             foreach (Statistique stats in LstStats)
-                stats.Valeur = Convert.ToDouble(Math.Round(((stats.ValeurMax - stats.ValeurMin) / diff) * (Niveau - lvlMin)) + stats.ValeurMin);
+                if (diff == 0)
+                    stats.Valeur = Convert.ToDouble(stats.ValeurMin);
+                else
+                    stats.Valeur = Convert.ToDouble(Math.Round(((stats.ValeurMax - stats.ValeurMin) / diff) * (Niveau - lvlMin)) + stats.ValeurMin);
 
         }
 
