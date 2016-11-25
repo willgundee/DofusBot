@@ -84,7 +84,7 @@ namespace Gofus
                                 {
                                     Dispatcher.Invoke(new Action(() =>
                                     {
-                                        lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1].Substring(0, 10), Int32.Parse(p[2]), (p[4] == "True") ? lstAtt[0].Nom : lstDef[0].Nom));
+                                        lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1].Substring(0, 10), Int32.Parse(p[2]), (p[4] == "True" ? lstAtt[0].Nom : lstDef[0].Nom), Convert.ToInt32(p[0])));
                                     }));
                                 }
                             }
