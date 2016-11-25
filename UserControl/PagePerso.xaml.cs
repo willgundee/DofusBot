@@ -25,6 +25,8 @@ namespace Gofus
         public int nbScript = 0;
         public int refresh = 0;
         public DispatcherTimer timer = new DispatcherTimer();
+
+        
         public PagePerso(Entite ent, Joueur Player)
         {// refaire le min/max
             InitializeComponent();
@@ -142,6 +144,13 @@ namespace Gofus
                 Imgclasse.Source = new BitmapImage(new Uri(SourceImgClasse + ".png", UriKind.Relative));
             });
 
+
+            Dispatcher.BeginInvoke((Action)delegate
+            {
+                BitmapImage path = new BitmapImage(new Uri("../resources/fondEquipement.jpg", UriKind.Relative));
+
+            Imgfond.Source = path;
+            });
             //itmCtrlDesc.ItemsSource = LstDesc;
             foreach (Equipement item in ent.LstEquipements)
             {
