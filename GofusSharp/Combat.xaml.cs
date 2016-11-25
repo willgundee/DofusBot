@@ -13,6 +13,8 @@ using GofusSharp;
 using System.Windows.Media.Imaging;
 using System.Threading;
 using System.ComponentModel;
+using System.Windows.Documents;
+using System.Windows.Controls.Primitives;
 
 [assembly: InternalsVisibleTo("Gofus")]
 namespace GofusSharp
@@ -27,8 +29,14 @@ namespace GofusSharp
         internal double Speed { get; set; }
         internal long IdPartie { get; set; }
         internal Log DelLog { get; set; }
+        internal DelUpdate DelUpd { get; set; }
+        public bool CombatTerminer { get; set; }
 
-        private delegate void DelUpdate();
+        internal ManualResetEvent mrse = new ManualResetEvent(false);
+
+        internal delegate void DelUpdate();
+
+        private delegate void DelThreadEnd();
 
         private delegate void DelAfficheRes(long idPartie);
 
@@ -43,18 +51,18 @@ namespace GofusSharp
         public Combat(List<Gofus.Entite> lstJoueurAtt, List<Gofus.Entite> lstJoueurDef, int seed, long idPartie, bool premiereGeneration = true)
         {
             InitializeComponent();
+            CombatTerminer = false;
+            Debug.FCombat = this;
             Generation = premiereGeneration;
             DelLog = UpdateLog;
+            DelUpd = UpdateInfo;
+            mrse.Set();
             IdPartie = idPartie;
             if (Generation)
             {
-                Gofus.BDService BD = new Gofus.BDService();
-                bool? resultat = GenererPartie(lstJoueurAtt, lstJoueurDef, seed);
-                BD.Update("UPDATE Parties SET attaquantAGagne = " + (resultat == null ? "null" : (resultat == true ? "true" : "false")) + " WHERE idPartie = " + idPartie + ";");
-                //TODO: LVL UP !
-                Generation = false;
+                GenererPartie(lstJoueurAtt, lstJoueurDef, seed);
             }
-            Speed = 1.5;
+            Speed = 20;
             txtNum.Text = Speed.ToString();
             Show();
             CreerPartie(lstJoueurAtt, lstJoueurDef, seed);
@@ -113,8 +121,9 @@ namespace GofusSharp
             CombatCourant = new Partie(terrain, ListEntiteAtt, ListEntiteDef, seed);
         }
 
-        private bool? GenererPartie(List<Gofus.Entite> lstJoueurAtt, List<Gofus.Entite> lstJoueurDef, int seed)
+        private void GenererPartie(List<Gofus.Entite> lstJoueurAtt, List<Gofus.Entite> lstJoueurDef, int seed)
         {
+            Gofus.BDService BD = new Gofus.BDService();
             Liste<Entite> ListEntiteAtt = new Liste<Entite>();
             Liste<Entite> ListEntiteDef = new Liste<Entite>();
             Terrain terrain = new Terrain(10, 10);
@@ -160,7 +169,10 @@ namespace GofusSharp
                     }
                     if (!vivante)
                     {
-                        return false;
+                        BD.Update("UPDATE Parties SET attaquantAGagne = false WHERE idPartie = " + IdPartie + ";");
+                        //TODO: LVL UP !
+                        Generation = false;
+                        return;
                     }
                     vivante = false;
                     foreach (Entite entiteDef in CombatCourant.ListDefendants)
@@ -173,11 +185,16 @@ namespace GofusSharp
                     }
                     if (!vivante)
                     {
-                        return true;
+                        BD.Update("UPDATE Parties SET attaquantAGagne = true WHERE idPartie = " + IdPartie + ";");
+                        //TODO: LVL UP !
+                        Generation = false;
+                        return;
                     }
                 }
             }
-            return null;
+            BD.Update("UPDATE Parties SET attaquantAGagne = null WHERE idPartie = " + IdPartie + ";");
+            //TODO: LVL UP !
+            Generation = false;
         }
 
         private void Action(Terrain terrain, Personnage joueur, Liste<EntiteInconnu> ListEntites)
@@ -270,7 +287,6 @@ namespace GofusSharp
             btn_Next.IsEnabled = false;
             TAction = new Thread(new ThreadStart(() => AsyncWork()));
             TAction.Start();
-            btn_Next.IsEnabled = true;
         }
 
         private void UpdateInfo()
@@ -301,6 +317,9 @@ namespace GofusSharp
                         ImageSprite.ToolTip = CreerToolTip(perso);
                         ToolTipService.SetShowDuration(ImageSprite, int.MaxValue);
                         sPnl.Children.Add(ImageSprite);
+                        Popup Name = new Popup();
+                        Name.Child = new TextBlock(new Run(perso.Nom));
+                        sPnl.Children.Add(Name);
                         break;
                 }
             }
@@ -451,7 +470,7 @@ namespace GofusSharp
             TextBox tb_num = sender as TextBox;
             try
             {
-                Speed = Convert.ToDouble(tb_num.Text);
+                Speed = Convert.ToDouble(tb_num.Text.Replace('.', ','));
                 Speed = Math.Round(Speed, 1);
                 if (Speed < 0.1)
                     Speed = 0.1;
@@ -463,7 +482,6 @@ namespace GofusSharp
             {
                 tb_num.Text = Speed.ToString();
             }
-            
         }
 
         private void cmdUp_Click(object sender, RoutedEventArgs e)
@@ -502,8 +520,7 @@ namespace GofusSharp
                 else
                     Action(CombatCourant.TerrainPartie, entite as Entite, ListEntites);
                 CombatCourant.FinirAction(entite);
-                DelUpdate du = UpdateInfo;
-                Dispatcher.Invoke(du);
+                Dispatcher.Invoke(DelUpd);
                 bool vivante = false;
                 foreach (Entite entiteAtt in CombatCourant.ListAttaquants)
                 {
@@ -515,6 +532,7 @@ namespace GofusSharp
                 }
                 if (!vivante)
                 {
+                    CombatTerminer = true;
                     System.Windows.Forms.MessageBox.Show("L'équipe defendante a gagnée");
                     //TODO ouvrir la fenetre resultat avec le param IdPartie
                     DelAfficheRes FenRes = OuvrirResultat;
@@ -531,16 +549,30 @@ namespace GofusSharp
                 }
                 if (!vivante)
                 {
+                    CombatTerminer = true;
                     System.Windows.Forms.MessageBox.Show("L'équipe attaquante a gagnée");
                     DelAfficheRes FenRes = OuvrirResultat;
                     Dispatcher.Invoke(FenRes, new object[] { IdPartie });
                 }
             }
+            DelThreadEnd ThEnd = ThreadEnd;
+            Dispatcher.Invoke(ThEnd);
         }
 
         internal void UpdateLog(string text)
         {
             tb_Log.Text += text;
+        }
+        internal void ThreadEnd()
+        {
+            if (chb_AutoPlay.IsChecked == false)
+                btn_Next.IsEnabled = true;
+            else if (!CombatTerminer)
+            {
+                Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                TAction = new Thread(new ThreadStart(() => AsyncWork()));
+                TAction.Start();
+            }
         }
 
         internal void OuvrirResultat(long idPartie)
@@ -552,6 +584,11 @@ namespace GofusSharp
         private void chb_AutoPlay_Checked(object sender, RoutedEventArgs e)
         {
             btn_Next.IsEnabled = false;
+            if ((TAction == null || !TAction.IsAlive) && !CombatTerminer)
+            {
+                TAction = new Thread(new ThreadStart(() => AsyncWork()));
+                TAction.Start();
+            }
         }
 
         private void chb_AutoPlay_Unchecked(object sender, RoutedEventArgs e)
@@ -566,13 +603,15 @@ namespace GofusSharp
             switch (StartStop.Content.ToString())
             {
                 case "Pause":
-                    StartStop.Content = "Jouer";
                     btn_Next.IsEnabled = false;
+                    mrse.Reset();
+                    StartStop.Content = "Jouer";
                     break;
                 case "Jouer":
-                    StartStop.Content = "Pause";
                     if (chb_AutoPlay.IsChecked == false)
                         btn_Next.IsEnabled = true;
+                    StartStop.Content = "Pause";
+                    mrse.Set();
                     break;
             }
         }
