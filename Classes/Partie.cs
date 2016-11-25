@@ -18,17 +18,19 @@ namespace Gofus
         public string Gagnant { get; set; }
 
 
-        private int seed { get; set; }
-        public Partie(string a, string d, string dt, int sd, string ga)
+        public int seed { get; set; }
+        public int IdPartie { get; set; }
+        public Partie(string a, string d, string dt, int sd, string ga, int id)
         {
             Attaquant = a;
             Defendant = d;
             seed = sd;
             Date = dt;
             trueDate = new DateTime();
-            trueDate = DateTime.ParseExact(dt, "yyyy-MM-dd HH:mm:ss,fff",System.Globalization.CultureInfo.InvariantCulture);
+            trueDate = DateTime.ParseExact(dt, "yyyy-MM-dd HH:mm:ss",System.Globalization.CultureInfo.InvariantCulture);
            
             Gagnant = ga;
+            IdPartie = id;
         }
 
 

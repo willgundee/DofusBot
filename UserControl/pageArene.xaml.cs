@@ -140,10 +140,7 @@ namespace Gofus
                 foreach (int idPropUnique in lstAtt.Select(x => x.idProprietaire).Distinct())
                     bd.insertion("INSERT INTO PartiesJoueurs (idPartie, idJoueur, estAttaquant) VALUE(" + idPartie + ", " + (idPropUnique == 0 ? 103 : idPropUnique) + ", true);");
                 foreach (int idPropUnique in lstDef.Select(x => x.idProprietaire).Distinct())
-                    bd.insertion("INSERT INTO PartiesJoueurs (idPartie, idJoueur, estAttaquant) VALUE(" + idPartie + ", " + (idPropUnique == 0 ? 103 : idPropUnique) + ", false);");
-                //List<List<Entite>> infoJson = JsonConvert.DeserializeObject<List<List<Entite>>>(strJson);
-                //lstAtt = infoJson[0];
-                //lstDef = infoJson[1];
+                    bd.insertion("INSERT INTO PartiesJoueurs (idPartie, idJoueur, estAttaquant) VALUE(" + idPartie + ", " + idPropUnique + ", false);");
                 GofusSharp.Combat combat = new GofusSharp.Combat(lstAtt, lstDef, seed, idPartie);
             }
         }

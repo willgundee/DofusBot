@@ -74,7 +74,7 @@ namespace Gofus
                             {
                                 Dispatcher.Invoke(new Action(() =>
                                 {
-                                    lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1], Int32.Parse(p[2]), (p[4] == "True") ? lstAtt[0].Nom : lstDef[0].Nom));
+                                    lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1], Int32.Parse(p[2]), (p[4] == "True" ? lstAtt[0].Nom : lstDef[0].Nom), Convert.ToInt32(p[0])));
                                 }));
 
                             }
@@ -84,7 +84,7 @@ namespace Gofus
                                 {
                                     Dispatcher.Invoke(new Action(() =>
                                     {
-                                        lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1], Int32.Parse(p[2]), (p[4] == "True") ? lstAtt[0].Nom : lstDef[0].Nom));
+                                        lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1].Substring(0, 10), Int32.Parse(p[2]), (p[4] == "True" ? lstAtt[0].Nom : lstDef[0].Nom), Convert.ToInt32(p[0])));
                                     }));
                                 }
                             }
@@ -132,8 +132,10 @@ namespace Gofus
 
         private void btnVisionner_Click(object sender, RoutedEventArgs e)
         {
-            ///TODO : Regarder une partie.
-            
+            Partie PartieChoisi = dgHistorique.SelectedValue as Partie;
+            string strJson = bd.selection("SELECT infoEntites FROM Parties WHERE idPartie = " + PartieChoisi.IdPartie)[0][0];
+            List<List<Entite>> infoJson = JsonConvert.DeserializeObject<List<List<Entite>>>(strJson);
+            GofusSharp.Combat combat = new GofusSharp.Combat(infoJson[0], infoJson[1], PartieChoisi.seed, PartieChoisi.IdPartie, false);
         }
 
         private void btn_Refresh_Click(object sender, RoutedEventArgs e)
