@@ -9,11 +9,14 @@ namespace Gofus
     public class Adversaire
     {
         public string nom { get; set; }
-        public int level { get; set; }
-        public Adversaire (string n , string l)
+        public  int levelMin { get; set; }
+
+        public int levelMax { get; set; }
+        public Adversaire (string n,int lM,int lMX)
         {
             nom = n;
-            level = int.Parse(l);
+            levelMin = lM;
+            levelMax = lMX;
         }
     }
 }

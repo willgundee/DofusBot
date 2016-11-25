@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace Gofus
 {
@@ -30,6 +31,7 @@ namespace Gofus
         {
             InitializeComponent();
             idJoueur = id;
+            GenererChamps();
             lstpartie = new ObservableCollection<Partie>();
             dgHistorique.ItemsSource = lstpartie;
             cboTypePartie.Items.Add("Les partie de tout le monde");
@@ -40,6 +42,7 @@ namespace Gofus
         public pageArchive()
         {
             InitializeComponent();
+            GenererChamps();
             lstpartie = new ObservableCollection<Partie>();
             btnQuitter.Visibility = Visibility.Visible;
             btnCreer.Visibility = Visibility.Visible;
@@ -49,6 +52,28 @@ namespace Gofus
             loadParties("all");
             btnVisionner.IsEnabled = false;
             dgHistorique.Items.Refresh();
+
+        }
+
+        public void GenererChamps()
+        {
+            DataGridTextColumn textColumn = new DataGridTextColumn();
+            textColumn.Header = "Attaquant";
+            textColumn.Binding = new Binding("Attaquant");
+            dgHistorique.Columns.Add(textColumn);
+            textColumn = new DataGridTextColumn();
+            textColumn.Header = "Defendant";
+            textColumn.Binding = new Binding("Defendant");
+            dgHistorique.Columns.Add(textColumn);
+            textColumn = new DataGridTextColumn();
+
+            textColumn.Header = "Date";
+            textColumn.Binding = new Binding("trueDate");
+            textColumn.Binding.StringFormat = "yyyy/MM/dd";
+            dgHistorique.Columns.Add(textColumn);
+   
+            textColumn = new DataGridTextColumn();
+
         }
 
         private void loadParties(string type)
@@ -56,7 +81,7 @@ namespace Gofus
             List<Entite> lstAtt = new List<Entite>();
             List<Entite> lstDef = new List<Entite>();
             lstpartie.Clear();
-            string selectid = "Select idPartie,temps,seed,infoEntites,attaquantAGagne From Parties";
+            string selectid = "Select idPartie,temps,seed,infoEntites,attaquantAGagne From Parties order by temps desc";
             BackgroundWorker Refresh = new BackgroundWorker() { WorkerReportsProgress = true };
             Refresh.DoWork += (s, e) =>
             {
@@ -74,7 +99,7 @@ namespace Gofus
                             {
                                 Dispatcher.Invoke(new Action(() =>
                                 {
-                                    lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1], Int32.Parse(p[2]), (p[4] == "True" ? lstAtt[0].Nom : lstDef[0].Nom), Convert.ToInt32(p[0])));
+                                    lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1], int.Parse(p[2]), (p[4] == "True" ? lstAtt[0].Nom : lstDef[0].Nom), Convert.ToInt32(p[0])));
                                 }));
 
                             }
@@ -84,7 +109,7 @@ namespace Gofus
                                 {
                                     Dispatcher.Invoke(new Action(() =>
                                     {
-                                        lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1].Substring(0, 10), Int32.Parse(p[2]), (p[4] == "True" ? lstAtt[0].Nom : lstDef[0].Nom), Convert.ToInt32(p[0])));
+                                        lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1], int.Parse(p[2]), (p[4] == "True" ? lstAtt[0].Nom : lstDef[0].Nom), Convert.ToInt32(p[0])));
                                     }));
                                 }
                             }

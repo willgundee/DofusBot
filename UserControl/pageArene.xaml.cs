@@ -54,13 +54,12 @@ namespace Gofus
                      {
                          int min = Statistique.toLevel((double.Parse(enti[1])));
                          int max = Statistique.toLevel((double.Parse(enti[2])));
-                         string lvl = (min == max)? max.ToString() : "Entre " + min.ToString() + " et " + max.ToString();
-                         lstAdversaires.Add(new Adversaire(enti[0], lvl));
+                         lstAdversaires.Add(new Adversaire(enti[0],min,max));
                      }
                      else
                      {
                          int niveau = Statistique.toLevel((double.Parse(enti[1])));
-                         lstAdversaires.Add(new AdversaireHumain(enti[0], niveau.ToString(), enti[2]));
+                         lstAdversaires.Add(new AdversaireHumain(enti[0], niveau, enti[2]));
                      }
                  }
                  dataGrid.ItemsSource = lstAdversaires;
@@ -72,7 +71,7 @@ namespace Gofus
                      dataGrid.Columns.Add(textColumn);
                      textColumn = new DataGridTextColumn();
                      textColumn.Header = "Niveau";
-                     textColumn.Binding = new Binding("level");
+                     textColumn.Binding = new Binding("trueLevel");
                      
                      dataGrid.Columns.Add(textColumn);
                      textColumn = new DataGridTextColumn();
@@ -84,14 +83,21 @@ namespace Gofus
                  else
                  {
                      DataGridTextColumn textColumn = new DataGridTextColumn();
-                     textColumn.Header = "Niveau";
-                     textColumn.Binding = new Binding("level");
-                     dataGrid.Columns.Add(textColumn);
-                     textColumn = new DataGridTextColumn();
                      textColumn.Header = "Nom";
                      textColumn.Binding = new Binding("nom");
                      dataGrid.Columns.Add(textColumn);
-                     dataGrid.FrozenColumnCount = 2;
+                     textColumn = new DataGridTextColumn();
+                     textColumn.Header = "Niveau minimal";
+                     textColumn.Binding = new Binding("levelMin");
+                     dataGrid.Columns.Add(textColumn);
+                     textColumn = new DataGridTextColumn();
+                     textColumn.Header = "Niveau maximal";
+                     textColumn.Binding = new Binding("levelMax");
+                     dataGrid.Columns.Add(textColumn);
+                     textColumn = new DataGridTextColumn();
+
+                   
+                     dataGrid.FrozenColumnCount = 3;
                  }
                  dataGrid.Items.Refresh();
              }));

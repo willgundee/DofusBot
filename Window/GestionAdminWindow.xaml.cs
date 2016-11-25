@@ -80,6 +80,7 @@ namespace Gofus
                 }
                 i++;
             }
+            BackUpComptes();
         }
         public void BackUpComptes()
         {

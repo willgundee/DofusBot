@@ -12,9 +12,10 @@ namespace Gofus
 
         public int trueLevel { get; set; }
 
-        public AdversaireHumain(string n, string l,string p) : base(n,l)
+        public AdversaireHumain(string n, int l,string p) : base(n,l,l)
         {
             proprietaire = p;
+            trueLevel = l;
         }
     }
 
