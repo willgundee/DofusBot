@@ -56,6 +56,7 @@ namespace Gofus
         private PageDocumentation pgDoc;
         private PageInventaire pgInv;
         private PagePerso pgperso;
+        private pAdmin pgAdmin;
 
         public MainWindow(int id)
         {
@@ -69,8 +70,9 @@ namespace Gofus
             Title += n;
             if (Player.estAdmin)
             {
+                pgAdmin = new pAdmin();
                 PaneauAdmin.Visibility = Visibility.Visible;
-                controlAdmin.Content = new pAdmin();
+                controlAdmin.Content = pgAdmin;
             }
             else
             {
@@ -377,8 +379,8 @@ namespace Gofus
 
         private void PgAdmin_Selected(object sender, RoutedEventArgs e)
         {
-            if (!controlAdmin.HasContent)
-                controlAdmin.Content = new pAdmin();
+         
+                
         }
 
 
