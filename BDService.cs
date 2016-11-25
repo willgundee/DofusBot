@@ -35,16 +35,11 @@ namespace Gofus
                 BDChat = new MySqlConnection(connexionString);
 
                 BDChatWindow = new MySqlConnection(connexionString);
-
-
-
             }
             catch (Exception e)
             {
                 MessageBox.Show("Connexion defectueuse : " + e.Message);
             }
-
-
         }
 
         public long insertion(string req)
@@ -70,7 +65,6 @@ namespace Gofus
             //aa
             return retVal;
         }
-
         public bool Update(string req)
         {
             try
@@ -91,7 +85,6 @@ namespace Gofus
                     fermerConnexionINSERT();
                     return false;
                 }
-
             }
             catch (Exception ex)
             {
@@ -134,13 +127,6 @@ namespace Gofus
             return false;
 
         }
-
-
-
-
-
-
-
         public DataSet selectionChat(string req)
         {
             DataSet ds = new DataSet();
@@ -315,7 +301,10 @@ namespace Gofus
 
 
 
-
+        /// <summary>
+        /// Pour tuer la connection à la BD.
+        /// </summary>
+        /// <returns></returns>
         public bool StopChat()
         {
             try

@@ -45,8 +45,7 @@ namespace Gofus
                 int typeRapportText = cboType.SelectedIndex + 1;
                 long envoie = 0;
 
-                string inser = "INSERT INTO Rapports(idJoueur,temps,contenu,uuid,idTypeRapport,titre)VALUES(" + idJoueur + ",NOW(),'" +
-                                    message + "',UUID()," + typeRapportText + ", '" + titre + "')";
+                string inser = "INSERT INTO Rapports(idJoueur,temps,contenu,uuid,idTypeRapport,titre)VALUES(" + idJoueur + ",NOW(),'" + message + "',UUID()," + typeRapportText + ", '" + titre + "')";
                 envoie = bdInsert.insertion(inser);
                 if (envoie == -1)
                 {

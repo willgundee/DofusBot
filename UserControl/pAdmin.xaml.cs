@@ -59,6 +59,11 @@ namespace Gofus
             }));
         }
 
+        /// <summary>
+        ///  Actions éffectuer lorsque la selection change dans la dataGrid.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             tblContenu.Text = (dataGrid.SelectedIndex != -1) ? ((Rapport)dataGrid.SelectedItem).msg : "";
@@ -92,9 +97,6 @@ namespace Gofus
                 dataGrid.ItemsSource = lstRapport;
             }));
         }
-
-
-
         private void btnFenetre_Click(object sender, RoutedEventArgs e)
         {
             GestionAdminWindow GAW = new GestionAdminWindow();
