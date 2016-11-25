@@ -33,8 +33,10 @@ namespace Gofus
             timer.Interval = TimeSpan.FromSeconds(5);
             timer.Tick += timer_Tick;
             timer.Start();
+           
 
             starter(Player, ent);
+           
 
         }
 
