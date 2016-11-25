@@ -43,6 +43,7 @@ namespace Gofus
         public GestionAdminWindow()
         {
             InitializeComponent();
+            // Initialisation des objets requis.
             dataGrid.AutoGenerateColumns = false;
             lstBackUp = new ObservableCollection<Utilisateur>();
             lstUtilisateurs = new ObservableCollection<Utilisateur>();
@@ -100,7 +101,6 @@ namespace Gofus
             {
                 lstUtilisateurs.Add(new Utilisateur(u.nom, u.estAdmin));
             }
-
             dataGrid.ItemsSource = lstUtilisateurs;
         }
 
