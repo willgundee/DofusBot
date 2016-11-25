@@ -49,14 +49,14 @@ namespace Gofus
         }
         private void SelectRaports()
         {
-                string sel = "SELECT contenu,temps,titre,nom,Rapports.idRapport FROM Rapports INNER JOIN  typerapport ON Rapports.idTypeRapport =  typerapport.idTypeRapport ORDER by temps";
-                List<string>[] result = bd.selection(sel);
-                Dispatcher.Invoke(new Action(() =>
-                {
-                    if (result[0][0] != "rien")
-                        foreach (List<string> l in result)
-                            lstRapport.Add(new Rapport(l[0], l[1], l[2], l[3], l[4]));
-                }));
+            string sel = "SELECT contenu,temps,titre,nom,Rapports.idRapport FROM Rapports INNER JOIN  typerapport ON Rapports.idTypeRapport =  typerapport.idTypeRapport ORDER by temps";
+            List<string>[] result = bd.selection(sel);
+            Dispatcher.Invoke(new Action(() =>
+            {
+                if (result[0][0] != "rien")
+                    foreach (List<string> l in result)
+                        lstRapport.Add(new Rapport(l[0], l[1], l[2], l[3], l[4]));
+            }));
         }
 
         private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -72,7 +72,7 @@ namespace Gofus
 
         public void SupprimerRapport()
         {
-            tblContenu.Text = "";
+            Dispatcher.Invoke(new Action(() => tblContenu.Text = ""));
             Rapport del = (Rapport)dataGrid.SelectedItem;
             bool test = bd.delete("DELETE FROM Rapports WHERE idRapport = " + del.id);
             lstRapport.Remove(del);
@@ -89,7 +89,6 @@ namespace Gofus
                 if (result[0][0] != "rien")
                     foreach (List<string> l in result)
                         lstRapport.Add(new Rapport(l[0], l[1], l[2], l[3], l[4]));
-
                 dataGrid.ItemsSource = lstRapport;
             }));
         }
