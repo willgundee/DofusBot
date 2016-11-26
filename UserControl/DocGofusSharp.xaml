@@ -6,6 +6,8 @@
              xmlns:local="clr-namespace:Gofus"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel Name="sp_main">
-    </StackPanel>
+    <ScrollViewer>
+        <StackPanel Name="sp_main">
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

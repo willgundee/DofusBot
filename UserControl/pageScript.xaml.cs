@@ -423,7 +423,12 @@ namespace Gofus
 
             TreeNode[] treeNodeTab_method_perso = new TreeNode[] {
                 new TreeNode("UtiliserSort(Sort|nom_sort sort, EntiteInconnu|Case cible)", treeNodeTab_simpleVar),
+                new TreeNode("PeutUtiliserSort(Sort|nom_sort sort, EntiteInconnu|Case cible[, Case source])", treeNodeTab_simpleVar),
+                new TreeNode("CasesPourUtiliserSort(Sort|nom_sort sort, EntiteInconnu|Case cible)", treeNodeTab_simpleVar),
+                new TreeNode("EstEnLigneDeVue(Case source, Case cible)", treeNodeTab_simpleVar),
                 new TreeNode("AvancerVers(EntiteInconnu|Case cible[, int PMAlouer)", treeNodeTab_simpleVar),
+                new TreeNode("SEloignerDe(EntiteInconnu|Case cible[, int PMAlouer)", treeNodeTab_simpleVar),
+                new TreeNode("RetourneNiveau()", treeNodeTab_simpleVar),
                 new TreeNode("Attaquer(EntiteInconnu|Case cible)", treeNodeTab_simpleVar)
             };
 
@@ -467,7 +472,12 @@ namespace Gofus
             #region Entite
             TreeNode[] treeNodeTab_method_entite = new TreeNode[] {
                 new TreeNode("UtiliserSort(Sort|nom_sort sort, EntiteInconnu|Case cible)", treeNodeTab_simpleVar),
-                new TreeNode("AvancerVers(EntiteInconnu|Case cible[, int PMAlouer)", treeNodeTab_simpleVar)
+                new TreeNode("PeutUtiliserSort(Sort|nom_sort sort, EntiteInconnu|Case cible[, Case source])", treeNodeTab_simpleVar),
+                new TreeNode("CasesPourUtiliserSort(Sort|nom_sort sort, EntiteInconnu|Case cible)", treeNodeTab_simpleVar),
+                new TreeNode("EstEnLigneDeVue(Case source, Case cible)", treeNodeTab_simpleVar),
+                new TreeNode("AvancerVers(EntiteInconnu|Case cible[, int PMAlouer)", treeNodeTab_simpleVar),
+                new TreeNode("SEloignerDe(EntiteInconnu|Case cible[, int PMAlouer)", treeNodeTab_simpleVar),
+                new TreeNode("RetourneNiveau()", treeNodeTab_simpleVar)
             };
 
             foreach (TreeNode Tnode in treeNodeTab_method_entite)
@@ -507,7 +517,19 @@ namespace Gofus
             treeNodeTab_attribut_entite.CopyTo(treeNodeTab_entite, treeNodeTab_method_entite.Length);
             #endregion
             #region EntiteInconnu
-            TreeNode[] treeNodeTab_perso_i = new TreeNode[] {
+
+            TreeNode[] treeNodeTab_method_perso_i = new TreeNode[] {
+                new TreeNode("RetourneNiveau()", treeNodeTab_simpleVar)
+            };
+
+            foreach (TreeNode Tnode in treeNodeTab_method_perso_i)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "method";
+                Tnode.Text = "system";
+            }
+
+            TreeNode[] treeNodeTab_attribut_perso_i = new TreeNode[] {
                 new TreeNode("Equipe"),
                 new TreeNode("Etat"),
                 new TreeNode("IdEntite", treeNodeTab_simpleVar),
@@ -525,12 +547,15 @@ namespace Gofus
                 new TreeNode("ListStatistiques", treeNodeTab_Liste),
                 new TreeNode("ListEnvoutements", treeNodeTab_Liste)
             };
-            foreach (TreeNode Tnode in treeNodeTab_perso_i)
+            foreach (TreeNode Tnode in treeNodeTab_attribut_perso_i)
             {
                 Tnode.Name = Tnode.Text;
                 Tnode.Tag = "property";
                 Tnode.Text = "system";
             }
+            TreeNode[] treeNodeTab_perso_i = new TreeNode[treeNodeTab_method_perso_i.Length + treeNodeTab_attribut_perso_i.Length];
+            treeNodeTab_method_perso_i.CopyTo(treeNodeTab_perso_i, 0);
+            treeNodeTab_attribut_perso_i.CopyTo(treeNodeTab_perso_i, treeNodeTab_method_perso_i.Length);
             #endregion
             #region Terrain
             TreeNode[] treeNodeTab_method_terrain = new TreeNode[] {
@@ -1290,7 +1315,8 @@ namespace Gofus
             #endregion
             #region Debug
             TreeNode[] treeNodeTab_Debug = new TreeNode[] {
-                new TreeNode("Log()")
+                new TreeNode("Log()"),
+                new TreeNode("TourCourant()")
             };
             foreach (TreeNode Tnode in treeNodeTab_Debug)
             {

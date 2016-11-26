@@ -34,7 +34,6 @@ namespace Gofus
                 Label nomClasse = new Label();
                 nomClasse.Content = classe[2];
                 tvi_classe.Items.Add(nomClasse);
-
                 List<string>[] proprietes = BD.selection("SELECT idType, nom, description FROM ProprietesGofus WHERE idClasseGofus = " + classe[0]);
                 if (proprietes[0].Count() > 1)
                 {
