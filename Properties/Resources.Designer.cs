@@ -59,15 +59,5 @@ namespace Gofus.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap fondEquipement {
-            get {
-                object obj = ResourceManager.GetObject("fondEquipement", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
     }
 }

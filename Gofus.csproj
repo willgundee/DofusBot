@@ -55,6 +55,9 @@
   <PropertyGroup>
     <StartupObject>Gofus.StartUp</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="GofusSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -115,6 +118,7 @@
     <Compile Include="Résultat.xaml.cs">
       <DependentUpon>Résultat.xaml</DependentUpon>
     </Compile>
+    <Compile Include="StartUp.cs" />
     <Compile Include="UserControl\BestaireDesc.xaml.cs">
       <DependentUpon>BestaireDesc.xaml</DependentUpon>
     </Compile>
@@ -388,12 +392,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\GofusSharp\monstre.png" />
-    <Content Include="Resources\Sanglier.jpg">
+    <Resource Include="Resources\Sanglier.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Tofu.jpg">
+    </Resource>
+    <Resource Include="Resources\Tofu.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </Resource>
     <Resource Include="Resources\Tournesol Sauvage.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -437,9 +441,9 @@
     <Resource Include="Resources\Champ champ.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Content Include="Resources\fondEquipement.jpg">
+    <Resource Include="Resources\fondEquipement.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </Resource>
     <Resource Include="Resources\vide.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
