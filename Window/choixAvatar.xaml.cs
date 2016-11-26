@@ -33,12 +33,8 @@ namespace Gofus
                 lstImage.Add(imge);
 
             }
-
-
             listBoxAvatars.SelectedIndex = Avatar;
             idAvatar = Avatar;
-
-
         }
 
         private void btnChoisir_Click(object sender, RoutedEventArgs e)

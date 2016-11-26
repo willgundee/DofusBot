@@ -7,6 +7,7 @@ namespace GofusSharp
         public Liste<Entite> ListAttaquants { get; internal set; }
         public Liste<Entite> ListDefendants { get; internal set; }
         public Liste<EntiteInconnu> ListEntites { get; internal set; }
+        public int Tour { get; internal set; }
         internal System.Random Seed { get; set; }
         internal int valeurSeed { get; set; }
         internal Partie(Terrain TerrainPartie, Liste<Entite> ListAttaquants, Liste<Entite> ListDefendants, int valeurSeed)
@@ -15,19 +16,9 @@ namespace GofusSharp
             this.ListDefendants = ListDefendants;
             this.valeurSeed = valeurSeed;
             this.TerrainPartie = TerrainPartie;
+            Tour = 0;
             Seed = new System.Random(valeurSeed);
             GenererTerrain();
-            PlacerJoueurs();
-            PlacerObstacles();
-            ListEntites = new Liste<EntiteInconnu>();
-            DebuterPartie();
-        }
-        internal Partie(Liste<Entite> ListAttaquants, Liste<Entite> ListDefendants)
-        {
-            this.ListAttaquants = ListAttaquants;
-            this.ListDefendants = ListDefendants;
-            Seed = new System.Random(valeurSeed);
-            GenererTerrain(10, 10);
             PlacerJoueurs();
             PlacerObstacles();
             ListEntites = new Liste<EntiteInconnu>();
@@ -141,14 +132,14 @@ namespace GofusSharp
                 }
                 entite.PV_MAX = vie + (vitalite * (entite.ClasseEntite.Nom != "sacrieur" ? 1 : 2));
                 entite.PV = entite.PV_MAX;
-                ListEntites.Add(new EntiteInconnu(entite));
+                entite.PA = entite.PA_MAX;
+                entite.PM = entite.PM_MAX;
+                //ListEntites.Add(new EntiteInconnu(entite));
             }
         }
 
-        public void DebuterAction(Entite entite)
+        internal void DebuterAction(Entite entite)
         {
-            entite.PM = entite.PM_MAX;
-            entite.PA = entite.PA_MAX;
             foreach (Envoutement buff in entite.ListEnvoutements)
             {
                 switch (buff.Stat)
@@ -161,68 +152,74 @@ namespace GofusSharp
                         break;
                 }
             }
-            entite.ListEntites = ListEntites;
-            foreach (EntiteInconnu entiteInconnu in ListEntites)
+            entite.ListEntites = new Liste<EntiteInconnu>();
+            foreach (Entite entiteCour in ListAttaquants.Concat(ListDefendants))
+                entite.ListEntites.Add(new EntiteInconnu(entiteCour));
+            foreach (Entite entiteCour in ListAttaquants.Concat(ListDefendants))
             {
-                foreach (Envoutement buff in entiteInconnu.ListEnvoutements)
+                foreach (Envoutement buff in entiteCour.ListEnvoutements)
                 {
                     if (buff.IdLanceur == entite.IdEntite)
                     {
-                        if (buff.PasserTour())
-                        {
-                            entiteInconnu.ListEnvoutements.Remove(buff);
-                        }
+                        buff.PasserTour();
                     }
                 }
+                entiteCour.ListEnvoutements.RemoveAll(x => x.TourRestants <= 0);
             }
         }
 
-        public void SyncroniserJoueur()
+        internal void FinirAction(Entite entite)
         {
-            foreach (EntiteInconnu entiteInconnu in ListEntites)
-            {
-                bool existe = false;
-                foreach (Entite entite in ListAttaquants.Concat(ListDefendants))
-                {
-                    if (entite.IdEntite == entiteInconnu.IdEntite)
-                    {
-                        entite.TerrainEntite = TerrainPartie;
-                        entite.Position = entiteInconnu.Position;
-                        entite.PV = entiteInconnu.PV;
-                        entite.PV_MAX = entiteInconnu.PV_MAX;
-                        entite.ListEnvoutements = entiteInconnu.ListEnvoutements;
-                        entite.Etat = entiteInconnu.Etat;
-                        existe = true;
-                        break;
-                    }
-                }
-                if (!existe)
-                {
-                    Entite newInvoc = new Entite(entiteInconnu, "//Placeholder", TerrainPartie, entiteInconnu.Proprietaire);
-                    if (newInvoc.Equipe == EntiteInconnu.type.attaquant)
-                    {
-                        foreach (Entite entiteProp in ListAttaquants)
-                        {
-                            if (entiteProp.IdEntite == newInvoc.Proprietaire)
-                            {
-                                ListAttaquants.Insert(ListAttaquants.FindIndex(x => x == entiteProp), newInvoc);
-                                break;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        foreach (Entite entiteProp in ListDefendants)
-                        {
-                            if (entiteProp.IdEntite == newInvoc.Proprietaire)
-                            {
-                                ListDefendants.Insert(ListDefendants.FindIndex(x => x == entiteProp), newInvoc);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
+            entite.PM = entite.PM_MAX;
+            entite.PA = entite.PA_MAX;
+        }
+
+        internal void SyncroniserJoueur()
+        {
+            //foreach (EntiteInconnu entiteInconnu in ListEntites)
+            //{
+            //    bool existe = false;
+            //    foreach (Entite entite in ListAttaquants.Concat(ListDefendants))
+            //    {
+            //        if (entite.IdEntite == entiteInconnu.IdEntite)
+            //        {
+            //            entite.TerrainEntite = TerrainPartie;
+            //            entite.Position = entiteInconnu.Position;
+            //            entite.PV = entiteInconnu.PV;
+            //            entite.PV_MAX = entiteInconnu.PV_MAX;
+            //            entite.ListEnvoutements = entiteInconnu.ListEnvoutements;
+            //            entite.Etat = entiteInconnu.Etat;
+            //            existe = true;
+            //            break;
+            //        }
+            //    }
+            //    if (!existe)
+            //    {
+            //        Entite newInvoc = new Entite(entiteInconnu, "//Placeholder", TerrainPartie, entiteInconnu.Proprietaire);
+            //        if (newInvoc.Equipe == EntiteInconnu.type.attaquant)
+            //        {
+            //            foreach (Entite entiteProp in ListAttaquants)
+            //            {
+            //                if (entiteProp.IdEntite == newInvoc.Proprietaire)
+            //                {
+            //                    ListAttaquants.Insert(ListAttaquants.FindIndex(x => x == entiteProp), newInvoc);
+            //                    break;
+            //                }
+            //            }
+            //        }
+            //        else
+            //        {
+            //            foreach (Entite entiteProp in ListDefendants)
+            //            {
+            //                if (entiteProp.IdEntite == newInvoc.Proprietaire)
+            //                {
+            //                    ListDefendants.Insert(ListDefendants.FindIndex(x => x == entiteProp), newInvoc);
+            //                    break;
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
         }
     }
 }

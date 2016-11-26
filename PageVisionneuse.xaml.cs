@@ -38,6 +38,6 @@ namespace Gofus
         private void btnAtt_Click(object sender, RoutedEventArgs e)
         {
 
+        }
     }
-}
 }

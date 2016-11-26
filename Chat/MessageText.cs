@@ -2,6 +2,9 @@
 
 namespace Gofus
 {
+    /// <summary>
+    /// Classe MessageText : Contient les informations d'un message.   /// Auteur : Marc-Antoine Lemieux
+    /// </summary>
     public class MessageText
     {
         public string message { get; set; }
@@ -17,11 +20,21 @@ namespace Gofus
 
         }
 
-        public string formaterMessager()
+        /// <summary>
+        /// Premet de formater un message pour qu'il soit prêt à être afficher.
+        /// </summary>
+        /// <param name="date">Est-ce qu'il faut afficher la date.</param>
+        /// <returns>string</returns>
+        public string formaterMessager(bool date)
         {
             StringBuilder textFinal = new StringBuilder();
-            textFinal.Append(TempsEnvois);
-            textFinal.Append(" - " + auteur + " dit : " + message + "\n");
+            if (date)
+            {
+                textFinal.Append(TempsEnvois);
+                textFinal.Append(" - ");
+            }
+            
+            textFinal.Append(auteur + " dit : " + message + "\n");
             return textFinal.ToString();
         }
     }

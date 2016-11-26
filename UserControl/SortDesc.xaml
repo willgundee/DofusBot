@@ -6,32 +6,34 @@
              xmlns:local="clr-namespace:Gofus"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="250">
-    <Grid Background="LightGray" Height="500" Width="250" >
+    <Grid Background="WhiteSmoke" Height="500" Width="250">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="100*"/>
-            <RowDefinition Height="40*"/>
-            <RowDefinition Height="62*"/>
-            <RowDefinition Height="62*"/>
-            <RowDefinition Height="62*"/>
-            <RowDefinition Height="156*"/>
+            <RowDefinition Height="87*"/>
+            <RowDefinition Height="31*"/>
+            <RowDefinition Height="382*"/>
 
         </Grid.RowDefinitions>
 
-        <Image Name="Imgsort" Height="75" Width="74" Source="../Resources/vide.png" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="10,15,41,0"/>
-        <Label Name="lblTNom" Content="Nom du sort : " FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Width="125" Margin="0,10,36,0" Grid.ColumnSpan="2" Height="31"/>
-        <TextBlock Name="lblNom" FontSize="14" TextAlignment="Right" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" Width="125" Margin="0,33,10,0" Grid.ColumnSpan="2"/>
+        <Image Name="Imgsort" Height="75" Width="74" Source="../Resources/vide.png" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="10,17,41,0" Grid.RowSpan="2"/>
+        <Label Name="lblTNom" Content="Nom du sort : " FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Width="125" Margin="0,10,38,0" Grid.ColumnSpan="2" Height="31"/>
+        <TextBlock Name="lblNom" FontSize="16" TextAlignment="Left" Height="25" VerticalAlignment="Top" HorizontalAlignment="Right" Width="137" Margin="0,36,21,0" Grid.ColumnSpan="2"/>
 
         <Label Name="lblTExperiece" Content="Niveau nécessaire : " HorizontalAlignment="Left" Width="150" FontSize="16" VerticalAlignment="Top" Margin="10,0,0,0" Grid.Row="1" Grid.ColumnSpan="2" Height="31"/>
-        <TextBlock Name="lblExperiece" TextAlignment="Right" FontSize="14" Height="30" HorizontalAlignment="Right" VerticalAlignment="Top" Width="75" Margin="0,0,10,0" Grid.Row="1" Grid.Column="1"/>
+        <TextBlock Name="lblExperiece" TextAlignment="Right" FontSize="16" Height="25" HorizontalAlignment="Right" VerticalAlignment="Top" Width="75" Margin="0,4,10,0" Grid.Row="1" Grid.Column="1"/>
 
-        <Label Name="lblTPa" Content="Point d'action : " FontSize="16" VerticalAlignment="Top" Margin="89,59,46,0" Height="31" Grid.ColumnSpan="2"/>
-        <TextBlock Name="lblPa" TextAlignment="Right" FontSize="14" Height="30"  VerticalAlignment="Top" Margin="72,67,10,0" Grid.Column="1"/>
+        <Label Name="lblTPa" Content="Point d'action : " FontSize="16" VerticalAlignment="Top" Margin="89,59,46,0" Height="31" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+        <TextBlock Name="lblPa" TextAlignment="Right" FontSize="14" Height="25"  VerticalAlignment="Top" Margin="72,67,10,0" Grid.Column="1" Grid.RowSpan="2"/>
 
-        <Label Name="lblTligne" Content="Ligne de vue : " FontSize="16" VerticalAlignment="Top" Margin="10,0,0,0" Grid.Row="3" Height="31"/>
+
+        <ScrollViewer Grid.Row="2" Grid.ColumnSpan="2" Margin="5" FontSize="16" >
+            <TextBlock Name="lstInfo" TextWrapping="WrapWithOverflow"/>
+        </ScrollViewer>
+
+        <!--Label Name="lblTligne" Content="Ligne de vue : " FontSize="16" VerticalAlignment="Top" Margin="10,0,0,0" Grid.Row="3" Height="31"/>
         <TextBlock Name="lblLigne"  TextAlignment="Right" FontSize="14" Height="30"  VerticalAlignment="Top" Margin="36,0,10,0" Grid.Row="3" Grid.Column="1"/>
 
         <Label Name="lblTcellule" Content="Cellule libre : " FontSize="16" VerticalAlignment="Top" Margin="10,30,10,0" Grid.Row="3" Height="31"/>
@@ -50,7 +52,7 @@
         <TextBlock Name="lblPorte" TextAlignment="Right" FontSize="14" Height="30"  VerticalAlignment="Top" Margin="36,30,10,0" Grid.Row="4"  Grid.Column="1"/>
 
         <Label Name="lblTDescription" Content="Description : " Margin="10,0,10,0" FontSize="16" VerticalAlignment="Top" Grid.Row="5" Grid.ColumnSpan="2" Height="31"  />
-        <TextBlock Name="lblDescription"  FontSize="14"  VerticalAlignment="Top" Width="200" Height="120" Margin="10,30,10,0" Grid.Row="5" Grid.ColumnSpan="2"  TextWrapping="WrapWithOverflow"  />
+        <TextBlock Name="lblDescription"  FontSize="14"  VerticalAlignment="Top" Width="200" Height="120" Margin="10,30,10,0" Grid.Row="5" Grid.ColumnSpan="2"  TextWrapping="WrapWithOverflow"  /-->
 
 
     </Grid>

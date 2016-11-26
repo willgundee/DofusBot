@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace Gofus
@@ -22,11 +23,25 @@ namespace Gofus
 
         private BDService bd = new BDService();
 
-
-        private Dictionary<int, string> DictType = new Dictionary<int, string>()
+        private static Dictionary<int, string> DictType = new Dictionary<int, string>()
         {
             {1, "Chapeau" },{2, "Cape"},{3, "Botte"},{4, "Ceinture"},{5, "Anneau"},{6, "Amulette"},{7, "Hache"},{8, "Pelle"},{9, "Baguette"},{10, "Épée"},{11, "Arc"},{12, "Dague"},{13, "Bâton"},{14, "Marteau"},{ 15, "Faux"}
         };
+
+        [JsonConstructor]
+        public Equipement(List<Statistique> LstStatistiques, List<Condition> LstConditions, List<Effet> LstEffets, Zone ZonePortee, Zone ZoneEffet, string Nom, string Type, bool EstArme, int Pa)
+        {
+            this.LstStatistiques = LstStatistiques;
+            this.LstConditions = LstConditions;
+            this.LstEffets = LstEffets;
+            this.ZonePortee = ZonePortee;
+            this.ZoneEffet = ZoneEffet;
+            this.Nom = Nom;
+            this.Type = Type;
+            this.EstArme = EstArme;
+            this.Pa = Pa;
+        }
+
         /// <summary>
         /// constructeur d'un équipement ou arme
         /// </summary>

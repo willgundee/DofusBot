@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using Microsoft.CSharp;
 using System.CodeDom.Compiler;
 using GofusSharp;
+using System.Windows.Controls;
 
 namespace Gofus
 {
@@ -27,7 +28,17 @@ namespace Gofus
             ctb_main.UpdateSyntaxHightlight();
             ctb_main.UpdateTreeView();
         }
-        
+        public pageScript(string UUID, string code)
+        {
+            InitializeComponent();
+            this.UUID = UUID;
+            TreeNode[] template = generateTreeTemplate();
+            ctb_main.Text = code;
+            ctb_main.CreateTreeView(generateTree(template), template);
+            ctb_main.UpdateSyntaxHightlight();
+            ctb_main.UpdateTreeView();
+        }
+
         #region truc trop long de ced
         //**************************************************************************************************
         private void btn_run_Click(object sender, RoutedEventArgs e)
@@ -90,7 +101,7 @@ namespace Gofus
                 }
             }
             Perso.UtiliserSort(Perso.ClasseEntite.TabSorts[1], ennemi);";
-            Combat combat = new Combat(ctb_main.Text, codeAI);
+            //Combat combat = new Combat(ctb_main.Text, codeAI);
         }
 
         //**************************************************************************************************
@@ -412,7 +423,12 @@ namespace Gofus
 
             TreeNode[] treeNodeTab_method_perso = new TreeNode[] {
                 new TreeNode("UtiliserSort(Sort|nom_sort sort, EntiteInconnu|Case cible)", treeNodeTab_simpleVar),
+                new TreeNode("PeutUtiliserSort(Sort|nom_sort sort, EntiteInconnu|Case cible[, Case source])", treeNodeTab_simpleVar),
+                new TreeNode("CasesPourUtiliserSort(Sort|nom_sort sort, EntiteInconnu|Case cible)", treeNodeTab_simpleVar),
+                new TreeNode("EstEnLigneDeVue(Case source, Case cible)", treeNodeTab_simpleVar),
                 new TreeNode("AvancerVers(EntiteInconnu|Case cible[, int PMAlouer)", treeNodeTab_simpleVar),
+                new TreeNode("SEloignerDe(EntiteInconnu|Case cible[, int PMAlouer)", treeNodeTab_simpleVar),
+                new TreeNode("RetourneNiveau()", treeNodeTab_simpleVar),
                 new TreeNode("Attaquer(EntiteInconnu|Case cible)", treeNodeTab_simpleVar)
             };
 
@@ -437,6 +453,7 @@ namespace Gofus
                 new TreeNode("PM", treeNodeTab_simpleVar),
                 new TreeNode("PM_MAX", treeNodeTab_simpleVar),
                 new TreeNode("Proprietaire", treeNodeTab_simpleVar),
+                new TreeNode("Position", treeNodeTab_case),
                 new TreeNode("ListStatistiques", treeNodeTab_Liste),
                 new TreeNode("ListEnvoutements", treeNodeTab_Liste),
                 new TreeNode("TabEquipements", treeNodeTab_tab)
@@ -455,7 +472,12 @@ namespace Gofus
             #region Entite
             TreeNode[] treeNodeTab_method_entite = new TreeNode[] {
                 new TreeNode("UtiliserSort(Sort|nom_sort sort, EntiteInconnu|Case cible)", treeNodeTab_simpleVar),
-                new TreeNode("AvancerVers(EntiteInconnu|Case cible[, int PMAlouer)", treeNodeTab_simpleVar)
+                new TreeNode("PeutUtiliserSort(Sort|nom_sort sort, EntiteInconnu|Case cible[, Case source])", treeNodeTab_simpleVar),
+                new TreeNode("CasesPourUtiliserSort(Sort|nom_sort sort, EntiteInconnu|Case cible)", treeNodeTab_simpleVar),
+                new TreeNode("EstEnLigneDeVue(Case source, Case cible)", treeNodeTab_simpleVar),
+                new TreeNode("AvancerVers(EntiteInconnu|Case cible[, int PMAlouer)", treeNodeTab_simpleVar),
+                new TreeNode("SEloignerDe(EntiteInconnu|Case cible[, int PMAlouer)", treeNodeTab_simpleVar),
+                new TreeNode("RetourneNiveau()", treeNodeTab_simpleVar)
             };
 
             foreach (TreeNode Tnode in treeNodeTab_method_entite)
@@ -479,6 +501,7 @@ namespace Gofus
                 new TreeNode("PM", treeNodeTab_simpleVar),
                 new TreeNode("PM_MAX", treeNodeTab_simpleVar),
                 new TreeNode("Proprietaire", treeNodeTab_simpleVar),
+                new TreeNode("Position", treeNodeTab_case),
                 new TreeNode("ListStatistiques", treeNodeTab_Liste),
                 new TreeNode("ListEnvoutements", treeNodeTab_Liste)
             };
@@ -494,7 +517,19 @@ namespace Gofus
             treeNodeTab_attribut_entite.CopyTo(treeNodeTab_entite, treeNodeTab_method_entite.Length);
             #endregion
             #region EntiteInconnu
-            TreeNode[] treeNodeTab_perso_i = new TreeNode[] {
+
+            TreeNode[] treeNodeTab_method_perso_i = new TreeNode[] {
+                new TreeNode("RetourneNiveau()", treeNodeTab_simpleVar)
+            };
+
+            foreach (TreeNode Tnode in treeNodeTab_method_perso_i)
+            {
+                Tnode.Name = Tnode.Text;
+                Tnode.Tag = "method";
+                Tnode.Text = "system";
+            }
+
+            TreeNode[] treeNodeTab_attribut_perso_i = new TreeNode[] {
                 new TreeNode("Equipe"),
                 new TreeNode("Etat"),
                 new TreeNode("IdEntite", treeNodeTab_simpleVar),
@@ -508,15 +543,19 @@ namespace Gofus
                 new TreeNode("PM", treeNodeTab_simpleVar),
                 new TreeNode("PM_MAX", treeNodeTab_simpleVar),
                 new TreeNode("Proprietaire", treeNodeTab_simpleVar),
+                new TreeNode("Position", treeNodeTab_case),
                 new TreeNode("ListStatistiques", treeNodeTab_Liste),
                 new TreeNode("ListEnvoutements", treeNodeTab_Liste)
             };
-            foreach (TreeNode Tnode in treeNodeTab_perso_i)
+            foreach (TreeNode Tnode in treeNodeTab_attribut_perso_i)
             {
                 Tnode.Name = Tnode.Text;
                 Tnode.Tag = "property";
                 Tnode.Text = "system";
             }
+            TreeNode[] treeNodeTab_perso_i = new TreeNode[treeNodeTab_method_perso_i.Length + treeNodeTab_attribut_perso_i.Length];
+            treeNodeTab_method_perso_i.CopyTo(treeNodeTab_perso_i, 0);
+            treeNodeTab_attribut_perso_i.CopyTo(treeNodeTab_perso_i, treeNodeTab_method_perso_i.Length);
             #endregion
             #region Terrain
             TreeNode[] treeNodeTab_method_terrain = new TreeNode[] {
@@ -1276,7 +1315,8 @@ namespace Gofus
             #endregion
             #region Debug
             TreeNode[] treeNodeTab_Debug = new TreeNode[] {
-                new TreeNode("Log()")
+                new TreeNode("Log()"),
+                new TreeNode("TourCourant()")
             };
             foreach (TreeNode Tnode in treeNodeTab_Debug)
             {
@@ -1311,7 +1351,7 @@ namespace Gofus
             TreeNode treeNode_1 = new TreeNode("Math", treeNodeTab_math);
             TreeNode treeNode_2 = new TreeNode("Debug", treeNodeTab_Debug);
             TreeNode treeNode_3 = new TreeNode("Perso", treeNode_template.First(x => x.Name == "Personnage").Nodes.Cast<TreeNode>().ToArray());
-            TreeNode treeNode_4 = new TreeNode("ListeEntite", treeNode_template.First(x => x.Name == "Liste").Nodes.Cast<TreeNode>().ToArray());
+            TreeNode treeNode_4 = new TreeNode("ListEntites", treeNode_template.First(x => x.Name == "Liste").Nodes.Cast<TreeNode>().ToArray());
             TreeNode treeNode_5 = new TreeNode("terrain", treeNode_template.First(x => x.Name == "Terrain").Nodes.Cast<TreeNode>().ToArray());
 
             treeNode_1.Name = "Math";
@@ -1376,7 +1416,7 @@ namespace Gofus
                 {
                     public class Combat
                     {
-                        public static void Action(Terrain terrain, Entite Perso, Liste<EntiteInconnu> ListEntites)
+                        public static void Action(Terrain terrain, Personnage Perso, Liste<EntiteInconnu> ListEntites)
                         {
                             user_code
                         }
@@ -1412,14 +1452,40 @@ namespace Gofus
             System.Windows.Forms.MessageBox.Show("Aucune érreur de compilation");
         }
         #endregion
-
-        /* bd.selection("SELECT * FROM JoueursScripts js INNER JOIN Scripts s ON s.idScript =js.idScript INNER JOIN Joueurs j ON j.idJoueur = js.idJoueur WHERE j.nomUtilisateur = '" + Player.NomUtilisateur + "'");
-         Player.LstScripts;*/
+        
         private void btn_sauvegarder_Click(object sender, RoutedEventArgs e)
         {
             if (bd.Update("UPDATE Scripts SET contenu =  '" + ctb_main.Text + "' WHERE uuid  ='" + UUID + "';COMMIT;"))
                 if (System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(MainWindow)) != null)
                     (System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow).Player.LstScripts.First(x => x.Uuid == UUID).Code = ctb_main.Text;
+        }
+
+        private void btn_supprimer_Click(object sender, RoutedEventArgs e)
+        {
+            int idScript = Convert.ToInt16(bd.selection("SELECT idScript FROM Scripts WHERE uuid = '" + UUID + "';").First().First());
+            if (bd.delete("DELETE FROM JoueursScripts WHERE idScript = " + idScript + ";"))
+            {
+                bd.delete("DELETE FROM Scripts WHERE idScript = " + idScript + ";");
+                MainWindow mW = (System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow);
+                mW.Player.LstScripts.Remove(mW.Player.LstScripts.First(x => x.Uuid == UUID));
+                object itemADelete = mW.tc_Edit.SelectedItem;
+                mW.tc_Edit.SelectedIndex = 0;
+                mW.tc_Edit.Items.Remove(itemADelete);
+            }
+        }
+
+        private void btn_renommer_Click(object sender, RoutedEventArgs e)
+        {
+            //if (bd.Update("UPDATE Scripts SET contenu =  '" + ctb_main.Text + "' WHERE uuid  ='" + UUID + "';COMMIT;"))
+            //    if (System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(MainWindow)) != null)
+            //        (System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow).Player.LstScripts.First(x => x.Uuid == UUID).Code = ctb_main.Text;
+        }
+
+        private void btn_documentation_Click(object sender, RoutedEventArgs e)
+        {
+            PageDocumentation pd = null;
+                pd=new PageDocumentation();
+               pd.Show();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace Gofus
@@ -34,6 +35,18 @@ namespace Gofus
         public int? NbTour { get; set; }
         public Statistique.element? Stat { get; set; }
         BDService bd = new BDService();
+
+        [JsonConstructor]
+        public Effet(effet Nom, string NomSimplifier, int DmgMin, int DmgMax, int? NbTour, Statistique.element? Stat)
+        {
+            this.Nom = Nom;
+            this.NomSimplifier = NomSimplifier;
+            this.DmgMin = DmgMin;
+            this.DmgMax = DmgMax;
+            this.NbTour = NbTour;
+            this.Stat = Stat;
+        }
+
         /// <summary>
         /// Constructeur d'un effet
         /// </summary>
@@ -42,8 +55,8 @@ namespace Gofus
         {
             Nom = (effet)Enum.Parse(typeof(effet), ls[0], true);//convert string to enum
             NomSimplifier = dictSimple[Nom];
-            DmgMin =Convert.ToInt32(ls[1]);
-            DmgMax =Convert.ToInt32(ls[2]);
+            DmgMin = Convert.ToInt32(ls[1]);
+            DmgMax = Convert.ToInt32(ls[2]);
             if (ls.Count > 3 && ls[3] != "")
             {
                 NbTour = Convert.ToInt16(ls[3]);

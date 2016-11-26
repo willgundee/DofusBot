@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Gofus"
         mc:Ignorable="d" Height="300" Width="297.551" ResizeMode="NoResize" Topmost="True" Title="Choisissez votre avatar">
     <Grid>
-        <Button x:Name="btnChoisir" Content="Choisir" HorizontalAlignment="Left" Margin="100,241,0,0" VerticalAlignment="Top" Width="75" Click="btnChoisir_Click"/>
+        <Button x:Name="btnChoisir" Content="Choisir" HorizontalAlignment="Left" Margin="64,241,0,0" VerticalAlignment="Top" Width="165" Click="btnChoisir_Click"/>
         <ListBox x:Name="listBoxAvatars" HorizontalAlignment="Left" Height="236" VerticalAlignment="Top" Width="292" Margin="0,0,-0.449,0">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>

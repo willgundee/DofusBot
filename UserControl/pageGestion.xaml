@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Gofus"
              mc:Ignorable="d" 
              d:DesignHeight="566" d:DesignWidth="560">
-    <Grid Background="Gray">
+    <Grid Background="LightGray">
         <Grid.RowDefinitions>
             <RowDefinition Height="118*"/>
             <RowDefinition Height="23*"/>
@@ -21,14 +21,15 @@
         <Label x:Name="lbl_nom" Content="Nom d'utilisateur" HorizontalAlignment="Left" Margin="20,130,0,0" VerticalAlignment="Top" Height="30" Width="240" FontSize="15"/>
         <TextBox x:Name="txt_nomUtilisateur" HorizontalAlignment="Left"  Height="22" Margin="20,160,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" IsEnabled="False"  Text="" />
         <Label x:Name="lbl_AncienMdp"  Content="Ancien mot de passe" HorizontalAlignment="Left" Margin="20,394,0,48" VerticalAlignment="Center" FontSize="15" Height="30" Width="240"/>
-        <PasswordBox x:Name="txt_AncienMdp"  HorizontalAlignment="Left" Height="22" VerticalAlignment="Bottom" Width="240" Margin="20,0,0,27"/>
-        <PasswordBox x:Name="txtConfirmation"  HorizontalAlignment="Left" Height="22" VerticalAlignment="Bottom" Width="240" Margin="20,0,0,79"/>
+ 
         <Label x:Name="lbl_AncienCourriel" Content="Courriel actuel" HorizontalAlignment="Left" Margin="20,182,0,0" VerticalAlignment="Top" Height="30" Width="240" FontSize="15"/>
         <TextBox x:Name="txt_AncienCourriel" HorizontalAlignment="Left"  Height="22" Margin="20,212,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="240" IsEnabled="False"  Text="" />
         <Label x:Name="lbl_Courriel" Content="Nouveau Courriel" HorizontalAlignment="Left" Margin="20,234,0,208" VerticalAlignment="Center" Height="30" Width="240" FontSize="15" />
         <TextBox x:Name="txt_Courriel" HorizontalAlignment="Left" Height="24"  TextWrapping="Wrap" VerticalAlignment="Center" Width="240" Margin="20,264,0,184" />
         <Label x:Name="lbl_Mdp" Content="Nouveau Mot de passe" HorizontalAlignment="Left" Margin="20,288,0,154" VerticalAlignment="Center" Height="30" Width="240" FontSize="15" />
         <PasswordBox x:Name="txt_mdp" Height="24" Margin="20,318,0,130"  VerticalAlignment="Center"  HorizontalAlignment="Left" Width="240" />
+        <PasswordBox x:Name="txtConfirmation"  HorizontalAlignment="Left" Height="22" VerticalAlignment="Bottom" Width="240" Margin="20,0,0,79"/>
+        <PasswordBox x:Name="txt_AncienMdp"  HorizontalAlignment="Left" Height="22" VerticalAlignment="Bottom" Width="240" Margin="20,0,0,27"/>
         <Label x:Name="lbl_Confirmation"  Content="Confimation de mot de passe" HorizontalAlignment="Left" Margin="20,342,0,100" VerticalAlignment="Center" FontSize="15" Height="30" Width="240"/>
         <Label x:Name="lblTitreExemple" Content="Recommendation" FontSize="25" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,190,49.6,0" Height="43" Width="205"/>
         <Label x:Name="lblInfoCourriel" Content="Courriel : AA@AAA.com" FontSize="15" HorizontalAlignment="Right" Width="220" VerticalAlignment="Top" Margin="0,235,49.6,0" Height="30"/>
@@ -41,11 +42,11 @@
             <TextBlock><Run Text="Doit être identique au"/><LineBreak/><Run Text="mot de passe"/></TextBlock>
         </Label>
 
-        <Button x:Name="btnAnnuler" Content="Annuler" HorizontalAlignment="Center" FontSize="15" Margin="160,21.674,295,39" VerticalAlignment="Center" Width="109"  Click="btnAnnuler_Click" Grid.Row="1" Height="31"/>
-        <Button x:Name="btnSave" Content="Sauvegarder" HorizontalAlignment="Center" Margin="294,21.674,170,39" FontSize="15" VerticalAlignment="Center" Width="100" Click="btnSave_Click" Grid.Row="1" Height="31"/>
-        <Button x:Name="btnSuggestion" Content="Suggestions/Problèmes" FontSize="15" HorizontalAlignment="Center" Margin="197,0" VerticalAlignment="Bottom" Width="170" Click="btnSuggestion_Click" Grid.Row="1" Height="34" />
-        <Button x:Name="btnDeconnexion" Content="Déconnexion" HorizontalAlignment="Right" Margin="0,18,24.6,18" VerticalAlignment="Center" Width="100" Height="56" FontSize="16" Click="btnDeconnexion_Click"  Grid.Row="1" />
-        <Button x:Name="btnChangeAva" Content="Changer d'avatar" HorizontalAlignment="Left" Margin="20,113,0,0" VerticalAlignment="Top" Width="111" Click="btnChange_Avatar"/>
+        <Button x:Name="btnAnnuler" Content="Annuler" HorizontalAlignment="Center" FontSize="15" Margin="0,0,125,35" VerticalAlignment="Center" Width="109"  Click="btnAnnuler_Click" Grid.Row="1" Height="31"/>
+        <Button x:Name="btnSave" Content="Sauvegarder" HorizontalAlignment="Center" Margin="125,0,0,35" FontSize="15" VerticalAlignment="Center" Width="100" Click="btnSave_Click" Grid.Row="1" Height="31"/>
+        <Button x:Name="btnSuggestion" Content="Suggestions/Problèmes" FontSize="15" HorizontalAlignment="Center" Margin="0,0,0,10"  VerticalAlignment="Bottom" Width="170" Click="btnSuggestion_Click" Grid.Row="1" Height="34" />
+        <Button x:Name="btnDeconnexion" Content="Déconnexion" HorizontalAlignment="Right" Margin="0,0,25,0" VerticalAlignment="Center" Width="100" Height="56" FontSize="16" Click="btnDeconnexion_Click"  Grid.Row="1" />
+        <Button x:Name="btnChangeAva" Content="Changer d'avatar" HorizontalAlignment="Left" Margin="20,110,0,0" VerticalAlignment="Top" Width="111" Click="btnChange_Avatar"/>
 
 
     </Grid>

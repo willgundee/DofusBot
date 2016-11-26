@@ -15,7 +15,7 @@ namespace Gofus
     /// <summary>
     /// Logique d'interaction pour Inventaire.xaml
     /// </summary>
-    public partial class Inventaire : Window
+    public partial class PageInventaire : Window
     {
         public Window _dragdropWindow = null;
         ObservableCollection<ImageItem> LstInventaire;
@@ -24,9 +24,8 @@ namespace Gofus
         public Joueur Player { get; set; }
         private BDService bd = new BDService();
         private MainWindow w;
-        //TODO: REFONTE INVENTAIRE  ajout bouton onclick dans page perso qui pop l'inventaire coté ,double clic désequipe drag drop de l'inventaire à fenetre mick, unselected tab close l'inventaire si pas fait 
 
-        public Inventaire(Joueur Player)
+        public PageInventaire(Joueur Player)
         {
 
             InitializeComponent();
@@ -41,6 +40,7 @@ namespace Gofus
             cboTrieInventaire.ItemsSource = type;
             cboTrieInventaire.SelectedIndex = 0;
             lbxInventaire.ItemsSource = LstInventaire;
+            lblArgent.Content = Player.Kamas;
 
         }
         /// <summary>
@@ -321,17 +321,24 @@ namespace Gofus
         {
             Image item = ((sender as MenuItem).Parent as ContextMenu).DataContext as Image;
             Equipement equiper = Player.Inventaire.First(x => x.NoImg == convertPathToNoItem(item.Source.ToString()));
-            Player.Inventaire.First(x => x.Nom == equiper.Nom).Quantite--;
-            if (Player.Inventaire.First(x => x.Nom == equiper.Nom).Quantite == 0)
-                bd.delete("DELETE FROM JoueursEquipements WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "')AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + equiper.Nom + "')");
-            else
-                bd.Update("UPDATE JoueursEquipements SET quantite= " + Player.Inventaire.First(x => x.Nom == equiper.Nom).Quantite.ToString() + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + equiper.Nom + "');COMMIT;");
-
             float k = equiper.Prix * (float)0.8;
-            Player.Kamas += (int)k;
+            MessageBoxResult m = System.Windows.MessageBox.Show("Voulez vous vraiment vendre l'objet : " + equiper.Nom + ". Au cout de " + (int)k + " Kamas ?", "Achat", MessageBoxButton.YesNo, MessageBoxImage.Information);// affichage d'un message box te demandant situ veut vendre ceci
+            if (m == MessageBoxResult.Yes)
+            {
 
-            bd.Update("UPDATE  Joueurs SET  argent =  " + Player.Kamas.ToString() + " WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "';COMMIT;");
-            refreshInv();
+                Player.Inventaire.First(x => x.Nom == equiper.Nom).Quantite--;
+                if (Player.Inventaire.First(x => x.Nom == equiper.Nom).Quantite == 0)
+                    bd.delete("DELETE FROM JoueursEquipements WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "')AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + equiper.Nom + "')");
+                else
+                    bd.Update("UPDATE JoueursEquipements SET quantite= " + Player.Inventaire.First(x => x.Nom == equiper.Nom).Quantite.ToString() + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + equiper.Nom + "');COMMIT;");
+
+                Player.Kamas += (int)k;
+
+                bd.Update("UPDATE  Joueurs SET  argent =  " + Player.Kamas.ToString() + " WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "';COMMIT;");
+                refreshInv();
+                lblArgent.Content = Player.Kamas;
+                (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow).lblKamas.Content = Player.Kamas;
+            }
         }
     }
 }

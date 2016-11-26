@@ -7,6 +7,7 @@
              xmlns:local="clr-namespace:Gofus"
              xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="Gofus.pageScript"
              mc:Ignorable="d" 
+    Background="LightGray"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
@@ -14,14 +15,14 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" MaxWidth="40"/>
             <ColumnDefinition Width="15*"/>
         </Grid.ColumnDefinitions>
 
-        <WindowsFormsHost Grid.Row="0" Grid.Column="0">
+        <WindowsFormsHost Grid.Row="0" Grid.Column="0" Background="LightGray">
             <wf:SSRichTextBox x:Name="rtb_lineNumber" ScrollBars="ForcedHorizontal"/>
         </WindowsFormsHost>
-        <WindowsFormsHost Grid.Row="0" Grid.Column="1">
+        <WindowsFormsHost Grid.Row="0" Grid.Column="1" Background="LightGray">
             <wf:CodeTextBox x:Name="ctb_main" CodeColor_Chaine="Crimson" CodeColor_Comment="Green" CodeColor_Function="CornflowerBlue" CodeColor_Keyword="Blue" CodeColor_PlainText="Black" CodeColor_Type="CornflowerBlue" AcceptsTab="True" KeyUp="ctb_KeyUp" VScroll="ctb_main_VScroll" ScrollBars="ForcedBoth">
                 <wf:CodeTextBox.CodeWords_Keywords>
                     <System:String>abstract</System:String>
@@ -130,15 +131,21 @@
                 </wf:CodeTextBox.CodeWords_Chaines>
             </wf:CodeTextBox>
         </WindowsFormsHost>
-        <Grid x:Name="grd_controlButton" Grid.Row="1" Grid.Column="1">
+        <Grid x:Name="grd_controlButton" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="btn_run" Content="Tester" Grid.Column="0" Width="75" Height="40" Click="btn_run_Click"/>
-            <Button x:Name="btn_debug" Content="Générer" Grid.Column="1" Width="75" Height="40" Click="btn_debug_Click"/>
-            <Button x:Name="btn_sauvegarder" Content="Sauvegarder" Grid.Column="2" Width="75" Height="40" Click="btn_sauvegarder_Click"/>
+            <Button x:Name="btn_run" Content="Tester" Grid.Column="0" Click="btn_run_Click"/>
+            <Button x:Name="btn_debug" Content="Générer" Grid.Column="1" Click="btn_debug_Click"/>
+            <Button x:Name="btn_sauvegarder" Content="Sauvegarder" Grid.Column="2" Click="btn_sauvegarder_Click"/>
+            <Button x:Name="btn_renommer" Content="Renommer" Grid.Column="3" Click="btn_renommer_Click"/>
+            <Button x:Name="btn_supprimer" Content="Supprimer" Grid.Column="4" Click="btn_supprimer_Click"/>
+            <Button x:Name="btn_documentation" Content="Documentation" Grid.Column="5" Click="btn_documentation_Click"/>
         </Grid>
     </Grid>
 </UserControl>

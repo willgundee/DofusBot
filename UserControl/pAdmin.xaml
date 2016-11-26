@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="Gofus.pAdmin"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Gofus"
+             mc:Ignorable="d" 
+             d:DesignHeight="550" d:DesignWidth="550">
+    <Grid Background="LightGray">
+        <Button x:Name="btnSupprimer" Content="Jeter les messages" HorizontalAlignment="Left" Margin="277,118,0,0" VerticalAlignment="Top" Width="234" Click="btnSupprimer_Click"/>
+        <DatePicker Text="Sélectionnez une date" Name="datePick" HorizontalAlignment="Left" Margin="10,118,0,0" VerticalAlignment="Top" Width="234" FirstDayOfWeek="Monday"/>
+        <Label x:Name="lblInformation" Content="Selectionnez une date pour supprimer des messages. &#xD;&#xA;Tous les message posté à une date antérieur seront supprimés!" HorizontalAlignment="Left" Margin="10,67,0,0" VerticalAlignment="Top" Height="46" Width="344"/>
+        <Label x:Name="lblRapport" Content="Liste des rapports" HorizontalAlignment="Left" Margin="10,171,0,0" VerticalAlignment="Top" FontSize="16" FontFamily="Sitka Text"/>
+        <DataGrid x:Name="dataGrid" SelectionMode="Single" HorizontalAlignment="Left" Margin="10,206,0,0" VerticalAlignment="Top" Height="200" Width="530" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="dataGrid_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Date"  Binding="{Binding temps}" FontSize="15" Width="*" />
+                <DataGridTextColumn Header="Titre" Binding="{Binding titre}" FontSize="15" Width="*"/>
+                <DataGridTextColumn Header="Type" Binding="{Binding type}" FontSize="15" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBlock x:Name="tblContenu" HorizontalAlignment="Left" Margin="10,438,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="102" Width="530" Background="WhiteSmoke"/>
+        <Label x:Name="label" Content="Message" HorizontalAlignment="Left" Margin="10,406,0,0" VerticalAlignment="Top" Width="119" Height="27"/>
+        <Label x:Name="label1" Content="Paneau Administration" HorizontalAlignment="Left" Margin="147,10,0,0" VerticalAlignment="Top" FontSize="24" Height="52"/>
+        <Button x:Name="btnSupprimerRapport" Content="Supprimer le rapport sélectionner" HorizontalAlignment="Left" Margin="277,411,0,0" VerticalAlignment="Top" Width="263" Click="button_Click"/>
+        <Button x:Name="btnFenetre" Content="Gèrer les droits d'administrateurs" HorizontalAlignment="Left" Margin="277,155,0,0" VerticalAlignment="Top" Width="234" Click="btnFenetre_Click"/>
+        <Button x:Name="btnRefresh" Content="Rafraichir la liste" HorizontalAlignment="Left" Margin="87,411,0,0" VerticalAlignment="Top" Width="185" Click="btnRefresh_Click"/>
+
+    </Grid>
+</UserControl>

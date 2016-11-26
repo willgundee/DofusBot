@@ -72,7 +72,7 @@
         </Style>
     </Window.Resources>
 
-    <TabControl TabStripPlacement="Left" >
+    <TabControl TabStripPlacement="Left">
 
         <TabItem  Header="Personnages" Height="30" Selector.Unselected="TabItem_Unselected"  Loaded="TabPerso_Loaded"  >
             <Grid x:Name="grd_Perso" >
@@ -81,7 +81,7 @@
             </Grid>
         </TabItem>
         <TabItem Header="Éditeur" Height="30" Loaded="TabEdit_Loaded" >
-            <TabControl Name="tc_Edit"/>
+            <TabControl Name="tc_Edit" SelectionChanged="tc_Edit_SelectionChanged"/>
         </TabItem>
         <TabItem Header="Marché" Height="30" >
 
@@ -91,7 +91,7 @@
                     <RowDefinition Height="268*"/>
                     <RowDefinition Height="21*"/>
                 </Grid.RowDefinitions>
-                <Image x:Name="imgCurrent" HorizontalAlignment="Left" Height="200" Margin="378,10,0,0" VerticalAlignment="Top" Width="200"/>
+                <Image x:Name="imgCurrent" HorizontalAlignment="Left" Height="200" Margin="378,10,0,0" VerticalAlignment="Top" Width="186"/>
                 <Label x:Name="lblMoney" Visibility="Hidden" Content="Votre Argent:" HorizontalAlignment="Left" Margin="378,215,0,0" VerticalAlignment="Top" Width="84" Height="26"/>
                 <Label x:Name="lblPrix" ContentStringFormat="C" HorizontalAlignment="Left" Margin="462,241,0,0" VerticalAlignment="Top" Width="111" Height="26"/>
                 <Label x:Name="lblKamas" ContentStringFormat="C" HorizontalAlignment="Left" Margin="462,215,0,0" VerticalAlignment="Top" Width="111" Height="26"/>
@@ -126,14 +126,6 @@
                 <Label x:Name="lblTrie" Content="Afficher :" HorizontalAlignment="Left" Margin="10,2.511,0,0" Grid.Row="1" VerticalAlignment="Top" Width="71"/>
                 <DockPanel x:Name="dckLink"  LastChildFill="False"  Grid.Row="2" />
             </Grid>
-        </TabItem>
-        <TabItem  Header="Sorts" Height="30" Selector.Selected="PGSort_Selected">
-            <ContentControl Name="PGSort">
-
-
-            </ContentControl>
-
-
         </TabItem>
         <!--TabItem Header="Inventaire" Selector.Selected="TabItem_Selected_Inventaire" Height="30">
             <Grid>
@@ -182,21 +174,22 @@
         <TabItem Header="Arène" Height="30" Selector.Selected="PgArene_Selected" >
             <Grid>
                 <ContentControl Name="controlArene"/>
-
-
+               
             </Grid>
 
         </TabItem>
-        <TabItem Header="Documentation" Height="30">
-            <Label HorizontalAlignment="Center" FontSize="25" Content="Documentation"/>
+        <TabItem Header="Documentation" Height="30" Selector.Selected="PGDoc_Selected" >
+            <ContentControl Name="PGDoc"/>
+
         </TabItem>
         <TabItem x:Name="TabClavardage" Header="Clavardage" Height="30">
 
             <ContentControl Name="contentClavardage"></ContentControl>
-           
+            
+
         </TabItem>
         <TabItem Header="Archives" Height="30" Selector.Selected="PgArchive_Selected">
-            <Grid Background="Gray">
+            <Grid Background="LightGray">
                 <ContentControl Name="controlArchive"/>
             </Grid>
 
@@ -207,11 +200,11 @@
 
         </TabItem>
 
-   
+
         <TabItem Name="PaneauAdmin" Header="Administration" Height="30" HorizontalAlignment="Left" Width="118" >
 
             <ContentControl Name="controlAdmin">
-                
+
             </ContentControl>
         </TabItem>
 

@@ -8,20 +8,12 @@ using System.Configuration;
 namespace Gofus
 {
     public class BDService
-    {   /*
-        User: gofusprog
-        Pass: GP994433
-         */
+    {
 
         // Pour éviter les problèmes causé par Reader qui met la connection en mode readonly.
         private MySqlConnection BDChat;
         private MySqlConnection BDSelect;
         private MySqlConnection BDInsert;
-
-       /* private string serveur = "420.cstj.qc.ca";
-        private string baseDonnee = "420.5a5.a16_gofusprog";
-        private string utilisateur = "gofusprog";
-        private string motPasse = "GP994433";*/
 
         private MySqlConnection connexion;
         public BDService()
@@ -41,16 +33,11 @@ namespace Gofus
 
                 BDChat = new MySqlConnection(connexionString);
 
-
-
-
             }
             catch (Exception e)
             {
                 MessageBox.Show("Connexion defectueuse : " + e.Message);
             }
-
-
         }
 
         public long insertion(string req)
@@ -76,7 +63,6 @@ namespace Gofus
             //aa
             return retVal;
         }
-
         public bool Update(string req)
         {
             try
@@ -97,7 +83,6 @@ namespace Gofus
                     fermerConnexionINSERT();
                     return false;
                 }
-
             }
             catch (Exception ex)
             {
@@ -124,10 +109,10 @@ namespace Gofus
                     }
                     else
                     {
-                         fermerConnexionINSERT();
-                    return false;
+                        fermerConnexionINSERT();
+                        return false;
                     }
-                  
+
                 }
 
             }
@@ -140,13 +125,6 @@ namespace Gofus
             return false;
 
         }
-
-
-
-
-
-
-
         public DataSet selectionChat(string req)
         {
             DataSet ds = new DataSet();
@@ -156,7 +134,7 @@ namespace Gofus
                 if (ouvrirConnexionCHAT())
                 {
                     MySqlDataAdapter adapteur = new MySqlDataAdapter();
-                    adapteur.SelectCommand = new MySqlCommand(req, BDSelect);
+                    adapteur.SelectCommand = new MySqlCommand(req, BDChat);
 
                     adapteur.Fill(ds);
                 }
@@ -172,6 +150,12 @@ namespace Gofus
             }
             return ds;
         }
+
+     
+
+
+
+
 
 
 
@@ -290,8 +274,22 @@ namespace Gofus
 
 
 
-
-
+        /// <summary>
+        /// Pour tuer la connection à la BD.
+        /// </summary>
+        /// <returns></returns>
+        public bool StopChat()
+        {
+            try
+            {
+                BDChat.Close();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
 
 

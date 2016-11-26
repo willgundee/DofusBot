@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace Gofus
 {
+
 
     public class Classe
     {
@@ -11,6 +13,15 @@ namespace Gofus
         public string Description { get; set; }
 
         private BDService bd =new BDService();
+
+        [JsonConstructor]
+        public Classe(List<Sort> LstSorts, string Nom, string Description)
+        {
+            this.LstSorts = LstSorts;
+            this.Nom = Nom;
+            this.Description = Description;
+        }
+
         /// <summary>
         /// Constructeur d'une classe
         /// </summary>

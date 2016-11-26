@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace Gofus
@@ -11,7 +12,7 @@ namespace Gofus
         public Zone ZoneEffet { get; set; }
         public string Nom { get; set; }
         public string Description { get; set; }
-        public float Exprience { get; set; }
+        public float Experience { get; set; }
         public bool LigneDeVue { get; set; }
         public bool CelluleLibre { get; set; }
         public bool PorteeModifiable { get; set; }
@@ -20,6 +21,24 @@ namespace Gofus
         public int NoImage { get; set; }
 
         private BDService bd = new BDService();
+
+        [JsonConstructor]
+        public Sort(List<Effet> LstEffets, Zone ZonePortee, Zone ZoneEffet, string Nom, string Description, float Experience, bool LigneDeVue, bool CelluleLibre, bool PorteeModifiable, int TauxDeRelance, int PointActionRequis, int NoImage)
+        {
+            this.LstEffets = LstEffets;
+            this.ZonePortee = ZonePortee;
+            this.ZoneEffet = ZoneEffet;
+            this.Nom = Nom;
+            this.Description = Description;
+            this.Experience = Experience;
+            this.LigneDeVue = LigneDeVue;
+            this.CelluleLibre = CelluleLibre;
+            this.PorteeModifiable = PorteeModifiable;
+            this.TauxDeRelance = TauxDeRelance;
+            this.PointActionRequis = PointActionRequis;
+            this.NoImage = NoImage;
+        }
+
         /// <summary>
         /// Constructeur d'un sort
         /// </summary>
@@ -31,7 +50,7 @@ namespace Gofus
             addZoneEf(Convert.ToInt32(Sorts[2]));
             Nom = Sorts[3];
             Description = Sorts[4];
-            Exprience = Convert.ToInt32(Sorts[5]);
+            Experience = Convert.ToInt32(Sorts[5]);
             LigneDeVue = Convert.ToBoolean(Sorts[6]);
             CelluleLibre = Convert.ToBoolean(Sorts[7]);
             TauxDeRelance = Convert.ToInt32(Sorts[8]);
@@ -63,7 +82,7 @@ namespace Gofus
         private void addEffet(int idSort)
         {
             LstEffets = new List<Effet>();
-            foreach (List<string> effet in bd.selection("SELECT e.nom,es.valeurMin,es.valeurMax FROM effetssorts es INNER JOIN Sorts s ON s.idSort = es.idSort INNER JOIN Effets e ON e.idEffet = es.idEffet WHERE s.idSort = "+idSort))
+            foreach (List<string> effet in bd.selection("SELECT e.nom,es.valeurMin,es.valeurMax, es.nbTour,es.idTypeStatistique FROM effetssorts es INNER JOIN Sorts s ON s.idSort = es.idSort INNER JOIN Effets e ON e.idEffet = es.idEffet WHERE s.idSort = "+idSort))
                 LstEffets.Add(new Effet(effet));
         }
     }

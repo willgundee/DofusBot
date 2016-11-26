@@ -50,12 +50,13 @@ namespace Gofus
 
         public Joueur Player { get; set; }
 
-
-
         public int idJoueur { get; set; }
 
         private pageClavardage pgchat;
-
+        private PageDocumentation pgDoc;
+        private PageInventaire pgInv;
+        private PagePerso pgperso;
+        private pAdmin pgAdmin;
 
         public MainWindow(int id)
         {
@@ -63,22 +64,20 @@ namespace Gofus
             InitializeComponent();
             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
             idJoueur = id;
-
-            pgchat = new pageClavardage(Player.NomUtilisateur);
+            pgchat = new pageClavardage(Player.NomUtilisateur, false, id.ToString());
             contentClavardage.Content = pgchat;
-
+            string n = " -" + Player.NomUtilisateur;
+            Title += n;
             if (Player.estAdmin)
             {
+                pgAdmin = new pAdmin();
                 PaneauAdmin.Visibility = Visibility.Visible;
-
+                controlAdmin.Content = pgAdmin;
             }
             else
             {
                 PaneauAdmin.Visibility = Visibility.Hidden;
             }
-
-            controlAdmin.Content = new pAdminMessages();
-
             #region Lou
             LstImgItems = new ObservableCollection<ImageItem>();
             LstStats = new ObservableCollection<string>();
@@ -95,15 +94,36 @@ namespace Gofus
         }
 
 
-        /*   protected override void OnClosed(EventArgs e)
-           {
-               base.OnClosed(e);
+        protected override void OnClosed(EventArgs e)
+        {
+            System.Threading.Thread ThreadBD = new System.Threading.Thread(new System.Threading.ThreadStart(() => bd.Update("UPDATE  Joueurs SET  estConnecte =  0 WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "'")));
+            ThreadBD.Start();
+            bool test = bd.Update("UPDATE  Joueurs SET  estConnecte =  0 WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "'");
 
-               System.Windows.Application.Current.Shutdown();
-           }
-           */
+            System.Threading.Thread.Sleep(1000);
+            if (pgchat != null)
+            {
+                pgchat.aTimer.Stop();
+                pgchat.chat.CloseConnection();
+            }
 
-            
+            if (pgchat.fenetreChat != null)
+            {
+                pgchat.fenetreChat.pgCht.aTimer.Stop();
+                pgchat.fenetreChat.pgCht.chat.CloseConnection();
+                pgchat.fenetreChat.Close();
+            }
+
+            //  pgperso.timer.Stop();
+            if (System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(PageInventaire)) != null)
+                System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(PageInventaire)).Close();
+            if (System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(PageDocumentation)) != null)
+                System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(PageDocumentation)).Close();
+            base.OnClosed(e);
+
+        }
+
+
 
         #region Marché
         /// <summary>
@@ -195,6 +215,9 @@ namespace Gofus
                 foreach (Effet effet in item.LstEffets)
                     LstStats.Add(effet.NomSimplifier + " : " + effet.DmgMin + " à " + effet.DmgMax);
                 LstCaras.Add("Pa requis : " + item.Pa);
+                LstCaras.Add("Portée : " + item.ZonePortee.Nom + " de " + (item.ZonePortee.PorteeMax == item.ZonePortee.PorteeMin ? item.ZonePortee.PorteeMax.ToString() : item.ZonePortee.PorteeMin.ToString() + " à " + item.ZonePortee.PorteeMax.ToString()));
+                //LstCaras.Add("Zone d'effet : " + item.ZoneEffet.Nom + " de " + (item.ZoneEffet.PorteeMax == item.ZoneEffet.PorteeMin ? item.ZoneEffet.PorteeMax.ToString() : item.ZoneEffet.PorteeMin.ToString() + " à " + item.ZoneEffet.PorteeMax.ToString()));
+
             }
             else
                 tbCara.Visibility = Visibility.Hidden;
@@ -327,7 +350,7 @@ namespace Gofus
         // ***************************************************
         //Onglet Personnage
         // ***************************************************
-        private void TabPerso_Loaded(object sender, RoutedEventArgs e)
+        public void TabPerso_Loaded(object sender, RoutedEventArgs e)
         {
             foreach (Entite perso in Player.LstEntites)
             {
@@ -352,37 +375,44 @@ namespace Gofus
 
         #region UserControls
 
-
-        private void PGSort_Selected(object sender, RoutedEventArgs e)
+        private void PgAdmin_Selected(object sender, RoutedEventArgs e)
         {
-
-
-            PGSort.Content = new pageSort();
-
+         
+                
         }
+
+
+
 
         private void PgArchive_Selected(object sender, RoutedEventArgs e)
         {
-            controlArchive.Content = new pageArchive(idJoueur);
+            if (!controlArchive.HasContent)
+                controlArchive.Content = new pageArchive(idJoueur);
         }
 
         private void PgArene_Selected(object sender, RoutedEventArgs e)
         {
-            controlArene.Content = new pageArene(idJoueur, Player.LstEntites);
+            if (!controlArene.HasContent)
+                controlArene.Content = new pageArene(idJoueur, Player.LstEntites);
+            else
+            {
+                ((pageArene)controlArene.Content).RefreshPersos(Player.LstEntites);
+            }
+
         }
 
         private void PgGestion_Selected(object sender, RoutedEventArgs e)
         {
-            controlGestion.Content = new pageGestion(Player, idJoueur);
+            if (!controlGestion.HasContent)
+                controlGestion.Content = new pageGestion(Player, idJoueur);
         }
         #endregion
 
 
         private void TabItem_Unselected(object sender, RoutedEventArgs e)
         {
-            if (System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(Inventaire)) != null)
-                System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(Inventaire)).Close();
-
+            if (System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(PageInventaire)) != null)
+                System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(PageInventaire)).Close();
 
         }
 
@@ -396,14 +426,52 @@ namespace Gofus
                 (onglet.Content as pageScript).ctb_main.Text = script.Code;
                 tc_Edit.Items.Add(onglet);
             }
-
             tc_Edit.SelectedIndex = 0;
-            if (tc_Edit.Items.Count <= 4)
+            if (tc_Edit.Items.Count < 10)
             {
                 TabItem onglet = new TabItem();
                 onglet.Header = "+";
                 tc_Edit.Items.Add(onglet);
             }
+
+        }
+
+        private void tc_Edit_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            System.Windows.Controls.TabControl tab = sender as System.Windows.Controls.TabControl;
+            TabItem ti_selected = tab.SelectedItem as TabItem;
+            if (ti_selected == null)
+                return;
+            if (ti_selected.Header.ToString() == "+")
+            {
+                string codeBase = "EntiteInconnu ennemi = Perso.EnnemiLePlusProche(ListEntites);\nPerso.AvancerVers(ennemi);\nPerso.Attaquer(ennemi);";
+                object f = e.Source;
+                string nom = "Script" + tc_Edit.Items.Count;
+                long id = bd.insertion("INSERT INTO Scripts (contenu, nom, uuid) VALUES ('"+codeBase+"', '" + nom + "', uuid());");
+                if (id != 0)
+                {
+                    if (bd.insertion("INSERT INTO JoueursScripts (idJoueur, idScript) VALUES ((SELECT idJoueur FROM Joueurs WHERE nomUtilisateur ='" + Player.NomUtilisateur + "'), " + id + ");") != 0)
+                    {
+                        TabItem onglet = ti_selected;
+                        string uuid = bd.selection("SELECT uuid FROM Scripts WHERE idScript = " + id + ";").First().First();
+                        Player.LstScripts.Add(new Script(new List<string>() { codeBase, nom, uuid }));
+                        onglet.Header = nom;
+                        onglet.Content = new pageScript(uuid,codeBase);
+                        if (tc_Edit.Items.Count < 10)
+                        {
+                            TabItem ongletPlus = new TabItem();
+                            ongletPlus.Header = "+";
+                            tc_Edit.Items.Add(ongletPlus);
+                        }
+                    }
+                }
+
+            }
+        }
+
+        private void PGDoc_Selected(object sender, RoutedEventArgs e)
+        {
+            PGDoc.Content = new PageDoc();
         }
     }
 }
