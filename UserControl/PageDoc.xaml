@@ -9,7 +9,7 @@
     <Grid>
         <TabControl Name="tabDoc" Background="LightGray">
             <TabItem Header="Gofus#">
-                <TextBlock Height="450" Width="500" VerticalAlignment="Bottom" Background="AliceBlue"/>
+                <ContentControl Name="PgGofusSharp"/>
             </TabItem>
             <TabItem Header="Sorts">
                 <ContentControl Name="PGSort"/>

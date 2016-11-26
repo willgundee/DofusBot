@@ -23,6 +23,7 @@ namespace Gofus
         public PageDoc()
         {
             InitializeComponent();
+            PgGofusSharp.Content = new DocGofusSharp();
             PGSort.Content = new pageSort();
             pgArme.Content = new PageArme();
             PgBestiaire.Content = new PageBestiaire();
