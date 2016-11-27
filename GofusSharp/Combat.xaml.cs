@@ -176,7 +176,7 @@ namespace GofusSharp
                     {
                         BD.Update("UPDATE Parties SET attaquantAGagne = false WHERE idPartie = " + IdPartie + ";");
                         //TODO: LVL UP !
-                        attributionGain(IdPartie);
+                       // attributionGain(IdPartie);
                         Generation = false;
                         return;
                     }
@@ -193,7 +193,7 @@ namespace GofusSharp
                     {
                         BD.Update("UPDATE Parties SET attaquantAGagne = true WHERE idPartie = " + IdPartie + ";");
                         //TODO: LVL UP !
-                        attributionGain(IdPartie);
+                      //  attributionGain(IdPartie);
                         Generation = false;
                         return;
                     }
@@ -201,12 +201,12 @@ namespace GofusSharp
             }
             BD.Update("UPDATE Parties SET attaquantAGagne = null WHERE idPartie = " + IdPartie + ";");
             //TODO: LVL UP !
-            attributionGain(IdPartie);
+          //  attributionGain(IdPartie);
             Generation = false;
         }
 
 
-        private void attributionGain(long IdPartie)
+   /*     private void attributionGain(long IdPartie)
         {
             Gofus.BDService BD = new Gofus.BDService();
             double exp = 0;
@@ -235,7 +235,7 @@ namespace GofusSharp
                         exp = CombatCourant.ListAttaquants[0].RetourneNiveau() * CombatCourant.ListDefendants[0].RetourneNiveau() * 32;
                         exp += Convert.ToDouble(bd[0][0]);
                         BD.Update("UPDATE StatistiquesEntites SET valeur = " + exp + " WHERE idEntite = " + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
-                        BD.Update("UPDATE Joueurs SET argent = " + gain + " WHERE idEntite = " + item.IdEntite);
+                     //   BD.Update("UPDATE Joueurs SET argent = " + gain + " WHERE idEntite = " + item.IdEntite);
                     }
 
                 foreach (Entite item in CombatCourant.ListDefendants)
@@ -243,7 +243,7 @@ namespace GofusSharp
                     {
                         List<string>[] bd = BD.selection("SELECT valeur FROM StatistiquesEntites WHERE idEntite=" + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
                         BD.Update("UPDATE StatistiquesEntites SET valeur = " + exp / 10 + " WHERE idEntite = " + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
-                        BD.Update("UPDATE Joueurs SET argent = " + gain / 10 + " WHERE idEntite = " + item.IdEntite);
+                       // BD.Update("UPDATE Joueurs SET argent = " + gain / 10 + " WHERE idEntite = " + item.IdEntite);
                     }
             }//fin du if(attaquantAGangé)
             else // si le deffendant a gangé
@@ -270,7 +270,7 @@ namespace GofusSharp
                     }
             }
 
-        }
+        }*/
 
         private void Action(Terrain terrain, Personnage joueur, Liste<EntiteInconnu> ListEntites)
         {
