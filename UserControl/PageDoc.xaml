@@ -8,6 +8,96 @@
              d:DesignHeight="520" d:DesignWidth="557">
     <Grid>
         <TabControl Name="tabDoc" Background="LightGray">
+            <TabItem Header="Guide">
+                <ScrollViewer>
+                    <StackPanel>
+                        <TextBlock TextWrapping="WrapWithOverflow" Padding="0,0,10,0">
+                            <Run Text="Qu'est ce que le Gofus#?" FontSize="20"/>
+                            <LineBreak/>
+                            <Run Text="Le Gofus# est une variation du C# qui a été créée pour programmer des intelligences artificielles (IA) qui font des combat dans l'environnement de dofus."/>
+                            <LineBreak/>
+                            <Run Text="Comment coder une IA en Gofus#?" FontSize="20"/>
+                            <LineBreak/>
+                            <Run Text="Explication" FontSize="15"/>
+                            <LineBreak/>
+                            <Run Text="Pour coder une IA en Gofus# il faut écrire un code qui ordonnera des actions a votre personnage, lesquelles s'éxecuteront a chaque début d'action de tour de votre persnnage"/>
+                            <LineBreak/>
+                            <Run Text="Comment faire" FontSize="15"/>
+                            <LineBreak/>
+                            <Run Text="Tout d'abord le code que vous écrirez sera placé dans un environnement fermé, une fonction/methode, qui contient trois parametres."/>
+                            <LineBreak/>
+                            <Run Text="    public void Execution(Terrain terrain, Personnage Perso, Liste&lt;EntiteInconnu&gt; ListEntites) {"/>
+                            <LineBreak/>
+                            <Run Text="       Votre_code"/>
+                            <LineBreak/>
+                            <Run Text="    }"/>
+                            <LineBreak/>
+                            <Run Text="terrain" FontSize="13"/>
+                            <LineBreak/>
+                            <Run Text="Représente le terrain de la partie courante, les méthodes de terrain sont utile pour obtenir des info sur comment se rendre d'une case a l'autre sans rester coincer sur les obstacle comme la méthode CheminEntreCases. Note : Vous retrouverez une définition de tous les éléments de Gofus# dans la documentation."/>
+                            <LineBreak/>
+                            <Run Text="Perso" FontSize="13"/>
+                            <LineBreak/>
+                            <Run Text="Vous devez passer par les méthodes de Perso si vous désirez que votre personnage éxecute une action comme avancer ou attaquer."/>
+                            <LineBreak/>
+                            <Run Text="ListEntites" FontSize="13"/>
+                            <LineBreak/>
+                            <Run Text="Ceci est une liste de toutes les entitées présente dans une partie vous ne pouvez pas controller ces entite, mais vous pouvez les attaquer ou se servir de leurs positions pour vous déplacer. Rappelez vous bien que votre personnage figure aussi sur cette liste."/>
+                            <LineBreak/>
+                            <Run Text="Exemple" FontSize="15"/>
+                            <LineBreak/>
+                            <Run Text="Vous disposez déjà d'un code basique à la création d'un nouveaux scripte mais vu que certain d'entre vous on d'autre travaux a corriger voici un exemple de scripte plus complexe : "/>
+                            <LineBreak/>
+                            <Run Text="//Mettre l'ennemi le plus proche dans une variable"/>
+                            <LineBreak/>
+                            <Run Text="EntiteInconnu ennemi = Perso.EnnemiLePlusProche(ListEntites);"/>
+                            <LineBreak/>
+                            <Run Text="//Mettre la premiere case qui constitue le chemin entre moi et l'ennemi"/>
+                            <LineBreak/>
+                            <Run Text="Case caseChemin = terrain.CheminEntreCases(Perso.Position, ennemi.Position)[0];"/>
+                            <LineBreak/>
+                            <Run Text="//avancer vers cette case si je peux"/>
+                            <LineBreak/>
+                            <Run Text="while (Perso.AvancerVers(caseChemin, 1) == 1) {"/>
+                            <LineBreak/>
+                            <Run Text="    caseChemin = terrain.CheminEntreCases(Perso.Position, ennemi.Position)[0];"/>
+                            <LineBreak/>
+                            <Run Text="}"/>
+                            <LineBreak/>
+                            <Run Text="//tant que mon personnage est capable d'attaquer l'ennemi"/>
+                            <LineBreak/>
+                            <Run Text="while (Perso.PeutAttaquer(ennemi)) {"/>
+                            <LineBreak/>
+                            <Run Text="    //dire a mon personnage d'attaquer"/>
+                            <LineBreak/>
+                            <Run Text="    Perso.Attaquer(ennemi);"/>
+                            <LineBreak/>
+                            <Run Text="}"/>
+                            <LineBreak/>
+                            <Run Text="Comprendre la documentation" FontSize="20"/>
+                            <LineBreak/>
+                            <Run Text="La structure" FontSize="15"/>
+                            <LineBreak/>
+                            <Run Text="La documentation a une structure en arbre chaque classe contient sa définition, ses attributs (si existants) et ses méthode (si existantes), qui à leur tour contient chacun leur définition"/>
+                            <LineBreak/>
+                            <Run Text="La nomenclature des méthodes" FontSize="15"/>
+                            <LineBreak/>
+                            <Run Text="Les méthodes sont afficher de façon à ce que vous puissiez savoir quels sont leurs surcharges."/>
+                            <LineBreak/>
+                            <Run Text="Les différent type de paramètre sont séparer par le caractère '|'"/>
+                            <LineBreak/>
+                            <Run Text="Les paramètres facultatifs sont entourés des caractére '[' et ']'"/>
+                            <LineBreak/>
+                            <Run Text="Exemple :"/>
+                            <LineBreak/>
+                            <Run Text="type_retour nom_methode(type_possible_1|type_possible_2 parametre[, type parametre_facultatif])"/>
+                            <LineBreak/>
+                            <Run Text="Note : Vous pouvez obtenir la definition d'un paramètre d'une méthode en plaçant votre curseur par dessus"/>
+                            <LineBreak/>
+                        </TextBlock>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
             <TabItem Header="Gofus#">
                 <ContentControl Name="PgGofusSharp"/>
             </TabItem>

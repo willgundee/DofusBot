@@ -148,7 +148,7 @@ namespace GofusSharp
             }
 
             CombatCourant = new Partie(terrain, ListEntiteAtt, ListEntiteDef, seed);
-            for (int i = 0; i < 64; i++)
+            while(true)
             {
                 foreach (Entite entite in Liste<Entite>.ConcatAlternate(CombatCourant.ListAttaquants, CombatCourant.ListDefendants))
                 {
@@ -198,11 +198,16 @@ namespace GofusSharp
                         return;
                     }
                 }
-            }
+                CombatCourant.Tour++;
+                if (CombatCourant.Tour >= 64)
+                {
             BD.Update("UPDATE Parties SET attaquantAGagne = null WHERE idPartie = " + IdPartie + ";");
             //TODO: LVL UP !
           //  attributionGain(IdPartie);
             Generation = false;
+                    return;
+        }
+            }
         }
 
 
@@ -352,9 +357,12 @@ namespace GofusSharp
 
         private void btn_Next_Click(object sender, RoutedEventArgs e)
         {
+            if (!CombatTerminer)
+            {
             btn_Next.IsEnabled = false;
             TAction = new Thread(new ThreadStart(() => AsyncWork()));
             TAction.Start();
+        }
         }
 
         private void UpdateInfo()
@@ -373,14 +381,22 @@ namespace GofusSharp
                             break;
                         Image ImageSprite = new Image();
                         Entite perso = CombatCourant.ListAttaquants.Concat(CombatCourant.ListDefendants).Where(x => x.Position.X == Grid.GetRow(cnvs) && x.Position.Y == Grid.GetColumn(cnvs)).First();
-                        ImageSource SourceImageClasse = new BitmapImage(new Uri(@"..\..\Resources\GofusSharp\" + perso.ClasseEntite.Nom + @".png", UriKind.Relative));
+                        ImageSource SourceImageClasse = new BitmapImage(new Uri(@"..\..\Resources\" + perso.ClasseEntite.Nom + @".png", UriKind.Relative));
                         try
                         {
                             SourceImageClasse.Height.ToString();
                         }
                         catch (Exception)
                         {
-                            SourceImageClasse = new BitmapImage(new Uri(@"..\..\Resources\GofusSharp\monstre.png", UriKind.Relative));
+                            SourceImageClasse = new BitmapImage(new Uri(@"..\..\Resources\" + perso.ClasseEntite.Nom + @".jpg", UriKind.Relative));
+                        try
+                        {
+                            SourceImageClasse.Height.ToString();
+                        }
+                        catch (Exception)
+                        {
+                                SourceImageClasse = new BitmapImage(new Uri(@"..\..\Resources\monstre.png", UriKind.Relative));
+                            }
                         }
                         ImageSprite.Source = SourceImageClasse;
                         ImageSprite.ToolTip = CreerToolTip(perso);
@@ -388,6 +404,7 @@ namespace GofusSharp
                         sPnl.Children.Add(ImageSprite);
                         ImageSprite.Height = grd_Terrain.RowDefinitions.First().ActualHeight;
                         ImageSprite.Width = grd_Terrain.ColumnDefinitions.First().ActualWidth;
+                        ImageSprite.HorizontalAlignment = HorizontalAlignment.Left;
                         ImageSprite.MouseDown += ImageSprite_MouseDown;
                         TextBlock TBName = new TextBlock();
                         TBName.Text = perso.Nom;
@@ -641,8 +658,6 @@ namespace GofusSharp
                 if (!vivante)
                 {
                     CombatTerminer = true;
-                    System.Windows.Forms.MessageBox.Show("L'équipe defendante a gagnée");
-                    //TODO ouvrir la fenetre resultat avec le param IdPartie
                     DelAfficheRes FenRes = OuvrirResultat;
                     Dispatcher.Invoke(FenRes, new object[] { IdPartie });
                 }
@@ -658,10 +673,16 @@ namespace GofusSharp
                 if (!vivante)
                 {
                     CombatTerminer = true;
-                    System.Windows.Forms.MessageBox.Show("L'équipe attaquante a gagnée");
                     DelAfficheRes FenRes = OuvrirResultat;
                     Dispatcher.Invoke(FenRes, new object[] { IdPartie });
                 }
+            }
+            CombatCourant.Tour++;
+            if (CombatCourant.Tour >= 64)
+            {
+                CombatTerminer = true;
+                DelAfficheRes FenRes = OuvrirResultat;
+                Dispatcher.Invoke(FenRes, new object[] { IdPartie });
             }
             DelThreadEnd ThEnd = ThreadEnd;
             Dispatcher.Invoke(ThEnd);
@@ -685,8 +706,8 @@ namespace GofusSharp
 
         internal void OuvrirResultat(long idPartie)
         {
-            Gofus.Résultat resultat = new Gofus.Résultat(IdPartie);
-            resultat.Show();
+            Gofus.Resultat resultat = new Gofus.Resultat(IdPartie);
+            resultat.ShowDialog();
         }
 
         private void chb_AutoPlay_Checked(object sender, RoutedEventArgs e)
