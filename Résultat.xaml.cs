@@ -18,15 +18,15 @@ namespace Gofus
     /// <summary>
     /// Logique d'interaction pour Résultat.xaml
     /// </summary>
-    public partial class Résultat : Window
+    public partial class Resultat : Window
     {
         BDService bd = new BDService();
+        private long IdPartie { get; set; }
 
-
-        public Résultat(long idPartie)
+        public Resultat(long idPartie)
         {
             InitializeComponent();
-
+            IdPartie = idPartie;
             string selectPartie = "SELECT * FROM Parties WHERE idPartie = " + idPartie;
             List<string>[] lstPartieBd = bd.selection(selectPartie);
             if (lstPartieBd[0][0] != "rien")
@@ -87,7 +87,14 @@ namespace Gofus
                     }
                 }
             }
+        }
 
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (Application.Current.Windows.Cast<Window>().Where(x => x is GofusSharp.Combat).FirstOrDefault(x => (x as GofusSharp.Combat).IdPartie == IdPartie) != null)
+            {
+                Application.Current.Windows.Cast<Window>().Where(x => x is GofusSharp.Combat).FirstOrDefault(x => (x as GofusSharp.Combat).IdPartie == IdPartie).Close();
+            }
         }
     }
 }

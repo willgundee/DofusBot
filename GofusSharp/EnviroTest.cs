@@ -26,9 +26,21 @@ namespace test
 
         //}
 
-        public void Execution(Terrain terrain, Entite Perso, Liste<EntiteInconnu> ListEntites)
+        public void Execution(Terrain terrain, Personnage Perso, Liste<EntiteInconnu> ListEntites)
         {
-
+            //Mettre l'ennemi le plus proche dans une variable
+            EntiteInconnu ennemi = Perso.EnnemiLePlusProche(ListEntites);
+            //Mettre la premiere case qui constitue le chemin entre moi et l'ennemi
+            Case caseChemin = terrain.CheminEntreCases(Perso.Position, ennemi.Position)[0];
+            //avancer vers cette case si je peux
+            while (Perso.AvancerVers(caseChemin, 1) == 1) {
+                caseChemin = terrain.CheminEntreCases(Perso.Position, ennemi.Position)[0];
+            }
+            //tant que mon personnage est capable d'attaquer l'ennemi
+            while (Perso.PeutAttaquer(ennemi)) {
+                //dire a mon personnage d'attaquer
+                Perso.Attaquer(ennemi);
+            }
            /* EntiteInconnu ennemi = Perso.EnnemiLePlusProche(ListEntites);
             Perso.AvancerVers(ennemi);
             Perso.Attaquer(ennemi);*/

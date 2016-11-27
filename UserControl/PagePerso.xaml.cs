@@ -146,8 +146,15 @@ namespace Gofus
             {
                 List<string> emplacement = bd.selection("SELECT emplacement FROM Equipementsentites WHERE idEquipement = (SELECT idEquipement FROM Equipements WHERE nom='" + item.Nom + "' )AND idEntite =(SELECT idEntite FROM Entites WHERE nom='" + ent.Nom + "')")[0];
 
-                if (emplacement != null)
-                    Dispatcher.Invoke(new Action(() => AfficherElementEquipe(item, emplacement[0].ToString())));
+                try
+                {
+                    if (emplacement != null)
+                        Dispatcher.Invoke(new Action(() => AfficherElementEquipe(item, emplacement[0].ToString())));
+                }
+                catch (Exception)
+                {
+                    
+                }
             }
             Dispatcher.Invoke(new Action(() =>
             {
