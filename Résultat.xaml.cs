@@ -72,14 +72,10 @@ namespace Gofus
                             path = new BitmapImage(new Uri("../resources/GofusSharp/" + lstAtt[0].ClasseEntite.Nom + ".png", UriKind.Relative));
                             imgP.Source = path;
 
-
-
                             gain = lstAtt[0].Niveau * 100;
                             lblKamasG.Content += " " + gain + "$";
                             lblKamasP.Content += " " + (gain / 10) + "$";
-
                         }
-
                         exp = lstDef[0].Niveau * lstAtt[0].Niveau * 32;
                         lblexpG.Content += " " + exp;
                         lblexpP.Content += " " + exp / 10;

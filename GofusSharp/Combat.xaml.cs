@@ -176,6 +176,7 @@ namespace GofusSharp
                     {
                         BD.Update("UPDATE Parties SET attaquantAGagne = false WHERE idPartie = " + IdPartie + ";");
                         //TODO: LVL UP !
+                        attributionGain(IdPartie);
                         Generation = false;
                         return;
                     }
@@ -192,6 +193,7 @@ namespace GofusSharp
                     {
                         BD.Update("UPDATE Parties SET attaquantAGagne = true WHERE idPartie = " + IdPartie + ";");
                         //TODO: LVL UP !
+                        attributionGain(IdPartie);
                         Generation = false;
                         return;
                     }
@@ -201,10 +203,78 @@ namespace GofusSharp
                 {
                     BD.Update("UPDATE Parties SET attaquantAGagne = null WHERE idPartie = " + IdPartie + ";");
                     //TODO: LVL UP !
+                    attributionGain(IdPartie);
                     Generation = false;
                     return;
                 }
             }
+        }
+
+
+        private void attributionGain(long IdPartie)
+        {
+            Gofus.BDService BD = new Gofus.BDService();
+            double exp = 0;
+            double gain = 0;
+            bool infoPartie=true;
+            string infoParti = BD.selection("SELECT attaquantAGagne FROM Parties WHERE idPartie = " + IdPartie)[0][0];
+
+            if(infoParti==null)
+            {
+//grr
+            }
+            else
+            {
+                infoPartie = Convert.ToBoolean(infoParti);
+            }
+            //si l'attaquant a gagné
+            if (infoPartie)
+            {
+
+                gain = CombatCourant.ListDefendants[0].RetourneNiveau() * 100;
+                foreach (Entite item in CombatCourant.ListAttaquants)
+                    if (item is Personnage)
+                    {
+                        List<string>[] bd = BD.selection("SELECT valeur FROM StatistiquesEntites WHERE idEntite=" + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
+
+                        exp = CombatCourant.ListAttaquants[0].RetourneNiveau() * CombatCourant.ListDefendants[0].RetourneNiveau() * 32;
+                        exp += Convert.ToDouble(bd[0][0]);
+                        BD.Update("UPDATE StatistiquesEntites SET valeur = " + exp + " WHERE idEntite = " + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
+                        BD.Update("UPDATE Joueurs SET argent = " + gain + " WHERE idEntite = " + item.IdEntite);
+                    }
+
+                foreach (Entite item in CombatCourant.ListDefendants)
+                    if (item is Personnage)
+                    {
+                        List<string>[] bd = BD.selection("SELECT valeur FROM StatistiquesEntites WHERE idEntite=" + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
+                        BD.Update("UPDATE StatistiquesEntites SET valeur = " + exp / 10 + " WHERE idEntite = " + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
+                        BD.Update("UPDATE Joueurs SET argent = " + gain / 10 + " WHERE idEntite = " + item.IdEntite);
+                    }
+            }//fin du if(attaquantAGangé)
+            else // si le deffendant a gangé
+            {
+                gain = CombatCourant.ListAttaquants[0].RetourneNiveau() * 100;
+                foreach (Entite item in CombatCourant.ListDefendants)
+                    if (item is Personnage)
+                    {
+                        List<string>[] bd = BD.selection("SELECT valeur FROM StatistiquesEntites WHERE idEntite=" + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
+
+                        exp = CombatCourant.ListAttaquants[0].RetourneNiveau() * CombatCourant.ListDefendants[0].RetourneNiveau() * 32;
+                        exp += Convert.ToDouble(bd[0][0]);
+                        BD.Update("UPDATE StatistiquesEntites SET valeur = " + exp + " WHERE idEntite = " + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
+                        BD.Update("UPDATE Joueurs SET argent = " + gain + " WHERE idEntite = " + item.IdEntite);
+                    }
+
+               
+                foreach (Entite item in CombatCourant.ListAttaquants)
+                    if (item is Personnage)
+                    {
+                        List<string>[] bd = BD.selection("SELECT valeur FROM StatistiquesEntites WHERE idEntite=" + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
+                        BD.Update("UPDATE StatistiquesEntites SET valeur = " + exp / 10 + " WHERE idEntite = " + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
+                        BD.Update("UPDATE Joueurs SET argent = " + gain / 10 + " WHERE idEntite = " + item.IdEntite);
+                    }
+            }
+
         }
 
         private void Action(Terrain terrain, Personnage joueur, Liste<EntiteInconnu> ListEntites)
