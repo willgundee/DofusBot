@@ -211,8 +211,17 @@ namespace GofusSharp
             Gofus.BDService BD = new Gofus.BDService();
             double exp = 0;
             double gain = 0;
+            bool infoPartie=true;
+            string infoParti = BD.selection("SELECT attaquantAGagne FROM Parties WHERE idPartie = " + IdPartie)[0][0];
 
-            bool infoPartie = Convert.ToBoolean(BD.selection("SELECT attaquantAGagne FROM Parties WHERE idPartie = " + IdPartie)[0]);
+            if(infoParti==null)
+            {
+//grr
+            }
+            else
+            {
+                infoPartie = Convert.ToBoolean(infoParti);
+            }
             //si l'attaquant a gagné
             if (infoPartie)
             {
