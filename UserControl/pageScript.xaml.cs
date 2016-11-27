@@ -50,7 +50,7 @@ namespace Gofus
                 {
                     public class Combat
                     {
-                        public static void Action(Terrain terrain, Entite Perso, Liste<EntiteInconnu> ListEntites)
+                        public static void Action(Terrain terrain, Personnage Perso, Liste<EntiteInconnu> ListEntites)
                         {
                             user_code
                         }
@@ -1456,8 +1456,19 @@ namespace Gofus
         private void btn_sauvegarder_Click(object sender, RoutedEventArgs e)
         {
             if (bd.Update("UPDATE Scripts SET contenu =  '" + ctb_main.Text + "' WHERE uuid  ='" + UUID + "';COMMIT;"))
+            {
                 if (System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(MainWindow)) != null)
+                {
                     (System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow).Player.LstScripts.First(x => x.Uuid == UUID).Code = ctb_main.Text;
+                    foreach (Entite entite in (System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow).Player.LstEntites)
+                    {
+                        if (entite.ScriptEntite.Uuid == UUID)
+                        {
+                            entite.ScriptEntite.Code = ctb_main.Text;
+                        }
+                    }
+                }
+            }
         }
 
         private void btn_supprimer_Click(object sender, RoutedEventArgs e)
@@ -1476,9 +1487,10 @@ namespace Gofus
 
         private void btn_renommer_Click(object sender, RoutedEventArgs e)
         {
-            //if (bd.Update("UPDATE Scripts SET contenu =  '" + ctb_main.Text + "' WHERE uuid  ='" + UUID + "';COMMIT;"))
-            //    if (System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(MainWindow)) != null)
-            //        (System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow).Player.LstScripts.First(x => x.Uuid == UUID).Code = ctb_main.Text;
+            NouveauNom FNN = new NouveauNom(UUID);
+            FNN.ShowDialog();
+            MainWindow mW = (System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow);
+            (mW.tc_Edit.SelectedItem as TabItem).Header = mW.Player.LstScripts.First(x => x.Uuid == UUID).Nom;
         }
 
         private void btn_documentation_Click(object sender, RoutedEventArgs e)

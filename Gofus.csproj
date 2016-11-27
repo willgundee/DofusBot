@@ -206,6 +206,9 @@
     <Compile Include="UserControl\ImageItem.xaml.cs">
       <DependentUpon>ImageItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Window\NouveauNom.xaml.cs">
+      <DependentUpon>NouveauNom.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Window\PageDocumentation.xaml.cs">
       <DependentUpon>PageDocumentation.xaml</DependentUpon>
     </Compile>
@@ -376,6 +379,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControl\PagePerso.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window\NouveauNom.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
