@@ -31,33 +31,41 @@ namespace GofusSharp
         {
             if (ListEntites == null)
                 return null;
-            int min = Math.Abs(ListEntites.First(x => x.Equipe != Equipe).Position.X - Position.X) + Math.Abs(ListEntites.First(x => x.Equipe != Equipe).Position.Y - Position.Y);
-            EntiteInconnu eMin = ListEntites.First(x => x.Equipe != Equipe);
-            foreach (EntiteInconnu x in ListEntites)
+            if (ListEntites.FirstOrDefault(x => (x.Etat == typeEtat.mort ? false : x.Equipe != Equipe)) != null)
             {
-                if (x.Equipe != Equipe && Math.Abs(x.Position.X - Position.X) + Math.Abs(x.Position.Y - Position.Y) < min)
+                int min = Math.Abs(ListEntites.FirstOrDefault(x => (x.Etat == typeEtat.mort ? false : x.Equipe != Equipe)).Position.X - Position.X) + Math.Abs(ListEntites.First(x => x.Equipe != Equipe).Position.Y - Position.Y);
+                EntiteInconnu eMin = ListEntites.First(x => x.Equipe != Equipe);
+                foreach (EntiteInconnu x in ListEntites)
                 {
-                    min = Math.Abs(x.Position.X - Position.X) + Math.Abs(x.Position.Y - Position.Y);
-                    eMin = x;
+                    if (x.Equipe != Equipe && Math.Abs(x.Position.X - Position.X) + Math.Abs(x.Position.Y - Position.Y) < min)
+                    {
+                        min = Math.Abs(x.Position.X - Position.X) + Math.Abs(x.Position.Y - Position.Y);
+                        eMin = x;
+                    }
                 }
+                return eMin;
             }
-            return eMin;
+            return null;
         }
         public EntiteInconnu AllieLePlusProche(Liste<EntiteInconnu> ListEntites)
         {
             if (ListEntites == null)
                 return null;
-            int min = Math.Abs(ListEntites.First(x => x.Equipe == Equipe).Position.X - Position.X) + Math.Abs(ListEntites.First(x => x.Equipe == Equipe).Position.Y - Position.Y);
-            EntiteInconnu eMin = ListEntites.First(x => x.Equipe == Equipe);
-            foreach (EntiteInconnu x in ListEntites)
+            if (ListEntites.FirstOrDefault(x => (x.Etat == typeEtat.mort ? false : x.Equipe == Equipe)) != null)
             {
-                if (x.Equipe == Equipe && Math.Abs(x.Position.X - Position.X) + Math.Abs(x.Position.Y - Position.Y) < min)
+                int min = Math.Abs(ListEntites.FirstOrDefault(x => (x.Etat == typeEtat.mort ? false : x.Equipe == Equipe)).Position.X - Position.X) + Math.Abs(ListEntites.First(x => x.Equipe == Equipe).Position.Y - Position.Y);
+                EntiteInconnu eMin = ListEntites.First(x => x.Equipe == Equipe);
+                foreach (EntiteInconnu x in ListEntites)
                 {
-                    min = Math.Abs(x.Position.X - Position.X) + Math.Abs(x.Position.Y - Position.Y);
-                    eMin = x;
+                    if (x.Equipe == Equipe && Math.Abs(x.Position.X - Position.X) + Math.Abs(x.Position.Y - Position.Y) < min)
+                    {
+                        min = Math.Abs(x.Position.X - Position.X) + Math.Abs(x.Position.Y - Position.Y);
+                        eMin = x;
+                    }
                 }
+                return eMin;
             }
-            return eMin;
+            return null;
         }
 
         #endregion
@@ -84,7 +92,7 @@ namespace GofusSharp
                 {
                     InfligerEffet(effet, sort.ZoneEffet, cible.Position);
                 }
-                if(!Debug.FCombat.Generation)
+                if (!Debug.FCombat.Generation)
                     System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
                 return true;
             }
@@ -1036,7 +1044,7 @@ namespace GofusSharp
                         }
                         break;
                     case Zone.type.carre:
-                        if ((Math.Abs(cible.Y - source.Y) >= porteeMin && Math.Abs(cible.Y - source.Y) <= porteeMax &&  Math.Abs(cible.X - source.X) <= porteeMax) || (Math.Abs(cible.X - source.X) >= porteeMin && Math.Abs(cible.X - source.X) <= porteeMax && Math.Abs(cible.Y - source.Y) <= porteeMax))
+                        if ((Math.Abs(cible.Y - source.Y) >= porteeMin && Math.Abs(cible.Y - source.Y) <= porteeMax && Math.Abs(cible.X - source.X) <= porteeMax) || (Math.Abs(cible.X - source.X) >= porteeMin && Math.Abs(cible.X - source.X) <= porteeMax && Math.Abs(cible.Y - source.Y) <= porteeMax))
                         {
                             return true;
                         }
@@ -1095,7 +1103,7 @@ namespace GofusSharp
                     {
                         if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                         {
-                            Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X  + " Y: " + Position.Y });
+                            Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
                             Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
                             System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
                             Debug.FCombat.mrse.WaitOne();
