@@ -23,6 +23,8 @@ namespace GofusSharp
 
         public bool Attaquer(EntiteInconnu cible)
         {
+            if (cible == null)
+                return false;
             Arme arme = new Arme(null, "poing", Equipement.type.arme, new Liste<Effet> { new Effet(Effet.type.ATT_neutre, 3, 5) }, new Zone(Zone.type.croix, 1, 1), new Zone(Zone.type.carre, 0, 0), Arme.typeArme.dague, 3);
 
             foreach (Equipement invent in ListEquipements)
@@ -64,6 +66,8 @@ namespace GofusSharp
         }
         public bool Attaquer(Case cible)
         {
+            if (cible == null)
+                return false;
             Arme arme = new Arme(null, "poing", Equipement.type.arme, new Liste<Effet> { new Effet(Effet.type.ATT_neutre, 3, 5) }, new Zone(Zone.type.croix, 1, 1), new Zone(Zone.type.carre, 0, 0), Arme.typeArme.dague, 3);
             foreach (Equipement invent in ListEquipements)
             {
@@ -103,6 +107,8 @@ namespace GofusSharp
 
         public bool PeutAttaquer(EntiteInconnu cible)
         {
+            if (cible == null)
+                return false;
             Arme arme = new Arme(null, "poing", Equipement.type.arme, new Liste<Effet> { new Effet(Effet.type.ATT_neutre, 3, 5) }, new Zone(Zone.type.croix, 1, 1), new Zone(Zone.type.carre, 0, 0), Arme.typeArme.dague, 3);
             foreach (Equipement invent in ListEquipements)
             {
@@ -120,6 +126,8 @@ namespace GofusSharp
         }
         public bool PeutAttaquer(Case cible)
         {
+            if (cible == null)
+                return false;
             Arme arme = new Arme(null, "poing", Equipement.type.arme, new Liste<Effet> { new Effet(Effet.type.ATT_neutre, 3, 5) }, new Zone(Zone.type.croix, 1, 1), new Zone(Zone.type.carre, 0, 0), Arme.typeArme.dague, 3);
             foreach (Equipement invent in ListEquipements)
             {
@@ -138,6 +146,8 @@ namespace GofusSharp
 
         public Liste<Case> CasesPourAttaquer(EntiteInconnu cible)
         {
+            if (cible == null)
+                return null;
             Liste<Case> caseValide = new Liste<Case>();
             foreach (Case[] caseL in TerrainEntite.TabCases)
                 foreach (Case CaseH in caseL)
@@ -147,6 +157,8 @@ namespace GofusSharp
         }
         public Liste<Case> CasesPourAttaquer(Case cible)
         {
+            if (cible == null)
+                return null;
             Liste<Case> caseValide = new Liste<Case>();
             foreach (Case[] caseL in TerrainEntite.TabCases)
                 foreach (Case CaseH in caseL)

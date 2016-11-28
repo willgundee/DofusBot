@@ -29,6 +29,8 @@ namespace GofusSharp
 
         public EntiteInconnu EnnemiLePlusProche(Liste<EntiteInconnu> ListEntites)
         {
+            if (ListEntites == null)
+                return null;
             int min = Math.Abs(ListEntites.First(x => x.Equipe != Equipe).Position.X - Position.X) + Math.Abs(ListEntites.First(x => x.Equipe != Equipe).Position.Y - Position.Y);
             EntiteInconnu eMin = ListEntites.First(x => x.Equipe != Equipe);
             foreach (EntiteInconnu x in ListEntites)
@@ -43,6 +45,8 @@ namespace GofusSharp
         }
         public EntiteInconnu AllieLePlusProche(Liste<EntiteInconnu> ListEntites)
         {
+            if (ListEntites == null)
+                return null;
             int min = Math.Abs(ListEntites.First(x => x.Equipe == Equipe).Position.X - Position.X) + Math.Abs(ListEntites.First(x => x.Equipe == Equipe).Position.Y - Position.Y);
             EntiteInconnu eMin = ListEntites.First(x => x.Equipe == Equipe);
             foreach (EntiteInconnu x in ListEntites)
@@ -63,6 +67,8 @@ namespace GofusSharp
         #region UtiliserSort
         public bool UtiliserSort(Sort sort, EntiteInconnu cible)
         {
+            if (sort == null || cible == null)
+                return false;
             if (!Debug.FCombat.Generation)
                 Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " lance " + sort.Nom + " sur " + cible.Nom });
             if (PA < sort.CoutPA)
@@ -88,6 +94,8 @@ namespace GofusSharp
         }
         public bool UtiliserSort(Sort sort, Case cible)
         {
+            if (sort == null || cible == null)
+                return false;
             if (!Debug.FCombat.Generation)
                 Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " lance " + sort.Nom + " à X: " + cible.X.ToString() + " Y: " + cible.Y.ToString() });
             if (PA < sort.CoutPA)
@@ -113,6 +121,8 @@ namespace GofusSharp
         }
         public bool UtiliserSort(Sort.nom_sort vraiNom, EntiteInconnu cible)
         {
+            if (cible == null)
+                return false;
             Sort sort = null;
             try
             {
@@ -149,6 +159,8 @@ namespace GofusSharp
         }
         public bool UtiliserSort(Sort.nom_sort vraiNom, Case cible)
         {
+            if (cible == null)
+                return false;
             Sort sort = null;
             try
             {
@@ -188,6 +200,8 @@ namespace GofusSharp
         #region PeutUtiliserSort
         public bool PeutUtiliserSort(Sort sort, EntiteInconnu cible)
         {
+            if (sort == null || cible == null)
+                return false;
             if (PA < sort.CoutPA)
                 return false;
             if (CaseEstDansZone(sort.ZonePortee.Type, sort.ZonePortee.PorteeMin, sort.ZonePortee.PorteeMax, Position, cible.Position))
@@ -196,6 +210,8 @@ namespace GofusSharp
         }
         public bool PeutUtiliserSort(Sort sort, Case cible)
         {
+            if (sort == null || cible == null)
+                return false;
             if (PA < sort.CoutPA)
                 return false;
             if (CaseEstDansZone(sort.ZonePortee.Type, sort.ZonePortee.PorteeMin, sort.ZonePortee.PorteeMax, Position, cible))
@@ -204,6 +220,8 @@ namespace GofusSharp
         }
         public bool PeutUtiliserSort(Sort.nom_sort vraiNom, EntiteInconnu cible)
         {
+            if (cible == null)
+                return false;
             Sort sort = null;
             try
             {
@@ -221,6 +239,9 @@ namespace GofusSharp
         }
         public bool PeutUtiliserSort(Sort.nom_sort vraiNom, Case cible)
         {
+
+            if (cible == null)
+                return false;
             Sort sort = null;
             try
             {
@@ -238,6 +259,8 @@ namespace GofusSharp
         }
         public bool PeutUtiliserSort(Sort sort, EntiteInconnu cible, Case source)
         {
+            if (sort == null || cible == null || source == null)
+                return false;
             if (PA < sort.CoutPA)
                 return false;
             if (CaseEstDansZone(sort.ZonePortee.Type, sort.ZonePortee.PorteeMin, sort.ZonePortee.PorteeMax, source, cible.Position))
@@ -246,6 +269,8 @@ namespace GofusSharp
         }
         public bool PeutUtiliserSort(Sort sort, Case cible, Case source)
         {
+            if (sort == null || cible == null || source == null)
+                return false;
             if (PA < sort.CoutPA)
                 return false;
             if (CaseEstDansZone(sort.ZonePortee.Type, sort.ZonePortee.PorteeMin, sort.ZonePortee.PorteeMax, source, cible))
@@ -254,6 +279,8 @@ namespace GofusSharp
         }
         public bool PeutUtiliserSort(Sort.nom_sort vraiNom, EntiteInconnu cible, Case source)
         {
+            if (cible == null || source == null)
+                return false;
             Sort sort = null;
             try
             {
@@ -271,6 +298,8 @@ namespace GofusSharp
         }
         public bool PeutUtiliserSort(Sort.nom_sort vraiNom, Case cible, Case source)
         {
+            if (cible == null || source == null)
+                return false;
             Sort sort = null;
             try
             {
@@ -291,6 +320,8 @@ namespace GofusSharp
         #region CasesPourUtiliserSort
         public Liste<Case> CasesPourUtiliserSort(Sort sort, EntiteInconnu cible)
         {
+            if (sort == null || cible == null)
+                return null;
             Liste<Case> caseValide = new Liste<Case>();
             foreach (Case[] caseL in TerrainEntite.TabCases)
                 foreach (Case CaseH in caseL)
@@ -300,6 +331,8 @@ namespace GofusSharp
         }
         public Liste<Case> CasesPourUtiliserSort(Sort.nom_sort sort, EntiteInconnu cible)
         {
+            if (cible == null)
+                return null;
             Liste<Case> caseValide = new Liste<Case>();
             foreach (Case[] caseL in TerrainEntite.TabCases)
                 foreach (Case CaseH in caseL)
@@ -309,6 +342,8 @@ namespace GofusSharp
         }
         public Liste<Case> CasesPourUtiliserSort(Sort sort, Case cible)
         {
+            if (sort == null || cible == null)
+                return null;
             Liste<Case> caseValide = new Liste<Case>();
             foreach (Case[] caseL in TerrainEntite.TabCases)
                 foreach (Case CaseH in caseL)
@@ -318,6 +353,8 @@ namespace GofusSharp
         }
         public Liste<Case> CasesPourUtiliserSort(Sort.nom_sort sort, Case cible)
         {
+            if (cible == null)
+                return null;
             Liste<Case> caseValide = new Liste<Case>();
             foreach (Case[] caseL in TerrainEntite.TabCases)
                 foreach (Case CaseH in caseL)
@@ -929,6 +966,8 @@ namespace GofusSharp
         }
         public bool EstEnLigneDeVue(Case source, Case cible)
         {
+            if (source == null || cible == null)
+                return false;
             int[][] tabCase = new int[TerrainEntite.Largeur][];
             for (int i = 0; i < TerrainEntite.Largeur; i++)
             {
@@ -1045,6 +1084,8 @@ namespace GofusSharp
 
         public int AvancerVers(EntiteInconnu cible)
         {
+            if (cible == null)
+                return 0;
             int PM_Debut = PM;
             while (PM > 0 && Position != cible.Position)
             {
@@ -1123,6 +1164,8 @@ namespace GofusSharp
         }
         public int AvancerVers(EntiteInconnu cible, int PM_Alouer)
         {
+            if (cible == null)
+                return 0;
             int PM_Debut = PM;
             while (PM > 0 && PM_Alouer > 0 && Position != cible.Position)
             {
@@ -1202,6 +1245,8 @@ namespace GofusSharp
         }
         public int AvancerVers(Case cible)
         {
+            if (cible == null)
+                return 0;
             int PM_Debut = PM;
             while (PM > 0 && Position != cible)
             {
@@ -1291,6 +1336,8 @@ namespace GofusSharp
         }
         public int AvancerVers(Case cible, int PM_Alouer)
         {
+            if (cible == null)
+                return 0;
             int PM_Debut = PM;
             while (PM > 0 && PM_Alouer > 0 && Position != cible)
             {
@@ -1382,6 +1429,8 @@ namespace GofusSharp
 
         public int SEloignerDe(Case cible)
         {
+            if (cible == null)
+                return 0;
             int PM_Debut = PM;
             try
             {
@@ -1500,6 +1549,8 @@ namespace GofusSharp
         }
         public int SEloignerDe(Case cible, int PM_Alouer)
         {
+            if (cible == null)
+                return 0;
             int PM_Debut = PM;
             try
             {
@@ -1619,6 +1670,8 @@ namespace GofusSharp
         }
         public int SEloignerDe(EntiteInconnu cible)
         {
+            if (cible == null)
+                return 0;
             int PM_Debut = PM;
             try
             {
@@ -1737,6 +1790,8 @@ namespace GofusSharp
         }
         public int SEloignerDe(EntiteInconnu cible, int PM_Alouer)
         {
+            if (cible == null)
+                return 0;
             int PM_Debut = PM;
             try
             {
