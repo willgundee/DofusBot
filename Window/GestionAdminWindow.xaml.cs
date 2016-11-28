@@ -1,19 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Forms;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Gofus
 {
@@ -22,12 +15,16 @@ namespace Gofus
     /// </summary>
     public partial class GestionAdminWindow : Window
     {
-        BDService bdAdmin;
+        private BDService bdAdmin;
 
         /// <summary>
         /// Liste qui contient la copie originel de la liste des utilisateurs
         /// </summary>
         public ObservableCollection<Utilisateur> lstBackUp;
+
+        public ObservableCollection<Utilisateur> lstUndo;
+
+
 
         /// <summary>
         /// Liste qui contient les utilisateurs, Elle est liée à la datagrid.
@@ -47,11 +44,13 @@ namespace Gofus
             dataGrid.AutoGenerateColumns = false;
             lstBackUp = new ObservableCollection<Utilisateur>();
             lstUtilisateurs = new ObservableCollection<Utilisateur>();
+            lstUtilisateurs.CollectionChanged += ContentCollectionChanged;
             bdAdmin = new BDService();
             List<string>[] result = bdAdmin.selection("SELECT nomUtilisateur,estAdmin FROM Joueurs");
             foreach (List<string> item in result)
             {
                 lstUtilisateurs.Add(new Utilisateur(item[0], ((item[1] == "True") ? true : false)));
+
             }
             dataGrid.ItemsSource = lstUtilisateurs;
             DataGridTextColumn textColumn = new DataGridTextColumn();
@@ -68,20 +67,35 @@ namespace Gofus
                 lstBackUp.Add(new Utilisateur(u.nom, u.estAdmin));
             dataGrid.Items.Refresh();
         }
+
+     
+
+        public void ContentCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            btnSauvegarder.IsEnabled = true;
+            btnAnnuler.IsEnabled = true;
+        }
+
+
         private void btnSauvegarder_Click(object sender, RoutedEventArgs e)
         {
-            int i = 0;
-            foreach (Utilisateur u in lstUtilisateurs)
+            var result = System.Windows.MessageBox.Show("Souhaitez-vous enregistrer les modifications? Vous ne pourrez plus utiliser la fonction annuler.", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
             {
-                if (u.estAdmin != lstBackUp[i].estAdmin)
+ 
+                for (int i = 0; i < lstUtilisateurs.Count; i++)
                 {
-                    string upt = "UPDATE Joueurs set estAdmin = " + ((u.estAdmin == true) ? "true" : "false") + " WHERE nomUtilisateur = '" + u.nom + "';";
-                    bool test = bdAdmin.Update(upt);
+                    if (lstUtilisateurs[i].estAdmin != lstBackUp[i].estAdmin)
+                    {
+                        string upt = "UPDATE Joueurs set estAdmin = " + ((lstUtilisateurs[i].estAdmin == true) ? "true" : "false") + " WHERE nomUtilisateur = '" + lstUtilisateurs[i].nom + "';";
+                        bool test = bdAdmin.Update(upt);
+                    }
                 }
-                i++;
+                BackUpComptes();
+                this.Close();
             }
-            BackUpComptes();
         }
+
         public void BackUpComptes()
         {
             lstBackUp.Clear();
@@ -106,18 +120,31 @@ namespace Gofus
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void btnAnnuler_Click(object sender, RoutedEventArgs e)
         {
-            Dispatcher.Invoke(new Action(() => Reset()));
+            Dispatcher.Invoke(new Action(() =>
+            {
+                Reset();
+            }));
+
         }
 
-        private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+
+        //http://stackoverflow.com/questions/3426765/single-click-edit-in-wpf-datagrid
+        private void DataGrid_GotFocus(object sender, RoutedEventArgs e)
         {
-
+            // Lookup for the source to be DataGridCell
+            if (e.OriginalSource.GetType() == typeof(DataGridCell))
+            {
+                // Starts the Edit on the row;
+                DataGrid grd = (DataGrid)sender;
+                grd.BeginEdit(e);
+            }
         }
+
     }
 }

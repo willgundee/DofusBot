@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Utility
+namespace Gofus
 {
     /// <summary>
     /// Fonctions pour modifier un control de façon async.
