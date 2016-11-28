@@ -176,7 +176,7 @@ namespace GofusSharp
                     {
                         BD.Update("UPDATE Parties SET attaquantAGagne = false WHERE idPartie = " + IdPartie + ";");
                         //TODO: LVL UP !
-                        // attributionGain(IdPartie);
+                        attributionGain(IdPartie);
                         Generation = false;
                         return;
                     }
@@ -193,7 +193,7 @@ namespace GofusSharp
                     {
                         BD.Update("UPDATE Parties SET attaquantAGagne = true WHERE idPartie = " + IdPartie + ";");
                         //TODO: LVL UP !
-                        //  attributionGain(IdPartie);
+                        attributionGain(IdPartie);
                         Generation = false;
                         return;
                     }
@@ -203,7 +203,7 @@ namespace GofusSharp
                 {
                     BD.Update("UPDATE Parties SET attaquantAGagne = null WHERE idPartie = " + IdPartie + ";");
                     //TODO: LVL UP !
-                    //  attributionGain(IdPartie);
+                    attributionGain(IdPartie);
                     Generation = false;
                     return;
                 }
@@ -219,66 +219,83 @@ namespace GofusSharp
             bool infoPartie = true;
             string infoParti = BD.selection("SELECT attaquantAGagne FROM Parties WHERE idPartie = " + IdPartie)[0][0];
 
-            if (infoParti == null)
+
+            if (infoParti == "")
             {
-                
+                infoPartie = true;
             }
-            else
+            // else
+            //{
+            // infoPartie = Convert.ToBoolean(infoParti);
+            //si l'attaquant a gagné
+            if (infoPartie)
             {
-                infoPartie = Convert.ToBoolean(infoParti);
-                //si l'attaquant a gagné
-                if (infoPartie)
-                {
+                gain = CombatCourant.ListDefendants[0].RetourneNiveau() * 100;
+                exp = CombatCourant.ListAttaquants[0].RetourneNiveau() * CombatCourant.ListDefendants[0].RetourneNiveau() * 32;
+                foreach (Entite item in CombatCourant.ListAttaquants)
+                    if (item is Personnage)
+                    {
+                        double expG;
+                        double gainG;
+                        List<string>[] bd = BD.selection("SELECT valeur FROM StatistiquesEntites WHERE idEntite=" + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
+                        List<string>[] cash = BD.selection("SELECT argent FROM Joueurs WHERE idJoueur=( SELECT idJoueur FROM Entites WHERE idEntite = " + item.IdEntite + ")");
+                        expG = Convert.ToDouble(bd[0][0]) + exp;
+                        gainG = gain + Convert.ToDouble(cash[0][0]);
+                        BD.Update("UPDATE StatistiquesEntites SET valeur = " + expG + " WHERE idEntite = " + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
+                        BD.Update("UPDATE Joueurs SET argent = " + gainG + " WHERE idJoueur=( SELECT idJoueur FROM Entites WHERE idEntite = " + item.IdEntite + ")");
+                    }
 
-                    gain = CombatCourant.ListDefendants[0].RetourneNiveau() * 100;
-                    foreach (Entite item in CombatCourant.ListAttaquants)
-                        if (item is Personnage)
-                        {
-                            List<string>[] bd = BD.selection("SELECT valeur FROM StatistiquesEntites WHERE idEntite=" + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
+                foreach (Entite item in CombatCourant.ListDefendants)
+                    if (item is Personnage)
+                    {
+                        double expP;
+                        double gainP;
+                        List<string>[] bd = BD.selection("SELECT valeur FROM StatistiquesEntites WHERE idEntite=" + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
+                        List<string>[] cash = BD.selection("SELECT argent FROM Joueurs WHERE idJoueur=( SELECT idJoueur FROM Entites WHERE idEntite = " + item.IdEntite + ")");
+                        expP = Convert.ToDouble(bd[0][0]) + (exp / 10);
+                        gainP = (gain / 10) + Convert.ToDouble(cash[0][0]);
+                        BD.Update("UPDATE StatistiquesEntites SET valeur = " + Convert.ToInt32(expP) + " WHERE idEntite = " + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
+                        BD.Update("UPDATE Joueurs SET argent = " + Convert.ToInt32(gainP) + " WHERE idJoueur=( SELECT idJoueur FROM Entites WHERE idEntite = " + item.IdEntite + ")");
+                    }
+            }//fin du if(attaquantAGangé)
+            else // si le deffendant a gangé
+            {
+                gain = CombatCourant.ListAttaquants[0].RetourneNiveau() * 100;
+                exp = CombatCourant.ListAttaquants[0].RetourneNiveau() * CombatCourant.ListDefendants[0].RetourneNiveau() * 32;
+                foreach (Entite item in CombatCourant.ListDefendants)
+                    if (item is Personnage)
+                    {
+                        double expG;
+                        double gainG;
+                        List<string>[] bd = BD.selection("SELECT valeur FROM StatistiquesEntites WHERE idEntite=" + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
+                        List<string>[] cash = BD.selection("SELECT argent FROM Joueurs WHERE idJoueur=( SELECT idJoueur FROM Entites WHERE idEntite = " + item.IdEntite + ")");
+                        expG = Convert.ToDouble(bd[0][0]) + exp;
+                        gainG = gain + Convert.ToDouble(cash[0][0]);
+                        BD.Update("UPDATE StatistiquesEntites SET valeur = " + expG + " WHERE idEntite = " + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
+                        BD.Update("UPDATE Joueurs SET argent = " + gainG + " WHERE idJoueur=( SELECT idJoueur FROM Entites WHERE idEntite = " + item.IdEntite + ")");
+                    }
 
-                            exp = CombatCourant.ListAttaquants[0].RetourneNiveau() * CombatCourant.ListDefendants[0].RetourneNiveau() * 32;
-                            exp += Convert.ToDouble(bd[0][0]);
-                            BD.Update("UPDATE StatistiquesEntites SET valeur = " + exp + " WHERE idEntite = " + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
-                            //   BD.Update("UPDATE Joueurs SET argent = " + gain + " WHERE idEntite = " + item.IdEntite);
-                        }
-
-                    foreach (Entite item in CombatCourant.ListDefendants)
-                        if (item is Personnage)
-                        {
-                            List<string>[] bd = BD.selection("SELECT valeur FROM StatistiquesEntites WHERE idEntite=" + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
-                            BD.Update("UPDATE StatistiquesEntites SET valeur = " + exp / 10 + " WHERE idEntite = " + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
-                            // BD.Update("UPDATE Joueurs SET argent = " + gain / 10 + " WHERE idEntite = " + item.IdEntite);
-                        }
-                }//fin du if(attaquantAGangé)
-                else // si le deffendant a gangé
-                {
-                    gain = CombatCourant.ListAttaquants[0].RetourneNiveau() * 100;
-                    foreach (Entite item in CombatCourant.ListDefendants)
-                        if (item is Personnage)
-                        {
-                            List<string>[] bd = BD.selection("SELECT valeur FROM StatistiquesEntites WHERE idEntite=" + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
-
-                            exp = CombatCourant.ListAttaquants[0].RetourneNiveau() * CombatCourant.ListDefendants[0].RetourneNiveau() * 32;
-                            exp += Convert.ToDouble(bd[0][0]);
-                            BD.Update("UPDATE StatistiquesEntites SET valeur = " + exp + " WHERE idEntite = " + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
-                            BD.Update("UPDATE Joueurs SET argent = " + gain + " WHERE idJoueur=( SELECT idJoueur FROM Entites WHERE idEntite = " + item.IdEntite + ")");
-                        }
-                    foreach (Entite item in CombatCourant.ListAttaquants)
-                        if (item is Personnage)
-                        {
-                            List<string>[] bd = BD.selection("SELECT valeur FROM StatistiquesEntites WHERE idEntite=" + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
-                            BD.Update("UPDATE StatistiquesEntites SET valeur = " + exp / 10 + " WHERE idEntite = " + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
-                            BD.Update("UPDATE Joueurs SET argent = " + gain / 10 + " WHERE idJoueur=( SELECT idJoueur FROM Entites WHERE idEntite = " + item.IdEntite + ")");
-                        }
-                }
+                foreach (Entite item in CombatCourant.ListAttaquants)
+                    if (item is Personnage)
+                    {
+                        double expP;
+                        double gainP;
+                        List<string>[] bd = BD.selection("SELECT valeur FROM StatistiquesEntites WHERE idEntite=" + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
+                        List<string>[] cash = BD.selection("SELECT argent FROM Joueurs WHERE idJoueur=( SELECT idJoueur FROM Entites WHERE idEntite = " + item.IdEntite + ")");
+                        expP = Convert.ToDouble(bd[0][0]) + (exp / 10);
+                        gainP = (gain / 10) + Convert.ToDouble(cash[0][0]);
+                        BD.Update("UPDATE StatistiquesEntites SET valeur = " + Convert.ToInt32(expP) + " WHERE idEntite = " + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
+                        BD.Update("UPDATE Joueurs SET argent = " + Convert.ToInt32(gainP) + " WHERE idJoueur=( SELECT idJoueur FROM Entites WHERE idEntite = " + item.IdEntite + ")");
+                    }
             }
+        //}
 
-        }
+    }
 
-        private void Action(Terrain terrain, Personnage joueur, Liste<EntiteInconnu> ListEntites)
-        {
-            //code dynamique 
-            string code = @"
+    private void Action(Terrain terrain, Personnage joueur, Liste<EntiteInconnu> ListEntites)
+    {
+        //code dynamique 
+        string code = @"
                 using GofusSharp;
                 namespace Arene
                 {
@@ -292,32 +309,32 @@ namespace GofusSharp
                 }
             ";
 
-            //je remplace le mot user_code pour ce qui ce trouve dans la text box
-            string finalCode = code.Replace("user_code", joueur.ScriptEntite);
-            //initialisation d'un compilateur de code C#
-            CSharpCodeProvider provider = new CSharpCodeProvider(new Dictionary<string, string>() { { "CompilerVersion", "v3.5" } });
-            //initialisation des paramètres du compilateur de code C#
-            CompilerParameters parameters = new CompilerParameters() { GenerateInMemory = true };
-            //ajout des lien de bibliothèque dynamique (dll)
-            parameters.ReferencedAssemblies.Add("GofusSharp.dll");
-            //compilation du code 
-            CompilerResults results = provider.CompileAssemblyFromSource(parameters, finalCode);
-            //recherche d'érreurs de compilation
-            if (results.Errors.HasErrors)
-            {
-                //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-                return;
-            }
-            //mettre la fonction compilé dans une variable
-
-            MethodInfo mi = results.CompiledAssembly.GetType("Arene.Action").GetMethod("Execution");
-            mi.Invoke(null, new object[] { terrain, joueur, ListEntites });
-        }
-
-        private void Action(Terrain terrain, Entite joueur, Liste<EntiteInconnu> ListEntites)
+        //je remplace le mot user_code pour ce qui ce trouve dans la text box
+        string finalCode = code.Replace("user_code", joueur.ScriptEntite);
+        //initialisation d'un compilateur de code C#
+        CSharpCodeProvider provider = new CSharpCodeProvider(new Dictionary<string, string>() { { "CompilerVersion", "v3.5" } });
+        //initialisation des paramètres du compilateur de code C#
+        CompilerParameters parameters = new CompilerParameters() { GenerateInMemory = true };
+        //ajout des lien de bibliothèque dynamique (dll)
+        parameters.ReferencedAssemblies.Add("GofusSharp.dll");
+        //compilation du code 
+        CompilerResults results = provider.CompileAssemblyFromSource(parameters, finalCode);
+        //recherche d'érreurs de compilation
+        if (results.Errors.HasErrors)
         {
-            //code dynamique 
-            string code = @"
+            //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+            return;
+        }
+        //mettre la fonction compilé dans une variable
+
+        MethodInfo mi = results.CompiledAssembly.GetType("Arene.Action").GetMethod("Execution");
+        mi.Invoke(null, new object[] { terrain, joueur, ListEntites });
+    }
+
+    private void Action(Terrain terrain, Entite joueur, Liste<EntiteInconnu> ListEntites)
+    {
+        //code dynamique 
+        string code = @"
                 using GofusSharp;
                 namespace Arene
                 {
@@ -331,416 +348,416 @@ namespace GofusSharp
                 }
             ";
 
-            //je remplace le mot user_code pour ce qui ce trouve dans la text box
-            string finalCode = code.Replace("user_code", joueur.ScriptEntite);
-            //initialisation d'un compilateur de code C#
-            CSharpCodeProvider provider = new CSharpCodeProvider(new Dictionary<string, string>() { { "CompilerVersion", "v3.5" } });
-            //initialisation des paramètres du compilateur de code C#
-            CompilerParameters parameters = new CompilerParameters() { GenerateInMemory = true };
-            //ajout des lien de bibliothèque dynamique (dll)
-            parameters.ReferencedAssemblies.Add("GofusSharp.dll");
-            //compilation du code 
-            CompilerResults results = provider.CompileAssemblyFromSource(parameters, finalCode);
-            //recherche d'érreurs de compilation
-            if (results.Errors.HasErrors)
-            {
-                return;
-            }
-            //mettre la fonction compilé dans une variable
-
-            MethodInfo mi = results.CompiledAssembly.GetType("Arene.Action").GetMethod("Execution");
-
-            mi.Invoke(null, new object[] { terrain, joueur, ListEntites });
-        }
-
-        private void btn_Next_Click(object sender, RoutedEventArgs e)
+        //je remplace le mot user_code pour ce qui ce trouve dans la text box
+        string finalCode = code.Replace("user_code", joueur.ScriptEntite);
+        //initialisation d'un compilateur de code C#
+        CSharpCodeProvider provider = new CSharpCodeProvider(new Dictionary<string, string>() { { "CompilerVersion", "v3.5" } });
+        //initialisation des paramètres du compilateur de code C#
+        CompilerParameters parameters = new CompilerParameters() { GenerateInMemory = true };
+        //ajout des lien de bibliothèque dynamique (dll)
+        parameters.ReferencedAssemblies.Add("GofusSharp.dll");
+        //compilation du code 
+        CompilerResults results = provider.CompileAssemblyFromSource(parameters, finalCode);
+        //recherche d'érreurs de compilation
+        if (results.Errors.HasErrors)
         {
-            if (!CombatTerminer)
-            {
-                btn_Next.IsEnabled = false;
-                TAction = new Thread(new ThreadStart(() => AsyncWork()));
-                TAction.Start();
-            }
+            return;
         }
+        //mettre la fonction compilé dans une variable
 
-        private void UpdateInfo()
+        MethodInfo mi = results.CompiledAssembly.GetType("Arene.Action").GetMethod("Execution");
+
+        mi.Invoke(null, new object[] { terrain, joueur, ListEntites });
+    }
+
+    private void btn_Next_Click(object sender, RoutedEventArgs e)
+    {
+        if (!CombatTerminer)
         {
-            foreach (Canvas cnvs in grd_Terrain.Children.Cast<FrameworkElement>().Where(x => x is Canvas))
+            btn_Next.IsEnabled = false;
+            TAction = new Thread(new ThreadStart(() => AsyncWork()));
+            TAction.Start();
+        }
+    }
+
+    private void UpdateInfo()
+    {
+        foreach (Canvas cnvs in grd_Terrain.Children.Cast<FrameworkElement>().Where(x => x is Canvas))
+        {
+            StackPanel sPnl = cnvs.Children.Cast<StackPanel>().First();
+            switch (CombatCourant.TerrainPartie.TabCases[Grid.GetRow(cnvs)][Grid.GetColumn(cnvs)].Contenu)
             {
-                StackPanel sPnl = cnvs.Children.Cast<StackPanel>().First();
-                switch (CombatCourant.TerrainPartie.TabCases[Grid.GetRow(cnvs)][Grid.GetColumn(cnvs)].Contenu)
-                {
-                    case Case.type.vide:
-                        sPnl.Children.Clear();
+                case Case.type.vide:
+                    sPnl.Children.Clear();
+                    break;
+                case Case.type.joueur:
+                    sPnl.Children.Clear();
+                    if (CombatCourant.ListAttaquants.Concat(CombatCourant.ListDefendants).Where(x => x.Etat == EntiteInconnu.typeEtat.mort).Count() != 0)
                         break;
-                    case Case.type.joueur:
-                        sPnl.Children.Clear();
-                        if (CombatCourant.ListAttaquants.Concat(CombatCourant.ListDefendants).Where(x => x.Etat == EntiteInconnu.typeEtat.mort).Count() != 0)
-                            break;
-                        Image ImageSprite = new Image();
-                        Entite perso = CombatCourant.ListAttaquants.Concat(CombatCourant.ListDefendants).Where(x => x.Position.X == Grid.GetRow(cnvs) && x.Position.Y == Grid.GetColumn(cnvs)).First();
-                        ImageSource SourceImageClasse = new BitmapImage(new Uri(@"..\..\Resources\" + perso.ClasseEntite.Nom + @".png", UriKind.Relative));
+                    Image ImageSprite = new Image();
+                    Entite perso = CombatCourant.ListAttaquants.Concat(CombatCourant.ListDefendants).Where(x => x.Position.X == Grid.GetRow(cnvs) && x.Position.Y == Grid.GetColumn(cnvs)).First();
+                    ImageSource SourceImageClasse = new BitmapImage(new Uri(@"..\..\Resources\" + perso.ClasseEntite.Nom + @".png", UriKind.Relative));
+                    try
+                    {
+                        SourceImageClasse.Height.ToString();
+                    }
+                    catch (Exception)
+                    {
+                        SourceImageClasse = new BitmapImage(new Uri(@"..\..\Resources\" + perso.ClasseEntite.Nom + @".jpg", UriKind.Relative));
                         try
                         {
                             SourceImageClasse.Height.ToString();
                         }
                         catch (Exception)
                         {
-                            SourceImageClasse = new BitmapImage(new Uri(@"..\..\Resources\" + perso.ClasseEntite.Nom + @".jpg", UriKind.Relative));
-                            try
-                            {
-                                SourceImageClasse.Height.ToString();
-                            }
-                            catch (Exception)
-                            {
-                                SourceImageClasse = new BitmapImage(new Uri(@"..\..\Resources\monstre.png", UriKind.Relative));
-                            }
+                            SourceImageClasse = new BitmapImage(new Uri(@"..\..\Resources\monstre.png", UriKind.Relative));
                         }
-                        ImageSprite.Source = SourceImageClasse;
-                        ImageSprite.ToolTip = CreerToolTip(perso);
-                        ToolTipService.SetShowDuration(ImageSprite, int.MaxValue);
-                        sPnl.Children.Add(ImageSprite);
-                        ImageSprite.Height = grd_Terrain.RowDefinitions.First().ActualHeight;
-                        ImageSprite.Width = grd_Terrain.ColumnDefinitions.First().ActualWidth;
-                        ImageSprite.HorizontalAlignment = HorizontalAlignment.Left;
-                        ImageSprite.MouseDown += ImageSprite_MouseDown;
-                        TextBlock TBName = new TextBlock();
-                        TBName.Text = perso.Nom;
-                        TBName.Foreground = Brushes.Red;
-                        sPnl.Children.Add(TBName);
-                        break;
-                }
-            }
-            if (spl_Info.Children.Count != 0)
-            {
-                int idPerso = (int)(spl_Info.Children.Cast<StackPanel>().First().Children.Cast<TextBlock>().First(x => x.Tag != null).Tag);
-                Entite perso = CombatCourant.ListAttaquants.Concat(CombatCourant.ListDefendants).Where(x => x.IdEntite == idPerso).First();
-                spl_Info.Children.Clear();
-                spl_Info.Children.Add(CreerInfo(perso));
+                    }
+                    ImageSprite.Source = SourceImageClasse;
+                    ImageSprite.ToolTip = CreerToolTip(perso);
+                    ToolTipService.SetShowDuration(ImageSprite, int.MaxValue);
+                    sPnl.Children.Add(ImageSprite);
+                    ImageSprite.Height = grd_Terrain.RowDefinitions.First().ActualHeight;
+                    ImageSprite.Width = grd_Terrain.ColumnDefinitions.First().ActualWidth;
+                    ImageSprite.HorizontalAlignment = HorizontalAlignment.Left;
+                    ImageSprite.MouseDown += ImageSprite_MouseDown;
+                    TextBlock TBName = new TextBlock();
+                    TBName.Text = perso.Nom;
+                    TBName.Foreground = Brushes.Red;
+                    sPnl.Children.Add(TBName);
+                    break;
             }
         }
-
-        private void ImageSprite_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        if (spl_Info.Children.Count != 0)
         {
-            Image img = sender as Image;
-            StackPanel sPnl = img.Parent as StackPanel;
-            Canvas cnvs = sPnl.Parent as Canvas;
-            Entite perso = CombatCourant.ListAttaquants.Concat(CombatCourant.ListDefendants).Where(x => x.Position.X == Grid.GetRow(cnvs) && x.Position.Y == Grid.GetColumn(cnvs)).First();
-            StackPanel info = CreerInfo(perso);
-
+            int idPerso = (int)(spl_Info.Children.Cast<StackPanel>().First().Children.Cast<TextBlock>().First(x => x.Tag != null).Tag);
+            Entite perso = CombatCourant.ListAttaquants.Concat(CombatCourant.ListDefendants).Where(x => x.IdEntite == idPerso).First();
             spl_Info.Children.Clear();
-            spl_Info.Children.Add(info);
+            spl_Info.Children.Add(CreerInfo(perso));
         }
+    }
 
-        private StackPanel CreerInfo(Entite perso)
+    private void ImageSprite_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        Image img = sender as Image;
+        StackPanel sPnl = img.Parent as StackPanel;
+        Canvas cnvs = sPnl.Parent as Canvas;
+        Entite perso = CombatCourant.ListAttaquants.Concat(CombatCourant.ListDefendants).Where(x => x.Position.X == Grid.GetRow(cnvs) && x.Position.Y == Grid.GetColumn(cnvs)).First();
+        StackPanel info = CreerInfo(perso);
+
+        spl_Info.Children.Clear();
+        spl_Info.Children.Add(info);
+    }
+
+    private StackPanel CreerInfo(Entite perso)
+    {
+        StackPanel info = CreerToolTip(perso);
+
+        TextBlock Etat = new TextBlock();
+        Etat.Text = "Etat: " + perso.Etat;
+        info.Children.Insert(1, Etat);
+
+        TextBlock Equipe = new TextBlock();
+        Equipe.Text = "Equipe: " + perso.Equipe;
+        info.Children.Insert(1, Equipe);
+
+        TextBlock Position = new TextBlock();
+        try
         {
-            StackPanel info = CreerToolTip(perso);
-
-            TextBlock Etat = new TextBlock();
-            Etat.Text = "Etat: " + perso.Etat;
-            info.Children.Insert(1, Etat);
-
-            TextBlock Equipe = new TextBlock();
-            Equipe.Text = "Equipe: " + perso.Equipe;
-            info.Children.Insert(1, Equipe);
-
-            TextBlock Position = new TextBlock();
-            try
-            {
-                Position.Text = "Position: X: " + perso.Position.X + " Y: " + perso.Position.Y;
-            }
-            catch (Exception)
-            {
-                Position.Text = "Position: Inexistant";
-            }
-            info.Children.Insert(1, Position);
-
-            TextBlock Niveau = new TextBlock();
-            Niveau.Text = "Niveau: " + perso.RetourneNiveau();
-            info.Children.Insert(1, Niveau);
-
-            TextBlock idPerso = new TextBlock();
-            idPerso.Text = "ID: " + perso.IdEntite;
-            idPerso.Tag = perso.IdEntite;
-            info.Children.Insert(1, idPerso);
-
-            return info;
+            Position.Text = "Position: X: " + perso.Position.X + " Y: " + perso.Position.Y;
         }
-
-        private StackPanel CreerToolTip(Entite perso)
+        catch (Exception)
         {
-            StackPanel infoPerso = new StackPanel();
-
-
-            TextBlock Nom = new TextBlock();
-            Nom.Text = perso.Nom;
-            Nom.FontWeight = FontWeights.Bold;
-
-            TextBlock PV = new TextBlock();
-            PV.Text = "PV: " + perso.PV + "/" + perso.PV_MAX;
-
-            TextBlock PA = new TextBlock();
-            PA.Text = "PA: " + perso.PA + "/" + perso.PA_MAX;
-
-            TextBlock PM = new TextBlock();
-            PM.Text = "PM: " + perso.PM + "/" + perso.PM_MAX;
-
-            infoPerso.Children.Add(Nom);
-            infoPerso.Children.Add(PV);
-            infoPerso.Children.Add(PA);
-            infoPerso.Children.Add(PM);
-
-
-            TextBlock Stat = new TextBlock();
-            Stat.Text = "Résistance";
-            Stat.FontWeight = FontWeights.Bold;
-            infoPerso.Children.Add(Stat);
-
-            foreach (Statistique resis in perso.ListStatistiques)
-            {
-                TextBlock res = new TextBlock();
-                switch (resis.Nom)
-                {
-                    case Statistique.type.RES_neutre:
-                        res.Text = "Neutre: " + resis.Valeur;
-                        infoPerso.Children.Add(res);
-                        break;
-                    case Statistique.type.RES_feu:
-                        res.Text = "Feu: " + resis.Valeur;
-                        infoPerso.Children.Add(res);
-                        break;
-                    case Statistique.type.RES_air:
-                        res.Text = "Air: " + resis.Valeur;
-                        infoPerso.Children.Add(res);
-                        break;
-                    case Statistique.type.RES_terre:
-                        res.Text = "Terre: " + resis.Valeur;
-                        infoPerso.Children.Add(res);
-                        break;
-                    case Statistique.type.RES_eau:
-                        res.Text = "Eau: " + resis.Valeur;
-                        infoPerso.Children.Add(res);
-                        break;
-                    case Statistique.type.RES_Pourcent_neutre:
-                        res.Text = "%Neutre: " + resis.Valeur;
-                        infoPerso.Children.Add(res);
-                        break;
-                    case Statistique.type.RES_Pourcent_feu:
-                        res.Text = "%Feu: " + resis.Valeur;
-                        infoPerso.Children.Add(res);
-                        break;
-                    case Statistique.type.RES_Pourcent_air:
-                        res.Text = "%Air: " + resis.Valeur;
-                        infoPerso.Children.Add(res);
-                        break;
-                    case Statistique.type.RES_Pourcent_terre:
-                        res.Text = "%Terre: " + resis.Valeur;
-                        infoPerso.Children.Add(res);
-                        break;
-                    case Statistique.type.RES_Pourcent_eau:
-                        res.Text = "%Eau: " + resis.Valeur;
-                        infoPerso.Children.Add(res);
-                        break;
-                }
-            }
-
-            if (perso.ListEnvoutements.Count() != 0)
-            {
-
-                TextBlock Envout = new TextBlock();
-                Envout.Text = "Envoutement";
-                Envout.FontWeight = FontWeights.Bold;
-                infoPerso.Children.Add(Envout);
-
-                foreach (Envoutement e in perso.ListEnvoutements)
-                {
-                    TextBlock Env = new TextBlock();
-                    Env.Text = e.Stat.ToString() + ": " + e.Valeur + " pour " + e.TourRestants + " tour" + (e.TourRestants == 1 ? "" : "s");
-                    infoPerso.Children.Add(Env);
-                }
-            }
-            return infoPerso;
+            Position.Text = "Position: Inexistant";
         }
+        info.Children.Insert(1, Position);
 
-        private void srv_Log_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        TextBlock Niveau = new TextBlock();
+        Niveau.Text = "Niveau: " + perso.RetourneNiveau();
+        info.Children.Insert(1, Niveau);
+
+        TextBlock idPerso = new TextBlock();
+        idPerso.Text = "ID: " + perso.IdEntite;
+        idPerso.Tag = perso.IdEntite;
+        info.Children.Insert(1, idPerso);
+
+        return info;
+    }
+
+    private StackPanel CreerToolTip(Entite perso)
+    {
+        StackPanel infoPerso = new StackPanel();
+
+
+        TextBlock Nom = new TextBlock();
+        Nom.Text = perso.Nom;
+        Nom.FontWeight = FontWeights.Bold;
+
+        TextBlock PV = new TextBlock();
+        PV.Text = "PV: " + perso.PV + "/" + perso.PV_MAX;
+
+        TextBlock PA = new TextBlock();
+        PA.Text = "PA: " + perso.PA + "/" + perso.PA_MAX;
+
+        TextBlock PM = new TextBlock();
+        PM.Text = "PM: " + perso.PM + "/" + perso.PM_MAX;
+
+        infoPerso.Children.Add(Nom);
+        infoPerso.Children.Add(PV);
+        infoPerso.Children.Add(PA);
+        infoPerso.Children.Add(PM);
+
+
+        TextBlock Stat = new TextBlock();
+        Stat.Text = "Résistance";
+        Stat.FontWeight = FontWeights.Bold;
+        infoPerso.Children.Add(Stat);
+
+        foreach (Statistique resis in perso.ListStatistiques)
         {
-            ScrollViewer log = sender as ScrollViewer;
-            // User scroll event : set or unset autoscroll mode
-            if (e.ExtentHeightChange == 0)
-            {   // Content unchanged : user scroll event
-                if (log.VerticalOffset == log.ScrollableHeight)
-                {   // Scroll bar is in bottom
-                    // Set autoscroll mode
-                    AutoScroll = true;
-                }
-                else
-                {   // Scroll bar isn't in bottom
-                    // Unset autoscroll mode
-                    AutoScroll = false;
-                }
-            }
-
-            // Content scroll event : autoscroll eventually
-            if (AutoScroll && e.ExtentHeightChange != 0)
-            {   // Content changed and autoscroll mode set
-                // Autoscroll
-                log.ScrollToVerticalOffset(log.ExtentHeight);
+            TextBlock res = new TextBlock();
+            switch (resis.Nom)
+            {
+                case Statistique.type.RES_neutre:
+                    res.Text = "Neutre: " + resis.Valeur;
+                    infoPerso.Children.Add(res);
+                    break;
+                case Statistique.type.RES_feu:
+                    res.Text = "Feu: " + resis.Valeur;
+                    infoPerso.Children.Add(res);
+                    break;
+                case Statistique.type.RES_air:
+                    res.Text = "Air: " + resis.Valeur;
+                    infoPerso.Children.Add(res);
+                    break;
+                case Statistique.type.RES_terre:
+                    res.Text = "Terre: " + resis.Valeur;
+                    infoPerso.Children.Add(res);
+                    break;
+                case Statistique.type.RES_eau:
+                    res.Text = "Eau: " + resis.Valeur;
+                    infoPerso.Children.Add(res);
+                    break;
+                case Statistique.type.RES_Pourcent_neutre:
+                    res.Text = "%Neutre: " + resis.Valeur;
+                    infoPerso.Children.Add(res);
+                    break;
+                case Statistique.type.RES_Pourcent_feu:
+                    res.Text = "%Feu: " + resis.Valeur;
+                    infoPerso.Children.Add(res);
+                    break;
+                case Statistique.type.RES_Pourcent_air:
+                    res.Text = "%Air: " + resis.Valeur;
+                    infoPerso.Children.Add(res);
+                    break;
+                case Statistique.type.RES_Pourcent_terre:
+                    res.Text = "%Terre: " + resis.Valeur;
+                    infoPerso.Children.Add(res);
+                    break;
+                case Statistique.type.RES_Pourcent_eau:
+                    res.Text = "%Eau: " + resis.Valeur;
+                    infoPerso.Children.Add(res);
+                    break;
             }
         }
 
-        private void txtNum_LostFocus(object sender, RoutedEventArgs e)
+        if (perso.ListEnvoutements.Count() != 0)
         {
-            TextBox tb_num = sender as TextBox;
-            try
+
+            TextBlock Envout = new TextBlock();
+            Envout.Text = "Envoutement";
+            Envout.FontWeight = FontWeights.Bold;
+            infoPerso.Children.Add(Envout);
+
+            foreach (Envoutement e in perso.ListEnvoutements)
             {
-                Speed = Convert.ToDouble(tb_num.Text.Replace('.', ','));
-                Speed = Math.Round(Speed, 1);
-                if (Speed < 0.1)
-                    Speed = 0.1;
-                if (Speed > 20)
-                    Speed = 20;
-                tb_num.Text = Speed.ToString();
+                TextBlock Env = new TextBlock();
+                Env.Text = e.Stat.ToString() + ": " + e.Valeur + " pour " + e.TourRestants + " tour" + (e.TourRestants == 1 ? "" : "s");
+                infoPerso.Children.Add(Env);
             }
-            catch (Exception)
-            {
-                tb_num.Text = Speed.ToString();
+        }
+        return infoPerso;
+    }
+
+    private void srv_Log_ScrollChanged(object sender, ScrollChangedEventArgs e)
+    {
+        ScrollViewer log = sender as ScrollViewer;
+        // User scroll event : set or unset autoscroll mode
+        if (e.ExtentHeightChange == 0)
+        {   // Content unchanged : user scroll event
+            if (log.VerticalOffset == log.ScrollableHeight)
+            {   // Scroll bar is in bottom
+                // Set autoscroll mode
+                AutoScroll = true;
+            }
+            else
+            {   // Scroll bar isn't in bottom
+                // Unset autoscroll mode
+                AutoScroll = false;
             }
         }
 
-        private void cmdUp_Click(object sender, RoutedEventArgs e)
+        // Content scroll event : autoscroll eventually
+        if (AutoScroll && e.ExtentHeightChange != 0)
+        {   // Content changed and autoscroll mode set
+            // Autoscroll
+            log.ScrollToVerticalOffset(log.ExtentHeight);
+        }
+    }
+
+    private void txtNum_LostFocus(object sender, RoutedEventArgs e)
+    {
+        TextBox tb_num = sender as TextBox;
+        try
         {
-            Speed += 0.5;
+            Speed = Convert.ToDouble(tb_num.Text.Replace('.', ','));
+            Speed = Math.Round(Speed, 1);
             if (Speed < 0.1)
                 Speed = 0.1;
             if (Speed > 20)
                 Speed = 20;
-            txtNum.Text = Speed.ToString();
+            tb_num.Text = Speed.ToString();
         }
-
-        private void cmdDown_Click(object sender, RoutedEventArgs e)
+        catch (Exception)
         {
-            Speed -= 0.5;
-            if (Speed < 0.1)
-                Speed = 0.1;
-            if (Speed > 20)
-                Speed = 20;
-            txtNum.Text = Speed.ToString();
+            tb_num.Text = Speed.ToString();
         }
+    }
 
-        private void AsyncWork()
+    private void cmdUp_Click(object sender, RoutedEventArgs e)
+    {
+        Speed += 0.5;
+        if (Speed < 0.1)
+            Speed = 0.1;
+        if (Speed > 20)
+            Speed = 20;
+        txtNum.Text = Speed.ToString();
+    }
+
+    private void cmdDown_Click(object sender, RoutedEventArgs e)
+    {
+        Speed -= 0.5;
+        if (Speed < 0.1)
+            Speed = 0.1;
+        if (Speed > 20)
+            Speed = 20;
+        txtNum.Text = Speed.ToString();
+    }
+
+    private void AsyncWork()
+    {
+        //les stats des liste entite sont vide a partir d'ici
+        foreach (Entite entite in Liste<Entite>.ConcatAlternate(CombatCourant.ListAttaquants, CombatCourant.ListDefendants))
         {
-            //les stats des liste entite sont vide a partir d'ici
-            foreach (Entite entite in Liste<Entite>.ConcatAlternate(CombatCourant.ListAttaquants, CombatCourant.ListDefendants))
+            if (entite.Etat == EntiteInconnu.typeEtat.mort)
+                continue;
+            CombatCourant.DebuterAction(entite);
+            Liste<EntiteInconnu> ListEntites = new Liste<EntiteInconnu>();
+            foreach (Entite entiteI in CombatCourant.ListAttaquants.Concat(CombatCourant.ListDefendants))
+                ListEntites.Add(new EntiteInconnu(entiteI));
+            if (entite is Personnage)
+                Action(CombatCourant.TerrainPartie, entite as Personnage, ListEntites);
+            else
+                Action(CombatCourant.TerrainPartie, entite as Entite, ListEntites);
+            CombatCourant.FinirAction(entite);
+            Dispatcher.Invoke(DelUpd);
+            bool vivante = false;
+            foreach (Entite entiteAtt in CombatCourant.ListAttaquants)
             {
-                if (entite.Etat == EntiteInconnu.typeEtat.mort)
-                    continue;
-                CombatCourant.DebuterAction(entite);
-                Liste<EntiteInconnu> ListEntites = new Liste<EntiteInconnu>();
-                foreach (Entite entiteI in CombatCourant.ListAttaquants.Concat(CombatCourant.ListDefendants))
-                    ListEntites.Add(new EntiteInconnu(entiteI));
-                if (entite is Personnage)
-                    Action(CombatCourant.TerrainPartie, entite as Personnage, ListEntites);
-                else
-                    Action(CombatCourant.TerrainPartie, entite as Entite, ListEntites);
-                CombatCourant.FinirAction(entite);
-                Dispatcher.Invoke(DelUpd);
-                bool vivante = false;
-                foreach (Entite entiteAtt in CombatCourant.ListAttaquants)
+                if (entiteAtt.Etat == EntiteInconnu.typeEtat.vivant)
                 {
-                    if (entiteAtt.Etat == EntiteInconnu.typeEtat.vivant)
-                    {
-                        vivante = true;
-                        break;
-                    }
-                }
-                if (!vivante)
-                {
-                    CombatTerminer = true;
-                    DelAfficheRes FenRes = OuvrirResultat;
-                    Dispatcher.Invoke(FenRes, new object[] { IdPartie });
-                }
-                vivante = false;
-                foreach (Entite entiteDef in CombatCourant.ListDefendants)
-                {
-                    if (entiteDef.Etat == EntiteInconnu.typeEtat.vivant)
-                    {
-                        vivante = true;
-                        break;
-                    }
-                }
-                if (!vivante)
-                {
-                    CombatTerminer = true;
-                    DelAfficheRes FenRes = OuvrirResultat;
-                    Dispatcher.Invoke(FenRes, new object[] { IdPartie });
+                    vivante = true;
+                    break;
                 }
             }
-            CombatCourant.Tour++;
-            if (CombatCourant.Tour >= 64)
+            if (!vivante)
             {
                 CombatTerminer = true;
                 DelAfficheRes FenRes = OuvrirResultat;
                 Dispatcher.Invoke(FenRes, new object[] { IdPartie });
             }
-            DelThreadEnd ThEnd = ThreadEnd;
-            Dispatcher.Invoke(ThEnd);
-        }
-
-        internal void UpdateLog(string text)
-        {
-            tb_Log.Text += text;
-        }
-        internal void ThreadEnd()
-        {
-            if (chb_AutoPlay.IsChecked == false)
-                btn_Next.IsEnabled = true;
-            else if (!CombatTerminer)
+            vivante = false;
+            foreach (Entite entiteDef in CombatCourant.ListDefendants)
             {
-                Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                TAction = new Thread(new ThreadStart(() => AsyncWork()));
-                TAction.Start();
-            }
-        }
-
-        internal void OuvrirResultat(long idPartie)
-        {
-            Gofus.Resultat resultat = new Gofus.Resultat(IdPartie);
-            resultat.ShowDialog();
-        }
-
-        private void chb_AutoPlay_Checked(object sender, RoutedEventArgs e)
-        {
-            btn_Next.IsEnabled = false;
-            if ((TAction == null || !TAction.IsAlive) && !CombatTerminer)
-            {
-                TAction = new Thread(new ThreadStart(() => AsyncWork()));
-                TAction.Start();
-            }
-        }
-
-        private void chb_AutoPlay_Unchecked(object sender, RoutedEventArgs e)
-        {
-            if (btn_StartStop.Content.ToString() == "Pause")
-                btn_Next.IsEnabled = true;
-        }
-
-        private void btn_StartStop_Click(object sender, RoutedEventArgs e)
-        {
-            Button StartStop = sender as Button;
-            switch (StartStop.Content.ToString())
-            {
-                case "Pause":
-                    btn_Next.IsEnabled = false;
-                    mrse.Reset();
-                    StartStop.Content = "Jouer";
+                if (entiteDef.Etat == EntiteInconnu.typeEtat.vivant)
+                {
+                    vivante = true;
                     break;
-                case "Jouer":
-                    if (chb_AutoPlay.IsChecked == false)
-                        btn_Next.IsEnabled = true;
-                    StartStop.Content = "Pause";
-                    mrse.Set();
-                    break;
+                }
             }
+            if (!vivante)
+            {
+                CombatTerminer = true;
+                DelAfficheRes FenRes = OuvrirResultat;
+                Dispatcher.Invoke(FenRes, new object[] { IdPartie });
+            }
+        }
+        CombatCourant.Tour++;
+        if (CombatCourant.Tour >= 64)
+        {
+            CombatTerminer = true;
+            DelAfficheRes FenRes = OuvrirResultat;
+            Dispatcher.Invoke(FenRes, new object[] { IdPartie });
+        }
+        DelThreadEnd ThEnd = ThreadEnd;
+        Dispatcher.Invoke(ThEnd);
+    }
+
+    internal void UpdateLog(string text)
+    {
+        tb_Log.Text += text;
+    }
+    internal void ThreadEnd()
+    {
+        if (chb_AutoPlay.IsChecked == false)
+            btn_Next.IsEnabled = true;
+        else if (!CombatTerminer)
+        {
+            Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+            TAction = new Thread(new ThreadStart(() => AsyncWork()));
+            TAction.Start();
         }
     }
+
+    internal void OuvrirResultat(long idPartie)
+    {
+        Gofus.Resultat resultat = new Gofus.Resultat(IdPartie);
+        resultat.ShowDialog();
+    }
+
+    private void chb_AutoPlay_Checked(object sender, RoutedEventArgs e)
+    {
+        btn_Next.IsEnabled = false;
+        if ((TAction == null || !TAction.IsAlive) && !CombatTerminer)
+        {
+            TAction = new Thread(new ThreadStart(() => AsyncWork()));
+            TAction.Start();
+        }
+    }
+
+    private void chb_AutoPlay_Unchecked(object sender, RoutedEventArgs e)
+    {
+        if (btn_StartStop.Content.ToString() == "Pause")
+            btn_Next.IsEnabled = true;
+    }
+
+    private void btn_StartStop_Click(object sender, RoutedEventArgs e)
+    {
+        Button StartStop = sender as Button;
+        switch (StartStop.Content.ToString())
+        {
+            case "Pause":
+                btn_Next.IsEnabled = false;
+                mrse.Reset();
+                StartStop.Content = "Jouer";
+                break;
+            case "Jouer":
+                if (chb_AutoPlay.IsChecked == false)
+                    btn_Next.IsEnabled = true;
+                StartStop.Content = "Pause";
+                mrse.Set();
+                break;
+        }
+    }
+}
 }
