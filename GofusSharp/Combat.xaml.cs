@@ -396,22 +396,23 @@ namespace GofusSharp
                         if (CombatCourant.ListAttaquants.Concat(CombatCourant.ListDefendants).Where(x => x.Etat == EntiteInconnu.typeEtat.mort).Count() != 0)
                             break;
                         Image ImageSprite = new Image();
+                        ImageSprite.Source = new BitmapImage(new Uri("../../Resources/vide.png", UriKind.Relative));
                         Entite perso = CombatCourant.ListAttaquants.Concat(CombatCourant.ListDefendants).Where(x => x.Position.X == Grid.GetRow(cnvs) && x.Position.Y == Grid.GetColumn(cnvs)).First();
-                        ImageSource SourceImageClasse = new BitmapImage(new Uri(@"..\..\Resources\" + perso.ClasseEntite.Nom + @".png", UriKind.Relative));
+                        ImageSource SourceImageClasse = new BitmapImage(new Uri("../../Resources/" + perso.ClasseEntite.Nom + ".png", UriKind.Relative));
                         try
                         {
                             SourceImageClasse.Height.ToString();
                         }
                         catch (Exception)
                         {
-                            SourceImageClasse = new BitmapImage(new Uri(@"..\..\Resources\" + perso.ClasseEntite.Nom + @".jpg", UriKind.Relative));
+                            SourceImageClasse = new BitmapImage(new Uri("../../Resources/" + perso.ClasseEntite.Nom + ".jpg", UriKind.Relative));
                             try
                             {
                                 SourceImageClasse.Height.ToString();
                             }
                             catch (Exception)
                             {
-                                SourceImageClasse = new BitmapImage(new Uri(@"..\..\Resources\monstre.png", UriKind.Relative));
+                                SourceImageClasse = new BitmapImage(new Uri("../../Resources/monstre.png", UriKind.Relative));
                             }
                         }
                         ImageSprite.Source = SourceImageClasse;
@@ -445,14 +446,20 @@ namespace GofusSharp
 
         private void ImageSprite_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Image img = sender as Image;
-            StackPanel sPnl = img.Parent as StackPanel;
-            Canvas cnvs = sPnl.Parent as Canvas;
-            Entite perso = CombatCourant.ListAttaquants.Concat(CombatCourant.ListDefendants).Where(x => x.Position.X == Grid.GetRow(cnvs) && x.Position.Y == Grid.GetColumn(cnvs)).First();
-            StackPanel info = CreerInfo(perso);
-
-            spl_Info.Children.Clear();
-            spl_Info.Children.Add(info);
+            try
+            {
+                Image img = sender as Image;
+                StackPanel sPnl = img.Parent as StackPanel;
+                Canvas cnvs = sPnl.Parent as Canvas;
+                Entite perso = CombatCourant.ListAttaquants.Concat(CombatCourant.ListDefendants).Where(x => x.Position.X == Grid.GetRow(cnvs) && x.Position.Y == Grid.GetColumn(cnvs)).First();
+                StackPanel info = CreerInfo(perso);
+                spl_Info.Children.Clear();
+                spl_Info.Children.Add(info);
+            }
+            catch (Exception)
+            {
+                
+            }
         }
 
         private StackPanel CreerInfoPartie()

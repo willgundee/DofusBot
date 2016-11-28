@@ -171,53 +171,5 @@ namespace GofusSharp
             entite.PM = entite.PM_MAX;
             entite.PA = entite.PA_MAX;
         }
-
-        internal void SyncroniserJoueur()
-        {
-            //foreach (EntiteInconnu entiteInconnu in ListEntites)
-            //{
-            //    bool existe = false;
-            //    foreach (Entite entite in ListAttaquants.Concat(ListDefendants))
-            //    {
-            //        if (entite.IdEntite == entiteInconnu.IdEntite)
-            //        {
-            //            entite.TerrainEntite = TerrainPartie;
-            //            entite.Position = entiteInconnu.Position;
-            //            entite.PV = entiteInconnu.PV;
-            //            entite.PV_MAX = entiteInconnu.PV_MAX;
-            //            entite.ListEnvoutements = entiteInconnu.ListEnvoutements;
-            //            entite.Etat = entiteInconnu.Etat;
-            //            existe = true;
-            //            break;
-            //        }
-            //    }
-            //    if (!existe)
-            //    {
-            //        Entite newInvoc = new Entite(entiteInconnu, "//Placeholder", TerrainPartie, entiteInconnu.Proprietaire);
-            //        if (newInvoc.Equipe == EntiteInconnu.type.attaquant)
-            //        {
-            //            foreach (Entite entiteProp in ListAttaquants)
-            //            {
-            //                if (entiteProp.IdEntite == newInvoc.Proprietaire)
-            //                {
-            //                    ListAttaquants.Insert(ListAttaquants.FindIndex(x => x == entiteProp), newInvoc);
-            //                    break;
-            //                }
-            //            }
-            //        }
-            //        else
-            //        {
-            //            foreach (Entite entiteProp in ListDefendants)
-            //            {
-            //                if (entiteProp.IdEntite == newInvoc.Proprietaire)
-            //                {
-            //                    ListDefendants.Insert(ListDefendants.FindIndex(x => x == entiteProp), newInvoc);
-            //                    break;
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
-        }
     }
 }
