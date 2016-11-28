@@ -50,7 +50,6 @@ namespace Gofus
             foreach (List<string> item in result)
             {
                 lstUtilisateurs.Add(new Utilisateur(item[0], ((item[1] == "True") ? true : false)));
-
             }
             dataGrid.ItemsSource = lstUtilisateurs;
             DataGridTextColumn textColumn = new DataGridTextColumn();
@@ -68,7 +67,7 @@ namespace Gofus
             dataGrid.Items.Refresh();
         }
 
-     
+
 
         public void ContentCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -82,7 +81,7 @@ namespace Gofus
             var result = System.Windows.MessageBox.Show("Souhaitez-vous enregistrer les modifications? Vous ne pourrez plus utiliser la fonction annuler.", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
- 
+
                 for (int i = 0; i < lstUtilisateurs.Count; i++)
                 {
                     if (lstUtilisateurs[i].estAdmin != lstBackUp[i].estAdmin)
@@ -126,10 +125,14 @@ namespace Gofus
         /// <param name="e"></param>
         private void btnAnnuler_Click(object sender, RoutedEventArgs e)
         {
-            Dispatcher.Invoke(new Action(() =>
+            var result = System.Windows.MessageBox.Show("Souhaitez-vous enregistrer les modifications? Vous ne pourrez plus utiliser la fonction annuler.", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                Dispatcher.Invoke(new Action(() =>
             {
                 Reset();
             }));
+            }
 
         }
 
