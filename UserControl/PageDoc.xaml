@@ -48,31 +48,32 @@
                             <LineBreak/>
                             <Run Text="Vous disposez déjà d'un code basique à la création d'un nouveaux scripte mais vu que certain d'entre vous on d'autre travaux a corriger voici un exemple de scripte plus complexe : "/>
                             <LineBreak/>
-                            <Run Text="//Mettre l'ennemi le plus proche dans une variable"/>
                             <LineBreak/>
-                            <Run Text="EntiteInconnu ennemi = Perso.EnnemiLePlusProche(ListEntites);"/>
+                            <Run Text="//Mettre l'ennemi le plus proche dans une variable" FontFamily="Courier New"/>
                             <LineBreak/>
-                            <Run Text="//Mettre la premiere case qui constitue le chemin entre moi et l'ennemi"/>
+                            <Run Text="EntiteInconnu ennemi = Perso.EnnemiLePlusProche(ListEntites);" FontFamily="Courier New"/>
                             <LineBreak/>
-                            <Run Text="Case caseChemin = terrain.CheminEntreCases(Perso.Position, ennemi.Position)[0];"/>
+                            <Run Text="//Mettre la premiere case qui constitue le chemin entre moi et l'ennemi" FontFamily="Courier New"/>
                             <LineBreak/>
-                            <Run Text="//avancer vers cette case si je peux"/>
+                            <Run Text="Case caseChemin = terrain.CheminEntreCases(Perso.Position, ennemi.Position)[0];" FontFamily="Courier New"/>
                             <LineBreak/>
-                            <Run Text="while (Perso.AvancerVers(caseChemin, 1) == 1) {"/>
+                            <Run Text="//avancer vers cette case si je peux" FontFamily="Courier New"/>
                             <LineBreak/>
-                            <Run Text="    caseChemin = terrain.CheminEntreCases(Perso.Position, ennemi.Position)[0];"/>
+                            <Run Text="while (Perso.AvancerVers(caseChemin, 1) == 1) {" FontFamily="Courier New"/>
                             <LineBreak/>
-                            <Run Text="}"/>
+                            <Run Text="    caseChemin = terrain.CheminEntreCases(Perso.Position, ennemi.Position)[0];" FontFamily="Courier New"/>
                             <LineBreak/>
-                            <Run Text="//tant que mon personnage est capable d'attaquer l'ennemi"/>
+                            <Run Text="}" FontFamily="Courier New"/>
                             <LineBreak/>
-                            <Run Text="while (Perso.PeutAttaquer(ennemi)) {"/>
+                            <Run Text="//tant que mon personnage est capable d'attaquer l'ennemi" FontFamily="Courier New"/>
                             <LineBreak/>
-                            <Run Text="    //dire a mon personnage d'attaquer"/>
+                            <Run Text="while (Perso.PeutAttaquer(ennemi)) {" FontFamily="Courier New"/>
                             <LineBreak/>
-                            <Run Text="    Perso.Attaquer(ennemi);"/>
+                            <Run Text="    //dire a mon personnage d'attaquer" FontFamily="Courier New"/>
                             <LineBreak/>
-                            <Run Text="}"/>
+                            <Run Text="    Perso.Attaquer(ennemi);" FontFamily="Courier New"/>
+                            <LineBreak/>
+                            <Run Text="}" FontFamily="Courier New"/>
                             <LineBreak/>
                             <Run Text="Comprendre la documentation" FontSize="20"/>
                             <LineBreak/>

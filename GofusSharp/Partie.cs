@@ -6,7 +6,6 @@ namespace GofusSharp
         public Terrain TerrainPartie { get; internal set; }
         public Liste<Entite> ListAttaquants { get; internal set; }
         public Liste<Entite> ListDefendants { get; internal set; }
-        public Liste<EntiteInconnu> ListEntites { get; internal set; }
         public int Tour { get; internal set; }
         internal System.Random Seed { get; set; }
         internal int valeurSeed { get; set; }
@@ -21,7 +20,6 @@ namespace GofusSharp
             GenererTerrain();
             PlacerJoueurs();
             PlacerObstacles();
-            ListEntites = new Liste<EntiteInconnu>();
             DebuterPartie();
         }
 
