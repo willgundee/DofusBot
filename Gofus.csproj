@@ -392,22 +392,12 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Kruorre le chafer haï.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Pissenlit diabolique.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="Resources\Kruorre le chafer haï.jpg" />
+    <Resource Include="Resources\Pissenlit diabolique.jpg" />
     <Resource Include="Resources\monstre.png" />
-    <Resource Include="Resources\Sanglier.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Tofu.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Tournesol Sauvage.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="Resources\Sanglier.jpg" />
+    <Resource Include="Resources\Tofu.jpg" />
+    <Resource Include="Resources\Tournesol Sauvage.jpg" />
     <Resource Include="Resources\GofusSharp\cra.png" />
     <Resource Include="Resources\GofusSharp\enutrof.png" />
     <Resource Include="Resources\GofusSharp\feca.png" />
@@ -421,46 +411,20 @@
     <Resource Include="Resources\GofusSharp\sram.png" />
     <Resource Include="Resources\GofusSharp\xelor.png" />
     <Resource Include="Resources\Music.mp3" />
-    <Resource Include="Resources\Ecaflip.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Cra.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Boufton blanc.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Boufton Noir.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Bouftou.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Chafer archer.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Chafer lancier.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Chafer.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Champ champ.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\fondEquipement.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\vide.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Iop.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="Resources\Ecaflip.png" />
+    <Resource Include="Resources\Cra.png" />
+    <Resource Include="Resources\Boufton blanc.jpg" />
+    <Resource Include="Resources\Boufton Noir.jpg" />
+    <Resource Include="Resources\Bouftou.jpg" />
+    <Resource Include="Resources\Chafer archer.jpg" />
+    <Resource Include="Resources\Chafer lancier.jpg" />
+    <Resource Include="Resources\Chafer.jpg" />
+    <Resource Include="Resources\Champ champ.jpg" />
+    <Resource Include="Resources\fondEquipement.jpg" />
+    <Resource Include="Resources\vide.png" />
+    <Resource Include="Resources\Iop.png" />
     <Resource Include="Resources\Gofus.png" />
-    <Resource Include="Resources\kamas.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="Resources\kamas.png" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
