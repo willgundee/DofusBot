@@ -38,12 +38,33 @@ namespace Gofus
 
                     List<Entite> lstAtt = new List<Entite>();
                     List<Entite> lstDef = new List<Entite>();
+                    
+
                     if (p[3] != "infoEntites")
                     {
                         List<List<Entite>> infoJson = JsonConvert.DeserializeObject<List<List<Entite>>>(p[3]);
                         lstAtt = infoJson[0];
                         lstDef = infoJson[1];
-                        if (p[4] == "True")
+
+                        exp = lstDef[0].Niveau * lstAtt[0].Niveau * 32;
+
+                        if (p[4]=="")
+                        {
+                            NomPersoG.Content = lstAtt[0].Nom;
+                            NomPersoP.Content = lstDef[0].Nom;
+
+
+                            BitmapImage path = new BitmapImage(new Uri("../resources/GofusSharp/" + lstAtt[0].ClasseEntite.Nom + ".png", UriKind.Relative));
+                            imgG.Source = path;
+                            path = new BitmapImage(new Uri("../resources/GofusSharp/" + lstDef[0].ClasseEntite.Nom + ".png", UriKind.Relative));
+                            imgP.Source = path;
+                           
+                            lblKamasG.Content += " 1 $";
+                            lblKamasP.Content += " 1 $";
+                            lblexpG.Content += " 1 XP";
+                            lblexpP.Content += " 1 XP";
+                        }
+                        else if (p[4] == "True")
                         {
                             NomPersoG.Content = lstAtt[0].Nom;
                             NomPersoP.Content = lstDef[0].Nom;
@@ -58,9 +79,9 @@ namespace Gofus
                             gain = lstDef[0].Niveau * 100;
                             lblKamasG.Content += " " + gain + "$";
                             lblKamasP.Content += " " + (gain / 10) + "$";
-                        
 
-
+                            lblexpG.Content += " " + exp;
+                            lblexpP.Content += " " + exp / 10;
                         }
                         else
                         {
@@ -75,10 +96,11 @@ namespace Gofus
                             gain = lstAtt[0].Niveau * 100;
                             lblKamasG.Content += " " + gain + "$";
                             lblKamasP.Content += " " + (gain / 10) + "$";
+
+                            lblexpG.Content += " " + exp;
+                            lblexpP.Content += " " + exp / 10;
                         }
-                        exp = lstDef[0].Niveau * lstAtt[0].Niveau * 32;
-                        lblexpG.Content += " " + exp;
-                        lblexpP.Content += " " + exp / 10;
+                     
 
                     }
                 }

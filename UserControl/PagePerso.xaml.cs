@@ -141,9 +141,10 @@ namespace Gofus
                 Imgfond.Source = path;
             });
 
+
+            List<string>[] equipementsPerso = bd.selection("SELECT ee.emplacement,e.noImage FROM Equipementsentites ee INNER JOIN equipements e ON ee.idEquipement = e.idEquipement WHERE  idEntite =(SELECT idEntite FROM Entites WHERE nom='" + ent.Nom + "')");
             Dispatcher.Invoke(new Action(() =>
             {
-                List<string>[] equipementsPerso = bd.selection("SELECT ee.emplacement,e.noImage FROM Equipementsentites ee INNER JOIN equipements e ON ee.idEquipement = e.idEquipement WHERE  idEntite =(SELECT idEntite FROM Entites WHERE nom='" + ent.Nom + "')");
                 if (equipementsPerso[0][0] != "rien")
                     foreach (List<string> item in equipementsPerso)
                     {
