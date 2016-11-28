@@ -26,7 +26,7 @@ namespace Gofus
         public int refresh = 0;
         public DispatcherTimer timer = new DispatcherTimer();
 
-        
+
         public PagePerso(Entite ent, Joueur Player)
         {// refaire le min/max
             InitializeComponent();
@@ -35,10 +35,10 @@ namespace Gofus
             timer.Interval = TimeSpan.FromSeconds(5);
             timer.Tick += timer_Tick;
             timer.Start();
-           
+
 
             starter(Player, ent);
-           
+
 
         }
 
@@ -116,7 +116,6 @@ namespace Gofus
 
             }));
 
-            //todo création de plusieurs onglets personnage
             Dispatcher.Invoke(new Action(() =>
             {
                 lblNomClasse.Content = ent.ClasseEntite.Nom;
@@ -139,13 +138,47 @@ namespace Gofus
             {
                 BitmapImage path = new BitmapImage(new Uri("../resources/fondEquipement.jpg", UriKind.Relative));
 
-            Imgfond.Source = path;
+                Imgfond.Source = path;
             });
-            //itmCtrlDesc.ItemsSource = LstDesc;
-            foreach (Equipement item in ent.LstEquipements)
-            {
-                List<string> emplacement = bd.selection("SELECT emplacement FROM Equipementsentites WHERE idEquipement = (SELECT idEquipement FROM Equipements WHERE nom='" + item.Nom + "' )AND idEntite =(SELECT idEntite FROM Entites WHERE nom='" + ent.Nom + "')")[0];
 
+            Dispatcher.Invoke(new Action(() =>
+            {
+                List<string>[] equipementsPerso = bd.selection("SELECT ee.emplacement,e.noImage FROM Equipementsentites ee INNER JOIN equipements e ON ee.idEquipement = e.idEquipement WHERE  idEntite =(SELECT idEntite FROM Entites WHERE nom='" + ent.Nom + "')");
+                if (equipementsPerso[0][0] != "rien")
+                    foreach (List<string> item in equipementsPerso)
+                    {
+                        ImageSource pathImg = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/items/200/" + item[1] + ".png"));
+                        switch (item[0])
+                        {
+                            case "tête":
+                                imgChapeauInv.Source = pathImg;
+                                break;
+                            case "dos":
+                                imgCapeInv.Source = pathImg;
+                                break;
+                            case "arme":
+                                imgArmeInv.Source = pathImg;
+                                break;
+                            case "hanche":
+                                imgCeintureInv.Source = pathImg;
+                                break;
+                            case "ano1":
+                                imgAnneau1Inv.Source = pathImg;
+                                break;
+                            case "ano2":
+                                imgAnneau2Inv.Source = pathImg;
+                                break;
+                            case "pied":
+                                imgBotteInv.Source = pathImg;
+                                break;
+                            case "cou":
+                                imgAmuletteInv.Source = pathImg;
+                                break;
+                        }
+                    }
+            }));
+
+            /*
                 try
                 {
                     if (emplacement != null)
@@ -154,8 +187,8 @@ namespace Gofus
                 catch (Exception)
                 {
                     
-                }
-            }
+                }*/
+
             Dispatcher.Invoke(new Action(() =>
             {
                 cbScript.SelectedValue = ent.ScriptEntite.Nom;
@@ -424,38 +457,38 @@ namespace Gofus
                 }
             }
         }
-        private void AfficherElementEquipe(Equipement eq, string emp)
-        {
-            ImageSource path = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/items/200/" + eq.NoImg + ".png"));
-            switch (emp)
-            {
-                case "tête":
-                    imgChapeauInv.Source = path;
-                    break;
-                case "dos":
-                    imgCapeInv.Source = path;
-                    break;
-                case "arme":
-                    imgArmeInv.Source = path;
-                    break;
-                case "hanche":
-                    imgCeintureInv.Source = path;
-                    break;
-                case "ano1":
-                    imgAnneau1Inv.Source = path;
-                    break;
-                case "ano2":
-                    imgAnneau2Inv.Source = path;
-                    break;
-                case "pied":
-                    imgBotteInv.Source = path;
-                    break;
-                case "cou":
-                    imgAmuletteInv.Source = path;
-                    break;
-            }
-        }
-
+        /* private void AfficherElementEquipe(Equipement eq, string emp)
+         {
+             ImageSource path = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/items/200/" + eq.NoImg + ".png"));
+             switch (emp)
+             {
+                 case "tête":
+                     imgChapeauInv.Source = path;
+                     break;
+                 case "dos":
+                     imgCapeInv.Source = path;
+                     break;
+                 case "arme":
+                     imgArmeInv.Source = path;
+                     break;
+                 case "hanche":
+                     imgCeintureInv.Source = path;
+                     break;
+                 case "ano1":
+                     imgAnneau1Inv.Source = path;
+                     break;
+                 case "ano2":
+                     imgAnneau2Inv.Source = path;
+                     break;
+                 case "pied":
+                     imgBotteInv.Source = path;
+                     break;
+                 case "cou":
+                     imgAmuletteInv.Source = path;
+                     break;
+             }
+         }
+         */
         private void imgInv_Drop(object sender, System.Windows.DragEventArgs e)
         {
 
@@ -481,10 +514,6 @@ namespace Gofus
 
             if (convertPathToNoItem(cible.Source.ToString()) != "vide")
                 itemDejaEquipe = Player.Inventaire.First(x => x.NoImg == convertPathToNoItem(cible.Source.ToString()));
-
-            //TODO: l'add dans la list d'equipement du perso quand tu la drop dedans et l'enlever l'inverse
-            //TODO: bouger l'image au lieu de rien
-            //TODO: le modif dans bd
 
             if (Player.LstEntites.First(x => x.Nom == persoActuel.Nom).peutEquiper(itemVoulantEtreEquiper))
             {
@@ -556,13 +585,13 @@ namespace Gofus
             {
                 case "btnVitalite":
                     s = Statistique.element.vitalite;
-                    foreach (Statistique sts in persoActuel.LstStats)
-                        if (sts.Nom == Statistique.element.vie)
+                    foreach (Statistique st in persoActuel.LstStats)
+                        if (st.Nom == Statistique.element.vie)
                         {
-                            sts.Valeur += 1;
-                            string valeurInitial = "SELECT valeur FROM statistiquesEntites WHERE idEntite = (SELECT idEntite FROM Entites WHERE  nom ='" + persoActuel.Nom + "') AND idTypeStatistique=(SELECT idTypeStatistique FROM typesStatistiques WHERE nom ='" + s.ToString() + "' ) ";
+                            st.Valeur += 1;
+                            string valeurInitial = "SELECT valeur FROM statistiquesEntites WHERE idEntite = (SELECT idEntite FROM Entites WHERE  nom ='" + persoActuel.Nom + "') AND idTypeStatistique=(SELECT idTypeStatistique FROM typesStatistiques WHERE nom ='" + st.ToString() + "' ) ";
                             int values = Convert.ToInt32(bd.selection(valeurInitial)[0][0]) + 1;
-                            bd.Update("UPDATE statistiquesEntites SET valeur = " + values + " WHERE idEntite = (SELECT idEntite FROM Entites WHERE  nom ='" + persoActuel.Nom + "') AND idTypeStatistique=(SELECT idTypeStatistique FROM typesStatistiques WHERE nom ='" + s.ToString() + "' ) ");
+                            bd.Update("UPDATE statistiquesEntites SET valeur = " + values + " WHERE idEntite = (SELECT idEntite FROM Entites WHERE  nom ='" + persoActuel.Nom + "') AND idTypeStatistique=(SELECT idTypeStatistique FROM typesStatistiques WHERE nom ='" + st.ToString() + "' ) ");
                             break;
                         }
                     // modif = Statistique.element.vie;                          
@@ -782,9 +811,9 @@ namespace Gofus
         {
             foreach (Script item in Player.LstScripts)
             {
-                if(cbScript.SelectedItem != null)
-                if (item.Nom == cbScript.SelectedItem.ToString())
-                    bd.Update("UPDATE Entites SET idScript = (SELECT idScript FROM Scripts WHERE Uuid ='" + item.Uuid + "') WHERE nom ='" + persoActuel.Nom + "'");
+                if (cbScript.SelectedItem != null)
+                    if (item.Nom == cbScript.SelectedItem.ToString())
+                        bd.Update("UPDATE Entites SET idScript = (SELECT idScript FROM Scripts WHERE Uuid ='" + item.Uuid + "') WHERE nom ='" + persoActuel.Nom + "'");
             }
 
         }
