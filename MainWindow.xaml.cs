@@ -13,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace Gofus
 {
@@ -57,9 +58,13 @@ namespace Gofus
         private PageInventaire pgInv;
         private PagePerso pgperso;
         private pAdmin pgAdmin;
+        private Timer refreshConnection = new Timer();
 
         public MainWindow(int id)
         {
+            refreshConnection.Interval = 8000;
+            refreshConnection.Tick += RefreshConnection_Tick;
+            refreshConnection.Start();
             //CombatTest combat = new CombatTest();
             InitializeComponent();
             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
@@ -93,6 +98,18 @@ namespace Gofus
             #endregion
         }
 
+        private void RefreshConnection_Tick(object sender, EventArgs e)
+        {
+            BackgroundWorker bgWorker = new BackgroundWorker() { WorkerReportsProgress = true };
+            bgWorker.DoWork += (s, z) =>
+            {
+                bd.selection("SELECT RELEASE_LOCK('" + idJoueur + "')");
+                bd.selection("SELECT GET_LOCK('" + idJoueur + "',10)");
+            };
+
+            bgWorker.RunWorkerAsync();
+
+        }
 
         protected override void OnClosed(EventArgs e)
         {
@@ -377,8 +394,8 @@ namespace Gofus
 
         private void PgAdmin_Selected(object sender, RoutedEventArgs e)
         {
-         
-                
+
+
         }
 
 
@@ -447,7 +464,7 @@ namespace Gofus
                 string codeBase = "EntiteInconnu ennemi = Perso.EnnemiLePlusProche(ListEntites);\nPerso.AvancerVers(ennemi);\nPerso.Attaquer(ennemi);";
                 object f = e.Source;
                 string nom = "Script" + tc_Edit.Items.Count;
-                long id = bd.insertion("INSERT INTO Scripts (contenu, nom, uuid) VALUES ('"+codeBase+"', '" + nom + "', uuid());");
+                long id = bd.insertion("INSERT INTO Scripts (contenu, nom, uuid) VALUES ('" + codeBase + "', '" + nom + "', uuid());");
                 if (id != 0)
                 {
                     if (bd.insertion("INSERT INTO JoueursScripts (idJoueur, idScript) VALUES ((SELECT idJoueur FROM Joueurs WHERE nomUtilisateur ='" + Player.NomUtilisateur + "'), " + id + ");") != 0)
@@ -456,7 +473,7 @@ namespace Gofus
                         string uuid = bd.selection("SELECT uuid FROM Scripts WHERE idScript = " + id + ";").First().First();
                         Player.LstScripts.Add(new Script(new List<string>() { codeBase, nom, uuid }));
                         onglet.Header = nom;
-                        onglet.Content = new pageScript(uuid,codeBase);
+                        onglet.Content = new pageScript(uuid, codeBase);
                         if (tc_Edit.Items.Count < 10)
                         {
                             TabItem ongletPlus = new TabItem();

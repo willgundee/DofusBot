@@ -22,7 +22,7 @@ namespace Gofus
         }
 
         private void PlaySound()
-        {                   
+        {
             music.Open(new Uri(@"..\..\Resources\Music.mp3", UriKind.RelativeOrAbsolute));
             music.Volume = 1;
             music.Play();
@@ -33,8 +33,8 @@ namespace Gofus
             if (!(hh[0][3] == txtMDP.Password))
             {
                 lblMDP.Foreground = new SolidColorBrush(Colors.Red);
-                return false;            
-            }          
+                return false;
+            }
             return true;
         }
 
@@ -46,26 +46,29 @@ namespace Gofus
 
 
 
-            if (hh[0][0] != "rien" && valide(hh) == true && hh[0][7]=="False")
+            if (hh[0][0] != "rien" && valide(hh) == true)
             {
                 Mouse.SetCursor(Cursors.AppStarting);
                 music.Stop();
-
-                bdService.Update("UPDATE  Joueurs SET  estConnecte =  1 WHERE  nomUtilisateur  ='" +hh[0][1] + "'");
-                MainWindow perso = new MainWindow(Convert.ToInt32(hh[0][0]));
-                perso.Show();
-                this.Close();
+                string locker = bdService.selection("SELECT IS_FREE_LOCK('" + hh[0][0] + "')")[0][0];
+                if ( locker == "1")
+                {
+                    bdService.selection("SELECT GET_LOCK('" + hh[0][0] + "',15)");
+                    MainWindow perso = new MainWindow(Convert.ToInt32(hh[0][0]));
+                    perso.Show();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Vous êtes Déjà Connecté !");
+                }
             }
             if (hh[0][0] == "rien")
             {
                 lblNomU.Foreground = new SolidColorBrush(Colors.Red);
                 lblMDP.Foreground = new SolidColorBrush(Colors.Red);
             }
-            else if(hh[0][7] == "True")
-            {
-                MessageBox.Show("Vous êtes Déjà Connecté !");
-            }
-            
+
         }
 
         private void btnVisionner_Click(object sender, RoutedEventArgs e)
@@ -83,7 +86,7 @@ namespace Gofus
             this.Close();
         }
         private void OnKeyDowntxtMessage(object sender, System.Windows.Input.KeyEventArgs e)
-        {     
+        {
             if (e.Key == Key.Return)
             {
                 List<string>[] hh = bdService.selection("SELECT * FROM Joueurs WHERE nomUtilisateur ='" + txtNomU.Text + "'");
