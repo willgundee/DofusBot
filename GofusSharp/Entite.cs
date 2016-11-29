@@ -1104,9 +1104,6 @@ namespace GofusSharp
                         if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                         {
                             Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                            Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                            System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                            Debug.FCombat.mrse.WaitOne();
                         }
                         return PM_Debut - PM;
                     }
@@ -1118,9 +1115,6 @@ namespace GofusSharp
                         if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                         {
                             Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                            Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                            System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                            Debug.FCombat.mrse.WaitOne();
                         }
                         return PM_Debut - PM;
                     }
@@ -1134,9 +1128,6 @@ namespace GofusSharp
                             if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                             {
                                 Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                                Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                                System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                                Debug.FCombat.mrse.WaitOne();
                             }
                             return PM_Debut - PM;
                         }
@@ -1151,9 +1142,6 @@ namespace GofusSharp
                             if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                             {
                                 Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                                Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                                System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                                Debug.FCombat.mrse.WaitOne();
                             }
                             return PM_Debut - PM;
                         }
@@ -1164,9 +1152,6 @@ namespace GofusSharp
             if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
             {
                 Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                Debug.FCombat.mrse.WaitOne();
             }
             return PM_Debut - PM;
         }
@@ -1184,9 +1169,6 @@ namespace GofusSharp
                         if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                         {
                             Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                            Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                            System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                            Debug.FCombat.mrse.WaitOne();
                         }
                         return PM_Debut - PM;
                     }
@@ -1198,9 +1180,6 @@ namespace GofusSharp
                         if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                         {
                             Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                            Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                            System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                            Debug.FCombat.mrse.WaitOne();
                         }
                         return PM_Debut - PM;
                     }
@@ -1214,9 +1193,6 @@ namespace GofusSharp
                             if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                             {
                                 Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                                Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                                System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                                Debug.FCombat.mrse.WaitOne();
                             }
                             return PM_Debut - PM;
                         }
@@ -1231,9 +1207,6 @@ namespace GofusSharp
                             if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                             {
                                 Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                                Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                                System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                                Debug.FCombat.mrse.WaitOne();
                             }
                             return PM_Debut - PM;
                         }
@@ -1245,9 +1218,6 @@ namespace GofusSharp
             if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
             {
                 Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                Debug.FCombat.mrse.WaitOne();
             }
             return PM_Debut - PM;
         }
@@ -1265,9 +1235,6 @@ namespace GofusSharp
                         if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                         {
                             Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                            Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                            System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                            Debug.FCombat.mrse.WaitOne();
                         }
                         return PM_Debut - PM;
                     }
@@ -1279,9 +1246,6 @@ namespace GofusSharp
                         if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                         {
                             Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                            Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                            System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                            Debug.FCombat.mrse.WaitOne();
                         }
                         return PM_Debut - PM;
                     }
@@ -1295,9 +1259,6 @@ namespace GofusSharp
                             if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                             {
                                 Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                                Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                                System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                                Debug.FCombat.mrse.WaitOne();
                             }
                             return PM_Debut - PM;
                         }
@@ -1312,9 +1273,6 @@ namespace GofusSharp
                             if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                             {
                                 Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                                Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                                System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                                Debug.FCombat.mrse.WaitOne();
                             }
                             return PM_Debut - PM;
                         }
@@ -1326,9 +1284,6 @@ namespace GofusSharp
                     if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                     {
                         Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                        Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                        System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                        Debug.FCombat.mrse.WaitOne();
                     }
                     return PM_Debut - PM;
                 }
@@ -1336,9 +1291,6 @@ namespace GofusSharp
             if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
             {
                 Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                Debug.FCombat.mrse.WaitOne();
             }
             return PM_Debut - PM;
         }
@@ -1356,9 +1308,6 @@ namespace GofusSharp
                         if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                         {
                             Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                            Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                            System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                            Debug.FCombat.mrse.WaitOne();
                         }
                         return PM_Debut - PM;
                     }
@@ -1370,9 +1319,6 @@ namespace GofusSharp
                         if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                         {
                             Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                            Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                            System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                            Debug.FCombat.mrse.WaitOne();
                         }
                         return PM_Debut - PM;
                     }
@@ -1386,9 +1332,6 @@ namespace GofusSharp
                             if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                             {
                                 Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                                Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                                System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                                Debug.FCombat.mrse.WaitOne();
                             }
                             return PM_Debut - PM;
                         }
@@ -1403,9 +1346,6 @@ namespace GofusSharp
                             if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                             {
                                 Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                                Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                                System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                                Debug.FCombat.mrse.WaitOne();
                             }
                             return PM_Debut - PM;
                         }
@@ -1418,9 +1358,6 @@ namespace GofusSharp
                     if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                     {
                         Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                        Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                        System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                        Debug.FCombat.mrse.WaitOne();
                     }
                     return PM_Debut - PM;
                 }
@@ -1428,9 +1365,6 @@ namespace GofusSharp
             if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
             {
                 Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                Debug.FCombat.mrse.WaitOne();
             }
             return PM_Debut - PM;
         }
@@ -1463,9 +1397,6 @@ namespace GofusSharp
                                     if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                                     {
                                         Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                                        Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                                        System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                                        Debug.FCombat.mrse.WaitOne();
                                     }
                                     return PM_Debut - PM;
                                 }
@@ -1487,9 +1418,6 @@ namespace GofusSharp
                                     if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                                     {
                                         Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                                        Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                                        System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                                        Debug.FCombat.mrse.WaitOne();
                                     }
                                     return PM_Debut - PM;
                                 }
@@ -1505,9 +1433,6 @@ namespace GofusSharp
                                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                                 {
                                     Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                                    System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                                    Debug.FCombat.mrse.WaitOne();
                                 }
                                 return PM_Debut - PM;
                             }
@@ -1522,9 +1447,6 @@ namespace GofusSharp
                                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                                 {
                                     Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                                    System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                                    Debug.FCombat.mrse.WaitOne();
                                 }
                                 return PM_Debut - PM;
                             }
@@ -1535,9 +1457,6 @@ namespace GofusSharp
                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                 {
                     Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                    System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                    Debug.FCombat.mrse.WaitOne();
                 }
                 return PM_Debut - PM;
             }
@@ -1548,9 +1467,6 @@ namespace GofusSharp
                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                 {
                     Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                    System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                    Debug.FCombat.mrse.WaitOne();
                 }
                 return PM_Debut - PM;
             }
@@ -1583,9 +1499,6 @@ namespace GofusSharp
                                     if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                                     {
                                         Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                                        Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                                        System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                                        Debug.FCombat.mrse.WaitOne();
                                     }
                                     return PM_Debut - PM;
                                 }
@@ -1607,9 +1520,6 @@ namespace GofusSharp
                                     if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                                     {
                                         Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                                        Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                                        System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                                        Debug.FCombat.mrse.WaitOne();
                                     }
                                     return PM_Debut - PM;
                                 }
@@ -1625,9 +1535,6 @@ namespace GofusSharp
                                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                                 {
                                     Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                                    System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                                    Debug.FCombat.mrse.WaitOne();
                                 }
                                 return PM_Debut - PM;
                             }
@@ -1642,9 +1549,6 @@ namespace GofusSharp
                                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                                 {
                                     Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                                    System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                                    Debug.FCombat.mrse.WaitOne();
                                 }
                                 return PM_Debut - PM;
                             }
@@ -1656,9 +1560,6 @@ namespace GofusSharp
                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                 {
                     Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                    System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                    Debug.FCombat.mrse.WaitOne();
                 }
                 return PM_Debut - PM;
             }
@@ -1669,9 +1570,6 @@ namespace GofusSharp
                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                 {
                     Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                    System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                    Debug.FCombat.mrse.WaitOne();
                 }
                 return PM_Debut - PM;
             }
@@ -1704,9 +1602,6 @@ namespace GofusSharp
                                     if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                                     {
                                         Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                                        Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                                        System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                                        Debug.FCombat.mrse.WaitOne();
                                     }
                                     return PM_Debut - PM;
                                 }
@@ -1728,9 +1623,6 @@ namespace GofusSharp
                                     if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                                     {
                                         Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                                        Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                                        System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                                        Debug.FCombat.mrse.WaitOne();
                                     }
                                     return PM_Debut - PM;
                                 }
@@ -1746,9 +1638,6 @@ namespace GofusSharp
                                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                                 {
                                     Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                                    System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                                    Debug.FCombat.mrse.WaitOne();
                                 }
                                 return PM_Debut - PM;
                             }
@@ -1763,9 +1652,6 @@ namespace GofusSharp
                                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                                 {
                                     Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                                    System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                                    Debug.FCombat.mrse.WaitOne();
                                 }
                                 return PM_Debut - PM;
                             }
@@ -1776,9 +1662,6 @@ namespace GofusSharp
                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                 {
                     Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                    System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                    Debug.FCombat.mrse.WaitOne();
                 }
                 return PM_Debut - PM;
             }
@@ -1789,9 +1672,6 @@ namespace GofusSharp
                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                 {
                     Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                    System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                    Debug.FCombat.mrse.WaitOne();
                 }
                 return PM_Debut - PM;
             }
@@ -1824,9 +1704,6 @@ namespace GofusSharp
                                     if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                                     {
                                         Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                                        Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                                        System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                                        Debug.FCombat.mrse.WaitOne();
                                     }
                                     return PM_Debut - PM;
                                 }
@@ -1848,9 +1725,6 @@ namespace GofusSharp
                                     if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                                     {
                                         Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                                        Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                                        System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                                        Debug.FCombat.mrse.WaitOne();
                                     }
                                     return PM_Debut - PM;
                                 }
@@ -1866,9 +1740,6 @@ namespace GofusSharp
                                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                                 {
                                     Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                                    System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                                    Debug.FCombat.mrse.WaitOne();
                                 }
                                 return PM_Debut - PM;
                             }
@@ -1883,9 +1754,6 @@ namespace GofusSharp
                                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                                 {
                                     Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                                    System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                                    Debug.FCombat.mrse.WaitOne();
                                 }
                                 return PM_Debut - PM;
                             }
@@ -1897,9 +1765,6 @@ namespace GofusSharp
                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                 {
                     Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                    System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                    Debug.FCombat.mrse.WaitOne();
                 }
                 return PM_Debut - PM;
             }
@@ -1910,9 +1775,6 @@ namespace GofusSharp
                 if (PM_Debut - PM != 0 && !Debug.FCombat.Generation)
                 {
                     Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelLog, new object[] { "\n" + Nom + " à avancer de " + (PM_Debut - PM) + " PM vers la case X: " + Position.X + " Y: " + Position.Y });
-                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                    System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                    Debug.FCombat.mrse.WaitOne();
                 }
                 return PM_Debut - PM;
             }
@@ -1932,6 +1794,12 @@ namespace GofusSharp
                         entite.Position = nextPosition;
                         break;
                     }
+                }
+                if (!Debug.FCombat.Generation)
+                {
+                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
+                    System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                    Debug.FCombat.mrse.WaitOne();
                 }
                 return true;
             }

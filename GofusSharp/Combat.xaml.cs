@@ -93,7 +93,7 @@ namespace GofusSharp
                 if (CombatCourant.TerrainPartie.TabCases[Grid.GetRow(cnvs)][Grid.GetColumn(cnvs)].Contenu == Case.type.obstacle)
                 {
                     Image ImageSprite = new Image();
-                    ImageSource SourceImageObstacle = new BitmapImage(new Uri(@"..\..\Resources\GofusSharp\Roche" + RandRock.Next(1, 3) + ".png", UriKind.Relative));
+                    ImageSource SourceImageObstacle = new BitmapImage(new Uri("pack://application:,,,/Resources/GofusSharp/Roche" + RandRock.Next(1,3) + ".png"));
                     ImageSprite.Source = SourceImageObstacle;
                     sPnl.Children.Add(ImageSprite);
                     ImageSprite.Height = grd_Terrain.RowDefinitions.First().ActualHeight;
@@ -465,23 +465,21 @@ namespace GofusSharp
                         if (CombatCourant.ListAttaquants.Concat(CombatCourant.ListDefendants).Where(x => x.Etat == EntiteInconnu.typeEtat.mort).Count() != 0)
                             break;
                         Image ImageSprite = new Image();
-                        ImageSprite.Source = new BitmapImage(new Uri("../../Resources/vide.png", UriKind.Relative));
                         Entite perso = CombatCourant.ListAttaquants.Concat(CombatCourant.ListDefendants).Where(x => x.Position.X == Grid.GetRow(cnvs) && x.Position.Y == Grid.GetColumn(cnvs)).First();
-                        ImageSource SourceImageClasse = new BitmapImage(new Uri("../../Resources/" + perso.ClasseEntite.Nom + ".png", UriKind.Relative));
+                        ImageSource SourceImageClasse;
                         try
                         {
-                            SourceImageClasse.Height.ToString();
+                            SourceImageClasse = new BitmapImage(new Uri("pack://application:,,,/Resources/" + perso.ClasseEntite.Nom + ".png"));
                         }
                         catch (Exception)
                         {
-                            SourceImageClasse = new BitmapImage(new Uri("../../Resources/" + perso.ClasseEntite.Nom + ".jpg", UriKind.Relative));
                             try
                             {
-                                SourceImageClasse.Height.ToString();
+                                SourceImageClasse = new BitmapImage(new Uri("pack://application:,,,/Resources/" + perso.ClasseEntite.Nom + ".jpg"));
                             }
                             catch (Exception)
                             {
-                                SourceImageClasse = new BitmapImage(new Uri("../../Resources/monstre.png", UriKind.Relative));
+                                SourceImageClasse = new BitmapImage(new Uri("pack://application:,,,/Resources/monstre.png"));
                             }
                         }
                         ImageSprite.Source = SourceImageClasse;
