@@ -293,10 +293,16 @@ namespace test
                         break;
                 }
             }
-            while(Perso.AvancerVers(terrain.CheminEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position)[0],1)==1);
-            if (terrain.DistanceEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position) == 1)
+            while (Perso.PM != 0 && Perso.PA >= MorsureBouftou.CoutPA)
             {
-                Perso.UtiliserSort(MorsureBouftou, Perso.EnnemiLePlusProche(ListEntites));
+                while (Perso.AvancerVers(terrain.CheminEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position)[0], 1) == 1)
+                {
+                }
+
+                while (Perso.PeutUtiliserSort(MorsureBouftou, Perso.EnnemiLePlusProche(ListEntites)))
+                {
+                    Perso.UtiliserSort(MorsureBouftou, Perso.EnnemiLePlusProche(ListEntites));
+                }
             }
             */
             #endregion
