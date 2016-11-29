@@ -86,7 +86,7 @@ namespace test
             */
             #endregion
             #region pissenlit diabolique
-            /*
+            
             Sort effleurement = null;
             Sort herbeSauvage = null;
             foreach (Sort item in Perso.ClasseEntite.ListSorts)
@@ -117,10 +117,10 @@ namespace test
                 }
                 Perso.SEloignerDe(Perso.EnnemiLePlusProche(ListEntites));
             }
-            */
+
             #endregion
             #region sanglier
-            /*
+            
             Sort embrochement = null;
             foreach (Sort item in Perso.ClasseEntite.ListSorts)
             {
@@ -131,173 +131,195 @@ namespace test
                         break;
                 }
             }
-            while (Perso.AvancerVers(terrain.CheminEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position)[0]) == 1)
+
+            while (Perso.PM != 0 && Perso.PA >= embrochement.CoutPA)
             {
-                while (terrain.DistanceEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position) == 1)
+                Debug.Log(embrochement.CoutPA);
+                Debug.Log(Perso.PM);
+                Debug.Log(Perso.PA);
+                while ( Perso.AvancerVers(terrain.CheminEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position)[0], 1) == 1)
+                {
+                    while (Perso.PeutUtiliserSort(embrochement, Perso.EnnemiLePlusProche(ListEntites)))
+                    {
+                        Perso.UtiliserSort(embrochement, Perso.EnnemiLePlusProche(ListEntites));
+                    }
+                }
+                while (Perso.PeutUtiliserSort(embrochement, Perso.EnnemiLePlusProche(ListEntites)))
                 {
                     Perso.UtiliserSort(embrochement, Perso.EnnemiLePlusProche(ListEntites));
                 }
             }
-            */
+
+
+
+
             #endregion
-            #region tofu
-            /*
-            Sort beco = null;
-            foreach (Sort item in Perso.ClasseEntite.ListSorts)
-            {
-                switch (item.Nom)
+                #region tofu
+                /* 
+                 Sort beco = null;
+                 foreach (Sort item in Perso.ClasseEntite.ListSorts)
+                 {
+                     switch (item.Nom)
+                     {
+                         case "Béco du tofu":
+                             beco = item;
+                             break;
+                     }
+                 }
+                 while (terrain.DistanceEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position) != 1 && Perso.AvancerVers(terrain.CheminEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position)[0], 1) == 1)
+                 { }
+
+                 if (terrain.DistanceEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position) == 1)
+                 {
+                     Perso.UtiliserSort(beco, Perso.EnnemiLePlusProche(ListEntites));
+                 }
+                 Perso.SEloignerDe(Perso.EnnemiLePlusProche(ListEntites));
+                 */
+                #endregion
+                #region champ champ
+                /*
+                Sort poison = null;
+                Sort frappe = null;
+                foreach (Sort item in Perso.ClasseEntite.ListSorts)
                 {
-                    case "Béco du tofu":
-                        beco = item;
-                        break;
+                    switch (item.Nom)
+                    {
+                        case "Frappe":
+                            frappe = item;
+                            break;
+                        case "Poison_Sauvage":
+                            poison = item;
+                            break;
+                    }
                 }
-            }
-            Perso.AvancerVers(terrain.CheminEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position)[0]);
-            if (terrain.DistanceEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position) == 1)
-            {
-                Perso.UtiliserSort(beco, Perso.EnnemiLePlusProche(ListEntites));
-            }
-            Perso.SEloignerDe(Perso.EnnemiLePlusProche(ListEntites));
-            */
-            #endregion
-            #region champ champ
-            /*
-            Sort poison = null;
-            Sort frappe = null;
-            foreach (Sort item in Perso.ClasseEntite.ListSorts)
-            {
-                switch (item.Nom)
+                while (Perso.AvancerVers(terrain.CheminEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position)[0], 1) == 1)
                 {
-                    case "Frappe":
-                        frappe = item;
-                        break;
-                    case "Poison Sauvage":
-                        poison = item;
-                        break;
+                    if (terrain.DistanceEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position) <= 8)
+                    {
+                        Perso.UtiliserSort(poison, Perso.EnnemiLePlusProche(ListEntites));
+                        Perso.UtiliserSort(poison, Perso.EnnemiLePlusProche(ListEntites));
+                        Perso.SEloignerDe(Perso.EnnemiLePlusProche(ListEntites));
+                    }
+                    if (terrain.DistanceEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position) - Perso.PM >= 0)
+                    {
+                        Perso.AvancerVers(Perso.EnnemiLePlusProche(ListEntites));
+                    }
                 }
-            }
-            while (Perso.AvancerVers(terrain.CheminEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position)[0], 1) == 1)
-            {
-                if (terrain.DistanceEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position) <= 8)
+                if (terrain.DistanceEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position) == 1)
                 {
-                    Perso.UtiliserSort(poison, Perso.EnnemiLePlusProche(ListEntites));
-                    Perso.UtiliserSort(poison, Perso.EnnemiLePlusProche(ListEntites));
-                    Perso.SEloignerDe(Perso.EnnemiLePlusProche(ListEntites));
-                }
-                if (terrain.DistanceEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position) - Perso.PM >= 0)
-                {
-                    Perso.AvancerVers(terrain.CheminEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position)[0]);
                     Perso.UtiliserSort(frappe, Perso.EnnemiLePlusProche(ListEntites));
                     Perso.UtiliserSort(frappe, Perso.EnnemiLePlusProche(ListEntites));
                 }
-            }*/
-            #endregion champ champ
-            #region boufton noir
-            /*
-            Sort Crachouille = null;
-            Sort Mordillement = null;
-            foreach (Sort item in Perso.ClasseEntite.ListSorts)
-            {
-                switch (item.Nom)
+                */
+                #endregion champ champ
+                #region boufton noir
+                /*
+                Sort Crachouille = null;
+                Sort Mordillement = null;
+                foreach (Sort item in Perso.ClasseEntite.ListSorts)
                 {
-                    case "Crachouille":
-                        Crachouille = item;
-                        break;
-                    case "Mordillement":
-                        Mordillement = item;
-                        break;
+                    switch (item.Nom)
+                    {
+                        case "Crachouille":
+                            Crachouille = item;
+                            break;
+                        case "Mordillement":
+                            Mordillement = item;
+                            break;
+                    }
                 }
-            }
-            while (Perso.AvancerVers(terrain.CheminEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position)[0], 1) == 1)
-            {
+                 while (Perso.AvancerVers(terrain.CheminEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position)[0], 1) == 1)
+                {
+                    if (terrain.DistanceEntreCases(Perso.Position, (Perso.EnnemiLePlusProche(ListEntites)).Position) < 5 && Perso.PA == Perso.PA_MAX)
+                    {
+                        Perso.UtiliserSort(Crachouille, Perso.EnnemiLePlusProche(ListEntites));
+                    }
+                }
                 if (terrain.DistanceEntreCases(Perso.Position, (Perso.EnnemiLePlusProche(ListEntites)).Position) == 1)
                 {
                     Perso.UtiliserSort(Mordillement, Perso.EnnemiLePlusProche(ListEntites));
                 }
-                if (terrain.DistanceEntreCases(Perso.Position, (Perso.EnnemiLePlusProche(ListEntites)).Position) < 5)
+                */
+                #endregion
+                #region bouftou
+                /*
+                Sort MorsureBouftou = null;
+                foreach (Sort item in Perso.ClasseEntite.ListSorts)
                 {
-                    Perso.UtiliserSort(Crachouille, Perso.EnnemiLePlusProche(ListEntites));
+                    switch (item.Nom)
+                    {
+                        case "Morsure du bouftou":
+                            MorsureBouftou = item;
+                            break;
+                    }
                 }
-            }
-            */
-            #endregion
-            #region bouftou
-            /*
-            Sort MorsureBouftou = null;
-            foreach (Sort item in Perso.ClasseEntite.ListSorts)
-            {
-                switch (item.Nom)
+                while(Perso.AvancerVers(terrain.CheminEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position)[0],1)==1);
+                if (terrain.DistanceEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position) == 1)
                 {
-                    case "Morsure du bouftou":
-                        MorsureBouftou = item;
-                        break;
+                    Perso.UtiliserSort(MorsureBouftou, Perso.EnnemiLePlusProche(ListEntites));
                 }
-            }
-            Perso.AvancerVers(terrain.CheminEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position)[0]);
-            if (terrain.DistanceEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position) == 1)
-            {
-                Perso.UtiliserSort(MorsureBouftou, Perso.EnnemiLePlusProche(ListEntites));
-            }
-            */
-            #endregion
-            #region tournesol
-            /*
-            Sort racine = null;
-            Sort poison = null;
-            foreach (Sort item in Perso.ClasseEntite.ListSorts)
-            {
-                switch (item.Nom)
+                */
+                #endregion
+                #region tournesol
+                /*
+                Sort racine = null;
+                Sort poison = null;
+                EntiteInconnu ennemi = Perso.EnnemiLePlusProche(ListEntites);
+                foreach (Sort item in Perso.ClasseEntite.ListSorts)
                 {
-                    case "Racine barbelée":
-                        racine = item;
-                        break;
-                    case "Poison Sauvage":
-                        poison = item;
-                        break;
+                    switch (item.Nom)
+                    {
+                        case "Racine_barbelee":
+                            racine = item;
+                            break;
+                        case "Poison_Sauvage":
+                            poison = item;
+                            break;
+                    }
                 }
-            }
 
-            while (terrain.DistanceEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position) >=8)
-            {
-                Perso.AvancerVers(terrain.CheminEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position)[0], 1);
-            }
-            if (terrain.DistanceEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position) <= 8)
-            {
-                Perso.UtiliserSort(racine, Perso.EnnemiLePlusProche(ListEntites));
-                Perso.UtiliserSort(poison, Perso.EnnemiLePlusProche(ListEntites));
-            }
-            Perso.SEloignerDe(Perso.EnnemiLePlusProche(ListEntites));
-            */
-            #endregion
-            #region boufton blanc
-            /*
-            Sort Bavouille = null;
-            Sort Mordillement = null;
-            foreach (Sort item in Perso.ClasseEntite.ListSorts)
-            {
-                switch (item.Nom)
+                while(terrain.DistanceEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position) >=8 && Perso.AvancerVers(terrain.CheminEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position)[0], 1) == 1)
                 {
-                    case "Bavouille":
-                        Bavouille = item;
-                        break;
-                    case "Mordillement":
-                        Mordillement = item;
-                        break;
+
                 }
-            }
-            while (Perso.AvancerVers(terrain.CheminEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position)[0], 1) == 1)
-            {
-                if (terrain.DistanceEntreCases(Perso.Position, (Perso.EnnemiLePlusProche(ListEntites)).Position) < 5)
+
+                if (terrain.DistanceEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position) <= 8)
                 {
-                    Perso.UtiliserSort(Bavouille, Perso.EnnemiLePlusProche(ListEntites));
+                    Perso.UtiliserSort(racine, Perso.EnnemiLePlusProche(ListEntites));
+                    Perso.UtiliserSort(poison, Perso.EnnemiLePlusProche(ListEntites));
                 }
-            }
-            if (terrain.DistanceEntreCases(Perso.Position, (Perso.EnnemiLePlusProche(ListEntites)).Position) == 1)
-            {
-                Perso.UtiliserSort(Mordillement, Perso.EnnemiLePlusProche(ListEntites));
-            }
-            */
-            #endregion
+                Perso.SEloignerDe(Perso.EnnemiLePlusProche(ListEntites));
+                */
+                #endregion
+                #region boufton blanc
+                /*
+                Sort Bavouille = null;
+                Sort Mordillement = null;
+                foreach (Sort item in Perso.ClasseEntite.ListSorts)
+                {
+                    switch (item.Nom)
+                    {
+                        case "Bavouille":
+                            Bavouille = item;
+                            break;
+                        case "Mordillement":
+                            Mordillement = item;
+                            break;
+                    }
+                }
+                while (Perso.AvancerVers(terrain.CheminEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position)[0], 1) == 1)
+                {
+                    if (terrain.DistanceEntreCases(Perso.Position, (Perso.EnnemiLePlusProche(ListEntites)).Position) < 5 && Perso.PA == Perso.PA_MAX)
+                    {
+                        Perso.UtiliserSort(Bavouille, Perso.EnnemiLePlusProche(ListEntites));
+                    }
+                }
+                if (terrain.DistanceEntreCases(Perso.Position, (Perso.EnnemiLePlusProche(ListEntites)).Position) == 1)
+                {
+                    Perso.UtiliserSort(Mordillement, Perso.EnnemiLePlusProche(ListEntites));
+                }
+                */
+                #endregion
         }
     }
 }
