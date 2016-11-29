@@ -57,9 +57,13 @@ namespace Gofus
         private PageInventaire pgInv;
         private PagePerso pgperso;
         private pAdmin pgAdmin;
+        private Timer refreshConnection = new Timer();
 
         public MainWindow(int id)
         {
+            refreshConnection.Interval = 8000;
+            refreshConnection.Tick += RefreshConnection_Tick;
+            refreshConnection.Start();
             //CombatTest combat = new CombatTest();
             InitializeComponent();
             Player = new Joueur(bd.selection("SELECT * FROM Joueurs WHERE idJoueur = " + id)[0]);
@@ -93,6 +97,11 @@ namespace Gofus
             #endregion
         }
 
+        private void RefreshConnection_Tick(object sender, EventArgs e)
+        {
+            bd.selection("SELECT RELEASE_LOCK('" + idJoueur + "')");
+            bd.selection("SELECT GET_LOCK('" + idJoueur + "',10)");
+        }
 
         protected override void OnClosed(EventArgs e)
         {
