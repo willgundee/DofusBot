@@ -166,6 +166,7 @@ namespace Gofus
 
         private void btnDeconnexion_Click(object sender, RoutedEventArgs e)
         {
+            bd.selection("SELECT RELEASE_LOCK('" + idJoueur + "')");
             Authentification a = new Authentification();
 
             a.Show();
