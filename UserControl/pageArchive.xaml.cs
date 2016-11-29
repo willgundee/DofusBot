@@ -31,14 +31,6 @@ namespace Gofus
             dgHistorique.ItemsSource = lstpartie;
             cboTypePartie.Items.Add("Les partie de tout le monde"); cboTypePartie.Items.Add("Mes Parties");
             btnVisionner.IsEnabled = false;
-
-            bool[] teste = test();
-            System.Windows.Forms.MessageBox.Show(teste[0].ToString() + " " + teste[1].ToString());
-        }
-
-        public bool[] test()
-        {
-            return new bool[] { true, false };
         }
 
         public pageArchive()
