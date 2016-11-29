@@ -5,12 +5,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Media;
 
 namespace Gofus
 {
@@ -18,17 +15,13 @@ namespace Gofus
     /// Logique d'interaction pour pageArchive.xaml
     /// Affichage dans une datagrid des parties.
     /// </summary>
-    /// 
-
+    ///
 
     public partial class pageArchive : UserControl
     {
-
         public BDService bd = new BDService();
-        public ObservableCollection<Partie> lstpartie;
         public List<String> lstNomPerso;
-
-        public int idJoueur { get; set; }
+        public ObservableCollection<Partie> lstpartie;
         public pageArchive(int id)
         {
             InitializeComponent();
@@ -36,9 +29,16 @@ namespace Gofus
             GenererChamps();
             lstpartie = new ObservableCollection<Partie>();
             dgHistorique.ItemsSource = lstpartie;
-            cboTypePartie.Items.Add("Les partie de tout le monde");
-            cboTypePartie.Items.Add("Mes Parties");
+            cboTypePartie.Items.Add("Les partie de tout le monde"); cboTypePartie.Items.Add("Mes Parties");
             btnVisionner.IsEnabled = false;
+
+            bool[] teste = test();
+            System.Windows.Forms.MessageBox.Show(teste[0].ToString() + " " + teste[1].ToString());
+        }
+
+        public bool[] test()
+        {
+            return new bool[] { true, false };
         }
 
         public pageArchive()
@@ -54,9 +54,9 @@ namespace Gofus
             loadParties("all");
             btnVisionner.IsEnabled = false;
             dgHistorique.Items.Refresh();
-
         }
 
+        public int idJoueur { get; set; }
         public void GenererChamps()
         {
             DataGridTextColumn textColumn = new DataGridTextColumn();
@@ -81,16 +81,59 @@ namespace Gofus
             dgHistorique.Columns.Add(textColumn);
 
             textColumn = new DataGridTextColumn();
-
-
+        }
+        public void RefreshListe()
+        {
+            if (cboTypePartie.SelectedIndex == 0)
+            {
+                loadParties("all");
+            }
+            else
+            {
+                loadParties("joueur");
+            }
         }
 
+        private void btn_Refresh_Click(object sender, RoutedEventArgs e)
+        {
+            RefreshListe();
+        }
 
-        /// <summary>
-        /// Source Yannick Charron.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        private void btnCreer_Click(object sender, RoutedEventArgs e)
+        {
+            CreationUser creation = new CreationUser();
+            creation.Show();
+            System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(PageVisionneuse)).Close();
+        }
+
+        private void btnQuitter_Click(object sender, RoutedEventArgs e)
+        {
+            Authentification A = new Authentification();
+            A.Show();
+            System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(PageVisionneuse)).Close();
+        }
+
+        private void btnVisionner_Click(object sender, RoutedEventArgs e)
+        {
+            Partie PartieChoisi = dgHistorique.SelectedValue as Partie;
+
+            StringBuilder Requete = new StringBuilder();
+            Requete.Append("SELECT infoEntites FROM Parties WHERE idPartie = ");
+            Requete.Append(PartieChoisi.IdPartie);
+            string strJson = bd.selection(Requete.ToString())[0][0];
+            List<List<Entite>> infoJson = JsonConvert.DeserializeObject<List<List<Entite>>>(strJson);
+            GofusSharp.Combat combat = new GofusSharp.Combat(infoJson[0], infoJson[1], PartieChoisi.seed, PartieChoisi.IdPartie, false);
+        }
+
+        private void cboTypePartie_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RefreshListe();
+        }
+
+        private void dgHistorique_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Dispatcher.Invoke(new Action(() => btnVisionner.IsEnabled = (dgHistorique.SelectedIndex != -1) ? true : false));
+        }
 
         private void loadParties(string type)
         {
@@ -120,9 +163,7 @@ namespace Gofus
                                 Dispatcher.Invoke(new Action(() =>
                                 {
                                     lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1], int.Parse(p[2]), ((p[4] == "1" || p[4] == "True") ? lstAtt[0].Nom : ((p[4] == "False" || p[4] == "0") ? lstDef[0].Nom : "Match Nulle")), Convert.ToInt32(p[0])));
-
                                 }));
-
                             }
                             else
                             {
@@ -139,63 +180,9 @@ namespace Gofus
             Refresh.RunWorkerCompleted += (s, e) =>
             {
                 dgHistorique.Items.Refresh();
-             
             };
 
             Refresh.RunWorkerAsync();
-
-        }
-        private void cboTypePartie_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            RefreshListe();
-        }
-        public void RefreshListe()
-        {
-            if (cboTypePartie.SelectedIndex == 0)
-            {
-                loadParties("all");
-            }
-            else
-            {
-                loadParties("joueur");
-            }
-        }
-
-
-        private void btnQuitter_Click(object sender, RoutedEventArgs e)
-        {
-            Authentification A = new Authentification();
-            A.Show();
-            System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(PageVisionneuse)).Close();
-        }
-
-        private void btnCreer_Click(object sender, RoutedEventArgs e)
-        {
-            CreationUser creation = new CreationUser();
-            creation.Show();
-            System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(PageVisionneuse)).Close();
-        }
-
-        private void btnVisionner_Click(object sender, RoutedEventArgs e)
-        {
-            Partie PartieChoisi = dgHistorique.SelectedValue as Partie;
-
-            StringBuilder Requete = new StringBuilder();
-            Requete.Append("SELECT infoEntites FROM Parties WHERE idPartie = ");
-            Requete.Append(PartieChoisi.IdPartie);
-            string strJson = bd.selection(Requete.ToString())[0][0];
-            List<List<Entite>> infoJson = JsonConvert.DeserializeObject<List<List<Entite>>>(strJson);
-            GofusSharp.Combat combat = new GofusSharp.Combat(infoJson[0], infoJson[1], PartieChoisi.seed, PartieChoisi.IdPartie, false);
-        }
-
-        private void btn_Refresh_Click(object sender, RoutedEventArgs e)
-        {
-            RefreshListe();
-        }
-
-        private void dgHistorique_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            Dispatcher.Invoke(new Action(() => btnVisionner.IsEnabled = (dgHistorique.SelectedIndex != -1) ? true : false));
         }
     }
 }

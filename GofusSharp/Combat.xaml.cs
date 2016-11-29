@@ -177,7 +177,8 @@ namespace GofusSharp
                     {
                         BD.Update("UPDATE Parties SET attaquantAGagne = false WHERE idPartie = " + IdPartie + ";");
                         //TODO: LVL UP !
-                        attributionGain(IdPartie);
+                        // lvlsUp[0] = Si le gagnant a lvlup , lvlsUp[0] = Si le perdant a lvlup
+                        bool[] lvlsUp = attributionGain(IdPartie);
                         Generation = false;
                         return;
                     }
@@ -194,7 +195,8 @@ namespace GofusSharp
                     {
                         BD.Update("UPDATE Parties SET attaquantAGagne = true WHERE idPartie = " + IdPartie + ";");
                         //TODO: LVL UP !
-                        attributionGain(IdPartie);
+                        // lvlsUp[0] = Si le gagnant a lvlup , lvlsUp[0] = Si le perdant a lvlup
+                        bool[] lvlsUp = attributionGain(IdPartie);
                         Generation = false;
                         return;
                     }
@@ -204,7 +206,8 @@ namespace GofusSharp
                 {
                     BD.Update("UPDATE Parties SET attaquantAGagne = null WHERE idPartie = " + IdPartie + ";");
                     //TODO: LVL UP !
-                    attributionGain(IdPartie);
+                    // lvlsUp[0] = Si le gagnant a lvlup , lvlsUp[0] = Si le perdant a lvlup
+                    bool[] lvlsUp = attributionGain(IdPartie);
                     Generation = false;
                     return;
                 }
@@ -212,7 +215,7 @@ namespace GofusSharp
         }
 
 
-        private void attributionGain(long IdPartie)
+        private bool[] attributionGain(long IdPartie)
         {
             Gofus.BDService BD = new Gofus.BDService();
             double exp = 0;
@@ -220,7 +223,8 @@ namespace GofusSharp
             bool infoPartie = true;
             string infoParti = BD.selection("SELECT attaquantAGagne FROM Parties WHERE idPartie = " + IdPartie)[0][0];
 
-
+            bool perdantLvlUp = false;
+            bool gagnantLvlUp = false;
             if (infoParti == "")//si la parti est null 
             {
                 foreach (Entite item in CombatCourant.ListAttaquants)
@@ -233,6 +237,10 @@ namespace GofusSharp
                         List<string>[] cash = BD.selection("SELECT argent FROM Joueurs WHERE idJoueur=( SELECT idJoueur FROM Entites WHERE idEntite = " + item.IdEntite + ")");
                         expG = Convert.ToDouble(bd[0][0]) + 1;
                         gainG = 1 + Convert.ToDouble(cash[0][0]);
+
+                        //Check si le gagnant a lvl up
+                        gagnantLvlUp = checkLvlUp(Convert.ToDouble(bd[0][0]), expG);
+
                         BD.Update("UPDATE StatistiquesEntites SET valeur = " + expG + " WHERE idEntite = " + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
                         BD.Update("UPDATE Joueurs SET argent = " + gainG + " WHERE idJoueur=( SELECT idJoueur FROM Entites WHERE idEntite = " + item.IdEntite + ")");
                     }
@@ -245,6 +253,10 @@ namespace GofusSharp
                         List<string>[] cash = BD.selection("SELECT argent FROM Joueurs WHERE idJoueur=( SELECT idJoueur FROM Entites WHERE idEntite = " + item.IdEntite + ")");
                         expP = Convert.ToDouble(bd[0][0]) + 1;
                         gainP = 1 + Convert.ToDouble(cash[0][0]);
+
+                        //Check si le perdant a lvl up
+                        perdantLvlUp = checkLvlUp(Convert.ToDouble(bd[0][0]), expP);
+
                         BD.Update("UPDATE StatistiquesEntites SET valeur = " + Convert.ToInt32(expP) + " WHERE idEntite = " + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
                         BD.Update("UPDATE Joueurs SET argent = " + Convert.ToInt32(gainP) + " WHERE idJoueur=( SELECT idJoueur FROM Entites WHERE idEntite = " + item.IdEntite + ")");
                     }
@@ -267,6 +279,10 @@ namespace GofusSharp
                             List<string>[] cash = BD.selection("SELECT argent FROM Joueurs WHERE idJoueur=( SELECT idJoueur FROM Entites WHERE idEntite = " + item.IdEntite + ")");
                             expG = Convert.ToDouble(bd[0][0]) + exp;
                             gainG = gain + Convert.ToDouble(cash[0][0]);
+
+                            //Check si le gagnant a lvl up
+                            gagnantLvlUp = checkLvlUp(Convert.ToDouble(bd[0][0]), expG);
+
                             BD.Update("UPDATE StatistiquesEntites SET valeur = " + expG + " WHERE idEntite = " + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
                             BD.Update("UPDATE Joueurs SET argent = " + gainG + " WHERE idJoueur=( SELECT idJoueur FROM Entites WHERE idEntite = " + item.IdEntite + ")");
                         }
@@ -280,6 +296,10 @@ namespace GofusSharp
                             List<string>[] cash = BD.selection("SELECT argent FROM Joueurs WHERE idJoueur=( SELECT idJoueur FROM Entites WHERE idEntite = " + item.IdEntite + ")");
                             expP = Convert.ToDouble(bd[0][0]) + (exp / 10);
                             gainP = (gain / 10) + Convert.ToDouble(cash[0][0]);
+
+                            //Check si le perdant a lvl up
+                            perdantLvlUp = checkLvlUp(Convert.ToDouble(bd[0][0]), expP);
+
                             BD.Update("UPDATE StatistiquesEntites SET valeur = " + Convert.ToInt32(expP) + " WHERE idEntite = " + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
                             BD.Update("UPDATE Joueurs SET argent = " + Convert.ToInt32(gainP) + " WHERE idJoueur=( SELECT idJoueur FROM Entites WHERE idEntite = " + item.IdEntite + ")");
                         }
@@ -297,6 +317,10 @@ namespace GofusSharp
                             List<string>[] cash = BD.selection("SELECT argent FROM Joueurs WHERE idJoueur=( SELECT idJoueur FROM Entites WHERE idEntite = " + item.IdEntite + ")");
                             expG = Convert.ToDouble(bd[0][0]) + exp;
                             gainG = gain + Convert.ToDouble(cash[0][0]);
+
+                            //Check si le gagnant a lvl up
+                            gagnantLvlUp = checkLvlUp(Convert.ToDouble(bd[0][0]), expG);
+
                             BD.Update("UPDATE StatistiquesEntites SET valeur = " + expG + " WHERE idEntite = " + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
                             BD.Update("UPDATE Joueurs SET argent = " + gainG + " WHERE idJoueur=( SELECT idJoueur FROM Entites WHERE idEntite = " + item.IdEntite + ")");
                         }
@@ -310,14 +334,28 @@ namespace GofusSharp
                             List<string>[] cash = BD.selection("SELECT argent FROM Joueurs WHERE idJoueur=( SELECT idJoueur FROM Entites WHERE idEntite = " + item.IdEntite + ")");
                             expP = Convert.ToDouble(bd[0][0]) + (exp / 10);
                             gainP = (gain / 10) + Convert.ToDouble(cash[0][0]);
+
+                            //Check si le perdant a lvl up
+                            perdantLvlUp = checkLvlUp(Convert.ToDouble(bd[0][0]), expP);
+
+
                             BD.Update("UPDATE StatistiquesEntites SET valeur = " + Convert.ToInt32(expP) + " WHERE idEntite = " + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
                             BD.Update("UPDATE Joueurs SET argent = " + Convert.ToInt32(gainP) + " WHERE idJoueur=( SELECT idJoueur FROM Entites WHERE idEntite = " + item.IdEntite + ")");
                         }
                 }
             }
-
+         
+            return new bool[] { gagnantLvlUp, perdantLvlUp };
+        }
+        // -----------------------------------
+        private bool checkLvlUp(double av, double apr)
+        {
+            int avLevel = Gofus.Statistique.toLevel(av);
+            int apLevel = Gofus.Statistique.toLevel(apr);
+            return (avLevel == apLevel || avLevel == 200) ? false : (true);
         }
 
+        // -----------------------------------
         private void Action(Terrain terrain, Personnage joueur, Liste<EntiteInconnu> ListEntites)
         {
             //code dynamique 
@@ -483,7 +521,7 @@ namespace GofusSharp
             }
             catch (Exception)
             {
-                
+
             }
         }
 

@@ -15,11 +15,11 @@ namespace Gofus
     public partial class pageArene : UserControl
     {
         public BDService bd;
+        public int idJoueur;
+        public ObservableCollection<Adversaire> lstAdversaires;
+        public Dictionary<int, string> lstPerso;
         public ObservableCollection<string> lstScripts;
         public ObservableCollection<string> lstTypeAdver;
-        public Dictionary<int, string> lstPerso;
-        public ObservableCollection<Adversaire> lstAdversaires;
-        public int idJoueur;
         public pageArene(int id, ObservableCollection<Entite> lstPersonnages)
         {
             InitializeComponent();
@@ -41,6 +41,90 @@ namespace Gofus
             cboPerso.SelectedIndex = 0;
             lstAdversaires = new ObservableCollection<Adversaire>();
             dataGrid.ItemsSource = lstAdversaires;
+        }
+
+        public void Attaquer()
+        {
+            if (dataGrid.SelectedIndex != -1 || cboPerso.SelectedIndex != -1)
+            {
+                string sele = "SELECT * FROM Entites WHERE nom = '" + ((Adversaire)dataGrid.SelectedItem).nom + "'";
+                List<string>[] defen = bd.selection(sele);
+                Entite def = new Entite(defen[0]);
+                List<Entite> lstAtt = new List<Entite>();
+                List<Entite> lstDef = new List<Entite>();
+                Dispatcher.Invoke(new Action(() => lstAtt.Add((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow).Player.LstEntites.First(x => x.IdEntite == ((KeyValuePair<int, string>)cboPerso.SelectedItem).Key))));
+                lstDef.Add(def);
+                List<List<Entite>> jsonObj = new List<List<Entite>> { lstAtt, lstDef };
+                string strJson = JsonConvert.SerializeObject(jsonObj);
+                lstAtt.Sum(x => x.idProprietaire);
+                int seed = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds + lstAtt.Sum(x => x.idProprietaire) + lstDef.Sum(x => x.idProprietaire);
+                long idPartie = bd.insertion("INSERT INTO Parties (seed, temps, infoEntites) VALUE(" + seed + ", NOW(), '" + MySqlHelper.EscapeString(strJson) + "');");
+                foreach (int idPropUnique in lstAtt.Select(x => x.idProprietaire).Distinct())
+                    bd.insertion("INSERT INTO PartiesJoueurs (idPartie, idJoueur, estAttaquant) VALUE(" + idPartie + ", " + (idPropUnique == 0 ? 103 : idPropUnique) + ", true);");
+                foreach (int idPropUnique in lstDef.Select(x => x.idProprietaire).Distinct())
+                    bd.insertion("INSERT INTO PartiesJoueurs (idPartie, idJoueur, estAttaquant) VALUE(" + idPartie + ", " + idPropUnique + ", false);");
+                GofusSharp.Combat combat = new GofusSharp.Combat(lstAtt, lstDef, seed, idPartie);
+            }
+        }
+
+        public void RefreshPersos(ObservableCollection<Entite> lstPersonnages)
+        {
+            lstPerso.Clear();
+            foreach (Entite perso in lstPersonnages)
+            {
+                lstPerso.Add(perso.IdEntite, perso.Nom);
+            }
+            cboPerso.ItemsSource = lstPerso;
+            cboPerso.DisplayMemberPath = "Value";
+            cboPerso.SelectedIndex = 0;
+        }
+
+        private void btnAtt_Click(object sender, RoutedEventArgs e)
+        {
+            Attaquer();
+        }
+
+        private void btnRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            btnAtt.IsEnabled = false;
+            lstAdversaires = new ObservableCollection<Adversaire>();
+            int index = cboTypeAdversaire.SelectedIndex;
+            dataGrid.Items.Refresh();
+            dataGrid.Columns.Clear();
+            dataGrid.ItemsSource = lstAdversaires;
+            Thread trdRefresh = new Thread(() =>
+            {
+                RefreshAdversaires(index);
+            });
+            trdRefresh.Start();
+            Thread.Yield();
+        }
+
+        private void cboPerso_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            btnAtt.IsEnabled = (dataGrid.SelectedIndex == -1 || cboPerso.SelectedIndex == -1) ? false : true;
+        }
+
+        private void cboTypeAdversaire_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            btnAtt.IsEnabled = false;
+            lstAdversaires = new ObservableCollection<Adversaire>();
+            int index = cboTypeAdversaire.SelectedIndex;
+            dataGrid.Items.Refresh();
+            dataGrid.Columns.Clear();
+            dataGrid.ItemsSource = lstAdversaires;
+            Thread trdRefresh = new Thread(() =>
+                {
+                    RefreshAdversaires(index);
+                });
+            trdRefresh.Start();
+            Thread.Yield();
+        }
+
+        private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            btnAtt.IsEnabled = (dataGrid.SelectedIndex == -1 || cboPerso.SelectedIndex == -1) ? false : true;
         }
 
         private void RefreshAdversaires(int index)
@@ -72,7 +156,6 @@ namespace Gofus
                      textColumn = new DataGridTextColumn();
                      textColumn.Header = "Niveau";
                      textColumn.Binding = new Binding("trueLevel");
-                     
                      dataGrid.Columns.Add(textColumn);
                      textColumn = new DataGridTextColumn();
                      textColumn.Header = "Nom";
@@ -95,99 +178,10 @@ namespace Gofus
                      textColumn.Binding = new Binding("levelMax");
                      dataGrid.Columns.Add(textColumn);
                      textColumn = new DataGridTextColumn();
-
-                   
                      dataGrid.FrozenColumnCount = 3;
                  }
                  dataGrid.Items.Refresh();
              }));
-        }
-
-
-        private void cboTypeAdversaire_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            btnAtt.IsEnabled = false;
-            lstAdversaires = new ObservableCollection<Adversaire>();
-            int index = cboTypeAdversaire.SelectedIndex;
-            dataGrid.Items.Refresh();
-            dataGrid.Columns.Clear();
-            dataGrid.ItemsSource = lstAdversaires;
-            Thread trdRefresh = new Thread(() =>
-                {
-                    RefreshAdversaires(index);
-                });
-            trdRefresh.Start();
-            Thread.Yield();
-        }
-
-
-
-        private void btnAtt_Click(object sender, RoutedEventArgs e)
-        {
-                Attaquer();
-        }
-
-        public void Attaquer()
-        {
-            if (dataGrid.SelectedIndex != -1 || cboPerso.SelectedIndex != -1)
-            {
-                string sele = "SELECT * FROM Entites WHERE nom = '" + ((Adversaire)dataGrid.SelectedItem).nom + "'";
-                List<string>[] defen = bd.selection(sele);
-                Entite def = new Entite(defen[0]);
-                List<Entite> lstAtt = new List<Entite>();
-                List<Entite> lstDef = new List<Entite>();
-                Dispatcher.Invoke(new Action(() => lstAtt.Add((Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow).Player.LstEntites.First(x => x.IdEntite == ((KeyValuePair<int, string>)cboPerso.SelectedItem).Key))));
-                lstDef.Add(def);
-                List<List<Entite>> jsonObj = new List<List<Entite>> { lstAtt, lstDef };
-                string strJson = JsonConvert.SerializeObject(jsonObj);
-                lstAtt.Sum(x => x.idProprietaire);
-                int seed = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds + lstAtt.Sum(x => x.idProprietaire) + lstDef.Sum(x => x.idProprietaire);
-                long idPartie = bd.insertion("INSERT INTO Parties (seed, temps, infoEntites) VALUE(" + seed + ", NOW(), '" + MySqlHelper.EscapeString(strJson) + "');");
-                foreach (int idPropUnique in lstAtt.Select(x => x.idProprietaire).Distinct())
-                    bd.insertion("INSERT INTO PartiesJoueurs (idPartie, idJoueur, estAttaquant) VALUE(" + idPartie + ", " + (idPropUnique == 0 ? 103 : idPropUnique) + ", true);");
-                foreach (int idPropUnique in lstDef.Select(x => x.idProprietaire).Distinct())
-                    bd.insertion("INSERT INTO PartiesJoueurs (idPartie, idJoueur, estAttaquant) VALUE(" + idPartie + ", " + idPropUnique + ", false);");
-                GofusSharp.Combat combat = new GofusSharp.Combat(lstAtt, lstDef, seed, idPartie);
-            }
-        }
-
-        private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            btnAtt.IsEnabled = (dataGrid.SelectedIndex == -1 || cboPerso.SelectedIndex == -1) ? false : true;
-        }
-
-        public void RefreshPersos(ObservableCollection<Entite> lstPersonnages)
-        {
-            lstPerso.Clear();
-            foreach (Entite perso in lstPersonnages)
-            {
-                lstPerso.Add(perso.IdEntite, perso.Nom);
-            }
-            cboPerso.ItemsSource = lstPerso;
-            cboPerso.DisplayMemberPath = "Value";
-            cboPerso.SelectedIndex = 0;
-        }
-
-        private void cboPerso_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-            btnAtt.IsEnabled = (dataGrid.SelectedIndex == -1 || cboPerso.SelectedIndex == -1) ? false : true;
-        }
-
-        private void btnRefresh_Click(object sender, RoutedEventArgs e)
-        {
-            btnAtt.IsEnabled = false;
-            lstAdversaires = new ObservableCollection<Adversaire>();
-            int index = cboTypeAdversaire.SelectedIndex;
-            dataGrid.Items.Refresh();
-            dataGrid.Columns.Clear();
-            dataGrid.ItemsSource = lstAdversaires;
-            Thread trdRefresh = new Thread(() =>
-            {
-                RefreshAdversaires(index);
-            });
-            trdRefresh.Start();
-            Thread.Yield();
         }
     }
 }
