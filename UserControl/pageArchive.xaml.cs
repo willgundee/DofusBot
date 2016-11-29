@@ -73,7 +73,7 @@ namespace Gofus
             textColumn.Binding = new Binding("trueDate");
             textColumn.Binding.StringFormat = "yyyy/MM/dd";
             dgHistorique.Columns.Add(textColumn);
-   
+
             textColumn = new DataGridTextColumn();
 
             textColumn.Header = "Gagnant";
@@ -91,11 +91,6 @@ namespace Gofus
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            pbChargement.Value = e.ProgressPercentage;
-        }
-
 
         private void loadParties(string type)
         {
@@ -103,10 +98,10 @@ namespace Gofus
             List<Entite> lstDef = new List<Entite>();
             lstpartie.Clear();
             StringBuilder Joueur = new StringBuilder();
-            Joueur.Append("Select idPartie,temps,seed,infoEntites,attaquantAGagne From Parties p INNER JOIN PartiesJoueurs j ON j.idPartie = p.idPartie WHERE j.idJoueur = ");
+            Joueur.Append("Select p.idPartie,temps,seed,infoEntites,attaquantAGagne From Parties p INNER JOIN PartiesJoueurs j ON j.idPartie = p.idPartie WHERE j.idJoueur = ");
             Joueur.Append(idJoueur.ToString());
             Joueur.Append(" order by temps desc ");
-            string selectid = (type == "joueur") ? Joueur.ToString() :"Select idPartie,temps,seed,infoEntites,attaquantAGagne From Parties order by temps desc";
+            string selectid = (type == "joueur") ? Joueur.ToString() : "Select idPartie,temps,seed,infoEntites,attaquantAGagne From Parties order by temps desc LIMIT 100";
             BackgroundWorker Refresh = new BackgroundWorker() { WorkerReportsProgress = true };
             Refresh.DoWork += (s, e) =>
             {
@@ -125,33 +120,27 @@ namespace Gofus
                                 Dispatcher.Invoke(new Action(() =>
                                 {
                                     lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1], int.Parse(p[2]), ((p[4] == "1" || p[4] == "True") ? lstAtt[0].Nom : ((p[4] == "False" || p[4] == "0") ? lstDef[0].Nom : "Match Nulle")), Convert.ToInt32(p[0])));
+
                                 }));
 
                             }
                             else
                             {
-                                if (lstAtt[0].idProprietaire == idJoueur || lstDef[0].idProprietaire == idJoueur)
+                                Dispatcher.Invoke(new Action(() =>
                                 {
-                                    Dispatcher.Invoke(new Action(() =>
-                                    {
-                                        lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1], int.Parse(p[2]), ((p[4] == "1" || p[4] == "True") ? lstAtt[0].Nom : ((p[4] == "False" || p[4] == "0") ? lstDef[0].Nom : "Match Nulle")), Convert.ToInt32(p[0])));
-                                    }));
-                                }
+                                    lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1], int.Parse(p[2]), ((p[4] == "1" || p[4] == "True") ? lstAtt[0].Nom : ((p[4] == "False" || p[4] == "0") ? lstDef[0].Nom : "Match Nulle")), Convert.ToInt32(p[0])));
+                                }));
                             }
                         }
                     }
                 }
             };
 
-            Refresh.WorkerReportsProgress = true;
-
             Refresh.RunWorkerCompleted += (s, e) =>
             {
                 dgHistorique.Items.Refresh();
-                Dispatcher.Invoke(new Action(() => pbChargement.Foreground = new SolidColorBrush(Colors.CornflowerBlue)));
+             
             };
-
-            Refresh.ProgressChanged += Worker_ProgressChanged;
 
             Refresh.RunWorkerAsync();
 
