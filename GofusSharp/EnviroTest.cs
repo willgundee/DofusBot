@@ -4,28 +4,6 @@ namespace test
 {
     class EnviroTest
     {
-        //        EntiteInconnu ennemi = null;
-        //foreach (EntiteInconnu entite in ListEntites)
-        //{
-        //    if (entite.Equipe != Perso.Equipe)
-        //    {
-        //        ennemi = entite;
-        //        break;
-        //    }
-        //}
-        //if (terrain.DistanceEntreCases(Perso.Position, ennemi.Position) > 1)
-        //{
-        //    int result = 1;
-        //    while (result != 0 && result != -1)
-        //    {
-        //        result = Perso.AvancerVers(terrain.CheminEntreCases(Perso.Position, ennemi.Position)[0], 1);
-        //    }
-        //}
-        //while(Perso.UtiliserSort(Sort.nom_sort.pression, ennemi))
-        //{
-
-        //}
-
         public void Execution(Terrain terrain, Entite Perso, Liste<EntiteInconnu> ListEntites)
         {
             #region chafer archer
@@ -35,7 +13,7 @@ namespace test
 
             #endregion
             #region chafer lancier
-            /*
+            
             Sort Empalement = null;
             Sort Euphorie = null;
             foreach (Sort item in Perso.ClasseEntite.ListSorts)
@@ -48,16 +26,26 @@ namespace test
                         Euphorie = item;
                         break;
                 }
-            // Perso.CasesPourUtiliserSort
-            if (Debug.TourCourant() % 3 == 0)
+            Debug.Log(Debug.TourCourant());
+            if (Debug.TourCourant() % 3 == 1)
+            {
                 Perso.UtiliserSort(Euphorie, Perso);
-            while (Perso.AvancerVers(terrain.CheminEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position)[0]) == 1)
-                while (terrain.DistanceEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position) == 1)
+            }
+            while (Perso.PM != 0 && Perso.PA >= Empalement.CoutPA)
+            {
+                while (Perso.AvancerVers(terrain.CheminEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position)[0]) == 1)
+                {
+                }
+                if (Perso.PeutUtiliserSort(Empalement, Perso.EnnemiLePlusProche(ListEntites)))
+                {
                     Perso.UtiliserSort(Empalement, Perso.EnnemiLePlusProche(ListEntites));
-                    */
+                }
+            }
+            Perso.SEloignerDe(Perso.EnnemiLePlusProche(ListEntites));
+
             #endregion
             #region chafer
-            /*
+
             Sort CoupChafer = null;
             foreach (Sort item in Perso.ClasseEntite.ListSorts)
             {
@@ -68,25 +56,21 @@ namespace test
                         break;
                 }
             }
-            if (terrain.CheminEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position).Count == 6)
-            {
-                Perso.SEloignerDe(Perso.EnnemiLePlusProche(ListEntites), 1);
-            }
-            else
+            while (Perso.PM != 0 && Perso.PA >= CoupChafer.CoutPA)
             {
                 while (Perso.AvancerVers(terrain.CheminEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position)[0]) == 1)
                 {
-                    while (terrain.DistanceEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position) == 1)
-                    {
-                        Perso.UtiliserSort(CoupChafer, Perso.EnnemiLePlusProche(ListEntites));
-                    }
                 }
-                Perso.SEloignerDe(Perso.EnnemiLePlusProche(ListEntites));
+                if (terrain.DistanceEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position) == 1)
+                {
+                    Perso.UtiliserSort(CoupChafer, Perso.EnnemiLePlusProche(ListEntites));
+                }
             }
-            */
+            Perso.SEloignerDe(Perso.EnnemiLePlusProche(ListEntites));
+
             #endregion
             #region pissenlit diabolique
-
+            /*
             Sort effleurement = null;
             Sort herbeSauvage = null;
             foreach (Sort item in Perso.ClasseEntite.ListSorts)
@@ -106,11 +90,6 @@ namespace test
                 {
                     while (Perso.AvancerVers(terrain.CheminEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position)[0]) == 1)
                     {
-                        if (terrain.DistanceEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position) == 1)
-                        {
-                            Perso.UtiliserSort(effleurement, Perso.EnnemiLePlusProche(ListEntites));
-                            Perso.UtiliserSort(herbeSauvage, Perso.EnnemiLePlusProche(ListEntites));
-                        }
                     }
                 if (terrain.DistanceEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position) == 1)
                 {
@@ -119,7 +98,7 @@ namespace test
                 }
             }
                 Perso.SEloignerDe(Perso.EnnemiLePlusProche(ListEntites));
-
+                */
             #endregion
             #region sanglier
             /*
