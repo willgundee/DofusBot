@@ -344,7 +344,7 @@ namespace GofusSharp
                         }
                 }
             }
-         
+
             return new bool[] { gagnantLvlUp, perdantLvlUp };
         }
         // -----------------------------------
@@ -352,7 +352,7 @@ namespace GofusSharp
         {
             int avLevel = Gofus.Statistique.toLevel(av);
             int apLevel = Gofus.Statistique.toLevel(apr);
-            return (avLevel == apLevel || avLevel == 200) ? false : (true);
+            return (avLevel == 200 || avLevel == apLevel) ? false : (true);
         }
 
         // -----------------------------------
