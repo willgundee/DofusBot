@@ -38,6 +38,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -95,6 +96,26 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Boufton blanc.jpg" />
+    <Resource Include="Resources\Boufton Noir.jpg" />
+    <Resource Include="Resources\Bouftou.jpg" />
+    <Resource Include="Resources\Chafer archer.jpg" />
+    <Resource Include="Resources\Chafer lancier.jpg" />
+    <Resource Include="Resources\Chafer.jpg" />
+    <Resource Include="Resources\Champ champ.jpg" />
+    <Resource Include="Resources\Cra.png" />
+    <Resource Include="Resources\Ecaflip.png" />
+    <Resource Include="Resources\Iop.png" />
+    <Resource Include="Resources\Kruorre le chafer haï.jpg" />
+    <Resource Include="Resources\monstre.png" />
+    <Resource Include="Resources\Pissenlit diabolique.jpg" />
+    <Resource Include="Resources\Roche2.png" />
+    <Resource Include="Resources\Roche1.png" />
+    <Resource Include="Resources\Sanglier.jpg" />
+    <Resource Include="Resources\Tofu.jpg" />
+    <Resource Include="Resources\Tournesol Sauvage.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
