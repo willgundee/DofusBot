@@ -31,14 +31,14 @@ namespace Gofus
             List<string>[] lstPartieBd = bd.selection(selectPartie);
             if (lstPartieBd[0][0] != "rien")
             {
-               double gain;
+                double gain;
                 double exp;
                 foreach (List<string> p in lstPartieBd)
                 {
 
                     List<Entite> lstAtt = new List<Entite>();
                     List<Entite> lstDef = new List<Entite>();
-                    
+
 
                     if (p[3] != "infoEntites")
                     {
@@ -48,63 +48,132 @@ namespace Gofus
 
                         exp = lstDef[0].Niveau * lstAtt[0].Niveau * 32;
 
-                        if (p[4]=="")
+                        if (p[4] == "")
                         {
                             NomPersoG.Content = lstAtt[0].Nom;
                             NomPersoP.Content = lstDef[0].Nom;
 
+                            if (lstAtt[0].EstPersonnage)
+                            {
+                                BitmapImage path = new BitmapImage(new Uri("../resources/GofusSharp/" + lstAtt[0].ClasseEntite.Nom + ".png", UriKind.Relative));
+                                imgG.Source = path;
+                                lblKamasG.Content += " 1 $";
+                                lblexpG.Content += " 1 XP";
+                            }
+                            else
+                            {
+                                BitmapImage path = new BitmapImage(new Uri("../resources/" + lstAtt[0].ClasseEntite.Nom + ".jpg", UriKind.Relative));
+                                imgG.Source = path;
+                                CacherG();
+                            }
+                            if (lstDef[0].EstPersonnage)
+                            {
+                                BitmapImage path = new BitmapImage(new Uri("../resources/GofusSharp/" + lstDef[0].ClasseEntite.Nom + ".png", UriKind.Relative));
+                                imgP.Source = path;
+                                lblKamasP.Content += " 1 $";
+                                lblexpP.Content += " 1 XP";
+                            }
+                            else
+                            {
+                                BitmapImage path = new BitmapImage(new Uri("../resources/" + lstDef[0].ClasseEntite.Nom + ".jpg", UriKind.Relative));
+                                imgP.Source = path;
+                                CacherP();
+                            }
 
-                            BitmapImage path = new BitmapImage(new Uri("../resources/GofusSharp/" + lstAtt[0].ClasseEntite.Nom + ".png", UriKind.Relative));
-                            imgG.Source = path;
-                            path = new BitmapImage(new Uri("../resources/GofusSharp/" + lstDef[0].ClasseEntite.Nom + ".png", UriKind.Relative));
-                            imgP.Source = path;
-                           
-                            lblKamasG.Content += " 1 $";
-                            lblKamasP.Content += " 1 $";
-                            lblexpG.Content += " 1 XP";
-                            lblexpP.Content += " 1 XP";
                         }
                         else if (p[4] == "True")
                         {
                             NomPersoG.Content = lstAtt[0].Nom;
                             NomPersoP.Content = lstDef[0].Nom;
-
-
-                            BitmapImage path = new BitmapImage(new Uri("../resources/GofusSharp/" + lstAtt[0].ClasseEntite.Nom + ".png", UriKind.Relative));
-                            imgG.Source = path;
-                            path = new BitmapImage(new Uri("../resources/GofusSharp/" + lstDef[0].ClasseEntite.Nom + ".png", UriKind.Relative));
-                            imgP.Source = path;
-
-
                             gain = lstDef[0].Niveau * 100;
-                            lblKamasG.Content += " " + gain + "$";
-                            lblKamasP.Content += " " + (gain / 10) + "$";
 
-                            lblexpG.Content += " " + exp;
-                            lblexpP.Content += " " + exp / 10;
+                            if (lstAtt[0].EstPersonnage)
+                            {
+                                BitmapImage path = new BitmapImage(new Uri("../resources/GofusSharp/" + lstAtt[0].ClasseEntite.Nom + ".png", UriKind.Relative));
+                                imgG.Source = path;
+                                lblKamasG.Content += " " + gain + "$";
+                                lblexpG.Content += " " + exp;
+                            }
+                            else
+                            {
+                                BitmapImage path = new BitmapImage(new Uri("../resources/" + lstAtt[0].ClasseEntite.Nom + ".jpg", UriKind.Relative));
+                                imgG.Source = path;
+                                CacherG();
+                            }
+                            if (lstDef[0].EstPersonnage)
+                            {
+                                BitmapImage path = new BitmapImage(new Uri("../resources/GofusSharp/" + lstDef[0].ClasseEntite.Nom + ".png", UriKind.Relative));
+                                imgP.Source = path;
+                                lblKamasP.Content += " " + (gain / 10) + "$";
+                                lblexpP.Content += " " + exp / 10;
+                            }
+                            else
+                            {
+                                BitmapImage path = new BitmapImage(new Uri("../resources/" + lstDef[0].ClasseEntite.Nom + ".jpg", UriKind.Relative));
+                                imgP.Source = path;
+                                CacherP();
+                            }
+
+
+
+
                         }
                         else
                         {
                             NomPersoP.Content = lstAtt[0].Nom;
                             NomPersoG.Content = lstDef[0].Nom;
-
-                            BitmapImage path = new BitmapImage(new Uri("../resources/GofusSharp/" + lstDef[0].ClasseEntite.Nom + ".png", UriKind.Relative));
-                            imgG.Source = path;
-                            path = new BitmapImage(new Uri("../resources/GofusSharp/" + lstAtt[0].ClasseEntite.Nom + ".png", UriKind.Relative));
-                            imgP.Source = path;
-
                             gain = lstAtt[0].Niveau * 100;
-                            lblKamasG.Content += " " + gain + "$";
-                            lblKamasP.Content += " " + (gain / 10) + "$";
 
-                            lblexpG.Content += " " + exp;
-                            lblexpP.Content += " " + exp / 10;
+                            if (lstDef[0].EstPersonnage)
+                            {
+                                BitmapImage path = new BitmapImage(new Uri("../resources/GofusSharp/" + lstDef[0].ClasseEntite.Nom + ".png", UriKind.Relative));
+                                imgG.Source = path;
+                                lblKamasG.Content += " " + gain + "$";
+                                lblexpG.Content += " " + exp;
+                            }
+                            else
+                            {
+                                BitmapImage path = new BitmapImage(new Uri("../resources/" + lstDef[0].ClasseEntite.Nom + ".jpg", UriKind.Relative));
+                                imgG.Source = path;
+                                CacherG();
+                            }
+                            if (lstAtt[0].EstPersonnage)
+                            {
+                                BitmapImage path = new BitmapImage(new Uri("../resources/GofusSharp/" + lstAtt[0].ClasseEntite.Nom + ".png", UriKind.Relative));
+                                imgP.Source = path;
+                                lblKamasP.Content += " " + (gain / 10) + "$";
+                                lblexpP.Content += " " + exp / 10;
+                            }
+                            else
+                            {
+                                BitmapImage path = new BitmapImage(new Uri("../resources/" + lstAtt[0].ClasseEntite.Nom + ".jpg", UriKind.Relative));
+                                imgP.Source = path;
+                                CacherP();
+                            }
                         }
-                     
-
                     }
                 }
             }
+        }
+
+
+        public void CacherG()
+        {
+            GainG.Visibility = Visibility.Hidden;
+            lblexpG.Visibility = Visibility.Hidden;
+            pgbExp.Visibility = Visibility.Hidden;
+            lblLevelEntite.Visibility = Visibility.Hidden;
+            lblKamasG.Visibility = Visibility.Hidden;
+
+        }
+        public void CacherP()
+        {
+            GainP.Visibility = Visibility.Hidden;
+            lblexpP.Visibility = Visibility.Hidden;
+            pgbExpP.Visibility = Visibility.Hidden;
+            lblLevelEntiteP.Visibility = Visibility.Hidden;
+            lblKamasP.Visibility = Visibility.Hidden;
+
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

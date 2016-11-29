@@ -40,7 +40,7 @@ namespace Gofus
             List<string>[] Type;
 
             lstBEAST.Clear();
-                Type = bd.selection("SELECT * FROM Entites e  WHERE idJoueur IS NULL");
+                Type = bd.selection("SELECT * FROM Entites e  WHERE idJoueur = 103");
                 con = Type.Count();
                 for (int i = 0; i < con; i++)
                 {

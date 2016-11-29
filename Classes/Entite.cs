@@ -53,7 +53,7 @@ namespace Gofus
             Nom = infoEntite[4];
             Niveau = LstStats.First(x => x.Nom == Statistique.element.experience).toLevel();
             EstPersonnage = true;
-            if (infoEntite[3] == "")
+            if (infoEntite[3] == "103")
             {
                 BalanceStatsMob();
                 EstPersonnage = false;
