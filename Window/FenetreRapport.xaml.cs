@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 
 namespace Gofus
@@ -54,6 +55,7 @@ namespace Gofus
                 else
                 {
                     System.Windows.MessageBox.Show("Merci de votre collaboration pour le projet Gofus.", "Remerciments");
+                    Dispatcher.Invoke(new Action(() => { txtCommentaire.Text = ""; txtTitre.Text = ""; }));
                 }
 
             }
