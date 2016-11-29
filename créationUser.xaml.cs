@@ -160,7 +160,7 @@ namespace Gofus
 
                     MainWindow Main = new MainWindow(id);
 
-                    bd.Update("UPDATE  Joueurs SET  estConnecte =  1 WHERE  nomUtilisateur  ='" + txt_nom.Text.ToString() + "'");
+
                     System.Windows.Forms.MessageBox.Show("Vous êtes connecté ! ", "Information");
                     Main.Show();
                     this.Close();
