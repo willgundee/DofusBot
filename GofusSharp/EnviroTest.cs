@@ -7,13 +7,78 @@ namespace test
         public void Execution(Terrain terrain, Entite Perso, Liste<EntiteInconnu> ListEntites)
         {
             #region chafer archer
+            /*
+            Sort flecheHuile = null;
+            Sort flecheFeu = null;
+            EntiteInconnu ennemi = Perso.EnnemiLePlusProche(ListEntites);
+            foreach (Sort item in Perso.ClasseEntite.ListSorts)
+            {
+                switch (item.Nom)
+                {
+                    case "Flèche d'huile":
+                        flecheHuile = item;
+                        break;
+                    case "Flèche de feu":
+                        flecheFeu = item;
+                        break;
+                }
+            }
 
+            while (terrain.DistanceEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position) >= 8 && Perso.AvancerVers(terrain.CheminEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position)[0], 1) == 1)
+            {
+
+            }
+
+            if (terrain.DistanceEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position) <= 8)
+            {
+                Perso.UtiliserSort(flecheFeu, Perso.EnnemiLePlusProche(ListEntites));
+            }
+            Perso.SEloignerDe(Perso.EnnemiLePlusProche(ListEntites));
+            */
             #endregion
             #region krurorre
+            /*
+            Sort chafouette = null;
+            Sort charnaque = null;
+            Sort coupChaferFort = null;
+            foreach (Sort item in Perso.ClasseEntite.ListSorts)
+                switch (item.Nom)
+                {
+                    case "Chafouette":
+                        chafouette = item;
+                        break;
+                    case "Charnaque":
+                        charnaque = item;
+                        break;
+                    case "Coup mortel du chafer":
+                        coupChaferFort = item;
+                        break;
+                }
+            Debug.Log(Debug.TourCourant());
+            if (Debug.TourCourant() % 2 == 1)
+            {
+                Perso.UtiliserSort(charnaque, Perso);
+            }
+            while (Perso.PM != 0 && Perso.PA >= coupChaferFort.CoutPA)
+            {
+                while (Perso.AvancerVers(terrain.CheminEntreCases(Perso.Position, Perso.EnnemiLePlusProche(ListEntites).Position)[0]) == 1)
+                {
 
+                }
+                while (Perso.PeutUtiliserSort(chafouette, Perso.EnnemiLePlusProche(ListEntites)))
+                {
+                    Perso.UtiliserSort(chafouette, Perso.EnnemiLePlusProche(ListEntites));
+                }
+                while (Perso.PeutUtiliserSort(coupChaferFort, Perso.EnnemiLePlusProche(ListEntites)))
+                {
+                    Perso.UtiliserSort(coupChaferFort, Perso.EnnemiLePlusProche(ListEntites));
+                }
+            }
+            Perso.SEloignerDe(Perso.EnnemiLePlusProche(ListEntites));
+            */
             #endregion
             #region chafer lancier
-            
+            /*
             Sort Empalement = null;
             Sort Euphorie = null;
             foreach (Sort item in Perso.ClasseEntite.ListSorts)
@@ -42,7 +107,7 @@ namespace test
                 }
             }
             Perso.SEloignerDe(Perso.EnnemiLePlusProche(ListEntites));
-
+            */
             #endregion
             #region chafer
 
