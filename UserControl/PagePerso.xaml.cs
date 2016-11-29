@@ -97,7 +97,6 @@ namespace Gofus
             //lblPourcentExp.Content = Math.Round(pgbExp.Value / (pgbExp.Maximum-pgbExp.Minimum)) + " %";
 
             nbScript = Player.LstScripts.Count();
-            //TODO Meilleur solution 
             Dispatcher.Invoke(new Action(() =>
             {
                 cbScript.Items.Clear();
