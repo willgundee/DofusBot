@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace Gofus
 {
@@ -83,12 +85,28 @@ namespace Gofus
 
         }
 
+
+        /// <summary>
+        /// Source Yannick Charron.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            pbChargement.Value = e.ProgressPercentage;
+        }
+
+
         private void loadParties(string type)
         {
             List<Entite> lstAtt = new List<Entite>();
             List<Entite> lstDef = new List<Entite>();
             lstpartie.Clear();
-            string selectid = "Select idPartie,temps,seed,infoEntites,attaquantAGagne From Parties order by temps desc";
+            StringBuilder Joueur = new StringBuilder();
+            Joueur.Append("Select idPartie,temps,seed,infoEntites,attaquantAGagne From Parties p INNER JOIN PartiesJoueurs j ON j.idPartie = p.idPartie WHERE j.idJoueur = ");
+            Joueur.Append(idJoueur.ToString());
+            Joueur.Append(" order by temps desc ");
+            string selectid = (type == "joueur") ? Joueur.ToString() :"Select idPartie,temps,seed,infoEntites,attaquantAGagne From Parties order by temps desc";
             BackgroundWorker Refresh = new BackgroundWorker() { WorkerReportsProgress = true };
             Refresh.DoWork += (s, e) =>
             {
@@ -106,7 +124,7 @@ namespace Gofus
                             {
                                 Dispatcher.Invoke(new Action(() =>
                                 {
-                                    lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1], int.Parse(p[2]), (p[4] == "1" ? lstAtt[0].Nom : ((p[4] == "False") ? lstDef[0].Nom : "Match Nulle")), Convert.ToInt32(p[0])));
+                                    lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1], int.Parse(p[2]), ((p[4] == "1" || p[4] == "True") ? lstAtt[0].Nom : ((p[4] == "False" || p[4] == "0") ? lstDef[0].Nom : "Match Nulle")), Convert.ToInt32(p[0])));
                                 }));
 
                             }
@@ -116,7 +134,7 @@ namespace Gofus
                                 {
                                     Dispatcher.Invoke(new Action(() =>
                                     {
-                                        lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1], int.Parse(p[2]), (p[4] == "1" ? lstAtt[0].Nom : ((p[4] == "0") ? lstDef[0].Nom : "Match Nulle")), Convert.ToInt32(p[0])));
+                                        lstpartie.Add(new Partie(lstAtt[0].Nom, lstDef[0].Nom, p[1], int.Parse(p[2]), ((p[4] == "1" || p[4] == "True") ? lstAtt[0].Nom : ((p[4] == "False" || p[4] == "0") ? lstDef[0].Nom : "Match Nulle")), Convert.ToInt32(p[0])));
                                     }));
                                 }
                             }
@@ -124,10 +142,17 @@ namespace Gofus
                     }
                 }
             };
+
+            Refresh.WorkerReportsProgress = true;
+
             Refresh.RunWorkerCompleted += (s, e) =>
             {
                 dgHistorique.Items.Refresh();
+                Dispatcher.Invoke(new Action(() => pbChargement.Foreground = new SolidColorBrush(Colors.CornflowerBlue)));
             };
+
+            Refresh.ProgressChanged += Worker_ProgressChanged;
+
             Refresh.RunWorkerAsync();
 
         }
@@ -165,7 +190,11 @@ namespace Gofus
         private void btnVisionner_Click(object sender, RoutedEventArgs e)
         {
             Partie PartieChoisi = dgHistorique.SelectedValue as Partie;
-            string strJson = bd.selection("SELECT infoEntites FROM Parties WHERE idPartie = " + PartieChoisi.IdPartie)[0][0];
+
+            StringBuilder Requete = new StringBuilder();
+            Requete.Append("SELECT infoEntites FROM Parties WHERE idPartie = ");
+            Requete.Append(PartieChoisi.IdPartie);
+            string strJson = bd.selection(Requete.ToString())[0][0];
             List<List<Entite>> infoJson = JsonConvert.DeserializeObject<List<List<Entite>>>(strJson);
             GofusSharp.Combat combat = new GofusSharp.Combat(infoJson[0], infoJson[1], PartieChoisi.seed, PartieChoisi.IdPartie, false);
         }

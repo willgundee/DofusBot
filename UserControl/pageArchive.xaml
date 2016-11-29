@@ -15,10 +15,12 @@
         </Grid.RowDefinitions>
         <Label HorizontalAlignment="Center" FontSize="25" Content="Archives" Margin="287,-26,283,26"/>
         <DataGrid x:Name="dgHistorique" SelectionMode="Single" ItemsSource="{Binding lstpartie}"  HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="423" Width="502" Margin="29,0,0,68" IsReadOnly="True" FrozenColumnCount="3" CanUserResizeColumns="False" CanUserReorderColumns="False" ColumnWidth="*" SelectionChanged="dgHistorique_SelectionChanged" AutoGenerateColumns="False"/>
-        <Button x:Name="btnVisionner" Content="Visionner" HorizontalAlignment="Left" Margin="345,0,0,26" VerticalAlignment="Bottom" Width="198" IsCancel="True" Click="btnVisionner_Click"/>
+        <Button x:Name="btnVisionner" Content="Visionner" HorizontalAlignment="Left" Margin="292,0,0,22.4" VerticalAlignment="Bottom" Width="117" IsCancel="True" Click="btnVisionner_Click" Height="30"/>
         <Button Name="btnCreer"   Visibility="Hidden" Content="Créer compte" Height="30" Width="120" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="29,0,421,22" Click="btnCreer_Click"  />
         <Button Name="btnQuitter" Visibility="Hidden" Content="Quitter" Height="30" Width="120" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="198,0,252,22" Click="btnQuitter_Click" />
         <ComboBox x:Name="cboTypePartie" HorizontalAlignment="Left" Margin="14,0,0,26" VerticalAlignment="Bottom" Width="273" SelectedIndex="0" SelectionChanged="cboTypePartie_SelectionChanged"/>
-        <Button x:Name="btn_Refresh" Content="Rafraichir la liste" HorizontalAlignment="Left" Margin="29,26,0,0" VerticalAlignment="Top" Width="117" Height="27" Click="btn_Refresh_Click" />
+        <Button x:Name="btn_Refresh" Content="Rafraichir la liste" HorizontalAlignment="Left" Margin="414,514,0,0" VerticalAlignment="Top" Width="117" Height="30" Click="btn_Refresh_Click" />
+        <Label x:Name="lblTitre" Content="Page d'archive" HorizontalAlignment="Left" Margin="176,0,0,0" VerticalAlignment="Top" FontSize="36" Height="74" Width="243"/>
+        <ProgressBar x:Name="pbChargement" HorizontalAlignment="Left" Height="21" Margin="0,545,-0.4,0" VerticalAlignment="Top" Width="570"/>
     </Grid>
 </UserControl>
