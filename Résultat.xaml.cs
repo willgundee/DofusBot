@@ -59,6 +59,7 @@ namespace Gofus
                                 imgG.Source = path;
                                 lblKamasG.Content += " 1 $";
                                 lblexpG.Content += " 1 XP";
+                                barexpG(lstAtt[0],1);
                             }
                             else
                             {
@@ -72,6 +73,7 @@ namespace Gofus
                                 imgP.Source = path;
                                 lblKamasP.Content += " 1 $";
                                 lblexpP.Content += " 1 XP";
+                                barexpP(lstDef[0],1);
                             }
                             else
                             {
@@ -93,6 +95,7 @@ namespace Gofus
                                 imgG.Source = path;
                                 lblKamasG.Content += " " + gain + "$";
                                 lblexpG.Content += " " + exp;
+                                barexpG(lstAtt[0], exp);
                             }
                             else
                             {
@@ -104,8 +107,9 @@ namespace Gofus
                             {
                                 BitmapImage path = new BitmapImage(new Uri("../resources/GofusSharp/" + lstDef[0].ClasseEntite.Nom + ".png", UriKind.Relative));
                                 imgP.Source = path;
-                                lblKamasP.Content += " " + (gain / 10) + "$";
-                                lblexpP.Content += " " + exp / 10;
+                                lblKamasP.Content += " " + Math.Floor(gain / 10) + "$";
+                                lblexpP.Content += " " + Math.Floor(exp / 10);
+                                barexpP(lstDef[0],Math.Floor(exp / 10));
                             }
                             else
                             {
@@ -113,10 +117,6 @@ namespace Gofus
                                 imgP.Source = path;
                                 CacherP();
                             }
-
-
-
-
                         }
                         else
                         {
@@ -130,6 +130,7 @@ namespace Gofus
                                 imgG.Source = path;
                                 lblKamasG.Content += " " + gain + "$";
                                 lblexpG.Content += " " + exp;
+                                barexpG(lstDef[0], exp);
                             }
                             else
                             {
@@ -141,8 +142,9 @@ namespace Gofus
                             {
                                 BitmapImage path = new BitmapImage(new Uri("../resources/GofusSharp/" + lstAtt[0].ClasseEntite.Nom + ".png", UriKind.Relative));
                                 imgP.Source = path;
-                                lblKamasP.Content += " " + (gain / 10) + "$";
-                                lblexpP.Content += " " + exp / 10;
+                                lblKamasP.Content += " " + Math.Floor(gain / 10) + "$";
+                                lblexpP.Content += " " + Math.Floor(exp / 10);
+                                barexpP(lstAtt[0], Math.Floor(exp / 10));
                             }
                             else
                             {
@@ -155,6 +157,67 @@ namespace Gofus
                 }
             }
         }
+
+
+        public void barexpG(Entite ent, double gain)
+        {
+            int Niveau = Statistique.toLevel(ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur + gain);
+         
+        
+            if (Niveau < 200)
+            {
+                Dispatcher.Invoke(new Action(() =>
+                {
+                    pgbExp.Maximum = Statistique.dictLvl[Niveau + 1];
+                    pgbExp.Minimum = Statistique.dictLvl[Niveau];
+                    pgbExp.ToolTip = (ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur + gain).ToString() + " sur " + pgbExp.Maximum.ToString() + " exp";
+                }));
+
+            }
+            else
+            {
+                Dispatcher.Invoke(new Action(() =>
+                {
+                    pgbExp.Maximum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur;
+                    pgbExp.Minimum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur;
+                    pgbExp.ToolTip = "IT'S OVER 9000!!!";
+                }));
+            }
+            Dispatcher.Invoke(new Action(() =>
+            {
+                pgbExp.Value = (ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur + gain);
+            }));
+        }
+
+        public void barexpP(Entite ent, double gain)
+        {
+            int Niveau = Statistique.toLevel(ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur + gain);
+
+            if (Niveau < 200)
+            {
+                Dispatcher.Invoke(new Action(() =>
+                {
+                    pgbExpP.Maximum = Statistique.dictLvl[Niveau + 1];
+                    pgbExpP.Minimum = Statistique.dictLvl[Niveau];
+                    pgbExpP.ToolTip = (ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur + gain).ToString() + " sur " + pgbExpP.Maximum.ToString() + " exp";
+                }));
+
+            }
+            else
+            {
+                Dispatcher.Invoke(new Action(() =>
+                {
+                    pgbExpP.Maximum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur;
+                    pgbExpP.Minimum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur;
+                    pgbExpP.ToolTip = "IT'S OVER 9000!!!";
+                }));
+            }
+            Dispatcher.Invoke(new Action(() =>
+            {
+                pgbExpP.Value = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur + gain;
+            }));
+        }
+
 
 
         public void CacherG()
@@ -183,5 +246,7 @@ namespace Gofus
                 Application.Current.Windows.Cast<Window>().Where(x => x is GofusSharp.Combat).FirstOrDefault(x => (x as GofusSharp.Combat).IdPartie == IdPartie).Close();
             }
         }
+
+ 
     }
 }

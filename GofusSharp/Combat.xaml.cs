@@ -129,6 +129,7 @@ namespace GofusSharp
 
         private void GenererPartie(List<Gofus.Entite> lstJoueurAtt, List<Gofus.Entite> lstJoueurDef, int seed)
         {
+            System.Windows.Input.Mouse.SetCursor(System.Windows.Input.Cursors.Wait);
             Gofus.BDService BD = new Gofus.BDService();
             Liste<Entite> ListEntiteAtt = new Liste<Entite>();
             Liste<Entite> ListEntiteDef = new Liste<Entite>();
