@@ -24,32 +24,32 @@ namespace Gofus
         public PageArme()
         {
             InitializeComponent();
+            txtZonePEpe.Text = "Portée de 1 case, seulement les case qui entoure ton personnage";
             txtZoneEEpe.Text = "Sur la case ciblée seulement";
-            txtZonePEpe.Text = "Portée de 1";
 
-            txtZonePArc.Text = "Une portée de plus d'une case variable";
+            txtZonePArc.Text = "Portée généralement supérieur à 2 et inférieur à 10";
             txtZoneEArc.Text = "Sur la case ciblée seulement";
 
-            txtZoneEBaguette.Text = "Une portée de plus d'une case variable";
-            txtZonePBaguette.Text = "Sur la case ciblée";
+            txtZonePBaguette.Text = "Portée généralement supérieur à 2 et inférieur à 8";
+            txtZoneEBaguette.Text = "Sur la case ciblée seulement";
 
-            txtZoneEBaton.Text = "Une portée sur les cases adjacentes du personnage";
-            txtZonePBaton.Text = "Sur une ligne horizontale";
+            txtZonePBaton.Text = "Portée de 1 case, seulement les case qui entoure ton personnage";
+            txtZoneEBaton.Text = "Une ligne horizontale de 1 portée à partir du point d'impact";
 
-            txtZoneEDague.Text = "Une portée sur les cases adjacentes du personnage";
-            txtZonePDague.Text = "Sur la case ciblée";
+            txtZonePDague.Text = "Portée de 1 case, seulement les case qui entoure ton personnage";
+            txtZoneEDague.Text = "Sur la case ciblée seulement";
 
-            txtZoneEFaux.Text = "Une portée sur les cases adjacentes du personnage";
-            txtZonePFaux.Text = "Sur la case ciblée";
+            txtZonePFaux.Text = "Portée de 1 case, seulement les case qui entoure ton personnage";
+            txtZoneEFaux.Text = "Sur la case ciblée seulement";
 
-            txtZoneEHache.Text = "Une portée tous les cases adjacentes du personnage";
-            txtZonePHache.Text = "Sur la case ciblée";
+            txtZonePHache.Text = "Toutes les cases autour du personnage, même les diagonales";
+            txtZoneEHache.Text = "Sur la case ciblée seulement";
 
-            txtZoneEMarteau.Text = "Une portée sur en X sur les cases adjacentes du personnage";
-            txtZonePMarteau.Text = "Sur la case en T ";
+            txtZonePMarteau.Text = "Portée de 1 case, seulement les case qui entoure ton personnage";
+            txtZoneEMarteau.Text = "Sur une zone en T de 1 de portée à partir du point d'impact";
 
-            txtZoneEPelle.Text = "Une portée sur en X sur les cases adjacentes du personnage";
-            txtZonePPelle.Text = "Sur les cases en ligne ";
+            txtZonePPelle.Text = "Portée de 1 case, seulement les case qui entoure ton personnage";
+            txtZoneEPelle.Text = "Sur une ligne verticale de 1 de portée à partir du point d'impact";
 
         }
     }

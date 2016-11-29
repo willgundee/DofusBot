@@ -33,7 +33,7 @@
         <Label Content="Zone d'effet" Name="lblZoneE" HorizontalContentAlignment="Center" VerticalAlignment="Bottom" Grid.Column="2" FontSize="16" Grid.Row="1"/>
 
         <Rectangle Fill="WhiteSmoke" Grid.ColumnSpan="3" Margin="2,0.824,1,50" Grid.Row="2" Grid.RowSpan="10" Grid.Column="1"/>
-        <Label Content="Épe" Name="lblEpe" Margin="14,0,0,0"  Grid.Row="2"  Grid.Column="1"/>
+        <Label Content="Épée" Name="lblEpe" Margin="14,0,0,0"  Grid.Row="2"  Grid.Column="1"/>
         <TextBlock Name="txtZoneEEpe" TextWrapping="WrapWithOverflow" Grid.Row="2"  Grid.Column="2" />
         <TextBlock Name="txtZonePEpe" TextWrapping="WrapWithOverflow" Grid.Row="2"  Grid.Column="3" />
         
