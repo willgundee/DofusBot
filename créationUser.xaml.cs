@@ -158,12 +158,17 @@ namespace Gofus
                     int ascript = (int)bd.insertion("INSERT INTO Scripts(contenu,nom, uuid) VALUES('"+codeBase+"','Script1',UUID())");
                     int joueurscript = (int)bd.insertion("INSERT INTO JoueursScripts(idJoueur,idScript) VALUES(" + id.ToString() + "," + ascript.ToString() + ")");
 
+
+                    bd.selection("SELECT GET_LOCK('" + id + "',15)");
                     MainWindow Main = new MainWindow(id);
-
-
                     System.Windows.Forms.MessageBox.Show("Vous êtes connecté ! ", "Information");
                     Main.Show();
-                    this.Close();
+
+                    /*
+                    bd.Update("UPDATE  Joueurs SET  estConnecte =  1 WHERE  nomUtilisateur  ='" + txt_nom.Text.ToString() + "'");
+                    System.Windows.Forms.MessageBox.Show("Vous êtes connecté ! ", "Information");
+                    Main.Show();
+                    this.Close();*/
                 }
 
             }
