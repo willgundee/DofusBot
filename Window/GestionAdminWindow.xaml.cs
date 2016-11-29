@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Threading;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
@@ -52,6 +51,9 @@ namespace Gofus
                 lstUtilisateurs.Add(new Utilisateur(item[0], ((item[1] == "True") ? true : false)));
             }
             dataGrid.ItemsSource = lstUtilisateurs;
+            foreach (Utilisateur u in lstUtilisateurs)
+                lstBackUp.Add(new Utilisateur(u.nom, u.estAdmin));
+
             DataGridTextColumn textColumn = new DataGridTextColumn();
             textColumn.Header = "Nom Utilisateur";
             textColumn.Binding = new System.Windows.Data.Binding("nom");
@@ -62,8 +64,6 @@ namespace Gofus
             boolColumn.Binding = new System.Windows.Data.Binding("estAdmin");
             dataGrid.Columns.Add(boolColumn);
             dataGrid.FrozenColumnCount = 2;
-            foreach (Utilisateur u in lstUtilisateurs)
-                lstBackUp.Add(new Utilisateur(u.nom, u.estAdmin));
             dataGrid.Items.Refresh();
         }
 
@@ -91,7 +91,7 @@ namespace Gofus
                     }
                 }
                 BackUpComptes();
-                this.Close();
+                Close();
             }
         }
 
@@ -149,5 +149,34 @@ namespace Gofus
             }
         }
 
+        private void btnRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            BackgroundWorker Refresh = new BackgroundWorker() { WorkerReportsProgress = true };
+            Refresh.DoWork += (s, ed) =>
+            {
+                List<string>[] result = bdAdmin.selection("SELECT nomUtilisateur,estAdmin FROM Joueurs;");
+
+                Dispatcher.Invoke(new Action(() => {
+                    dataGrid.ItemsSource = null;
+                    lstUtilisateurs = new ObservableCollection<Utilisateur>();
+                    foreach (List<string> item in result)
+                {
+                    lstUtilisateurs.Add(new Utilisateur(item[0], ((item[1] == "True" || item[1] == "1") ? true : false)));
+                }
+                dataGrid.ItemsSource = lstUtilisateurs;
+                    lstBackUp = new ObservableCollection<Utilisateur>();
+                foreach (Utilisateur u in lstUtilisateurs)
+                    lstBackUp.Add(new Utilisateur(u.nom, u.estAdmin));
+                }));
+            };
+
+            Refresh.RunWorkerCompleted += (s, ed) =>
+            {
+               dataGrid.Items.Refresh();
+            };
+
+            Refresh.RunWorkerAsync();
+
+        }
     }
 }
