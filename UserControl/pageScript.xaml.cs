@@ -1474,15 +1474,21 @@ namespace Gofus
         private void btn_supprimer_Click(object sender, RoutedEventArgs e)
         {
             int idScript = Convert.ToInt16(bd.selection("SELECT idScript FROM Scripts WHERE uuid = '" + UUID + "';").First().First());
-            if (bd.delete("DELETE FROM JoueursScripts WHERE idScript = " + idScript + ";"))
+            string result = bd.selection("SELECT * FROM Entites WHERE idScript = " + idScript)[0][0];
+            if (result == "rien")
             {
-                bd.delete("DELETE FROM Scripts WHERE idScript = " + idScript + ";");
-                MainWindow mW = (System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow);
-                mW.Player.LstScripts.Remove(mW.Player.LstScripts.First(x => x.Uuid == UUID));
-                object itemADelete = mW.tc_Edit.SelectedItem;
-                mW.tc_Edit.SelectedIndex = 0;
-                mW.tc_Edit.Items.Remove(itemADelete);
+                if (bd.delete("DELETE FROM JoueursScripts WHERE idScript = " + idScript + ";"))
+                {
+                    bd.delete("DELETE FROM Scripts WHERE idScript = " + idScript + ";");
+                    MainWindow mW = (System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow);
+                    mW.Player.LstScripts.Remove(mW.Player.LstScripts.First(x => x.Uuid == UUID));
+                    object itemADelete = mW.tc_Edit.SelectedItem;
+                    mW.tc_Edit.SelectedIndex = 0;
+                    mW.tc_Edit.Items.Remove(itemADelete);
+                }
             }
+            else
+                System.Windows.Forms.MessageBox.Show("Le script que vous tentez de supprimer appartient à un de vos personnages.");
         }
 
         private void btn_renommer_Click(object sender, RoutedEventArgs e)
