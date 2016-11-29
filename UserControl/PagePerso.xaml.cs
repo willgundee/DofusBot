@@ -63,8 +63,6 @@ namespace Gofus
 
         private void starter(Joueur player, Entite ent)
         {
-            // cbScript.Items.Clear();
-
             persoActuel = ent;
             Dispatcher.Invoke(new Action(() =>
             {
@@ -99,21 +97,11 @@ namespace Gofus
             //lblPourcentExp.Content = Math.Round(pgbExp.Value / (pgbExp.Maximum-pgbExp.Minimum)) + " %";
 
             nbScript = Player.LstScripts.Count();
-            //TODO Meilleur solution 
             Dispatcher.Invoke(new Action(() =>
             {
-                for (int i = 0; i < nbScript; i++)
-                {
-                    if (refresh < 1)
-                    {
-                        cbScript.Items.Add(Player.LstScripts[i].Nom);
-                    }
-                    else if (refresh > 3)
-                    {
-                        refresh = 2;
-                    }
-                }
-
+                cbScript.Items.Clear();
+                foreach (Script item in player.LstScripts)
+                    cbScript.Items.Add(item.Nom);
             }));
 
             Dispatcher.Invoke(new Action(() =>
