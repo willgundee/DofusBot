@@ -31,14 +31,6 @@ namespace Gofus
             dgHistorique.ItemsSource = lstpartie;
             cboTypePartie.Items.Add("Les partie de tout le monde"); cboTypePartie.Items.Add("Mes Parties");
             btnVisionner.IsEnabled = false;
-
-            bool[] teste = test();
-            System.Windows.Forms.MessageBox.Show(teste[0].ToString() + " " + teste[1].ToString());
-        }
-
-        public bool[] test()
-        {
-            return new bool[] { true, false };
         }
 
         public pageArchive()
@@ -49,6 +41,7 @@ namespace Gofus
             btnQuitter.Visibility = Visibility.Visible;
             btnCreer.Visibility = Visibility.Visible;
             btn_Refresh.Visibility = Visibility.Hidden;
+            lblTitre.Visibility = Visibility.Hidden;
             dgHistorique.ItemsSource = lstpartie;
             cboTypePartie.Visibility = Visibility.Hidden;
             loadParties("all");
