@@ -170,7 +170,7 @@ namespace Gofus
                 {
                     pgbExp.Maximum = Statistique.dictLvl[Niveau + 1];
                     pgbExp.Minimum = Statistique.dictLvl[Niveau];
-                    pgbExpP.ToolTip = (ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur + gain).ToString() + " sur " + pgbExp.Maximum.ToString() + " exp";
+                    pgbExp.ToolTip = (ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur + gain).ToString() + " sur " + pgbExp.Maximum.ToString() + " exp";
                 }));
 
             }
@@ -192,9 +192,6 @@ namespace Gofus
         public void barexpP(Entite ent, double gain)
         {
             int Niveau = Statistique.toLevel(ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur + gain);
-
-
-            
 
             if (Niveau < 200)
             {
