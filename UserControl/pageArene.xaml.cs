@@ -48,7 +48,10 @@ namespace Gofus
         {
             if (dataGrid.SelectedIndex != -1 || cboPerso.SelectedIndex != -1)
             {
-                StringBuilder select = new StringBuilder(); select.Append("SELECT * FROM Entites WHERE nom = '"); select.Append(((Adversaire)dataGrid.SelectedItem).nom); select.Append("'");
+                StringBuilder select = new StringBuilder();
+                select.Append("SELECT * FROM Entites WHERE nom = '");
+                select.Append(((Adversaire)dataGrid.SelectedItem).nom);
+                select.Append("'");
                 List<string>[] defen = bd.selection(select.ToString());
                 Entite def = new Entite(defen[0]);
                 List<Entite> lstAtt = new List<Entite>();
