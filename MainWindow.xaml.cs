@@ -72,6 +72,8 @@ namespace Gofus
             pgchat = new pageClavardage(Player.NomUtilisateur, false, id.ToString());
             contentClavardage.Content = pgchat;
             string n = " -" + Player.NomUtilisateur;
+            pgDoc = new PageDocumentation();
+
             Title += n;
             if (Player.estAdmin)
             {
@@ -490,6 +492,7 @@ namespace Gofus
 
         private void PGDoc_Selected(object sender, RoutedEventArgs e)
         {
+            if(PGDoc.Content == null)
             PGDoc.Content = new PageDoc();
         }
     }

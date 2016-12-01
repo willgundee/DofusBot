@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -30,7 +31,7 @@ namespace Gofus
             lstBEAST = new ObservableCollection<BestaireList>();
             lstDescription = new ObservableCollection<BestaireDesc>();
             lbxBestiaire.ItemsSource = lstBEAST;
-            lbxDescBestiaire.ItemsSource = lstDescription;         
+            lbxDescBestiaire.ItemsSource = lstDescription;
             contenulxbBestiaire();
         }
 
@@ -40,33 +41,55 @@ namespace Gofus
             List<string>[] Type;
 
             lstBEAST.Clear();
-                Type = bd.selection("SELECT * FROM Entites e  WHERE idJoueur = 103");
-                con = Type.Count();
-                for (int i = 0; i < con; i++)
+            Type = bd.selection("SELECT * FROM Entites e  WHERE idJoueur = 103");
+            con = Type.Count();
+
+            Thread createBete = new Thread(() =>
+            {
+                Dispatcher.Invoke(new Action(() =>
                 {
-                    BestaireList s = new BestaireList(Type[i]);
-                    s.MouseDown += lbxBestiaire_MouseDoubleClick;
-                lstBEAST.Add(s);
-                }
+                    for (int i = 0; i < con; i++)
+                    {
+                        BestaireList s = new BestaireList(Type[i]);
+                        s.MouseDown += lbxBestiaire_MouseDoubleClick;
+                        lstBEAST.Add(s);
+                    }
+                }));
+            });
+            createBete.Start();
+            Thread.Yield();
         }
 
         private void lbxBestiaire_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            string nom = (sender as BestaireList).lblNomBest.Content.ToString();
+            Dispatcher.Invoke(new Action(() =>
+            {
+                string nom = (sender as BestaireList).lblNomBest.Content.ToString();
 
-            contenuLxbDesc(nom);
+                contenuLxbDesc(nom);
+            }));
         }
         void contenuLxbDesc(string nom)
         {
             List<string>[] info;
-
-            lstDescription.Clear();
-
+            Dispatcher.Invoke(new Action(() =>
+            {
+                lstDescription.Clear();
+            }));
             info = bd.selection("SELECT * FROM Entites WHERE nom='" + nom + "'");
-            Entite ds = new Entite(info[0]);
-            BestaireDesc descS = new BestaireDesc(ds);
+            Thread createBete = new Thread(() =>
+            {
 
-            lstDescription.Add(descS);
+                Entite ds = new Entite(info[0]);
+                Dispatcher.Invoke(new Action(() =>
+                {
+                    BestaireDesc descS = new BestaireDesc(ds);
+                    lstDescription.Add(descS);
+                }));
+            });
+
+            createBete.Start();
+            Thread.Yield();
 
         }
     }
