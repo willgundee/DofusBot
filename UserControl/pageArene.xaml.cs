@@ -8,6 +8,7 @@ using System;
 using Newtonsoft.Json;
 using MySql.Data.MySqlClient;
 using System.Windows.Data;
+using System.Text;
 
 namespace Gofus
 {
@@ -47,8 +48,8 @@ namespace Gofus
         {
             if (dataGrid.SelectedIndex != -1 || cboPerso.SelectedIndex != -1)
             {
-                string sele = "SELECT * FROM Entites WHERE nom = '" + ((Adversaire)dataGrid.SelectedItem).nom + "'";
-                List<string>[] defen = bd.selection(sele);
+                StringBuilder select = new StringBuilder(); select.Append("SELECT * FROM Entites WHERE nom = '"); select.Append(((Adversaire)dataGrid.SelectedItem).nom); select.Append("'");
+                List<string>[] defen = bd.selection(select.ToString());
                 Entite def = new Entite(defen[0]);
                 List<Entite> lstAtt = new List<Entite>();
                 List<Entite> lstDef = new List<Entite>();
@@ -58,11 +59,32 @@ namespace Gofus
                 string strJson = JsonConvert.SerializeObject(jsonObj);
                 lstAtt.Sum(x => x.idProprietaire);
                 int seed = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds + lstAtt.Sum(x => x.idProprietaire) + lstDef.Sum(x => x.idProprietaire);
-                long idPartie = bd.insertion("INSERT INTO Parties (seed, temps, infoEntites) VALUE(" + seed + ", NOW(), '" + MySqlHelper.EscapeString(strJson) + "');");
+                StringBuilder insertIdPartie = new StringBuilder();
+                insertIdPartie.Append("INSERT INTO Parties (seed, temps, infoEntites) VALUE(");
+                insertIdPartie.Append(seed); insertIdPartie.Append(", NOW(), '");
+                insertIdPartie.Append(MySqlHelper.EscapeString(strJson));
+                insertIdPartie.Append("');");
+                long idPartie = bd.insertion(insertIdPartie.ToString());
                 foreach (int idPropUnique in lstAtt.Select(x => x.idProprietaire).Distinct())
-                    bd.insertion("INSERT INTO PartiesJoueurs (idPartie, idJoueur, estAttaquant) VALUE(" + idPartie + ", " + (idPropUnique == 0 ? 103 : idPropUnique) + ", true);");
+                {
+                    StringBuilder insertInfoJoueurs = new StringBuilder();
+                    insertInfoJoueurs.Append("INSERT INTO PartiesJoueurs (idPartie, idJoueur, estAttaquant) VALUE(");
+                    insertInfoJoueurs.Append(idPartie);
+                    insertInfoJoueurs.Append(", ");
+                    insertInfoJoueurs.Append((idPropUnique == 0 ? 103 : idPropUnique));
+                    insertInfoJoueurs.Append(", true);");
+                    bd.insertion(insertInfoJoueurs.ToString());
+                }
                 foreach (int idPropUnique in lstDef.Select(x => x.idProprietaire).Distinct())
-                    bd.insertion("INSERT INTO PartiesJoueurs (idPartie, idJoueur, estAttaquant) VALUE(" + idPartie + ", " + (idPropUnique == 0 ? 103 : idPropUnique) + ", false);");
+                {
+                    StringBuilder insertInfoJoueurs = new StringBuilder();
+                    insertInfoJoueurs.Append("INSERT INTO PartiesJoueurs (idPartie, idJoueur, estAttaquant) VALUE(");
+                    insertInfoJoueurs.Append(idPartie);
+                    insertInfoJoueurs.Append(", ");
+                    insertInfoJoueurs.Append((idPropUnique == 0 ? 103 : idPropUnique));
+                    insertInfoJoueurs.Append(", false);");
+                    bd.insertion(insertInfoJoueurs.ToString());
+                }
                 GofusSharp.Combat combat = new GofusSharp.Combat(lstAtt, lstDef, seed, idPartie);
             }
         }
@@ -138,7 +160,7 @@ namespace Gofus
                      {
                          int min = Statistique.toLevel((double.Parse(enti[1])));
                          int max = Statistique.toLevel((double.Parse(enti[2])));
-                         lstAdversaires.Add(new Adversaire(enti[0],min,max));
+                         lstAdversaires.Add(new Adversaire(enti[0], min, max));
                      }
                      else
                      {
