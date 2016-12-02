@@ -103,10 +103,6 @@
     </Compile>
     <Compile Include="Classes\Adversaire.cs" />
     <Compile Include="Classes\AdversaireHumain.cs" />
-    <Compile Include="Classes\DocumentClasse.cs" />
-    <Compile Include="Classes\DocumentMethod.cs" />
-    <Compile Include="Classes\DocumentParametre.cs" />
-    <Compile Include="Classes\DocumentPropriete.cs" />
     <Compile Include="Classes\Rapport.cs" />
     <Compile Include="Classes\Utilisateur.cs" />
     <Compile Include="créationUser.xaml.cs">
@@ -152,7 +148,6 @@
     <Compile Include="UserControl\pageScript.xaml.cs">
       <DependentUpon>pageScript.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Utility\ActionsAsync.cs" />
     <Compile Include="Window\GestionAdminWindow.xaml.cs">
       <DependentUpon>GestionAdminWindow.xaml</DependentUpon>
     </Compile>
