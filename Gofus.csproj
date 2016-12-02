@@ -318,10 +318,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControl\PageMarche.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UserControl\pageScript.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
