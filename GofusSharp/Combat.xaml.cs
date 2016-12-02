@@ -220,9 +220,7 @@ namespace GofusSharp
             double gain = 0;
             bool infoPartie = true;
             string infoParti = BD.selection("SELECT attaquantAGagne FROM Parties WHERE idPartie = " + IdPartie)[0][0];
-
-            bool perdantLvlUp = false;
-            bool gagnantLvlUp = false;
+            
             #region NULL
             if (infoParti == "")//si la parti est null 
             {

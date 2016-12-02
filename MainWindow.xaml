@@ -72,7 +72,7 @@
         </Style>
     </Window.Resources>
 
-    <TabControl TabStripPlacement="Left">
+    <TabControl Name="tbc_main" TabStripPlacement="Left">
 
         <TabItem  Header="Personnages" Height="30" Selector.Unselected="TabItem_Unselected"  Loaded="TabPerso_Loaded"  >
             <Grid x:Name="grd_Perso" >
@@ -80,9 +80,10 @@
                 <!--TabControl x:Name="tCPerso" Grid.ColumnSpan="2"  HorizontalAlignment="Left" Height="560" Margin="3,1,0,-1" VerticalAlignment="Top" Width="577" Grid.RowSpan="2" /-->
             </Grid>
         </TabItem>
-        <TabItem Header="Éditeur" Height="30" Loaded="TabEdit_Loaded" >
-            <TabControl Name="tc_Edit" SelectionChanged="tc_Edit_SelectionChanged"/>
+
+        <TabItem Header="Éditeur" Height="30" PreviewGotKeyboardFocus="TabItem_PreviewGotKeyboardFocus" Mouse.PreviewMouseDown="TabItem_PreviewMouseDown">
         </TabItem>
+        
         <TabItem Header="Marché" Height="30" >
 
             <Grid Margin="2,-5,-5,-3">
@@ -100,7 +101,6 @@
                 <Label x:Name="lblItem" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="191" Height="26"/>
                 <Label x:Name="lblLvl" Width="167"  HorizontalAlignment="Left" Height="26" Margin="206,10,0,248.489" Content="" />
                 <TextBlock x:Name="txtBDesc" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="363" Height="82" Margin="10,41,0,0" />
-                <!--Image x:Name="imgKamas" Visibility="Visible" Source="resources/kamas.png" HorizontalAlignment="Left" Height="26" Margin="522,215,0,0" VerticalAlignment="Top" Width="38"/-->
 
                 <TabControl x:Name="tabControlStats" Visibility="Hidden" Height="151" Margin="10,128,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="363">
                     <TabItem Header="Statistiques" >
@@ -127,50 +127,6 @@
                 <DockPanel x:Name="dckLink"  LastChildFill="False"  Grid.Row="2" />
             </Grid>
         </TabItem>
-        <!--TabItem Header="Inventaire" Selector.Selected="TabItem_Selected_Inventaire" Height="30">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="349*"/>
-                    <ColumnDefinition Width="224*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="65*"/>
-                    <RowDefinition Height="48*"/>
-                </Grid.RowDefinitions>
-                <Image Source="resources/fondEquipement.jpg"/>
-                <Grid Name="grdEquipInv">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="21*"/>
-                        <RowDefinition Height="21*"/>
-                        <RowDefinition Height="51*"/>
-                        <RowDefinition Height="17*"/>
-                        <RowDefinition Height="4*"/>
-                        <RowDefinition Height="52*"/>
-                        <RowDefinition Height="15*"/>
-                        <RowDefinition Height="39*"/>
-                        <RowDefinition Height="70*"/>
-                        <RowDefinition Height="35*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="9*"/>
-                        <ColumnDefinition Width="8*"/>
-                        <ColumnDefinition Width="52*"/>
-                        <ColumnDefinition Width="11*"/>
-                        <ColumnDefinition Width="41*"/>
-                        <ColumnDefinition Width="10*"/>
-                        <ColumnDefinition Width="52*"/>
-                        <ColumnDefinition Width="9*"/>
-                        <ColumnDefinition Width="50*"/>
-                        <ColumnDefinition Width="11*"/>
-                        <ColumnDefinition Width="53*"/>
-                        <ColumnDefinition Width="7*"/>
-                        <ColumnDefinition Width="36*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label x:Name="lblNomEntite" Content="Lou-blood" FontSize="10" Grid.Column="4" Grid.ColumnSpan="5" Foreground="White"/>
-                </Grid>
-                <ListBox x:Name="lbxInventaire" Grid.RowSpan="2" Style="{StaticResource RowOverflow}" Drop="lbxInventaire_Drop" GiveFeedback="Image_GiveFeedback" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,69,0,0" PreviewMouseLeftButtonDown="lbxInventaire_PreviewMouseLeftButtonDown"/>
-            </Grid>
-        </-->
         <TabItem Header="Arène" Height="30" Selector.Selected="PgArene_Selected" >
             <Grid>
                 <ContentControl Name="controlArene"/>

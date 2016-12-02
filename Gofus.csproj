@@ -149,6 +149,9 @@
     <Compile Include="UserControl\pageScript.xaml.cs">
       <DependentUpon>pageScript.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Window\FenetreScript.xaml.cs">
+      <DependentUpon>FenetreScript.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Window\GestionAdminWindow.xaml.cs">
       <DependentUpon>GestionAdminWindow.xaml</DependentUpon>
     </Compile>
@@ -318,11 +321,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControl\PageMarche.xaml">
+    <Page Include="UserControl\pageScript.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControl\pageScript.xaml">
+    <Page Include="Window\FenetreScript.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
