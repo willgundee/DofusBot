@@ -103,7 +103,6 @@
     </Compile>
     <Compile Include="Classes\Adversaire.cs" />
     <Compile Include="Classes\AdversaireHumain.cs" />
-    <Compile Include="Classes\DocumentClasse.cs" />
     <Compile Include="Classes\Rapport.cs" />
     <Compile Include="Classes\Utilisateur.cs" />
     <Compile Include="créationUser.xaml.cs">

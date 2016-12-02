@@ -17,7 +17,7 @@ namespace Gofus
     /// </summary>
     public partial class PageInventaire : Window
     {
-        public Window _dragdropWindow = null;
+        public Window _dragdropWindow = null;// la window qui contient l'image drag
         ObservableCollection<ImageItem> LstInventaire;
         ObservableCollection<DescItem> LstDesc;
         ListBox dragSource = null;
@@ -27,7 +27,6 @@ namespace Gofus
 
         public PageInventaire(Joueur Player)
         {
-
             InitializeComponent();
             LstInventaire = new ObservableCollection<ImageItem>();
             LstDesc = new ObservableCollection<DescItem>();
@@ -36,10 +35,10 @@ namespace Gofus
             List<string> type = new List<string>();
             type.Add("Tous");
             foreach (List<string> typeNom in bd.selection("SELECT nom FROM typesEquipements"))
-                type.Add(typeNom[0]);
+                type.Add(typeNom[0]);//rempli la liste du trie
             cboTrieInventaire.ItemsSource = type;
             cboTrieInventaire.SelectedIndex = 0;
-            lbxInventaire.ItemsSource = LstInventaire;
+            lbxInventaire.ItemsSource = LstInventaire;// lie l'inventaire du joueur à la page inventaire
             lblArgent.Content = Player.Kamas;
 
         }
@@ -52,8 +51,7 @@ namespace Gofus
         {
             PagePerso pp = (w.tCPerso.SelectedContent as PagePerso);
 
-            // DataContext = this;
-            System.Windows.Controls.ListBox parent = (System.Windows.Controls.ListBox)sender;
+            ListBox parent = (ListBox)sender;
             dragSource = parent;
             ImageItem data = (ImageItem)GetDataFromListBox(dragSource, e.GetPosition(parent));
 
@@ -65,13 +63,14 @@ namespace Gofus
             pp.imgAnneau2Inv.AllowDrop = false;
             pp.imgAmuletteInv.AllowDrop = false;
             pp.imgArmeInv.AllowDrop = false;
-            #endregion
+            #endregion // enleve le droit de drop sur chaque image
 
             SolidColorBrush color = Brushes.Orange;
+
             if (data != null)
             {
-                Equipement itemDrag = Player.Inventaire.First(x => x.NoImg == convertPathToNoItem(data.imgItem.Source.ToString()));
-                switch (itemDrag.Type)
+                Equipement itemDrag = Player.Inventaire.First(x => x.NoImg == convertPathToNoItem(data.imgItem.Source.ToString())); // crée l'item qui est drag
+                switch (itemDrag.Type) // dépendant de son type je lui propose ou il peut l'équiper
                 {
                     case "Cape":
                         pp.imgCapeInv.AllowDrop = true;
@@ -105,10 +104,10 @@ namespace Gofus
                         break;
                 }
                 //image qui suit le curseur http://stackoverflow.com/questions/3129443/wpf-4-drag-and-drop-with-visual-element-as-cursor
-                System.Windows.DataObject dragData = new System.Windows.DataObject("image", data);
+                DataObject dragData = new DataObject("image", data);
                 CreateDragDropWindow(data.imgItem);
-                var effet = DragDrop.DoDragDrop(parent, dragData, System.Windows.DragDropEffects.Move);
-                if (effet == System.Windows.DragDropEffects.None)
+                var effet = DragDrop.DoDragDrop(parent, dragData, DragDropEffects.Move); // effectue le drag N drop
+                if (effet == DragDropEffects.None)
                 {//drop fail
                     if (this._dragdropWindow != null)
                     {
@@ -124,7 +123,7 @@ namespace Gofus
                     pp.borderAno2.BorderBrush = Brushes.Transparent;
                     pp.borderAmu.BorderBrush = Brushes.Transparent;
                     pp.borderCac.BorderBrush = Brushes.Transparent;
-                    #endregion
+                    #endregion //remet les contour transparent
                 }
             }
         }
@@ -134,7 +133,7 @@ namespace Gofus
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Image_GiveFeedback(object sender, System.Windows.GiveFeedbackEventArgs e)
+        private void Image_GiveFeedback(object sender, GiveFeedbackEventArgs e)
         {
             // update the position of the visual feedback item
             Win32Point w32Mouse = new Win32Point();
@@ -149,6 +148,8 @@ namespace Gofus
         private void CreateDragDropWindow(Visual dragElement)
         {
             this._dragdropWindow = new Window();
+
+            #region window design
             _dragdropWindow.WindowStyle = WindowStyle.None;
             _dragdropWindow.AllowsTransparency = true;
             _dragdropWindow.AllowDrop = false;
@@ -157,6 +158,7 @@ namespace Gofus
             _dragdropWindow.SizeToContent = SizeToContent.WidthAndHeight;
             _dragdropWindow.Topmost = true;
             _dragdropWindow.ShowInTaskbar = false;
+            #endregion  // change le style de la window pour que seulement l'image soit visible
 
             Rectangle r = new Rectangle();
             r.Width = ((FrameworkElement)dragElement).ActualWidth;
@@ -170,6 +172,7 @@ namespace Gofus
             this._dragdropWindow.Left = w32Mouse.X;
             this._dragdropWindow.Top = w32Mouse.Y;
             this._dragdropWindow.Show();
+            //affiche la window
         }
 
         /// <summary>
@@ -178,8 +181,8 @@ namespace Gofus
         /// <param name="source"></param>
         /// <param name="point"></param>
         /// <returns></returns>
-        private static object GetDataFromListBox(System.Windows.Controls.ListBox source, Point point)
-        {
+        private static object GetDataFromListBox(ListBox source, Point point)
+        {// renvoie l'information a une position dans la listBox
             UIElement element = source.InputHitTest(point) as UIElement;
             if (element != null)
             {
@@ -198,19 +201,19 @@ namespace Gofus
             return null;
         }
         private void cboTrieInventaire_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+        {// lorsque l'inventaire est triée
             PagePerso pp = (w.tCPerso.SelectedContent as PagePerso);
 
-            if (((System.Windows.Controls.ComboBox)sender).SelectedIndex != -1)
+            if (((ComboBox)sender).SelectedIndex != -1)
             {
-                string type = ((System.Windows.Controls.ComboBox)sender).SelectedValue.ToString();
+                string type = ((ComboBox)sender).SelectedValue.ToString();
 
                 LstInventaire.Clear();
 
                 foreach (Equipement item in Player.Inventaire)
-                    if (type == "Tous" && item.Quantite - item.QuantiteEquipe != 0)
+                    if (type == "Tous" && item.Quantite - item.QuantiteEquipe != 0)// si le trie est tous
                     {
-                        ImageItem i = new ImageItem(item, false, item.Quantite - item.QuantiteEquipe);
+                        ImageItem i = new ImageItem(item, item.Quantite - item.QuantiteEquipe); // crée un image et un label de quantité
                         i.PreviewMouseDoubleClick += image_desc;
                         i.imgItem.PreviewMouseRightButtonDown += imgInv_PreviewMouseRightButtonDown;
                         LstInventaire.Add(i);
@@ -219,14 +222,14 @@ namespace Gofus
                     {
                         if (item.Type == type && item.Quantite - item.QuantiteEquipe != 0)
                         {
-                            ImageItem i = new ImageItem(item, false, item.Quantite - item.QuantiteEquipe);
+                            ImageItem i = new ImageItem(item, item.Quantite - item.QuantiteEquipe);
                             i.PreviewMouseDoubleClick += image_desc;
                             i.imgItem.PreviewMouseRightButtonDown += imgInv_PreviewMouseRightButtonDown;
                             LstInventaire.Add(i);
                         }
                     }
-                if (LstInventaire.Count <= 4 * 4)
-                    lbxInventaire.Style = (Style)FindResource("RowFix");
+                if (LstInventaire.Count <= 4 * 4)// s'il a - de 16 articles
+                    lbxInventaire.Style = (Style)FindResource("RowFix");// je met le style pour que les images s'affiche bien
                 else
                     lbxInventaire.Style = (Style)FindResource("RowOverflow");
             }
@@ -244,96 +247,74 @@ namespace Gofus
             public Int32 Y;
         };
         #endregion
-
+        /// <summary>
+        /// lors d'un double click d'un image
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void image_desc(object sender, MouseButtonEventArgs e)
         {
-            //LstDesc.Clear();
             string i = convertPathToNoItem((sender as ImageItem).imgItem.Source.ToString());
-            //LstDesc.Add(new DescItem(Player.Inventaire.First(x=>x.NoImg == i)));
+
             if (i != "vide")
-            {
+            {// sur un double click j'affiche les info de l'article
                 (w.tCPerso.SelectedContent as PagePerso).itmCtrlDesc.Items.Clear();
                 (w.tCPerso.SelectedContent as PagePerso).itmCtrlDesc.Items.Add(new DescItem(Player.Inventaire.First(x => x.NoImg == i)));
             }
         }
-
+        /// <summary>
+        /// Regénere la liste de l'inventaire
+        /// </summary>
         public void refreshInv()
         {
             int i = cboTrieInventaire.SelectedIndex;
             cboTrieInventaire.SelectedIndex = -1;
             cboTrieInventaire.SelectedIndex = i;
         }
-
+        /// <summary>
+        /// converti le path pour avoir juste le numero de l'article
+        /// </summary>
+        /// <param name="path"> le path de l'image</param>
+        /// <returns></returns>
         private string convertPathToNoItem(string path)
         {
             return System.IO.Path.GetFileNameWithoutExtension(path.Split('/').Last());
         }
 
         /// <summary>
-        /// pour avoir la description d'un item qui est équiper sur soi
+        /// Lorsqu'on effecte un clic droit
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void imgInv_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            string nomEntite = (w.tCPerso.SelectedContent as TabItem).Header.ToString();
-
-            if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
-            {
-                LstDesc.Clear();
-                if (convertPathToNoItem((sender as Image).Source.ToString()) != "vide")
-                    LstDesc.Add(new DescItem(new Equipement(bd.selection("SELECT * FROM Equipements WHERE noImage =" + Convert.ToInt32(convertPathToNoItem((sender as Image).Source.ToString())))[0], true, 0)));
-                lbxInventaire.SelectedIndex = -1;
-            }
-            if (e.ChangedButton == MouseButton.Left && e.ClickCount == 1)
-            {
-                Image data = (Image)sender;
-                Equipement itemDrag = null;
-                if (convertPathToNoItem(data.Source.ToString()) != "vide")
-                    itemDrag = Player.LstEntites.First(x => x.Nom == nomEntite).LstEquipements.First(x => x.NoImg == convertPathToNoItem(data.Source.ToString()));
-                lbxInventaire.AllowDrop = true;
-                System.Windows.DataObject dragData = new System.Windows.DataObject("image", data);
-                CreateDragDropWindow(data);
-                var effet = DragDrop.DoDragDrop(data, dragData, System.Windows.DragDropEffects.Move);
-                if (effet == System.Windows.DragDropEffects.None)
-                {//drop fail
-                    if (this._dragdropWindow != null)
-                    {
-                        this._dragdropWindow.Close();
-                        this._dragdropWindow = null;
-                    }
-                }
-
-                //System.Windows.Forms.MessageBox.Show(e.ClickCount.ToString());
-            }
-
-        }
-
         private void imgInv_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            ContextMenu cm = FindResource("cmClick") as ContextMenu;
+            ContextMenu cm = FindResource("cmClick") as ContextMenu;// je cherche le context menu dans le XAML
             cm.PlacementTarget = sender as Button;
             cm.DataContext = sender as Image;
-            cm.IsOpen = true;
+            cm.IsOpen = true;// j'ouvre le menu contextuel
         }
-
+        /// <summary>
+        /// l'interaction du bouton vendre du menu contextuel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ClickVendre(object sender, RoutedEventArgs e)
-        {
+        {// il vend l'article et l'enleve de son inventaire
             Image item = ((sender as MenuItem).Parent as ContextMenu).DataContext as Image;
             Equipement equiper = Player.Inventaire.First(x => x.NoImg == convertPathToNoItem(item.Source.ToString()));
             float k = equiper.Prix * (float)0.8;
-            MessageBoxResult m = System.Windows.MessageBox.Show("Voulez vous vraiment vendre l'objet : " + equiper.Nom + ". Au cout de " + (int)k + " Kamas ?", "Achat", MessageBoxButton.YesNo, MessageBoxImage.Information);// affichage d'un message box te demandant situ veut vendre ceci
+            MessageBoxResult m = MessageBox.Show("Voulez vous vraiment vendre l'objet : " + equiper.Nom + ". Au cout de " + (int)k + " Kamas ?", "Achat", MessageBoxButton.YesNo, MessageBoxImage.Information);// affichage d'un message box te demandant situ veut vendre ceci
             if (m == MessageBoxResult.Yes)
             {
-
+                //enleve l'article
                 Player.Inventaire.First(x => x.Nom == equiper.Nom).Quantite--;
-                if (Player.Inventaire.First(x => x.Nom == equiper.Nom).Quantite == 0)
+                if (Player.Inventaire.First(x => x.Nom == equiper.Nom).Quantite == 0) // update ou delete 
                     bd.delete("DELETE FROM JoueursEquipements WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "')AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + equiper.Nom + "')");
                 else
                     bd.Update("UPDATE JoueursEquipements SET quantite= " + Player.Inventaire.First(x => x.Nom == equiper.Nom).Quantite.ToString() + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + equiper.Nom + "');COMMIT;");
 
                 Player.Kamas += (int)k;
-
+                //update l'argent
                 bd.Update("UPDATE  Joueurs SET  argent =  " + Player.Kamas.ToString() + " WHERE  nomUtilisateur  ='" + Player.NomUtilisateur + "';COMMIT;");
                 refreshInv();
                 lblArgent.Content = Player.Kamas;

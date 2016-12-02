@@ -356,7 +356,7 @@ namespace Gofus
             foreach (List<string> item in items)
             {
                 Equipement equip = new Equipement(item, false, 0);
-                ImageItem i = new ImageItem(equip, false, 0);
+                ImageItem i = new ImageItem(equip, 0);
                 i.MouseDown += image_MouseUp;
                 LstImgItems.Add(i);
             }
