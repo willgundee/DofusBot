@@ -21,20 +21,19 @@ namespace Gofus
     public partial class BestaireList : UserControl
     {
         private Entite Bestiaire; 
+        /// <summary>
+        /// Constructeur de bestiaire
+        /// </summary>
+        /// <param name="bestiaire">liste de tous les monstres</param>
         public BestaireList(List<string> bestiaire)
         {
             InitializeComponent();
-
             Bestiaire = new Entite(bestiaire);
-            int con = bestiaire.Count();
-            //Bestiaire.ClasseEntite.
+            //Image des monstres
             BitmapImage path = new BitmapImage(new Uri("../resources/" + Bestiaire.Nom + ".jpg", UriKind.Relative));
-
             ImgBest.Source = path;
-
-            lblNomBest.Content = Bestiaire.Nom;
-            
-
+            //nom des monstres
+            lblNomBest.Content = Bestiaire.Nom;           
         }
     }
 }
