@@ -762,6 +762,7 @@ namespace GofusSharp
             {
                 if (entite.Etat == EntiteInconnu.typeEtat.mort)
                     continue;
+                Dispatcher.Invoke(DelLog, new object[] { "\n------------------------------------------------------------" });
                 CombatCourant.DebuterAction(entite);
                 Liste<EntiteInconnu> ListEntites = new Liste<EntiteInconnu>();
                 foreach (Entite entiteI in CombatCourant.ListAttaquants.Concat(CombatCourant.ListDefendants))
