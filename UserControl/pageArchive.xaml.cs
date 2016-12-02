@@ -32,20 +32,29 @@ namespace Gofus
             cboTypePartie.Items.Add("Les partie de tout le monde"); cboTypePartie.Items.Add("Mes Parties");
             btnVisionner.IsEnabled = false;
         }
-
+        /// <summary>
+        /// Constructeur de la page archive pour visiteur
+        /// </summary>
         public pageArchive()
         {
             InitializeComponent();
             GenererChamps();
             lstpartie = new ObservableCollection<Partie>();
+            //on rend visible des éléments qui son essentiel pour un non joueur 
+            //quitter la page
             btnQuitter.Visibility = Visibility.Visible;
+            //se créer un compte
             btnCreer.Visibility = Visibility.Visible;
+            //on cache les élément relatif au joueurs
             btn_Refresh.Visibility = Visibility.Hidden;
             lblTitre.Visibility = Visibility.Hidden;
-            dgHistorique.ItemsSource = lstpartie;
             cboTypePartie.Visibility = Visibility.Hidden;
+            //on lie la liste des parties recentes avec la gird
+            dgHistorique.ItemsSource = lstpartie;
             loadParties("all");
+            //le bouton visionner est bloqué tent que l'utilisateur n'as pas sélectionné une partie a visionner.
             btnVisionner.IsEnabled = false;
+            //on refresh la liste
             dgHistorique.Items.Refresh();
         }
 

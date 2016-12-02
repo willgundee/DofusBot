@@ -26,102 +26,107 @@ namespace Gofus
         public int refresh = 0;
         public DispatcherTimer timer = new DispatcherTimer();
 
-
+        /// <summary>
+        /// Création de la page personnage
+        /// </summary>
+        /// <param name="ent">les entites du joueurs</param>
+        /// <param name="Player">un Joueur</param>
         public PagePerso(Entite ent, Joueur Player)
         {// refaire le min/max
             InitializeComponent();
             this.Player = Player;
-
+            //refresh a tous les 5 secondes
             timer.Interval = TimeSpan.FromSeconds(5);
             timer.Tick += timer_Tick;
             timer.Start();
-
-
+            //focntion qui crée la page
             starter(Player, ent);
-
-
         }
-
+        /// <summary>
+        /// le refresh
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void timer_Tick(object sender, EventArgs e)
         {
             BackgroundWorker bgWorker = new BackgroundWorker() { WorkerReportsProgress = true };
             bgWorker.DoWork += (s, z) =>
-            {
-                List<string> bobRoss = bd.selection("SELECT * FROM Entites WHERE nom='" + persoActuel.Nom + "'")[0];
-                if (bobRoss[0] != "rien")
+            {   //s'il y a au moins un personnage
+                List<string> entit = bd.selection("SELECT * FROM Entites WHERE nom='" + persoActuel.Nom + "'")[0];
+                if (entit[0] != "rien")
                 {
-                    persoActuel = new Entite(bobRoss);
+                    persoActuel = new Entite(entit);
+                    //on crée la fenêtre avec les informations du joueur et du perso actuel
                     starter(Player, persoActuel);
                 }
             };
-
             bgWorker.RunWorkerAsync();
-
         }
 
-
-
+        /// <summary>
+        /// Fucntion qui construit le coeur de 
+        /// </summary>
+        /// <param name="player">le Joueur</param>
+        /// <param name="ent">les entites</param>
         private void starter(Joueur player, Entite ent)
         {
             persoActuel = ent;
             Dispatcher.Invoke(new Action(() =>
-            {
+            {//affiche le niveau du personnage
                 lblLevelEntite.Content = "Niv. " + ent.Niveau;
+                //affiche le nom du joueur
                 lblNomJoueur.Content = Player.NomUtilisateur;
 
             }));
-
+            //si le niveau est inférieur a 200(niveau maximum)
             if (ent.Niveau < 200)
-            {
+            {//on set la bar d'experience
                 Dispatcher.Invoke(new Action(() =>
                 {
+                    //set le max et le min de la bar d'experience
                     pgbExp.Maximum = Statistique.dictLvl[ent.Niveau + 1];
                     pgbExp.Minimum = Statistique.dictLvl[ent.Niveau];
+                    //info dans le tool tip
                     pgbExp.ToolTip = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur.ToString() + " sur " + Statistique.dictLvl[ent.LstStats.First(x => x.Nom == Statistique.element.experience).toLevel() + 1].ToString() + " exp";
                 }));
-
             }
             else
-            {
+            {  //si le niveau est supérieur a 200(niveau maximum)
                 Dispatcher.Invoke(new Action(() =>
-                {
+                {//set le max et le min de la bar d'experience
                     pgbExp.Maximum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur;
                     pgbExp.Minimum = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur;
+                    //info dans le tool tip
                     pgbExp.ToolTip = "IT'S OVER 9000!!!";
                 }));
             }
             Dispatcher.Invoke(new Action(() =>
-            {
+            {//set la valeur dans la bar d'expérience
                 pgbExp.Value = ent.LstStats.First(x => x.Nom == Statistique.element.experience).Valeur;
             }));
-            //lblPourcentExp.Content = Math.Round(pgbExp.Value / (pgbExp.Maximum-pgbExp.Minimum)) + " %";
 
             nbScript = Player.LstScripts.Count();
             Dispatcher.Invoke(new Action(() =>
             {
                 cbScript.Items.Clear();
+                //met tous les scripts dans la combo box de script
                 foreach (Script item in player.LstScripts)
                     cbScript.Items.Add(item.Nom);
             }));
 
             Dispatcher.Invoke(new Action(() =>
-            {
+            {//affiche le nom de la classe
                 lblNomClasse.Content = ent.ClasseEntite.Nom;
+                //affiche les capitals libres restants
                 lblNbPointsC.Content = ent.CapitalLibre;
             }));
             double Exp;
+            //on affiche l'image de la classe
             string SourceImgClasse = "../resources/" + ent.ClasseEntite.Nom;
-            /*BitmapImage path = new BitmapImage();
-            path.BeginInit();
-            path.UriSource = new Uri(SourceImgClasse + ".png", UriKind.Relative);
-            path.EndInit();*/
-
             Dispatcher.BeginInvoke((Action)delegate
             {
                 Imgclasse.Source = new BitmapImage(new Uri(SourceImgClasse + ".png", UriKind.Relative));
             });
-
-
             Dispatcher.BeginInvoke((Action)delegate
             {
                 BitmapImage path = new BitmapImage(new Uri("../resources/fondEquipement.jpg", UriKind.Relative));
@@ -129,7 +134,7 @@ namespace Gofus
                 Imgfond.Source = path;
             });
 
-
+            //permet d'afficher les équipements équipés sur un personnage
             List<string>[] equipementsPerso = bd.selection("SELECT ee.emplacement,e.noImage FROM Equipementsentites ee INNER JOIN equipements e ON ee.idEquipement = e.idEquipement WHERE  idEntite =(SELECT idEntite FROM Entites WHERE nom='" + ent.Nom + "')");
             Dispatcher.Invoke(new Action(() =>
             {
@@ -166,23 +171,12 @@ namespace Gofus
                         }
                     }
             }));
-
-            /*
-                try
-                {
-                    if (emplacement != null)
-                        Dispatcher.Invoke(new Action(() => AfficherElementEquipe(item, emplacement[0].ToString())));
-                }
-                catch (Exception)
-                {
-                    
-                }*/
-
             Dispatcher.Invoke(new Action(() =>
-            {
+            {//met le script utilisé par le personnage par défaut
                 cbScript.SelectedValue = ent.ScriptEntite.Nom;
             }));
             #region btnStats
+            //bouton + pour les statistique doivent être visible seulement s'il y a des points capitals disponible
             Dispatcher.Invoke(new Action(() =>
             {
                 if (ent.CapitalLibre > 0)
@@ -203,17 +197,23 @@ namespace Gofus
             }
 
             Dispatcher.Invoke(new Action(() =>
-            {
+            {//crée met les infos dans la grid de statistique de base
                 initialiserLstStats(ent.LstStats);
                 dgStats.ItemsSource = lstStat;
+                //crée met les infos dans la grid de statistique de avancé
                 dgDommage.ItemsSource = initialiserLstDMG(ent);
             }));
             refresh++;
 
         }
         #region grid_listes
+        /// <summary>
+        /// initialise la list de stats de bases
+        /// </summary>
+        /// <param name="lstStats">la liste de tous ls statistiques</param>
         private void initialiserLstStats(ObservableCollection<Statistique> lstStats)
         {
+            //on ajoute les statistique a la liste dans l'ordre voulue
             lstStat.Clear();
             for (int i = 0; i < 12; i++)
             {
@@ -277,10 +277,15 @@ namespace Gofus
             }
 
         }
+        /// <summary>
+        /// initilalise la liste de stats avancées
+        /// </summary>
+        /// <param name="perso">Joueur</param>
+        /// <returns></returns>
         private List<Statistique> initialiserLstDMG(Entite perso)
         {
             List<Statistique> LstDMG = new List<Statistique>();
-
+            //on ajoute les statistique a la liste dans l'ordre voulue
             for (int i = 0; i < 24; i++)
             {
                 foreach (Statistique stat in perso.LstStats)
@@ -387,53 +392,16 @@ namespace Gofus
                         default:
                             break;
                     }
-
                 }
-
             }
             return LstDMG;
         }
-        /*      private List<Statistique> initialiserLstRES(Entite perso)
-              {
-                  List<Statistique> LstRES = new List<Statistique>();
-
-                  for (int i = 0; i < 5; i++)
-                  {
-                      foreach (Statistique stat in perso.LstStats)
-                      {
-                          switch (i)
-                          {
-                              case 0:
-                                  if (stat.Nom == Statistique.element.RES_neutre)
-                                      LstRES.Add(stat);
-                                  break;
-                              case 1:
-                                  if (stat.Nom == Statistique.element.RES_terre)
-                                      LstRES.Add(stat);
-                                  break;
-                              case 2:
-                                  if (stat.Nom == Statistique.element.RES_feu)
-                                      LstRES.Add(stat);
-                                  break;
-                              case 3:
-                                  if (stat.Nom == Statistique.element.RES_air)
-                                      LstRES.Add(stat);
-                                  break;
-                              case 4:
-                                  if (stat.Nom == Statistique.element.RES_eau)
-                                      LstRES.Add(stat);
-                                  break;
-                              default:
-                                  break;
-                          }
-
-                      }
-
-                  }
-                  return LstRES;
-              }*/
         #endregion
-
+        /// <summary>
+        /// bouton qui ouvre l'inventaire
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void imgInv_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
@@ -446,38 +414,11 @@ namespace Gofus
                 }
             }
         }
-        /* private void AfficherElementEquipe(Equipement eq, string emp)
-         {
-             ImageSource path = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/items/200/" + eq.NoImg + ".png"));
-             switch (emp)
-             {
-                 case "tête":
-                     imgChapeauInv.Source = path;
-                     break;
-                 case "dos":
-                     imgCapeInv.Source = path;
-                     break;
-                 case "arme":
-                     imgArmeInv.Source = path;
-                     break;
-                 case "hanche":
-                     imgCeintureInv.Source = path;
-                     break;
-                 case "ano1":
-                     imgAnneau1Inv.Source = path;
-                     break;
-                 case "ano2":
-                     imgAnneau2Inv.Source = path;
-                     break;
-                 case "pied":
-                     imgBotteInv.Source = path;
-                     break;
-                 case "cou":
-                     imgAmuletteInv.Source = path;
-                     break;
-             }
-         }
-         */
+        /// <summary>
+        /// drag and drop
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void imgInv_Drop(object sender, System.Windows.DragEventArgs e)
         {
 
@@ -546,15 +487,14 @@ namespace Gofus
             return System.IO.Path.GetFileNameWithoutExtension(path.Split('/').Last());
         }
 
-
         private void btnStatsPlus_Click(object sender, RoutedEventArgs e)
         {
-
+            //si le nombre de point =0 on quitte 
             if (Convert.ToInt32(lblNbPointsC.Content) < 1)
             {
                 return;
             }
-
+            //cache les bouton + si on n'a plus de  point capital
             if (Convert.ToInt32(lblNbPointsC.Content) <= 1)
             {
                 btnAgilite.Visibility = Visibility.Hidden;
@@ -569,21 +509,24 @@ namespace Gofus
             Statistique.element s;
             int changement;
 
-
+            //si on ajoute des statistiques on augmente la valeur avec son nom
             switch (choix.ToString())
             {
                 case "btnVitalite":
                     s = Statistique.element.vitalite;
+                    //pour chaque statistique 
                     foreach (Statistique st in persoActuel.LstStats)
+                        //si le nom = vie
                         if (st.Nom == Statistique.element.vie)
                         {
                             st.Valeur += 1;
+                            //on sélectionne la valeur actuel de la vie
                             string valeurInitial = "SELECT valeur FROM statistiquesEntites WHERE idEntite = (SELECT idEntite FROM Entites WHERE  nom ='" + persoActuel.Nom + "') AND idTypeStatistique=(SELECT idTypeStatistique FROM typesStatistiques WHERE nom ='" + st.Nom + "' ) ";
                             int values = Convert.ToInt32(bd.selection(valeurInitial)[0][0]) + 1;
+                            //on met a jour les statistiques avec les nouvelles valeurs
                             bd.Update("UPDATE statistiquesEntites SET valeur = " + values + " WHERE idEntite = (SELECT idEntite FROM Entites WHERE  nom ='" + persoActuel.Nom + "') AND idTypeStatistique=(SELECT idTypeStatistique FROM typesStatistiques WHERE nom ='" + st.Nom + "' ) ");
                             break;
                         }
-                    // modif = Statistique.element.vie;                          
                     break;
                 case "btnSagesse":
                     s = Statistique.element.sagesse;
@@ -605,7 +548,7 @@ namespace Gofus
                     return;
             }
 
-
+            //on aujment la valeur de la statistique qui a été augmenté
             foreach (Statistique sts in persoActuel.LstStats)
                 if (sts.Nom == s)
                 {
@@ -615,11 +558,12 @@ namespace Gofus
                     bd.Update("UPDATE statistiquesEntites SET valeur = " + values + " WHERE idEntite = (SELECT idEntite FROM Entites WHERE  nom ='" + persoActuel.Nom + "') AND idTypeStatistique=(SELECT idTypeStatistique FROM typesStatistiques WHERE nom ='" + s.ToString() + "' ) ");
                     break;
                 }
-
+            //on refresh la list de stats
             initialiserLstStats(persoActuel.LstStats);
-
+            //on diminu le nombre de points capitals disponible
             changement = Convert.ToInt32(lblNbPointsC.Content);
             lblNbPointsC.Content = (changement - 1);
+            //on change en bd le nombre de points capitals disponible
             bd.Update("UPDATE Entites SET CapitalLibre =" + lblNbPointsC.Content + " WHERE nom ='" + persoActuel.Nom + "' ");
         }
 
@@ -664,7 +608,11 @@ namespace Gofus
 
             }
         }
-
+        /// <summary>
+        /// trouve l'emplacement où l'équipement est équipé
+        /// </summary>
+        /// <param name="img"></param>
+        /// <returns></returns>
         private string TrouveEmplacement(Image img)
         {
             string emplacement = "";
@@ -697,7 +645,11 @@ namespace Gofus
             }
             return emplacement;
         }
-
+        /// <summary>
+        /// vendre des équipements
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ClickVendre(object sender, RoutedEventArgs e)
         {
             Image item = ((sender as MenuItem).Parent as ContextMenu).DataContext as Image;
@@ -741,46 +693,51 @@ namespace Gofus
 
             }
         }
+        /// <summary>
+        /// permet de supprimer un de vos personnages
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSupprimer_Click(object sender, RoutedEventArgs e)
-        {
+        {//message pour confirmer que vous voulez supprimer ce personnage
             List<string> info = new List<string>();
-            MessageBoxResult m = System.Windows.MessageBox.Show("Voules-vous vraiment supprimer ce personages! ", "Avertisement", MessageBoxButton.YesNo, MessageBoxImage.Information);// affichage d'un message box te demandant situ veut acheter ceci
+            MessageBoxResult m = System.Windows.MessageBox.Show("Voulez-vous vraiment supprimer ce personages! ", "Avertisement", MessageBoxButton.YesNo, MessageBoxImage.Information);// affichage d'un message box te demandant situ veut acheter ceci
+            //si oui
             if (m == MessageBoxResult.Yes)
-            {
+            {   //on deséquipe le personnage pour que ses équipements équipés ne soient pas perdu
                 List<string>[] idequip = bd.selection("SELECT idEquipement FROM EquipementsEntites ee INNER JOIN Entites e ON ee.idEntite = e.idEntite WHERE e.nom = '" + persoActuel.Nom + "' ");
+                //s'il y a quelque chose d'équipé
                 if (idequip[0][0] != "rien")
                     for (int i = 0; i < idequip.Count(); i++)
                     {
                         List<string>[] nomE = bd.selection("SELECT nom FROM Equipements WHERE idEquipement =" + idequip[i][0]);
                         info.Add(nomE[0][0]);
-
+                        // on indique a l'utilisateur que ses équipement on été remis dans son inventaire
                         if (i + 1 == idequip.Count())
                             foreach (string item in info)
                             {
-
                                 MessageBox.Show(item + " a été replacé dans l'inventaire");
                             }
-
-
+                        //on met a jour l'inventaire dans la bd et sur le personnage
                         Player.Inventaire.First(x => x.Nom == nomE[0][0].ToString()).QuantiteEquipe--;
                         bd.Update("UPDATE JoueursEquipements SET quantiteEquipe= " + Player.Inventaire.First(x => x.Nom == nomE[0][0].ToString()).QuantiteEquipe.ToString() + " WHERE idJoueur = (SELECT idJoueur FROM Joueurs WHERE nomUtilisateur='" + Player.NomUtilisateur + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + nomE[0][0].ToString() + "');COMMIT;");
                         bd.delete("DELETE FROM EquipementsEntites WHERE idEntite = (SELECT idEntite FROM Entites WHERE nom ='" + persoActuel.Nom + "') AND idEquipement= (SELECT idEquipement FROM Equipements WHERE nom ='" + nomE[0][0].ToString() + "')");
 
                     }
-
+                //on supprime l'entite de la bd on commence par ses statistiques pui son supprime le personage
                 bd.delete("DELETE FROM StatistiquesEntites WHERE idEntite=( SELECT idEntite FROM Entites WHERE nom='" + persoActuel.Nom + "')");
                 bd.delete("DELETE FROM Entites WHERE nom='" + persoActuel.Nom + "'");
+                //on le supprime de la liste d'entité du joueur
                 Player.LstEntites.Remove(Player.LstEntites.First(x => x.Nom == persoActuel.Nom));
+                //on enlève l'onglet qui porte le nom du personage.
                 MainWindow main = (System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow);
                 main.tCPerso.Items.Remove(main.tCPerso.SelectedItem);
-
                 foreach (Entite perso in Player.LstEntites)
                 {
                     TabItem onglet = new TabItem();
                     onglet.Header = perso.Nom;
                     onglet.Content = new PagePerso(perso, Player);
                 }
-
                 main.tCPerso.SelectedIndex = 0;
                 if (Player.LstEntites.Count == 4)
                 {
@@ -789,17 +746,21 @@ namespace Gofus
                     onglet.Content = new pageCpersonage(Player);
                     main.tCPerso.Items.Add(onglet);
                 }
+                //on refresh l'inventaire pour voir les item qui y sont retournée.
                 if (System.Windows.Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x.GetType() == typeof(PageInventaire)) != null)
                     (Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(PageInventaire)) as PageInventaire).refreshInv();
             }
-
             return;
         }
-
+        /// <summary>
+        /// resfresh la combo box avec les nouveaux scripts
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cbScript_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             foreach (Script item in Player.LstScripts)
-            {
+            {//on met en bd le script de l'entité utilise.
                 if (cbScript.SelectedItem != null)
                     if (item.Nom == cbScript.SelectedItem.ToString())
                         bd.Update("UPDATE Entites SET idScript = (SELECT idScript FROM Scripts WHERE Uuid ='" + item.Uuid + "') WHERE nom ='" + persoActuel.Nom + "'");
