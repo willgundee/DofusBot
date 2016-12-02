@@ -18,6 +18,7 @@ namespace Gofus
     public partial class pageScript : System.Windows.Controls.UserControl
     {
         public BDService bd = new BDService();
+        FenetreScript fs = (System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(FenetreScript)) as FenetreScript);
         private string UUID { get; set; }
         public pageScript(string UUID)
         {
@@ -40,71 +41,6 @@ namespace Gofus
         }
 
         #region truc trop long de ced
-        //**************************************************************************************************
-        private void btn_run_Click(object sender, RoutedEventArgs e)
-        {
-            //code dynamique 
-            string code = @"
-                using GofusSharp;
-                namespace Arene
-                {
-                    public class Combat
-                    {
-                        public static void Action(Terrain terrain, Personnage Perso, Liste<EntiteInconnu> ListEntites)
-                        {
-                            user_code
-                        }
-                    }
-                }
-            ";
-
-            //je remplace le mot user_code pour ce qui ce trouve dans la text box
-            string finalCode = code.Replace("user_code", ctb_main.Text);
-            //initialisation d'un compilateur de code C#
-            CSharpCodeProvider provider = new CSharpCodeProvider(new Dictionary<string, string>() { { "CompilerVersion", "v3.5" } });
-            //initialisation des paramètres du compilateur de code C#
-            CompilerParameters parameters = new CompilerParameters();
-            //ajout des lien de bibliothèque dynamique (dll)
-            //parameters.ReferencedAssemblies.Add("WindowsBase.dll");
-            parameters.ReferencedAssemblies.Add("GofusSharp.dll");
-            parameters.ReferencedAssemblies.Add("System.Core.dll");
-            //compilation du code 
-            CompilerResults results = provider.CompileAssemblyFromSource(parameters, finalCode);
-            //recherche d'érreurs de compilation
-            if (results.Errors.HasErrors)
-            {
-                StringBuilder sb = new StringBuilder();
-
-                foreach (CompilerError error in results.Errors)
-                {
-                    sb.AppendLine(string.Format("Erreur (Ligne {0}): {1}", (error.Line - 8).ToString(), error.ErrorText));
-                }
-                System.Windows.Forms.MessageBox.Show(sb.ToString());
-                return;
-            }
-            string codeAI = @"
-            EntiteInconnu ennemi = null;
-            foreach (EntiteInconnu entite in ListEntites)
-            {
-                if (entite.Equipe != Perso.Equipe)
-                {
-                    ennemi = entite;
-                    break;
-                }
-            }
-            if (terrain.DistanceEntreCases(Perso.Position, ennemi.Position) > 1)
-            {
-                int result = 1;
-                while (result != 0 && result != -1)
-                {
-                    result = Perso.AvancerVers(terrain.CheminEntreCases(Perso.Position, ennemi.Position)[0], 1);
-                }
-            }
-            Perso.UtiliserSort(Perso.ClasseEntite.TabSorts[1], ennemi);";
-            //Combat combat = new Combat(ctb_main.Text, codeAI);
-        }
-
-        //**************************************************************************************************
         public int maxLC = 0; //maxLineCount - should be public
         private void ctb_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
         {
@@ -123,6 +59,7 @@ namespace Gofus
             }
             ctb_main_VScroll(new object(), new EventArgs());
         }
+
         #region generate treeTemplate
         private TreeNode[] generateTreeTemplate()
         {
@@ -1482,9 +1419,9 @@ namespace Gofus
                     bd.delete("DELETE FROM Scripts WHERE idScript = " + idScript + ";");
                     MainWindow mW = (System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow);
                     mW.Player.LstScripts.Remove(mW.Player.LstScripts.First(x => x.Uuid == UUID));
-                    object itemADelete = mW.tc_Edit.SelectedItem;
-                    mW.tc_Edit.SelectedIndex = 0;
-                    mW.tc_Edit.Items.Remove(itemADelete);
+                    object itemADelete = fs.tc_Edit.SelectedItem;
+                    fs.tc_Edit.SelectedIndex = 0;
+                    fs.tc_Edit.Items.Remove(itemADelete);
                 }
             }
             else
@@ -1496,7 +1433,7 @@ namespace Gofus
             NouveauNom FNN = new NouveauNom(UUID);
             FNN.ShowDialog();
             MainWindow mW = (System.Windows.Application.Current.Windows.Cast<Window>().First(x => x.GetType() == typeof(MainWindow)) as MainWindow);
-            (mW.tc_Edit.SelectedItem as TabItem).Header = mW.Player.LstScripts.First(x => x.Uuid == UUID).Nom;
+            (fs.tc_Edit.SelectedItem as TabItem).Header = mW.Player.LstScripts.First(x => x.Uuid == UUID).Nom;
         }
 
         private void btn_documentation_Click(object sender, RoutedEventArgs e)

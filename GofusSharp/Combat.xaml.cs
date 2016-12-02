@@ -220,9 +220,7 @@ namespace GofusSharp
             double gain = 0;
             bool infoPartie = true;
             string infoParti = BD.selection("SELECT attaquantAGagne FROM Parties WHERE idPartie = " + IdPartie)[0][0];
-
-            bool perdantLvlUp = false;
-            bool gagnantLvlUp = false;
+            
             #region NULL
             if (infoParti == "")//si la parti est null 
             {
@@ -885,19 +883,10 @@ namespace GofusSharp
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
+            Generation = true;
+            Speed = 1000;
+            chb_AutoPlay.IsChecked = false;
             mrse.Set();
-            if (TAction != null)
-            {
-                try
-                {
-                    TAction.Interrupt();
-                    TAction.Abort();
-                }
-                catch (ThreadAbortException)
-                {
-
-                }
-            }
         }
     }
 }

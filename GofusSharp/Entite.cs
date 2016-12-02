@@ -1797,9 +1797,16 @@ namespace GofusSharp
                 }
                 if (!Debug.FCombat.Generation)
                 {
-                    Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
-                    System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
-                    Debug.FCombat.mrse.WaitOne();
+                    try
+                    {
+                        Debug.FCombat.Dispatcher.Invoke(Debug.FCombat.DelUpd);
+                        System.Threading.Thread.Sleep((int)(1000 / Debug.FCombat.Speed));
+                        Debug.FCombat.mrse.WaitOne();
+                    }
+                    catch (System.Threading.ThreadAbortException)
+                    {
+
+                    }
                 }
                 return true;
             }

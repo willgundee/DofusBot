@@ -22,7 +22,7 @@ namespace Gofus
             LstStats = new ObservableCollection<string>();
             LstConds = new ObservableCollection<string>();
             LstCaras = new ObservableCollection<string>();
-
+            // lie les informations de l'équipements au listes et au endroit approprié
             lbxStatsDesc.ItemsSource = LstStats;
             lbxCondDesc.ItemsSource = LstConds;
             lbxCaraDesc.ItemsSource = LstCaras;
@@ -31,19 +31,19 @@ namespace Gofus
             imgDesc.Source = new BitmapImage(new Uri("http://staticns.ankama.com/dofus/www/game/items/200/" + item.NoImg + ".png"));
             lblNomItem.Content = item.Nom;
             if (item.EstArme)
-            {
+            {// si c'est un arme
                 tbCaraDesc.Visibility = Visibility.Visible;
                 foreach (Effet effet in item.LstEffets)
                     LstStats.Add(effet.NomSimplifier + " : " + effet.DmgMin + " à " + effet.DmgMax);
                 LstCaras.Add("Pa requis : " + item.Pa);
                 LstCaras.Add("Portée : " + item.ZonePortee.Nom + " de " + (item.ZonePortee.PorteeMax == item.ZonePortee.PorteeMin ? item.ZonePortee.PorteeMax.ToString() : item.ZonePortee.PorteeMin.ToString() + " à " + item.ZonePortee.PorteeMax.ToString()));
             }
-            else
+            else// sinon
                 tbCaraDesc.Visibility = Visibility.Hidden;
-
+            //remplis les stats
             foreach (Statistique stat in item.LstStatistiques)
                 LstStats.Add(stat.NomSimple + " : " + stat.Valeur.ToString());
-
+            //rempli les conditions
             foreach (Condition cond in item.LstConditions)
                 if (cond.Stat.Nom == Statistique.element.experience)
                 {
