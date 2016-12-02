@@ -93,7 +93,7 @@ namespace GofusSharp
                 if (CombatCourant.TerrainPartie.TabCases[Grid.GetRow(cnvs)][Grid.GetColumn(cnvs)].Contenu == Case.type.obstacle)
                 {
                     Image ImageSprite = new Image();
-                    ImageSource SourceImageObstacle = new BitmapImage(new Uri("pack://application:,,,/Resources/GofusSharp/Roche" + RandRock.Next(1,3) + ".png"));
+                    ImageSource SourceImageObstacle = new BitmapImage(new Uri("pack://application:,,,/Resources/GofusSharp/Roche" + RandRock.Next(1, 3) + ".png"));
                     ImageSprite.Source = SourceImageObstacle;
                     sPnl.Children.Add(ImageSprite);
                     ImageSprite.Height = grd_Terrain.RowDefinitions.First().ActualHeight;
@@ -257,7 +257,7 @@ namespace GofusSharp
                         //Check si le perdant a lvl up
                         LvlUp(Convert.ToDouble(bd[0][0]), expP, item.IdEntite);
 
-                        BD.Update("UPDATE StatistiquesEntites SET valeur = " +Math.Floor(Convert.ToDouble(expP)) + " WHERE idEntite = " + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
+                        BD.Update("UPDATE StatistiquesEntites SET valeur = " + Math.Floor(Convert.ToDouble(expP)) + " WHERE idEntite = " + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
                         BD.Update("UPDATE Joueurs SET argent = " + Math.Floor(Convert.ToDouble(gainP)) + " WHERE idJoueur=( SELECT idJoueur FROM Entites WHERE idEntite = " + item.IdEntite + ")");
                     }
 
@@ -316,7 +316,7 @@ namespace GofusSharp
                             double gainG;
                             List<string>[] bd = BD.selection("SELECT valeur FROM StatistiquesEntites WHERE idEntite=" + item.IdEntite + " AND idTypeStatistique=(SELECT idTypeStatistique FROM TypesStatistiques WHERE NOM='" + Gofus.Statistique.element.experience.ToString() + "')");
                             List<string>[] cash = BD.selection("SELECT argent FROM Joueurs WHERE idJoueur=( SELECT idJoueur FROM Entites WHERE idEntite = " + item.IdEntite + ")");
-                            
+
                             expG = Convert.ToDouble(bd[0][0]) + exp;
                             gainG = gain + Convert.ToDouble(cash[0][0]);
 
@@ -880,6 +880,23 @@ namespace GofusSharp
             {
                 spl_Info.Children.Clear();
                 spl_Info.Children.Add(CreerInfoPartie());
+            }
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            mrse.Set();
+            if (TAction != null)
+            {
+                try
+                {
+                    TAction.Interrupt();
+                    TAction.Abort();
+                }
+                catch (ThreadAbortException)
+                {
+
+                }
             }
         }
     }
