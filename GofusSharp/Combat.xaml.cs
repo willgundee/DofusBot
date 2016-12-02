@@ -885,19 +885,10 @@ namespace GofusSharp
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
+            Generation = true;
+            Speed = 1000;
+            chb_AutoPlay.IsChecked = false;
             mrse.Set();
-            if (TAction != null)
-            {
-                try
-                {
-                    TAction.Interrupt();
-                    TAction.Abort();
-                }
-                catch (ThreadAbortException)
-                {
-
-                }
-            }
         }
     }
 }
