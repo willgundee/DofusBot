@@ -23,7 +23,7 @@ namespace Gofus
         {
             InitializeComponent();
             lstImage = new ObservableCollection<Image>();
-            listBoxAvatars.ItemsSource = lstImage;
+            Dispatcher.Invoke(new Action(() => {     listBoxAvatars.ItemsSource = lstImage;
             foreach (string img in lstAvatars)
             {
                 Image imge = new Image();
@@ -34,7 +34,8 @@ namespace Gofus
 
             }
             listBoxAvatars.SelectedIndex = Avatar;
-            idAvatar = Avatar;
+            idAvatar = Avatar; }));
+       
         }
 
         private void btnChoisir_Click(object sender, RoutedEventArgs e)
