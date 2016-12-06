@@ -14,17 +14,17 @@
                         <TextBlock TextWrapping="WrapWithOverflow" Padding="0,0,10,0">
                             <Run Text="Qu'est ce que le Gofus#?" FontSize="20"/>
                             <LineBreak/>
-                            <Run Text="Le Gofus# est une variation du C# qui a été créée pour programmer des intelligences artificielles (IA) qui font des combat dans l'environnement de dofus."/>
+                            <Run Text="Le Gofus# est une variation du C# qui a été créée pour programmer des intelligences artificielles (IA) qui font des combats dans l'environnement de dofus."/>
                             <LineBreak/>
                             <Run Text="Comment coder une IA en Gofus#?" FontSize="20"/>
                             <LineBreak/>
                             <Run Text="Explication" FontSize="15"/>
                             <LineBreak/>
-                            <Run Text="Pour coder une IA en Gofus# il faut écrire un code qui ordonnera des actions a votre personnage, lesquelles s'éxecuteront a chaque début d'action de tour de votre persnnage"/>
+                            <Run Text="Pour coder une IA en Gofus# il faut écrire un code qui ordonnera des actions à votre personnage, lesquelles s'exécuteront à chaque début d'action de tour de votre persnnage"/>
                             <LineBreak/>
                             <Run Text="Comment faire" FontSize="15"/>
                             <LineBreak/>
-                            <Run Text="Tout d'abord le code que vous écrirez sera placé dans un environnement fermé, une fonction/methode, qui contient trois parametres."/>
+                            <Run Text="Tout d'abord le code que vous écrirez sera placé dans un environnement fermé, une fonction/methode, qui contient trois paramètres."/>
                             <LineBreak/>
                             <Run Text="    public void Execution(Terrain terrain, Personnage Perso, Liste&lt;EntiteInconnu&gt; ListEntites) {"/>
                             <LineBreak/>
@@ -34,26 +34,26 @@
                             <LineBreak/>
                             <Run Text="terrain" FontSize="13"/>
                             <LineBreak/>
-                            <Run Text="Représente le terrain de la partie courante, les méthodes de terrain sont utile pour obtenir des info sur comment se rendre d'une case a l'autre sans rester coincer sur les obstacle comme la méthode CheminEntreCases. Note : Vous retrouverez une définition de tous les éléments de Gofus# dans la documentation."/>
+                            <Run Text="Représente le terrain de la partie courante, les méthodes de terrain sont utiles pour obtenir des informations sur comment se rendre d'une case a l'autre sans rester coincé par des obstacles comme la méthode CheminEntreCases. Note : Vous retrouverez une définition de tous les éléments de Gofus# dans la documentation."/>
                             <LineBreak/>
                             <Run Text="Perso" FontSize="13"/>
                             <LineBreak/>
-                            <Run Text="Vous devez passer par les méthodes de Perso si vous désirez que votre personnage éxecute une action comme avancer ou attaquer."/>
+                            <Run Text="Vous devez passer par les méthodes de Perso si vous désirez que votre personnage exécute une action comme avancer ou attaquer."/>
                             <LineBreak/>
                             <Run Text="ListEntites" FontSize="13"/>
                             <LineBreak/>
-                            <Run Text="Ceci est une liste de toutes les entitées présente dans une partie vous ne pouvez pas controller ces entite, mais vous pouvez les attaquer ou se servir de leurs positions pour vous déplacer. Rappelez vous bien que votre personnage figure aussi sur cette liste."/>
+                            <Run Text="Ceci est une liste de toutes les entités présentes dans une partie. Vous ne pouvez pas contrôler ces entités, mais vous pouvez les attaquer ou se servir de leurs positions pour vous déplacer. Rappelez-vous bien que votre personnage figure aussi sur cette liste."/>
                             <LineBreak/>
                             <Run Text="Exemple" FontSize="15"/>
                             <LineBreak/>
-                            <Run Text="Vous disposez déjà d'un code basique à la création d'un nouveaux scripte mais vu que certain d'entre vous on d'autre travaux a corriger voici un exemple de scripte plus complexe : "/>
+                            <Run Text="Vous disposez déjà d'un code basique à la création d'un nouveau scripte mais vu que certains d'entre vous on d'autres travaux a corrigé voici un exemple de scripte plus complexe : "/>
                             <LineBreak/>
                             <LineBreak/>
                             <Run Text="//Mettre l'ennemi le plus proche dans une variable" FontFamily="Courier New"/>
                             <LineBreak/>
                             <Run Text="EntiteInconnu ennemi = Perso.EnnemiLePlusProche(ListEntites);" FontFamily="Courier New"/>
                             <LineBreak/>
-                            <Run Text="//Mettre la premiere case qui constitue le chemin entre moi et l'ennemi" FontFamily="Courier New"/>
+                            <Run Text="//Mettre la première case qui constitue le chemin entre moi et l'ennemi" FontFamily="Courier New"/>
                             <LineBreak/>
                             <Run Text="Case caseChemin = terrain.CheminEntreCases(Perso.Position, ennemi.Position)[0];" FontFamily="Courier New"/>
                             <LineBreak/>
@@ -69,7 +69,7 @@
                             <LineBreak/>
                             <Run Text="while (Perso.PeutAttaquer(ennemi)) {" FontFamily="Courier New"/>
                             <LineBreak/>
-                            <Run Text="    //dire a mon personnage d'attaquer" FontFamily="Courier New"/>
+                            <Run Text="    //dire à mon personnage d'attaquer" FontFamily="Courier New"/>
                             <LineBreak/>
                             <Run Text="    Perso.Attaquer(ennemi);" FontFamily="Courier New"/>
                             <LineBreak/>
@@ -79,21 +79,21 @@
                             <LineBreak/>
                             <Run Text="La structure" FontSize="15"/>
                             <LineBreak/>
-                            <Run Text="La documentation a une structure en arbre chaque classe contient sa définition, ses attributs (si existants) et ses méthode (si existantes), qui à leur tour contient chacun leur définition"/>
+                            <Run Text="La documentation a une structure en arbre chaque classe contient sa définition, ses attributs (si existants) et ses méthodes (si existantes), qui à leur tour contient chacunes leurs définitions"/>
                             <LineBreak/>
                             <Run Text="La nomenclature des méthodes" FontSize="15"/>
                             <LineBreak/>
                             <Run Text="Les méthodes sont afficher de façon à ce que vous puissiez savoir quels sont leurs surcharges."/>
                             <LineBreak/>
-                            <Run Text="Les différent type de paramètre sont séparer par le caractère '|'"/>
+                            <Run Text="Les différents types de paramètre sont séparé par le caractère '|'"/>
                             <LineBreak/>
-                            <Run Text="Les paramètres facultatifs sont entourés des caractére '[' et ']'"/>
+                            <Run Text="Les paramètres facultatifs sont entourés des caractéres '[' et ']'"/>
                             <LineBreak/>
                             <Run Text="Exemple :"/>
                             <LineBreak/>
                             <Run Text="type_retour nom_methode(type_possible_1|type_possible_2 parametre[, type parametre_facultatif])"/>
                             <LineBreak/>
-                            <Run Text="Note : Vous pouvez obtenir la definition d'un paramètre d'une méthode en plaçant votre curseur par dessus"/>
+                            <Run Text="Note : Vous pouvez obtenir la définition d'un paramètre d'une méthode en plaçant votre curseur par-dessus"/>
                             <LineBreak/>
                         </TextBlock>
                     </StackPanel>
