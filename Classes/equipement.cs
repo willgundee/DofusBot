@@ -51,7 +51,7 @@ namespace Gofus
         public Equipement(List<string> item, bool complet, int idFacultatifJoueur)
         {
 
-            if (item[2] == "")// si l'idZone est null soit vide c'est une arme
+            if (item[2] == ""|| item[2] == "rien")// si l'idZone est null soit vide c'est une arme
                 EstArme = false;
             else//donc je lui ajoute ses infos
             {
