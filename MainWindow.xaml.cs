@@ -394,15 +394,6 @@ namespace Gofus
 
         #region UserControls
 
-        private void PgAdmin_Selected(object sender, RoutedEventArgs e)
-        {
-
-
-        }
-
-
-
-
         private void PgArchive_Selected(object sender, RoutedEventArgs e)
         {
             if (!controlArchive.HasContent)
@@ -412,7 +403,7 @@ namespace Gofus
         private void PgArene_Selected(object sender, RoutedEventArgs e)
         {
             if (!controlArene.HasContent)
-                controlArene.Content = new pageArene(idJoueur, Player.LstEntites);
+                controlArene.Content = new pageArene(Player.NomUtilisateur,Player.LstEntites);
             else
             {
                 ((pageArene)controlArene.Content).RefreshPersos(Player.LstEntites);

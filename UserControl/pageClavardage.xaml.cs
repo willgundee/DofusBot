@@ -108,6 +108,12 @@ namespace Gofus
             }));
           
         }
+
+        /// <summary>
+        /// Permet d'envoyer un message à l'aide de la touche entrée.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnKeyDowntxtMessage(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key == Key.Return && aTimer.IsEnabled)
@@ -116,7 +122,7 @@ namespace Gofus
                 {
                     string text = txtMessage.Text;
                     text = text.Replace("'", @"\'");
-                    trdEnvoie = new Thread(() => { chat.envoyerMessage(text); });
+                    trdEnvoie = new Thread(() => chat.envoyerMessage(text));
                     trdEnvoie.Start();
                     Thread.Yield();
                     Dispatcher.Invoke(new Action(() =>
@@ -126,6 +132,12 @@ namespace Gofus
                 }
             }
         }
+
+        /// <summary>
+        /// Permet d'activer le bouton envoyer.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void txtMessage_TextChange(object sender, TextChangedEventArgs e)
         {
             if (txtMessage.Text.ToString() == "")
@@ -142,6 +154,12 @@ namespace Gofus
         {
             fenetreChat = null;
         }
+
+        /// <summary>
+        /// Ouvrir en mode fenêtre la fenêtre de clavardage.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnModLess_Click(object sender, RoutedEventArgs e)
         {
             if (fenetreChat != null)
