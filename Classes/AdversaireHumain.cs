@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace Gofus
 {
+
+    /// <summary>
+    /// Classe pour les adversaires humains.
+    /// </summary>
     public class AdversaireHumain : Adversaire
     {
         public string proprietaire { get; set; }

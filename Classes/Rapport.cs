@@ -31,7 +31,7 @@ namespace Gofus
         /// <param name="T">Le temps</param>
         /// <param name="Titre">Le titre</param>
         /// <param name="ty">le type de rapport</param>
-        /// <param name="idt">l'id du Rapport dans la BD.</param>
+        /// <param name="idt">l'id du Rapport</param>
         public Rapport(string M,string T,string Titre, string ty,string idt)
         {
             msg = M;

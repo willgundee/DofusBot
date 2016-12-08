@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace Gofus
 {
+
+    /// <summary>
+    /// Adversaire de base.
+    /// à la base ils ne sont pas humain.
+    /// </summary>
     public class Adversaire
     {
         public string nom { get; set; }
