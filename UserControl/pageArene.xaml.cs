@@ -64,7 +64,7 @@ namespace Gofus
             lstPerso = new Dictionary<int, string>();
             lstTypeAdver = new ObservableCollection<string>();
             bd = new BDService();
-
+            nomUtilisateur = nomJoueur;
             // Remplissage de la combobox pour le type d'adversaires.
             lstTypeAdver.Add("Personnage");
             lstTypeAdver.Add("Monstre");
@@ -86,7 +86,7 @@ namespace Gofus
             lstAdversaires = new ObservableCollection<Adversaire>();
             dataGrid.ItemsSource = lstAdversaires;
 
-            nomUtilisateur = nomJoueur;
+          
         }
 
         /// <summary>
